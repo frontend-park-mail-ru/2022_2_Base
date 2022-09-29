@@ -1,0 +1,118 @@
+:root {
+    --default_purple: #6369D1;
+    --hover_purple: #3F47D0;
+    --pure_white: #FFFFFF;
+    --background-white: #EEEEEE;
+    --placeholder: rgba(55, 55, 55, 0.7);
+}
+
+* {
+    padding: 0%;
+    margin: 0%;
+}
+.page {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 800px 1fr;
+}
+.header {
+    display: grid;
+    background-color: var(--pure_white);
+}
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.left {
+    background-color: var(--background-white);
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+.right {
+    background-color: var(--default_purple);
+}
+.signup {
+    display: grid;
+    grid-rows: 1fr 1fr;
+    grid-row-gap: 15px;
+}
+.signup__form {
+    background-color: var(--pure_white);
+    height: 436px;
+    width: 400px;
+    border-radius: 15px;
+    display: grid;
+    grid-template-rows: repeat(4,63px) 1fr;
+}
+.signup__signin {
+    height: 20px;
+    text-align: center;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+}
+.link {
+    text-decoration: none;
+    color: #6369D1;
+}
+.form {
+    margin-top: 37px;
+}
+.form__field {
+    margin-bottom: 16px;
+}
+.form__name {
+    margin-left: 27px;
+    margin-bottom: 5px;
+    height: 20px;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    color: #171717;
+}
+.form__input {
+    border-left-width: 12px;
+    border-right-width: 12px;
+    border-color: rgba(0, 0, 0, 0);
+    margin-left: 17px;
+    width: 344px;
+    height: 38px;
+    background: #F8F8F8;
+    border-radius: 10px;
+}
+
+.form__input:focus {
+    outline-color: var(--hover_purple);
+}
+
+.form__submit {
+    margin-left: 20px;
+    margin-top: 8px;
+    width: 360px;
+    height: 40px;
+    background: #6369D1;
+    border-radius: 10px;
+    border: none;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+    color: #EEEEEE;
+}
+input::placeholder {
+    height: 18px;
+    color: var(--placeholder);
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+}

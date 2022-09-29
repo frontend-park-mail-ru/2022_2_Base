@@ -1,165 +1,62 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
     <title>Регистрация</title>
-    <style>
-        * {
-            padding: 0%;
-            margin: 0%;
-        }
-        .page {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: 100px 800px 1fr;
-        }
-        .header {
-            display: grid;
-            background-color: #FFFFFF;
-        }
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-        .left {
-            background-color: #EEEEEE;
-            display: grid;
-            justify-items: center;
-            align-items: center;
-        }
-        .right {
-            background-color: #6369D1;
-        }
-        .signup {
-            display: grid;
-            grid-rows: 1fr 1fr;
-            grid-row-gap: 15px;
-        }
-        .signup__form {
-            background-color: #FFFFFF;
-            height: 426px;
-            width: 400px;
-            border-radius: 15px;
-            display: grid;
-            grid-template-rows: repeat(4,63px) 1fr;
-        }
-        .signup__signin {
-            height: 20px;
-            text-align: center;
-            font-family: 'IBM Plex Sans';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 20px;
-        }
-        .link {
-            text-decoration: none;
-            color: #6369D1;
-        }
-        .form {
-            margin-top: 37px;
-        }
-        .form__field {
-            margin-bottom: 16px;
-        }
-        .form__name {
-            margin-left: 27px;
-            margin-bottom: 5px;
-            height: 20px;
-            font-family: 'IBM Plex Sans';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 20px;
-            color: #171717;
-        }
-        .form__input {
-            margin-left: 17px;
-            width: 360px;
-            height: 38px;
-            background: #F8F8F8;
-            border-radius: 10px;
-            border: none;
-        }
-        .form__submit {
-            margin-left: 17px;
-            margin-top: 8px;
-            width: 360px;
-            height: 40px;
-            background: #6369D1;
-            border-radius: 10px;
-            border: none;
-            font-family: 'IBM Plex Sans';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 20px;
-            align-items: center;
-            text-align: center;
-            color: #EEEEEE;
-        }
-        input::placeholder {
-            height: 18px;
-            color: #373737 70%;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 18px;
-            padding-left: 10px;
-        }
-    </style>
-  </head>
-  <body>
-      <div class="page">
-        <div class="header">
-            Header
-        </div>
-        <div class="content">
-            <div class="left">
-                <div class="signup">
-                    <div class="signup__form">
-                        <form action="#" method="post" class="form">
-                            <div class="form__field">
-                                <div class="form__name">
-                                    Имя
-                                </div>
-                                <input class="form__input" type="text" name="name" placeholder="Введите имя">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<div class="page">
+    <div class="header">
+        Header
+    </div>
+    <div class="content">
+        <div class="left">
+            <div class="signup">
+                <div class="signup__form">
+                    <form action="#" method="post" class="form">
+                        <div class="form__field">
+                            <div class="form__name">
+                                Имя
                             </div>
-                            <div class="form__field">
-                                <div class="form__name">
-                                    Почта
-                                </div>
-                                <input class="form__input" type="email" name="email" placeholder="mail@website.com">
+                            <input class="form__input" type="text" name="name" placeholder="Введите имя" maxlength="30">
+                        </div>
+                        <div class="form__field">
+                            <div class="form__name">
+                                Почта
                             </div>
-                            <div class="form__field">
-                                <div class="form__name">
-                                    Пароль
-                                </div>
-                                <input class="form__input" type="password" name="password" placeholder="Придумайте пароль">
+                            <input class="form__input" type="email" name="email" placeholder="mail@website.com" maxlength="30">
+                        </div>
+                        <div class="form__field">
+                            <div class="form__name">
+                                Пароль
                             </div>
-                            <div class="form__field">
-                                <div class="form__name">
-                                    Повторить пароль
-                                </div>
-                                <input class="form__input" type="password" name="repeat_password" placeholder="Повторите пароль">
+                            <input class="form__input" type="password" name="password" placeholder="Придумайте пароль"
+                                   maxlength="16">
+                        </div>
+                        <div class="form__field">
+                            <div class="form__name">
+                                Повторить пароль
                             </div>
-                            <input type="submit" class="form__submit" value="Зарегистрироваться">
-                        </form>
-                    </div>
-                    <div class="signup__signin">
-                        Уже есть аккаунт? 
-                        <a href="#" class="link">Войти</a>
-                    </div>
+                            <input class="form__input" type="password" name="repeat_password"
+                                   placeholder="Повторите пароль" maxlength="16">
+                        </div>
+                        <input type="submit" class="form__submit" value="Зарегистрироваться">
+                    </form>
+                </div>
+                <div class="signup__signin">
+                    Уже есть аккаунт?
+                    <a href="#" class="link">Войти</a>
                 </div>
             </div>
-            <div class="right">
-                
-            </div>
         </div>
-        <div class="placeholder">
+        <div class="right">
 
         </div>
-      </div>
-  </body>
+    </div>
+    <div class="placeholder">
+    </div>
+</div>
+</body>
 </html>
