@@ -13,6 +13,10 @@
 
 .page {
     display: grid;
+    max-width: 1200px;
+    min-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     grid-template-columns: 1fr;
     grid-template-rows: 100px 800px 1fr;
 }
@@ -104,10 +108,9 @@
 
 /* fix! add uniform input field and separate classes for scaling */
 .form__search {
-    border-left-width: 12px;
-    border-right-width: 12px;
+    border-left-width: 10px;
     border-color: rgba(0, 0, 0, 0);
-    width: 465px;
+    width: 454px;
     height: 40px;
     background: #F8F8F8;
     border-radius: 10px;
@@ -120,37 +123,35 @@
 
 /* fix! add uniform button and separate classes for scaling */
 .button {
-    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 116px;
     height: 40px;
-    padding: 11px 15px 11px 15px;
     background: var(--default_purple);
     border-radius: 10px;
-    border: none;
     font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
-    align-items: center;
-    text-align: center;
+    text-decoration: none;
     color: var(--background-white);
+}
+
+.header__catalog-img {
+    margin-right: 10px;
 }
 
 .button__search {
-    text-decoration: none;
-    width: 16px;
-    height: 16px;
-    padding: 10px;
+    display: flex;
+    width: 40px;
+    height: 40px;
     background: var(--default_purple);
     border-radius: 10px;
-    border: none;
-    line-height: 20px;
     align-items: center;
-    text-align: center;
-    color: var(--background-white);
+    justify-content: center;
 }
-
 
 .form__submit {
     margin-left: 20px;
@@ -194,28 +195,55 @@ input::placeholder {
     display: grid;
     grid-template-columns: 1fr 1fr 4fr;
     align-self: center;
-    justify-items: center;
+    grid-column-gap: 28px;
 }
 
 .header__right {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     align-self: center;
-    justify-items: center;
+    grid-column-gap: 22px;
 }
 
 .header__logotip {
-    margin: 5px;
+    margin-left: 20px;
+    width: 101px;
+    height: 38px;
     align-self: center;
-    justify-items: center;
 }
 
 .header__catalog {
-    margin: 5px;
+    align-self: center;
 }
 
 .header__search-line {
-    margin: 5px;
-    align-self: center;
-    justify-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #F8F8F8;
+    border-radius: 10px;
+}
+
+.header__order {
+    width: 65px;
+    height: 53px;
+    margin-left: 22px;
+    padding: 5px;
+}
+
+.header__favourites {
+    width: 91px;
+    height: 53px;
+    padding: 5px;
+}
+
+.header__card {
+    width: 72px;
+    height: 53px;
+    padding: 5px;
+}
+
+.header__profile {
+    width: 77px;
+    height: 53px;
+    padding: 5px;
 }
