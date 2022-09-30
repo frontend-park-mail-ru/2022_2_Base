@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
-    <title>Регистрация</title>
+    <title>Вход</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="login.css">
+
 </head>
 <body>
 <div class="page">
@@ -36,67 +38,55 @@
             </div>
             <div class="header__favourites">
                 <a href="">
-                <img src="./img/Favourites.svg" alt="LOGO">
+                    <img src="./img/Favourites.svg" alt="LOGO">
                 </a>
             </div>
             <div class="header__card">
                 <a href="">
-                <img src="./img/Card.svg" alt="LOGO">
+                    <img src="./img/Card.svg" alt="LOGO">
                 </a>
             </div>
             <div class="header__profile">
                 <a href="">
-                <img src="./img/Profile.svg" alt="LOGO">
+                    <img src="./img/Profile.svg" alt="LOGO">
                 </a>
             </div>
         </div>
     </div>
     <div class="content">
-        <div class="left">
-            <div class="signup">
-                <div class="signup__form">
+        <div class="login__left">
+
+        </div>
+        <div class="login__right">
+            <div class="login">
+                <div class="login__form">
                     <form action="#" method="post" class="form">
-                        <div class="form__field">
-                            <div class="form__name">
-                                Имя
-                            </div>
-                            <input class="form__input" type="text" name="name" placeholder="Введите имя" maxlength="30">
-                        </div>
+
                         <div class="form__field">
                             <div class="form__name">
                                 Почта
                             </div>
-                            <input class="form__input" type="email" name="email" placeholder="mail@website.com"
-                                   maxlength="30">
+                            <input class="form__input" type="email" name="email" placeholder="mail@website.com">
                         </div>
+
                         <div class="form__field">
                             <div class="form__name">
                                 Пароль
                             </div>
-                            <input class="form__input" type="password" name="password" placeholder="Придумайте пароль"
-                                   maxlength="16">
+                            <input class="form__input" type="password" name="password" placeholder="Введите пароль">
                         </div>
-                        <div class="form__field">
-                            <div class="form__name">
-                                Повторить пароль
-                            </div>
-                            <input class="form__input" type="password" name="repeat_password"
-                                   placeholder="Повторите пароль" maxlength="16">
-                        </div>
-                        <input type="submit" class="form__submit" value="Зарегистрироваться">
+
+                            <input type="submit" class="form__submit" value="Войти">
+                        <div class="line"></div>
+                            <input type="submit" class="form__login" value="Зарегистрироваться">
+
                     </form>
-                </div>
-                <div class="signup__signin">
-                    Уже есть аккаунт?
-                    <a href="#" class="link">Войти</a>
                 </div>
             </div>
         </div>
-        <div class="right">
-
-        </div>
     </div>
     <div class="placeholder">
+
     </div>
 </div>
 </body>

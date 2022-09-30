@@ -1,0 +1,199 @@
+:root {
+    --default_purple: #6369D1;
+    --hover_purple: #3F47D0;
+    --pure_white: #FFFFFF;
+    --background-white: #EEEEEE;
+    --placeholder: rgba(55, 55, 55, 0.7);
+    --jet-black: #333333;
+    --green-shinny: #68B684;
+    --green-correct: #32A416;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1400px;
+    min-width: 1200px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 800px 1fr;
+}
+
+.header {
+    display: grid;
+    background-color: var(--pure_white);
+    grid-template-columns: 2fr 1fr;
+}
+
+.header__left {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr;
+    align-self: center;
+    grid-column-gap: 28px;
+}
+
+.header__right {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-self: center;
+    grid-column-gap: 22px;
+}
+
+.header__logotip {
+    margin-left: 20px;
+    width: 101px;
+    height: 38px;
+    align-self: center;
+}
+
+.header__catalog {
+    align-self: center;
+}
+
+.header__search-line {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #F8F8F8;
+    border-radius: 10px;
+}
+
+.header__order {
+    width: 65px;
+    height: 53px;
+    margin-left: 22px;
+    padding: 5px;
+}
+
+.header__favourites {
+    width: 91px;
+    height: 53px;
+    padding: 5px;
+}
+
+.header__card {
+    width: 72px;
+    height: 53px;
+    padding: 5px;
+}
+
+.header__profile {
+    width: 77px;
+    height: 53px;
+    padding: 5px;
+}
+
+/* fix! add uniform button and separate classes for scaling */
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 116px;
+    height: 40px;
+    background: var(--default_purple);
+    border-radius: 10px;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-decoration: none;
+    color: var(--background-white);
+}
+
+.header__catalog-img {
+    margin-right: 10px;
+}
+
+.button__search {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background: var(--default_purple);
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    margin-top: 37px;
+}
+
+.form__field {
+    margin-bottom: 16px;
+}
+
+.form__search {
+    border-left-width: 10px;
+    border-color: rgba(0, 0, 0, 0);
+    width: 454px;
+    height: 40px;
+    background: #F8F8F8;
+    border-radius: 10px;
+}
+
+.form__name {
+    margin-left: 27px;
+    margin-bottom: 5px;
+    height: 20px;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    color: #171717;
+}
+
+.form__input {
+    border-left-width: 12px;
+    border-right-width: 12px;
+    border-color: rgba(0, 0, 0, 0);
+    margin-left: 17px;
+    width: 344px;
+    height: 38px;
+    background: #F8F8F8;
+    border-radius: 10px;
+}
+
+/* fix! add uniform input field and separate classes for scaling */
+
+.form__input:focus {
+    outline-color: var(--hover_purple);
+}
+
+.form__submit {
+    margin-left: 20px;
+    margin-top: 8px;
+    width: 360px;
+    height: 40px;
+    background: #6369D1;
+    border-radius: 10px;
+    border: none;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    align-items: center;
+    text-align: center;
+    color: var(--background-white);
+}
+
+.form__submit:hover {
+    background: var(--hover_purple)
+}
+
+input::placeholder {
+    height: 18px;
+    color: var(--placeholder);
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+}

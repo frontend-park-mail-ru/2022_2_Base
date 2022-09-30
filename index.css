@@ -1,0 +1,36 @@
+.content {
+    background-color: var(--background-white);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.top-cards {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 1em;
+    text-decoration: none;
+    height: 40px;
+}
+
+.item-top-cards {
+    text-decoration: none;
+
+    display: inline-block;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+
+
+    /* default, medium */
+
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    /* identical to box height */
+
+    color: var(--jet-black);
+
+}
