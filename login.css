@@ -1,36 +1,36 @@
 .page {
     margin-left: auto;
     margin-right: auto;
-    display: grid;
-    grid-template-columns: 1fr 1400px 1fr;
-    grid-template-rows: 70px 1fr 70px;
 }
 
 .content {
-    margin: 0;
-    height: 91vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1400px;
+    min-width: 1400px;
+    height: 91vh;
 }
 
 .left {
-    background-color: #6369D1;
+    background-color: var(--default_purple);
 }
 
 .right {
-    background-color: #EEEEEE;
+    background-color: var(--background-white);
     display: grid;
     justify-items: center;
     align-items: center;
 }
 
 .login-form {
-    background-color: #FFFFFF;
+    display: grid;
+    grid-template-rows: repeat(4, 63px);
+    background-color: var(--pure_white);
     height: 350px;
     width: 400px;
     border-radius: 15px;
-    display: grid;
-    grid-template-rows: repeat(4, 63px);
 }
 
 .button-login {
@@ -40,7 +40,7 @@
     height: 40px;
     background: var(--green-shinny);
     align-items: center;
-    color: #EEEEEE;
+    color: var(--background-white);
     margin-bottom: 12px;
     justify-self: center;
 
@@ -55,5 +55,5 @@
     padding-left: 10px;
     align-items: center;
     margin: 20px auto 10px;
-    border: 0.5px solid rgba(111, 111, 111, 0.24);
+    border: var(--border-color);
 }
