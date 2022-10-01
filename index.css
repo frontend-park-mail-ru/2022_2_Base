@@ -1,4 +1,4 @@
-:root {
+/*:root {
     --default_purple: #6369D1;
     --hover_purple: #3F47D0;
     --pure_white: #FFFFFF;
@@ -12,6 +12,14 @@
     --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
     --shadow-dim: #000000FF;
     --apple-dim-shadow: drop-shadow(0 4 20px  var(--shadow-dim));
+}*/
+
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1400px 1fr;
+    grid-template-rows: 70px 1000px 70px;
 }
 
 .content {
@@ -118,47 +126,6 @@
     margin-left: 20px;
 }
 
-.text-normal-small {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.05em;
-}
-
-.text-normal-default {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.text-normal-default-bold {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 25px;
-}
-
-.text-normal-large {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 26px;
-}
-
-.text-normal-huge {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 40px;
-    line-height: 52px;
-}
-
 .item-card__text-strikethrough {
     text-decoration: line-through;
     color: var(--secondary-purple);
@@ -242,7 +209,7 @@
     grid-gap: 5px;
 }
 
-.item-card:hover{
+.item-card:hover {
     filter: var(--apple-shadow);
 }
 
@@ -257,15 +224,4 @@
     margin-right: 10px;
     background: var(--default_purple);
     color: var(--background-white);
-}
-
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
 }

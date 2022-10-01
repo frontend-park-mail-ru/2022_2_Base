@@ -1,4 +1,13 @@
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1400px 1fr;
+    grid-template-rows: 70px 1fr 70px;
+}
+
 .content {
+    height: 91vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -37,16 +46,3 @@
     font-size: 15px;
     line-height: 20px;
 }
-
-.link {
-    text-decoration: none;
-    color: var(--default_purple);
-}
-
-.link:hover {
-    color: var(--hover_purple)
-}
-
-
-
-

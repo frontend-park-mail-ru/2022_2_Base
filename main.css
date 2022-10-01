@@ -7,6 +7,13 @@
     --jet-black: #333333;
     --green-shinny: #68B684;
     --green-correct: #32A416;
+    --secondary-purple: #999AAD;
+    --shadow-default: #D6D6D6;
+    --pink-accent: #D14372;
+    --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
+    --shadow-dim: #000000FF;
+    --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
+    --90_white: rgba(255, 255, 255, 0.9);
 }
 
 * {
@@ -14,22 +21,11 @@
     margin: 0;
 }
 
-.page {
-    margin-left: auto;
-    margin-right: auto;
- /*   max-width: 1400px;*/
- /*   min-width: 1200px;*/
-
-    display: grid;
-    grid-template-columns: 1fr 1400px 1fr;
-    grid-template-rows: 70px 1000px 1fr;
-}
-
-.paint-background{
+.paint-background {
     background-color: var(--background-white);
 }
 
-.paint-purple{
+.paint-purple {
     background-color: var(--default_purple);
 }
 
@@ -37,6 +33,7 @@
     display: grid;
     background-color: var(--pure_white);
     grid-template-columns: 2fr 1fr;
+    margin-top:5px;
 }
 
 .header__left {
@@ -95,6 +92,18 @@
     height: 53px;
     padding: 5px;
 }
+
+.button-default {
+    border-radius: 10px;
+    border: none;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+}
+
 
 /* fix! add uniform button and separate classes for scaling */
 .button {
@@ -205,4 +214,54 @@ input::placeholder {
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
+}
+
+.text-normal-small {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.05em;
+}
+
+.text-normal-default {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.text-normal-default-bold {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.text-normal-large {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.text-normal-huge {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 52px;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--default_purple);
+}
+
+.link:hover {
+    color: var(--hover_purple)
 }

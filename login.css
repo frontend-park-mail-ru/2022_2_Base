@@ -1,5 +1,14 @@
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1400px 1fr;
+    grid-template-rows: 70px 1fr 70px;
+}
+
 .content {
     margin: 0;
+    height: 91vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -27,7 +36,7 @@
 .login__login {
     height: 20px;
     text-align: center;
-    font-family: 'IBM Plex Sans';
+    font-family: 'IBM Plex Sans', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
@@ -47,7 +56,7 @@
     background: var(--green-shinny);
     border-radius: 10px;
     border: none;
-    font-family: 'IBM Plex Sans';
+    font-family: 'IBM Plex Sans', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
