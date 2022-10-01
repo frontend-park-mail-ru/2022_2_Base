@@ -14,6 +14,7 @@
     --shadow-dim: #000000FF;
     --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
     --90_white: rgba(255, 255, 255, 0.9);
+    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
 }
 
 * {
@@ -29,11 +30,24 @@
     background-color: var(--default_purple);
 }
 
-.header {
+header, footer {
+    max-width: 1400px;
+    min-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main {
+    background-color: var(--background-white);
+    display: grid;
+    grid-template-columns: 1fr 1400px 1fr;
+}
+
+header {
     display: grid;
     background-color: var(--pure_white);
     grid-template-columns: 2fr 1fr;
-    margin-top:5px;
+    margin-top: 5px;
 }
 
 .header__left {
@@ -52,12 +66,8 @@
 
 .header__logotip {
     margin-left: 20px;
-    width: 101px;
-    height: 38px;
-    align-self: center;
-}
-
-.header__catalog {
+    width: 100px;
+    height: 40px;
     align-self: center;
 }
 
@@ -66,6 +76,12 @@
     grid-template-columns: 1fr 0;
     background-color: #F8F8F8;
     border-radius: 10px;
+    border: solid 2px;
+    border-color: var(--pure_white)
+}
+
+.header__search-line:hover{
+    border-color: var(--hover_purple);
 }
 
 .header__form-search {
@@ -78,32 +94,32 @@
 }
 
 .header__form-search:focus {
-    outline: none !important;
+    outline: none;
 }
 
 .header__order {
-    width: 65px;
-    height: 53px;
-    margin-left: 22px;
-    padding: 5px;
+    width: 88px;
+    height: 56px;
+    margin-left: 48px;
+    padding: 4px 0 4px 0;
 }
 
 .header__favourites {
-    width: 91px;
-    height: 53px;
-    padding: 5px;
+    width: 88px;
+    height: 56px;
+    padding: 4px 0 4px 0;
 }
 
 .header__card {
-    width: 72px;
-    height: 53px;
-    padding: 5px;
+    width: 88px;
+    height: 56px;
+    padding: 4px 0 4px 0;
 }
 
 .header__profile {
-    width: 77px;
-    height: 53px;
-    padding: 5px;
+    width: 88px;
+    height: 56px;
+    padding: 4px 0 4px 0;
 }
 
 .button-default {
@@ -127,6 +143,10 @@
     color: var(--background-white);
 }
 
+.header__button-catalog:hover {
+    background-color: var(--hover_purple)
+}
+
 .header__catalog-img {
     margin-right: 10px;
 }
@@ -135,15 +155,18 @@
     display: flex;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 8px;
     align-items: center;
     justify-content: center;
     grid-column: 3;
-    margin-right: 3px;
+}
+
+.header__button-search:hover {
+    background-color: var(--hover_purple)
 }
 
 .form {
-    margin-top: 37px;
+    margin-top: 38px;
 }
 
 .form__field {
@@ -151,7 +174,7 @@
 }
 
 .form__name {
-    margin-left: 27px;
+    margin-left: 28px;
     margin-bottom: 5px;
     height: 20px;
     color: #171717;
@@ -163,7 +186,7 @@
     border-color: rgba(0, 0, 0, 0);
     margin-left: 17px;
     width: 344px;
-    height: 38px;
+    height: 40px;
     background: #F8F8F8;
     border-radius: 10px;
 }
@@ -243,5 +266,5 @@ input::placeholder {
 }
 
 .link:hover {
-    color: var(--hover_purple)
+    color: var(--hover_purple);
 }
