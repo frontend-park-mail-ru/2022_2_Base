@@ -63,7 +63,7 @@
 
 .header__search-line {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 0;
     background-color: #F8F8F8;
     border-radius: 10px;
 }
@@ -135,7 +135,8 @@
     border-radius: 10px;
     align-items: center;
     justify-content: center;
-    grid-column: 3
+    grid-column: 3;
+    margin-right: 3px;
 }
 
 .form {
@@ -149,10 +150,14 @@
 .form__search {
     border-left-width: 10px;
     border-color: rgba(0, 0, 0, 0);
-    width: 454px;
+    width: 550px;
     height: 40px;
     background: #F8F8F8;
     border-radius: 10px;
+}
+
+.form__search:focus {
+    outline: none !important;
 }
 
 .form__name {
