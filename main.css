@@ -68,6 +68,19 @@
     border-radius: 10px;
 }
 
+.header__form-search {
+    border-left-width: 10px;
+    border-color: rgba(0, 0, 0, 0);
+    width: 550px;
+    height: 40px;
+    background: #F8F8F8;
+    border-radius: 10px;
+}
+
+.header__form-search:focus {
+    outline: none !important;
+}
+
 .header__order {
     width: 65px;
     height: 53px;
@@ -104,21 +117,12 @@
     text-align: center;
 }
 
-
-/* fix! add uniform button and separate classes for scaling */
-.button {
+.header__button-catalog {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 116px;
     height: 40px;
-    background: var(--default_purple);
-    border-radius: 10px;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
     text-decoration: none;
     color: var(--background-white);
 }
@@ -127,11 +131,10 @@
     margin-right: 10px;
 }
 
-.button__search {
+.header__button-search {
     display: flex;
     width: 40px;
     height: 40px;
-    background: var(--default_purple);
     border-radius: 10px;
     align-items: center;
     justify-content: center;
@@ -147,28 +150,10 @@
     margin-bottom: 16px;
 }
 
-.form__search {
-    border-left-width: 10px;
-    border-color: rgba(0, 0, 0, 0);
-    width: 550px;
-    height: 40px;
-    background: #F8F8F8;
-    border-radius: 10px;
-}
-
-.form__search:focus {
-    outline: none !important;
-}
-
 .form__name {
     margin-left: 27px;
     margin-bottom: 5px;
     height: 20px;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
     color: #171717;
 }
 
@@ -183,8 +168,6 @@
     border-radius: 10px;
 }
 
-/* fix! add uniform input field and separate classes for scaling */
-
 .form__input:focus {
     outline-color: var(--hover_purple);
 }
@@ -195,15 +178,7 @@
     width: 360px;
     height: 40px;
     background: #6369D1;
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
     align-items: center;
-    text-align: center;
     color: var(--background-white);
 }
 

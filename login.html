@@ -19,15 +19,15 @@
                     <img src="./img/logo.png" alt="LOGO">
                 </div>
                 <div class="header__catalog">
-                    <a href="" class="button">
+                    <a href="" class="button-default header__button-catalog paint-purple">
                         <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="CAT">
                         Каталог
                     </a>
                 </div>
                 <div class="header__search-line">
-                    <input type="search" class="form__search" name="search-line"
+                    <input type="search" class="header__form-search" name="search-line"
                            placeholder="Что Вас интересует?" maxlength="75">
-                    <a href="" class="button__search">
+                    <a href="" class="header__button-search paint-purple">
                         <img type="image" src="./img/Search.svg" alt="Search">
                     </a>
                 </div>
@@ -60,33 +60,31 @@
 
     <div class="paint-purple"></div>
     <div class="content">
-        <div class="login__left">
+        <div class="left">
 
         </div>
-        <div class="login__right">
-            <div class="login">
-                <div class="login__form">
-                    <form action="#" method="post" class="form">
+        <div class="right">
+            <div class="login-form">
+                <form action="#" method="post" class="form">
 
-                        <div class="form__field">
-                            <div class="form__name">
-                                Почта
-                            </div>
-                            <input class="form__input" type="email" name="email" placeholder="mail@website.com">
+                    <div class="form__field">
+                        <div class="form__name text-normal-default">
+                            Почта
                         </div>
+                        <input class="form__input" type="email" name="email" placeholder="mail@website.com">
+                    </div>
 
-                        <div class="form__field">
-                            <div class="form__name">
-                                Пароль
-                            </div>
-                            <input class="form__input" type="password" name="password" placeholder="Введите пароль">
+                    <div class="form__field">
+                        <div class="form__name text-normal-default">
+                            Пароль
                         </div>
+                        <input class="form__input" type="password" name="password" placeholder="Введите пароль">
+                    </div>
 
-                        <input type="submit" class="form__submit" value="Войти">
-                        <div class="line"></div>
-                        <input type="submit" class="form__login" value="Зарегистрироваться">
-                    </form>
-                </div>
+                    <input type="submit" class="button-default form__submit text-normal-default" value="Войти">
+                    <div class="line"></div>
+                    <input type="submit" class="button-default button-login" value="Зарегистрироваться">
+                </form>
             </div>
         </div>
     </div>

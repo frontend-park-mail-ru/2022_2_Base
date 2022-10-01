@@ -13,18 +13,18 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.login__left {
+.left {
     background-color: #6369D1;
 }
 
-.login__right {
+.right {
     background-color: #EEEEEE;
     display: grid;
     justify-items: center;
     align-items: center;
 }
 
-.login__form {
+.login-form {
     background-color: #FFFFFF;
     height: 350px;
     width: 400px;
@@ -33,43 +33,20 @@
     grid-template-rows: repeat(4, 63px);
 }
 
-.login__login {
-    height: 20px;
-    text-align: center;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.link {
-    text-decoration: none;
-    color: #6369D1;
-}
-
-.form__login {
+.button-login {
     margin-left: 110px;
     margin-top: 8px;
     width: 180px;
     height: 40px;
     background: var(--green-shinny);
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
     align-items: center;
-    text-align: center;
     color: #EEEEEE;
     margin-bottom: 12px;
     justify-self: center;
 
 }
 
-.form__login:hover {
+.button-login:hover {
     background: var(--green-correct);
 }
 
