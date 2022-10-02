@@ -39,15 +39,13 @@ const config = {
 window.addEventListener("DOMContentLoaded", () => {
 
     function renderHeader() {
-        const header = new HeaderComponent(headerElement);
-        header.items = config.header;
+        const header = new HeaderComponent(headerElement, config.header);
         header.render();
     }
 
     renderHeader();
     function renderFooter() {
-        const footer = new FooterComponent(footerElement);
-        footer.items = config.header;
+        const footer = new FooterComponent(footerElement, config.header);
         footer.render();
     }
 

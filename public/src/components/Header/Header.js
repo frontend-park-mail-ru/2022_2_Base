@@ -6,8 +6,9 @@ export default class Header {
     #data
     #parent
 
-    constructor(parent) {
+    constructor(parent, value) {
         this.#parent = parent;
+        this.#data = value;
     }
 
     get items() {
@@ -19,6 +20,6 @@ export default class Header {
     }
 
     render() {
-        this.#parent.innerHTML = window.Handlebars.templates['Header.hbs']();
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Header.hbs']());
     }
 }
