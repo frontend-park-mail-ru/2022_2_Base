@@ -4,9 +4,9 @@
   "description": "Проект Ozon команды \"Base\"",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=3002 DEBUG=server node server",
+    "start": "npm run build && PORT=3002 DEBUG=server node server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "handlebars -m public/src/components/*/*.hbs -f ./public/components/templates.js"
+    "build": "handlebars -m public/src/components/*/*.hbs -f ./public/src/components/templates.js"
   },
   "repository": {
     "type": "git",

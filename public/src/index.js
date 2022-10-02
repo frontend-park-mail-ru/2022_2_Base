@@ -1,17 +1,13 @@
 import HeaderComponent from './components/Header/Header.js';
 
-//import exampleFunuc from './components/example/example.js';
-
-//const Handlebars = require("handlebars");
-
 const root = document.getElementById('root');
 const page = document.createElement('div');
 page.classList.add('page');
 root.appendChild(page);
 
 const headerElement = document.createElement('header');
-headerElement.classList.add('header');
 const mainElement = document.createElement('main');
+headerElement.classList.add('header');
 mainElement.classList.add('paint-background');
 
 page.appendChild(headerElement);
@@ -40,8 +36,7 @@ const config = {
 window.addEventListener("DOMContentLoaded", () => {
 
     function renderHeader() {
-        // const header = new HeaderComponent(headerElement);
-        const header = new HeaderComponent(root);
+        const header = new HeaderComponent(headerElement);
         header.items = config.header;
         header.render();
     }

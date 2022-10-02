@@ -1,5 +1,3 @@
-@import 'componentseader/Header.css';
-
 :root {
     --default_purple: #6369D1;
     --hover_purple: #3F47D0;
@@ -44,4 +42,11 @@ header, footer {
     min-width: 1400px;
     margin-left: auto;
     margin-right: auto;
+}
+
+header {
+    display: grid;
+    background-color: var(--pure_white);
+    grid-template-columns: 2fr 1fr;
+    margin-top: 5px;
 }
