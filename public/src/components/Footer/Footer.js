@@ -19,6 +19,6 @@ export default class Header {
     }
 
     render() {
-        this.#parent.innerHTML = window.Handlebars.templates['Header.hbs']();
+        this.#parent.innerHTML = window.Handlebars.templates['Footer.hbs']();
     }
 }
