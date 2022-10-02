@@ -1,0 +1,16 @@
+.content__catalog {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 1em;
+    height: 40px;
+}
+
+.item-top-cards {
+    display: inline-block;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+    color: var(--jet-black);
+    text-decoration: none;
+}
