@@ -14,17 +14,21 @@
 }
 
 .left {
-    background-color: var(--default_purple);
-}
-
-.right {
-    background-color: var(--background-white);
     display: grid;
     justify-items: center;
     align-items: center;
 }
 
+.right {
+}
+
+.login {
+    display: grid;
+    grid-row-gap: 16px;
+}
+
 .login-form {
+    margin-top: 14px;
     display: grid;
     grid-template-rows: repeat(4, 63px);
     background-color: var(--pure_white);

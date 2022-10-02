@@ -55,37 +55,39 @@
     </header>
 
     <main>
-        <div class="paint-purple"></div>
+        <div class="paint-background"></div>
         <div class="content">
-            <div class="left">
+            <div class="left paint-backgroun">
+                <div class="login">
+                    <div class="page-name text-normal-huge">Авторизация</div>
+                    <div class="login-form">
+                        <form action="#" method="post" class="form">
 
-            </div>
-            <div class="right">
-                <div class="login-form">
-                    <form action="#" method="post" class="form">
-
-                        <div class="form__field">
-                            <div class="form__name text-normal-default">
-                                Почта
+                            <div class="form__field">
+                                <div class="form__name text-normal-default">
+                                    Почта
+                                </div>
+                                <input class="form__input" type="email" name="email" placeholder="mail@website.com">
                             </div>
-                            <input class="form__input" type="email" name="email" placeholder="mail@website.com">
-                        </div>
 
-                        <div class="form__field">
-                            <div class="form__name text-normal-default">
-                                Пароль
+                            <div class="form__field">
+                                <div class="form__name text-normal-default">
+                                    Пароль
+                                </div>
+                                <input class="form__input" type="password" name="password" placeholder="Введите пароль">
                             </div>
-                            <input class="form__input" type="password" name="password" placeholder="Введите пароль">
-                        </div>
 
-                        <input type="submit" class="button-default form__submit text-normal-default" value="Войти">
-                        <div class="line"></div>
-                        <input type="submit" class="button-default button-login" value="Зарегистрироваться">
-                    </form>
+                            <input type="submit" class="button-default form__submit text-normal-default" value="Войти">
+                            <div class="line"></div>
+                            <input type="submit" class="button-default button-login" value="Зарегистрироваться">
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div class="right paint-purple">
+            </div>
         </div>
-        <div class="paint-background"></div>
+        <div class="paint-purple"></div>
     </main>
 
     <footer>

@@ -28,6 +28,7 @@
 }
 
 .signup__form {
+    margin-top: 14px;
     background-color: var(--pure_white);
     height: 436px;
     width: 400px;

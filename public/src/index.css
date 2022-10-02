@@ -1,0 +1,47 @@
+@import 'componentseader/Header.css';
+
+:root {
+    --default_purple: #6369D1;
+    --hover_purple: #3F47D0;
+    --pure_white: #FFFFFF;
+    --background-white: #EEEEEE;
+    --placeholder: rgba(55, 55, 55, 0.7);
+    --jet-black: #333333;
+    --green-shinny: #68B684;
+    --green-correct: #32A416;
+    --secondary-purple: #999AAD;
+    --shadow-default: #D6D6D6;
+    --pink-accent: #D14372;
+    --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
+    --shadow-dim: #000000FF;
+    --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
+    --90_white: rgba(255, 255, 255, 0.9);
+    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-rows: 70px 1000px;
+}
+
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
+}
+
+header, footer {
+    max-width: 1400px;
+    min-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}

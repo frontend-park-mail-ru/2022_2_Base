@@ -144,6 +144,9 @@
 
 .item-card__title {
     grid-column: c0-start / c1-end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 40px;
 }
 
 .content__sales-image {

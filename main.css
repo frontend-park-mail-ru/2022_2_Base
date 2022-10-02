@@ -77,7 +77,9 @@ header {
     background-color: #F8F8F8;
     border-radius: 10px;
     border: solid 2px;
-    border-color: var(--pure_white)
+    border-color: var(--pure_white);
+    -webkit-transition: border-color 1s;
+    transition: border-color 1s;
 }
 
 .header__search-line:hover{
@@ -163,6 +165,14 @@ header {
 
 .header__button-search:hover {
     background-color: var(--hover_purple)
+}
+
+.page-name {
+    width: 250px;
+    height: 52px;
+    text-align: center;
+    justify-self: center;
+    color: var(--shadow-dim);
 }
 
 .form {
