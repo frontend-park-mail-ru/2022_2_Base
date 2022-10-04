@@ -1,10 +1,8 @@
 <link rel="stylesheet" href="./src/components/TopCategory/TopCategory.css" type="text/css">
 
-<div class="content__catalog">
-    {{#each category}}
-        <a class="item-top-cards text-normal-default" href="">
-            <img src={{this.img}} alt={{this.key}}>
-            <p>{{this.nameCategory}}</p>
-        </a>
-    {{/each}}
-</div>
+{{#each category}}
+    <a class="item-top-cards text-normal-default" href="">
+        <img src={{this.img}} alt={{this.key}}>
+        <p>{{this.nameCategory}}</p>
+    </a>
+{{/each}}

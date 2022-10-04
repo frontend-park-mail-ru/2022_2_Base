@@ -1,8 +1,14 @@
-.text-normal-default {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
+.footer__text{
+    margin-top: 8px;
+    padding: 8px;
+    display: block;
+}
+
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
 }
 

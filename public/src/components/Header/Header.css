@@ -1,10 +1,34 @@
+:root {
+    /* --default_purple: #6369D1; */
+    --hover_purple: #3F47D0;
+    --pure_white: #FFFFFF;
+    --background-white: #EEEEEE;
+    /* --placeholder: rgba(55, 55, 55, 0.7); */
+    /* --jet-black: #333333; */
+    /* --green-shinny: #68B684; */
+    /* --green-correct: #32A416; */
+    /* --secondary-purple: #999AAD; */
+    /* --shadow-default: #D6D6D6; */
+    /* --pink-accent: #D14372; */
+    /* --apple-shadow: drop-shadow(0 0 20px var(--shadow-default)); */
+    /* --shadow-dim: #000000FF; */
+    /* --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim)); */
+    /* --90_white: rgba(255, 255, 255, 0.9); */
+    /* --border-color: 0.5px solid rgba(111, 111, 111, 0.24);; */
+}
+
 header {
     display: grid;
     background-color: var(--pure_white);
     grid-template-columns: 2fr 1fr;
     margin-top: 5px;
 }
-
+header, footer {
+    max-width: 1400px;
+    min-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .header__left {
     display: grid;
     grid-template-columns: 1fr 1fr 4fr;
@@ -77,17 +101,6 @@ header {
     padding: 4px 0 4px 0;
 }
 
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-}
-
 .header__button-catalog {
     display: flex;
     justify-content: center;
@@ -118,4 +131,12 @@ header {
 
 .header__button-search:hover {
     background-color: var(--hover_purple)
+}
+
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
 }

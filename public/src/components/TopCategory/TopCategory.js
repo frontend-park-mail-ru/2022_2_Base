@@ -17,7 +17,6 @@ export default class TopCategory {
     }
 
     prepareCategory(context) {
-        console.log(context)
         const data = {category: {}};
         data.category = {...context};
         return data;
