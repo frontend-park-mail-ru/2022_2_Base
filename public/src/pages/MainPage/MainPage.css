@@ -111,15 +111,15 @@
 }
 
 .text-normal-huge {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: ibm-plex-sans, sans-serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 40px;
     line-height: 52px;
 }
 
 .text-normal-default {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: ibm-plex-sans, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
@@ -127,9 +127,9 @@
 }
 
 .text-normal-large {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: ibm-plex-sans, sans-serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     line-height: 26px;
 }

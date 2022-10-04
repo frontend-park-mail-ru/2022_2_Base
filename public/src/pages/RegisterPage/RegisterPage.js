@@ -15,8 +15,9 @@ export default class RegisterPage extends BasePage {
         );
     }
 
-    render(context) {
-        super.render(context)
+    render({forms}) {
+        const context = forms.signup;
+        super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
         this.headerComponent.render();
         this.formComponent = new FormComponent(document.getElementById('signup__form'));

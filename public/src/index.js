@@ -8,22 +8,37 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.js';
 
 const root = document.getElementById('root');
 
+const renderLoginPage = (context) => {
+    const loginPage = new LoginPage(root);
+    loginPage.render(context);
+}
+
+const renderMainPage = (context) => {
+    const mainPage = new MainPage(root);
+    mainPage.render(context);
+}
+
+const renderRegisterPage = (context) => {
+    const registerPage = new RegisterPage(root);
+    registerPage.render(context);
+}
+
 const config = {
     header: {
         main: {
             href: '/main',
             name: 'Главная',
-            // render: renderMain,
+            render: renderMainPage,
         },
         login: {
             href: '/login',
             name: 'Авторизация',
-            // render: renderLogin,
+            render: renderLoginPage,
         },
         signup: {
             href: '/signup',
             name: 'Регистрация',
-            // render: renderSignup,
+            render: renderRegisterPage,
         },
     },
     itemCardsSales: {
@@ -192,49 +207,34 @@ const config = {
     },
 };
 
+const goToPage = (menuElement) => {
+    root.innerHTML = '';
+    root.querySelector('.active').classList.remove('active');
+    root.querySelector(`[data-section=${menuElement.href.slice(1)}]`).classList.add('active');
 
-// function renderHeader() {
-//     const header = new HeaderComponent(headerElement, config.header);
-//     header.render();
-// }
-
-// function renderFooter() {
-//     const footer = new FooterComponent(footerElement, config.header);
-//     footer.render();
-// }
-
-// function renderTopCategory(topcategory) {
-//     const topCategory = new TopCategory(content, config.header);
-//     topCategory.render(topcategory);
-// }
-
-// function renderItemCard() {
-//     const itemCard = new ItemCardComponent(content, config.itemCard);
-//     itemCard.render();
-// }
-
-function renderLoginPage(context) {
-    const loginPage = new LoginPage(root);
-    loginPage.render(context);
+    root.appendChild(menuElement.render());
 }
 
-function renderMainPage(context) {
-    const mainPage = new MainPage(root);
-    mainPage.render(context);
-}
+window.addEventListener("DOMContentLoaded", async () => {
+    config.header.main.render(config);
+    //config.header.login.render(config.forms.signin)
+    //config.header.signup.render(config.forms.signup)
+});
 
-function renderRegisterPage(context) {
-    const registerPage = new RegisterPage(root);
-    registerPage.render(context);
-}
+//const element =  root.querySelector(`[data-section=${root.href.slice(1)}]`);
 
-window.addEventListener("DOMContentLoaded", () => {
+root.addEventListener('click', async (event) => {
+    const {target} = event;
 
-    // renderHeader();
-    // renderLoginPage(config.forms.signin);
-    renderMainPage(config);
-    // renderRegisterPage(config.forms.signup);
-    // renderTopCategory(config.topcategory);
-    // renderItemCard();
-    // renderFooter();
+    let href = target.getAttribute("href");
+    if (href === null) {
+        href = target.parentElement.getAttribute("href");
+    }
+
+    Object.keys(config.header).forEach(function (page) {
+        if (config.header[page].href === href) {
+            event.preventDefault();
+            config.header[page].render(config)
+        }
+    });
 });
