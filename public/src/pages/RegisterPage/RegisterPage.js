@@ -37,13 +37,13 @@ export default class RegisterPage extends BasePage {
 
         const form = document.getElementById('signup__form');
         const fields = context.fields;
-
         let data = [];
+
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
-                //console.log(form.querySelector(`[name=${fields[page].name}]`).value);
+                //console.log(form.querySelector(`[name=${fields[page].name}]`).name);
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
 
                 getErrorMessage(form.querySelector(`[name=${fields[page].name}]`));
@@ -54,9 +54,11 @@ export default class RegisterPage extends BasePage {
 
             //  timing email
             data[0] = data[0].trim();
+            const password = data[1];
+            const username = data[0];
             ajax.post({
-                url: '/login',
-                body: data,
+                url: '/api/v1/signup',
+                body: {password, username},
                 callback: (status => {
                     if (status === 204) {
                         console.log("auth");

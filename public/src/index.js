@@ -240,8 +240,8 @@ const getProfileIconListenerHandler = async (event) => {
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
-    console.log(config.authorised);
-    event.preventDefault();
+    //console.log(config.authorised);
+    //event.preventDefault();
 
     if (config.authorised) {
         root.querySelector(`.profile__pop-up`).style.display = 'none';
@@ -252,14 +252,14 @@ root.addEventListener('click', async (event) => {
     // }
 
 
-    console.log(target);
+    //console.log(target);
     let href = target.getAttribute("href");
 
     if (href === null) {
         href = target.parentElement.getAttribute("href");
     }
 
-    console.log(href);
+    //console.log(href);
 
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {

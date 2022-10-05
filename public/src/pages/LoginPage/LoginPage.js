@@ -35,15 +35,17 @@ export default class LoginPage extends BasePage {
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
-                //console.log(form.getAttribute(fields[page].name));
+                console.log(form.getAttribute(fields[page].name));
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
                // console.log(context[page]);
             });
             // timing email
             data[0] = data[0].trim();
+            const password = data[1];
+            const username = data[0];
             ajax.post({
-                url: '/login',
-                body: data,
+                url: '/api/v1/login',
+                body: {password, username},
                 callback: (status => {
                     if (status === 204) {
                         console.log("auth");
