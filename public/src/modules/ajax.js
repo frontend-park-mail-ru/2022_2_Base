@@ -20,7 +20,6 @@ export default class Req {
             headers: {
                 'Content-Type': 'application/json',
                 'accept': 'application/json',
-                'Access-Control-Allow-Origin': '*',
             },
            // body: JSON.stringify({password: "password", username: "username"}),
         })
