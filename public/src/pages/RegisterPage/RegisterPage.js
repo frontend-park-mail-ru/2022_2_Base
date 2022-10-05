@@ -37,7 +37,7 @@ export default class RegisterPage extends BasePage {
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
                 // console.log(context[page]);
             });
-            // timing email
+            //  timing email
             data[0] = data[0].trim();
             ajax.post({
                 url: '/login',
