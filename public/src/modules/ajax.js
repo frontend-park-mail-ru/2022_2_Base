@@ -10,7 +10,41 @@ export default class Req {
     }
 
     makeRequest = (url, options) => {
-        return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]));
+        console.log(fetch(url, options));
+        //return fetch(url, options).then((response) => console.log(response));
+       // return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]));
+
+        return fetch('http://89.208.198.137:8080/api/v1/', {
+            method: 'GET', // or 'PUT'
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+           // body: JSON.stringify({password: "password", username: "username"}),
+        })
+            .then((response) => console.log(response));
+
+        // return fetch('http://89.208.198.137:8080/api/v1/login', {
+        //     method: 'POST', // or 'PUT'
+        //     mode: 'no-cors',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Origin': 'http://89.208.198.137/',
+        //         'accept': 'application/json',
+        //     },
+        //     body: JSON.stringify({password: "password", username: "username"}),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log('Success:', data);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
+
+        //return fetch(url, options).then((response) => response.json().then((data) => console.log(data)));
     };
 
 
@@ -26,8 +60,8 @@ export default class Req {
             },
             body: JSON.stringify(data),
         };
-        console.log(`http://${baseURL}:${port}/${url}`);
-        return this.makeRequest(`http://${baseURL}:${port}/${url}`, options);
+        console.log(`${baseURL}:${port}/${url}`);
+        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 
     makePostRequest = async (url, data) => {
@@ -37,6 +71,7 @@ export default class Req {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
+                'accept': 'application/json',
                 'Origin': 'http://89.208.198.137/',
                 //'Access-Control-Allow-Origin': '*',
             },

@@ -1,6 +1,7 @@
 import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
+import Req from "./modules/ajax.js";
 
 const root = document.getElementById('root');
 
@@ -240,26 +241,17 @@ const getProfileIconListenerHandler = async (event) => {
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
-    //console.log(config.authorised);
     //event.preventDefault();
 
     if (config.authorised) {
         root.querySelector(`.profile__pop-up`).style.display = 'none';
     }
-    // if (root.querySelector(`[name=password]`) != null) {
-    //     //getErrorMessage(target);
-    //     //target.style.transform='scaleX(2)';
-    // }
 
-
-    //console.log(target);
     let href = target.getAttribute("href");
 
     if (href === null) {
         href = target.parentElement.getAttribute("href");
     }
-
-    //console.log(href);
 
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
@@ -285,7 +277,8 @@ root.addEventListener('DOMContentLoaded', async () => {
     // ajax.get({
     //     url: '/session',
 
-    const [status, username] = await makeGetRequest('session', {});
+    const r = new Req();
+    const [status, username] = await r.makeGetRequest('session', {});
     console.log(status);
 
     if (status === 204) {
