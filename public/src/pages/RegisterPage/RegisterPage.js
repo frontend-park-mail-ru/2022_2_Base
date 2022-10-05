@@ -40,16 +40,15 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         let data = [];
 
-        form.addEventListener('submit', async(event) => {
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
             });
             //  timing email
-            data[0] = data[0].trim();
-            const password = data[2];
-            const username = data[1];
+                const password = data[2];
+            const username = data[1].trim();
             console.log(password);
             console.log(username);
 

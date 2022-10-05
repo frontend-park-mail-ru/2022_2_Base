@@ -55,20 +55,6 @@ export default class LoginPage extends BasePage {
                 return;
             }
             console.log("no auth");
-
-
-            // ajax.post({
-            //     url: '/api/v1/login',
-            //     body: {password, username},
-            //     callback: (status => {
-            //         if (status === 204) {
-            //             console.log("auth");
-            //             config.header.main.render(config);
-            //             return;
-            //         }
-            //         console.log("no auth");
-            //     })
-            // });
         });
     }
 }

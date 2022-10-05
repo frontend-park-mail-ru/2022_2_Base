@@ -15,17 +15,17 @@ export default class Req {
     };
 
 
-    makeGetRequest = async (url, data) => {
+    makeGetRequest = async (url) => {
         const options = {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
+                'accept': 'application/json',
                 'Origin': 'http://89.208.198.137:8081/',
             },
         };
-       // console.log(`${baseURL}:${port}/${url}`);
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 

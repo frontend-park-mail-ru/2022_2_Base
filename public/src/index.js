@@ -215,25 +215,38 @@ const config = {
 //     target.after(div);
 // }
 
-const createProfileIconListener = (event) => {
-    const profileIcon = root.querySelector(`.header__profile`);
-    profileIcon.addEventListener('mouseover', getProfileIconListenerHandler)
-}
-
-const getProfileIconListenerHandler = async (event) => {
-    const {target} = event;
-    root.querySelector(`.profile__pop-up`).style.display = 'block';
-}
+// const createProfileIconListener = (event) => {
+//     const profileIcon = root.querySelector(`.header__profile`);
+//     profileIcon.addEventListener('mouseover', getProfileIconListenerHandler)
+// }
+//
+// const getProfileIconListenerHandler = async (event) => {
+//     const {target} = event;
+//     root.querySelector(`.profile__pop-up`).style.display = 'block';
+// }
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
+
+    const r = new Req();
+    const [status, username] = await r.makeGetRequest('api/v1/session');
+    console.log(status);
+
+    if (status === 200) {
+        console.log("session");
+        config.authorised = true;
+        return;
+    }
+    console.log("no session");
+
+
     //event.preventDefault();
 
-    console.log(config.authorised);
+    // console.log("auth: ", config.authorised);
 
-    if (config.authorised) {
-        root.querySelector(`.profile__pop-up`).style.display = 'none';
-    }
+    // if (config.authorised === false) {
+    //     root.querySelector(`.profile__pop-up`).style.display = 'none';
+    // }
 
     let href = target.getAttribute("href");
 
@@ -245,16 +258,16 @@ root.addEventListener('click', async (event) => {
         if (config.header[page].href === href) {
             event.preventDefault();
 
-            if (config.authorised) {
-                root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
-            }
+            // if (config.authorised) {
+            //     root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
+            // }
             //root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
 
             config.header[page].render(config)
 
-            if (config.authorised) {
-                createProfileIconListener();
-            }
+            // if (config.authorised) {
+            //     createProfileIconListener();
+            // }
             //createProfileIconListenerOut();
         }
     });
@@ -266,7 +279,7 @@ root.addEventListener('DOMContentLoaded', async () => {
     //     url: '/session',
 
     const r = new Req();
-    const [status, username] = await r.makeGetRequest('api/v1/session', {});
+    const [status, username] = await r.makeGetRequest('api/v1/session');
     console.log(status);
 
     if (status === 200) {
@@ -275,12 +288,12 @@ root.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     console.log("no session");
-    config.authorised = false;
+    //config.authorised = false;
 });
 
 config.header.main.render(config);
 //config.header.login.render(config);
-if (config.authorised) {
-    createProfileIconListener();
-}
+// if (config.authorised) {
+//     createProfileIconListener();
+// }
 // createProfileIconListenerOut();
