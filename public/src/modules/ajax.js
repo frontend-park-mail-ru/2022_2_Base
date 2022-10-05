@@ -1,7 +1,7 @@
 const noop = () => {
 };
 
-const baseURL = 'http://89.208.198.137';http://89.208.198.137/
+const baseURL = 'http://89.208.198.137';
 const port = 8080;
 
 export default class Req {
