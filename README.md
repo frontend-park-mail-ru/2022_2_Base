@@ -24,4 +24,4 @@ Ozon frontend repository for Base team, autumn of 2022.
 [Link to API](https://app.swaggerhub.com/apis/PINEVICHV/Base).
 
 ### Deploy
-[Link to deploy]().
+[Link to deploy](http://89.208.198.137:8081/).
