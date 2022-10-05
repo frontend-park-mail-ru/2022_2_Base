@@ -225,23 +225,11 @@ const getProfileIconListenerHandler = async (event) => {
     root.querySelector(`.profile__pop-up`).style.display = 'block';
 }
 
-//  copy-paste
-// const createProfileIconListenerOut = (event) => {
-//     const profileIcon = root.querySelector(`.header__profile`);
-//     console.log(profileIcon);
-//     profileIcon.addEventListener('mouseout', getProfileIconListenerHandler)
-// }
-//
-// const getProfileIconListenerHandlerOut = async (event) => {
-//     const {target} = event;
-//     console.log(target);
-//     root.querySelector(`.profile__pop-up`).style.display = 'none';
-// }
-
-
 root.addEventListener('click', async (event) => {
     const {target} = event;
     //event.preventDefault();
+
+    console.log(config.authorised);
 
     if (config.authorised) {
         root.querySelector(`.profile__pop-up`).style.display = 'none';
@@ -288,18 +276,6 @@ root.addEventListener('DOMContentLoaded', async () => {
     }
     console.log("no session");
     config.authorised = false;
-
-
-//     callback: (status => {
-//         if (status === 204) {
-//             console.log("session");
-//             config.authorised = true;
-//             return;
-//         }
-//         console.log("no session");
-//         config.authorised = false;
-//     })
-// });
 });
 
 config.header.main.render(config);
