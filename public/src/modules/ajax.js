@@ -17,7 +17,7 @@ export default class Req {
     makeGetRequest = async (url, data) => {
         const options = {
             method: 'get',
-            mode: 'cors',
+            //mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export default class Req {
     makePostRequest = async (url, data) => {
         const options = {
             method: 'post',
-            mode: 'cors',
+            //mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
