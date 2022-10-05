@@ -67,14 +67,15 @@
 }
 
 .arrow-button {
+    margin-left: 10px;
+    display: flex;
     border: none;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     width: 40px;
     height: 40px;
-    background-color: var(--pure_white);
     border-radius: 100%;
-    padding-top: 5px;
-    z-index: 1000;
     filter: var(--apple-shadow);
 }
 
@@ -84,22 +85,23 @@
 
 .arrow-button-left {
     margin-top: 171px;
-    position: absolute;
-    z-index: 1000;
 }
+
 
 .arrow-button-right {
     margin-top: 171px;
 }
 
 .content__sales {
+    margin-top: 2px;
     display: grid;
-    grid-template-columns: 10px repeat(6, 1fr) 75px;
+    grid-template-columns: 60px repeat(6, 1fr) 60px;
 }
 
 .content__popular {
+    margin-top: 2px;
     display: grid;
-    grid-template-columns: 10px repeat(6, 1fr) 75px;
+    grid-template-columns: 60px repeat(6, 1fr) 60px;
 }
 
 .content__popular-title {

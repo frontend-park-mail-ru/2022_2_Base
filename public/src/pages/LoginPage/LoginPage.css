@@ -119,3 +119,31 @@ main {
 .paint-purple {
     background-color: var(--default_purple);
 }
+
+.LoginRightImg {
+    display: block;
+    width: 472px;
+    height: 536px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 97px;
+}
+
+.tagline {
+    display: block;
+    width: 240px;
+    height: 52px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 18px;
+    color: var(--pure_white);
+}
+
+.text-normal-large {
+    font-family: ibm-plex-sans, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+}
