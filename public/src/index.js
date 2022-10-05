@@ -201,6 +201,7 @@ const config = {
             },
         },
     },
+    authorised: false,
 };
 
 // const getErrorMessage = (target) => {
@@ -239,32 +240,64 @@ const getProfileIconListenerHandler = async (event) => {
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
-    root.querySelector(`.profile__pop-up`).style.display = 'none';
+    console.log(config.authorised);
+    event.preventDefault();
+
+    if (config.authorised) {
+        root.querySelector(`.profile__pop-up`).style.display = 'none';
+    }
     // if (root.querySelector(`[name=password]`) != null) {
     //     //getErrorMessage(target);
     //     //target.style.transform='scaleX(2)';
     // }
 
+
+    console.log(target);
     let href = target.getAttribute("href");
+
     if (href === null) {
         href = target.parentElement.getAttribute("href");
     }
 
+    console.log(href);
+
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
-            root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
+
+            if (config.authorised) {
+                root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
+            }
             //root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
 
             config.header[page].render(config)
 
-            createProfileIconListener();
+            if (config.authorised) {
+                createProfileIconListener();
+            }
             //createProfileIconListenerOut();
         }
     });
 });
 
-//config.header.main.render(config);
-config.header.login.render(config);
-createProfileIconListener();
+
+root.addEventListener('DOMContentLoaded', async () => {
+    ajax.get({
+        url: '/session',
+        callback: (status => {
+            if (status === 204) {
+                console.log("session");
+                config.authorised = true;
+                return;
+            }
+            console.log("no session");
+            config.authorised = false;
+        })
+    });
+});
+config.header.main.render(config);
+//config.header.login.render(config);
+if (config.authorised) {
+    createProfileIconListener();
+}
 // createProfileIconListenerOut();

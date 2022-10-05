@@ -29,7 +29,7 @@ export default class RegisterPage extends BasePage {
         const context = config.forms.signup;
         super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render();
+        this.headerComponent.render(config.authorised);
         this.formComponent = new FormComponent(document.getElementById('signup__form'));
         this.formComponent.render(context);
         this.footerComponent = new FooterComponent(document.getElementById('footer'));

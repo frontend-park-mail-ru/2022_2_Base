@@ -17,16 +17,17 @@ export default class MainPage extends BasePage {
     }
 
     render(context) {
+        let key;
         super.render(context)
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render();
+        this.headerComponent.render(context.authorised);
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(context.topcategory);
-        for (var key in context.itemCardsSales) {
+        for (key in context.itemCardsSales) {
             this.itemCard = new ItemCard(document.getElementById(key));
             this.itemCard.render(context.itemCardsSales[key]);
         }
-        for (var key in context.itemCardsPopular) {
+        for (key in context.itemCardsPopular) {
             this.itemCard = new ItemCard(document.getElementById(key));
             this.itemCard.render(context.itemCardsPopular[key]);
         }

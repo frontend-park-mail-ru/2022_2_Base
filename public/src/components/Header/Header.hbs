@@ -38,13 +38,19 @@
     </div>
 
     <div class="header__profile">
-        <a href="/login">
-            <img src="./img/Profile.svg" alt="LOGO">
-        </a>
-        <div class="profile__pop-up">
-            <a href="/logout">
-                <span>Выйти</span>
+        {{#if session}}
+            <a href="#">
+                <img src="./img/Profile.svg" alt="LOGO">
             </a>
-        </div>
+            <div class="profile__pop-up">
+                <a href="/logout">
+                    <span>Выйти</span>
+                </a>
+            </div>
+        {{else}}
+            <a href="/login">
+                <img src="./img/Profile.svg" alt="LOGO">
+            </a>
+        {{/if}}
     </div>
 </div>

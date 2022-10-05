@@ -20,7 +20,7 @@ export default class LoginPage extends BasePage {
         const context = config.forms.signin;
         super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render();
+        this.headerComponent.render(config.authorised);
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(context);
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
