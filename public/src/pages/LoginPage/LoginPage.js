@@ -50,6 +50,7 @@ export default class LoginPage extends BasePage {
 
             if (status === 201) {
                 console.log("auth");
+                config.authorised = true;
                 config.header.main.render(config);
                 return;
             }

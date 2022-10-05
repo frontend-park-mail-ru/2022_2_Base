@@ -44,13 +44,7 @@ export default class RegisterPage extends BasePage {
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
-                //console.log(form.querySelector(`[name=${fields[page].name}]`).name);
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
-
-                //getErrorMessage(form.querySelector(`[name=${fields[page].name}]`));
-                //target.style.transform='scaleX(2)';
-
-                // console.log(context[page]);
             });
             //  timing email
             data[0] = data[0].trim();
@@ -63,6 +57,7 @@ export default class RegisterPage extends BasePage {
 
             if (status === 201) {
                 console.log("auth");
+                config.authorised = true;
                 config.header.main.render(config);
                 return;
             }
