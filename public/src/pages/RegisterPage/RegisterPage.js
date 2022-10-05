@@ -50,6 +50,8 @@ export default class RegisterPage extends BasePage {
             data[0] = data[0].trim();
             const password = data[2];
             const username = data[1];
+            console.log(password);
+            console.log(username);
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});

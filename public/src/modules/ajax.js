@@ -10,7 +10,7 @@ export default class Req {
     }
 
     makeRequest = (url, options) => {
-        console.log(fetch(url, options));
+        //console.log(fetch(url, options));
         return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]));
     };
 
@@ -18,15 +18,14 @@ export default class Req {
     makeGetRequest = async (url, data) => {
         const options = {
             method: 'get',
-            mode: 'no-cors',
+            mode: 'cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 'Origin': 'http://89.208.198.137:8081/',
             },
-            //body: JSON.stringify(data),
         };
-        console.log(`${baseURL}:${port}/${url}`);
+       // console.log(`${baseURL}:${port}/${url}`);
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 
@@ -42,7 +41,7 @@ export default class Req {
             },
             body: JSON.stringify(data),
         };
-        console.log(`${baseURL}:${port}/${url}`);
+       // console.log(`${baseURL}:${port}/${url}`);
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 }
