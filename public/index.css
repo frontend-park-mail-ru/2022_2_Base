@@ -1,11 +1,11 @@
 .input-field-error {
     position: absolute;
-    color: #68B684;
-    background-color: #171717;
-    height: 48px;
-    width: 88px;
+    color: #EEEEEE;
+    background-color: #C54A4C;
+    margin-left: 5px;
+    margin-top: 7px;
     display: inline;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 5px;
     text-align: center;
     vertical-align: middle;
@@ -13,4 +13,9 @@
 
 .input-field-error__text {
     display: inline-block;
+    font-family: ibm-plex-sans, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
 }
