@@ -225,7 +225,7 @@ const config = {
 //     root.querySelector(`.profile__pop-up`).style.display = 'block';
 // }
 
-root.addEventListener('click', async (event) => {
+window.addEventListener('click', async (event) => {
     const {target} = event;
 
     const r = new Req();
@@ -237,6 +237,7 @@ root.addEventListener('click', async (event) => {
         config.authorised = true;
         return;
     }
+    config.authorised = false;
     console.log("no session");
 
 
