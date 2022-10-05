@@ -1,7 +1,3 @@
-// import HeaderComponent from './components/Header/Header.js';
-// import FooterComponent from './components/Footer/Footer.js';
-// import TopCategory from './components/TopCategory/TopCategory.js';
-// import ItemCardComponent from './components/ItemCard/ItemCard.js';
 import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
@@ -207,24 +203,34 @@ const config = {
     },
 };
 
-const goToPage = (menuElement) => {
-    root.innerHTML = '';
-    root.querySelector('.active').classList.remove('active');
-    root.querySelector(`[data-section=${menuElement.href.slice(1)}]`).classList.add('active');
-
-    root.appendChild(menuElement.render());
+const getErrorMessage = (target) => {
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.appendChild(span);
+    div.classList.add('input-field-error');
+    span.classList.add('input-field-error__text');
+    span.innerHTML = "Wrong password";
+    target.after(div);
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
-    config.header.main.render(config);
-    //config.header.login.render(config.forms.signin)
-    //config.header.signup.render(config.forms.signup)
-});
+const createProfileIconListener = () => {
+    const profileIcon = root.querySelector(`.header__profile`);
+    profileIcon.addEventListener('mouseover', getProfileIconListenerHandler)
+}
 
-//const element =  root.querySelector(`[data-section=${root.href.slice(1)}]`);
+const getProfileIconListenerHandler = async (event) => {
+    const {target} = event;
+
+    console.log(target);
+}
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
+
+    if (root.querySelector(`[name=password]`) != null) {
+        //getErrorMessage(target);
+        //target.style.transform='scaleX(2)';
+    }
 
     let href = target.getAttribute("href");
     if (href === null) {
@@ -234,7 +240,16 @@ root.addEventListener('click', async (event) => {
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
+            root.querySelector(`.header__profile`).
+            removeEventListener('mouseover', getProfileIconListenerHandler);
+
             config.header[page].render(config)
+
+            createProfileIconListener();
         }
     });
 });
+
+//config.header.main.render(config);
+config.header.login.render(config);
+createProfileIconListener();

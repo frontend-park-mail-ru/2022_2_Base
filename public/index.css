@@ -1,0 +1,16 @@
+.input-field-error {
+    position: absolute;
+    color: #68B684;
+    background-color: #171717;
+    height: 48px;
+    width: 88px;
+    display: inline;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.input-field-error__text {
+    display: inline-block;
+}
