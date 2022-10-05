@@ -23,12 +23,14 @@ header {
     grid-template-columns: 2fr 1fr;
     margin-top: 5px;
 }
+
 header, footer {
     max-width: 1400px;
     min-width: 1400px;
     margin-left: auto;
     margin-right: auto;
 }
+
 .header__left {
     display: grid;
     grid-template-columns: 1fr 1fr 4fr;
@@ -59,7 +61,7 @@ header, footer {
     border-color: var(--pure_white)
 }
 
-.header__search-line:hover{
+.header__search-line:hover {
     border-color: var(--hover_purple);
 }
 
@@ -139,4 +141,15 @@ header, footer {
 
 .paint-purple {
     background-color: var(--default_purple);
+}
+
+.profile__pop-up {
+    display: none;
+    /*display: block;*/
+    position: absolute;
+    height: 88px;
+    width: 88px;
+    background-color: rgba(255, 255, 255, 1);
+    text-align: center;
+    vertical-align: middle;
 }

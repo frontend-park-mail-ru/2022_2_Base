@@ -213,20 +213,33 @@ const getErrorMessage = (target) => {
     target.after(div);
 }
 
-const createProfileIconListener = () => {
+const createProfileIconListener = (event) => {
     const profileIcon = root.querySelector(`.header__profile`);
     profileIcon.addEventListener('mouseover', getProfileIconListenerHandler)
 }
 
 const getProfileIconListenerHandler = async (event) => {
     const {target} = event;
-
-    console.log(target);
+    root.querySelector(`.profile__pop-up`).style.display = 'block';
 }
+
+//  copy-paste
+// const createProfileIconListenerOut = (event) => {
+//     const profileIcon = root.querySelector(`.header__profile`);
+//     console.log(profileIcon);
+//     profileIcon.addEventListener('mouseout', getProfileIconListenerHandler)
+// }
+//
+// const getProfileIconListenerHandlerOut = async (event) => {
+//     const {target} = event;
+//     console.log(target);
+//     root.querySelector(`.profile__pop-up`).style.display = 'none';
+// }
+
 
 root.addEventListener('click', async (event) => {
     const {target} = event;
-
+    root.querySelector(`.profile__pop-up`).style.display = 'none';
     if (root.querySelector(`[name=password]`) != null) {
         //getErrorMessage(target);
         //target.style.transform='scaleX(2)';
@@ -240,12 +253,13 @@ root.addEventListener('click', async (event) => {
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
-            root.querySelector(`.header__profile`).
-            removeEventListener('mouseover', getProfileIconListenerHandler);
+            root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
+            root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
 
             config.header[page].render(config)
 
             createProfileIconListener();
+            createProfileIconListenerOut();
         }
     });
 });
@@ -253,3 +267,4 @@ root.addEventListener('click', async (event) => {
 //config.header.main.render(config);
 config.header.login.render(config);
 createProfileIconListener();
+// createProfileIconListenerOut();
