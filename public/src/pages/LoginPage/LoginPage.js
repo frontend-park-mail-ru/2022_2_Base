@@ -48,7 +48,7 @@ export default class LoginPage extends BasePage {
             const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
             console.log(status);
 
-            if (status === 204) {
+            if (status === 201) {
                 console.log("auth");
                 config.header.main.render(config);
                 return;
