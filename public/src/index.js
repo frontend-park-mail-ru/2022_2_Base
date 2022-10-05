@@ -203,15 +203,15 @@ const config = {
     },
 };
 
-const getErrorMessage = (target) => {
-    const div = document.createElement("div");
-    const span = document.createElement("span");
-    div.appendChild(span);
-    div.classList.add('input-field-error');
-    span.classList.add('input-field-error__text');
-    span.innerHTML = "Wrong password";
-    target.after(div);
-}
+// const getErrorMessage = (target) => {
+//     const div = document.createElement("div");
+//     const span = document.createElement("span");
+//     div.appendChild(span);
+//     div.classList.add('input-field-error');
+//     span.classList.add('input-field-error__text');
+//     span.innerHTML = "Wrong password";
+//     target.after(div);
+// }
 
 const createProfileIconListener = (event) => {
     const profileIcon = root.querySelector(`.header__profile`);
@@ -240,10 +240,10 @@ const getProfileIconListenerHandler = async (event) => {
 root.addEventListener('click', async (event) => {
     const {target} = event;
     root.querySelector(`.profile__pop-up`).style.display = 'none';
-    if (root.querySelector(`[name=password]`) != null) {
-        //getErrorMessage(target);
-        //target.style.transform='scaleX(2)';
-    }
+    // if (root.querySelector(`[name=password]`) != null) {
+    //     //getErrorMessage(target);
+    //     //target.style.transform='scaleX(2)';
+    // }
 
     let href = target.getAttribute("href");
     if (href === null) {

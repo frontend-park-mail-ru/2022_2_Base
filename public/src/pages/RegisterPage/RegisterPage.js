@@ -6,6 +6,16 @@ import HeaderComponent from '../../components/Header/Header.js';
 import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
 
+const getErrorMessage = (target) => {
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.appendChild(span);
+    div.classList.add('input-field-error');
+    span.classList.add('input-field-error__text');
+    span.innerHTML = "Wrong password";
+    target.after(div);
+}
+
 export default class RegisterPage extends BasePage {
 
     constructor(parent) {
@@ -35,8 +45,13 @@ export default class RegisterPage extends BasePage {
                 event.preventDefault();
                 //console.log(form.querySelector(`[name=${fields[page].name}]`).value);
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
+
+                getErrorMessage(form.querySelector(`[name=${fields[page].name}]`));
+                //target.style.transform='scaleX(2)';
+
                 // console.log(context[page]);
             });
+
             //  timing email
             data[0] = data[0].trim();
             ajax.post({
