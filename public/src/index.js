@@ -228,17 +228,17 @@ const config = {
 window.addEventListener('click', async (event) => {
     const {target} = event;
 
-    const r = new Req();
-    const [status, username] = await r.makeGetRequest('api/v1/session');
-    console.log(status);
-
-    if (status === 200) {
-        console.log("session");
-        config.authorised = true;
-        return;
-    }
-    config.authorised = false;
-    console.log("no session");
+    // const r = new Req();
+    // const [status, username] = await r.makeGetRequest('api/v1/session');
+    // console.log(status);
+    //
+    // if (status === 200) {
+    //     console.log("session");
+    //     config.authorised = true;
+    //     return;
+    // }
+    // config.authorised = false;
+    // console.log("no session");
 
 
     //event.preventDefault();
@@ -278,17 +278,17 @@ window.addEventListener('click', async (event) => {
 root.addEventListener('DOMContentLoaded', async () => {
     // ajax.get({
     //     url: '/session',
-
-    const r = new Req();
-    const [status, username] = await r.makeGetRequest('api/v1/session');
-    console.log(status);
-
-    if (status === 200) {
-        console.log("session");
-        config.authorised = true;
-        return;
-    }
-    console.log("no session");
+    //
+    // const r = new Req();
+    // const [status, username] = await r.makeGetRequest('api/v1/session');
+    // console.log(status);
+    //
+    // if (status === 200) {
+    //     console.log("session");
+    //     config.authorised = true;
+    //     return;
+    // }
+    // console.log("no session");
     //config.authorised = false;
 });
 
