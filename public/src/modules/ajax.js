@@ -20,6 +20,9 @@ export default class Req {
             headers: {
                 'Content-Type': 'application/json',
                 'accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+
             },
            // body: JSON.stringify({password: "password", username: "username"}),
         })
