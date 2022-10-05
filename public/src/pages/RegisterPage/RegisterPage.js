@@ -15,8 +15,8 @@ export default class RegisterPage extends BasePage {
         );
     }
 
-    render({forms}) {
-        const context = forms.signup;
+    render(config) {
+        const context = config.forms.signup;
         super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
         this.headerComponent.render();
@@ -24,5 +24,34 @@ export default class RegisterPage extends BasePage {
         this.formComponent.render(context);
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
+
+        const form = document.getElementById('signup__form');
+        const fields = context.fields;
+
+        let data = [];
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            Object.keys(fields).forEach(function (page) {
+                event.preventDefault();
+                //console.log(form.querySelector(`[name=${fields[page].name}]`).value);
+                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
+                // console.log(context[page]);
+            });
+            //  timing email
+            data[0] = data[0].trim();
+            ajax.post({
+                url: '/login',
+                body: data,
+                callback: (status => {
+                    if (status === 204) {
+                        console.log("auth");
+                        config.header.main.render(config);
+                        return;
+                    }
+                    console.log("no auth");
+                })
+            });
+        });
+
     }
 }
