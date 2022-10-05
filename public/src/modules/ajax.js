@@ -1,7 +1,7 @@
 const noop = () => {
 };
 
-const baseURL = 'http://89.208.198.137';
+const baseURL = 'http://89.208.198.137';http://89.208.198.137/
 const port = 8080;
 
 export default class Req {
@@ -17,7 +17,7 @@ export default class Req {
     makeGetRequest = async (url, data) => {
         const options = {
             method: 'get',
-            //mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export default class Req {
     makePostRequest = async (url, data) => {
         const options = {
             method: 'post',
-            //mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
