@@ -278,10 +278,10 @@ root.addEventListener('DOMContentLoaded', async () => {
     //     url: '/session',
 
     const r = new Req();
-    const [status, username] = await r.makeGetRequest('session', {});
+    const [status, username] = await r.makeGetRequest('api/v1/session', {});
     console.log(status);
 
-    if (status === 204) {
+    if (status === 200) {
         console.log("session");
         config.authorised = true;
         return;
