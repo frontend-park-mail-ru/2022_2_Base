@@ -254,12 +254,12 @@ root.addEventListener('click', async (event) => {
         if (config.header[page].href === href) {
             event.preventDefault();
             root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
-            root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
+            //root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
 
             config.header[page].render(config)
 
             createProfileIconListener();
-            createProfileIconListenerOut();
+            //createProfileIconListenerOut();
         }
     });
 });
