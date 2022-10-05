@@ -1,4 +1,4 @@
-[![CI]()]() ![Website]() ![GitHub repo size](https://github.com/frontend-park-mail-ru/2022_2_Base)
+[![CI]()]() ![Website](http://89.208.198.137:8081/) ![GitHub repo size](https://github.com/frontend-park-mail-ru/2022_2_Base)
 
 # Ozon
 
