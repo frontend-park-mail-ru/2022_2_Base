@@ -15,7 +15,7 @@ Ozon frontend repository for Base team, autumn of 2022.
 
 * [Dmitriy Peshkov](https://github.com/DPeshkoff) — frontend mentor;
 * [Anton Chumakov](https://github.com/TonyBlock) — backend mentor;
-* [Anastasia Shishova]() — interface design mentor.
+* [Anastasia Shishova](https://github.com/NellinLin) — interface design mentor.
 
 ### Backend repository
 [Link to backend repository](https://github.com/go-park-mail-ru/2022_2_Base).
