@@ -47,16 +47,15 @@ export default class RegisterPage extends BasePage {
                 //console.log(form.querySelector(`[name=${fields[page].name}]`).name);
                 data.push(form.querySelector(`[name=${fields[page].name}]`).value);
 
-                getErrorMessage(form.querySelector(`[name=${fields[page].name}]`));
+                //getErrorMessage(form.querySelector(`[name=${fields[page].name}]`));
                 //target.style.transform='scaleX(2)';
 
                 // console.log(context[page]);
             });
             //  timing email
             data[0] = data[0].trim();
-
-            const password = data[1];
-            const username = data[0];
+            const password = data[2];
+            const username = data[1];
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
