@@ -282,19 +282,33 @@ root.addEventListener('click', async (event) => {
 
 
 root.addEventListener('DOMContentLoaded', async () => {
-    ajax.get({
-        url: '/session',
-        callback: (status => {
-            if (status === 204) {
-                console.log("session");
-                config.authorised = true;
-                return;
-            }
-            console.log("no session");
-            config.authorised = false;
-        })
-    });
+    // ajax.get({
+    //     url: '/session',
+
+    const [status, username] = await makeGetRequest('session', {});
+    console.log(status);
+
+    if (status === 204) {
+        console.log("session");
+        config.authorised = true;
+        return;
+    }
+    console.log("no session");
+    config.authorised = false;
+
+
+//     callback: (status => {
+//         if (status === 204) {
+//             console.log("session");
+//             config.authorised = true;
+//             return;
+//         }
+//         console.log("no session");
+//         config.authorised = false;
+//     })
+// });
 });
+
 config.header.main.render(config);
 //config.header.login.render(config);
 if (config.authorised) {

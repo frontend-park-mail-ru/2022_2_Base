@@ -5,6 +5,7 @@ import BasePage from '../BasePage.js';
 import HeaderComponent from '../../components/Header/Header.js';
 import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
+import Req from "../../modules/ajax.js";
 
 const getErrorMessage = (target) => {
     const div = document.createElement("div");
@@ -39,7 +40,7 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         let data = [];
 
-        form.addEventListener('submit', (event) => {
+        form.addEventListener('submit', async(event) => {
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
@@ -51,24 +52,22 @@ export default class RegisterPage extends BasePage {
 
                 // console.log(context[page]);
             });
-
             //  timing email
             data[0] = data[0].trim();
+
             const password = data[1];
             const username = data[0];
-            ajax.post({
-                url: '/api/v1/signup',
-                body: {password, username},
-                callback: (status => {
-                    if (status === 204) {
-                        console.log("auth");
-                        config.header.main.render(config);
-                        return;
-                    }
-                    console.log("no auth");
-                })
-            });
-        });
 
+            const r = new Req();
+            const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
+            console.log(status);
+
+            if (status === 204) {
+                console.log("auth");
+                config.header.main.render(config);
+                return;
+            }
+            console.log("no auth");
+        });
     }
 }

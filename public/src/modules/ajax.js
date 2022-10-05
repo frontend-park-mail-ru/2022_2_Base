@@ -1,55 +1,48 @@
-(function() {
-    const REQUEST_TYPE = {
-        GET: 'GET',
-        POST: 'POST'
-    };
+const noop = () => {
+};
 
-    const noop = () => {};
+const baseURL = 'http://89.208.198.137';
+const port = 8080;
 
-    class Ajax {
-        get({url, callback}) {
-            this._ajax({
-                method: REQUEST_TYPE.GET,
-                url,
-                callback,
-            })
-        }
+export default class Req {
 
-        post({url, body, callback}) {
-            this._ajax({
-                method: REQUEST_TYPE.POST,
-                url,
-                body,
-                callback
-            })
-        }
-
-        _ajax({
-                  method,
-                  url,
-                  body = null,
-                  callback = noop
-              }) {
-
-            const xhr = new XMLHttpRequest();
-            xhr.open(method, url, true);
-            xhr.withCredentials = true;
-
-            xhr.addEventListener('readystatechange', function () {
-                if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-                callback(xhr.status, xhr.responseText);
-            });
-
-            if (body) {
-                xhr.setRequestHeader('Content-type', 'application/json; charset=utf8');
-                xhr.send(JSON.stringify(body));
-                return;
-            }
-
-            xhr.send();
-        }
+    constructor() {
     }
 
-    window.ajax = new Ajax();
-})();
+    makeRequest = (url, options) => {
+        return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]));
+    };
+
+
+    makeGetRequest = async (url, data) => {
+        const options = {
+            method: 'get',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': 'http://89.208.198.137/',
+                //'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify(data),
+        };
+        console.log(`http://${baseURL}:${port}/${url}`);
+        return this.makeRequest(`http://${baseURL}:${port}/${url}`, options);
+    }
+
+    makePostRequest = async (url, data) => {
+        const options = {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': 'http://89.208.198.137/',
+                //'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify(data),
+        };
+        console.log(`${baseURL}:${port}/${url}`);
+        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+    }
+}
