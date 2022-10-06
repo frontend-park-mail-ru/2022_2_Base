@@ -65,12 +65,7 @@ export default class LoginPage extends BasePage {
             data[0] = data[0].trim();
             const [email, password] = data;
 
-
-            validation.validateFields(email, password)
-            let valRes = validation.getFields()
-            console.log("valid", valRes.status)
-
-            if (!valRes.status) {
+            if (!validation.validateRegFields(email, password)) {
                 return
             }
 
@@ -84,17 +79,19 @@ export default class LoginPage extends BasePage {
                     config.header.main.render(config);
                     break;
                 case 400:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
+                    document.getElementById("Error400Message") !== null ?
+                        validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
+                        : console.log("bad request: ", status);
                     break;
                 case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
-                    validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
-                    console.log("no auth: ", status);
+                    document.getElementById("emailError") !== null ?
+                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята")
+                        : console.log("no auth: ", status);
                     break;
                 default:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
+                    document.getElementById("serverErrorMessage") !== null ?
+                        validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
+                        : console.log("bad request: ", status);
                     break;
             }
         });
