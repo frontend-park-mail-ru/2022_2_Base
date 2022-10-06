@@ -1,3 +1,5 @@
+'use strict';
+
 import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
@@ -240,7 +242,6 @@ window.addEventListener('click', async (event) => {
     // config.authorised = false;
     // console.log("no session");
 
-
     //event.preventDefault();
 
     // console.log("auth: ", config.authorised);
@@ -274,25 +275,25 @@ window.addEventListener('click', async (event) => {
     });
 });
 
+const checkSession = async () => {
+    const r = new Req();
+    const [status, username] = await r.makeGetRequest('api/v1/session');
+    console.log(status);
 
-root.addEventListener('DOMContentLoaded', async () => {
-    // ajax.get({
-    //     url: '/session',
-    //
-    // const r = new Req();
-    // const [status, username] = await r.makeGetRequest('api/v1/session');
-    // console.log(status);
-    //
-    // if (status === 200) {
-    //     console.log("session");
-    //     config.authorised = true;
-    //     return;
-    // }
-    // console.log("no session");
-    //config.authorised = false;
-});
+    alert('WOW');
 
+    if (status === 200) {
+        console.log("session");
+        config.authorised = true;
+        return;
+    }
+    console.log("no session");
+    config.authorised = false;
+}
+
+window.addEventListener('load', checkSession, {once: true});
 config.header.main.render(config);
+
 //config.header.login.render(config);
 // if (config.authorised) {
 //     createProfileIconListener();
