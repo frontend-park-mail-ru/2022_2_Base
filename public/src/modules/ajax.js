@@ -1,3 +1,5 @@
+import {response} from "express";
+
 const noop = () => {
 };
 
@@ -10,9 +12,8 @@ export default class Req {
     }
 
     makeRequest = (url, options) => {
-        const f = fetch(url, options);
-        console.log(f);
-        return f.then((response) => response.json().then((data) => [response.status, data]));
+        return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]))
+            .catch((error) => [response.status, error]);
     };
 
 
@@ -45,15 +46,6 @@ export default class Req {
         // console.log(`${baseURL}:${port}/${url}`);
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
-
-    // makeDRequest = (url, options) => {
-    //     const f = fetch(url, options);
-    //     console.log(f);
-    //     return f.then((response) => {
-    //         console.log(response);
-    //         response.then(() => response.status)
-    //     });
-    // };
 
     makeDeleteRequest = async (url) => {
         const options = {
