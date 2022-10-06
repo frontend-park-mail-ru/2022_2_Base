@@ -72,8 +72,7 @@ export default class RegisterPage extends BasePage {
             data[1] = data[1].trim();
             const [username, email, password, anotherPassword] = data;
 
-            console.log("validation", validation.validateRegFields(username, password, anotherPassword));
-            if (!validation.validateRegFields(username, password, anotherPassword)) {
+            if (!validation.validateRegFields(email, password, anotherPassword)) {
                 return
             }
             const r = new Req();

@@ -37,8 +37,8 @@ export default class Validation {
         return {status: true, message: ''};
     };
 
-    validateRegFields = (username, password, anotherPassword = password) => {
-        return password === anotherPassword && this.validateEMail(username).status &&
-            this.validatePassword(password).status
+    validateRegFields = (email, password, anotherPassword = password) => {
+        return ((password === anotherPassword) && (this.validateEMail(email).status) &&
+            (this.validatePassword(password).status));
     }
 };
