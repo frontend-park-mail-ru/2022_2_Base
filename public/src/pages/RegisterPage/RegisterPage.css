@@ -2,7 +2,7 @@
     --default_purple: #6369D1;
     --hover_purple: #3F47D0;
     --pure_white: #FFFFFF;
-    --background-white: #EEEEEE;
+    --background-white: #F9F9F9;
     /* --placeholder: rgba(55, 55, 55, 0.7); */
     /* --jet-black: #333333; */
     --green-shinny: #68B684;
@@ -126,7 +126,7 @@ main {
     height: 536px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 97px;
+    margin-top: 104px;
 }
 
 .tagline {

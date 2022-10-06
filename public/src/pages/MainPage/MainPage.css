@@ -2,7 +2,7 @@
     /* --default_purple: #6369D1; */
     /* --hover_purple: #3F47D0; */
     --pure_white: #FFFFFF;
-    --background-white: #EEEEEE;
+    --background-white: #F9F9F9;
     /* --placeholder: rgba(55, 55, 55, 0.7); */
     /* --jet-black: #333333; */
     /* --green-shinny: #68B684; */
@@ -66,6 +66,10 @@
     margin-top: 15px;
 }
 
+.arrow:disabled {
+    cursor: pointer;
+}
+
 .arrow-button {
     margin-left: 10px;
     display: flex;
@@ -76,7 +80,8 @@
     width: 40px;
     height: 40px;
     border-radius: 100%;
-    filter: var(--apple-shadow);
+    opacity: 40%;
+    /* filter: var(--apple-shadow); */
 }
 
 .arrow-button:hover {
