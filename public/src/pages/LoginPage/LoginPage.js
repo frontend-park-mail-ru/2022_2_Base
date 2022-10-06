@@ -87,13 +87,14 @@ export default class LoginPage extends BasePage {
                         : console.log("bad request: ", status);
                     break;
                 case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
+                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
+                    validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
                     console.log("no auth: ", status);
                     break;
                 default:
                     document.getElementById("serverErrorMessage") === null ?
                         validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
-                        : console.log("bad request: ", status);
+                        : console.log("server error: ", status);
                     break;
             }
         });

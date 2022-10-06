@@ -92,14 +92,14 @@ export default class RegisterPage extends BasePage {
                         validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
                         : console.log("bad request: ", status);
                     break;
-                case 401:
+                case 409:
                     validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
                     console.log("no auth: ", status);
                     break;
                 default:
                     document.getElementById("serverErrorMessage") === null ?
                         validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
-                        : console.log("bad request: ", status);
+                        : console.log("server error: ", status);
                     break;
             }
         });
