@@ -58,8 +58,7 @@ export default class RegisterPage extends BasePage {
             event.preventDefault();
             const validation = new Val();
             Object.keys(fields).forEach(function (page) {
-                event.preventDefault();
-                data.push(document.getElementById(event.target.name).value);
+                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
 
                 if (fields[page].name === "repeat_password") {
                     if (data[data.length - 1] !== data[data.length - 2]) {

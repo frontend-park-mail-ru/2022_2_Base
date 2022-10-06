@@ -69,7 +69,8 @@ export default class LoginPage extends BasePage {
             // timing email
             data[0] = data[0].trim();
             const [password, username] = data;
-            console.log(data);
+            console.log(password);
+            console.log(username);
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
