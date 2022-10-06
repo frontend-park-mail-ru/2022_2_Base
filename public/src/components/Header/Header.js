@@ -19,7 +19,7 @@ export default class Header {
         this.#data = value
     }
 
-    render(session) {
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Header.hbs'](session));
+    async render(session) {
+        await this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Header.hbs'](session));
     }
 }
