@@ -73,7 +73,15 @@ export default class RegisterPage extends BasePage {
 
             //  timing email
             data[1] = data[1].trim();
-            const [username, email, password] = data;
+            const [username, email, password, anotherPassword] = data;
+
+            validation.validateRegFields(username, password, anotherPassword)
+            let valRes = validation.getRegFields()
+
+            if (!valRes) {
+                // console.log('valres = ', valRes)
+                return
+            }
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/signup', {password, email, username});

@@ -65,6 +65,15 @@ export default class LoginPage extends BasePage {
             data[0] = data[0].trim();
             const [email, password] = data;
 
+
+            validation.validateFields(email, password)
+            let valRes = validation.getFields()
+            //console.log(valRes.status)
+
+            if (!valRes.status) {
+                return
+            }
+
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
 
