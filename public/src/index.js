@@ -250,6 +250,8 @@ window.addEventListener('click', async (event) => {
     //     root.querySelector(`.profile__pop-up`).style.display = 'none';
     // }
 
+    console.log(config.authorised);
+
     let href = target.getAttribute("href");
 
     if (href === null) {
