@@ -6,7 +6,6 @@ import HeaderComponent from '../../components/Header/Header.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import FooterComponent from '../../components/Footer/Footer.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
-// import Req from "../../modules/ajax";
 
 export default class MainPage extends BasePage {
 
