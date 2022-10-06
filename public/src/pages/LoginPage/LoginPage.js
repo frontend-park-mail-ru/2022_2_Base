@@ -68,7 +68,7 @@ export default class LoginPage extends BasePage {
 
             // timing email
             data[0] = data[0].trim();
-            const [password, username] = data;
+            const [username, password] = data;
             console.log(password);
             console.log(username);
 
