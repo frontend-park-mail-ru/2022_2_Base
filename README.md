@@ -21,7 +21,7 @@ Ozon frontend repository for Base team, autumn of 2022.
 [Link to backend repository](https://github.com/go-park-mail-ru/2022_2_Base).
 
 ### API
-[Link to API](https://app.swaggerhub.com/apis/PINEVICHV/Base).
+[Link to API](http://89.208.198.137:8080/api/v1/docs/index.html).
 
 ### Deploy
 [Link to deploy](http://89.208.198.137:8081/).
