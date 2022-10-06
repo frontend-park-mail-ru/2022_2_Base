@@ -2,7 +2,7 @@
 .footer__grid {
     margin: 40px 152px;
     display: grid;
-    grid-template-rows: 26px 56px 70px;
+    grid-template-rows: 56px 70px;
     grid-row-gap: 28px;
     justify-items: center;
 }

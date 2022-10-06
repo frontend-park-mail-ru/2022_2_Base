@@ -1,8 +1,9 @@
 :root {
     --hover_purple: #3F47D0;
     --pure_white: #FFFFFF;
-    --background-white: #EEEEEE;
+    --background-white: #F9F9F9;
     --purple_disabled: #6369D1;
+    --default_purple: #6369D1;
 }
 
 header {
@@ -142,11 +143,16 @@ header, footer {
 .profile__pop-up {
     display: none;
     position: absolute;
-    height: 44px;
+    height: 22px;
     width: 88px;
     margin-top: 14px;
     border-radius: 15%;
     background-color: rgba(255, 255, 255, 1);
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
     text-align: center;
     vertical-align: middle;
     z-index: 1;

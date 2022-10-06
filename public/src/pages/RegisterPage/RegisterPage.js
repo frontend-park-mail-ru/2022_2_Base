@@ -29,7 +29,7 @@ export default class RegisterPage extends BasePage {
 
         const form = document.getElementById('signup__form');
         const fields = context.fields;
-        let data = [];
+        document.getElementById(fields.name.name).focus();
 
         form.addEventListener("focusout", async (event) => {
             const validation = new Val();
@@ -56,53 +56,53 @@ export default class RegisterPage extends BasePage {
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            let data = [];
             const validation = new Val();
             Object.keys(fields).forEach(function (page) {
-                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
-
-                if (fields[page].name === "repeat_password") {
-                    if (data[data.length - 1] !== data[data.length - 2]) {
-                        validation.getErrorMessage(document.getElementById(event.target.name), "repeatPasswordError", "Введенные пароли не совпадают");
-                    } else {
-                        if (document.getElementById("repeatPasswordError") !== null) {
-                            document.getElementById("repeatPasswordError").remove();
-                        }
-                    }
-                }
+                const element = form.querySelector(`[name=${fields[page].name}]`)
+                element.focus();
+                element.blur();
+                data.push(element.value);
             });
+            if (data[data.length - 1] !== data[data.length - 2]) {
+                validation.getErrorMessage(document.getElementById(fields.repeatPassword.name), "repeatPasswordError", "Введенные пароли не совпадают");
+            } else {
+                if (document.getElementById("repeatPasswordError") !== null) {
+                    document.getElementById("repeatPasswordError").remove();
+                }
+            }
 
             //  timing email
             data[1] = data[1].trim();
             const [username, email, password, anotherPassword] = data;
-            validation.validateRegFields(username, password, anotherPassword)
-            let valRes = validation.getRegFields()
 
-            if (!valRes) {
-                // console.log('valres = ', valRes)
-                return
-            }
+            console.log("credentials valid", validation.validateRegFields(email, password, anotherPassword))
+            if (validation.validateRegFields(email, password, anotherPassword)) {
 
-            const r = new Req();
-            const [status, outD] = await r.makePostRequest('api/v1/signup', {password, email, username});
+                const r = new Req();
+                const [status, outD] = await r.makePostRequest('api/v1/signup', {password, email, username});
 
-            switch (status) {
-                case 201:
-                    console.log("auth");
-                    config.authorised = true;
-                    config.header.main.render(config);
-                    break;
-                case 400:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
-                    break;
-                case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
-                    console.log("no auth: ", status);
-                    break;
-                default:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
-                    break;
+                switch (status) {
+                    case 201:
+                        console.log("auth");
+                        config.authorised = true;
+                        config.header.main.render(config);
+                        break;
+                    case 400:
+                        document.getElementById("Error400Message") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
+                            : console.log("bad request: ", status);
+                        break;
+                    case 409:
+                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
+                        console.log("no auth: ", status);
+                        break;
+                    default:
+                        document.getElementById("serverErrorMessage") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
+                            : console.log("server error: ", status);
+                        break;
+                }
             }
         });
     }

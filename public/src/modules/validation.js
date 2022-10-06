@@ -1,8 +1,6 @@
-export default class Validation {
-    #valEmail
-    #valPassword
-    #valPasswordsEqual
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+export default class Validation {
     getErrorMessage = (target, nameId, message) => {
         const div = document.createElement("div");
         div.id = nameId;
@@ -26,8 +24,7 @@ export default class Validation {
     };
 
     validateEMail = (data) => {
-        const email = /@/;
-        if (!(email).test(data)) {
+        if (!(emailRegex).test(data)) {
             return {status: false, message: 'Неверный формат почты'};
         }
         return {status: true, message: ''};
@@ -40,31 +37,8 @@ export default class Validation {
         return {status: true, message: ''};
     };
 
-    validateFields = (username, password) => {
-        this.#valEmail = this.validateEMail(username)
-        this.#valPassword = this.validatePassword(password)
-    }
-
-    getFields = () => {
-        return this.#valEmail && this.#valPassword
-    }
-
-    validateRegFields = (username, password, anotherPassword) => {
-        this.#valEmail = this.validateEMail(username)
-        this.#valPassword = this.validatePassword(password)
-        if (password === anotherPassword) {
-            this.#valPasswordsEqual = true
-        } else {
-            this.#valPasswordsEqual = false
-        }
-    }
-
-    getRegFields = () => {
-        console.log('em', this.#valEmail.status)
-        console.log('ps', this.#valPassword.status)
-        console.log('ps2', this.#valPasswordsEqual)
-
-
-        return this.#valEmail.status && this.#valPassword.status && this.#valPasswordsEqual
+    validateRegFields = (email, password, anotherPassword = password) => {
+        return ((password === anotherPassword) && (this.validateEMail(email).status) &&
+            (this.validatePassword(password).status));
     }
 };

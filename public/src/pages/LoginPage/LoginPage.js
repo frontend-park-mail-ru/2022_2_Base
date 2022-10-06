@@ -29,6 +29,7 @@ export default class LoginPage extends BasePage {
 
         const form = document.getElementById('login-form');
         const fields = context.fields;
+        document.getElementById(fields.email.name).focus();
 
         form.addEventListener("focusout", (event, isDataValid) => {
             const validation = new Val();
@@ -58,44 +59,43 @@ export default class LoginPage extends BasePage {
             const validation = new Val();
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
-                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
+                const element = form.querySelector(`[name=${fields[page].name}]`)
+                element.focus();
+                element.blur();
+                data.push(element.value);
             });
 
             // timing email
             data[0] = data[0].trim();
             const [email, password] = data;
 
+            console.log("credentials valid", validation.validateRegFields(email, password))
+            if (validation.validateRegFields(email, password)) {
+                const r = new Req();
+                const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
 
-            validation.validateFields(email, password)
-            let valRes = validation.getFields()
-            //console.log(valRes.status)
-
-            if (!valRes.status) {
-                return
-            }
-
-            const r = new Req();
-            const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
-
-            switch (status) {
-                case 201:
-                    console.log("auth");
-                    config.authorised = true;
-                    config.header.main.render(config);
-                    break;
-                case 400:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
-                    break;
-                case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
-                    validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
-                    console.log("no auth: ", status);
-                    break;
-                default:
-                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
-                    console.log("bad request: ", status);
-                    break;
+                switch (status) {
+                    case 201:
+                        console.log("auth");
+                        config.authorised = true;
+                        config.header.main.render(config);
+                        break;
+                    case 400:
+                        document.getElementById("Error400Message") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
+                            : console.log("bad request: ", status);
+                        break;
+                    case 401:
+                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
+                        validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
+                        console.log("no auth: ", status);
+                        break;
+                    default:
+                        document.getElementById("serverErrorMessage") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
+                            : console.log("server error: ", status);
+                        break;
+                }
             }
         });
     }
