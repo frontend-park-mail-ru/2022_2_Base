@@ -9,7 +9,19 @@ export default class RefreshEl {
         // header.innerHTML = '';
         // context.headerComponent = new HeaderComponent(header);
         // context.headerComponent.render(context.authorised);
-
-
+        // const headerProfile = document.querySelector('.header__profile');
+        // headerProfile.addEventListener("mouseover", async (event) => {
+        //     if (context.authorised === true) {
+        //         const headerPopUp = document.querySelector('.profile__pop-up');
+        //         headerPopUp.style.display = 'block';
+        //     }
+        // });
+        //
+        // headerProfile.addEventListener("mouseout", async (event) => {
+        //     if (context.authorised === true) {
+        //         const headerPopUp = document.querySelector('.profile__pop-up');
+        //         headerPopUp.style.display = 'none';
+        //     }
+        // });
     }
 }
