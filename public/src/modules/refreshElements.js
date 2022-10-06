@@ -13,7 +13,6 @@ export default class RefreshEl {
         if (context.authorised === true) {
             const headerProfile = document.querySelector('.header__profile');
             headerProfile.addEventListener("mouseover", async (event) => {
-
                 const headerPopUp = document.querySelector('.profile__pop-up');
                 headerPopUp.style.display = 'block';
 

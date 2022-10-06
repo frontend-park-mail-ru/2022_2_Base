@@ -255,6 +255,6 @@ const checkSession = async () => {
     config.authorised = false;
 }
 
-window.addEventListener('loadstart', checkSession, {once: true});
+window.addEventListener('load', checkSession, {once: true});
 console.log("auth: ", config.authorised)
 config.header.main.render(config);
