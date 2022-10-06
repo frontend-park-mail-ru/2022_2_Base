@@ -74,12 +74,9 @@ export default class RegisterPage extends BasePage {
             //  timing email
             const password = data[2];
             const username = data[1].trim();
-            console.log(password);
-            console.log(username);
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
-            console.log(status);
 
             if (status === 201) {
                 console.log("auth");
@@ -87,7 +84,7 @@ export default class RegisterPage extends BasePage {
                 config.header.main.render(config);
                 return;
             }
-            console.log("no auth");
+            console.log("no auth: ", status);
         });
     }
 }

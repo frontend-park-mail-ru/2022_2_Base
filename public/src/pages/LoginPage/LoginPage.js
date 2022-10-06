@@ -69,12 +69,9 @@ export default class LoginPage extends BasePage {
             // timing email
             data[0] = data[0].trim();
             const [username, password] = data;
-            console.log(password);
-            console.log(username);
 
             const r = new Req();
             const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
-            console.log(status);
 
             if (status === 201) {
                 console.log("auth");
@@ -82,7 +79,7 @@ export default class LoginPage extends BasePage {
                 config.header.main.render(config);
                 return;
             }
-            console.log("no auth");
+            console.log("no auth: ", status);
         });
     }
 }

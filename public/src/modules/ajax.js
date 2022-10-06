@@ -45,6 +45,15 @@ export default class Req {
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 
+    makeDRequest = (url, options) => {
+        const f = fetch(url, options);
+        console.log(f);
+        return f.then((response) => {
+            console.log(response);
+            response.then((data) => [response.status, data])
+        });
+    };
+
     makeDeleteRequest = async (url) => {
         const options = {
             method: 'delete',
@@ -56,6 +65,6 @@ export default class Req {
                 'Origin': 'http://89.208.198.137:8081/',
             },
         };
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeDRequest(`${baseURL}:${port}/${url}`, options);
     }
 }

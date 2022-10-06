@@ -37,6 +37,8 @@ export default class MainPage extends BasePage {
             let itemCards = outD.body
             for (key in itemCards){
                 card = itemCards[key]
+                console.log(card);
+                console.log(card["DiscountPrice"]);
                 let discount = 100 - Math.round(card.DiscountPrice/card.Price*100);
                 let newCard = {     
                             imgsrc: card.Imgsrc,
@@ -46,7 +48,7 @@ export default class MainPage extends BasePage {
                             cardTitle: card.Name,
                             rating: card.Rating,
                         };
-                if (discount == 0){newCard.salePrice = null}
+                if (discount === 0){newCard.salePrice = null}
                 let cardID = "salesCard" + String(num)
                 console.log(newCard.imgsrc)
                 this.itemCard = new ItemCard(document.getElementById(cardID));

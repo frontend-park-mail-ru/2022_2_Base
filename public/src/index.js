@@ -281,7 +281,6 @@ window.addEventListener('click', async (event) => {
         event.preventDefault();
         const r = new Req();
         const [status, username] = await r.makeDeleteRequest('api/v1/logout');
-        console.log(status);
 
         if (status === 200) {
             console.log("logout");
@@ -290,7 +289,7 @@ window.addEventListener('click', async (event) => {
             refresh.refreshHeader(config);
             return;
         }
-        console.log("no logout");
+        console.log("no logout: ", status);
     }
 });
 
@@ -298,7 +297,6 @@ window.addEventListener('click', async (event) => {
 const checkSession = async () => {
     const r = new Req();
     const [status, username] = await r.makeGetRequest('api/v1/session');
-    console.log(status);
 
     if (status === 200) {
         console.log("session");
@@ -307,7 +305,7 @@ const checkSession = async () => {
         refresh.refreshHeader(config);
         return;
     }
-    console.log("no session");
+    console.log("no session: ", status);
     config.authorised = false;
 }
 
