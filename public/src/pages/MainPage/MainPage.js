@@ -17,20 +17,7 @@ export default class MainPage extends BasePage {
         );
     }
 
-    async render(context) {
-
-        // const r = new Req();
-        // const [status, photoPath] = await r.makeGetRequest('api/v1/');
-        // console.log(status);
-        //
-        // if (status === 200) {
-        //     console.log("session");
-        //
-        //     return;
-        // }
-        // console.log("no photo");
-
-
+    render(context) {
         let key;
         super.render(context)
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
