@@ -37,6 +37,7 @@ export default class Validation {
         if (data.length < 6) {
             return {status: false, message: 'Должен содержать минимум 6 символов'};
         }
+        return {status: true, message: ''};
     };
 
     validateFields = (username, password) => {
