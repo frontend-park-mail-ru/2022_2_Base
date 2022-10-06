@@ -79,17 +79,16 @@ export default class LoginPage extends BasePage {
                     config.header.main.render(config);
                     break;
                 case 400:
-                    document.getElementById("Error400Message") !== null ?
+                    document.getElementById("Error400Message") === null ?
                         validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
                         : console.log("bad request: ", status);
                     break;
                 case 401:
-                    document.getElementById("emailError") !== null ?
-                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята")
-                        : console.log("no auth: ", status);
+                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
+                    console.log("no auth: ", status);
                     break;
                 default:
-                    document.getElementById("serverErrorMessage") !== null ?
+                    document.getElementById("serverErrorMessage") === null ?
                         validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
                         : console.log("bad request: ", status);
                     break;
