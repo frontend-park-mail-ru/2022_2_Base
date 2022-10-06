@@ -1,8 +1,9 @@
 :root {
     --hover_purple: #3F47D0;
     --pure_white: #FFFFFF;
-    --background-white: #EEEEEE;
+    --background-white: #F9F9F9;
     --purple_disabled: #6369D1;
+    --default_purple: #6369D1;
 }
 
 header {
@@ -143,12 +144,26 @@ header, footer {
     /* display: none; */
     /*display: block;*/
     position: absolute;
-    height: 44px;
+    height: 22px;
     width: 88px;
     border-radius: 10%;
     background-color: rgba(255, 255, 255, 1);
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
     text-align: center;
-    vertical-align: middle;
+    filter: drop-shadow(0px 0px 40px #D6D6D6);
+}
+
+.link {
+    text-decoration: none;
+    color: var(--default_purple);
+}
+
+.link:hover {
+    color: var(--hover_purple);
 }
 
 a.disabled {

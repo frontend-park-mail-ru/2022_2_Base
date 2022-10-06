@@ -1,6 +1,6 @@
 :root {
     --hover_purple: #3F47D0;
-    --background-white: #EEEEEE;
+    --background-white: #F9F9F9;
 }
 
 .form {
@@ -34,6 +34,7 @@
 }
 
 .form__submit {
+    cursor: pointer;
     margin-left: 20px;
     margin-top: 8px;
     width: 360px;
