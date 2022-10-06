@@ -280,8 +280,6 @@ const checkSession = async () => {
     const [status, username] = await r.makeGetRequest('api/v1/session');
     console.log(status);
 
-    alert('WOW');
-
     if (status === 200) {
         console.log("session");
         config.authorised = true;
