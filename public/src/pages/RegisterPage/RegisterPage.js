@@ -76,8 +76,9 @@ export default class RegisterPage extends BasePage {
             const [username, email, password, anotherPassword] = data;
             validation.validateRegFields(username, password, anotherPassword)
             let valRes = validation.getRegFields()
+            console.log("valid", valRes.status)
 
-            if (!valRes) {
+            if (!valRes.status) {
                 // console.log('valres = ', valRes)
                 return
             }

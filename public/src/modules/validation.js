@@ -3,6 +3,13 @@ export default class Validation {
     #valPassword
     #valPasswordsEqual
 
+    constructor() {
+        this.#valEmail =
+            this.#valPassword =
+                this.#valPasswordsEqual =
+                    null;
+    }
+
     getErrorMessage = (target, nameId, message) => {
         const div = document.createElement("div");
         div.id = nameId;
@@ -26,7 +33,7 @@ export default class Validation {
     };
 
     validateEMail = (data) => {
-        const email = /@/;
+        const email = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
         if (!(email).test(data)) {
             return {status: false, message: 'Неверный формат почты'};
         }
@@ -52,19 +59,10 @@ export default class Validation {
     validateRegFields = (username, password, anotherPassword) => {
         this.#valEmail = this.validateEMail(username)
         this.#valPassword = this.validatePassword(password)
-        if (password === anotherPassword) {
-            this.#valPasswordsEqual = true
-        } else {
-            this.#valPasswordsEqual = false
-        }
+        this.#valPasswordsEqual.status = password === anotherPassword;
     }
 
     getRegFields = () => {
-        console.log('em', this.#valEmail.status)
-        console.log('ps', this.#valPassword.status)
-        console.log('ps2', this.#valPasswordsEqual)
-
-
-        return this.#valEmail.status && this.#valPassword.status && this.#valPasswordsEqual
+        return this.#valEmail.status && this.#valPassword.status && this.#valPasswordsEqual.status
     }
 };

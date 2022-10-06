@@ -68,7 +68,7 @@ export default class LoginPage extends BasePage {
 
             validation.validateFields(email, password)
             let valRes = validation.getFields()
-            //console.log(valRes.status)
+            console.log("valid", valRes.status)
 
             if (!valRes.status) {
                 return
