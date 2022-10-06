@@ -211,8 +211,6 @@ const config = {
 window.addEventListener('click', async (event) => {
     const {target} = event;
 
-    console.log(config.authorised);
-
     let href = target.getAttribute("href");
 
     if (href === null) {

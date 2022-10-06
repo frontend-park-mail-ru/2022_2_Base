@@ -72,19 +72,27 @@ export default class RegisterPage extends BasePage {
             });
 
             //  timing email
-            const password = data[2];
-            const username = data[1].trim();
+            data[1] = data[1].trim();
+            const [name, email, password] = data;
 
             const r = new Req();
-            const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
+            const [status, outD] = await r.makePostRequest('api/v1/signup', {password, email, name});
 
-            if (status === 201) {
-                console.log("auth");
-                config.authorised = true;
-                config.header.main.render(config);
-                return;
+            switch (status) {
+                case 201:
+                    console.log("auth");
+                    config.authorised = true;
+                    config.header.main.render(config);
+                    break;
+                case 400:
+                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
+                    console.log("bad request: ", status);
+                    break;
+                case 401:
+                    validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
+                    console.log("no auth: ", status);
+                    break;
             }
-            console.log("no auth: ", status);
         });
     }
 }
