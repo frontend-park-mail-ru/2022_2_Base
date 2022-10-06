@@ -208,50 +208,8 @@ const config = {
     authorised: false,
 };
 
-// const getErrorMessage = (target) => {
-//     const div = document.createElement("div");
-//     const span = document.createElement("span");
-//     div.appendChild(span);
-//     div.classList.add('input-field-error');
-//     span.classList.add('input-field-error__text');
-//     span.innerHTML = "Wrong password";
-//     target.after(div);
-// }
-
-// const createProfileIconListener = (event) => {
-//     const profileIcon = root.querySelector(`.header__profile`);
-//     profileIcon.addEventListener('mouseover', getProfileIconListenerHandler)
-// }
-//
-// const getProfileIconListenerHandler = async (event) => {
-//     const {target} = event;
-//     root.querySelector(`.profile__pop-up`).style.display = 'block';
-// }
-
 window.addEventListener('click', async (event) => {
     const {target} = event;
-    //event.preventDefault();
-    // const r = new Req();
-    // const [status, username] = await r.makeGetRequest('api/v1/session');
-    // console.log(status);
-    //
-    // if (status === 200) {
-    //     console.log("session");
-    //     config.authorised = true;
-    //     return;
-    // }
-    // config.authorised = false;
-    // console.log("no session");
-
-    //event.preventDefault();
-
-    // console.log("auth: ", config.authorised);
-
-    // if (config.authorised === false) {
-    //     root.querySelector(`.profile__pop-up`).style.display = 'none';
-    // }
-
-    console.log(config.authorised);
 
     let href = target.getAttribute("href");
 
@@ -262,18 +220,7 @@ window.addEventListener('click', async (event) => {
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
-
-            // if (config.authorised) {
-            //     root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);
-            // }
-            //root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandlerOut);
-
             config.header[page].render(config)
-
-            // if (config.authorised) {
-            //     createProfileIconListener();
-            // }
-            //createProfileIconListenerOut();
         }
     });
 
@@ -281,7 +228,6 @@ window.addEventListener('click', async (event) => {
         event.preventDefault();
         const r = new Req();
         const [status, username] = await r.makeDeleteRequest('api/v1/logout');
-        console.log(status);
 
         if (status === 200) {
             console.log("logout");
@@ -290,7 +236,7 @@ window.addEventListener('click', async (event) => {
             refresh.refreshHeader(config);
             return;
         }
-        console.log("no logout");
+        console.log("no logout: ", status);
     }
 });
 
@@ -298,7 +244,6 @@ window.addEventListener('click', async (event) => {
 const checkSession = async () => {
     const r = new Req();
     const [status, username] = await r.makeGetRequest('api/v1/session');
-    console.log(status);
 
     if (status === 200) {
         console.log("session");
@@ -307,15 +252,9 @@ const checkSession = async () => {
         refresh.refreshHeader(config);
         return;
     }
-    console.log("no session");
+    console.log("no session: ", status);
     config.authorised = false;
 }
 
 window.addEventListener('load', checkSession, {once: true});
 config.header.main.render(config);
-
-//config.header.login.render(config);
-// if (config.authorised) {
-//     createProfileIconListener();
-// }
-// createProfileIconListenerOut();

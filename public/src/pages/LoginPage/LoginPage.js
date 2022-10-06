@@ -29,6 +29,7 @@ export default class LoginPage extends BasePage {
 
         const form = document.getElementById('login-form');
         const fields = context.fields;
+        document.getElementById(fields.email.name).focus();
 
         form.addEventListener("focusout", (event, isDataValid) => {
             const validation = new Val();
@@ -55,34 +56,47 @@ export default class LoginPage extends BasePage {
 
         form.addEventListener('submit', async (event) => {
             let data = [];
+            const validation = new Val();
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
-                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
+                const element = form.querySelector(`[name=${fields[page].name}]`)
+                element.focus();
+                element.blur();
+                data.push(element.value);
             });
-
-            // console.log(data);
-            // const validation = new Val();
-            // const st1 = validation.validateEMail(data[0]) === undefined ? true : validation.validateEMail(data[0]).status;
-            // const st2 = validation.validatePassword(data[1]) === undefined ? true : validation.validateEMail(data[0]).status;
-            // console.log(st1 && st2);
 
             // timing email
             data[0] = data[0].trim();
-            const [username, password] = data;
-            console.log(password);
-            console.log(username);
+            const [email, password] = data;
 
-            const r = new Req();
-            const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
-            console.log(status);
+            console.log("credentials valid", validation.validateRegFields(email, password))
+            if (validation.validateRegFields(email, password)) {
+                const r = new Req();
+                const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
 
-            if (status === 201) {
-                console.log("auth");
-                config.authorised = true;
-                config.header.main.render(config);
-                return;
+                switch (status) {
+                    case 201:
+                        console.log("auth");
+                        config.authorised = true;
+                        config.header.main.render(config);
+                        break;
+                    case 400:
+                        document.getElementById("Error400Message") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
+                            : console.log("bad request: ", status);
+                        break;
+                    case 401:
+                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
+                        validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
+                        console.log("no auth: ", status);
+                        break;
+                    default:
+                        document.getElementById("serverErrorMessage") === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
+                            : console.log("server error: ", status);
+                        break;
+                }
             }
-            console.log("no auth");
         });
     }
 }

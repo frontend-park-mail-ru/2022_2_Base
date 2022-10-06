@@ -97,7 +97,7 @@ item-card__bottom:disabled {
 
 .item-card {
     display: grid;
-    grid-template-rows: 1fr 40px;
+    grid-template-rows: 220px 50px 40px;
     grid-gap: 5px;
     width: 160px;
     height: 312px;
