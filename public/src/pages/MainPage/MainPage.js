@@ -30,49 +30,51 @@ export default class MainPage extends BasePage {
         const r = new Req();
         const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
 
-        if(status === 200){
+        if (status === 200) {
             let key;
             let card;
             let num = 1;
             let itemCards = outD.body
-            for (key in itemCards){
+            for (key in itemCards) {
                 card = itemCards[key]
                 console.log(card);
-                console.log(card["DiscountPrice"]);
-                let discount = 100 - Math.round(card.DiscountPrice/card.Price*100);
-                let newCard = {     
-                            imgsrc: card.Imgsrc,
-                            discount: discount,
-                            price: card.DiscountPrice,
-                            salePrice: card.Price,
-                            cardTitle: card.Name,
-                            rating: card.Rating,
-                        };
-                if (discount === 0){newCard.salePrice = null}
+                console.log(card["lowprice"]);
+                let discount = 100 - Math.round(card.lowprice / card.price * 100);
+                let newCard = {
+                    imgsrc: card.imgsrc,
+                    discount: discount,
+                    price: card.price,
+                    salePrice: card.lowprice,
+                    cardTitle: card.name,
+                    rating: card.rating,
+                };
+                if (discount === 0) {
+                    newCard.salePrice = null
+                }
                 let cardID = "salesCard" + String(num)
                 console.log(newCard.imgsrc)
                 this.itemCard = new ItemCard(document.getElementById(cardID));
                 this.itemCard.render(newCard);
-                num ++;
+                num++;
             }
             num = 1;
 
-            for (key in itemCards){
+            for (key in itemCards) {
                 card = itemCards[key]
-                let discount = 100 - Math.round(card.DiscountPrice/card.Price*100);
-                let newCard = {     
-                            imgsrc: card.Imgsrc,
-                            discount: discount,
-                            price: card.DiscountPrice,
-                            salePrice: card.Price,
-                            cardTitle: card.Name,
-                            rating: card.Rating,
-                        };
+                let discount = 100 - Math.round(card.DiscountPrice / card.Price * 100);
+                let newCard = {
+                    imgsrc: card.Imgsrc,
+                    discount: discount,
+                    price: card.DiscountPrice,
+                    salePrice: card.Price,
+                    cardTitle: card.Name,
+                    rating: card.Rating,
+                };
                 let cardID = "popularCard" + String(num)
                 this.itemCard = new ItemCard(document.getElementById(cardID));
                 this.itemCard.render(newCard);
-                num ++;
+                num++;
             }
-        } 
+        }
     }
 }
