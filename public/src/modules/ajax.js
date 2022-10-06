@@ -11,7 +11,7 @@ export default class Req {
 
     makeRequest = (url, options) => {
         return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]))
-            .catch((error) => [response.status, error]);
+            .catch((error) => [error, null]);
     };
 
 
