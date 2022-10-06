@@ -23,33 +23,33 @@
 <div class="header__right">
     <div class="header__order">
         <a href="" class="disabled">
-            <img src="./img/Orders.svg" alt="LOGO">
+            <img src="./img/Orders.svg" alt="Orders">
         </a>
     </div>
     <div class="header__favourites">
         <a href="" class="disabled">
-            <img src="./img/Favourites.svg" alt="LOGO">
+            <img src="./img/Favourites.svg" alt="Favourites">
         </a>
     </div>
     <div class="header__card">
         <a href="" class="disabled">
-            <img src="img/Cart.svg" alt="LOGO">
+            <img src="img/Cart.svg" alt="Cart">
         </a>
     </div>
 
     <div class="header__profile">
         {{#if session}}
-            <a href="/logout">
-                <img src="./img/Profile.svg" alt="LOGO">
+            <a href="">
+                <img src="./img/Profile.svg" alt="Profile">
             </a>
             <div class="profile__pop-up">
                 <a href="/logout">
-                    <span>Выйти</span>
+                    <img src="./img/LogOut.svg" class="profile__logout" alt="LogOut">
                 </a>
             </div>
         {{else}}
             <a href="/login">
-                <img src="./img/Profile.svg" alt="LOGO">
+                <img src="./img/ProfileLogIn.svg" alt="LogIn">
             </a>
         {{/if}}
     </div>

@@ -140,15 +140,28 @@ header, footer {
 }
 
 .profile__pop-up {
-    /* display: none; */
-    /*display: block;*/
+    display: none;
     position: absolute;
     height: 44px;
     width: 88px;
-    border-radius: 10%;
+    margin-top: 14px;
+    border-radius: 15%;
     background-color: rgba(255, 255, 255, 1);
     text-align: center;
     vertical-align: middle;
+    z-index: 1;
+}
+
+.profile__pop-up::after {
+    content: ''; 
+    position: absolute; /* Абсолютное позиционирование */
+    left: 34px; bottom: 100%; /* Положение треугольника */
+    border: 12px solid transparent; /* Прозрачные границы */
+    border-bottom: 10px solid rgba(255, 255, 255, 1);
+}
+
+.profile__logout {
+    margin-top: 10px;
 }
 
 a.disabled {
