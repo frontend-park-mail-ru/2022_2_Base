@@ -29,6 +29,7 @@ export default class LoginPage extends BasePage {
 
         const form = document.getElementById('login-form');
         const fields = context.fields;
+        document.getElementById(fields.email.name).focus();
 
         form.addEventListener("focusout", (event, isDataValid) => {
             const validation = new Val();

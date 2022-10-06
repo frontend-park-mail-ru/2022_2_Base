@@ -29,6 +29,7 @@ export default class RegisterPage extends BasePage {
 
         const form = document.getElementById('signup__form');
         const fields = context.fields;
+        document.getElementById(fields.email.name).focus();
         let data = [];
 
         form.addEventListener("focusout", async (event) => {
