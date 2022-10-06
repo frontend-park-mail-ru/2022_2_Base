@@ -27,20 +27,20 @@ export default class MainPage extends BasePage {
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
-        const headerProfile = document.querySelector('.header__profile');
-        headerProfile.addEventListener("mouseover", async (event) => {
-            if (context.authorised === true) {
+        if (context.authorised === true) {
+            const headerProfile = document.querySelector('.header__profile');
+            headerProfile.addEventListener("mouseover", async (event) => {
+
                 const headerPopUp = document.querySelector('.profile__pop-up');
                 headerPopUp.style.display = 'block';
-            }
-        });
 
-        headerProfile.addEventListener("mouseout", async (event) => {
-            if (context.authorised === true) {
+            });
+
+            headerProfile.addEventListener("mouseout", async (event) => {
                 const headerPopUp = document.querySelector('.profile__pop-up');
                 headerPopUp.style.display = 'none';
-            }
-        });
+            });
+        }
 
         const r = new Req();
         const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
