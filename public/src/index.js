@@ -273,6 +273,19 @@ window.addEventListener('click', async (event) => {
             //createProfileIconListenerOut();
         }
     });
+
+    if (href === '/logout') {
+        const r = new Req();
+        const [status, username] = await r.makeDeleteRequest('api/v1/logout');
+        console.log(status);
+
+        if (status === 200) {
+            console.log("logout");
+            config.authorised = false;
+            return;
+        }
+        console.log("no logout");
+    }
 });
 
 const checkSession = async () => {

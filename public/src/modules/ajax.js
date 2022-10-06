@@ -41,7 +41,21 @@ export default class Req {
             },
             body: JSON.stringify(data),
         };
-       // console.log(`${baseURL}:${port}/${url}`);
+        // console.log(`${baseURL}:${port}/${url}`);
+        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+    }
+
+    makeDeleteRequest = async (url) => {
+        const options = {
+            method: 'delete',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'Origin': 'http://89.208.198.137:8081/',
+            },
+        };
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 }
