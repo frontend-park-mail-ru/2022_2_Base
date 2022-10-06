@@ -58,7 +58,10 @@ export default class LoginPage extends BasePage {
             const validation = new Val();
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
-                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
+                const element = form.querySelector(`[name=${fields[page].name}]`)
+                element.focus();
+                element.blur();
+                data.push(element.value);
             });
 
             // timing email
