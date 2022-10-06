@@ -10,7 +10,9 @@ export default class Req {
     }
 
     makeRequest = (url, options) => {
-        return fetch(url, options).then((response) => response.json().then(() => [response.status, response.text()]));
+        const f = fetch(url, options);
+        console.log(f);
+        return f.then((response) => response.json().then((data) => [response.status, data]));
     };
 
 
@@ -44,14 +46,14 @@ export default class Req {
         return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 
-    makeDRequest = (url, options) => {
-        const f = fetch(url, options);
-        console.log(f);
-        return f.then((response) => {
-            console.log(response);
-            response.then(() => response.status)
-        });
-    };
+    // makeDRequest = (url, options) => {
+    //     const f = fetch(url, options);
+    //     console.log(f);
+    //     return f.then((response) => {
+    //         console.log(response);
+    //         response.then(() => response.status)
+    //     });
+    // };
 
     makeDeleteRequest = async (url) => {
         const options = {
@@ -64,6 +66,6 @@ export default class Req {
                 'Origin': 'http://89.208.198.137:8081/',
             },
         };
-        return this.makeDRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
     }
 }
