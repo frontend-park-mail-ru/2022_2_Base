@@ -19,7 +19,8 @@ export default class Header {
         this.#data = value
     }
 
-    render(session) {
+    render(sessionValue) {
+        const session = {session: sessionValue};
         this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Header.hbs'](session));
     }
 }

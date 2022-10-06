@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
 import Req from "./modules/ajax.js";
+import RefreshEl from "./modules/refreshElements.js";
 
 const root = document.getElementById('root');
 
@@ -285,11 +286,14 @@ window.addEventListener('click', async (event) => {
         if (status === 200) {
             console.log("logout");
             config.authorised = false;
+            const refresh = new RefreshEl();
+            refresh.refreshHeader(config);
             return;
         }
         console.log("no logout");
     }
 });
+
 
 const checkSession = async () => {
     const r = new Req();
@@ -299,6 +303,8 @@ const checkSession = async () => {
     if (status === 200) {
         console.log("session");
         config.authorised = true;
+        const refresh = new RefreshEl();
+        refresh.refreshHeader(config);
         return;
     }
     console.log("no session");
