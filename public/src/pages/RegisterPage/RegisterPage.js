@@ -88,7 +88,6 @@ export default class RegisterPage extends BasePage {
                 return;
             }
             console.log("no auth");
-
         });
     }
 }

@@ -275,6 +275,7 @@ window.addEventListener('click', async (event) => {
     });
 
     if (href === '/logout') {
+        event.preventDefault();
         const r = new Req();
         const [status, username] = await r.makeDeleteRequest('api/v1/logout');
         console.log(status);
