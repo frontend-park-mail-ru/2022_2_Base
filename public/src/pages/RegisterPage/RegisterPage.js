@@ -62,7 +62,7 @@ export default class RegisterPage extends BasePage {
 
                 if (fields[page].name === "repeat_password") {
                     if (data[data.length - 1] !== data[data.length - 2]) {
-                        validation.getErrorMessage(form.getElementById(event.target.name), "repeatPasswordError", "Введенные пароли не совпадают");
+                        validation.getErrorMessage(document.getElementById(event.target.name), "repeatPasswordError", "Введенные пароли не совпадают");
                     } else {
                         if (document.getElementById("repeatPasswordError") !== null) {
                             document.getElementById("repeatPasswordError").remove();
@@ -74,7 +74,6 @@ export default class RegisterPage extends BasePage {
             //  timing email
             data[1] = data[1].trim();
             const [username, email, password, anotherPassword] = data;
-
             validation.validateRegFields(username, password, anotherPassword)
             let valRes = validation.getRegFields()
 
