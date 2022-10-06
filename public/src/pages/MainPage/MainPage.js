@@ -36,7 +36,7 @@ export default class MainPage extends BasePage {
             let num = 1;
             let itemCards = outD.body
             for (key in itemCards){
-                card = itemCards.body[key]
+                card = itemCards[key]
                 let discount = 100 - Math.round(card.DiscountPrice/card.Price*100);
                 let newCard = {     
                             imgsrc: card.Imgsrc,
@@ -56,7 +56,7 @@ export default class MainPage extends BasePage {
             num = 1;
 
             for (key in itemCards){
-                card = itemCards.body[key]
+                card = itemCards[key]
                 let discount = 100 - Math.round(card.DiscountPrice/card.Price*100);
                 let newCard = {     
                             imgsrc: card.Imgsrc,
