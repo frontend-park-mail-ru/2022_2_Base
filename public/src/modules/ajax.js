@@ -10,8 +10,7 @@ export default class Req {
     }
 
     makeRequest = (url, options) => {
-        //console.log(fetch(url, options));
-        return fetch(url, options).then((response) => response.json().then((data) => [response.status, data]));
+        return fetch(url, options).then((response) => response.json().then(() => [response.status, response.text()]));
     };
 
 
@@ -50,7 +49,7 @@ export default class Req {
         console.log(f);
         return f.then((response) => {
             console.log(response);
-            response.then((data) => [response.status, data])
+            response.then(() => response.status)
         });
     };
 

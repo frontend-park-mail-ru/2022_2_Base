@@ -37,8 +37,6 @@ export default class MainPage extends BasePage {
             let itemCards = outD.body
             for (key in itemCards) {
                 card = itemCards[key]
-                console.log(card);
-                console.log(card["lowprice"]);
                 let discount = 100 - Math.round(card.lowprice / card.price * 100);
                 let newCard = {
                     imgsrc: card.imgsrc,
@@ -52,7 +50,6 @@ export default class MainPage extends BasePage {
                     newCard.salePrice = null
                 }
                 let cardID = "salesCard" + String(num)
-                console.log(newCard.imgsrc)
                 this.itemCard = new ItemCard(document.getElementById(cardID));
                 this.itemCard.render(newCard);
                 num++;
@@ -61,14 +58,14 @@ export default class MainPage extends BasePage {
 
             for (key in itemCards) {
                 card = itemCards[key]
-                let discount = 100 - Math.round(card.DiscountPrice / card.Price * 100);
+                let discount = 100 - Math.round(card.lowprice / card.price * 100);
                 let newCard = {
-                    imgsrc: card.Imgsrc,
+                    imgsrc: card.imgsrc,
                     discount: discount,
-                    price: card.DiscountPrice,
-                    salePrice: card.Price,
-                    cardTitle: card.Name,
-                    rating: card.Rating,
+                    price: card.lowprice,
+                    salePrice: card.price,
+                    cardTitle: card.name,
+                    rating: card.rating,
                 };
                 let cardID = "popularCard" + String(num)
                 this.itemCard = new ItemCard(document.getElementById(cardID));
