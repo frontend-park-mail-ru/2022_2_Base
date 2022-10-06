@@ -83,6 +83,10 @@ export default class LoginPage extends BasePage {
                     validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
                     console.log("no auth: ", status);
                     break;
+                default:
+                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
+                    console.log("bad request: ", status);
+                    break;
             }
         });
     }

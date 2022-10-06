@@ -92,6 +92,10 @@ export default class RegisterPage extends BasePage {
                     validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Почта уже занята");
                     console.log("no auth: ", status);
                     break;
+                default:
+                    validation.getServerMessage(document.getElementById('inForm'), null, "Ошибка сервера");
+                    console.log("bad request: ", status);
+                    break;
             }
         });
     }
