@@ -36,13 +36,13 @@ export default class MainPage extends BasePage {
             let num = 1;
             let itemCards = outD.body
             for (key in itemCards) {
-                card = itemCards[key]
+                card = itemCards[key];
                 let discount = 100 - Math.round(card.lowprice / card.price * 100);
                 let newCard = {
                     imgsrc: card.imgsrc,
                     discount: discount,
-                    price: card.price,
-                    salePrice: card.lowprice,
+                    price: card.lowprice,
+                    salePrice: card.price,
                     cardTitle: card.name,
                     rating: card.rating,
                 };
@@ -57,13 +57,12 @@ export default class MainPage extends BasePage {
             num = 1;
 
             for (key in itemCards) {
-                card = itemCards[key]
-                let discount = 100 - Math.round(card.lowprice / card.price * 100);
+                card = itemCards[key];
                 let newCard = {
                     imgsrc: card.imgsrc,
-                    discount: discount,
+                    discount: null,
                     price: card.lowprice,
-                    salePrice: card.price,
+                    salePrice: null,
                     cardTitle: card.name,
                     rating: card.rating,
                 };
