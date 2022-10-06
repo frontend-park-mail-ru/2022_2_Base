@@ -227,7 +227,7 @@ const config = {
 
 window.addEventListener('click', async (event) => {
     const {target} = event;
-    event.preventDefault();
+    //event.preventDefault();
     // const r = new Req();
     // const [status, username] = await r.makeGetRequest('api/v1/session');
     // console.log(status);
@@ -257,7 +257,7 @@ window.addEventListener('click', async (event) => {
 
     Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
-            //event.preventDefault();
+            event.preventDefault();
 
             // if (config.authorised) {
             //     root.querySelector(`.header__profile`).removeEventListener('mouseover', getProfileIconListenerHandler);

@@ -31,8 +31,6 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         let data = [];
 
-        let isDataValid = false;
-
         form.addEventListener("focusout", async (event) => {
             const validation = new Val();
 
@@ -41,19 +39,15 @@ export default class RegisterPage extends BasePage {
                     const valEmail = validation.validateEMail(event.target.value);
                     if (valEmail !== undefined && valEmail.message !== '') {
                         validation.getErrorMessage(document.getElementById(event.target.name), "emailError", valEmail.message);
-                        isDataValid = false;
                     } else if (document.getElementById("emailError") !== null) {
-                        isDataValid = true;
                         document.getElementById("emailError").remove();
                     }
                     break;
                 case "password":
                     const valPassword = validation.validatePassword(event.target.value);
                     if (valPassword !== undefined && valPassword.message !== '') {
-                        isDataValid = false;
                         validation.getErrorMessage(document.getElementById(event.target.name), "passwordError", valPassword.message);
                     } else if (document.getElementById("passwordError") !== null) {
-                        isDataValid = true;
                         document.getElementById("passwordError").remove();
                     }
                     break;
@@ -65,40 +59,37 @@ export default class RegisterPage extends BasePage {
             const validation = new Val();
             Object.keys(fields).forEach(function (page) {
                 event.preventDefault();
-                data.push(form.getElementById(event.target.name).value);
+                data.push(document.getElementById(event.target.name).value);
 
                 if (fields[page].name === "repeat_password") {
                     if (data[data.length - 1] !== data[data.length - 2]) {
-                        isDataValid = false;
                         validation.getErrorMessage(form.getElementById(event.target.name), "repeatPasswordError", "Введенные пароли не совпадают");
                     } else {
                         if (document.getElementById("repeatPasswordError") !== null) {
-                            isDataValid = true;
                             document.getElementById("repeatPasswordError").remove();
                         }
                     }
                 }
             });
 
-            if (isDataValid) {
-                //  timing email
-                const password = data[2];
-                const username = data[1].trim();
-                console.log(password);
-                console.log(username);
+            //  timing email
+            const password = data[2];
+            const username = data[1].trim();
+            console.log(password);
+            console.log(username);
 
-                const r = new Req();
-                const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
-                console.log(status);
+            const r = new Req();
+            const [status, outD] = await r.makePostRequest('api/v1/signup', {password, username});
+            console.log(status);
 
-                if (status === 201) {
-                    console.log("auth");
-                    config.authorised = true;
-                    config.header.main.render(config);
-                    return;
-                }
-                console.log("no auth");
+            if (status === 201) {
+                console.log("auth");
+                config.authorised = true;
+                config.header.main.render(config);
+                return;
             }
+            console.log("no auth");
+
         });
     }
 }

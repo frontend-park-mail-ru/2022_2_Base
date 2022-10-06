@@ -30,63 +30,58 @@ export default class LoginPage extends BasePage {
         const form = document.getElementById('login-form');
         const fields = context.fields;
 
-        let isDataValid = false;
-
-        form.addEventListener("focusout", async (event) => {
+        form.addEventListener("focusout", (event, isDataValid) => {
             const validation = new Val();
-
+            const submitButton = document.getElementById('submit-result');
             switch (event.target.name) {
                 case "email":
                     const valEmail = validation.validateEMail(event.target.value);
                     if (valEmail !== undefined && valEmail.message !== '') {
-                        isDataValid = false;
                         validation.getErrorMessage(document.getElementById(event.target.name), "emailError", valEmail.message);
                     } else if (document.getElementById("emailError") !== null) {
                         document.getElementById("emailError").remove();
-                        isDataValid = true;
                     }
                     break;
                 case "password":
                     const valPassword = validation.validatePassword(event.target.value);
                     if (valPassword !== undefined && valPassword.message !== '') {
-                        isDataValid = true;
                         validation.getErrorMessage(document.getElementById(event.target.name), "passwordError", valPassword.message);
                     } else if (document.getElementById("passwordError") !== null) {
-                        isDataValid = false;
                         document.getElementById("passwordError").remove();
                     }
                     break;
             }
         });
 
-        let data = [];
         form.addEventListener('submit', async (event) => {
+            let data = [];
             event.preventDefault();
             Object.keys(fields).forEach(function (page) {
-                event.preventDefault();
-                console.log(form.getAttribute(fields[page].name));
-                data.push(form.getElementById(name).value);
-                // console.log(context[page]);
+                data.push(form.querySelector(`[name=${fields[page].name}]`).value);
             });
 
-            if (isDataValid) {
-                // timing email
-                data[0] = data[0].trim();
-                const [password, username] = data;
-                console.log(data);
+            // console.log(data);
+            // const validation = new Val();
+            // const st1 = validation.validateEMail(data[0]) === undefined ? true : validation.validateEMail(data[0]).status;
+            // const st2 = validation.validatePassword(data[1]) === undefined ? true : validation.validateEMail(data[0]).status;
+            // console.log(st1 && st2);
 
-                const r = new Req();
-                const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
-                console.log(status);
+            // timing email
+            data[0] = data[0].trim();
+            const [password, username] = data;
+            console.log(data);
 
-                if (status === 201) {
-                    console.log("auth");
-                    config.authorised = true;
-                    config.header.main.render(config);
-                    return;
-                }
-                console.log("no auth");
+            const r = new Req();
+            const [status, outD] = await r.makePostRequest('api/v1/login', {password, username});
+            console.log(status);
+
+            if (status === 201) {
+                console.log("auth");
+                config.authorised = true;
+                config.header.main.render(config);
+                return;
             }
+            console.log("no auth");
         });
     }
 }
