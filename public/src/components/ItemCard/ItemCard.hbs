@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="./src/components/ItemCard/ItemCard.css" type="text/css">
 
-<a href="" class="item-card__top">
+<a href="" class="item-card__top disabled">
     <div class="text-normal-small content__sales-image">
         <img src="./img/items_photo/iPhone.png" alt="iPhone 13">
         {{#if this.salePrice}}
@@ -26,9 +26,9 @@
 </a>
 
 <div class="item-card__bottom">
-    <button type="button" class="button-default button_add-to-card">В корзину
+    <button type="button" class="button-default button_add-to-card paint-purple-disabled" >В корзину
     </button>
-    <button type="button" class="item-card__rating">
+    <button type="button" class="item-card__rating" disabled>
         <img src="img/Star.svg" alt="S" class="rating-icon">
         <span class="text-normal-default-bold">
             {{rating}}

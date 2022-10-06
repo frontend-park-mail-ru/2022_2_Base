@@ -42,12 +42,20 @@
     text-decoration: none;
 }
 
+.item-card__top:disabled {
+    opacity: 40%;
+}
+
 .item-card__top:visited {
     color: inherit;
 }
 
 .item-card__bottom {
     justify-content: flex-end;
+}
+
+item-card__bottom:disabled {
+    opacity: 40%;
 }
 
 .inactiveLink {
