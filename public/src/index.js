@@ -240,7 +240,6 @@ window.addEventListener('click', async (event) => {
     }
 });
 
-
 const checkSession = async () => {
     const r = new Req();
     const [status, username] = await r.makeGetRequest('api/v1/session');
@@ -257,4 +256,5 @@ const checkSession = async () => {
 }
 
 window.addEventListener('load', checkSession, {once: true});
+console.log("auth: ", config.authorised)
 config.header.main.render(config);
