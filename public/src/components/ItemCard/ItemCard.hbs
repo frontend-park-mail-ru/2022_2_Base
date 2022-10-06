@@ -2,17 +2,19 @@
 
 <a href="" class="item-card__top disabled">
     <div class="text-normal-small content__sales-image">
-        <img src="./img/items_photo/iPhone.png" alt="iPhone 13">
-        {{#if this.salePrice}}
+        <img src={{imgsrc}} style="max-height:100%; max-width:100%" alt="iPhone 13">
+        {{#if salePrice}}
             <div class="content__sales-value">
-                12%
+               -{{discount}}%
             </div>
         {{/if}}
     </div>
 
-    <div class="item-card__textbox">
+</a>
+
+ <div class="item-card__textbox">
                 <span class="text-normal-large">
-                    {{this.price}}₽
+                    {{price}}₽
                 </span>
         {{#if salePrice}}
             <span class="text-normal-default item-card__text-strikethrough">
@@ -23,7 +25,6 @@
             {{cardTitle}}
         </span>
     </div>
-</a>
 
 <div class="item-card__bottom">
     <button type="button" class="button-default button_add-to-card paint-purple-disabled" >В корзину
