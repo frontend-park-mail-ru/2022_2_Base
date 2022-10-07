@@ -1,4 +1,4 @@
-import '../templates.js'
+import '../templates.js';
 
 export default class Header {
     #parent;
@@ -8,6 +8,6 @@ export default class Header {
     }
 
     render() {
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Footer.hbs']());
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['footer.hbs']());
     }
 }

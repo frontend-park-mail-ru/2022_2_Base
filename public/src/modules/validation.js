@@ -1,10 +1,10 @@
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegex = /@/;
 
 export default class Validation {
     getErrorMessage = (target, nameId, message) => {
-        const div = document.createElement("div");
+        const div = document.createElement('div');
         div.id = nameId;
-        const span = document.createElement("span");
+        const span = document.createElement('span');
         div.appendChild(span);
         div.classList.add('input-field-error');
         span.classList.add('input-field-error__text');
@@ -13,9 +13,9 @@ export default class Validation {
     };
 
     getServerMessage = (target, nameId, message) => {
-        const div = document.createElement("div");
+        const div = document.createElement('div');
         div.id = nameId;
-        const span = document.createElement("span");
+        const span = document.createElement('span');
         div.appendChild(span);
         div.classList.add('server-error');
         span.classList.add('server-error__text');
@@ -40,5 +40,5 @@ export default class Validation {
     validateRegFields = (email, password, anotherPassword = password) => {
         return ((password === anotherPassword) && (this.validateEMail(email).status) &&
             (this.validatePassword(password).status));
-    }
+    };
 };

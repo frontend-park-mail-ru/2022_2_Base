@@ -21,7 +21,7 @@ export default class Req {
             headers: this.#headers,
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
-    }
+    };
 
     makePostRequest = async (url, data) => {
         const options = {
@@ -32,7 +32,7 @@ export default class Req {
             body: JSON.stringify(data),
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
-    }
+    };
 
     makeDeleteRequest = async (url) => {
         const options = {
@@ -42,5 +42,5 @@ export default class Req {
             headers: this.#headers,
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
-    }
+    };
 }

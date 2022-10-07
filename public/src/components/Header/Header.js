@@ -1,4 +1,4 @@
-import '../templates.js'
+import '../templates.js';
 
 export default class Header {
     #parent;
@@ -9,6 +9,7 @@ export default class Header {
 
     render(sessionValue) {
         const session = {session: sessionValue};
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Header.hbs'](session));
+        this.#parent.insertAdjacentHTML('afterbegin',
+            window.Handlebars.templates['header.hbs'](session));
     }
 }

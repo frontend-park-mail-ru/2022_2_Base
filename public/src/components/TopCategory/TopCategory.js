@@ -1,4 +1,4 @@
-import '../templates.js'
+import '../templates.js';
 
 export default class TopCategory {
     #parent;
@@ -9,7 +9,7 @@ export default class TopCategory {
 
     render(context) {
         this.#parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates['TopCategory.hbs'](this.prepareCategory(context)));
+            window.Handlebars.templates['topCategory.hbs'](this.prepareCategory(context)));
     }
 
     prepareCategory(context) {

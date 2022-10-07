@@ -1,4 +1,4 @@
-import '../templates.js'
+import '../templates.js';
 
 export default class ItemCard {
     #parent;
@@ -8,6 +8,7 @@ export default class ItemCard {
     }
 
     render(context) {
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['ItemCard.hbs'](context));
+        this.#parent.insertAdjacentHTML('afterbegin',
+            window.Handlebars.templates['itemCard.hbs'](context));
     }
 }

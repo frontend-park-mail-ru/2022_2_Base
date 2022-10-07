@@ -37,7 +37,8 @@ export default class RegisterPage extends BasePage {
             case 'email':
                 const valEmail = validation.validateEMail(event.target.value);
                 if (valEmail !== undefined && !valEmail.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
+                    validation.getErrorMessage(document.getElementById(event.target.name),
+                        'emailError', valEmail.message);
                 } else if (!document.getElementById('emailError')) {
                     document.getElementById('emailError').remove();
                 }
@@ -45,7 +46,8 @@ export default class RegisterPage extends BasePage {
             case 'password':
                 const valPassword = validation.validatePassword(event.target.value);
                 if (valPassword !== undefined && !valPassword.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
+                    validation.getErrorMessage(document.getElementById(event.target.name),
+                        'passwordError', valPassword.message);
                 } else if (!document.getElementById('passwordError')) {
                     document.getElementById('passwordError').remove();
                 }
@@ -62,7 +64,8 @@ export default class RegisterPage extends BasePage {
                 data.push(element.value);
             });
             if (data[data.length - 1] !== data[data.length - 2]) {
-                validation.getErrorMessage(document.getElementById(fields.repeatPassword.name), 'repeatPasswordError', 'Введенные пароли не совпадают');
+                validation.getErrorMessage(document.getElementById(fields.repeatPassword.name),
+                    'repeatPasswordError', 'Введенные пароли не совпадают');
             } else {
                 if (document.getElementById('repeatPasswordError') !== null) {
                     document.getElementById('repeatPasswordError').remove();
@@ -73,10 +76,10 @@ export default class RegisterPage extends BasePage {
             data[1] = data[1].trim();
             const [username, email, password, anotherPassword] = data;
 
-            console.log('credentials valid', validation.validateRegFields(email, password, anotherPassword));
             if (validation.validateRegFields(email, password, anotherPassword)) {
                 const r = new Req();
-                const [status, outD] = await r.makePostRequest('api/v1/signup', {password, email, username});
+                const {status} = await r.makePostRequest('api/v1/signup',
+                    {password, email, username});
 
                 switch (status) {
                 case 201:
@@ -88,16 +91,19 @@ export default class RegisterPage extends BasePage {
                     break;
                 case 400:
                     document.getElementById('Error400Message') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'), 'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                        validation.getServerMessage(document.getElementById('inForm'),
+                            'Error400Message', 'Ошибка. Попробуйте еще раз') :
                         console.log('bad request: ', status);
                     break;
                 case 409:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), 'emailError', 'Почта уже занята');
+                    validation.getErrorMessage(document.getElementById(fields.email.name),
+                        'emailError', 'Почта уже занята');
                     console.log('no auth: ', status);
                     break;
                 default:
                     document.getElementById('serverErrorMessage') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'), 'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                        validation.getServerMessage(document.getElementById('inForm'),
+                            'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                         console.log('server error: ', status);
                     break;
                 }

@@ -1,4 +1,4 @@
-import '../templates.js'
+import '../templates.js';
 
 export default class Form {
     #parent;
@@ -9,13 +9,13 @@ export default class Form {
 
     render(context) {
         const data = this.prepareForm(context);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['Form.hbs'](data));
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
     }
 
     prepareForm(context) {
         return {
             field: {...context.fields},
-            button: context.button.buttonValue
+            button: context.button.buttonValue,
         };
     }
 }
