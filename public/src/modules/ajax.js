@@ -1,32 +1,26 @@
-const noop = () => {
-};
-
-const baseURL = 'http://89.208.198.137';
-const port = 8080;
-
 export default class Req {
-
-    constructor() {
-    }
-
-    makeRequest = (url, options) => {
-        return fetch(url, options).then((response) => response.ok  ? response.json().then((data) => [response.status, data]) : [response.status, response.body])
-            .catch((error) => [500, error]);
+    #baseURL = 'http://89.208.198.137';
+    #port = 8080;
+    #headers = {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Origin': 'http://89.208.198.137:8081/',
     };
 
+    makeRequest = (url, options) => {
+        return fetch(url, options).then((response) => response.ok ?
+            response.json().then((data) => [response.status, data]) :
+            [response.status, response.body]).catch((error) => [500, error]);
+    };
 
     makeGetRequest = async (url) => {
         const options = {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json',
-                'Origin': 'http://89.208.198.137:8081/',
-            },
+            headers: this.#headers,
         };
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 
     makePostRequest = async (url, data) => {
@@ -34,15 +28,10 @@ export default class Req {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json',
-                'Origin': 'http://89.208.198.137:8081/',
-            },
+            headers: this.#headers,
             body: JSON.stringify(data),
         };
-        // console.log(`${baseURL}:${port}/${url}`);
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 
     makeDeleteRequest = async (url) => {
@@ -50,12 +39,8 @@ export default class Req {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json',
-                'Origin': 'http://89.208.198.137:8081/',
-            },
+            headers: this.#headers,
         };
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 }

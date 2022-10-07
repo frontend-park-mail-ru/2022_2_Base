@@ -1,14 +1,10 @@
-'use strict'
-
 import '../templates.js'
 
 export default class Form {
-    #data
-    #parent
+    #parent;
 
     constructor(parent, value) {
         this.#parent = parent;
-        this.#data = value
     }
 
     render(context) {
@@ -17,12 +13,9 @@ export default class Form {
     }
 
     prepareForm(context) {
-        console.log(context.button.buttonValue)
-        const data = {field: {},
-                        button: ''
-                    };
-        data.field = {...context.fields};
-        data.button = context.button.buttonValue;
-        return data;
+        return {
+            field: {...context.fields},
+            button: context.button.buttonValue
+        };
     }
 }
