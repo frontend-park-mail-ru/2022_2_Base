@@ -1,5 +1,3 @@
-'use strict';
-
 import HeaderComponent from '../components/Header/Header.js';
 
 export default class RefreshEl {

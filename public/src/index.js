@@ -41,82 +41,6 @@ const config = {
             render: renderRegisterPage,
         },
     },
-    itemCardsSales: {
-        salesCard1: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        salesCard2: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        salesCard3: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        salesCard4: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        salesCard5: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        salesCard6: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-    },
-    itemCardsPopular: {
-        popularCard1: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        popularCard2: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        popularCard3: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        popularCard4: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        popularCard5: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-        popularCard6: {
-            salePrice: 505169,
-            price: 420420,
-            cardTitle: 'iPhone 13 64Gb',
-            rating: '2.3',
-        },
-    },
     topcategory: {
         Smartphone: {
             nameCategory: 'Телефоны',
@@ -208,6 +132,9 @@ const config = {
     authorised: false,
 };
 
+const request = new Req();
+const refresh = new RefreshEl();
+
 const changePage = async (event) => {
     const {target} = event;
 
@@ -217,7 +144,7 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach(function(page) {
+    Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
             config.header[page].render(config);
@@ -226,37 +153,27 @@ const changePage = async (event) => {
 
     if (href === '/logout') {
         event.preventDefault();
-        const r = new Req();
-        const [status, username] = await r.makeDeleteRequest('api/v1/logout');
+        const [status, username] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
 
         if (status === 200) {
-            console.log('logout');
             config.authorised = false;
-            const refresh = new RefreshEl();
             refresh.refreshHeader(config);
-            return;
         }
-        console.log('no logout: ', status);
     }
 };
 
 window.addEventListener('click', changePage);
 
 const checkSession = async () => {
-    const r = new Req();
-    const [status, username] = await r.makeGetRequest('api/v1/session');
+    const [status, username] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
 
     if (status === 200) {
-        console.log('session');
         config.authorised = true;
-        const refresh = new RefreshEl();
         refresh.refreshHeader(config);
         return;
     }
-    console.log('no session: ', status);
     config.authorised = false;
 };
 
 window.addEventListener('load', checkSession, {once: true});
-console.log('auth: ', config.authorised);
 config.header.main.render(config);

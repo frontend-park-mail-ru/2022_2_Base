@@ -26,7 +26,7 @@ export default class MainPage extends BasePage {
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
-        if (context.authorised === true) {
+        if (context.authorised) {
             const headerProfile = document.querySelector('.header__profile');
             headerProfile.addEventListener('mouseover', async (event) => {
                 const headerPopUp = document.querySelector('.profile__pop-up');
@@ -39,16 +39,13 @@ export default class MainPage extends BasePage {
             });
         }
 
+        //  loading cards
         const r = new Req();
         const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
 
         if (status === 200) {
-            let key;
-            let card;
-            let num = 1;
             const itemCards = outD.body;
-            for (key in itemCards) {
-                card = itemCards[key];
+            itemCards.forEach((card, num) => {
                 const discount = 100 - Math.round(card.lowprice / card.price * 100);
                 const newCard = {
                     imgsrc: card.imgsrc,
@@ -59,17 +56,13 @@ export default class MainPage extends BasePage {
                     rating: card.rating,
                 };
                 if (discount === 0) {
-                    newCard.salePrice = null;
+                    newCard.salePrice = newCard.discount = null;
                 }
-                const cardID = 'salesCard' + String(num);
-                this.itemCard = new ItemCard(document.getElementById(cardID));
+                this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
                 this.itemCard.render(newCard);
-                num++;
-            }
-            num = 1;
+            });
 
-            for (key in itemCards) {
-                card = itemCards[key];
+            itemCards.forEach((card, num) => {
                 const newCard = {
                     imgsrc: card.imgsrc,
                     discount: null,
@@ -78,11 +71,9 @@ export default class MainPage extends BasePage {
                     cardTitle: card.name,
                     rating: card.rating,
                 };
-                const cardID = 'popularCard' + String(num);
-                this.itemCard = new ItemCard(document.getElementById(cardID));
+                this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
                 this.itemCard.render(newCard);
-                num++;
-            }
+            });
         }
     }
 }
