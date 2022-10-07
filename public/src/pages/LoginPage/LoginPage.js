@@ -1,19 +1,18 @@
-'use strict'
+'use strict';
 
-import '../templates.js'
+import '../templates.js';
 import BasePage from '../BasePage.js';
 import HeaderComponent from '../../components/Header/Header.js';
 import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
-import Req from "../../modules/ajax.js";
-import Val from "../../modules/validation.js";
+import Req from '../../modules/ajax.js';
+import Val from '../../modules/validation.js';
 
 export default class LoginPage extends BasePage {
-
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['LoginPage.hbs']
+            window.Handlebars.templates['LoginPage.hbs'],
         );
     }
 
@@ -35,31 +34,31 @@ export default class LoginPage extends BasePage {
             const validation = new Val();
             const submitButton = document.getElementById('submit-result');
             switch (event.target.name) {
-                case "email":
-                    const valEmail = validation.validateEMail(event.target.value);
-                    if (valEmail !== undefined && valEmail.message !== '') {
-                        validation.getErrorMessage(document.getElementById(event.target.name), "emailError", valEmail.message);
-                    } else if (document.getElementById("emailError") !== null) {
-                        document.getElementById("emailError").remove();
-                    }
-                    break;
-                case "password":
-                    const valPassword = validation.validatePassword(event.target.value);
-                    if (valPassword !== undefined && valPassword.message !== '') {
-                        validation.getErrorMessage(document.getElementById(event.target.name), "passwordError", valPassword.message);
-                    } else if (document.getElementById("passwordError") !== null) {
-                        document.getElementById("passwordError").remove();
-                    }
-                    break;
+            case 'email':
+                const valEmail = validation.validateEMail(event.target.value);
+                if (valEmail !== undefined && valEmail.message !== '') {
+                    validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
+                } else if (document.getElementById('emailError') !== null) {
+                    document.getElementById('emailError').remove();
+                }
+                break;
+            case 'password':
+                const valPassword = validation.validatePassword(event.target.value);
+                if (valPassword !== undefined && valPassword.message !== '') {
+                    validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
+                } else if (document.getElementById('passwordError') !== null) {
+                    document.getElementById('passwordError').remove();
+                }
+                break;
             }
-        }
+        };
 
         const onSubmitHandler = async (event) => {
-            let data = [];
+            const data = [];
             const validation = new Val();
             event.preventDefault();
-            Object.keys(fields).forEach(function (page) {
-                const element = form.querySelector(`[name=${fields[page].name}]`)
+            Object.keys(fields).forEach(function(page) {
+                const element = form.querySelector(`[name=${fields[page].name}]`);
                 element.focus();
                 element.blur();
                 data.push(element.value);
@@ -69,39 +68,39 @@ export default class LoginPage extends BasePage {
             data[0] = data[0].trim();
             const [email, password] = data;
 
-            console.log("credentials valid", validation.validateRegFields(email, password))
+            console.log('credentials valid', validation.validateRegFields(email, password));
             if (validation.validateRegFields(email, password)) {
                 const r = new Req();
                 const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
 
                 switch (status) {
-                    case 201:
-                        console.log("auth");
-                        config.authorised = true;
-                        form.removeEventListener('focusout', realTimeCheckHandler);
-                        form.removeEventListener('submit', onSubmitHandler);
-                        config.header.main.render(config);
-                        break;
-                    case 400:
-                        document.getElementById("Error400Message") === null ?
-                            validation.getServerMessage(document.getElementById('inForm'), "Error400Message", "Ошибка. Попробуйте еще раз")
-                            : console.log("bad request: ", status);
-                        break;
-                    case 401:
-                        validation.getErrorMessage(document.getElementById(fields.email.name), "emailError", "Неверная почта");
-                        validation.getErrorMessage(document.getElementById(fields.password.name), "passwordError", "Неверный пароль");
-                        console.log("no auth: ", status);
-                        break;
-                    default:
-                        document.getElementById("serverErrorMessage") === null ?
-                            validation.getServerMessage(document.getElementById('inForm'), "serverErrorMessage", "Ошибка сервера. Попробуйте позже")
-                            : console.log("server error: ", status);
-                        break;
+                case 201:
+                    console.log('auth');
+                    config.authorised = true;
+                    form.removeEventListener('focusout', realTimeCheckHandler);
+                    form.removeEventListener('submit', onSubmitHandler);
+                    config.header.main.render(config);
+                    break;
+                case 400:
+                    document.getElementById('Error400Message') === null ?
+                        validation.getServerMessage(document.getElementById('inForm'), 'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                        console.log('bad request: ', status);
+                    break;
+                case 401:
+                    validation.getErrorMessage(document.getElementById(fields.email.name), 'emailError', 'Неверная почта');
+                    validation.getErrorMessage(document.getElementById(fields.password.name), 'passwordError', 'Неверный пароль');
+                    console.log('no auth: ', status);
+                    break;
+                default:
+                    document.getElementById('serverErrorMessage') === null ?
+                        validation.getServerMessage(document.getElementById('inForm'), 'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                        console.log('server error: ', status);
+                    break;
                 }
             }
-        }
+        };
 
-        form.addEventListener("focusout", realTimeCheckHandler);
+        form.addEventListener('focusout', realTimeCheckHandler);
 
         form.addEventListener('submit', onSubmitHandler);
     }
