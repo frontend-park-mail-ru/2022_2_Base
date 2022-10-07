@@ -31,7 +31,7 @@ export default class LoginPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.email.name).focus();
 
-        form.addEventListener("focusout", (event, isDataValid) => {
+        const realTimeCheckHandler = async (event) => {
             const validation = new Val();
             const submitButton = document.getElementById('submit-result');
             switch (event.target.name) {
@@ -52,9 +52,9 @@ export default class LoginPage extends BasePage {
                     }
                     break;
             }
-        });
+        }
 
-        form.addEventListener('submit', async (event) => {
+        const onSubmitHandler = async (event) => {
             let data = [];
             const validation = new Val();
             event.preventDefault();
@@ -78,6 +78,8 @@ export default class LoginPage extends BasePage {
                     case 201:
                         console.log("auth");
                         config.authorised = true;
+                        form.removeEventListener('focusout', realTimeCheckHandler);
+                        form.removeEventListener('submit', onSubmitHandler);
                         config.header.main.render(config);
                         break;
                     case 400:
@@ -97,6 +99,10 @@ export default class LoginPage extends BasePage {
                         break;
                 }
             }
-        });
+        }
+
+        form.addEventListener("focusout", realTimeCheckHandler);
+
+        form.addEventListener('submit', onSubmitHandler);
     }
 }
