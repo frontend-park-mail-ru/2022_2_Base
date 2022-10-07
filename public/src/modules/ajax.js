@@ -18,7 +18,7 @@ export default class Req {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
-            this.#headers,
+            headers: this.#headers,
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
@@ -28,18 +28,18 @@ export default class Req {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            this.#headers,
+            headers: this.#headers,
             body: JSON.stringify(data),
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
-    
+
     makeDeleteRequest = async (url) => {
         const options = {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
-            this.#headers,
+            headers: this.#headers,
         };
         return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
