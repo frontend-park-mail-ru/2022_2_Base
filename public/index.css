@@ -1,9 +1,14 @@
+:root {
+    --text_white: #EEEEEE;
+    --background-red: #C54A4C;
+}
+
 .input-field-error {
     position: absolute;
-    color: #EEEEEE;
-    background-color: #C54A4C;
+    color: var(--text_white);
+    background-color: var(--background-red);
     margin-left: 5px;
-    margin-top: 7px;
+    margin-top: 10px;
     display: inline;
     border-radius: 4px;
     padding: 5px;
@@ -13,7 +18,7 @@
 
 .input-field-error__text {
     display: inline-block;
-    font-family: ibm-plex-sans, sans-serif;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -21,10 +26,10 @@
 }
 
 .server-error {
-    color: #EEEEEE;
-    background-color: #C54A4C;
+    color: var(--text_white);
+    background-color: var(--background-red);
     margin-left: 5px;
-    margin-top: 7px;
+    margin-top: 10px;
     border-radius: 4px;
     padding: 5px;
     text-align: center;
@@ -33,7 +38,7 @@
 
 .server-error__text {
     display: inline-block;
-    font-family: ibm-plex-sans, sans-serif;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

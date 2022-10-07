@@ -1,10 +1,4 @@
-:root {
-    --hover_purple: #3F47D0;
-    --pure_white: #FFFFFF;
-    --background-white: #F9F9F9;
-    --purple_disabled: #6369D1;
-    --default_purple: #6369D1;
-}
+@import '../../../constants.css';
 
 header {
     display: grid;
@@ -44,7 +38,7 @@ header, footer {
 .header__search-line {
     display: grid;
     grid-template-columns: 1fr 0;
-    background-color: #F8F8F8;
+    background-color: var(--background-white);
     border-radius: 10px;
     border: solid 2px;
     border-color: var(--pure_white)
@@ -59,7 +53,7 @@ header, footer {
     border-color: rgba(0, 0, 0, 0);
     width: 550px;
     height: 40px;
-    background: #F8F8F8;
+    background: var(--background-white);
     border-radius: 10px;
 }
 
@@ -68,27 +62,27 @@ header, footer {
 }
 
 .header__order {
-    width: 88px;
-    height: 56px;
+    width: 90px;
+    height: 60px;
     margin-left: 48px;
     padding: 4px 0 4px 0;
 }
 
 .header__favourites {
-    width: 88px;
-    height: 56px;
+    width: 90px;
+    height: 60px;
     padding: 4px 0 4px 0;
 }
 
 .header__card {
-    width: 88px;
-    height: 56px;
+    width: 90px;
+    height: 60px;
     padding: 4px 0 4px 0;
 }
 
 .header__profile {
-    width: 88px;
-    height: 56px;
+    width: 90px;
+    height: 60px;
     padding: 4px 0 4px 0;
 }
 
@@ -144,7 +138,7 @@ header, footer {
     display: none;
     position: absolute;
     height: 44px;
-    width: 88px;
+    width: 90px;
     margin-top: 14px;
     border-radius: 15%;
     background-color: rgba(255, 255, 255, 1);
@@ -165,7 +159,7 @@ header, footer {
     margin-top: 10px;
 }
 
-a.disabled {
+.disabled {
     pointer-events: none;
     cursor: default;
     color: var(--jet-black);
