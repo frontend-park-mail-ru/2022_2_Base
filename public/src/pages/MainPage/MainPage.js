@@ -24,8 +24,7 @@ export default class MainPage extends BasePage {
         if (status === 200) {
             let card;
             const itemCards = outD.body;
-            itemCards.forEach((key, num) => {
-                card = itemCards[key];
+            itemCards.forEach((card, num) => {
                 const discount = 100 - Math.round(card.lowprice / card.price * 100);
                 const newCard = {
                     imgsrc: card.imgsrc,
@@ -42,8 +41,7 @@ export default class MainPage extends BasePage {
                 this.itemCard.render(newCard);
             });
 
-            itemCards.forEach((key, num) => {
-                card = itemCards[key];
+            itemCards.forEach((card, num) => {
                 const newCard = {
                     imgsrc: card.imgsrc,
                     discount: null,
