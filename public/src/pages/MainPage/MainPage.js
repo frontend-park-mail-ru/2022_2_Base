@@ -54,6 +54,7 @@ export default class MainPage extends BasePage {
                 this.itemCard.render(newCard);
             });
         } else {
+            alert("error");
             const div = document.createElement("div");
             div.id = "ServerLoadError";
             const span = document.createElement("span");
@@ -65,8 +66,7 @@ export default class MainPage extends BasePage {
         }
     }
 
-    render(context) {
-        super.render(context);
+    renderMain(context) {
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
         this.headerComponent.render(context.authorised);
         this.topComponent = new TopCategory(document.getElementById('catalog'));
@@ -86,8 +86,11 @@ export default class MainPage extends BasePage {
                 headerPopUp.style.display = 'none';
             });
         }
+    }
 
-        window.addEventListener('onclick', this.loadContent, {once: true});
-        window.click();
+    render(context) {
+        window.addEventListener('DOMContentLoaded', this.loadContent);
+        super.render(context);
+        this.renderMain(context);
     }
 }

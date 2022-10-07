@@ -177,3 +177,6 @@ const checkSession = async () => {
 
 window.addEventListener('load', checkSession, {once: true});
 config.header.main.render(config);
+// config.header.main.renderMain(config);
+// config.header.main.render(config);
+
