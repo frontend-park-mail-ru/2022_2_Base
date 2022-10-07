@@ -208,7 +208,7 @@ const config = {
     authorised: false,
 };
 
-window.addEventListener('click', async (event) => {
+const changePage = async (event) => {
     const {target} = event;
 
     let href = target.getAttribute("href");
@@ -238,7 +238,9 @@ window.addEventListener('click', async (event) => {
         }
         console.log("no logout: ", status);
     }
-});
+};
+
+window.addEventListener('click', changePage);
 
 const checkSession = async () => {
     const r = new Req();
