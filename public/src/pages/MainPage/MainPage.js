@@ -50,7 +50,7 @@ export default class MainPage extends BasePage {
 
         //  loading cards
         const r = new Req();
-        const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
+        const [status, outD] = await r.makeGetRequest('api/v1/getproducts').catch((err) => console.log(err));
 
         if (status === 200) {
             const itemCards = outD.body;
