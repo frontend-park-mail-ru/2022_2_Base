@@ -1,7 +1,4 @@
-:root {
-    --hover_purple: #3F47D0;
-    --background-white: #F9F9F9;
-}
+@import '../../../constants.css';
 
 .form {
     margin-top: 38px;
@@ -25,7 +22,7 @@
     margin-left: 17px;
     width: 344px;
     height: 40px;
-    background: #F8F8F8;
+    background: var(--background-white);
     border-radius: 10px;
 }
 

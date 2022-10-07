@@ -1,21 +1,4 @@
-:root {
-    --default_purple: #6369D1;
-    --hover_purple: #3F47D0;
-    --pure_white: #FFFFFF;
-    --background-white: #F9F9F9;
-    /* --placeholder: rgba(55, 55, 55, 0.7); */
-    /* --jet-black: #333333; */
-    --green-shinny: #68B684;
-    --green-correct: #32A416;
-    /* --secondary-purple: #999AAD; */
-    /* --shadow-default: #D6D6D6; */
-    --pink-accent: #D14372;
-    /* --apple-shadow: drop-shadow(0 0 20px var(--shadow-default)); */
-    --shadow-dim: #000000FF;
-    --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
-    /* --90_white: rgba(255, 255, 255, 0.9); */
-    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
-}
+@import '../../../constants.css';
 
 * {
     padding: 0;
@@ -40,7 +23,7 @@ main {
     margin-right: auto;
     max-width: 1400px;
     min-width: 1400px;
-    height: 91vh;
+    height: 90vh;
 }
 
 .paint-background {
@@ -77,7 +60,7 @@ main {
     display: grid;
     grid-template-rows: repeat(4, 63px);
     background-color: var(--pure_white);
-    height: 276px;
+    height: 280px;
     width: 400px;
     border-radius: 15px;
 }
@@ -88,7 +71,7 @@ main {
 }
 
 .text-normal-huge {
-    font-family: ibm-plex-sans, sans-serif;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 40px;
@@ -96,7 +79,7 @@ main {
 }
 
 .text-normal-default {
-    font-family: ibm-plex-sans, sans-serif;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
@@ -120,15 +103,10 @@ main {
     background-color: var(--default_purple);
 }
 
-/* .right {
-    display: flex;
-    align-items: flex-end;
-} */
-
-.LoginRightImg {
+.login-right-img {
     display: block;
-    width: 472px;
-    height: 536px;
+    width: 480px;
+    height: 540px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 104px;
@@ -146,7 +124,7 @@ main {
 }
 
 .text-normal-large {
-    font-family: ibm-plex-sans, sans-serif;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 20px;
