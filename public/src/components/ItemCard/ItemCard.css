@@ -1,0 +1,170 @@
+@import '../../../constants.css';
+
+.item-card__text-strikethrough {
+    text-decoration: line-through;
+    color: var(--secondary-purple);
+    align-self: center;
+}
+
+.item-card__image {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.a-inherit {
+    all: inherit;
+    text-decoration: none;
+}
+
+.item-card__rating {
+
+}
+
+.item-card__rating {
+    background: transparent;
+    border: none;
+}
+
+.item-card__top {
+    text-decoration: none;
+}
+
+.item-card__top:disabled {
+    opacity: 40%;
+}
+
+.item-card__top:visited {
+    color: inherit;
+}
+
+.item-card__bottom {
+    justify-content: flex-end;
+}
+
+.item-card__bottom:disabled {
+    opacity: 40%;
+}
+
+.inactiveLink {
+    pointer-events: none;
+    cursor: default;
+}
+
+.item-card__textbox {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: [c0-start] 1fr [c0-end c1-strart] 1fr [c1-end];
+    margin-top: 8px;
+}
+
+.item-card__title {
+    grid-column: c0-start / c1-end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 40px;
+}
+
+
+.content__sales-image {
+    display: grid;
+    grid-template-columns: 1fr 0;
+    justify-items: center;
+    align-items: end;
+}
+
+.item-card__image {
+    max-height:100%;
+    max-width:100%
+}
+
+.content__sales-value {
+    border-radius: 20px;
+    width: 40px;
+    height: 20px;
+    color: var(--pure_white);
+    background-color: var(--pink-accent);
+    margin-right: 10px;
+}
+
+.item-card {
+    display: grid;
+    grid-template-rows: 165px 96px 40px;
+    grid-gap: 5px;
+    width: 160px;
+    height: 312px;
+    padding: 16px 16px 16px 16px;
+    background: var(--90_white);
+    border-radius: 10px;
+    border: none;
+    align-items: center;
+    text-align: center;
+    color: var(--jet-black);
+    text-decoration: none;
+}
+
+.item-card:hover {
+    filter: var(--apple-shadow);
+}
+
+
+.button_add-to-card {
+    width: 100px;
+    height: 40px;
+    justify-self: left;
+    margin-right: 10px;
+    background: var(--default_purple);
+    color: var(--background-white);
+}
+
+.text-normal-small {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.05em;
+}
+
+.text-normal-default {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.text-normal-default-bold {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.text-normal-large {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.button-default {
+    border-radius: 10px;
+    border: none;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
+}

@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="./src/components/Form/Form.css" type="text/css">
+
+<form action="#" method="post" class="form" novalidate>
+    {{#each field}}
+        <div class="form__field">
+            <div class="form__name text-normal-default">
+                {{this.title}}
+            </div>
+            <input class="form__input" type={{this.type}} name={{this.name}} placeholder='{{this.placeholder}}'
+                maxlength={{this.maxlenght}} id={{this.name}}>
+        </div>
+    {{/each}}
+    <input type="submit" class="button-default form__submit" value={{button}} id="submit-result">
+</form>

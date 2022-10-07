@@ -1,0 +1,73 @@
+@import '../../../constants.css';
+
+.form {
+    margin-top: 38px;
+}
+
+.form__field {
+    margin-bottom: 16px;
+}
+
+.form__name {
+    margin-left: 28px;
+    margin-bottom: 5px;
+    height: 20px;
+    color: #171717;
+}
+
+.form__input {
+    border-left-width: 12px;
+    border-right-width: 12px;
+    border-color: rgba(0, 0, 0, 0);
+    margin-left: 17px;
+    width: 344px;
+    height: 40px;
+    background: var(--background-white);
+    border-radius: 10px;
+}
+
+.form__input:focus {
+    outline-color: var(--hover_purple);
+}
+
+.form__submit {
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 8px;
+    width: 360px;
+    height: 40px;
+    background: #6369D1;
+    align-items: center;
+    color: var(--background-white);
+}
+
+.form__submit:hover {
+    background: var(--hover_purple)
+}
+
+.button-default {
+    border-radius: 10px;
+    border: none;
+    font-family: ibm-plex-sans, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.text-normal-default {
+    font-family: ibm-plex-sans, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
+}
