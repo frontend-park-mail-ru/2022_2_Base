@@ -34,22 +34,22 @@ export default class LoginPage extends BasePage {
             const validation = new Val();
             const submitButton = document.getElementById('submit-result');
             switch (event.target.name) {
-            case 'email':
-                const valEmail = validation.validateEMail(event.target.value);
-                if (valEmail !== undefined && valEmail.message !== '') {
-                    validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
-                } else if (document.getElementById('emailError') !== null) {
-                    document.getElementById('emailError').remove();
-                }
-                break;
-            case 'password':
-                const valPassword = validation.validatePassword(event.target.value);
-                if (valPassword !== undefined && valPassword.message !== '') {
-                    validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
-                } else if (document.getElementById('passwordError') !== null) {
-                    document.getElementById('passwordError').remove();
-                }
-                break;
+                case 'email':
+                    const valEmail = validation.validateEMail(event.target.value);
+                    if (valEmail !== undefined && valEmail.message !== '') {
+                        validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
+                    } else if (document.getElementById('emailError') !== null) {
+                        document.getElementById('emailError').remove();
+                    }
+                    break;
+                case 'password':
+                    const valPassword = validation.validatePassword(event.target.value);
+                    if (valPassword !== undefined && valPassword.message !== '') {
+                        validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
+                    } else if (document.getElementById('passwordError') !== null) {
+                        document.getElementById('passwordError').remove();
+                    }
+                    break;
             }
         };
 
@@ -57,7 +57,7 @@ export default class LoginPage extends BasePage {
             const data = [];
             const validation = new Val();
             event.preventDefault();
-            Object.keys(fields).forEach(function(page) {
+            Object.keys(fields).forEach((page) => {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
                 element.focus();
                 element.blur();
@@ -74,28 +74,27 @@ export default class LoginPage extends BasePage {
                 const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
 
                 switch (status) {
-                case 201:
-                    console.log('auth');
-                    config.authorised = true;
-                    form.removeEventListener('focusout', realTimeCheckHandler);
-                    form.removeEventListener('submit', onSubmitHandler);
-                    config.header.main.render(config);
-                    break;
-                case 400:
-                    document.getElementById('Error400Message') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'), 'Error400Message', 'Ошибка. Попробуйте еще раз') :
-                        console.log('bad request: ', status);
-                    break;
-                case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name), 'emailError', 'Неверная почта');
-                    validation.getErrorMessage(document.getElementById(fields.password.name), 'passwordError', 'Неверный пароль');
-                    console.log('no auth: ', status);
-                    break;
-                default:
-                    document.getElementById('serverErrorMessage') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'), 'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
-                        console.log('server error: ', status);
-                    break;
+                    case 201:
+                        console.log('auth');
+                        config.authorised = true;
+                        form.removeEventListener('focusout', realTimeCheckHandler);
+                        form.removeEventListener('submit', onSubmitHandler);
+                        config.header.main.render(config);
+                        break;
+                    case 400:
+                        document.getElementById('Error400Message') === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), 'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                            console.log('bad request: ', status);
+                        break;
+                    case 401:
+                        validation.getErrorMessage(document.getElementById(fields.email.name), 'emailError', 'Неверная почта или пароль');
+                        console.log('no auth: ', status);
+                        break;
+                    default:
+                        document.getElementById('serverErrorMessage') === null ?
+                            validation.getServerMessage(document.getElementById('inForm'), 'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                            console.log('server error: ', status);
+                        break;
                 }
             }
         };

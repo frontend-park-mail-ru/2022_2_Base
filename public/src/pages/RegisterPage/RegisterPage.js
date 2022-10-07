@@ -36,17 +36,17 @@ export default class RegisterPage extends BasePage {
             switch (event.target.name) {
             case 'email':
                 const valEmail = validation.validateEMail(event.target.value);
-                if (valEmail !== undefined && valEmail.message !== '') {
+                if (valEmail !== undefined && valEmail.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
-                } else if (document.getElementById('emailError') !== null) {
+                } else if (!document.getElementById('emailError')) {
                     document.getElementById('emailError').remove();
                 }
                 break;
             case 'password':
                 const valPassword = validation.validatePassword(event.target.value);
-                if (valPassword !== undefined && valPassword.message !== '') {
+                if (valPassword !== undefined && valPassword.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
-                } else if (document.getElementById('passwordError') !== null) {
+                } else if (!document.getElementById('passwordError')) {
                     document.getElementById('passwordError').remove();
                 }
                 break;

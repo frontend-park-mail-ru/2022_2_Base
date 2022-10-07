@@ -26,7 +26,7 @@ export default class MainPage extends BasePage {
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
-        if (context.authorised === true) {
+        if (context.authorised) {
             const headerProfile = document.querySelector('.header__profile');
             headerProfile.addEventListener('mouseover', async (event) => {
                 const headerPopUp = document.querySelector('.profile__pop-up');
