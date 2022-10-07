@@ -87,6 +87,6 @@ export default class MainPage extends BasePage {
             });
         }
 
-        window.addEventListener('DOMContentLoaded', this.loadContent, {once: true});
+        window.addEventListener('DOMContentLoaded', this.loadContent);
     }
 }
