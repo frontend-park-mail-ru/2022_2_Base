@@ -17,7 +17,57 @@ export default class MainPage extends BasePage {
         );
     }
 
-    async render(context) {
+    async loadContent() {
+        const r = new Req();
+        const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
+
+        if (status === 200) {
+            let card;
+            const itemCards = outD.body;
+            itemCards.forEach((key, num) => {
+                card = itemCards[key];
+                const discount = 100 - Math.round(card.lowprice / card.price * 100);
+                const newCard = {
+                    imgsrc: card.imgsrc,
+                    discount: discount,
+                    price: card.lowprice,
+                    salePrice: card.price,
+                    cardTitle: card.name,
+                    rating: card.rating,
+                };
+                if (discount === 0) {
+                    newCard.salePrice = newCard.discount = null;
+                }
+                this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
+                this.itemCard.render(newCard);
+            });
+
+            itemCards.forEach((key, num) => {
+                card = itemCards[key];
+                const newCard = {
+                    imgsrc: card.imgsrc,
+                    discount: null,
+                    price: card.lowprice,
+                    salePrice: null,
+                    cardTitle: card.name,
+                    rating: card.rating,
+                };
+                this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
+                this.itemCard.render(newCard);
+            });
+        } else {
+            const div = document.createElement("div");
+            div.id = "ServerLoadError";
+            const span = document.createElement("span");
+            div.appendChild(span);
+            div.classList.add('server-error');
+            span.classList.add('server-error__text');
+            span.innerHTML = "Возникла ошибка при загрузке товаров. Попробуйте позже";
+            this.document.getElementById(`catalog`).after(div);
+        }
+    }
+
+    render(context) {
         super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
         this.headerComponent.render(context.authorised);
@@ -39,50 +89,6 @@ export default class MainPage extends BasePage {
             });
         }
 
-        const r = new Req();
-        const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
-
-        if (status === 200) {
-            let key;
-            let card;
-            let num = 1;
-            const itemCards = outD.body;
-            for (key in itemCards) {
-                card = itemCards[key];
-                const discount = 100 - Math.round(card.lowprice / card.price * 100);
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: discount,
-                    price: card.lowprice,
-                    salePrice: card.price,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                if (discount === 0) {
-                    newCard.salePrice = null;
-                }
-                const cardID = 'salesCard' + String(num);
-                this.itemCard = new ItemCard(document.getElementById(cardID));
-                this.itemCard.render(newCard);
-                num++;
-            }
-            num = 1;
-
-            for (key in itemCards) {
-                card = itemCards[key];
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: null,
-                    price: card.lowprice,
-                    salePrice: null,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                const cardID = 'popularCard' + String(num);
-                this.itemCard = new ItemCard(document.getElementById(cardID));
-                this.itemCard.render(newCard);
-                num++;
-            }
-        }
+        window.addEventListener('DOMContentLoaded', this.loadContent, {once: true});
     }
 }
