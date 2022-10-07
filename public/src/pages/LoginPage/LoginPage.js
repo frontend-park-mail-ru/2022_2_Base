@@ -59,8 +59,6 @@ export default class LoginPage extends BasePage {
             event.preventDefault();
             Object.keys(fields).forEach((page) => {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
-                element.focus();
-                element.blur();
                 data.push(element.value);
             });
 
@@ -71,7 +69,8 @@ export default class LoginPage extends BasePage {
             console.log('credentials valid', validation.validateRegFields(email, password));
             if (validation.validateRegFields(email, password)) {
                 const r = new Req();
-                const [status, outD] = await r.makePostRequest('api/v1/login', {password, email});
+                const [status, outD] = await r.makePostRequest('api/v1/login', {password, email}).
+                catch((err) => console.log(err));
 
                 switch (status) {
                     case 201:

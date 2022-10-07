@@ -59,8 +59,6 @@ export default class RegisterPage extends BasePage {
             const validation = new Val();
             Object.keys(fields).forEach(function(page) {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
-                element.focus();
-                element.blur();
                 data.push(element.value);
             });
             if (data[data.length - 1] !== data[data.length - 2]) {

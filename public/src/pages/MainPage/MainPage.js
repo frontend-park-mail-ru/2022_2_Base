@@ -44,7 +44,6 @@ export default class MainPage extends BasePage {
         const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
 
         if (status === 200) {
-            let card;
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
                 const discount = 100 - Math.round(card.lowprice / card.price * 100);
