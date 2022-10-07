@@ -36,7 +36,7 @@ export default class RegisterPage extends BasePage {
             switch (event.target.name) {
             case 'email':
                 const valEmail = validation.validateEMail(event.target.value);
-                if (valEmail !== undefined && valEmail.status) {
+                if (valEmail !== undefined && !valEmail.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name), 'emailError', valEmail.message);
                 } else if (!document.getElementById('emailError')) {
                     document.getElementById('emailError').remove();
@@ -44,7 +44,7 @@ export default class RegisterPage extends BasePage {
                 break;
             case 'password':
                 const valPassword = validation.validatePassword(event.target.value);
-                if (valPassword !== undefined && valPassword.status) {
+                if (valPassword !== undefined && !valPassword.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name), 'passwordError', valPassword.message);
                 } else if (!document.getElementById('passwordError')) {
                     document.getElementById('passwordError').remove();
