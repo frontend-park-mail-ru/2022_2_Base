@@ -153,7 +153,7 @@ const changePage = async (event) => {
 
     if (href === '/logout') {
         event.preventDefault();
-        const {status} = await request.makeDeleteRequest('api/v1/logout').
+        const [status] = await request.makeDeleteRequest('api/v1/logout').
             catch((err) => console.log(err));
 
         if (status === 200) {
@@ -166,8 +166,7 @@ const changePage = async (event) => {
 window.addEventListener('click', changePage);
 
 const checkSession = async () => {
-    const {status} = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
-
+    const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
     if (status === 200) {
         config.authorised = true;
         refresh.refreshHeader(config);

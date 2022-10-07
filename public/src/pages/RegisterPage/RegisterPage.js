@@ -78,7 +78,7 @@ export default class RegisterPage extends BasePage {
 
             if (validation.validateRegFields(email, password, anotherPassword)) {
                 const r = new Req();
-                const {status} = await r.makePostRequest('api/v1/signup',
+                const [status] = await r.makePostRequest('api/v1/signup',
                     {password, email, username});
 
                 switch (status) {
