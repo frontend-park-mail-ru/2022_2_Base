@@ -17,7 +17,29 @@ export default class MainPage extends BasePage {
         );
     }
 
-    async loadContent() {
+    async render(context) {
+        super.render(context);
+        this.headerComponent = new HeaderComponent(document.getElementById('header'));
+        this.headerComponent.render(context.authorised);
+        this.topComponent = new TopCategory(document.getElementById('catalog'));
+        this.topComponent.render(context.topcategory);
+        this.footerComponent = new FooterComponent(document.getElementById('footer'));
+        this.footerComponent.render();
+
+        if (context.authorised) {
+            const headerProfile = document.querySelector('.header__profile');
+            headerProfile.addEventListener('mouseover', async (event) => {
+                const headerPopUp = document.querySelector('.profile__pop-up');
+                headerPopUp.style.display = 'block';
+            });
+
+            headerProfile.addEventListener('mouseout', async (event) => {
+                const headerPopUp = document.querySelector('.profile__pop-up');
+                headerPopUp.style.display = 'none';
+            });
+        }
+
+        //  loading cards
         const r = new Req();
         const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
 
@@ -53,44 +75,6 @@ export default class MainPage extends BasePage {
                 this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
                 this.itemCard.render(newCard);
             });
-        } else {
-            alert("error");
-            const div = document.createElement("div");
-            div.id = "ServerLoadError";
-            const span = document.createElement("span");
-            div.appendChild(span);
-            div.classList.add('server-error');
-            span.classList.add('server-error__text');
-            span.innerHTML = "Возникла ошибка при загрузке товаров. Попробуйте позже";
-            this.document.getElementById(`catalog`).after(div);
         }
-    }
-
-    renderMain(context) {
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(context.authorised);
-        this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(context.topcategory);
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
-
-        if (context.authorised) {
-            const headerProfile = document.querySelector('.header__profile');
-            headerProfile.addEventListener('mouseover', async (event) => {
-                const headerPopUp = document.querySelector('.profile__pop-up');
-                headerPopUp.style.display = 'block';
-            });
-
-            headerProfile.addEventListener('mouseout', async (event) => {
-                const headerPopUp = document.querySelector('.profile__pop-up');
-                headerPopUp.style.display = 'none';
-            });
-        }
-    }
-
-    render(context) {
-        window.addEventListener('DOMContentLoaded', this.loadContent);
-        super.render(context);
-        this.renderMain(context);
     }
 }
