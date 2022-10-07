@@ -31,7 +31,7 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.name.name).focus();
 
-        form.addEventListener("focusout", async (event) => {
+        const realTimeCheckHandler = async (event) => {
             const validation = new Val();
 
             switch (event.target.name) {
@@ -52,9 +52,9 @@ export default class RegisterPage extends BasePage {
                     }
                     break;
             }
-        });
+        }
 
-        form.addEventListener('submit', async (event) => {
+        const onSubmitHandler = async (event) => {
             event.preventDefault();
             let data = [];
             const validation = new Val();
@@ -86,6 +86,8 @@ export default class RegisterPage extends BasePage {
                     case 201:
                         console.log("auth");
                         config.authorised = true;
+                        form.removeEventListener('focusout', realTimeCheckHandler);
+                        form.removeEventListener('submit', onSubmitHandler);
                         config.header.main.render(config);
                         break;
                     case 400:
@@ -104,6 +106,10 @@ export default class RegisterPage extends BasePage {
                         break;
                 }
             }
-        });
+        }
+
+        form.addEventListener("focusout", realTimeCheckHandler);
+
+        form.addEventListener('submit', onSubmitHandler);
     }
 }
