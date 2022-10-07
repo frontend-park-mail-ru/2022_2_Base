@@ -1,10 +1,6 @@
-const noop = () => {
-};
-
-const baseURL = 'http://89.208.198.137';
-const port = 8080;
-
 export default class Req {
+    #baseURL = 'http://89.208.198.137';
+    #port = 8080;
 
     constructor() {
     }
@@ -26,7 +22,7 @@ export default class Req {
                 'Origin': 'http://89.208.198.137:8081/',
             },
         };
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 
     makePostRequest = async (url, data) => {
@@ -41,8 +37,8 @@ export default class Req {
             },
             body: JSON.stringify(data),
         };
-        // console.log(`${baseURL}:${port}/${url}`);
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        // console.log(`${this.#baseURL}:${this.#port}/${url}`);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 
     makeDeleteRequest = async (url) => {
@@ -56,6 +52,6 @@ export default class Req {
                 'Origin': 'http://89.208.198.137:8081/',
             },
         };
-        return this.makeRequest(`${baseURL}:${port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
     }
 }
