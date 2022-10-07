@@ -54,7 +54,7 @@
     justify-content: flex-end;
 }
 
-item-card__bottom:disabled {
+.item-card__bottom:disabled {
     opacity: 40%;
 }
 
@@ -97,11 +97,11 @@ item-card__bottom:disabled {
 
 .item-card {
     display: grid;
-    grid-template-rows: 220px 50px 40px;
+    grid-template-rows: 165px 96px 40px;
     grid-gap: 5px;
     width: 160px;
     height: 312px;
-    padding: 15px 18px 15px 18px;
+    padding: 16px 16px 16px 16px;
     background: var(--90_white);
     border-radius: 10px;
     border: none;
