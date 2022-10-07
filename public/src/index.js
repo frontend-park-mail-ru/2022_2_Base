@@ -8,16 +8,28 @@ import RefreshEl from './modules/refreshElements.js';
 
 const root = document.getElementById('root');
 
+/**
+ * Функция отрисовки страницы входа
+ * @param {object} context контекст отрисовки страницы
+ */
 const renderLoginPage = (context) => {
     const loginPage = new LoginPage(root);
     loginPage.render(context);
 };
 
+/**
+ * Функция отрисовки главной страницы
+ * @param {object} context контекст отрисовки страницы
+ */
 const renderMainPage = (context) => {
     const mainPage = new MainPage(root);
     mainPage.render(context);
 };
 
+/**
+ * Функция отрисовки страницы регистрации
+ * @param {object} context контекст отрисовки страницы
+ */
 const renderRegisterPage = (context) => {
     const registerPage = new RegisterPage(root);
     registerPage.render(context);
@@ -135,6 +147,10 @@ const config = {
 const request = new Req();
 const refresh = new RefreshEl();
 
+/**
+ * Функция перехода на новую страницу
+ * @param {object} event - событие, произошедшее на странице
+ */
 const changePage = async (event) => {
     const {target} = event;
 
@@ -144,7 +160,7 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach(function (page) {
+    Object.keys(config.header).forEach(function(page) {
         if (config.header[page].href === href) {
             event.preventDefault();
             config.header[page].render(config);
@@ -153,7 +169,8 @@ const changePage = async (event) => {
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status, username] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest('api/v1/logout').
+            catch((err) => console.log(err));
 
         if (status === 200) {
             config.authorised = false;
@@ -164,9 +181,11 @@ const changePage = async (event) => {
 
 window.addEventListener('click', changePage);
 
+/**
+ * Функция для получение сессии
+ */
 const checkSession = async () => {
-    const [status, username] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
-
+    const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
     if (status === 200) {
         config.authorised = true;
         refresh.refreshHeader(config);
