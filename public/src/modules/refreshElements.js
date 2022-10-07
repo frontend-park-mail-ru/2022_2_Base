@@ -1,6 +1,13 @@
 import HeaderComponent from '../components/Header/Header.js';
 
+/**
+ * Класс, реализующий перерендеринг элементов
+ */
 export default class RefreshEl {
+    /**
+     * Метод, реализующий перерендеринг компонента Header
+     * @param {object} context - контекст отрисовки компонента
+     */
     refreshHeader = (context) => {
         const header = document.getElementById('header');
         header.innerHTML = '';

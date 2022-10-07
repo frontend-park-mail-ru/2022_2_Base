@@ -1,5 +1,3 @@
-'use strict';
-
 import '../templates.js';
 import BasePage from '../BasePage.js';
 import HeaderComponent from '../../components/Header/Header.js';
@@ -9,7 +7,14 @@ import ItemCard from '../../components/ItemCard/ItemCard.js';
 
 import Req from '../../modules/ajax.js';
 
+/**
+ * Класс, реализующий главную страницу
+ */
 export default class MainPage extends BasePage {
+    /**
+     * Конструктор, создающий конструктор базовой страницы с нужными параметрами
+     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     */
     constructor(parent) {
         super(
             parent,
@@ -17,6 +22,10 @@ export default class MainPage extends BasePage {
         );
     }
 
+    /**
+     * Метод, отрисовывающий страницу.
+     * @param {object} context контекст отрисовки страницы
+     */
     async render(context) {
         super.render(context);
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
