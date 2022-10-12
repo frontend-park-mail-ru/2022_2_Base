@@ -117,50 +117,6 @@
     color: var(--background-white);
 }
 
-.text-normal-small {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.05em;
-}
-
-.text-normal-default {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-}
-
-.text-normal-default-bold {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 25px;
-}
-
-.text-normal-large {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 26px;
-}
-
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-}
-
 .paint-background {
     background-color: var(--background-white);
 }

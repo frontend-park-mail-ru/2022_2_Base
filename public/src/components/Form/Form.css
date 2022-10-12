@@ -45,25 +45,6 @@
     background: var(--hover_purple)
 }
 
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: ibm-plex-sans, sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-}
-
-.text-normal-default {
-    font-family: ibm-plex-sans, sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-}
-
 .paint-background {
     background-color: var(--background-white);
 }

@@ -70,22 +70,6 @@ main {
     text-align: center;
 }
 
-.text-normal-huge {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 52px;
-}
-
-.text-normal-default {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-}
-
 .link {
     text-decoration: none;
     color: var(--default_purple);
@@ -121,12 +105,4 @@ main {
     margin-right: auto;
     margin-top: 18px;
     color: var(--pure_white);
-}
-
-.text-normal-large {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 26px;
 }
