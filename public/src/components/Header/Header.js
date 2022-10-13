@@ -1,22 +1,17 @@
 import '../templates.js';
+import BaseComponent from '../BaseComponent.js';
 
 /**
  * Класс для реализации компонента Header
  */
-export default class Header {
-    /**
-     * Приватное поле класса, хранящее parent HTML-элемент
-     * @type {Element}
-     */
-    #parent;
-
+export default class Header extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента Header
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        this.#parent = parent;
+        super(parent);
     }
 
     /**
@@ -26,7 +21,7 @@ export default class Header {
      */
     render(sessionValue) {
         const session = {session: sessionValue};
-        this.#parent.insertAdjacentHTML('afterbegin',
+        this._parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['header.hbs'](session));
     }
 }
