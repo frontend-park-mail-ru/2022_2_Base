@@ -35,10 +35,8 @@ export default class MainPage extends BasePage {
         if (status === 200) {
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
-                let discount = null;
-                card.lowprice === 0 ? discount = card.lowprice = null :
-                    discount = 100 - Math.round(card.lowprice / card.price * 100);
-
+                let discount = 100 - Math.round(card.lowprice / card.price * 100);
+                if (discount < 1) discount = card.lowprice = null;
                 const newCard = {
                     imgsrc: card.imgsrc,
                     discount: discount,
