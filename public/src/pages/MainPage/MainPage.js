@@ -50,19 +50,6 @@ export default class MainPage extends BasePage {
                 // this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
                 this.itemCard.render(newCard);
             });
-
-            // itemCards.forEach((card, num) => {
-            //     const newCard = {
-            //         imgsrc: card.imgsrc,
-            //         discount: null,
-            //         price: card.lowprice,
-            //         salePrice: null,
-            //         cardTitle: card.name,
-            //         rating: card.rating,
-            //     };
-            //     this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
-            //     this.itemCard.render(newCard);
-            // });
         } else if (!document.getElementById('ServerLoadError')) {
             console.log('error');
             const div = document.createElement('div');
