@@ -128,7 +128,7 @@ const config = {
             },
         },
     },
-    authorised: false,
+    authorised: true,
     currentPage: null,
 };
 
