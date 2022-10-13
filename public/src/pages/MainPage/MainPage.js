@@ -36,7 +36,7 @@ export default class MainPage extends BasePage {
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
                 let discount = null;
-                card.price === 0 ? discount = card.price = null :
+                card.price === card.lowprice ? card.price = discount :
                     discount = 100 - Math.round(card.lowprice / card.price * 100);
                 const newCard = {
                     imgsrc: card.imgsrc,
@@ -51,18 +51,18 @@ export default class MainPage extends BasePage {
                 this.itemCard.render(newCard);
             });
 
-            itemCards.forEach((card, num) => {
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: null,
-                    price: card.lowprice,
-                    salePrice: null,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
-                this.itemCard.render(newCard);
-            });
+            // itemCards.forEach((card, num) => {
+            //     const newCard = {
+            //         imgsrc: card.imgsrc,
+            //         discount: null,
+            //         price: card.lowprice,
+            //         salePrice: null,
+            //         cardTitle: card.name,
+            //         rating: card.rating,
+            //     };
+            //     this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
+            //     this.itemCard.render(newCard);
+            // });
         } else if (!document.getElementById('ServerLoadError')) {
             console.log('error');
             const div = document.createElement('div');
