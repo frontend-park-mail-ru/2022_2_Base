@@ -47,7 +47,7 @@ export default class Header extends BaseComponent {
      * @param {any} session контекст данных для компонента
      */
     stopEventListener(session) {
-        if (session) {
+        if (!session) {
             const headerProfile = document.querySelector('.header__profile');
             headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
             headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);

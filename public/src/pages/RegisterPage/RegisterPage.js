@@ -10,6 +10,8 @@ import Val from '../../modules/validation.js';
  * Класс, реализующий страницу с регистрации.
  */
 export default class RegisterPage extends BasePage {
+    #validation;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -19,6 +21,7 @@ export default class RegisterPage extends BasePage {
             parent,
             window.Handlebars.templates['RegisterPage.hbs'],
         );
+        this.#validation = new Val();
     }
 
     /**
@@ -50,22 +53,20 @@ export default class RegisterPage extends BasePage {
          * @param {object} event - событие, произошедшее на странице
          */
         const realTimeCheckHandler = async (event) => {
-            const validation = new Val();
-
             switch (event.target.name) {
             case 'email':
-                const valEmail = validation.validateEMail(event.target.value);
+                const valEmail = this.#validation.validateEMail(event.target.value);
                 if (valEmail !== undefined && !valEmail.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name),
+                    this.#validation.getErrorMessage(document.getElementById(event.target.name),
                         'emailError', valEmail.message);
                 } else if (!document.getElementById('emailError')) {
                     document.getElementById('emailError').remove();
                 }
                 break;
             case 'password':
-                const valPassword = validation.validatePassword(event.target.value);
+                const valPassword = this.#validation.validatePassword(event.target.value);
                 if (valPassword !== undefined && !valPassword.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name),
+                    this.#validation.getErrorMessage(document.getElementById(event.target.name),
                         'passwordError', valPassword.message);
                 } else if (!document.getElementById('passwordError')) {
                     document.getElementById('passwordError').remove();
@@ -81,13 +82,12 @@ export default class RegisterPage extends BasePage {
         const onSubmitHandler = async (event) => {
             event.preventDefault();
             const data = [];
-            const validation = new Val();
             Object.keys(fields).forEach(function(page) {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
                 data.push(element.value);
             });
             if (data[data.length - 1] !== data[data.length - 2]) {
-                validation.getErrorMessage(document.getElementById(fields.repeatPassword.name),
+                this.#validation.getErrorMessage(document.getElementById(fields.repeatPassword.name),
                     'repeatPasswordError', 'Введенные пароли не совпадают');
             } else {
                 if (document.getElementById('repeatPasswordError') !== null) {
@@ -99,7 +99,7 @@ export default class RegisterPage extends BasePage {
             data[1] = data[1].trim();
             const [username, email, password, anotherPassword] = data;
 
-            if (validation.validateRegFields(email, password, anotherPassword)) {
+            if (this.#validation.validateRegFields(email, password, anotherPassword)) {
                 const r = new Req();
                 const [status] = await r.makePostRequest('api/v1/signup',
                     {password, email, username});
@@ -114,18 +114,18 @@ export default class RegisterPage extends BasePage {
                     break;
                 case 400:
                     document.getElementById('Error400Message') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'),
+                        this.#validation.getServerMessage(document.getElementById('inForm'),
                             'Error400Message', 'Ошибка. Попробуйте еще раз') :
                         console.log('bad request: ', status);
                     break;
                 case 409:
-                    validation.getErrorMessage(document.getElementById(fields.email.name),
+                    this.#validation.getErrorMessage(document.getElementById(fields.email.name),
                         'emailError', 'Почта уже занята');
                     console.log('no auth: ', status);
                     break;
                 default:
                     document.getElementById('serverErrorMessage') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'),
+                        this.#validation.getServerMessage(document.getElementById('inForm'),
                             'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                         console.log('server error: ', status);
                     break;

@@ -34,19 +34,7 @@ export default class MainPage extends BasePage {
         this.topComponent.render(context.topcategory);
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
-
-        // if (context.authorised) {
-        //     const headerProfile = document.querySelector('.header__profile');
-        //     headerProfile.addEventListener('mouseover', async (event) => {
-        //         const headerPopUp = document.querySelector('.profile__pop-up');
-        //         headerPopUp.style.display = 'block';
-        //     });
-        //
-        //     headerProfile.addEventListener('mouseout', async (event) => {
-        //         const headerPopUp = document.querySelector('.profile__pop-up');
-        //         headerPopUp.style.display = 'none';
-        //     });
-        // }
+        this.headerComponent.stopEventListener(context.authorised);
 
         //  loading cards
         const r = new Req();
