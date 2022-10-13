@@ -89,7 +89,7 @@ export default class MainPage extends BasePage {
         this.topComponent.render(context.topcategory);
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
-        this.headerComponent.stopEventListener(context.authorised);
+        //  this.headerComponent.stopEventListener(context.authorised);
 
         await this.loadCards('salesCard');
         await this.loadCards('popularCard');

@@ -151,7 +151,7 @@ const changePage = async (event) => {
     Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            config.currentPage.stopEventListener(config);
+            // config.currentPage.stopEventListener(config);
             config.currentPage = config.header[page].render(config);
         }
     });
