@@ -9,30 +9,17 @@ import RefreshEl from './modules/refreshElements.js';
 const root = document.getElementById('root');
 
 /**
- * Функция отрисовки страницы входа
- * @param {object} context контекст отрисовки страницы
- */
-const renderLoginPage = (context) => {
-    const loginPage = new LoginPage(root);
-    loginPage.render(context);
-};
-
-/**
- * Функция отрисовки главной страницы
- * @param {object} context контекст отрисовки страницы
- */
-const renderMainPage = (context) => {
-    const mainPage = new MainPage(root);
-    mainPage.render(context);
-};
-
-/**
  * Функция отрисовки страницы регистрации
- * @param {object} context контекст отрисовки страницы
+ * @param {function} PageConstructor конструктор класса страницы
+ * @return {object} класс страницы
  */
-const renderRegisterPage = (context) => {
-    const registerPage = new RegisterPage(root);
-    registerPage.render(context);
+const renderPage = (PageConstructor) => {
+    const page = new PageConstructor(root);
+
+    return (context) => {
+        page.render(context);
+        return page;
+    };
 };
 
 const config = {
@@ -40,17 +27,17 @@ const config = {
         main: {
             href: '/main',
             name: 'Главная',
-            render: renderMainPage,
+            render: renderPage(MainPage),
         },
         login: {
             href: '/login',
             name: 'Авторизация',
-            render: renderLoginPage,
+            render: renderPage(LoginPage),
         },
         signup: {
             href: '/signup',
             name: 'Регистрация',
-            render: renderRegisterPage,
+            render: renderPage(RegisterPage),
         },
     },
     topcategory: {
@@ -142,6 +129,7 @@ const config = {
         },
     },
     authorised: false,
+    currentPage: null,
 };
 
 const request = new Req();
@@ -160,17 +148,17 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach(function(page) {
+    Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            config.header[page].render(config);
+            //  config.currentPage.stopEventListener();
+            config.currentPage = config.header[page].render(config);
         }
     });
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest('api/v1/logout').
-            catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
 
         if (status === 200) {
             config.authorised = false;
@@ -182,7 +170,7 @@ const changePage = async (event) => {
 window.addEventListener('click', changePage);
 
 /**
- * Функция для получение сессии
+ * Функция для получения сессии
  */
 const checkSession = async () => {
     const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
@@ -195,4 +183,4 @@ const checkSession = async () => {
 };
 
 window.addEventListener('load', checkSession, {once: true});
-config.header.main.render(config);
+config.currentPage = config.header.main.render(config);

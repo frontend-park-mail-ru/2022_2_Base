@@ -14,11 +14,24 @@ export default class BaseComponent {
     }
 
     /**
+     * Метод, добавляющий слушатели.
+     * @param {any} context контекст данных для компонента
+     */
+    startEventListener(context) {
+    }
+
+    /**
+     * Метод, удаляющий слушатели.
+     * @param {any} context контекст данных для компонента
+     */
+    stopEventListener(context) {
+    }
+
+    /**
      * Метод, отрисовывающий компонент.
      * @param {any} data контекст данных для компонента
      */
     render(data) {
-
     }
 
     /**
@@ -26,6 +39,5 @@ export default class BaseComponent {
      * @param {any} context контекст данных для компонента
      */
     prepareCategory(context) {
-
     }
 }

@@ -17,6 +17,20 @@ export default class BasePage {
     }
 
     /**
+     * Метод, добавляющий слушатели.
+     * @param {any} context контекст данных для страницы
+     */
+    startEventListener(context) {
+    }
+
+    /**
+     * Метод, удаляющий слушатели.
+     * @param {any} context контекст данных для страницы
+     */
+    stopEventListener(context) {
+    }
+
+    /**
      * Метод, отрисовывающий страницу.
      * @param {any} data контекст данных для страницы
      */
