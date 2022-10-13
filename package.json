@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && PORT=8081 DEBUG=server node server",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "handlebars -m public/src/components/*/*.hbs -f ./public/src/components/templates.js && handlebars -m public/src/pages/*/*.hbs -f ./public/src/pages/templates.js",
     "deploy": "screen -d -m -S frontend sudo npm start",
-    "restart": "screen -r *.frontend && ^C && npm deploy",
     "lint": "npx eslint . --ext .js",
     "lint:fix": "npx eslint . --ext .js --fix"
   },

@@ -23,6 +23,61 @@ export default class MainPage extends BasePage {
     }
 
     /**
+     * Метод, загружающий карты.
+     * @param {string} classToGet имя класса, в который надо вставить карту
+     */
+    async loadCards(classToGet) {
+        //  loading cards
+        const r = new Req();
+        const [status, outD] = await r.makeGetRequest('api/v1/products')
+            .catch((err) => console.log(err));
+
+        if (status === 200) {
+            const itemCards = outD.body;
+            itemCards.forEach((card, num) => {
+                let discount = null;
+                card.lowprice === 0 ? discount = card.lowprice = null :
+                    discount = 100 - Math.round(card.lowprice / card.price * 100);
+
+                const newCard = {
+                    imgsrc: card.imgsrc,
+                    discount: discount,
+                    price: card.lowprice,
+                    salePrice: card.price,
+                    cardTitle: card.name,
+                    rating: card.rating,
+                };
+                this.itemCard = new ItemCard(document.getElementById(`${classToGet}${String(num + 1)}`));
+                // this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
+                this.itemCard.render(newCard);
+            });
+
+            // itemCards.forEach((card, num) => {
+            //     const newCard = {
+            //         imgsrc: card.imgsrc,
+            //         discount: null,
+            //         price: card.lowprice,
+            //         salePrice: null,
+            //         cardTitle: card.name,
+            //         rating: card.rating,
+            //     };
+            //     this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
+            //     this.itemCard.render(newCard);
+            // });
+        } else if (!document.getElementById('ServerLoadError')) {
+            console.log('error');
+            const div = document.createElement('div');
+            div.id = 'ServerLoadError';
+            const span = document.createElement('span');
+            div.appendChild(span);
+            div.classList.add('server-error');
+            span.classList.add('server-error__text');
+            span.innerHTML = 'Возникла ошибка при загрузке товаров. Попробуйте позже';
+            document.getElementById('catalog').after(div);
+        }
+    }
+
+    /**
      * Метод, отрисовывающий страницу.
      * @param {object} context контекст отрисовки страницы
      */
@@ -36,42 +91,7 @@ export default class MainPage extends BasePage {
         this.footerComponent.render();
         this.headerComponent.stopEventListener(context.authorised);
 
-        //  loading cards
-        const r = new Req();
-        const [status, outD] = await r.makeGetRequest('api/v1/products')
-            .catch((err) => console.log(err));
-
-        if (status === 200) {
-            const itemCards = outD.body;
-            itemCards.forEach((card, num) => {
-                const discount = 100 - Math.round(card.lowprice / card.price * 100);
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: discount,
-                    price: card.lowprice,
-                    salePrice: card.price,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                if (discount === 0) {
-                    newCard.salePrice = newCard.discount = null;
-                }
-                this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
-                this.itemCard.render(newCard);
-            });
-
-            itemCards.forEach((card, num) => {
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: null,
-                    price: card.lowprice,
-                    salePrice: null,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
-                this.itemCard.render(newCard);
-            });
-        }
+        await this.loadCards('salesCard');
+        await this.loadCards('popularCard');
     }
 }
