@@ -47,6 +47,7 @@ export default class LoginPage extends BasePage {
      */
     async realTimeCheckHandler(event) {
         const validation = new Val();
+        console.log('realTimeCheckHandler', event);
         switch (event.target.name) {
         case 'email':
             const valEmail = validation.validateEMail(event.target.value);
@@ -94,13 +95,15 @@ export default class LoginPage extends BasePage {
                 email,
             }).catch((err) => console.log(err));
 
+            console.log('onSubmitHandler', status);
+
             switch (status) {
             case 201:
                 console.log('auth');
-                this.authorised = true;
+                this.config.authorised = true;
                 this.form.removeEventListener('focusout', this.realTimeCheckHandler);
                 this.form.removeEventListener('submit', this.onSubmitHandler);
-                this.header.main.render(this);
+                this.config.header.main.render(this.config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
@@ -147,6 +150,6 @@ export default class LoginPage extends BasePage {
         document.getElementById(this.fields.email.name).focus();
 
         form.addEventListener('focusout', this.realTimeCheckHandler);
-        form.addEventListener('submit', this.onSubmitHandler.bind({context, form}));
+        form.addEventListener('submit', this.onSubmitHandler.bind({config, form}));
     }
 }
