@@ -10,24 +10,26 @@ import Val from '../../modules/validation.js';
  * Класс, реализующий страницу входа.
  */
 export default class LoginPage extends BasePage {
-    fields = {
-        email: {
-            title: 'Почта',
-            type: 'email',
-            name: 'email',
-            placeholder: 'mail@website.com',
-            maxLength: '30',
+    context = {
+        fields: {
+            email: {
+                title: 'Почта',
+                type: 'email',
+                name: 'email',
+                placeholder: 'mail@website.com',
+                maxLength: '30',
+            },
+            password: {
+                title: 'Пароль',
+                type: 'password',
+                name: 'password',
+                placeholder: 'Введите пароль',
+                maxLength: '16',
+            },
         },
-        password: {
-            title: 'Пароль',
-            type: 'password',
-            name: 'password',
-            placeholder: 'Введите пароль',
-            maxLength: '16',
+        button: {
+            buttonValue: 'Войти',
         },
-    };
-    button = {
-        buttonValue: 'Войти',
     };
 
     /**
@@ -42,25 +44,34 @@ export default class LoginPage extends BasePage {
     }
 
     /**
+     * Метод, удаляющий слушатели.
+     * @param {any} context контекст данных для страницы
+     */
+    stopEventListener(context) {
+        const form = document.getElementById('login-form');
+        form.removeEventListener('focusout', this.realTimeCheckHandler);
+        form.removeEventListener('submit', this.onSubmitHandler);
+    }
+
+    /**
      * Функция, осуществляющая валидацию данных из формы.
      * @param {object} event - событие, произошедшее на странице
      */
     async realTimeCheckHandler(event) {
-        const validation = new Val();
         switch (event.target.name) {
         case 'email':
-            const valEmail = validation.validateEMail(event.target.value);
+            const valEmail = this.validation.validateEMail(event.target.value);
             if (valEmail !== undefined && !valEmail.status) {
-                validation.getErrorMessage(document.getElementById(event.target.name),
+                this.validation.getErrorMessage(document.getElementById(event.target.name),
                     'emailError', valEmail.message);
             } else if (document.getElementById('emailError') !== null) {
                 document.getElementById('emailError').remove();
             }
             break;
         case 'password':
-            const valPassword = validation.validatePassword(event.target.value);
+            const valPassword = this.validation.validatePassword(event.target.value);
             if (valPassword !== undefined && !valPassword.status) {
-                validation.getErrorMessage(document.getElementById(event.target.name),
+                this.validation.getErrorMessage(document.getElementById(event.target.name),
                     'passwordError', valPassword.message);
             } else if (document.getElementById('passwordError') !== null) {
                 document.getElementById('passwordError').remove();
@@ -77,11 +88,10 @@ export default class LoginPage extends BasePage {
      */
     async onSubmitHandler(config, form, event) {
         const data = [];
-        const validation = new Val();
+        const {fields} = this.context;
         event.preventDefault();
-        console.log(this.fields);
-        Object.keys(this.fields).forEach((page) => {
-            const element = form.querySelector(`[name=${this.fields[page].name}]`);
+        Object.keys(fields).forEach((page) => {
+            const element = form.querySelector(`[name=${fields[page].name}]`);
             data.push(element.value);
         });
 
@@ -89,15 +99,13 @@ export default class LoginPage extends BasePage {
         data[0] = data[0].trim();
         const [email, password] = data;
 
-        console.log('credentials valid', validation.validateRegFields(email, password));
-        if (validation.validateRegFields(email, password)) {
+        console.log('credentials valid', this.validation.validateRegFields(email, password));
+        if (this.validation.validateRegFields(email, password)) {
             const r = new Req();
             const [status] = await r.makePostRequest('api/v1/login', {
                 password,
                 email,
             }).catch((err) => console.log(err));
-
-            console.log('onSubmitHandler', status);
 
             switch (status) {
             case 201:
@@ -109,18 +117,18 @@ export default class LoginPage extends BasePage {
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
-                    validation.getServerMessage(document.getElementById('inForm'),
+                    this.validation.getServerMessage(document.getElementById('inForm'),
                         'Error400Message', 'Ошибка. Попробуйте еще раз') :
                     console.log('bad request: ', status);
                 break;
             case 401:
-                validation.getErrorMessage(document.getElementById(this.fields.email.name),
+                this.validation.getErrorMessage(document.getElementById(fields.email.name),
                     'emailError', 'Неверная почта или пароль');
                 console.log('no auth: ', status);
                 break;
             default:
                 document.getElementById('serverErrorMessage') === null ?
-                    validation.getServerMessage(document.getElementById('inForm'),
+                    this.validation.getServerMessage(document.getElementById('inForm'),
                         'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                     console.log('server error: ', status);
                 break;
@@ -133,8 +141,8 @@ export default class LoginPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
-        const context = config.forms.signin;
-        super.render(context);
+        // const context = config.forms.signin;
+        super.render(this.context);
 
         /* Создание и отрисовка компонента Header */
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
@@ -142,16 +150,18 @@ export default class LoginPage extends BasePage {
 
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('login-form'));
-        this.formComponent.render(context);
+        this.formComponent.render(this.context);
 
         /* Создание и отрисовка компонента Footer */
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
         const form = document.getElementById('login-form');
-        document.getElementById(this.fields.email.name).focus();
+        document.getElementById(this.context.fields.email.name).focus();
 
+        this.validation = new Val();
         form.addEventListener('focusout', this.realTimeCheckHandler);
-        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
+        this.onSubmitHandler = this.onSubmitHandler.bind(this, config, form);
+        form.addEventListener('submit', this.onSubmitHandler);
     }
 }

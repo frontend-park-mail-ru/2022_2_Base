@@ -71,27 +71,27 @@ const config = {
         },
     },
     forms: {
-        signin: {
-            fields: {
-                email: {
-                    title: 'Почта',
-                    type: 'email',
-                    name: 'email',
-                    placeholder: 'mail@website.com',
-                    maxLength: '30',
-                },
-                password: {
-                    title: 'Пароль',
-                    type: 'password',
-                    name: 'password',
-                    placeholder: 'Введите пароль',
-                    maxLength: '16',
-                },
-            },
-            button: {
-                buttonValue: 'Войти',
-            },
-        },
+        // signin: {
+        //     fields: {
+        //         email: {
+        //             title: 'Почта',
+        //             type: 'email',
+        //             name: 'email',
+        //             placeholder: 'mail@website.com',
+        //             maxLength: '30',
+        //         },
+        //         password: {
+        //             title: 'Пароль',
+        //             type: 'password',
+        //             name: 'password',
+        //             placeholder: 'Введите пароль',
+        //             maxLength: '16',
+        //         },
+        //     },
+        //     button: {
+        //         buttonValue: 'Войти',
+        //     },
+        // },
         signup: {
             fields: {
                 name: {
@@ -151,7 +151,7 @@ const changePage = async (event) => {
     Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            // config.currentPage.stopEventListener(config);
+            config.currentPage.stopEventListener(config);
             config.currentPage = config.header[page].render(config);
         }
     });
