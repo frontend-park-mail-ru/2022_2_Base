@@ -10,7 +10,7 @@ import Val from '../../modules/validation.js';
  * Класс, реализующий страницу входа.
  */
 export default class LoginPage extends BasePage {
-    #fields = {
+    fields = {
         email: {
             title: 'Почта',
             type: 'email',
@@ -26,7 +26,7 @@ export default class LoginPage extends BasePage {
             maxLength: '16',
         },
     };
-    #button = {
+    button = {
         buttonValue: 'Войти',
     };
 
@@ -77,8 +77,8 @@ export default class LoginPage extends BasePage {
         const data = [];
         const validation = new Val();
         event.preventDefault();
-        Object.keys(this.#fields).forEach((page) => {
-            const element = this.form.querySelector(`[name=${this.#fields[page].name}]`);
+        Object.keys(this.fields).forEach((page) => {
+            const element = this.form.querySelector(`[name=${this.fields[page].name}]`);
             data.push(element.value);
         });
 
@@ -109,7 +109,7 @@ export default class LoginPage extends BasePage {
                     console.log('bad request: ', status);
                 break;
             case 401:
-                validation.getErrorMessage(document.getElementById(this.#fields.email.name),
+                validation.getErrorMessage(document.getElementById(this.fields.email.name),
                     'emailError', 'Неверная почта или пароль');
                 console.log('no auth: ', status);
                 break;
@@ -144,7 +144,7 @@ export default class LoginPage extends BasePage {
         this.footerComponent.render();
 
         const form = document.getElementById('login-form');
-        document.getElementById(this.#fields.email.name).focus();
+        document.getElementById(this.fields.email.name).focus();
 
         form.addEventListener('focusout', this.realTimeCheckHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind({context, form}));
