@@ -45,6 +45,9 @@ export default class Validation {
      * и полем сообщением ошибки message
      */
     validateEMail = (data) => {
+        if (data === "") {
+            return {status: false, message: 'Поле обязательно должно быть заполнено'};
+        }
         if (!(emailRegex).test(data)) {
             return {status: false, message: 'Неверный формат почты'};
         }
@@ -58,6 +61,9 @@ export default class Validation {
      * и полем сообщением ошибки message
      */
     validatePassword = (data) => {
+        if (data === "") {
+            return {status: false, message: 'Поле обязательно должно быть заполнено'};
+        }
         if (data.length < 6) {
             return {status: false, message: 'Должен содержать минимум 6 символов'};
         }

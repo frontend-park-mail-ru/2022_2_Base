@@ -53,21 +53,23 @@ export default class LoginPage extends BasePage {
             const validation = new Val();
             switch (event.target.name) {
             case 'email':
+                if (document.getElementById('emailError') !== null) {
+                    document.getElementById('emailError').remove();
+                }
                 const valEmail = validation.validateEMail(event.target.value);
                 if (valEmail !== undefined && !valEmail.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name),
                         'emailError', valEmail.message);
-                } else if (document.getElementById('emailError') !== null) {
-                    document.getElementById('emailError').remove();
                 }
                 break;
             case 'password':
+                if (document.getElementById('passwordError') !== null) {
+                    document.getElementById('passwordError').remove();
+                }
                 const valPassword = validation.validatePassword(event.target.value);
                 if (valPassword !== undefined && !valPassword.status) {
                     validation.getErrorMessage(document.getElementById(event.target.name),
                         'passwordError', valPassword.message);
-                } else if (document.getElementById('passwordError') !== null) {
-                    document.getElementById('passwordError').remove();
                 }
                 break;
             }
@@ -122,6 +124,23 @@ export default class LoginPage extends BasePage {
                         console.log('server error: ', status);
                     break;
                 }
+            } else {
+                const eventError = {
+                    email: {
+                        target: {
+                            name: "email",
+                            value: email,
+                        },
+                    },
+                    password: {
+                        target: {
+                            name: "password",
+                            value: password,
+                        },
+                    },
+                }
+                realTimeCheckHandler(eventError.email);
+                realTimeCheckHandler(eventError.password);
             }
         };
 
