@@ -47,7 +47,6 @@ export default class LoginPage extends BasePage {
      */
     async realTimeCheckHandler(event) {
         const validation = new Val();
-        console.log('realTimeCheckHandler', event);
         switch (event.target.name) {
         case 'email':
             const valEmail = validation.validateEMail(event.target.value);
@@ -72,14 +71,17 @@ export default class LoginPage extends BasePage {
 
     /**
      * Функция, обрабатывающая посылку формы.
+     * @param {object} config глобальный контекст
+     * @param {object} form поля формы
      * @param {object} event событие отправки формы
      */
-    async onSubmitHandler(event) {
+    async onSubmitHandler(config, form, event) {
         const data = [];
         const validation = new Val();
         event.preventDefault();
+        console.log(this.fields);
         Object.keys(this.fields).forEach((page) => {
-            const element = this.form.querySelector(`[name=${this.fields[page].name}]`);
+            const element = form.querySelector(`[name=${this.fields[page].name}]`);
             data.push(element.value);
         });
 
@@ -100,10 +102,10 @@ export default class LoginPage extends BasePage {
             switch (status) {
             case 201:
                 console.log('auth');
-                this.config.authorised = true;
-                this.form.removeEventListener('focusout', this.realTimeCheckHandler);
-                this.form.removeEventListener('submit', this.onSubmitHandler);
-                this.config.header.main.render(this.config);
+                config.authorised = true;
+                form.removeEventListener('focusout', this.realTimeCheckHandler);
+                form.removeEventListener('submit', this.onSubmitHandler);
+                config.header.main.render(config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
@@ -150,6 +152,6 @@ export default class LoginPage extends BasePage {
         document.getElementById(this.fields.email.name).focus();
 
         form.addEventListener('focusout', this.realTimeCheckHandler);
-        // form.addEventListener('submit', this.onSubmitHandler.bind({config, form}));
+        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }
 }
