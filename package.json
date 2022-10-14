@@ -8,6 +8,8 @@
     "build": "handlebars -m public/src/components/*/*.hbs -f ./public/src/components/templates.js && handlebars -m public/src/pages/*/*.hbs -f ./public/src/pages/templates.js",
     "deploy": "screen -d -m -S frontend sudo npm start",
     "dep": "screen -d -m -S sudo npm start",
+    "drop": "bash drop.sh",
+    "restart": "npm run drop && npm run dep",
     "lint": "npx eslint . --ext .js",
     "lint:fix": "npx eslint . --ext .js --fix"
   },

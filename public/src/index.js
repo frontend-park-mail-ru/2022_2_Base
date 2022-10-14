@@ -78,14 +78,14 @@ const config = {
                     type: 'email',
                     name: 'email',
                     placeholder: 'mail@website.com',
-                    maxlenght: '30',
+                    maxLength: '30',
                 },
                 password: {
                     title: 'Пароль',
                     type: 'password',
                     name: 'password',
                     placeholder: 'Введите пароль',
-                    maxlenght: '16',
+                    maxLength: '16',
                 },
             },
             button: {
@@ -99,28 +99,28 @@ const config = {
                     type: 'text',
                     name: 'name',
                     placeholder: 'Введите имя',
-                    maxlenght: '30',
+                    maxLength: '30',
                 },
                 email: {
                     title: 'Почта',
                     type: 'email',
                     name: 'email',
                     placeholder: 'mail@website.com',
-                    maxlenght: '30',
+                    maxLength: '30',
                 },
                 password: {
                     title: 'Пароль',
                     type: 'password',
                     name: 'password',
                     placeholder: 'Придумайте пароль',
-                    maxlenght: '16',
+                    maxLength: '16',
                 },
                 repeatPassword: {
                     title: 'Повторить пароль',
                     type: 'password',
                     name: 'repeat_password',
                     placeholder: 'Повторите пароль',
-                    maxlenght: '16',
+                    maxLength: '16',
                 },
             },
             button: {
@@ -128,7 +128,7 @@ const config = {
             },
         },
     },
-    authorised: true,
+    authorised: false,
     currentPage: null,
 };
 

@@ -99,7 +99,7 @@
 
 .text-normal-default-bold {
     font-family: var(--font-main);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 16px;
     line-height: 25px;
     color: var(--jet-black);
@@ -107,7 +107,7 @@
 
 .text-normal-large {
     font-family: var(--font-main);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 20px;
     line-height: 26px;
 }
