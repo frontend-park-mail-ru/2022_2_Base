@@ -18,16 +18,16 @@ export default class Header extends BaseComponent {
      * Функция для передачи в слушателе mouseover.
      */
     async listenMouseOverProfile() {
-        const headerPopUp = document.querySelector('.profile__pop-up');
-        headerPopUp.style.display = 'block';
+        // const headerPopUp = document.querySelector('.profile__pop-up');
+        // headerPopUp.style.display = 'block';
     }
 
     /**
      * Функция для передачи в слушателе mouseout.
      */
     async listenMouseOutProfile() {
-        const headerPopUp = document.querySelector('.profile__pop-up');
-        headerPopUp.style.display = 'none';
+        // const headerPopUp = document.querySelector('.profile__pop-up');
+        // headerPopUp.style.display = 'none';
     }
 
     /**
@@ -47,7 +47,7 @@ export default class Header extends BaseComponent {
      * @param {any} session контекст данных для компонента
      */
     stopEventListener(session) {
-        if (!session) {
+        if (session) {
             const headerProfile = document.querySelector('.header__profile');
             headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
             headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
