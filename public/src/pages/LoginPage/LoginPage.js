@@ -160,7 +160,7 @@ export default class LoginPage extends BasePage {
         document.getElementById(this.context.fields.email.name).focus();
 
         this.validation = new Val();
-        form.addEventListener('focusout', this.realTimeCheckHandler);
+        form.addEventListener('focusout', this.realTimeCheckHandler.bind(this));
         this.onSubmitHandler = this.onSubmitHandler.bind(this, config, form);
         form.addEventListener('submit', this.onSubmitHandler);
     }
