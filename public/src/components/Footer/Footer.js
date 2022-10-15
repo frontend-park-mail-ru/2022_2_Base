@@ -18,7 +18,7 @@ export default class Header extends BaseComponent {
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
      */
-    render() {
-        this._parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['footer.hbs']());
+    render(e) {
+        this._parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['footer.hbs'](e));
     }
 }

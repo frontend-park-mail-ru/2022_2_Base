@@ -34,18 +34,26 @@ export default class Header extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const headerProfile = document.querySelector('.header__profile').catch((err) => console.log(err));
-        headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
-        headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
+        const headerProfile = document.querySelector('.header__profile');
+        if (headerProfile) {
+            headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
+            headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
+        } else {
+            console.log('element not found', headerProfile);
+        }
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     stopEventListener() {
-        const headerProfile = document.querySelector('.header__profile').catch((err) => console.log(err));
-        headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
-        headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
+        const headerProfile = document.querySelector('.header__profile');
+        if (headerProfile) {
+            headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
+            headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
+        } else {
+            console.log('element not found', headerProfile);
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ export default class RefreshEl {
      */
     constructor(root) {
         const page = document.createElement('div');
-        page.class = 'page';
+        page.classList.add('page');
         page.appendChild(this.createElementWithId('header'));
         page.appendChild(this.createElementWithId('main'));
         page.appendChild(this.createElementWithId('footer'));
