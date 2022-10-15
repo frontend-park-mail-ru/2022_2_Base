@@ -19,7 +19,7 @@ export default class ItemCard extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        this._parent.insertAdjacentHTML('afterbegin',
+        this._parent.insertAdjacentHTML('beforebegin',
             window.Handlebars.templates['itemCard.hbs'](context));
     }
 }

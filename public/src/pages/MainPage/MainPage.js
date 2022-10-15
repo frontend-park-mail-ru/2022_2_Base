@@ -31,6 +31,7 @@ export default class MainPage extends BasePage {
         const [status, outD] = await r.makeGetRequest(reqPath)
             .catch((err) => console.log(err));
 
+        const rootElement = document.getElementById(classToGet + '__right-arrow');
         if (status === 200) {
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
@@ -45,8 +46,11 @@ export default class MainPage extends BasePage {
                     cardTitle: card.name,
                     rating: card.rating,
                 };
-                this.itemCard = new ItemCard(document.getElementById(`${classToGet}${String(num + 1)}`));
-                // this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
+                const cardElement = document.createElement('div');
+                cardElement.id = `${classToGet}${String(num)}`;
+                rootElement.before(cardElement);
+                this.itemCard = new ItemCard(cardElement);
+                // this.itemCard = new ItemCard(document.getElementById(`${classToGet}${String(num + 1)}`));
                 this.itemCard.render(newCard);
             });
         } else if (!document.getElementById('ServerLoadError')) {
