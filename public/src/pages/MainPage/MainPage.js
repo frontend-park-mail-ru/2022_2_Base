@@ -46,9 +46,12 @@ export default class MainPage extends BasePage {
                     cardTitle: card.name,
                     rating: card.rating,
                 };
+                /* creating div to add */
                 const cardElement = document.createElement('div');
                 cardElement.id = `${classToGet}${String(num)}`;
+                cardElement.class = 'item-card';
                 rootElement.before(cardElement);
+                /* rendering card itself */
                 this.itemCard = new ItemCard(cardElement);
                 // this.itemCard = new ItemCard(document.getElementById(`${classToGet}${String(num + 1)}`));
                 this.itemCard.render(newCard);
