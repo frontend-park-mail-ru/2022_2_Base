@@ -126,12 +126,9 @@ window.addEventListener('authEvent', onAuthAndLogout);
  */
 const checkSession = async () => {
     const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
+
+    config.auth.authorised = status === 200;
     window.dispatchEvent(config.auth.event);
-    if (status === 200) {
-        config.auth.authorised = true;
-        return;
-    }
-    config.auth.authorised = false;
 };
 
 window.addEventListener('load', checkSession, {once: true});
