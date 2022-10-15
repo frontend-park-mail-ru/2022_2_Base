@@ -19,8 +19,7 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        this._parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates['topCategory.hbs'](this.prepareCategory(context)));
+        super.render(this.prepareRenderData(context), 'topCategory.hbs');
     }
 
     /**
@@ -28,7 +27,7 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} значение категории из контекста отрисовки
      */
-    prepareCategory(context) {
+    prepareRenderData(context) {
         return {category: {...context}};
     }
 }

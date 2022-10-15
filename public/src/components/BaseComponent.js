@@ -15,9 +15,12 @@ export default class BaseComponent {
 
     /**
      * Метод, отрисовывающий компонент.
-     * @param {any} data контекст данных для компонента
+     * @param {any} context контекст данных для компонента
+     * @param {string} templateName название шаблона
      */
-    render(data) {
+    render(context, templateName) {
+        this._parent.insertAdjacentHTML('afterbegin',
+            window.Handlebars.templates[templateName](context));
     }
 
     /**

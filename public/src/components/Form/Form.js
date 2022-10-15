@@ -19,8 +19,7 @@ export default class Form extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        const data = this.prepareForm(context);
-        this._parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
+        super.render(this.prepareRenderData(context), 'form.hbs');
     }
 
     /**
@@ -28,7 +27,7 @@ export default class Form extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-    prepareForm(context) {
+    prepareRenderData(context) {
         return {
             field: {...context.fields},
             button: context.button.buttonValue,

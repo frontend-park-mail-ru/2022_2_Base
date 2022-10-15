@@ -59,11 +59,18 @@ export default class Header extends BaseComponent {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Boolean} sessionValue контекст отрисовки шаблона, содержащий информацию об авторизации
+     * @param {Boolean} session контекст отрисовки шаблона, содержащий информацию об авторизации
      */
-    render(sessionValue) {
-        const session = {session: sessionValue};
-        this._parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates['header.hbs'](session));
+    render(session) {
+        super.render(this.prepareRenderData(session), 'header.hbs');
+    }
+
+    /**
+     * Метод, подготавливавающий наполнение для формы, исходя из контекста
+     * @param {Object} context контекст отрисовки шаблона
+     * @return {Object} значение категории из контекста отрисовки
+     */
+    prepareRenderData(context) {
+        return {session: context};
     }
 }
