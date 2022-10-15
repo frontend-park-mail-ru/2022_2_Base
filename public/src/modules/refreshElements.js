@@ -33,13 +33,15 @@ export default class RefreshEl {
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {object} context - контекст отрисовки компонента
+     * @param {object} config - контекст отрисовки компонента
      */
-    refreshHeader(context) {
+    refreshHeader(config) {
         const header = document.getElementById('header');
         header.innerHTML = '';
         const headerComponent = new HeaderComponent(header);
-        headerComponent.render(context.authorised);
+        headerComponent.render(config.auth.authorised);
+        config.auth.authorised ? headerComponent.startEventListener() :
+            headerComponent.stopEventListener();
     };
 
     /**
