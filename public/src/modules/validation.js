@@ -11,8 +11,9 @@ export default class Validation {
      * и полем сообщением ошибки message
      */
     validateEMail = (data) => {
-        if (data === "") {
-            return {status: false, message: 'Поле обязательно должно быть заполнено'};
+        const checkEmpty = this.checkEmptyField(data);
+        if (!checkEmpty.status) {
+            return checkEmpty;
         }
         if (!(emailRegex).test(data)) {
             return {status: false, message: 'Неверный формат почты'};
@@ -27,8 +28,9 @@ export default class Validation {
      * и полем сообщением ошибки message
      */
     validatePassword = (data) => {
-        if (data === "") {
-            return {status: false, message: 'Поле обязательно должно быть заполнено'};
+        const checkEmpty = this.checkEmptyField(data);
+        if (!checkEmpty.status) {
+            return checkEmpty;
         }
         if (data.length < 6) {
             return {status: false, message: 'Должен содержать минимум 6 символов'};
@@ -37,14 +39,15 @@ export default class Validation {
     };
 
     /**
-     * Метод, проверяющий, прошла ли валидация данных успешно
-     * @param {string} email - e-mail для валидации
-     * @param {string} password - пароль для валидации
-     * @param {string} anotherPassword - дублированный пароль для валидации
-     * @return {boolean} - boolean значение, зависящее от успешности валидации данных
+     * 
+     * @param {string} data - данные для валидации
+     * @returns {{status: boolean, message: String}} - объект со полем статуса проверки status
+     * и полем сообщением ошибки message
      */
-    validateRegFields = (email, password, anotherPassword = password) => {
-        return ((password === anotherPassword) && (this.validateEMail(email).status) &&
-            (this.validatePassword(password).status));
+    checkEmptyField = (data) => {
+        if (data === "") {
+            return {status: false, message: 'Поле обязательно должно быть заполнено'};
+        }
+        return {status: true, message: ''};
     };
 };

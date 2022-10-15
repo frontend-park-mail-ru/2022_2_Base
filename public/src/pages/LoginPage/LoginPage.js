@@ -78,6 +78,7 @@ export default class LoginPage extends BasePage {
             }
 
             const r = new Req();
+            const [email, password] = Array.from(data);
             const [status] = await r.makePostRequest('api/v1/login', {password, email}).
                 catch((err) => console.log(err));
 
@@ -119,8 +120,6 @@ export default class LoginPage extends BasePage {
      * @param {object} event событие фокусирования на элементе
      */
     async DeleteErrorMessage(event) {
-        console.log(event);
-
         if (document.getElementById(event.target.name + 'Error') !== null) {
             document.getElementById(event.target.name + 'Error').remove();
         }

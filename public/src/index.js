@@ -131,7 +131,7 @@ const config = {
                 repeatPassword: {
                     title: 'Повторить пароль',
                     type: 'password',
-                    name: 'repeat_password',
+                    name: 'repeatPassword',
                     placeholder: 'Повторите пароль',
                     maxlenght: '16',
                 },
