@@ -70,64 +70,6 @@ const config = {
             img: './img/Accessories.png',
         },
     },
-    forms: {
-        // signin: {
-        //     fields: {
-        //         email: {
-        //             title: 'Почта',
-        //             type: 'email',
-        //             name: 'email',
-        //             placeholder: 'mail@website.com',
-        //             maxLength: '30',
-        //         },
-        //         password: {
-        //             title: 'Пароль',
-        //             type: 'password',
-        //             name: 'password',
-        //             placeholder: 'Введите пароль',
-        //             maxLength: '16',
-        //         },
-        //     },
-        //     button: {
-        //         buttonValue: 'Войти',
-        //     },
-        // },
-        signup: {
-            fields: {
-                name: {
-                    title: 'Имя',
-                    type: 'text',
-                    name: 'name',
-                    placeholder: 'Введите имя',
-                    maxLength: '30',
-                },
-                email: {
-                    title: 'Почта',
-                    type: 'email',
-                    name: 'email',
-                    placeholder: 'mail@website.com',
-                    maxLength: '30',
-                },
-                password: {
-                    title: 'Пароль',
-                    type: 'password',
-                    name: 'password',
-                    placeholder: 'Придумайте пароль',
-                    maxLength: '16',
-                },
-                repeatPassword: {
-                    title: 'Повторить пароль',
-                    type: 'password',
-                    name: 'repeat_password',
-                    placeholder: 'Повторите пароль',
-                    maxLength: '16',
-                },
-            },
-            button: {
-                buttonValue: 'Зарегистрироваться',
-            },
-        },
-    },
     authorised: false,
     currentPage: null,
 };

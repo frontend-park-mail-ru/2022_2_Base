@@ -10,7 +10,41 @@ import Val from '../../modules/validation.js';
  * Класс, реализующий страницу с регистрации.
  */
 export default class RegisterPage extends BasePage {
-    #validation;
+    context = {
+        fields: {
+            name: {
+                title: 'Имя',
+                type: 'text',
+                name: 'name',
+                placeholder: 'Введите имя',
+                maxLength: '30',
+            },
+            email: {
+                title: 'Почта',
+                type: 'email',
+                name: 'email',
+                placeholder: 'mail@website.com',
+                maxLength: '30',
+            },
+            password: {
+                title: 'Пароль',
+                type: 'password',
+                name: 'password',
+                placeholder: 'Придумайте пароль',
+                maxLength: '16',
+            },
+            repeatPassword: {
+                title: 'Повторить пароль',
+                type: 'password',
+                name: 'repeat_password',
+                placeholder: 'Повторите пароль',
+                maxLength: '16',
+            },
+        },
+        button: {
+            buttonValue: 'Зарегистрироваться',
+        },
+    };
 
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
@@ -21,16 +55,112 @@ export default class RegisterPage extends BasePage {
             parent,
             window.Handlebars.templates['RegisterPage.hbs'],
         );
-        this.#validation = new Val();
     }
+
+    /**
+     * Метод, удаляющий слушатели.
+     * @param {any} context контекст данных для страницы
+     */
+    stopEventListener(context) {
+        const form = document.getElementById('signup__form');
+        form.removeEventListener('focusout', this.realTimeCheckHandler);
+        form.removeEventListener('submit', this.onSubmitHandler);
+    }
+
+    /**
+     * Функция, осуществляющая валидацию данных из формы.
+     * @param {object} event - событие, произошедшее на странице
+     */
+    async realTimeCheckHandler(event) {
+        const validate = (valData, errorID) => {
+            if (valData !== undefined && !valData.status) {
+                this.validation.getErrorMessage(document.getElementById(event.target.name),
+                    errorID, valData.message);
+            } else if (document.getElementById(errorID) !== null) {
+                document.getElementById(errorID).remove();
+            }
+        };
+
+        switch (event.target.name) {
+        case this.context.fields.email.name:
+            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
+            break;
+        case this.context.fields.password.name:
+            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
+        }
+    };
+
+    /**
+     * Функция, обрабатывающая посылку формы.
+     * @param {object} config глобальный контекст
+     * @param {object} form поля формы
+     * @param {object} event событие отправки формы
+     */
+    async onSubmitHandler(config, form, event) {
+        event.preventDefault();
+        const data = [];
+        const {fields} = this.context;
+        Object.keys(fields).forEach(function(page) {
+            const element = form.querySelector(`[name=${fields[page].name}]`);
+            data.push(element.value);
+        });
+        if (data[data.length - 1] !== data[data.length - 2]) {
+            this.validation.getErrorMessage(document.getElementById(fields.repeatPassword.name),
+                'repeatPasswordError', 'Введенные пароли не совпадают');
+        } else {
+            if (document.getElementById('repeatPasswordError') !== null) {
+                document.getElementById('repeatPasswordError').remove();
+            }
+        }
+
+        // timing email
+        data[1] = data[1].trim();
+        const [username, email, password, anotherPassword] = data;
+
+        console.log('credentials valid', this.validation.validateRegFields(email, password));
+        if (this.validation.validateRegFields(email, password, anotherPassword)) {
+            const r = new Req();
+            const [status] = await r.makePostRequest('api/v1/login', {
+                password,
+                email,
+                username,
+            }).catch((err) => console.log(err));
+
+            switch (status) {
+            case 201:
+                console.log('auth');
+                config.authorised = true;
+                form.removeEventListener('focusout', this.realTimeCheckHandler);
+                form.removeEventListener('submit', this.onSubmitHandler);
+                config.currentPage = config.header.main.render(config);
+                break;
+            case 400:
+                document.getElementById('Error400Message') === null ?
+                    this.validation.getServerMessage(document.getElementById('inForm'),
+                        'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                    console.log('bad request: ', status);
+                break;
+            case 401:
+                this.validation.getErrorMessage(document.getElementById(fields.email.name),
+                    'emailError', 'Неверная почта или пароль');
+                console.log('no auth: ', status);
+                break;
+            default:
+                document.getElementById('serverErrorMessage') === null ?
+                    this.validation.getServerMessage(document.getElementById('inForm'),
+                        'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                    console.log('server error: ', status);
+                break;
+            }
+        }
+    };
 
     /**
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
-        const context = config.forms.signup;
-        super.render(context);
+        super.render(this.context);
 
         /* Создание и отрисовка компонента Header */
         this.headerComponent = new HeaderComponent(document.getElementById('header'));
@@ -38,103 +168,18 @@ export default class RegisterPage extends BasePage {
 
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('signup__form'));
-        this.formComponent.render(context);
+        this.formComponent.render(this.context);
 
         /* Создание и отрисовка компонента Footer */
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
         const form = document.getElementById('signup__form');
-        const fields = context.fields;
-        document.getElementById(fields.name.name).focus();
+        document.getElementById(this.context.fields.name.name).focus();
 
-        /**
-         * Функция, осуществляющая валидацию данных из формы.
-         * @param {object} event - событие, произошедшее на странице
-         */
-        const realTimeCheckHandler = async (event) => {
-            switch (event.target.name) {
-            case 'email':
-                const valEmail = this.#validation.validateEMail(event.target.value);
-                if (valEmail !== undefined && !valEmail.status) {
-                    this.#validation.getErrorMessage(document.getElementById(event.target.name),
-                        'emailError', valEmail.message);
-                } else if (!document.getElementById('emailError')) {
-                    document.getElementById('emailError').remove();
-                }
-                break;
-            case 'password':
-                const valPassword = this.#validation.validatePassword(event.target.value);
-                if (valPassword !== undefined && !valPassword.status) {
-                    this.#validation.getErrorMessage(document.getElementById(event.target.name),
-                        'passwordError', valPassword.message);
-                } else if (!document.getElementById('passwordError')) {
-                    document.getElementById('passwordError').remove();
-                }
-                break;
-            }
-        };
-
-        /**
-         * Функция, обрабатывающая посылку формы.
-         * @param {object} event событие отправки формы
-         */
-        const onSubmitHandler = async (event) => {
-            event.preventDefault();
-            const data = [];
-            Object.keys(fields).forEach(function(page) {
-                const element = form.querySelector(`[name=${fields[page].name}]`);
-                data.push(element.value);
-            });
-            if (data[data.length - 1] !== data[data.length - 2]) {
-                this.#validation.getErrorMessage(document.getElementById(fields.repeatPassword.name),
-                    'repeatPasswordError', 'Введенные пароли не совпадают');
-            } else {
-                if (document.getElementById('repeatPasswordError') !== null) {
-                    document.getElementById('repeatPasswordError').remove();
-                }
-            }
-
-            //  timing email
-            data[1] = data[1].trim();
-            const [username, email, password, anotherPassword] = data;
-
-            if (this.#validation.validateRegFields(email, password, anotherPassword)) {
-                const r = new Req();
-                const [status] = await r.makePostRequest('api/v1/signup',
-                    {password, email, username});
-
-                switch (status) {
-                case 201:
-                    console.log('auth');
-                    config.authorised = true;
-                    form.removeEventListener('focusout', realTimeCheckHandler);
-                    form.removeEventListener('submit', onSubmitHandler);
-                    config.header.main.render(config);
-                    break;
-                case 400:
-                    document.getElementById('Error400Message') === null ?
-                        this.#validation.getServerMessage(document.getElementById('inForm'),
-                            'Error400Message', 'Ошибка. Попробуйте еще раз') :
-                        console.log('bad request: ', status);
-                    break;
-                case 409:
-                    this.#validation.getErrorMessage(document.getElementById(fields.email.name),
-                        'emailError', 'Почта уже занята');
-                    console.log('no auth: ', status);
-                    break;
-                default:
-                    document.getElementById('serverErrorMessage') === null ?
-                        this.#validation.getServerMessage(document.getElementById('inForm'),
-                            'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
-                        console.log('server error: ', status);
-                    break;
-                }
-            }
-        };
-
-        form.addEventListener('focusout', realTimeCheckHandler);
-
-        form.addEventListener('submit', onSubmitHandler);
+        this.validation = new Val();
+        form.addEventListener('focusout', this.realTimeCheckHandler.bind(this));
+        this.onSubmitHandler = this.onSubmitHandler.bind(this, config, form);
+        form.addEventListener('submit', this.onSubmitHandler);
     }
 }

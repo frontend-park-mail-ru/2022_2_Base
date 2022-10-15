@@ -18,6 +18,7 @@ export default class LoginPage extends BasePage {
                 name: 'email',
                 placeholder: 'mail@website.com',
                 maxLength: '30',
+                errorID: 'emailError',
             },
             password: {
                 title: 'Пароль',
@@ -25,6 +26,7 @@ export default class LoginPage extends BasePage {
                 name: 'password',
                 placeholder: 'Введите пароль',
                 maxLength: '16',
+                errorID: 'passwordError',
             },
         },
         button: {
@@ -58,25 +60,21 @@ export default class LoginPage extends BasePage {
      * @param {object} event - событие, произошедшее на странице
      */
     async realTimeCheckHandler(event) {
+        const validate = (valData, errorID) => {
+            if (valData !== undefined && !valData.status) {
+                this.validation.getErrorMessage(document.getElementById(event.target.name),
+                    errorID, valData.message);
+            } else if (document.getElementById(errorID) !== null) {
+                document.getElementById(errorID).remove();
+            }
+        };
+
         switch (event.target.name) {
-        case 'email':
-            const valEmail = this.validation.validateEMail(event.target.value);
-            if (valEmail !== undefined && !valEmail.status) {
-                this.validation.getErrorMessage(document.getElementById(event.target.name),
-                    'emailError', valEmail.message);
-            } else if (document.getElementById('emailError') !== null) {
-                document.getElementById('emailError').remove();
-            }
+        case this.context.fields.email.name:
+            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
             break;
-        case 'password':
-            const valPassword = this.validation.validatePassword(event.target.value);
-            if (valPassword !== undefined && !valPassword.status) {
-                this.validation.getErrorMessage(document.getElementById(event.target.name),
-                    'passwordError', valPassword.message);
-            } else if (document.getElementById('passwordError') !== null) {
-                document.getElementById('passwordError').remove();
-            }
-            break;
+        case this.context.fields.password.name:
+            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
         }
     };
 
@@ -113,7 +111,7 @@ export default class LoginPage extends BasePage {
                 config.authorised = true;
                 form.removeEventListener('focusout', this.realTimeCheckHandler);
                 form.removeEventListener('submit', this.onSubmitHandler);
-                config.header.main.render(config);
+                config.currentPage = config.header.main.render(config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
@@ -141,7 +139,6 @@ export default class LoginPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
-        // const context = config.forms.signin;
         super.render(this.context);
 
         /* Создание и отрисовка компонента Header */
