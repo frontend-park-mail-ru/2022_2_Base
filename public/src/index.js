@@ -78,6 +78,13 @@ const config = {
         authorised: false,
         event: authEvent,
     },
+    api: {
+        login: 'api/v1/login',
+        signup: 'api/v1/signup',
+        logout: 'api/v1/logout',
+        session: 'api/v1/session',
+        products: 'api/v1/products',
+    },
     currentPage: null,
 };
 
@@ -104,7 +111,7 @@ const changePage = async (event) => {
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest(config.api.logout).catch((err) => console.log(err));
 
         if (status === 200) {
             config.auth.authorised = false;
@@ -125,11 +132,11 @@ window.addEventListener('authEvent', onAuthAndLogout);
  * Функция для получения сессии
  */
 const checkSession = async () => {
-    const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
+    const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
 
     config.auth.authorised = status === 200;
     window.dispatchEvent(config.auth.event);
 };
 
-window.addEventListener('load', checkSession, {once: true});
+window.addEventListener('DOMContentLoaded', checkSession, {once: true});
 config.currentPage = config.header.main.render(config);

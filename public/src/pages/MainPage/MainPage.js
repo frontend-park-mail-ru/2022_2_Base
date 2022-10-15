@@ -23,11 +23,12 @@ export default class MainPage extends BasePage {
     /**
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
+     * @param {string} reqPath путь для api запроса к беку
      */
-    async loadCards(classToGet) {
+    async loadCards(classToGet, reqPath) {
         //  loading cards
         const r = new Req();
-        const [status, outD] = await r.makeGetRequest('api/v1/products')
+        const [status, outD] = await r.makeGetRequest(reqPath)
             .catch((err) => console.log(err));
 
         if (status === 200) {
@@ -70,7 +71,7 @@ export default class MainPage extends BasePage {
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(config.topcategory);
 
-        await this.loadCards('salesCard');
-        await this.loadCards('popularCard');
+        await this.loadCards('salesCard', config.api.products);
+        await this.loadCards('popularCard', config.api.products);
     }
 }

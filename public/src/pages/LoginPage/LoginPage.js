@@ -98,7 +98,7 @@ export default class LoginPage extends BasePage {
         console.log('credentials valid', this.validation.validateRegFields(email, password));
         if (this.validation.validateRegFields(email, password)) {
             const r = new Req();
-            const [status] = await r.makePostRequest('api/v1/login', {
+            const [status] = await r.makePostRequest(config.api.login, {
                 password,
                 email,
             }).catch((err) => console.log(err));

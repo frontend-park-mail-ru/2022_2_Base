@@ -123,7 +123,7 @@ export default class RegisterPage extends BasePage {
         console.log('credentials valid', this.validation.validateRegFields(email, password));
         if (this.validation.validateRegFields(email, password, anotherPassword)) {
             const r = new Req();
-            const [status] = await r.makePostRequest('api/v1/login', {
+            const [status] = await r.makePostRequest(config.api.signup, {
                 password,
                 email,
                 username,
