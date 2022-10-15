@@ -1,8 +1,6 @@
 import '../templates.js';
 import BasePage from '../BasePage.js';
-import HeaderComponent from '../../components/Header/Header.js';
 import FormComponent from '../../components/Form/Form.js';
-import FooterComponent from '../../components/Footer/Footer.js';
 import Req from '../../modules/ajax.js';
 import Val from '../../modules/validation.js';
 
@@ -108,10 +106,11 @@ export default class LoginPage extends BasePage {
             switch (status) {
             case 201:
                 console.log('auth');
-                config.authorised = true;
+                config.auth.authorised = true;
+                window.dispatchEvent(config.auth.event);
+                config.currentPage = config.header.main.render(config);
                 form.removeEventListener('focusout', this.realTimeCheckHandler);
                 form.removeEventListener('submit', this.onSubmitHandler);
-                config.currentPage = config.header.main.render(config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
@@ -141,17 +140,9 @@ export default class LoginPage extends BasePage {
     render(config) {
         super.render(this.context);
 
-        /* Создание и отрисовка компонента Header */
-        // this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        // this.headerComponent.render(config.authorised);
-
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(this.context);
-
-        /* Создание и отрисовка компонента Footer */
-        // this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        // this.footerComponent.render();
 
         const form = document.getElementById('login-form');
         document.getElementById(this.context.fields.email.name).focus();

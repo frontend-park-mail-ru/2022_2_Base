@@ -5,7 +5,6 @@ import FooterComponent from '../components/Footer/Footer.js';
  * Класс, реализующий перерендеринг элементов
  */
 export default class RefreshEl {
-
     /**
      * Метод, реализующий создание тега с id
      * @param {string} tag - тег элемента для создания

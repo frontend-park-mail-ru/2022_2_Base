@@ -10,6 +10,7 @@ const request = new Req();
 const refresh = new RefreshEl(document.getElementById('root'));
 refresh.refreshFooter();
 const main = document.getElementById('main');
+const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
 
 /**
  * Функция отрисовки страницы регистрации
@@ -73,8 +74,10 @@ const config = {
             img: './img/Accessories.png',
         },
     },
-    authorised: false,
-    authEvent: new CustomEvent('Auth', {detail: 'trigger on auth'}),
+    auth: {
+        authorised: false,
+        event: authEvent,
+    },
     currentPage: null,
 };
 
@@ -104,28 +107,32 @@ const changePage = async (event) => {
         const [status] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
 
         if (status === 200) {
-            config.authorised = false;
-            refresh.refreshHeader(config);
+            config.auth.authorised = false;
+            window.dispatchEvent(config.auth.event);
         }
     }
 };
 
 window.addEventListener('click', changePage);
 
+const onAuthAndLogout = async () => {
+    refresh.refreshHeader(config);
+};
+
+window.addEventListener('authEvent', onAuthAndLogout);
+
 /**
  * Функция для получения сессии
  */
 const checkSession = async () => {
     const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
-    refresh.refreshHeader(config);
+    window.dispatchEvent(config.auth.event);
     if (status === 200) {
-        config.authorised = true;
+        config.auth.authorised = true;
         return;
-        // authEvent
     }
-    config.authorised = false;
+    config.auth.authorised = false;
 };
 
 window.addEventListener('load', checkSession, {once: true});
-
 config.currentPage = config.header.main.render(config);

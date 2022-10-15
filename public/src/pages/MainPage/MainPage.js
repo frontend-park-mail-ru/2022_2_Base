@@ -1,8 +1,6 @@
 import '../templates.js';
 import BasePage from '../BasePage.js';
-import HeaderComponent from '../../components/Header/Header.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
-import FooterComponent from '../../components/Footer/Footer.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 
 import Req from '../../modules/ajax.js';
@@ -51,7 +49,6 @@ export default class MainPage extends BasePage {
                 this.itemCard.render(newCard);
             });
         } else if (!document.getElementById('ServerLoadError')) {
-            console.log('error');
             const div = document.createElement('div');
             div.id = 'ServerLoadError';
             const span = document.createElement('span');
@@ -65,17 +62,13 @@ export default class MainPage extends BasePage {
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} context контекст отрисовки страницы
+     * @param {object} config контекст отрисовки страницы
      */
-    async render(context) {
-        super.render(context);
-        // this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        // this.headerComponent.render(context.authorised);
+    async render(config) {
+        super.render(config);
+
         this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(context.topcategory);
-        // this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        // this.footerComponent.render();
-        //  this.headerComponent.stopEventListener(context.authorised);
+        this.topComponent.render(config.topcategory);
 
         await this.loadCards('salesCard');
         await this.loadCards('popularCard');
