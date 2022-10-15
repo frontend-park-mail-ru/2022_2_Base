@@ -18,6 +18,7 @@ export default class RegisterPage extends BasePage {
                 name: 'name',
                 placeholder: 'Введите имя',
                 maxLength: '30',
+                errorID: 'nameError',
             },
             email: {
                 title: 'Почта',
@@ -25,6 +26,7 @@ export default class RegisterPage extends BasePage {
                 name: 'email',
                 placeholder: 'mail@website.com',
                 maxLength: '30',
+                errorID: 'emailError',
             },
             password: {
                 title: 'Пароль',
@@ -32,6 +34,7 @@ export default class RegisterPage extends BasePage {
                 name: 'password',
                 placeholder: 'Придумайте пароль',
                 maxLength: '16',
+                errorID: 'passwordError',
             },
             repeatPassword: {
                 title: 'Повторить пароль',
@@ -39,6 +42,7 @@ export default class RegisterPage extends BasePage {
                 name: 'repeat_password',
                 placeholder: 'Повторите пароль',
                 maxLength: '16',
+                errorID: 'repeatPasswordError',
             },
         },
         button: {
@@ -72,6 +76,7 @@ export default class RegisterPage extends BasePage {
      * @param {object} event - событие, произошедшее на странице
      */
     async realTimeCheckHandler(event) {
+        //  вывод сообщений об ошибке надо перенести в отдельный модуль
         const validate = (valData, errorID) => {
             if (valData !== undefined && !valData.status) {
                 this.validation.getErrorMessage(document.getElementById(event.target.name),
@@ -134,6 +139,7 @@ export default class RegisterPage extends BasePage {
                 form.removeEventListener('submit', this.onSubmitHandler);
                 config.currentPage = config.header.main.render(config);
                 break;
+                //  вывод сообщений об ошибке надо перенести в отдельный модуль
             case 400:
                 document.getElementById('Error400Message') === null ?
                     this.validation.getServerMessage(document.getElementById('inForm'),
@@ -163,16 +169,16 @@ export default class RegisterPage extends BasePage {
         super.render(this.context);
 
         /* Создание и отрисовка компонента Header */
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(config.authorised);
+        // this.headerComponent = new HeaderComponent(document.getElementById('header'));
+        // this.headerComponent.render(config.authorised);
 
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('signup__form'));
         this.formComponent.render(this.context);
 
         /* Создание и отрисовка компонента Footer */
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
+        // this.footerComponent = new FooterComponent(document.getElementById('footer'));
+        // this.footerComponent.render();
 
         const form = document.getElementById('signup__form');
         document.getElementById(this.context.fields.name.name).focus();

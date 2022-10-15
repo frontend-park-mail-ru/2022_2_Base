@@ -142,16 +142,16 @@ export default class LoginPage extends BasePage {
         super.render(this.context);
 
         /* Создание и отрисовка компонента Header */
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(config.authorised);
+        // this.headerComponent = new HeaderComponent(document.getElementById('header'));
+        // this.headerComponent.render(config.authorised);
 
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(this.context);
 
         /* Создание и отрисовка компонента Footer */
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
+        // this.footerComponent = new FooterComponent(document.getElementById('footer'));
+        // this.footerComponent.render();
 
         const form = document.getElementById('login-form');
         document.getElementById(this.context.fields.email.name).focus();

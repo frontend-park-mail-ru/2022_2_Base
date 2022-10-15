@@ -6,7 +6,10 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.js';
 import Req from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
 
-const root = document.getElementById('root');
+const request = new Req();
+const refresh = new RefreshEl(document.getElementById('root'));
+refresh.refreshFooter();
+const main = document.getElementById('main');
 
 /**
  * Функция отрисовки страницы регистрации
@@ -14,7 +17,7 @@ const root = document.getElementById('root');
  * @return {object} класс страницы
  */
 const renderPage = (PageConstructor) => {
-    const page = new PageConstructor(root);
+    const page = new PageConstructor(main);
 
     return (context) => {
         page.render(context);
@@ -71,11 +74,9 @@ const config = {
         },
     },
     authorised: false,
+    authEvent: new CustomEvent('Auth', {detail: 'trigger on auth'}),
     currentPage: null,
 };
-
-const request = new Req();
-const refresh = new RefreshEl();
 
 /**
  * Функция перехода на новую страницу
@@ -116,13 +117,15 @@ window.addEventListener('click', changePage);
  */
 const checkSession = async () => {
     const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
+    refresh.refreshHeader(config);
     if (status === 200) {
         config.authorised = true;
-        refresh.refreshHeader(config);
         return;
+        // authEvent
     }
     config.authorised = false;
 };
 
 window.addEventListener('load', checkSession, {once: true});
+
 config.currentPage = config.header.main.render(config);

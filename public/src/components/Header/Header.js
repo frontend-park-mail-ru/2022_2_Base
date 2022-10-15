@@ -30,29 +30,29 @@ export default class Header extends BaseComponent {
         headerPopUp.style.display = 'none';
     }
 
-    /**
-     * Метод, добавляющий слушатели.
-     * @param {any} session контекст данных для компонента
-     */
-    startEventListener(session) {
-        if (session) {
-            const headerProfile = document.querySelector('.header__profile');
-            headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
-            headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
-        }
-    }
+    // /**
+    //  * Метод, добавляющий слушатели.
+    //  * @param {any} session контекст данных для компонента
+    //  */
+    // startEventListener(session) {
+    //     if (session) {
+    //         const headerProfile = document.querySelector('.header__profile');
+    //         headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
+    //         headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
+    //     }
+    // }
 
-    /**
-     * Метод, удаляющий слушатели.
-     * @param {any} session контекст данных для компонента
-     */
-    stopEventListener(session) {
-        if (session) {
-            const headerProfile = document.querySelector('.header__profile');
-            headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
-            headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
-        }
-    }
+    // /**
+    //  * Метод, удаляющий слушатели.
+    //  * @param {any} session контекст данных для компонента
+    //  */
+    // stopEventListener(session) {
+    //     if (session) {
+    //         const headerProfile = document.querySelector('.header__profile');
+    //         headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
+    //         headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
+    //     }
+    // }
 
 
     /**
@@ -64,6 +64,6 @@ export default class Header extends BaseComponent {
         const session = {session: sessionValue};
         this._parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['header.hbs'](session));
-        this.startEventListener(session);
+        // this.startEventListener(session);
     }
 }

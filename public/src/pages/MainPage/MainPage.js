@@ -69,12 +69,12 @@ export default class MainPage extends BasePage {
      */
     async render(context) {
         super.render(context);
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(context.authorised);
+        // this.headerComponent = new HeaderComponent(document.getElementById('header'));
+        // this.headerComponent.render(context.authorised);
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(context.topcategory);
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
+        // this.footerComponent = new FooterComponent(document.getElementById('footer'));
+        // this.footerComponent.render();
         //  this.headerComponent.stopEventListener(context.authorised);
 
         await this.loadCards('salesCard');
