@@ -49,7 +49,7 @@ export default class MainPage extends BasePage {
                 /* creating div to add */
                 const cardElement = document.createElement('div');
                 cardElement.id = `${classToGet}${String(num)}`;
-                cardElement.class = 'item-card';
+                cardElement.classList.add('item-card');
                 rootElement.before(cardElement);
                 /* rendering card itself */
                 this.itemCard = new ItemCard(cardElement);
