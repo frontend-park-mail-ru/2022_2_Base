@@ -5,6 +5,7 @@ import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
 import Req from '../../modules/ajax.js';
 import Val from '../../modules/validation.js';
+import ErrorMes from '../../modules/ErrorMessage.js';
 
 /**
  * Класс, реализующий страницу входа.
@@ -51,6 +52,7 @@ export default class LoginPage extends BasePage {
          */
         const onSubmitHandler = async (event) => {
             const validation = new Val();
+            const errorMessage = new ErrorMes();
             event.preventDefault();
 
             /*Сохранить данные из формы в переменную*/
@@ -89,18 +91,18 @@ export default class LoginPage extends BasePage {
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
-                    validation.getServerMessage(document.getElementById('inForm'),
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
                         'Error400Message', 'Ошибка. Попробуйте еще раз') :
                     console.log('bad request: ', status);
                 break;
             case 401:
-                validation.getErrorMessage(document.getElementById(fields.email.name),
+                    errorMessage.getErrorMessage(document.getElementById(fields.email.name),
                     'emailError', 'Неверная почта или пароль');
                 console.log('no auth: ', status);
                 break;
             default:
                 document.getElementById('serverErrorMessage') === null ?
-                    validation.getServerMessage(document.getElementById('inForm'),
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
                         'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                     console.log('server error: ', status);
                 break;
@@ -131,18 +133,19 @@ export default class LoginPage extends BasePage {
      */
     validate(data) {
         const validation = new Val();
+        const errorMessage = new ErrorMes();
         
         const valEmail = validation.validateEMail(data.email);
         const valPassword = validation.validatePassword(data.password);
 
         if (!valEmail.status || !valPassword.status) {
             if (valEmail.message !== '') {
-                validation.getErrorMessage(document.getElementById('email'),
+                errorMessage.getErrorMessage(document.getElementById('email'),
                      'emailError', valEmail.message);
             }
 
             if (valPassword.message !== '') {
-                validation.getErrorMessage(document.getElementById('password'),
+                errorMessage.getErrorMessage(document.getElementById('password'),
                      'passwordError', valPassword.message);
             }
 
