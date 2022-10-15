@@ -46,106 +46,108 @@ export default class LoginPage extends BasePage {
         document.getElementById(fields.email.name).focus();
 
         /**
-         * Функция, осуществляющая валидацию данных из формы.
-         * @param {object} event - событие, произошедшее на странице
-         */
-        const realTimeCheckHandler = async (event) => {
-            const validation = new Val();
-            switch (event.target.name) {
-            case 'email':
-                if (document.getElementById('emailError') !== null) {
-                    document.getElementById('emailError').remove();
-                }
-                const valEmail = validation.validateEMail(event.target.value);
-                if (valEmail !== undefined && !valEmail.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name),
-                        'emailError', valEmail.message);
-                }
-                break;
-            case 'password':
-                if (document.getElementById('passwordError') !== null) {
-                    document.getElementById('passwordError').remove();
-                }
-                const valPassword = validation.validatePassword(event.target.value);
-                if (valPassword !== undefined && !valPassword.status) {
-                    validation.getErrorMessage(document.getElementById(event.target.name),
-                        'passwordError', valPassword.message);
-                }
-                break;
-            }
-        };
-
-        /**
          * Функция, обрабатывающая посылку формы.
          * @param {object} event событие отправки формы
          */
         const onSubmitHandler = async (event) => {
-            const data = [];
             const validation = new Val();
             event.preventDefault();
+
+            /*Сохранить данные из формы в переменную*/
+            const data = {};
             Object.keys(fields).forEach((page) => {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
-                data.push(element.value);
+                data[fields[page].name] = element.value;
             });
 
             // timing email
-            data[0] = data[0].trim();
-            const [email, password] = data;
+            data.email = data.email.trim();
 
-            console.log('credentials valid', validation.validateRegFields(email, password));
-            if (validation.validateRegFields(email, password)) {
-                const r = new Req();
-                const [status] = await r.makePostRequest('api/v1/login', {password, email}).
-                    catch((err) => console.log(err));
+            //Удаление отрисованных ошибок
+            for (const key in data) {
+                if (document.getElementById(key + 'Error') !== null) {
+                    document.getElementById(key + 'Error').remove();
+                }
+            }
 
-                switch (status) {
-                case 201:
-                    console.log('auth');
-                    config.authorised = true;
-                    form.removeEventListener('focusout', realTimeCheckHandler);
-                    form.removeEventListener('submit', onSubmitHandler);
-                    config.header.main.render(config);
-                    break;
-                case 400:
-                    document.getElementById('Error400Message') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'),
-                            'Error400Message', 'Ошибка. Попробуйте еще раз') :
-                        console.log('bad request: ', status);
-                    break;
-                case 401:
-                    validation.getErrorMessage(document.getElementById(fields.email.name),
-                        'emailError', 'Неверная почта или пароль');
-                    console.log('no auth: ', status);
-                    break;
-                default:
-                    document.getElementById('serverErrorMessage') === null ?
-                        validation.getServerMessage(document.getElementById('inForm'),
-                            'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
-                        console.log('server error: ', status);
-                    break;
-                }
-            } else {
-                const eventError = {
-                    email: {
-                        target: {
-                            name: "email",
-                            value: email,
-                        },
-                    },
-                    password: {
-                        target: {
-                            name: "password",
-                            value: password,
-                        },
-                    },
-                }
-                realTimeCheckHandler(eventError.email);
-                realTimeCheckHandler(eventError.password);
+            /* Проверика почты и пароля и отрисовка ошибок на странице */
+            if (!this.validate(data)) {
+                return;
+            }
+
+            const r = new Req();
+            const [status] = await r.makePostRequest('api/v1/login', {password, email}).
+                catch((err) => console.log(err));
+
+            switch (status) {
+            case 201:
+                console.log('auth');
+                config.authorised = true;
+                form.removeEventListener('focusout', realTimeCheckHandler);
+                form.removeEventListener('submit', onSubmitHandler);
+                config.header.main.render(config);
+                break;
+            case 400:
+                document.getElementById('Error400Message') === null ?
+                    validation.getServerMessage(document.getElementById('inForm'),
+                        'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                    console.log('bad request: ', status);
+                break;
+            case 401:
+                validation.getErrorMessage(document.getElementById(fields.email.name),
+                    'emailError', 'Неверная почта или пароль');
+                console.log('no auth: ', status);
+                break;
+            default:
+                document.getElementById('serverErrorMessage') === null ?
+                    validation.getServerMessage(document.getElementById('inForm'),
+                        'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                    console.log('server error: ', status);
+                break;
             }
         };
 
-        form.addEventListener('focusout', realTimeCheckHandler);
+        form.addEventListener('focusin', this.DeleteErrorMessage);
 
         form.addEventListener('submit', onSubmitHandler);
+    }
+
+    /**
+     * Метод, удаляющий сообщение об ошибке при фокусе на поле ввода
+     * @param {object} event событие фокусирования на элементе
+     */
+    async DeleteErrorMessage(event) {
+        console.log(event);
+
+        if (document.getElementById(event.target.name + 'Error') !== null) {
+            document.getElementById(event.target.name + 'Error').remove();
+        }
+    }
+
+    /**
+     * Метод, осуществляющий валидацию данных из формы.
+     * @param {object} data - объект, содержащий данные из формы
+     * @return {boolean} статус валидации
+     */
+    validate(data) {
+        const validation = new Val();
+        
+        const valEmail = validation.validateEMail(data.email);
+        const valPassword = validation.validatePassword(data.password);
+
+        if (!valEmail.status || !valPassword.status) {
+            if (valEmail.message !== '') {
+                validation.getErrorMessage(document.getElementById('email'),
+                     'emailError', valEmail.message);
+            }
+
+            if (valPassword.message !== '') {
+                validation.getErrorMessage(document.getElementById('password'),
+                     'passwordError', valPassword.message);
+            }
+
+            return false;
+        }
+        return true;
     }
 }
