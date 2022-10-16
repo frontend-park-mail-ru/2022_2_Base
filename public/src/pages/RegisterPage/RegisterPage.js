@@ -46,14 +46,14 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.name.name).focus();
 
+        const errorMessage = new ErrorMes();
+
         /**
          * Функция, обрабатывающая посылку формы.
          * @param {object} event событие отправки формы
          */
         const onSubmitHandler = async (event) => {
             event.preventDefault();
-            const validation = new Val();
-            const errorMessage = new ErrorMes();
 
             /*Сохранить данные из формы в переменную*/
             const data = {};
@@ -67,9 +67,7 @@ export default class RegisterPage extends BasePage {
             
             //Удаление отрисованных ошибок
             for (const key in data) {
-                if (document.getElementById(key + 'Error') !== null) {
-                    document.getElementById(key + 'Error').remove();
-                }
+                errorMessage.deleteErrorMessage(key);
             }
 
             if (!this.validate(data)) {
@@ -109,19 +107,9 @@ export default class RegisterPage extends BasePage {
             }
         };
 
-        form.addEventListener('focusin', this.DeleteErrorMessage);
+        form.addEventListener('focusin', (event) => {errorMessage.deleteErrorMessage(event.target.name);});
 
         form.addEventListener('submit', onSubmitHandler);
-    }
-
-    /**
-     * Метод, удаляющий сообщение об ошибке при фокусе на поле ввода
-     * @param {object} event событие фокусирования на элементе
-     */
-     async DeleteErrorMessage(event) {
-        if (document.getElementById(event.target.name + 'Error') !== null) {
-            document.getElementById(event.target.name + 'Error').remove();
-        }
     }
 
     /**

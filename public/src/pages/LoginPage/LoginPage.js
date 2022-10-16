@@ -46,13 +46,13 @@ export default class LoginPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.email.name).focus();
 
+        const errorMessage = new ErrorMes();
+
         /**
          * Функция, обрабатывающая посылку формы.
          * @param {object} event событие отправки формы
          */
         const onSubmitHandler = async (event) => {
-            const validation = new Val();
-            const errorMessage = new ErrorMes();
             event.preventDefault();
 
             /*Сохранить данные из формы в переменную*/
@@ -67,9 +67,7 @@ export default class LoginPage extends BasePage {
 
             //Удаление отрисованных ошибок
             for (const key in data) {
-                if (document.getElementById(key + 'Error') !== null) {
-                    document.getElementById(key + 'Error').remove();
-                }
+                errorMessage.deleteErrorMessage(key);
             }
 
             /* Проверика почты и пароля и отрисовка ошибок на странице */
@@ -110,19 +108,9 @@ export default class LoginPage extends BasePage {
             }
         };
 
-        form.addEventListener('focusin', this.DeleteErrorMessage);
+        form.addEventListener('focusin', (event) => {errorMessage.deleteErrorMessage(event.target.name);});
 
         form.addEventListener('submit', onSubmitHandler);
-    }
-
-    /**
-     * Метод, удаляющий сообщение об ошибке при фокусе на поле ввода
-     * @param {object} event событие фокусирования на элементе
-     */
-    async DeleteErrorMessage(event) {
-        if (document.getElementById(event.target.name + 'Error') !== null) {
-            document.getElementById(event.target.name + 'Error').remove();
-        }
     }
 
     /**

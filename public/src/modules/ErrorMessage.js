@@ -20,6 +20,16 @@
     };
 
     /**
+     * Метод, удаляющий сообщение об ошибке при фокусе на поле ввода
+     * @param {object} event событие фокусирования на элементе
+     */
+    deleteErrorMessage = (nameId) => {
+        if (document.getElementById(nameId + 'Error') !== null) {
+            document.getElementById(nameId + 'Error').remove();
+        }
+    };
+
+    /**
      * Метод, который отрисовывает сообщение об ошибке сервера.
      * @param {object} target - HTML-элемент, после которого будет осуществлена отрисовка
      * @param {string} nameId - id HTML-элемента, который будет отрисован
@@ -35,4 +45,5 @@
         span.innerHTML = message;
         target.before(div);
     };
+
 };
