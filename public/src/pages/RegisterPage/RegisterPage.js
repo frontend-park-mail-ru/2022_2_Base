@@ -107,7 +107,7 @@ export default class RegisterPage extends BasePage {
             }
         };
 
-        form.addEventListener('focusin', (event) => {errorMessage.deleteErrorMessage(event.target.name);});
+        form.addEventListener('focusin', async (event) => {errorMessage.deleteErrorMessage(event.target.name);});
 
         form.addEventListener('submit', onSubmitHandler);
     }
