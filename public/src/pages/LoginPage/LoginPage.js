@@ -149,7 +149,6 @@ export default class LoginPage extends BasePage {
 
         this.validation = new Val();
         form.addEventListener('focusout', this.realTimeCheckHandler.bind(this));
-        this.onSubmitHandler = this.onSubmitHandler.bind(this, config, form);
-        form.addEventListener('submit', this.onSubmitHandler);
+        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }
 }
