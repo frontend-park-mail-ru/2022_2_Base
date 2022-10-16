@@ -49,8 +49,8 @@ export default class LoginPage extends BasePage {
      */
     stopEventListener(context) {
         const form = document.getElementById('login-form');
-        form.removeEventListener('focusout', this.realTimeCheckHandler, true);
-        form.removeEventListener('submit', this.onSubmitHandler, true);
+        form.removeEventListener('focusout', this.realTimeCheckHandler);
+        form.removeEventListener('submit', this.onSubmitHandler);
     }
 
     /**
