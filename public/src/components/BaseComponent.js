@@ -14,6 +14,13 @@ export default class BaseComponent {
     }
 
     /**
+     * Метод, удаляющий слушатели.
+     */
+    removeEventListener() {
+
+    }
+
+    /**
      * Метод, отрисовывающий компонент.
      * @param {any} context контекст данных для компонента
      * @param {string} templateName название шаблона

@@ -104,14 +104,15 @@ const changePage = async (event) => {
     Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            config.currentPage.stopEventListener(config);
+            config.currentPage.removeEventListener(config);
             config.currentPage = config.header[page].render(config);
         }
     });
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest(config.api.logout).catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest(config.api.logout)
+            .catch((err) => console.log(err));
 
         if (status === 200) {
             config.auth.authorised = false;

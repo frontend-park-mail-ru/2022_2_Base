@@ -63,7 +63,7 @@ export default class RegisterPage extends BasePage {
      * Метод, удаляющий слушатели.
      * @param {any} context контекст данных для страницы
      */
-    stopEventListener(context) {
+    removeEventListener(context) {
         const form = document.getElementById('signup__form');
         form.removeEventListener('focusout', this.realTimeCheckHandler);
         form.removeEventListener('submit', this.onSubmitHandler);
@@ -76,7 +76,7 @@ export default class RegisterPage extends BasePage {
     async realTimeCheckHandler(event) {
         //  вывод сообщений об ошибке надо перенести в отдельный модуль
         const validate = (valData, errorID) => {
-            if (valData !== undefined && !valData.status) {
+            if (!!valData.status) {
                 this.validation.getErrorMessage(document.getElementById(event.target.name),
                     errorID, valData.message);
             } else if (document.getElementById(errorID) !== null) {
@@ -86,10 +86,12 @@ export default class RegisterPage extends BasePage {
 
         switch (event.target.name) {
         case this.context.fields.email.name:
-            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
+            validate(this.validation.validatePassword(event.target.value),
+                this.context.fields.password.errorID);
             break;
         case this.context.fields.password.name:
-            validate(this.validation.validatePassword(event.target.value), this.context.fields.password.errorID);
+            validate(this.validation.validatePassword(event.target.value),
+                this.context.fields.password.errorID);
         }
     };
 

@@ -41,7 +41,7 @@ export default class RefreshEl {
         const headerComponent = new HeaderComponent(header);
         headerComponent.render(config.auth.authorised);
         config.auth.authorised ? headerComponent.startEventListener() :
-            headerComponent.stopEventListener();
+            headerComponent.removeEventListener();
     };
 
     /**

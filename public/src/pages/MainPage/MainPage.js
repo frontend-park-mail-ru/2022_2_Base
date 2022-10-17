@@ -53,7 +53,6 @@ export default class MainPage extends BasePage {
                 rootElement.before(cardElement);
                 /* rendering card itself */
                 this.itemCard = new ItemCard(cardElement);
-                // this.itemCard = new ItemCard(document.getElementById(`${classToGet}${String(num + 1)}`));
                 this.itemCard.render(newCard);
             });
         } else if (!document.getElementById('ServerLoadError')) {

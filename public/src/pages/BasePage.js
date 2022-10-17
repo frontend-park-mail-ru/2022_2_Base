@@ -27,7 +27,7 @@ export default class BasePage {
      * Метод, удаляющий слушатели.
      * @param {any} context контекст данных для страницы
      */
-    stopEventListener(context) {
+    removeEventListener(context) {
     }
 
     /**
