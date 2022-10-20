@@ -55,7 +55,7 @@ export default class RegisterPage extends BasePage {
         const onSubmitHandler = async (event) => {
             event.preventDefault();
 
-            /*Сохранить данные из формы в переменную*/
+            /* Сохранить данные из формы в переменную */
             const data = {};
             Object.keys(fields).forEach(function(page) {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
@@ -65,9 +65,11 @@ export default class RegisterPage extends BasePage {
             //  timing email
             data.email = data.email.trim();
             
-            //Удаление отрисованных ошибок
+            // Удаление отрисованных ошибок
             for (const key in data) {
-                errorMessage.deleteErrorMessage(key);
+                if (item.hasOwnProperty(key)) {
+                    errorMessage.deleteErrorMessage(key);
+                }
             }
 
             if (!this.validate(data)) {
@@ -99,7 +101,7 @@ export default class RegisterPage extends BasePage {
                 console.log('no auth: ', status);
                 break;
             default:
-                document.getElementById('serverErrorMessage') === null ?
+                !document.getElementById('serverErrorMessage') ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
                         'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                     console.log('server error: ', status);
@@ -107,7 +109,9 @@ export default class RegisterPage extends BasePage {
             }
         };
 
-        form.addEventListener('focusin', async (event) => {errorMessage.deleteErrorMessage(event.target.name);});
+        form.addEventListener('focusin', async (event) => {
+            errorMessage.deleteErrorMessage(event.target.name);
+        });
 
         form.addEventListener('submit', onSubmitHandler);
     }
@@ -117,7 +121,7 @@ export default class RegisterPage extends BasePage {
      * @param {object} data - объект, содержащий данные из формы
      * @return {boolean} статус валидации
      */
-     validate(data) {
+    validate(data) {
         const validation = new Val();
         const errorMessage = new ErrorMes();
         
@@ -125,7 +129,8 @@ export default class RegisterPage extends BasePage {
         const valEmail = validation.validateEMail(data.email);
         const valPassword = validation.validatePassword(data.password);
 
-        if (!valName.status || !valEmail.status || !valPassword.status || data.password !== data.repeatPassword) {
+        if (!valName.status || !valEmail.status || !valPassword.status || 
+            data.password !== data.repeatPassword) {
             if (valName.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('name'),
                      'nameError', valName.message);

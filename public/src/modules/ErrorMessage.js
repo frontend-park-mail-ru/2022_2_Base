@@ -1,7 +1,7 @@
 /**
  * Класс, реализующий отрисовку ошибок.
  */
- export default class ErrorMessage {
+export default class ErrorMessage {
     /**
      * Метод, который отрисовывает сообщение об ошибке ввода
      * @param {object} target - HTML-элемент, после которого будет осуществлена отрисовка
@@ -21,10 +21,10 @@
 
     /**
      * Метод, удаляющий сообщение об ошибке при фокусе на поле ввода
-     * @param {object} event событие фокусирования на элементе
+     * @param {object} nameId название поля
      */
     deleteErrorMessage = (nameId) => {
-        if (document.getElementById(nameId + 'Error') !== null) {
+        if (document.getElementById(nameId + 'Error')) {
             document.getElementById(nameId + 'Error').remove();
         }
     };

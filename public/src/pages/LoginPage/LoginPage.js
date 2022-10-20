@@ -38,7 +38,7 @@ export default class LoginPage extends BasePage {
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(context);
 
-        /* Создание и отрисовка компонента Footer */
+        /* Создание и отрисовка компонента Footer */    
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
@@ -55,7 +55,7 @@ export default class LoginPage extends BasePage {
         const onSubmitHandler = async (event) => {
             event.preventDefault();
 
-            /*Сохранить данные из формы в переменную*/
+            /* Сохранить данные из формы в переменную */
             const data = {};
             Object.keys(fields).forEach((page) => {
                 const element = form.querySelector(`[name=${fields[page].name}]`);
@@ -65,9 +65,11 @@ export default class LoginPage extends BasePage {
             // timing email
             data.email = data.email.trim();
 
-            //Удаление отрисованных ошибок
+            // Удаление отрисованных ошибок
             for (const key in data) {
-                errorMessage.deleteErrorMessage(key);
+                if (item.hasOwnProperty(key)) {
+                    errorMessage.deleteErrorMessage(key);
+                }
             }
 
             /* Проверика почты и пароля и отрисовка ошибок на странице */
@@ -95,12 +97,12 @@ export default class LoginPage extends BasePage {
                     console.log('bad request: ', status);
                 break;
             case 401:
-                    errorMessage.getErrorMessage(document.getElementById(fields.email.name),
+                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
                     'emailError', 'Неверная почта или пароль');
                 console.log('no auth: ', status);
                 break;
             default:
-                document.getElementById('serverErrorMessage') === null ?
+                !document.getElementById('serverErrorMessage') ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
                         'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
                     console.log('server error: ', status);
@@ -108,7 +110,9 @@ export default class LoginPage extends BasePage {
             }
         };
 
-        form.addEventListener('focusin', async (event) => {errorMessage.deleteErrorMessage(event.target.name);});
+        form.addEventListener('focusin', async (event) => {
+            errorMessage.deleteErrorMessage(event.target.name);
+        });
 
         form.addEventListener('submit', onSubmitHandler);
     }

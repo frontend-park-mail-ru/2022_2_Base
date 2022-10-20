@@ -39,13 +39,13 @@ export default class Validation {
     };
 
     /**
-     * 
+     * Метод, проверяющий пустые поля.
      * @param {string} data - данные для валидации
      * @returns {{status: boolean, message: String}} - объект со полем статуса проверки status
      * и полем сообщением ошибки message
      */
     checkEmptyField = (data) => {
-        if (data === "") {
+        if (data.length === 0) {
             return {status: false, message: 'Поле обязательно должно быть заполнено'};
         }
         return {status: true, message: ''};
