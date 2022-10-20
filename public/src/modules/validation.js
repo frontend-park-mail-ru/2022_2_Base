@@ -41,7 +41,7 @@ export default class Validation {
     /**
      * Метод, проверяющий пустые поля.
      * @param {string} data - данные для валидации
-     * @returns {{status: boolean, message: String}} - объект со полем статуса проверки status
+     * @return {{status: boolean, message: String}} - объект со полем статуса проверки status
      * и полем сообщением ошибки message
      */
     checkEmptyField = (data) => {

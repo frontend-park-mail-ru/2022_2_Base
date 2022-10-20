@@ -64,7 +64,7 @@ export default class RegisterPage extends BasePage {
 
             //  timing email
             data.email = data.email.trim();
-            
+
             // Удаление отрисованных ошибок
             for (const key in data) {
                 if (item.hasOwnProperty(key)) {
@@ -124,26 +124,26 @@ export default class RegisterPage extends BasePage {
     validate(data) {
         const validation = new Val();
         const errorMessage = new ErrorMes();
-        
+
         const valName = validation.checkEmptyField(data.name);
         const valEmail = validation.validateEMail(data.email);
         const valPassword = validation.validatePassword(data.password);
 
-        if (!valName.status || !valEmail.status || !valPassword.status || 
+        if (!valName.status || !valEmail.status || !valPassword.status ||
             data.password !== data.repeatPassword) {
             if (valName.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('name'),
-                     'nameError', valName.message);
+                    'nameError', valName.message);
             }
 
             if (valEmail.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('email'),
-                     'emailError', valEmail.message);
+                    'emailError', valEmail.message);
             }
 
             if (valPassword.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('password'),
-                     'passwordError', valPassword.message);
+                    'passwordError', valPassword.message);
             }
 
             if (data.password !== data.repeatPassword) {

@@ -45,5 +45,4 @@ export default class ErrorMessage {
         span.innerHTML = message;
         target.before(div);
     };
-
 };

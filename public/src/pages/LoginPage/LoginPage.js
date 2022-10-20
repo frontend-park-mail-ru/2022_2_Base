@@ -38,7 +38,7 @@ export default class LoginPage extends BasePage {
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(context);
 
-        /* Создание и отрисовка компонента Footer */    
+        /* Создание и отрисовка компонента Footer */
         this.footerComponent = new FooterComponent(document.getElementById('footer'));
         this.footerComponent.render();
 
@@ -125,19 +125,19 @@ export default class LoginPage extends BasePage {
     validate(data) {
         const validation = new Val();
         const errorMessage = new ErrorMes();
-        
+
         const valEmail = validation.validateEMail(data.email);
         const valPassword = validation.validatePassword(data.password);
 
         if (!valEmail.status || !valPassword.status) {
             if (valEmail.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('email'),
-                     'emailError', valEmail.message);
+                    'emailError', valEmail.message);
             }
 
             if (valPassword.message !== '') {
                 errorMessage.getErrorMessage(document.getElementById('password'),
-                     'passwordError', valPassword.message);
+                    'passwordError', valPassword.message);
             }
 
             return false;
