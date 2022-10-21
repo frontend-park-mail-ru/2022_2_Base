@@ -6,33 +6,24 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.js';
 import Req from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
 
-const root = document.getElementById('root');
-
-/**
- * Функция отрисовки страницы входа
- * @param {object} context контекст отрисовки страницы
- */
-const renderLoginPage = (context) => {
-    const loginPage = new LoginPage(root);
-    loginPage.render(context);
-};
-
-/**
- * Функция отрисовки главной страницы
- * @param {object} context контекст отрисовки страницы
- */
-const renderMainPage = (context) => {
-    const mainPage = new MainPage(root);
-    mainPage.render(context);
-};
+const request = new Req();
+const refresh = new RefreshEl(document.getElementById('root'));
+refresh.refreshFooter();
+const main = document.getElementById('main');
+const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
 
 /**
  * Функция отрисовки страницы регистрации
- * @param {object} context контекст отрисовки страницы
+ * @param {function} PageConstructor конструктор класса страницы
+ * @return {object} класс страницы
  */
-const renderRegisterPage = (context) => {
-    const registerPage = new RegisterPage(root);
-    registerPage.render(context);
+const renderPage = (PageConstructor) => {
+    const page = new PageConstructor(main);
+
+    return (context) => {
+        page.render(context);
+        return page;
+    };
 };
 
 const config = {
@@ -40,17 +31,17 @@ const config = {
         main: {
             href: '/main',
             name: 'Главная',
-            render: renderMainPage,
+            render: renderPage(MainPage),
         },
         login: {
             href: '/login',
             name: 'Авторизация',
-            render: renderLoginPage,
+            render: renderPage(LoginPage),
         },
         signup: {
             href: '/signup',
             name: 'Регистрация',
-            render: renderRegisterPage,
+            render: renderPage(RegisterPage),
         },
     },
     topcategory: {
@@ -83,69 +74,19 @@ const config = {
             img: './img/Accessories.png',
         },
     },
-    forms: {
-        signin: {
-            fields: {
-                email: {
-                    title: 'Почта',
-                    type: 'email',
-                    name: 'email',
-                    placeholder: 'mail@website.com',
-                    maxlenght: '30',
-                },
-                password: {
-                    title: 'Пароль',
-                    type: 'password',
-                    name: 'password',
-                    placeholder: 'Введите пароль',
-                    maxlenght: '16',
-                },
-            },
-            button: {
-                buttonValue: 'Войти',
-            },
-        },
-        signup: {
-            fields: {
-                name: {
-                    title: 'Имя',
-                    type: 'text',
-                    name: 'name',
-                    placeholder: 'Введите имя',
-                    maxlenght: '30',
-                },
-                email: {
-                    title: 'Почта',
-                    type: 'email',
-                    name: 'email',
-                    placeholder: 'mail@website.com',
-                    maxlenght: '30',
-                },
-                password: {
-                    title: 'Пароль',
-                    type: 'password',
-                    name: 'password',
-                    placeholder: 'Придумайте пароль',
-                    maxlenght: '16',
-                },
-                repeatPassword: {
-                    title: 'Повторить пароль',
-                    type: 'password',
-                    name: 'repeatPassword',
-                    placeholder: 'Повторите пароль',
-                    maxlenght: '16',
-                },
-            },
-            button: {
-                buttonValue: 'Зарегистрироваться',
-            },
-        },
+    auth: {
+        authorised: false,
+        event: authEvent,
     },
-    authorised: false,
+    api: {
+        login: 'api/v1/login',
+        signup: 'api/v1/signup',
+        logout: 'api/v1/logout',
+        session: 'api/v1/session',
+        products: 'api/v1/products',
+    },
+    currentPage: null,
 };
-
-const request = new Req();
-const refresh = new RefreshEl();
 
 /**
  * Функция перехода на новую страницу
@@ -160,39 +101,43 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach(function(page) {
+    Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            config.header[page].render(config);
+            config.currentPage.removeEventListener(config);
+            config.currentPage = config.header[page].render(config);
         }
     });
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest('api/v1/logout').
-            catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest(config.api.logout)
+            .catch((err) => console.log(err));
 
         if (status === 200) {
-            config.authorised = false;
-            refresh.refreshHeader(config);
+            config.auth.authorised = false;
+            window.dispatchEvent(config.auth.event);
         }
     }
 };
 
 window.addEventListener('click', changePage);
 
-/**
- * Функция для получение сессии
- */
-const checkSession = async () => {
-    const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
-    if (status === 200) {
-        config.authorised = true;
-        refresh.refreshHeader(config);
-        return;
-    }
-    config.authorised = false;
+const onAuthAndLogout = async () => {
+    refresh.refreshHeader(config);
 };
 
-window.addEventListener('load', checkSession, {once: true});
-config.header.main.render(config);
+window.addEventListener('authEvent', onAuthAndLogout);
+
+/**
+ * Функция для получения сессии
+ */
+const checkSession = async () => {
+    const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
+
+    config.auth.authorised = status === 200;
+    window.dispatchEvent(config.auth.event);
+};
+
+window.addEventListener('DOMContentLoaded', checkSession, {once: true});
+config.currentPage = config.header.main.render(config);

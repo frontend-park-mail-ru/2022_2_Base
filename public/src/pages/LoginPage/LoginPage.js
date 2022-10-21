@@ -1,8 +1,6 @@
 import '../templates.js';
 import BasePage from '../BasePage.js';
-import HeaderComponent from '../../components/Header/Header.js';
 import FormComponent from '../../components/Form/Form.js';
-import FooterComponent from '../../components/Footer/Footer.js';
 import Req from '../../modules/ajax.js';
 import Val from '../../modules/validation.js';
 import ErrorMessage from '../../modules/ErrorMessage.js';
@@ -15,6 +13,30 @@ const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте 
  * Класс, реализующий страницу входа.
  */
 export default class LoginPage extends BasePage {
+    context = {
+        fields: {
+            email: {
+                title: 'Почта',
+                type: 'email',
+                name: 'email',
+                placeholder: 'mail@website.com',
+                maxLength: '30',
+                errorID: 'emailError',
+            },
+            password: {
+                title: 'Пароль',
+                type: 'password',
+                name: 'password',
+                placeholder: 'Введите пароль',
+                maxLength: '16',
+                errorID: 'passwordError',
+            },
+        },
+        button: {
+            buttonValue: 'Войти',
+        },
+    };
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -27,98 +49,110 @@ export default class LoginPage extends BasePage {
     }
 
     /**
+     * Метод, удаляющий слушатели.
+     * @param {any} context контекст данных для страницы
+     */
+    removeEventListener(context) {
+        const form = document.getElementById('login-form');
+        form.removeEventListener('focusin', this.onFocusinHandler);
+        form.removeEventListener('submit', this.onSubmitHandler);
+    }
+
+    /**
+     * Метод, обрабатывающий получение фокуса полем.
+     * @param {object} event событие получения фокуса полем
+     */
+    async onFocusinHandler(event) {
+        errorMessage.deleteErrorMessage(event.target.name);
+    };
+
+    /**
+     * Метод, обрабатывающий отсылку формы.
+     * @param {object} config глобальный контекст
+     * @param {object} form поля формы
+     * @param {object} event событие отправки формы
+     */
+    async onSubmitHandler(config, form, event) {
+        event.preventDefault();
+        const errorMessage = new ErrorMessage();
+
+        /* Сохранить данные из формы в переменную */
+        const data = {};
+        const {fields} = this.context;
+        Object.keys(fields).forEach((page) => {
+            const element = form.querySelector(`[name=${fields[page].name}]`);
+            data[fields[page].name] = element.value;
+        });
+
+        // timing email
+        data.email = data.email.trim();
+
+        // Удаление отрисованных ошибок
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                errorMessage.deleteErrorMessage(key);
+            }
+        }
+
+        /* Проверика почты и пароля и отрисовка ошибок на странице */
+        if (!this.validate(data)) {
+            return;
+        }
+
+        const r = new Req();
+        const [email, password] = Array.from(data);
+        const [status] = await r.makePostRequest(config.api.login, {
+            password,
+            email,
+        }).catch((err) => console.log(err));
+
+        switch (status) {
+        case 201:
+            console.log('auth');
+            config.authorised = true;
+            window.dispatchEvent(config.auth.event);
+            config.currentPage = config.header.main.render(config);
+            removeEventListener(context);
+            break;
+        case 400:
+            document.getElementById('Error400Message') === null ?
+                errorMessage.getServerMessage(document.getElementById('inForm'),
+                    'Error400Message', ERROR_400_MESSAGE) :
+                console.log('bad request: ', status);
+            break;
+        case 401:
+            errorMessage.getErrorMessage(document.getElementById(fields.email.name),
+                'emailError', ERROR_401_MESSAGE);
+            console.log('no auth: ', status);
+            break;
+        default:
+            !document.getElementById('serverErrorMessage') ?
+                errorMessage.getServerMessage(document.getElementById('inForm'),
+                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                console.log('server error: ', status);
+            break;
+        }
+    };
+
+    /**
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
-        const context = config.forms.signin;
-        super.render(context);
-
-        /* Создание и отрисовка компонента Header */
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(config.authorised);
+        super.render(this.context);
 
         /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('login-form'));
-        this.formComponent.render(context);
-
-        /* Создание и отрисовка компонента Footer */
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
+        this.formComponent.render(this.context);
 
         const form = document.getElementById('login-form');
-        const fields = context.fields;
-        document.getElementById(fields.email.name).focus();
+        document.getElementById(this.context.fields.email.name).focus();
 
         const errorMessage = new ErrorMessage();
+        this.validation = new Val();
 
-        /**
-         * Функция, обрабатывающая посылку формы.
-         * @param {object} event событие отправки формы
-         */
-        const onSubmitHandler = async (event) => {
-            event.preventDefault();
-
-            /* Сохранить данные из формы в переменную */
-            const data = {};
-            Object.keys(fields).forEach((page) => {
-                const element = form.querySelector(`[name=${fields[page].name}]`);
-                data[fields[page].name] = element.value;
-            });
-
-            // timing email
-            data.email = data.email.trim();
-
-            // Удаление отрисованных ошибок
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    errorMessage.deleteErrorMessage(key);
-                }
-            }
-
-            /* Проверика почты и пароля и отрисовка ошибок на странице */
-            if (!this.validate(data)) {
-                return;
-            }
-
-            const r = new Req();
-            const [email, password] = Array.from(data);
-            const [status] = await r.makePostRequest('api/v1/login', {password, email}).
-                catch((err) => console.log(err));
-
-            switch (status) {
-            case 201:
-                console.log('auth');
-                config.authorised = true;
-                form.removeEventListener('focusout', realTimeCheckHandler);
-                form.removeEventListener('submit', onSubmitHandler);
-                config.header.main.render(config);
-                break;
-            case 400:
-                document.getElementById('Error400Message') === null ?
-                    errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'Error400Message', ERROR_400_MESSAGE) :
-                    console.log('bad request: ', status);
-                break;
-            case 401:
-                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                    'emailError', ERROR_401_MESSAGE);
-                console.log('no auth: ', status);
-                break;
-            default:
-                !document.getElementById('serverErrorMessage') ?
-                    errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                    console.log('server error: ', status);
-                break;
-            }
-        };
-
-        form.addEventListener('focusin', async (event) => {
-            errorMessage.deleteErrorMessage(event.target.name);
-        });
-
-        form.addEventListener('submit', onSubmitHandler);
+        form.addEventListener('focusin', this.onFocusinHandler);
+        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }
 
     /**
