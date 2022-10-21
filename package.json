@@ -26,6 +26,12 @@
     "handlebars": "^4.7.7",
     "morgan": "^1.10.0"
   },
+  "contributors": [
+    "Liza",
+    "Alex",
+    "Vlad",
+    "Artem"
+  ],
   "funding": "https://www.donationalerts.com/r/reazon2022",
   "devDependencies": {
     "eslint-config-google": "^0.14.0",
