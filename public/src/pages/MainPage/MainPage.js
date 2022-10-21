@@ -1,8 +1,6 @@
 import '../templates.js';
 import BasePage from '../BasePage.js';
-import HeaderComponent from '../../components/Header/Header.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
-import FooterComponent from '../../components/Footer/Footer.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 
 import Req from '../../modules/ajax.js';
@@ -23,39 +21,23 @@ export default class MainPage extends BasePage {
     }
 
     /**
-     * Метод, отрисовывающий страницу.
-     * @param {object} context контекст отрисовки страницы
+     * Метод, загружающий карты.
+     * @param {string} classToGet имя класса, в который надо вставить карту
+     * @param {string} reqPath путь для api запроса к беку
      */
-    async render(context) {
-        super.render(context);
-        this.headerComponent = new HeaderComponent(document.getElementById('header'));
-        this.headerComponent.render(context.authorised);
-        this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(context.topcategory);
-        this.footerComponent = new FooterComponent(document.getElementById('footer'));
-        this.footerComponent.render();
-
-        if (context.authorised) {
-            const headerProfile = document.querySelector('.header__profile');
-            headerProfile.addEventListener('mouseover', async (event) => {
-                const headerPopUp = document.querySelector('.profile__pop-up');
-                headerPopUp.style.display = 'block';
-            });
-
-            headerProfile.addEventListener('mouseout', async (event) => {
-                const headerPopUp = document.querySelector('.profile__pop-up');
-                headerPopUp.style.display = 'none';
-            });
-        }
-
+    async loadCards(classToGet, reqPath) {
         //  loading cards
         const r = new Req();
-        const [status, outD] = await r.makeGetRequest('api/v1/').catch((err) => console.log(err));
+        const [status, outD] = await r.makeGetRequest(reqPath)
+            .catch((err) => console.log(err));
 
+        const rootElement = document.getElementById(classToGet + '__right-arrow');
         if (status === 200) {
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
-                const discount = 100 - Math.round(card.lowprice / card.price * 100);
+                let discount = null;
+                card.price === card.lowprice ? card.price = discount :
+                    discount = 100 - Math.round(card.lowprice / card.price * 100);
                 const newCard = {
                     imgsrc: card.imgsrc,
                     discount: discount,
@@ -64,25 +46,38 @@ export default class MainPage extends BasePage {
                     cardTitle: card.name,
                     rating: card.rating,
                 };
-                if (discount === 0) {
-                    newCard.salePrice = newCard.discount = null;
-                }
-                this.itemCard = new ItemCard(document.getElementById(`salesCard${String(num + 1)}`));
+                /* creating div to add */
+                const cardElement = document.createElement('div');
+                cardElement.id = `${classToGet}${String(num)}`;
+                cardElement.classList.add('item-card');
+                rootElement.before(cardElement);
+                /* rendering card itself */
+                this.itemCard = new ItemCard(cardElement);
                 this.itemCard.render(newCard);
             });
-
-            itemCards.forEach((card, num) => {
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: null,
-                    price: card.lowprice,
-                    salePrice: null,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                };
-                this.itemCard = new ItemCard(document.getElementById(`popularCard${String(num + 1)}`));
-                this.itemCard.render(newCard);
-            });
+        } else if (!document.getElementById('ServerLoadError')) {
+            const div = document.createElement('div');
+            div.id = 'ServerLoadError';
+            const span = document.createElement('span');
+            div.appendChild(span);
+            div.classList.add('server-error');
+            span.classList.add('server-error__text');
+            span.innerHTML = 'Возникла ошибка при загрузке товаров. Попробуйте позже';
+            document.getElementById('catalog').after(div);
         }
+    }
+
+    /**
+     * Метод, отрисовывающий страницу.
+     * @param {object} config контекст отрисовки страницы
+     */
+    async render(config) {
+        super.render(config);
+
+        this.topComponent = new TopCategory(document.getElementById('catalog'));
+        this.topComponent.render(config.topcategory);
+
+        await this.loadCards('salesCard', config.api.products);
+        await this.loadCards('popularCard', config.api.products);
     }
 }

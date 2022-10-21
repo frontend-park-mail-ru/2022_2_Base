@@ -1,22 +1,17 @@
 import '../templates.js';
+import BaseComponent from '../BaseComponent.js';
 
 /**
  * Класс для реализации компонента ItemCard
  */
-export default class ItemCard {
-    /**
-     * Приватное поле класса, хранящее parent HTML-элемент
-     * @type {Element}
-     */
-    #parent;
-
+export default class ItemCard extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента ItemCard
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        this.#parent = parent;
+        super(parent);
     }
 
     /**
@@ -24,7 +19,6 @@ export default class ItemCard {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        this.#parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates['itemCard.hbs'](context));
+        super.render(context, 'itemCard.hbs');
     }
 }

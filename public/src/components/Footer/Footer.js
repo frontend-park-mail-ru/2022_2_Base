@@ -1,22 +1,17 @@
 import '../templates.js';
+import BaseComponent from '../BaseComponent.js';
 
 /**
  * Класс для реализации компонента Footer
  */
-export default class Header {
-    /**
-     * Приватное поле класса, хранящее parent HTML-элемент
-     * @type {Element}
-     */
-    #parent;
-
+export default class Header extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента Footer
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        this.#parent = parent;
+        super(parent);
     }
 
     /**
@@ -24,6 +19,6 @@ export default class Header {
      * импортированному из templates.js
      */
     render() {
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['footer.hbs']());
+        super.render(null, 'footer.hbs');
     }
 }

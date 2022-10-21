@@ -11,17 +11,6 @@
     text-decoration: none;
 }
 
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-}
-
 .paint-background {
     background-color: var(--background-white);
 }
