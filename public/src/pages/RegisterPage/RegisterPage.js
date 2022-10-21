@@ -5,7 +5,12 @@ import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
 import Req from '../../modules/ajax.js';
 import Val from '../../modules/validation.js';
-import ErrorMes from '../../modules/ErrorMessage.js';
+import ErrorMessage from '../../modules/ErrorMessage.js';
+
+const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
+const ERROR_409_MESSAGE = 'Почта уже занята';
+const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
+const REPEAT_PASSWORD_ERROR_MESSAGE = 'Введенные пароли не совпадают';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -46,7 +51,7 @@ export default class RegisterPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.name.name).focus();
 
-        const errorMessage = new ErrorMes();
+        const errorMessage = new ErrorMessage();
 
         /**
          * Функция, обрабатывающая посылку формы.
@@ -67,7 +72,7 @@ export default class RegisterPage extends BasePage {
 
             // Удаление отрисованных ошибок
             for (const key in data) {
-                if (item.hasOwnProperty(key)) {
+                if (data.hasOwnProperty(key)) {
                     errorMessage.deleteErrorMessage(key);
                 }
             }
@@ -92,18 +97,18 @@ export default class RegisterPage extends BasePage {
             case 400:
                 document.getElementById('Error400Message') === null ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                        'Error400Message', ERROR_400_MESSAGE) :
                     console.log('bad request: ', status);
                 break;
             case 409:
                 errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                    'emailError', 'Почта уже занята');
+                    'emailError', ERROR_409_MESSAGE);
                 console.log('no auth: ', status);
                 break;
             default:
                 !document.getElementById('serverErrorMessage') ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
                     console.log('server error: ', status);
                 break;
             }
@@ -123,7 +128,7 @@ export default class RegisterPage extends BasePage {
      */
     validate(data) {
         const validation = new Val();
-        const errorMessage = new ErrorMes();
+        const errorMessage = new ErrorMessage();
 
         const valName = validation.checkEmptyField(data.name);
         const valEmail = validation.validateEMail(data.email);
@@ -148,7 +153,7 @@ export default class RegisterPage extends BasePage {
 
             if (data.password !== data.repeatPassword) {
                 errorMessage.getErrorMessage(document.getElementById('repeatPassword'),
-                    'repeatPasswordError', 'Введенные пароли не совпадают');
+                    'repeatPasswordError', REPEAT_PASSWORD_ERROR_MESSAGE);
             }
 
             return false;

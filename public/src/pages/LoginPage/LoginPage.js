@@ -5,7 +5,11 @@ import FormComponent from '../../components/Form/Form.js';
 import FooterComponent from '../../components/Footer/Footer.js';
 import Req from '../../modules/ajax.js';
 import Val from '../../modules/validation.js';
-import ErrorMes from '../../modules/ErrorMessage.js';
+import ErrorMessage from '../../modules/ErrorMessage.js';
+
+const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
+const ERROR_401_MESSAGE = 'Неверная почта или пароль';
+const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
 
 /**
  * Класс, реализующий страницу входа.
@@ -46,7 +50,7 @@ export default class LoginPage extends BasePage {
         const fields = context.fields;
         document.getElementById(fields.email.name).focus();
 
-        const errorMessage = new ErrorMes();
+        const errorMessage = new ErrorMessage();
 
         /**
          * Функция, обрабатывающая посылку формы.
@@ -67,7 +71,7 @@ export default class LoginPage extends BasePage {
 
             // Удаление отрисованных ошибок
             for (const key in data) {
-                if (item.hasOwnProperty(key)) {
+                if (data.hasOwnProperty(key)) {
                     errorMessage.deleteErrorMessage(key);
                 }
             }
@@ -93,18 +97,18 @@ export default class LoginPage extends BasePage {
             case 400:
                 document.getElementById('Error400Message') === null ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                        'Error400Message', ERROR_400_MESSAGE) :
                     console.log('bad request: ', status);
                 break;
             case 401:
                 errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                    'emailError', 'Неверная почта или пароль');
+                    'emailError', ERROR_401_MESSAGE);
                 console.log('no auth: ', status);
                 break;
             default:
                 !document.getElementById('serverErrorMessage') ?
                     errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
                     console.log('server error: ', status);
                 break;
             }
@@ -124,7 +128,7 @@ export default class LoginPage extends BasePage {
      */
     validate(data) {
         const validation = new Val();
-        const errorMessage = new ErrorMes();
+        const errorMessage = new ErrorMessage();
 
         const valEmail = validation.validateEMail(data.email);
         const valPassword = validation.validatePassword(data.password);
