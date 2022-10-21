@@ -51,9 +51,7 @@ export default class Header extends BaseComponent {
         if (headerProfile) {
             headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
             headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
-            return;
         }
-        console.log('element not found', headerProfile);
     }
 
     /**
