@@ -126,8 +126,8 @@ export default class RegisterPage extends BasePage {
                 console.log('auth');
                 config.auth.authorised = true;
                 window.dispatchEvent(config.auth.event);
-                config.currentPage = config.header.main.render(config);
                 this.removeEventListener(this.context);
+                config.currentPage = config.header.main.render(config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
