@@ -94,7 +94,7 @@ export default class LoginPage extends BasePage {
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (this.validate(data)) {
             const r = new Req();
-            const [email, password] = Array.from(data);
+            const {email, password} = Array.from(data);
             const [status] = await r.makePostRequest(config.api.login, {
                 password,
                 email,
