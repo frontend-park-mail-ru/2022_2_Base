@@ -113,42 +113,40 @@ export default class RegisterPage extends BasePage {
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (!this.validate(data)) {
-            return;
-        }
+            const r = new Req();
+            const [username, email, password] = Array.from(data);
+            const [status] = await r.makePostRequest(config.api.signup, {
+                password,
+                email,
+                username,
+            }).catch((err) => console.log(err));
 
-        const r = new Req();
-        const [username, email, password] = Array.from(data);
-        const [status] = await r.makePostRequest(config.api.signup, {
-            password,
-            email,
-            username,
-        }).catch((err) => console.log(err));
-
-        switch (status) {
-        case 201:
-            console.log('auth');
-            config.auth.authorised = true;
-            window.dispatchEvent(config.auth.event);
-            config.currentPage = config.header.main.render(config);
-            this.removeEventListener(this.context);
-            break;
-        case 400:
-            document.getElementById('Error400Message') === null ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
-                console.log('bad request: ', status);
-            break;
-        case 401:
-            errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                'emailError', ERROR_401_MESSAGE);
-            console.log('no auth: ', status);
-            break;
-        default:
-            !document.getElementById('serverErrorMessage') ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                console.log('server error: ', status);
-            break;
+            switch (status) {
+            case 201:
+                console.log('auth');
+                config.auth.authorised = true;
+                window.dispatchEvent(config.auth.event);
+                config.currentPage = config.header.main.render(config);
+                this.removeEventListener(this.context);
+                break;
+            case 400:
+                document.getElementById('Error400Message') === null ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'Error400Message', ERROR_400_MESSAGE) :
+                    console.log('bad request: ', status);
+                break;
+            case 401:
+                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
+                    'emailError', ERROR_401_MESSAGE);
+                console.log('no auth: ', status);
+                break;
+            default:
+                !document.getElementById('serverErrorMessage') ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                    console.log('server error: ', status);
+                break;
+            }
         }
     };
 
@@ -178,7 +176,6 @@ export default class RegisterPage extends BasePage {
      */
     validate(data) {
         let isValid = true;
-        console.log(data);
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
             case this.context.fields.name.name:
@@ -194,7 +191,6 @@ export default class RegisterPage extends BasePage {
                     this.context.fields.password);
                 break;
             case this.context.fields.repeatPassword.name:
-                console.log('same', data.password === data.repeatPassword);
                 isValid &= errorMessage.validateFiled(validation
                     .validateRepeatPassword(data.password === data.repeatPassword),
                 this.context.fields.repeatPassword);

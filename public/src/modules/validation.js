@@ -45,7 +45,6 @@ class Validation {
      * и полем сообщением ошибки message
      */
     validateRepeatPassword(isValid) {
-        console.log(isValid);
         return (isValid ? {status: true, message: ''} :
             {status: false, message: 'Введенные пароли не совпадают'});
     };

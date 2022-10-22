@@ -75,7 +75,7 @@ const config = {
         },
     },
     auth: {
-        authorised: true,
+        authorised: false,
         event: authEvent,
     },
     api: {
