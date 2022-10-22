@@ -2,8 +2,8 @@ import '../templates.js';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
 import Req from '../../modules/ajax.js';
-import Val from '../../modules/validation.js';
-import ErrorMessage from '../../modules/ErrorMessage.js';
+import validation from '../../modules/validation.js';
+import errorMessage from '../../modules/ErrorMessage.js';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -74,7 +74,6 @@ export default class LoginPage extends BasePage {
      */
     async onSubmitHandler(config, form, event) {
         event.preventDefault();
-        const errorMessage = new ErrorMessage();
 
         /* Сохранить данные из формы в переменную */
         const data = {};
@@ -84,53 +83,49 @@ export default class LoginPage extends BasePage {
             data[fields[page].name] = element.value;
         });
 
-        // timing email
         data.email = data.email.trim();
-
-        // Удаление отрисованных ошибок
+        /* Удаление отрисованных ошибок */
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 errorMessage.deleteErrorMessage(key);
             }
         }
 
-        /* Проверика почты и пароля и отрисовка ошибок на странице */
-        if (!this.validate(data)) {
-            return;
-        }
+        /* Проверка почты и пароля и отрисовка ошибок на странице */
+        if (this.validate(data)) {
+            const r = new Req();
+            const [email, password] = Array.from(data);
+            const [status] = await r.makePostRequest(config.api.login, {
+                password,
+                email,
+            }).catch((err) => console.log(err));
 
-        const r = new Req();
-        const [email, password] = Array.from(data);
-        const [status] = await r.makePostRequest(config.api.login, {
-            password,
-            email,
-        }).catch((err) => console.log(err));
-
-        switch (status) {
-        case 201:
-            console.log('auth');
-            config.authorised = true;
-            window.dispatchEvent(config.auth.event);
-            config.currentPage = config.header.main.render(config);
-            removeEventListener(context);
-            break;
-        case 400:
-            document.getElementById('Error400Message') === null ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
-                console.log('bad request: ', status);
-            break;
-        case 401:
-            errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                'emailError', ERROR_401_MESSAGE);
-            console.log('no auth: ', status);
-            break;
-        default:
-            !document.getElementById('serverErrorMessage') ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                console.log('server error: ', status);
-            break;
+            switch (status) {
+            case 201:
+                console.log('auth');
+                config.auth.authorised = true;
+                window.dispatchEvent(config.auth.event);
+                config.currentPage = config.header.main.render(config);
+                this.removeEventListener(this.context);
+                break;
+            case 400:
+                !document.getElementById('Error400Message') ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'Error400Message', ERROR_400_MESSAGE) :
+                    console.log('bad request: ', status);
+                break;
+            case 401:
+                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
+                    'emailError', ERROR_401_MESSAGE);
+                console.log('no auth: ', status);
+                break;
+            default:
+                !document.getElementById('serverErrorMessage') ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                    console.log('server error: ', status);
+                break;
+            }
         }
     };
 
@@ -148,9 +143,6 @@ export default class LoginPage extends BasePage {
         const form = document.getElementById('login-form');
         document.getElementById(this.context.fields.email.name).focus();
 
-        const errorMessage = new ErrorMessage();
-        this.validation = new Val();
-
         form.addEventListener('focusin', this.onFocusinHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }
@@ -161,25 +153,19 @@ export default class LoginPage extends BasePage {
      * @return {boolean} статус валидации
      */
     validate(data) {
-        const validation = new Val();
-        const errorMessage = new ErrorMessage();
-
-        const valEmail = validation.validateEMail(data.email);
-        const valPassword = validation.validatePassword(data.password);
-
-        if (!valEmail.status || !valPassword.status) {
-            if (valEmail.message !== '') {
-                errorMessage.getErrorMessage(document.getElementById('email'),
-                    'emailError', valEmail.message);
+        let isValid = true;
+        Object.entries(data).forEach(([key, value]) => {
+            switch (key) {
+            case this.context.fields.email.name:
+                isValid &= errorMessage.validateFiled(validation.validateEMail(value),
+                    this.context.fields.email);
+                break;
+            case this.context.fields.password.name:
+                isValid &= errorMessage.validateFiled(validation.validatePassword(value),
+                    this.context.fields.password);
+                break;
             }
-
-            if (valPassword.message !== '') {
-                errorMessage.getErrorMessage(document.getElementById('password'),
-                    'passwordError', valPassword.message);
-            }
-
-            return false;
-        }
-        return true;
+        });
+        return isValid;
     }
 }

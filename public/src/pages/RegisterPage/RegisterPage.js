@@ -2,13 +2,12 @@ import '../templates.js';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
 import Req from '../../modules/ajax.js';
-import Val from '../../modules/validation.js';
-import ErrorMessage from '../../modules/ErrorMessage.js';
+import validation from '../../modules/validation.js';
+import errorMessage from '../../modules/ErrorMessage.js';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
 const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
-const REPEAT_PASSWORD_ERROR_MESSAGE = 'Введенные пароли не совпадают';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -43,7 +42,7 @@ export default class RegisterPage extends BasePage {
             repeatPassword: {
                 title: 'Повторить пароль',
                 type: 'password',
-                name: 'repeat_password',
+                name: 'repeatPassword',
                 placeholder: 'Повторите пароль',
                 maxLength: '16',
                 errorID: 'repeatPasswordError',
@@ -81,7 +80,7 @@ export default class RegisterPage extends BasePage {
      * Метод, обрабатывающий получение фокуса полем.
      * @param {object} event событие получения фокуса полем
      */
-     async onFocusinHandler(event) {
+    async onFocusinHandler(event) {
         errorMessage.deleteErrorMessage(event.target.name);
     };
 
@@ -93,7 +92,6 @@ export default class RegisterPage extends BasePage {
      */
     async onSubmitHandler(config, form, event) {
         event.preventDefault();
-        const errorMessage = new ErrorMessage();
 
         /* Сохранить данные из формы в переменную */
         const data = {};
@@ -113,13 +111,13 @@ export default class RegisterPage extends BasePage {
             }
         }
 
-        /* Проверика почты и пароля и отрисовка ошибок на странице */
+        /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (!this.validate(data)) {
             return;
         }
 
         const r = new Req();
-        const [username, email, password, anotherPassword] = Array.from(data);
+        const [username, email, password] = Array.from(data);
         const [status] = await r.makePostRequest(config.api.signup, {
             password,
             email,
@@ -129,10 +127,10 @@ export default class RegisterPage extends BasePage {
         switch (status) {
         case 201:
             console.log('auth');
-            config.authorised = true;
+            config.auth.authorised = true;
             window.dispatchEvent(config.auth.event);
             config.currentPage = config.header.main.render(config);
-            removeEventListener(context);
+            this.removeEventListener(this.context);
             break;
         case 400:
             document.getElementById('Error400Message') === null ?
@@ -168,9 +166,7 @@ export default class RegisterPage extends BasePage {
         const form = document.getElementById('signup__form');
         document.getElementById(this.context.fields.name.name).focus();
 
-        const errorMessage = new ErrorMessage();
-        this.validation = new Val();
-        
+
         form.addEventListener('focusin', this.onFocusinHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }
@@ -181,37 +177,30 @@ export default class RegisterPage extends BasePage {
      * @return {boolean} статус валидации
      */
     validate(data) {
-        const validation = new Val();
-        const errorMessage = new ErrorMessage();
-        const valName = validation.checkEmptyField(data.name);
-        const valEmail = validation.validateEMail(data.email);
-        const valPassword = validation.validatePassword(data.password);
-
-        if (!valName.status || !valEmail.status || !valPassword.status ||
-            data.password !== data.repeat_password) {
-            if (valName.message !== '') {
-                errorMessage.getErrorMessage(document.getElementById('name'),
-                    'nameError', valName.message);
+        let isValid = true;
+        console.log(data);
+        Object.entries(data).forEach(([key, value]) => {
+            switch (key) {
+            case this.context.fields.name.name:
+                isValid &= errorMessage.validateFiled(validation.checkEmptyField(value),
+                    this.context.fields.name);
+                break;
+            case this.context.fields.email.name:
+                isValid &= errorMessage.validateFiled(validation.validateEMail(value),
+                    this.context.fields.email);
+                break;
+            case this.context.fields.password.name:
+                isValid &= errorMessage.validateFiled(validation.validatePassword(value),
+                    this.context.fields.password);
+                break;
+            case this.context.fields.repeatPassword.name:
+                console.log('same', data.password === data.repeatPassword);
+                isValid &= errorMessage.validateFiled(validation
+                    .validateRepeatPassword(data.password === data.repeatPassword),
+                this.context.fields.repeatPassword);
+                break;
             }
-
-            if (valEmail.message !== '') {
-                errorMessage.getErrorMessage(document.getElementById('email'),
-                    'emailError', valEmail.message);
-            }
-
-            if (valPassword.message !== '') {
-                errorMessage.getErrorMessage(document.getElementById('password'),
-                    'passwordError', valPassword.message);
-            }
-
-            if (data.password !== data.repeat_password) {
-                errorMessage.getErrorMessage(document.getElementById('repeat_password'),
-                    'repeat_passwordError', REPEAT_PASSWORD_ERROR_MESSAGE);
-            }
-
-            return false;
-        }
-
-        return true;
+        });
+        return isValid;
     }
 }

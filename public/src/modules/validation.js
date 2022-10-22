@@ -3,14 +3,14 @@ const emailRegex = /@/;
 /**
  * Класс, реализующий валидацию форм.
  */
-export default class Validation {
+class Validation {
     /**
      * Метод, валидирующий e-mail.
      * @param {string} data - e-mail для валидации
-     * @return {{status: boolean, message: String}} - объект со полем статуса проверки status
+     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    validateEMail = (data) => {
+    validateEMail(data) {
         const checkEmpty = this.checkEmptyField(data);
         if (!checkEmpty.status) {
             return checkEmpty;
@@ -39,15 +39,31 @@ export default class Validation {
     };
 
     /**
-     * Метод, проверяющий пустые поля.
-     * @param {string} data - данные для валидации
-     * @return {{status: boolean, message: String}} - объект со полем статуса проверки status
+     * Метод, валидирующий повторный ввод пароля.
+     * @param {boolean} isValid - совпадают ли пароли
+     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    checkEmptyField = (data) => {
+    validateRepeatPassword(isValid) {
+        console.log(isValid);
+        return (isValid ? {status: true, message: ''} :
+            {status: false, message: 'Введенные пароли не совпадают'});
+    };
+
+    /**
+     * Метод, проверяющий пустые поля.
+     * @param {string} data - данные для валидации
+     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
+     * и полем сообщением ошибки message
+     */
+    checkEmptyField(data) {
         if (data.length === 0) {
             return {status: false, message: 'Поле обязательно должно быть заполнено'};
         }
         return {status: true, message: ''};
     };
-};
+}
+
+const validation = new Validation();
+
+export default validation;
