@@ -114,7 +114,7 @@ export default class RegisterPage extends BasePage {
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (this.validate(data)) {
             const r = new Req();
-            const {username, email, password} = Array.from(data);
+            const {username, email, password} = data;
             const [status] = await r.makePostRequest(config.api.signup, {
                 password,
                 email,
