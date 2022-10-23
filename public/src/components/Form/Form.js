@@ -1,22 +1,17 @@
 import '../templates.js';
+import BaseComponent from '../BaseComponent.js';
 
 /**
  * Класс для реализации компонента Form
  */
-export default class Form {
-    /**
-     * Приватное поле класса, хранящее parent HTML-элемент
-     * @type {Element}
-     */
-    #parent;
-
+export default class Form extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента Form
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        this.#parent = parent;
+        super(parent);
     }
 
     /**
@@ -24,8 +19,7 @@ export default class Form {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        const data = this.prepareForm(context);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
+        super.render(this.prepareRenderData(context), 'form.hbs');
     }
 
     /**
@@ -33,7 +27,7 @@ export default class Form {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-    prepareForm(context) {
+    prepareRenderData(context) {
         return {
             field: {...context.fields},
             button: context.button.buttonValue,

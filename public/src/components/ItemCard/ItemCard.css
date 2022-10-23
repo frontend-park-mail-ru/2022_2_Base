@@ -1,5 +1,3 @@
-@import '../../../constants.css';
-
 .item-card__text-strikethrough {
     text-decoration: line-through;
     color: var(--secondary-purple);
@@ -74,8 +72,8 @@
 }
 
 .item-card__image {
-    max-height:100%;
-    max-width:100%
+    height: auto;
+    width: 100%;
 }
 
 .content__sales-value {

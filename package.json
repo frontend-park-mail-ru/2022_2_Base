@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && PORT=8081 DEBUG=server node server",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "handlebars -m public/src/components/*/*.hbs -f ./public/src/components/templates.js && handlebars -m public/src/pages/*/*.hbs -f ./public/src/pages/templates.js",
-    "deploy": "screen -d -m -S frontend sudo npm start",
-    "restart": "screen -r *.frontend && ^C && npm deploy",
+    "deploy:frontend": "screen -d -m -S frontend sudo npm start",
+    "deploy": "screen -d -m -S sudo npm start",
+    "drop": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.sudo')\"",
     "lint": "npx eslint . --ext .js",
     "lint:fix": "npx eslint . --ext .js --fix"
   },
@@ -16,24 +16,25 @@
     "type": "git",
     "url": "git+https://github.com/frontend-park-mail-ru/2022_2_Base.git"
   },
-  "contributors": [
-    "Liza",
-    "Alex",
-    "Vlad",
-    "Artem"
-  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/frontend-park-mail-ru/2022_2_Base/issues"
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2022_2_Base#readme",
   "dependencies": {
-    "eslint": "^8.24.0",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
     "morgan": "^1.10.0"
   },
+  "contributors": [
+    "Liza",
+    "Alex",
+    "Vlad",
+    "Artem"
+  ],
+  "funding": "https://www.donationalerts.com/r/reazon2022",
   "devDependencies": {
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "eslint": "^8.24.0"
   }
 }
