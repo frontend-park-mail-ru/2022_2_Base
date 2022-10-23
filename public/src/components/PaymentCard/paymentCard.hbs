@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="./src/components/PaymentCard/PaymentCard.css" type="text/css">
+
+{{#if addCard}}
+
+    <a href="" class="payment-card add-payment-card">
+        <div class="card-title text-normal-default"></div>
+
+        <div class="card-number text-normal-default">
+            <img class="add-card-pic" src="img/Add card.svg" alt="PLUS">
+            <div class="text-add-card text-normal-default"> Добавить карту</div>
+
+        </div>
+    </a>
+
+{{else}}
+
+
+    <a href="" {{#if priority}}
+       class="payment-card primary-payment-card"
+    {{else}}
+       class="payment-card other-payment-card"
+    {{/if}} >
+
+        <div class="payment-card-title text-normal-default">
+            Основная карта
+        </div>
+
+        <div class="payment-card-number text-normal-default">
+            {{number}}
+
+        </div>
+
+
+            <div class="card-date-type">
+                <div class="expiry-date text-normal-default">{{expiryDate}}</div>
+
+                <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">
+
+            </div>
+    </a>
+
+
+{{/if}}
+
+
+<!--<a href="" class="payment-card add-payment-card">-->
+<!--    <div class="card-title text-normal-default">-->
+<!--                Основная карта-->
+<!--            или пустота-->
+<!--    </div>-->
+
+<!--    <div class="card-number text-normal-default">-->
+<!--                123456******1234 -->
+<!--        <img class="add-card-pic" src="img/Add card.svg" alt="PLUS">-->
+<!--        <div class="text-add-card text-normal-default"> Добавить карту</div>-->
+
+<!--    </div>-->
+
+
+<!--        <div class="card-date-type">-->
+<!--            <div class="expiry-date text-normal-default">00/00</div>-->
+<!--            <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">-->
+
+<!--        </div>-->
+<!--</a>-->

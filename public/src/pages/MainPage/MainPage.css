@@ -110,6 +110,6 @@
 .disabled {
     pointer-events: none;
     cursor: default;
-    color: var(--jet-black);
+    color: var(--purple_disabled);
     opacity: 0.4;
 }

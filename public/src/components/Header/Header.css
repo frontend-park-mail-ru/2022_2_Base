@@ -148,7 +148,7 @@ header, footer {
 }
 
 .profile__pop-up::after {
-    content: ''; 
+    content: '';
     position: absolute; /* Абсолютное позиционирование */
     left: 34px; bottom: 100%; /* Положение треугольника */
     border: 12px solid transparent; /* Прозрачные границы */
@@ -162,6 +162,6 @@ header, footer {
 .disabled {
     pointer-events: none;
     cursor: default;
-    color: var(--jet-black);
+    color: var(--purple_disabled);
     opacity: 0.4;
 }

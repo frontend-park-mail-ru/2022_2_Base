@@ -1,0 +1,130 @@
+@import '../../../constants.css';
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    max-width: 1400px;
+    min-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--background-white);
+    display: grid;
+    grid-template-rows: 230px 200px 270px;
+    grid-row-gap: 30px;
+}
+
+.global-card {
+    min-width: 1400px;
+    max-width: 1400px;
+    border-radius: 10px;
+    background-color: var(--pure_white);
+}
+
+.edit-button {
+    height: 16px;
+    width: 16px;
+    margin-left: 4px;
+}
+
+.edit-button:hover {
+    /*    сделать изменение цвета   */
+}
+
+.user-card {
+    height: 200px;
+    margin-top: 30px;
+
+    display: grid;
+    grid-template-columns: 2fr 3fr 3fr 3fr 3fr;
+}
+
+.payment-cards-block {
+    height: 200px;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+}
+
+.payment-cards-items {
+    margin-left: 40px;
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    grid-column-gap: 40px;
+    /*1fr 1fr 1fr 1fr 1fr;*/
+
+}
+
+.address-cards {
+    height: 200px;
+
+
+    /*display: grid;*/
+    /*grid-template-columns: 2fr 1fr;*/
+}
+
+.user-photo {
+    justify-self: center;
+    align-self: center;
+    height: 128px;
+    width: 128px;
+}
+
+.user-name {
+    /*margin-left: 40px;*/
+    align-self: center;
+
+}
+
+.user-card-block {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+.user-card-block-title {
+    margin-top: 64px;
+    align-self: center;
+    color: var(--gray-for-text);
+}
+
+.user-card-block-data {
+    margin-bottom: 64px;
+}
+
+.card-block-title {
+    margin-bottom: -6px;
+    margin-left: 40px;
+    align-self: end;
+}
+
+.address-cards-block {
+    height: 200px;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+}
+
+.address-cards-items {
+    margin-left: 40px;
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    grid-column-gap: 40px;
+}
+
+.user-card-block-password {
+    justify-self: center;
+    align-self: center;
+    color: var(--default_purple);
+    text-decoration: none;
+}
+
+.user-card-block-password:hover {
+    color: var(--hover_purple);
+}
+
+.user-card-block-password:disabled {
+    color: var(--purple_disabled);
+}
+

@@ -1,5 +1,6 @@
 'use strict';
 
+import UserPage from './pages/UserPage/UserPage.js';
 import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
@@ -35,6 +36,15 @@ const renderRegisterPage = (context) => {
     registerPage.render(context);
 };
 
+/**
+ * Функция отрисовки страницы пользователя
+ * @param {object} context контекст отрисовки страницы
+ */
+const renderUserPage = (context) => {
+    const userPage = new UserPage(root);
+    userPage.render(context);
+};
+
 const config = {
     header: {
         main: {
@@ -51,6 +61,11 @@ const config = {
             href: '/signup',
             name: 'Регистрация',
             render: renderRegisterPage,
+        },
+        user: {
+            href: '/user',
+            name: 'Профиль',
+            render: renderUserPage,
         },
     },
     topcategory: {
@@ -141,11 +156,25 @@ const config = {
             },
         },
     },
+    userInfo: {
+        userCard: {
+            name : 'test',
+            email: 'test',
+            phone: 'test',
+        },
+    },
     authorised: false,
 };
 
 const request = new Req();
 const refresh = new RefreshEl();
+
+config.authorised = true; // fix
+config.userInfo.userCard.name = 'Имя Фамилия';
+config.userInfo.userCard.email = 'email@domain.ru';
+config.userInfo.userCard.phone = '7 777 777 77 77';
+
+
 
 /**
  * Функция перехода на новую страницу
@@ -160,7 +189,7 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach(function(page) {
+    Object.keys(config.header).forEach(function (page) {
         if (config.header[page].href === href) {
             event.preventDefault();
             config.header[page].render(config);
@@ -169,14 +198,14 @@ const changePage = async (event) => {
 
     if (href === '/logout') {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest('api/v1/logout').
-            catch((err) => console.log(err));
+        const [status] = await request.makeDeleteRequest('api/v1/logout').catch((err) => console.log(err));
 
         if (status === 200) {
             config.authorised = false;
             refresh.refreshHeader(config);
         }
     }
+    console.log(href) // fix
 };
 
 window.addEventListener('click', changePage);
@@ -185,13 +214,13 @@ window.addEventListener('click', changePage);
  * Функция для получение сессии
  */
 const checkSession = async () => {
-    const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
-    if (status === 200) {
-        config.authorised = true;
-        refresh.refreshHeader(config);
-        return;
-    }
-    config.authorised = false;
+    // const [status] = await request.makeGetRequest('api/v1/session').catch((err) => console.log(err));
+    // if (status === 200) {
+    //     config.authorised = true;
+    //     refresh.refreshHeader(config);
+    //     return;
+    // }
+    // config.authorised = false; // fix
 };
 
 window.addEventListener('load', checkSession, {once: true});

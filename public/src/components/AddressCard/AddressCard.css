@@ -1,0 +1,67 @@
+@import '../../../constants.css';
+
+.address-card {
+    justify-self: center;
+    align-self: center;
+    height: 118px;
+    width: 198px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 40px 40px 40px;
+    color: var(--jet-black);
+    text-decoration: none;
+}
+
+.primary-address-card {
+    height: 120px;
+    width: 200px;
+    background-color: var(--default_purple);
+    --text-color: var(--pure_white);
+}
+
+.other-address-card {
+    border: 1px solid #333333;
+    --text-color: var(--jet-black);
+}
+
+.add-address-card {
+    border: 1px solid #333333;
+    --text-color: var(--jet-black);
+}
+
+.card-title {
+    margin-left: 16px;
+    align-self: center;
+    color: var(--text-color);
+}
+
+.card-title-main {
+    color: var(--text-color);
+}
+
+.card-number {
+    margin-left: 16px;
+    align-self: center;
+    color: var(--text-color);
+}
+
+.card-street {
+    margin-left: 16px;
+    align-self: center;
+    color: var(--text-color);
+}
+
+.add-address-card-pic {
+    margin-left: 117px;
+    width: 32px;
+    height: 32px;
+    align-self: center;
+    justify-self: center;
+}
+
+.text-add-address-card {
+    color: var(--jet-black);
+    justify-self: center;
+    margin-left: 81px;
+}
+
