@@ -2,7 +2,12 @@ import '../templates.js';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
 import Req from '../../modules/ajax.js';
-import Val from '../../modules/validation.js';
+import validation from '../../modules/validation.js';
+import errorMessage from '../../modules/ErrorMessage.js';
+
+const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
+const ERROR_401_MESSAGE = 'Неверная почта или пароль';
+const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
 
 /**
  * Класс, реализующий страницу входа.
@@ -49,57 +54,47 @@ export default class LoginPage extends BasePage {
      */
     removeEventListener(context) {
         const form = document.getElementById('login-form');
-        form.removeEventListener('focusout', this.realTimeCheckHandler);
+        form.removeEventListener('focusin', this.onFocusinHandler);
         form.removeEventListener('submit', this.onSubmitHandler);
     }
 
     /**
-     * Функция, осуществляющая валидацию данных из формы.
-     * @param {object} event - событие, произошедшее на странице
+     * Метод, обрабатывающий получение фокуса полем.
+     * @param {object} event событие получения фокуса полем
      */
-    async realTimeCheckHandler(event) {
-        const validate = (valData, errorID) => {
-            if (!!valData.status) {
-                this.validation.getErrorMessage(document.getElementById(event.target.name),
-                    errorID, valData.message);
-            } else if (document.getElementById(errorID) !== null) {
-                document.getElementById(errorID).remove();
-            }
-        };
-
-        switch (event.target.name) {
-        case this.context.fields.email.name:
-            validate(this.validation.validatePassword(event.target.value),
-                this.context.fields.password.errorID);
-            break;
-        case this.context.fields.password.name:
-            validate(this.validation.validatePassword(event.target.value),
-                this.context.fields.password.errorID);
-        }
+    async onFocusinHandler(event) {
+        errorMessage.deleteErrorMessage(event.target.name);
     };
 
     /**
-     * Функция, обрабатывающая посылку формы.
+     * Метод, обрабатывающий отсылку формы.
      * @param {object} config глобальный контекст
      * @param {object} form поля формы
      * @param {object} event событие отправки формы
      */
     async onSubmitHandler(config, form, event) {
-        const data = [];
-        const {fields} = this.context;
         event.preventDefault();
+
+        /* Сохранить данные из формы в переменную */
+        const data = {};
+        const {fields} = this.context;
         Object.keys(fields).forEach((page) => {
             const element = form.querySelector(`[name=${fields[page].name}]`);
-            data.push(element.value);
+            data[fields[page].name] = element.value;
         });
 
-        // timing email
-        data[0] = data[0].trim();
-        const [email, password] = data;
+        data.email = data.email.trim();
+        /* Удаление отрисованных ошибок */
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                errorMessage.deleteErrorMessage(key);
+            }
+        }
 
-        console.log('credentials valid', this.validation.validateRegFields(email, password));
-        if (this.validation.validateRegFields(email, password)) {
+        /* Проверка почты и пароля и отрисовка ошибок на странице */
+        if (this.validate(data)) {
             const r = new Req();
+            const {email, password} = data;
             const [status] = await r.makePostRequest(config.api.login, {
                 password,
                 email,
@@ -110,25 +105,24 @@ export default class LoginPage extends BasePage {
                 console.log('auth');
                 config.auth.authorised = true;
                 window.dispatchEvent(config.auth.event);
+                this.removeEventListener(this.context);
                 config.currentPage = config.header.main.render(config);
-                form.removeEventListener('focusout', this.realTimeCheckHandler);
-                form.removeEventListener('submit', this.onSubmitHandler);
                 break;
             case 400:
-                document.getElementById('Error400Message') === null ?
-                    this.validation.getServerMessage(document.getElementById('inForm'),
-                        'Error400Message', 'Ошибка. Попробуйте еще раз') :
+                !document.getElementById('Error400Message') ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'Error400Message', ERROR_400_MESSAGE) :
                     console.log('bad request: ', status);
                 break;
             case 401:
-                this.validation.getErrorMessage(document.getElementById(fields.email.name),
-                    'emailError', 'Неверная почта или пароль');
+                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
+                    'emailError', ERROR_401_MESSAGE);
                 console.log('no auth: ', status);
                 break;
             default:
-                document.getElementById('serverErrorMessage') === null ?
-                    this.validation.getServerMessage(document.getElementById('inForm'),
-                        'serverErrorMessage', 'Ошибка сервера. Попробуйте позже') :
+                !document.getElementById('serverErrorMessage') ?
+                    errorMessage.getServerMessage(document.getElementById('inForm'),
+                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
                     console.log('server error: ', status);
                 break;
             }
@@ -149,8 +143,29 @@ export default class LoginPage extends BasePage {
         const form = document.getElementById('login-form');
         document.getElementById(this.context.fields.email.name).focus();
 
-        this.validation = new Val();
-        form.addEventListener('focusout', this.realTimeCheckHandler.bind(this));
+        form.addEventListener('focusin', this.onFocusinHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
+    }
+
+    /**
+     * Метод, осуществляющий валидацию данных из формы.
+     * @param {object} data - объект, содержащий данные из формы
+     * @return {boolean} статус валидации
+     */
+    validate(data) {
+        let isValid = true;
+        Object.entries(data).forEach(([key, value]) => {
+            switch (key) {
+            case this.context.fields.email.name:
+                isValid &= errorMessage.validateFiled(validation.validateEMail(value),
+                    this.context.fields.email);
+                break;
+            case this.context.fields.password.name:
+                isValid &= errorMessage.validateFiled(validation.validatePassword(value),
+                    this.context.fields.password);
+                break;
+            }
+        });
+        return isValid;
     }
 }
