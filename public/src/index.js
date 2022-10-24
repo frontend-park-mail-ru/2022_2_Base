@@ -141,3 +141,22 @@ const checkSession = async () => {
 
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});
 config.currentPage = config.header.main.render(config);
+
+// Регистрация Service Worker
+if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('/sw.js', { scope: '/' })
+		.then((reg) => {
+            const data = {
+                type: 'CACHE_URLS',
+                payload: [
+                    location.href,
+                    ...performance.getEntriesByType('resource').map((r) => r.name)
+                ]
+            };
+            reg.installing.postMessage(data);
+			console.log('Регистрация SW прошла успешно:', reg);
+		})
+		.catch((error) => {
+			console.error(`Ошибка при регистрации SW: ${error}`);
+		});
+}
