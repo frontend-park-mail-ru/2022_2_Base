@@ -141,22 +141,20 @@ const checkSession = async () => {
 
 // Регистрация Service Worker
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-		.then((reg) => {
-            const data = {
-                type: 'CACHE_URLS',
-                payload: [
-                    location.href,
-                    ...performance.getEntriesByType('resource').map((r) => r.name)
-                ]
-            };
-            reg.installing.postMessage(data);
-			console.log('Регистрация SW прошла успешно:', reg);
-		})
-		.catch((error) => {
-			console.error(`Ошибка при регистрации SW: ${error}`);
-		});
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    .then((registration) => {
+        const data = {
+            type: 'CACHE_URLS',
+            payload: [
+                location.href,
+                ...performance.getEntriesByType('resource').map((r) => r.name)
+            ]
+        };
+        registration.installing.postMessage(data);
+        console.log('Регистрация SW прошла успешно:', registration);
+    })
+    .catch((error) => {
+        console.error(`Ошибка при регистрации SW: ${error}`);
     });
 }
 
