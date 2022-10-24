@@ -139,12 +139,10 @@ const checkSession = async () => {
     window.dispatchEvent(config.auth.event);
 };
 
-window.addEventListener('DOMContentLoaded', checkSession, {once: true});
-config.currentPage = config.header.main.render(config);
-
 // Регистрация Service Worker
 if ('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    window.addEventListener('load', async () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
 		.then((reg) => {
             const data = {
                 type: 'CACHE_URLS',
@@ -159,4 +157,8 @@ if ('serviceWorker' in navigator) {
 		.catch((error) => {
 			console.error(`Ошибка при регистрации SW: ${error}`);
 		});
+    });
 }
+
+window.addEventListener('DOMContentLoaded', checkSession, {once: true});
+config.currentPage = config.header.main.render(config);
