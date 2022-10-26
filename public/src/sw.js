@@ -1,51 +1,47 @@
-const CACHE_NAME = 'base-cache-only-v1';
+const CACHE_NAME = 'base-v1';
 
-/**
- * Сделать Service Worker ктивным
- */
  self.addEventListener('install', async (event) => {
-    event.waitUntil(self.skipWaiting());
-});
-
-self.addEventListener('activate', async (event) => {
-    /* Удалим устаревшии версии кэша: */
-    const cacheNames = await caches.keys();
-    await Promise.all(
-        cacheNames
-            .filter((name) => name !== CACHE_NAME)
-            .map((name) => caches.delete(name)),
-    );
+    console.log("Service worker installing");
 });
 
 /**
- * Записать статитечские файлы в кэш
- */
+ * @description Подписываемся на событиие получения сообщения со списком ресурсов,
+ * которые надо кешировать при первом посещении страницы
+*/
  self.addEventListener('message', (event) => {
     if (event.data.type === 'CACHE_URLS') {
         event.waitUntil(
-            // По ключу или открываем, или создаем хранилище
             caches.open(CACHE_NAME)
                 .then((cache) => {
-                    console.log(event.data)
                     return cache.addAll(event.data.payload);
+                })
+                .catch((error) => {
+                    console.log(`Error adding to cache ${error}`);
                 })
         )
     }
 });
 
 /**
- * Если нет интернета, достать файлы из кэша
- */
+ * @description Подписываемся на событиие отправки браузером запроса к серверу
+*/
  self.addEventListener('fetch', (event) => {
 
     event.respondWith(
-        // ищем ресурс в кэше
+        // Ищем ресурс в кэше
         caches.match(event.request)
             .then((cachedResponse) => {
                 if (cachedResponse) {
                     return cachedResponse;
                 }
-                return fetch(event.request);
+                const responseFromNetwork = fetch(event.request);
+                putInCache(event.request, responseFromNetwork.clone());
+                return responseFromNetwork;
             })
     );
 });
+
+const putInCache = async (request, response) => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response);
+  };

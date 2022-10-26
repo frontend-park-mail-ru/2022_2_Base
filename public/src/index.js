@@ -139,24 +139,44 @@ const checkSession = async () => {
     window.dispatchEvent(config.auth.event);
 };
 
-// Регистрация Service Worker
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-    .then((registration) => {
-        const data = {
-            type: 'CACHE_URLS',
-            payload: [
-                location.href,
-                ...performance.getEntriesByType('resource').map((r) => r.name)
-            ]
-        };
-        registration.installing.postMessage(data);
-        console.log('Регистрация SW прошла успешно:', registration);
-    })
-    .catch((error) => {
-        console.error(`Ошибка при регистрации SW: ${error}`);
-    });
-}
-
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});
 config.currentPage = config.header.main.render(config);
+
+// Регистрация Service Worker
+const registerServiceWorker = async () => {
+    if ("serviceWorker" in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register("/sw.js", {
+          scope: "/",
+        });
+        if (registration.installing) {
+            const data = {
+                type: 'CACHE_URLS',
+                payload: [
+                    location.href,
+                    ...performance.getEntriesByType('resource').map((r) => {
+                        if (r.initiatorType === 'fetch') {
+                            return '';
+                        }
+                        return r.name;
+                    })
+                ]
+            };
+            data.payload.forEach( (value, i) => {
+                if (value.length === 0) {
+                    data.payload.splice(i,1)
+                }
+            })
+            registration.installing.postMessage(data);
+        } else if (registration.waiting) {
+            console.log("Service worker installed");
+        } else if (registration.active) {
+            console.log("Service worker active");
+        }
+      } catch (error) {
+        console.log(`Registration failed with ${error}`);
+      }
+    }
+};
+
+window.addEventListener('load', registerServiceWorker);
