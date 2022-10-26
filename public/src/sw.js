@@ -13,6 +13,7 @@ const CACHE_NAME = 'base-v1';
         event.waitUntil(
             caches.open(CACHE_NAME)
                 .then((cache) => {
+                    console.log(event.data.payload)
                     return cache.addAll(event.data.payload);
                 })
                 .catch((error) => {
