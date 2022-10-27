@@ -61,6 +61,22 @@ class ErrorMessage {
         }
         return true;
     }
+
+    /**
+     * Метод, который отрисовывает ошибку 404.
+     * @param {object} target - DOM объект, в который вставляем сообщение об ошибке
+     */
+    render404(target) {
+        const div = document.createElement('div');
+        div.id = '404Error';
+        const span = document.createElement('span');
+        div.appendChild(span);
+        div.classList.add('server-error');
+        span.classList.add('server-error__text');
+        span.innerHTML = '404 Error. Страница не найдена';
+        console.log(target);
+        target.appendChild(div);
+    }
 }
 
 const errorMessage = new ErrorMessage();

@@ -24,6 +24,9 @@ const config = {
         signup: {
             href: '/signup',
         },
+        notFound: {
+            href: '/error404',
+        },
     },
     auth: {
         authorised: false,

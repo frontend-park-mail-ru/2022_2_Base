@@ -164,7 +164,6 @@ export default class RegisterPage extends BasePage {
         const form = document.getElementById('signup__form');
         document.getElementById(this.context.fields.name.name).focus();
 
-
         form.addEventListener('focusin', this.onFocusinHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
     }

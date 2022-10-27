@@ -1,6 +1,8 @@
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import errorMessage from './ErrorMessage.js';
+import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -15,6 +17,7 @@ export default class Router {
     constructor() {
         this.#pathToPage = new Map();
         this.#mainElement = document.getElementById('main');
+        this.#currentPage = new MainPage(this.#mainElement);
     }
     /**
      * Функция отрисовки страницы регистрации
@@ -53,7 +56,10 @@ export default class Router {
         this.register(config.header.main.href, MainPage);
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
-        this.#currentPage = this.#pathToPage.get(config.header.main.href)(config);
+        this.register(config.header.notFound.href, ErrorPage);
+
+        this.openPage(document.location.pathname, config);
+        // this.#currentPage = this.#pathToPage.get(config.header.main.href)(config);
     }
 
     /**
@@ -71,8 +77,13 @@ export default class Router {
      * @param {object} config - конфиг
      */
     openPage(path, config) {
-        this.go(path, config);
-        window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
-        window.onpopstate = (event) => this.onPopState(config, event);
+        if (this.#pathToPage.has(path)) {
+            this.go(path, config);
+            window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
+            window.onpopstate = (event) => this.onPopState(config, event);
+        } else {
+            // errorMessage.render404(this.#mainElement);
+            this.go(config.header.notFound.href, config);
+        }
     }
 }
