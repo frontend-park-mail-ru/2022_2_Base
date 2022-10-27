@@ -16,7 +16,7 @@ const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
 const config = {
     header: {
         main: {
-            href: '/main',
+            href: '/',
         },
         login: {
             href: '/login',
