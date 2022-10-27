@@ -15,7 +15,7 @@ self.addEventListener('message', (event) => {
                 .then((cache) => {
                     return cache.addAll(event.data.payload);
                 })
-                .catch((error) => console.log(`Error adding to cache ${error}`));
+                .catch((error) => console.log(`Error adding to cache ${error}`)),
         );
     }
 });
