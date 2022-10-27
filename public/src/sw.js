@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event) => {
                 const responseFromNetwork = fetch(event.request);
                 putInCache(event.request, responseFromNetwork.clone());
                 return responseFromNetwork;
-            })
+            }),
     );
 });
 
