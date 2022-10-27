@@ -1,14 +1,15 @@
 const CACHE_NAME = 'base-v1';
 
- self.addEventListener('install', async (event) => {
-    console.log("Service worker installing");
+self.addEventListener('install', async (event) => {
+    console.log('Service worker installing');
 });
 
 /**
  * @description Подписываемся на событиие получения сообщения со списком ресурсов,
  * которые надо кешировать при первом посещении страницы
 */
- self.addEventListener('message', (event) => {
+self.addEventListener('message', (event) => {
+     console.log(self.clients)
     if (event.data.type === 'CACHE_URLS') {
         event.waitUntil(
             caches.open(CACHE_NAME)
@@ -26,7 +27,7 @@ const CACHE_NAME = 'base-v1';
 /**
  * @description Подписываемся на событиие отправки браузером запроса к серверу
 */
- self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (event) => {
 
     event.respondWith(
         // Ищем ресурс в кэше
@@ -45,4 +46,4 @@ const CACHE_NAME = 'base-v1';
 const putInCache = async (request, response) => {
     const cache = await caches.open(CACHE_NAME);
     await cache.put(request, response);
-  };
+};
