@@ -4,6 +4,7 @@ import FormComponent from '../../components/Form/Form.js';
 import Req from '../../modules/ajax.js';
 import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
+import router from '../../index.js';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -126,8 +127,7 @@ export default class RegisterPage extends BasePage {
                 console.log('auth');
                 config.auth.authorised = true;
                 window.dispatchEvent(config.auth.event);
-                this.removeEventListener(this.context);
-                config.currentPage = config.header.main.render(config);
+                router.openPage(config.header.main.href, config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
