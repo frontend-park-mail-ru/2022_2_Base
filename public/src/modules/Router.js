@@ -96,8 +96,13 @@ export default class Router {
      * @param {object} config - конфиг
      */
     go(path, config) {
-        this.#currentPage.removeEventListener();
-        this.#currentPage = this.#pathToPage.get(path)(config);
+        if (this.#pathToPage.has(path)) {
+            this.#currentPage.removeEventListener();
+            this.#currentPage = this.#pathToPage.get(path)(config);
+            return true;
+        }
+        this.go(config.header.notFound.href, config);
+        return false;
     }
 
     /**
@@ -106,13 +111,9 @@ export default class Router {
      * @param {object} config - конфиг
      */
     openPage(path, config) {
-        if (this.#pathToPage.has(path)) {
-            this.go(path, config);
+        if (this.go(path, config)) {
             window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
             window.onpopstate = (event) => this.onPopState(config, event);
-        } else {
-            // errorMessage.render404(this.#mainElement);
-            this.go(config.header.notFound.href, config);
         }
     }
 }
