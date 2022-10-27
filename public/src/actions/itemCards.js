@@ -30,7 +30,7 @@ export const ItemCardsAction = {
      * Действие: запрос списка карточек по категориям.
      * @param {String} category - категория
      */
-     getItemCardsByCategory() {
+    getItemCardsByCategory() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
             data: {category},
@@ -41,7 +41,7 @@ export const ItemCardsAction = {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
      */
-     searchItemCards(searchString) {
+    searchItemCards(searchString) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_SEARCH,
             data: {searchString},
@@ -63,7 +63,7 @@ export const ItemCardsAction = {
      * Действие: Добавление карточки с определенным id в корзину.
      * @param {any} id
      */
-     clickedByItemCard(id) {
+    clickedByItemCard(id) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_CLICKED_BUY,
             data: {id},

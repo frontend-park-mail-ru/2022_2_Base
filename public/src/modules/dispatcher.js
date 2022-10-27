@@ -2,10 +2,10 @@
  * Класс, реализующий Диспетчер.
  */
 class Dispatcher {
-     /**
+    /**
      * @constructor
      */
-      constructor() {
+    constructor() {
         this._isDispatching = false;
         this._callbacks = new Map();
         this._lastId = 0;
