@@ -159,23 +159,23 @@ const registerServiceWorker = async () => {
                                 return '';
                             }
                             return r.name;
-                        })
-                    ]
+                        }),
+                    ],
                 };
                 data.payload.forEach( (value, i) => {
                     if (value.length === 0) {
-                        data.payload.splice(i, 1)
+                        data.payload.splice(i, 1);
                     }
-                })
+                });
                 registration.installing.postMessage(data);
             } else if (registration.waiting) {
                 console.log('Service worker installed');
             } else if (registration.active) {
                 console.log('Service worker active');
             }
-      } catch (error) {
-        console.log(`Registration failed with ${error}`);
-      }
+        } catch (error) {
+            console.log(`Registration failed with ${error}`);
+        }
     }
 };
 

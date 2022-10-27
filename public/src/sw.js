@@ -9,18 +9,16 @@ self.addEventListener('install', async (event) => {
  * которые надо кешировать при первом посещении страницы
 */
 self.addEventListener('message', (event) => {
-     console.log(self.clients)
     if (event.data.type === 'CACHE_URLS') {
         event.waitUntil(
             caches.open(CACHE_NAME)
                 .then((cache) => {
-                    console.log(event.data.payload)
                     return cache.addAll(event.data.payload);
                 })
                 .catch((error) => {
                     console.log(`Error adding to cache ${error}`);
                 })
-        )
+        );
     }
 });
 
@@ -28,7 +26,6 @@ self.addEventListener('message', (event) => {
  * @description Подписываемся на событиие отправки браузером запроса к серверу
 */
 self.addEventListener('fetch', (event) => {
-
     event.respondWith(
         // Ищем ресурс в кэше
         caches.match(event.request)
