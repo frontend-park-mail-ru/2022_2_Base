@@ -69,6 +69,7 @@ const changePage = async (event) => {
 
         if (status === 200) {
             config.auth.authorised = false;
+            router.logout(config);
             window.dispatchEvent(config.auth.event);
         }
     }
@@ -88,7 +89,12 @@ window.addEventListener('authEvent', onAuthAndLogout);
 const checkSession = async () => {
     const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
 
-    config.auth.authorised = status === 200;
+    if (status === 200) {
+        config.auth.authorised = true;
+        router.login(config);
+    } else {
+        router.logout(config);
+    }
     window.dispatchEvent(config.auth.event);
 };
 

@@ -11,6 +11,7 @@ export default class Router {
     #pathToPage;
     #mainElement;
     #currentPage;
+
     /**
      * Конструктор роутера.
      */
@@ -19,6 +20,7 @@ export default class Router {
         this.#mainElement = document.getElementById('main');
         this.#currentPage = new MainPage(this.#mainElement);
     }
+
     /**
      * Функция отрисовки страницы регистрации
      * @param {function} PageConstructor конструктор класса страницы
@@ -32,6 +34,7 @@ export default class Router {
             return page;
         };
     };
+
     /**
      * Регистрирует страницу.
      * @param {string} path - href страницы
@@ -40,6 +43,15 @@ export default class Router {
     register(path, view) {
         this.#pathToPage.set(path, this.renderPage(view));
     }
+
+    /**
+     * Регистрирует страницу.
+     * @param {string} path - href страницы
+     */
+    remove(path) {
+        this.#pathToPage.delete(path);
+    }
+
     /**
      * Запускает роутер.
      * @param {object} config - конфиг
@@ -48,6 +60,7 @@ export default class Router {
     onPopState(config, event) {
         this.go(document.location.pathname, config);
     }
+
     /**
      * Запускает роутер.
      * @param {object} config - конфиг
@@ -59,7 +72,25 @@ export default class Router {
         this.register(config.header.notFound.href, ErrorPage);
 
         this.openPage(document.location.pathname, config);
-        // this.#currentPage = this.#pathToPage.get(config.header.main.href)(config);
+    }
+
+    /**
+     * Добавляет страницы авторизации.
+     * @param {object} config - конфиг
+     */
+    login(config) {
+
+        this.remove(config.header.login.href);
+        this.remove(config.header.signup.href);
+    }
+
+    /**
+     * Удаляет страницы авторизации.
+     * @param {object} config - конфиг
+     */
+    logout(config) {
+        this.register(config.header.login.href, LoginPage);
+        this.register(config.header.signup.href, RegisterPage);
     }
 
     /**
@@ -71,6 +102,7 @@ export default class Router {
         this.#currentPage.removeEventListener();
         this.#currentPage = this.#pathToPage.get(path)(config);
     }
+
     /**
      * Запускает роутер.
      * @param {string} path - путь страницы

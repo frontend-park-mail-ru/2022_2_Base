@@ -105,6 +105,7 @@ export default class LoginPage extends BasePage {
             case 201:
                 console.log('auth');
                 config.auth.authorised = true;
+                router.login(config);
                 window.dispatchEvent(config.auth.event);
                 router.openPage(config.header.main.href, config);
                 break;
