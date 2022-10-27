@@ -1,7 +1,6 @@
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
-import errorMessage from './ErrorMessage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 
 /**
@@ -37,7 +36,7 @@ export default class Router {
 
     /**
      * Регистрирует страницу.
-     * @param {string} path - href страницы
+     * @param {string} path - путь к странице
      * @param {function} view - страница
      */
     register(path, view) {
@@ -45,17 +44,17 @@ export default class Router {
     }
 
     /**
-     * Регистрирует страницу.
-     * @param {string} path - href страницы
+     * Удаляет страницу.
+     * @param {string} path - путь к странице
      */
     remove(path) {
         this.#pathToPage.delete(path);
     }
 
     /**
-     * Запускает роутер.
-     * @param {object} config - конфиг
-     * @param {object} event - конфиг
+     * Функция для рендра страницы при переходе по истории браузера.
+     * @param {object} config - данные для отображения страницы
+     * @param {object} event - событие на которое запустилась функция
      */
     onPopState(config, event) {
         this.go(document.location.pathname, config);
@@ -63,7 +62,7 @@ export default class Router {
 
     /**
      * Запускает роутер.
-     * @param {object} config - конфиг
+     * @param {object} config - данные для отображения страницы
      */
     start(config) {
         this.register(config.header.main.href, MainPage);
@@ -74,7 +73,7 @@ export default class Router {
 
     /**
      * Добавляет страницы авторизации.
-     * @param {object} config - конфиг
+     * @param {object} config - данные для отображения страницы
      */
     login(config) {
         this.remove(config.header.login.href);
@@ -83,7 +82,7 @@ export default class Router {
 
     /**
      * Удаляет страницы авторизации.
-     * @param {object} config - конфиг
+     * @param {object} config - данные для отображения страницы
      */
     logout(config) {
         this.register(config.header.login.href, LoginPage);
@@ -91,9 +90,10 @@ export default class Router {
     }
 
     /**
-     * Запускает роутер.
-     * @param {string} path - путь страницы
-     * @param {object} config - конфиг
+     * Переходит на страницу.
+     * @param {string} path - путь к странице
+     * @param {object} config - данные для отображения страницы
+     * @return {boolean} - зарегистрирована ли такая страница
      */
     go(path, config) {
         if (this.#pathToPage.has(path)) {
@@ -106,9 +106,9 @@ export default class Router {
     }
 
     /**
-     * Запускает роутер.
-     * @param {string} path - путь страницы
-     * @param {object} config - конфиг
+     * Переходит на страницу и добавляет в историю браузера.
+     * @param {string} path - путь к странице
+     * @param {object} config - данные для отображения страницы
      */
     openPage(path, config) {
         if (this.go(path, config)) {
