@@ -67,8 +67,6 @@ export default class Router {
      */
     start(config) {
         this.register(config.header.main.href, MainPage);
-        this.register(config.header.login.href, LoginPage);
-        this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.notFound.href, ErrorPage);
 
         this.openPage(document.location.pathname, config);
@@ -79,7 +77,6 @@ export default class Router {
      * @param {object} config - конфиг
      */
     login(config) {
-
         this.remove(config.header.login.href);
         this.remove(config.header.signup.href);
     }
