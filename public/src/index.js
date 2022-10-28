@@ -148,34 +148,42 @@ const registerServiceWorker = async () => {
         try {
             const registration = await navigator.serviceWorker.register('/sw.js', {
                 scope: '/',
-            });
-            if (registration.installing) {
-                const data = {
-                    type: 'CACHE_URLS',
-                    payload: [
-                        location.href,
-                        ...performance.getEntriesByType('resource').map((r) => {
-                            if (r.initiatorType === 'fetch') {
-                                return '';
-                            }
-                            return r.name;
-                        }),
-                    ],
-                };
-                data.payload.forEach( (value, i) => {
-                    if (value.length === 0) {
-                        data.payload.splice(i, 1);
+            })
+                .then((registration) => {
+                    const data = {
+                        type: 'CACHE_URLS',
+                        payload: [
+                            location.href,
+                            ...performance.getEntriesByType('resource').map((r) => {
+                                if (r.initiatorType === 'fetch') {
+                                    return '';
+                                }
+                                return r.name;
+                            }),
+                        ],
+                    };
+                    data.payload.forEach( (value, i) => {
+                        if (value.length === 0) {
+                            data.payload.splice(i, 1);
+                        }
+                    });
+                    console.log(data.payload)
+                    if (registration.installing) {
+                        registration.installing.postMessage(data);
+                        console.log('Service worker installing');
+                    } else if (registration.waiting) {
+                        registration.waiting.postMessage(data);
+                        console.log('Service worker installed');
+                    } else if (registration.active) {
+                        registration.active.postMessage(data);
+                        console.log('Service worker active');
                     }
-                });
-                registration.installing.postMessage(data);
-            } else if (registration.waiting) {
-                console.log('Service worker installed');
-            } else if (registration.active) {
-                console.log('Service worker active');
-            }
+                })
         } catch (error) {
-            console.log(`Registration failed with ${error}`);
+            console.log(`SW registration failed with ${error}`);
         }
+    } else {
+        console.log('Service Workers are not supported in this browser');
     }
 };
 

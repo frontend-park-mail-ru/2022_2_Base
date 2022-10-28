@@ -1,7 +1,7 @@
 const CACHE_NAME = 'base-v1';
 
-self.addEventListener('install', async (event) => {
-    console.log('Service worker installing');
+self.addEventListener('install', (event) => {
+    event.waitUntil(self.skipWaiting());
 });
 
 /**
@@ -28,13 +28,31 @@ self.addEventListener('fetch', (event) => {
         // Ищем ресурс в кэше
         caches.match(event.request)
             .then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
+                if (navigator.onLine) {
+                    return fetch(event.request) // Получить данные из сети
+                        .then(res => {
+                            const resClone = res.clone();
+                            putInCache(event.request, resClone);
+                            return res;
+                        })
+                        .catch(err => console.error(err));
                 }
-                const responseFromNetwork = fetch(event.request);
-                putInCache(event.request, responseFromNetwork.clone());
-                return responseFromNetwork;
-            }),
+
+                if (cachedResponse) {
+                    return cachedResponse; // Получить из кеша
+                }
+
+                const init = { // Создать пустой запрос
+                    status: 418,
+                    statusText: 'Offline Mode'
+                };
+                const data = { message: 'Content is not available in offline mode' };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                return new Response(blob, init);
+            })
+            .catch((err) => {
+                console.log(err.stack || err);
+            })
     );
 });
 
