@@ -154,20 +154,9 @@ const registerServiceWorker = async () => {
                         type: 'CACHE_URLS',
                         payload: [
                             location.href,
-                            ...performance.getEntriesByType('resource').map((r) => {
-                                if (r.initiatorType === 'fetch') {
-                                    return '';
-                                }
-                                return r.name;
-                            }),
+                            ...performance.getEntriesByType('resource').map((r) => r.name)
                         ],
                     };
-                    data.payload.forEach( (value, i) => {
-                        if (value.length === 0) {
-                            data.payload.splice(i, 1);
-                        }
-                    });
-                    console.log(data.payload)
                     if (registration.installing) {
                         registration.installing.postMessage(data);
                         console.log('Service worker installing');
