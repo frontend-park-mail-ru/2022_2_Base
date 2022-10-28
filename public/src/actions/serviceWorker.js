@@ -5,7 +5,7 @@ import Dispatcher from '../modules/dispatcher.js';
 /**
  * Константа, содержащая в себе типы действий для собыйтий от sw.
  */
- export const ServiceWorkerTypes = {
+export const ServiceWorkerTypes = {
     OFFLINE_MSG_SHOW: 'OFFLINE_MSG_SHOW',
     FULL_OFFLINE: 'FULL_OFFLINE',
     OFFLINE_MSG_HIDE: 'OFFLINE_MSG_HIDE',
