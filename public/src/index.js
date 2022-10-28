@@ -145,14 +145,14 @@ config.currentPage = config.header.main.render(config);
 // Регистрация Service Worker
 const registerServiceWorker = async () => {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
             .then((registration) => {
                 const data = {
                     type: 'CACHE_URLS',
                     payload: [
                         location.href,
-                        ...performance.getEntriesByType('resource').map((r) => r.name)
-                    ],
+                        ...performance.getEntriesByType('resource').map((r) => r.name),
+                    ]
                 };
                 if (registration.installing) {
                     registration.installing.postMessage(data);
@@ -165,7 +165,7 @@ const registerServiceWorker = async () => {
                     console.log('Service worker active');
                 }
             })
-            . catch ((error) => console.log(`SW registration failed with ${error}`));
+            .catch((error) => console.log(`SW registration failed with ${error}`));
     } else {
         console.log('Service Workers are not supported in this browser');
     }
