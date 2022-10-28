@@ -1,29 +1,25 @@
 import '../templates.js';
+import BaseComponent from '../BaseComponent.js';
 
 /**
- * Класс для реализации компонента Footer
+ * Класс для реализации компонента PaymentCard
  */
-export default class PaymentCard {
+export default class PaymentCard extends BaseComponent {
     /**
-     * Приватное поле класса, хранящее parent HTML-элемент
-     * @type {Element}
-     */
-    #parent;
-
-    /**
-     * Конструктор, создающий класс компонента Footer
+     * Конструктор, создающий класс компонента PaymentCard
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        this.#parent = parent;
+        super(parent);
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
+     * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['paymentCard.hbs'](context));
+        super.render(context, 'paymentCard.hbs');
     }
 }

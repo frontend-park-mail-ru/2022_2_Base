@@ -1,4 +1,4 @@
-@import '../../../constants.css';
+@import '../../../index.css';
 
 * {
     padding: 0;
@@ -12,8 +12,8 @@
     margin-right: auto;
     background-color: var(--background-white);
     display: grid;
-    grid-template-rows: 230px 200px 270px;
-    grid-row-gap: 30px;
+    grid-template-rows: 232px 200px 232px;
+    grid-row-gap: 32px;
 }
 
 .global-card {
@@ -35,8 +35,7 @@
 
 .user-card {
     height: 200px;
-    margin-top: 30px;
-
+    margin-top: 32px;
     display: grid;
     grid-template-columns: 2fr 3fr 3fr 3fr 3fr;
 }
@@ -48,11 +47,11 @@
 }
 
 .payment-cards-items {
-    margin-left: 40px;
+    margin-left: 36px;
     align-self: center;
     display: grid;
     grid-template-columns: repeat(4, 200px);
-    grid-column-gap: 40px;
+    grid-column-gap: 36px;
     /*1fr 1fr 1fr 1fr 1fr;*/
 
 }
@@ -65,17 +64,21 @@
     /*grid-template-columns: 2fr 1fr;*/
 }
 
-.user-photo {
+.user-photo-block {
     justify-self: center;
     align-self: center;
+}
+
+
+.user-photo {
+    z-index: 0;
     height: 128px;
     width: 128px;
+    filter: none;
 }
 
 .user-name {
-    /*margin-left: 40px;*/
     align-self: center;
-
 }
 
 .user-card-block {
@@ -95,7 +98,7 @@
 
 .card-block-title {
     margin-bottom: -6px;
-    margin-left: 40px;
+    margin-left: 36px;
     align-self: end;
 }
 
@@ -106,11 +109,11 @@
 }
 
 .address-cards-items {
-    margin-left: 40px;
+    margin-left: 36px;
     align-self: center;
     display: grid;
     grid-template-columns: repeat(4, 200px);
-    grid-column-gap: 40px;
+    grid-column-gap: 36px;
 }
 
 .user-card-block-password {
@@ -128,3 +131,60 @@
     color: var(--purple_disabled);
 }
 
+.change-pop-up {
+    display: none;
+    position: absolute;
+    height: 40px;
+    width: 84px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 1);
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1;
+    grid-template-columns: 12fr 2fr 12fr;
+    filter: var(--apple-shadow)
+}
+
+.change-user-photo {
+    margin-top: -90px;
+    margin-left: 20px;
+}
+
+.change-payment-card {
+    margin-top: -80px;
+    margin-left: 58px;
+}
+
+.change-address-card {
+    margin-top: -80px;
+    margin-left: 58px;
+}
+
+/*.change-user-photo::after {*/
+/*    content: '';*/
+/*    align-self: center;*/
+/*    justify-self: center;*/
+/*    !*position: absolute; !* Абсолютное позиционирование *!*!*/
+/*    !*left: 34px; bottom: 100%; !* Положение треугольника *!*!*/
+/*    border: 12px solid transparent; !* Прозрачные границы *!*/
+/*    border-bottom: 10px solid rgba(255, 255, 255, 1);*/
+/*    display: grid;*/
+/*    grid-template-columns: 6fr 2fr 6fr;*/
+/*}*/
+
+.separation-line {
+    border-left: 2px solid var(--gray-for-text);
+    height: 32px;
+    align-self: center;
+    justify-self: center;
+}
+
+.pop-up-button {
+    align-self: center;
+    margin-top: 4px;
+}
+
+.pop-up-button-pic {
+    height: 16px;
+    width: 16px;
+}

@@ -1,6 +1,6 @@
-@import '../../../constants.css';
+@import '../../../index.css';
 
-.payment-card {
+.payment-card-template {
     justify-self: center;
     align-self: center;
     height: 118px;
@@ -10,6 +10,10 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
+}
+
+.payment-card {
+    filter: none;
 }
 
 .primary-payment-card {
@@ -65,15 +69,16 @@
 }
 
 .add-card-pic {
-    margin-left: 68px;
+    margin-left: 84px;
     width: 32px;
     height: 32px;
     align-self: center;
     justify-self: center;
+    margin-top: -4px;
 }
 
 .text-add-card {
     color: var(--jet-black);
     justify-self: center;
-    margin-left: 29px;
+    margin-left: 44px;
 }

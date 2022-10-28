@@ -1,6 +1,6 @@
-@import '../../../constants.css';
+@import '../../../index.css';
 
-.address-card {
+.address-card-template {
     justify-self: center;
     align-self: center;
     height: 118px;
@@ -10,6 +10,10 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
+}
+
+.address-card {
+    filter: none;
 }
 
 .primary-address-card {
@@ -29,30 +33,40 @@
     --text-color: var(--jet-black);
 }
 
-.card-title {
+.address-card-city {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-title-main {
     color: var(--text-color);
 }
 
-.card-number {
+.address-card-street {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card-street {
+.address-card-house {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .add-address-card-pic {
-    margin-left: 117px;
+    margin-left: 84px;
+    margin-top: -4px;
     width: 32px;
     height: 32px;
     align-self: center;
@@ -62,6 +76,6 @@
 .text-add-address-card {
     color: var(--jet-black);
     justify-self: center;
-    margin-left: 81px;
+    margin-left: 44px;
 }
 

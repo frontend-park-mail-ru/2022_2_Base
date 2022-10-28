@@ -31,10 +31,7 @@ const renderPage = (PageConstructor) => {
  * Функция отрисовки страницы пользователя
  * @param {object} context контекст отрисовки страницы
  */
-const renderUserPage = (context) => {
-    const userPage = new UserPage(root);
-    userPage.render(context);
-};
+
 
 const config = {
     header: {
@@ -56,7 +53,7 @@ const config = {
         user: {
             href: '/user',
             name: 'Профиль',
-            render: renderUserPage,
+            render: renderPage(UserPage),
         },
     },
     topcategory: {
@@ -102,7 +99,7 @@ const config = {
     },
     userInfo: {
         userCard: {
-            name : 'test',
+            name: 'test',
             email: 'test',
             phone: 'test',
         },
@@ -110,9 +107,6 @@ const config = {
     authorised: false,
     currentPage: null,
 };
-
-const request = new Req();
-const refresh = new RefreshEl();
 
 config.authorised = true; // fix
 config.userInfo.userCard.name = 'Имя Фамилия';
@@ -151,7 +145,7 @@ const changePage = async (event) => {
             window.dispatchEvent(config.auth.event);
         }
     }
-    console.log(href) // fix
+    console.log(href); // fix
 };
 
 window.addEventListener('click', changePage);
@@ -168,7 +162,8 @@ window.addEventListener('authEvent', onAuthAndLogout);
 const checkSession = async () => {
     const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
 
-    config.auth.authorised = status === 200;
+    // config.auth.authorised = status === 200;
+    config.auth.authorised = status === 200; // fix
     window.dispatchEvent(config.auth.event);
 };
 

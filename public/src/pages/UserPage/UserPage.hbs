@@ -9,17 +9,31 @@
         <div class="content">
 
             <div class=" global-card user-card">
-                <img src="img/UserPhoto.png" class="user-photo" alt="user photo">
 
-                <div class="user-name text-normal-large"> {{userInfo.userCard.name}}
+                <div class="user-photo-block">
+                    <img src="img/UserPhoto.png" class="user-photo" alt="user photo">
+
+                    <div class="change-pop-up change-user-photo">
+                        <a href="/changeUserPhoto" class="pop-up-button">
+                            <img src="img/editButton.svg" class="pop-up-button-pic">
+                        </a>
+                        <div class="separation-line"></div>
+                        <a href="/deleteUserPhoto" class="pop-up-button">
+                            <img src="img/deleteButton.svg" class="pop-up-button-pic">
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="user-name text-normal-large-thin"> {{userInfo.userCard.name}}
                     <a href="/edit" class="disabled">
                         <img class="edit-button" src="img/editButton.svg" alt="edit button">
                     </a>
                 </div>
 
                 <div class="user-card-block">
-                    <div class="user-card-block-title text-normal-large"> Почта</div>
-                    <div class="user-card-block-data text-normal-large"> {{userInfo.userCard.email}}
+                    <div class="user-card-block-title text-normal-large-thin"> Почта</div>
+                    <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.email}}
                         <a href="/edit" class="disabled">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
@@ -28,8 +42,8 @@
                 </div>
 
                 <div class="user-card-block">
-                    <div class="user-card-block-title text-normal-large">Телефон</div>
-                    <div class="user-card-block-data text-normal-large"> {{userInfo.userCard.phone}}
+                    <div class="user-card-block-title text-normal-large-thin">Телефон</div>
+                    <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.phone}}
                         <a href="/edit" class="disabled">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
@@ -37,15 +51,18 @@
 
                 </div>
 
-                    <a href="" class="user-card-block-password text-normal-large disabled"> Изменить пароль </a>
+                <a href="" class="user-card-block-password text-normal-large-thin disabled"> Изменить пароль </a>
 
 
             </div>
 
             <div class="global-card payment-cards">
                 <div class="payment-cards-block">
-                    <div class="card-block-title text-normal-large"> Банковские карты</div>
+                    <div class="card-block-title text-normal-large-thin"> Банковские карты</div>
                     <div class="payment-cards-items" id="payment-cards-items">
+
+
+
 
                     </div>
                 </div>
@@ -53,7 +70,7 @@
 
             <div class="global-card address-cards">
                 <div class="address-cards-block">
-                    <div class="card-block-title text-normal-large"> Адреса доставки</div>
+                    <div class="card-block-title text-normal-large-thin"> Адреса доставки</div>
                     <div class="address-cards-items" id="address-cards-items">
 
                     </div>

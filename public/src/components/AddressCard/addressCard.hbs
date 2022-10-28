@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./src/components/AddressCard/AddressCard.css" type="text/css">
 
 {{#if addCard}}
-    <a href="" class="address-card add-address-card">
+    <a href="/addAddressCard" class="address-card-template add-address-card">
         <div class="card-title text-normal-default"></div>
 
         <div class="card-number text-normal-small">
@@ -11,43 +11,33 @@
     </a>
 
 {{else}}
-    <a href="" {{#if priority}}
-       class="address-card primary-address-card"
-    {{else}}
-       class="address-card other-address-card"
-    {{/if}}>
+    <div class="address-card-wrapper">
+        <a href="" {{#if priority}}
+           class="address-card-template address-card primary-address-card"
+        {{else}}
+           class="address-card-template address-card other-address-card"
+        {{/if}}>
 
-        <div class="card-title text-normal-default">
-            {{city}}
+            <div class="address-card-city text-normal-default">
+                {{city}}
+            </div>
+
+            <div class="address-card-city text-normal-default">
+                {{street}}
+            </div>
+
+            <div class="address-card-city text-normal-default"> {{house}} </div>
+        </a>
+
+        <div class="change-pop-up change-address-card">
+            <a href="/editAddressCard{{index}}" class="pop-up-button">
+                <img src="img/editButton.svg" class="pop-up-button-pic">
+            </a>
+            <div class="separation-line"></div>
+            <a href="/deleteAddressCard{{index}}" class="pop-up-button">
+                <img src="img/deleteButton.svg" class="pop-up-button-pic">
+            </a>
         </div>
-
-        <div class="card-number text-normal-default">
-            {{street}}
-        </div>
-
-        <div class="card-street text-normal-default"> {{house}} </div>
-    </a>
+    </div>
 
 {{/if}}
-
-<!--<a href="" class="address-card add-address-card">-->
-
-<!--    <div class="card-title text-normal-default">-->
-<!--          г. Москва-->
-<!--        или пустота-->
-<!--    </div>-->
-
-<!--    <div class="card-number text-normal-small">-->
-<!--       ул. Территория, изъятая из земель подсобного хозяйства Всесоюзного центрального совета профессиональных союзов -->
-<!--       для организации крестьянского хозяйства&ndash-->
-
-<!--        <img class="add-address-card-pic" src="img/Add card.svg" alt="PLUS">-->
-
-<!--        <div class="text-add-address-card text-normal-default"> Добавить адрес</div>-->
-
-<!--    </div>-->
-
-<!--              <div class="card-street text-normal-small"> д. 39 кв. 65-->
-
-
-<!--</a>-->

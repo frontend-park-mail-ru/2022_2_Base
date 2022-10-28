@@ -2,7 +2,7 @@
 
 {{#if addCard}}
 
-    <a href="" class="payment-card add-payment-card">
+    <a href="/addPaymentCard" class="payment-card-template add-payment-card" id="">
         <div class="card-title text-normal-default"></div>
 
         <div class="card-number text-normal-default">
@@ -10,25 +10,30 @@
             <div class="text-add-card text-normal-default"> Добавить карту</div>
 
         </div>
+
     </a>
 
 {{else}}
+    <div class="payment-card-wrapper">
 
+        <div {{#if priority}}
+        class="payment-card payment-card-template primary-payment-card "
+        {{else}}
+        class="payment-card payment-card-template other-payment-card payment-card"
+        {{/if}} id="">
+            <div class="payment-card-title text-normal-default">
+                {{#if priority}}
+                    Основная карта
+                {{else}}
+                    Дополнительная карта
+                {{/if}}
 
-    <a href="" {{#if priority}}
-       class="payment-card primary-payment-card"
-    {{else}}
-       class="payment-card other-payment-card"
-    {{/if}} >
+            </div>
 
-        <div class="payment-card-title text-normal-default">
-            Основная карта
-        </div>
+            <div class="payment-card-number text-normal-default">
+                {{number}}
 
-        <div class="payment-card-number text-normal-default">
-            {{number}}
-
-        </div>
+            </div>
 
 
             <div class="card-date-type">
@@ -37,29 +42,17 @@
                 <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">
 
             </div>
-    </a>
+        </div>
 
 
+        <div class="change-pop-up change-payment-card">
+            <a href="/editPaymentCard{{index}}" class="pop-up-button">
+                <img src="img/editButton.svg" class="pop-up-button-pic">
+            </a>
+            <div class="separation-line"></div>
+            <a href="/deletePaymentCard{{index}}" class="pop-up-button">
+                <img src="img/deleteButton.svg" class="pop-up-button-pic">
+            </a>
+        </div>
+    </div>
 {{/if}}
-
-
-<!--<a href="" class="payment-card add-payment-card">-->
-<!--    <div class="card-title text-normal-default">-->
-<!--                Основная карта-->
-<!--            или пустота-->
-<!--    </div>-->
-
-<!--    <div class="card-number text-normal-default">-->
-<!--                123456******1234 -->
-<!--        <img class="add-card-pic" src="img/Add card.svg" alt="PLUS">-->
-<!--        <div class="text-add-card text-normal-default"> Добавить карту</div>-->
-
-<!--    </div>-->
-
-
-<!--        <div class="card-date-type">-->
-<!--            <div class="expiry-date text-normal-default">00/00</div>-->
-<!--            <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">-->
-
-<!--        </div>-->
-<!--</a>-->
