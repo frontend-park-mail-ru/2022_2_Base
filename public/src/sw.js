@@ -30,12 +30,12 @@ self.addEventListener('fetch', (event) => {
             .then((cachedResponse) => {
                 if (navigator.onLine) {
                     return fetch(event.request) // Получить данные из сети
-                        .then(res => {
+                        .then((res) => {
                             const resClone = res.clone();
                             putInCache(event.request, resClone);
                             return res;
                         })
-                        .catch(err => console.error(err));
+                        .catch((err) => console.error(err));
                 }
 
                 if (cachedResponse) {
@@ -44,15 +44,15 @@ self.addEventListener('fetch', (event) => {
 
                 const init = { // Создать пустой запрос
                     status: 418,
-                    statusText: 'Offline Mode'
+                    statusText: 'Offline Mode',
                 };
-                const data = { message: 'Content is not available in offline mode' };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const data = {message: 'Content is not available in offline mode'};
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
                 return new Response(blob, init);
             })
             .catch((err) => {
                 console.log(err.stack || err);
-            })
+            }),
     );
 });
 
