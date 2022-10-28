@@ -152,7 +152,7 @@ const registerServiceWorker = async () => {
                     payload: [
                         location.href,
                         ...performance.getEntriesByType('resource').map((r) => r.name),
-                    ]
+                    ],
                 };
                 if (registration.installing) {
                     registration.installing.postMessage(data);
