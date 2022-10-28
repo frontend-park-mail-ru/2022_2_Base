@@ -16,7 +16,7 @@ export const LikesActionTypes = {
  */
 export const LikesAction = {
     /**
-     * Действие: лайкнуть карточку. 
+     * Действие: лайкнуть карточку.
      * @param {any} id
      */
     like(id) {
