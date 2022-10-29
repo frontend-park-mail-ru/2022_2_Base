@@ -7,21 +7,15 @@ import Dispatcher from '../modules/dispatcher.js';
  */
 export const ProfileActionTypes = {
     GET_DATA: 'GET_DATA',
-    POPUP_EDIT_DATA_SHOW: 'POPUP_EDIT_DATA_SHOW',
-    POPUP_EDIT_DATA_SUBMIT: 'POPUP_EDIT_DATA_SUBMIT',
-    POPUP_HIDE: 'POPUP_HIDE',
-    DOWNLOAD_PHOTO: 'POPUP_EDIT_PHOTO_SHOW',
+    SAVE_EDIT_DATA: 'SAVE_EDIT_DATA',
+    DOWNLOAD_PHOTO: 'DOWNLOAD_PHOTO',
     GET_CARDS: 'GET_CARDS',
-    POPUP_ADD_CARD_SHOW: 'POPUP_ADD_CARD_SHOW',
-    POPUP_ADD_CARD_SUBMIT: 'POPUP_ADD_CARD_SUBMIT',
-    POPUP_EDIT_CARD_SHOW: 'POPUP_EDIT_CARD_SHOW',
-    POPUP_EDIT_CARD_SUBMIT: 'POPUP_EDIT_CARD_SUBMIT',
+    SAVE_ADD_CARD: 'SAVE_ADD_CARD',
+    SAVE_EDIT_CARD: 'SAVE_EDIT_CARD',
     DELETE_CARD: 'DELETE_CARD',
     GET_ADDRESS: 'GET_ADDRESS',
-    POPUP_ADD_ADDRESS_SHOW: 'POPUP_ADD_ADDRESS_SHOW',
-    POPUP_ADD_ADDRESS_SUBMIT: 'POPUP_ADD_ADDRESS_SUBMIT',
-    POPUP_EDIT_ADDRESS_SHOW: 'POPUP_EDIT_ADDRESS_SHOW',
-    POPUP_EDIT_ADDRESS_SUBMIT: 'POPUP_EDIT_ADDRESS_SUBMIT',
+    SAVE_ADD_ADDRESS: 'SAVE_ADD_ADDRESS',
+    SAVE_EDIT_ADDRESS: 'SAVE_EDIT_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
 };
 
@@ -39,33 +33,17 @@ export const ProfileAction = {
     },
 
     /**
-     * Действие: Отобразить popup редактирования данных пользователя.
-     * @param {any} id
-     */
-    showEditDataPopUp(id) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_DATA_SHOW,
-            data: {id},
-        });
-    },
-
-    /**
      * Действие: редактировать данные.
+     * @param {String} field - отредактированное поле
      * @param {String} newData - новые данные
      */
-    submitEditDataPopUp(newData) {
+    saveEditData(field, newData) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_DATA_SUBMIT,
-            data: {newData},
-        });
-    },
-
-    /**
-     * Действие: скрыть popup редактирования данных.
-     */
-    hideEditDataPopUp() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_HIDE,
+            actionName: ProfileActionTypes.SAVE_EDIT_DATA,
+            data: {
+                field,
+                newData
+            },
         });
     },
 
@@ -88,23 +66,14 @@ export const ProfileAction = {
     },
 
     /**
-     * Действие: Отобразить popup добавления банковской карты.
-     */
-    showAddCardPopUp() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_ADD_CARD_SHOW,
-        });
-    },
-
-    /**
      * Действие: добавить новую банковскую карту.
      * @param {Number} number - номер карты
      * @param {Date} date - дата
      * @param {number} code - код
      */
-    submitAddCardPopUp(number, date, code) {
+    saveAddCard(number, date, code) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_ADD_CARD_SUBMIT,
+            actionName: ProfileActionTypes.SAVE_ADD_CARD,
             data: {
                 number,
                 date,
@@ -114,26 +83,17 @@ export const ProfileAction = {
     },
 
     /**
-     * Действие: Отобразить popup редактирования данных банковской карты.
-     * @param {any} id
-     */
-    showEditCardPopUp(id) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_CARD_SHOW,
-            data: {id},
-        });
-    },
-
-    /**
      * Действие: редактировать данные банковской карты.
+     * @param {Number} id
      * @param {Number} number - номер карты
      * @param {Date} date - дата
      * @param {number} code - код
      */
-    submitEditCardPopUp(number, date, code) {
+    saveEditCard(id, number, date, code) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_CARD_SUBMIT,
+            actionName: ProfileActionTypes.SAVE_EDIT_CARD,
             data: {
+                id,
                 number,
                 date,
                 code,
@@ -161,23 +121,14 @@ export const ProfileAction = {
     },
 
     /**
-     * Действие: Отобразить popup добавления адреса.
-     */
-    showAddAddressPopUp() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_ADD_ADDRESS_SHOW,
-        });
-    },
-
-    /**
      * Действие: добавить новый адрес.
      * @param {String} city - город
      * @param {String} street - улица
      * @param {String} house - дом
      */
-    submitAddAddressPopUp(city, street, house) {
+    saveAddAddress(city, street, house) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_ADD_ADDRESS_SUBMIT,
+            actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
             data: {
                 city,
                 street,
@@ -187,26 +138,17 @@ export const ProfileAction = {
     },
 
     /**
-     * Действие: Отобразить popup редактирования адреса.
-     * @param {any} id
-     */
-    showEditAddressPopUp(id) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_ADDRESS_SHOW,
-            data: {id},
-        });
-    },
-
-    /**
      * Действие: редактировать адрес.
+     * @param {Number} id
      * @param {String} city - город
      * @param {String} street - улица
      * @param {String} house - дом
      */
-    submitEditAddressPopUp(city, street, house) {
+    saveEditAddress(id, city, street, house) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.POPUP_EDIT_ADDRESS_SUBMIT,
+            actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
             data: {
+                id,
                 city,
                 street,
                 house,
