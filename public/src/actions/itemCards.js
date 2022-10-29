@@ -30,7 +30,7 @@ export const ItemCardsAction = {
     /**
      * Действие: запрос списка популярных карточек.
      */
-     getPopularItemCards() {
+    getPopularItemCards() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
         });

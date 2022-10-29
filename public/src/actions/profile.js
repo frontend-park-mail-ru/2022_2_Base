@@ -141,7 +141,7 @@ export const ProfileAction = {
         });
     },
 
-    /**Удаление банковской карты с определенным id.
+    /** Удаление банковской карты с определенным id.
      * @param {any} id
      */
     deleteCard(id) {
@@ -214,7 +214,7 @@ export const ProfileAction = {
         });
     },
 
-    /**Удаление адреса с определенным id.
+    /** Удаление адреса с определенным id.
      * @param {any} id
      */
     deleteAddress(id) {
