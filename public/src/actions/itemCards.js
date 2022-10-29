@@ -6,7 +6,8 @@ import Dispatcher from '../modules/dispatcher.js';
  * Константа, содержащая в себе типы действий с карточками товаров.
  */
 export const ItemCardsActionTypes = {
-    ITEM_CARDS_GET: 'ITEM_CARDS_GET',
+    ITEM_CARDS_GET_BY_SALES: 'ITEM_CARDS_GET_BY_SALES',
+    ITEM_CARDS_GET_POPULAR: 'ITEM_CARDS_GET_POPULAR',
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
@@ -18,11 +19,20 @@ export const ItemCardsActionTypes = {
  */
 export const ItemCardsAction = {
     /**
-     * Действие: запрос списка карточек.
+     * Действие: запрос списка карточек по скидке.
      */
-    getItemCards() {
+    getSalesItemCards() {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARDS_GET,
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES,
+        });
+    },
+
+    /**
+     * Действие: запрос списка популярных карточек.
+     */
+     getPopularItemCards() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
         });
     },
 
