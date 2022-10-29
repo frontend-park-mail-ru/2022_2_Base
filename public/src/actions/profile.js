@@ -42,7 +42,7 @@ export const ProfileAction = {
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: {
                 field,
-                newData
+                newData,
             },
         });
     },

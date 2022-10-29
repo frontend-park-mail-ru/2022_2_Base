@@ -53,7 +53,7 @@ export const BasketAction = {
      * Действие: удалить товар по ID.
      * @param {any} id
      */
-     deleteById(id) {
+    deleteById(id) {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.DELETE_BY_ID,
             data: {id},
@@ -103,7 +103,7 @@ export const BasketAction = {
             data: {
                 address,
                 price,
-                date
+                date,
             },
         });
     },
