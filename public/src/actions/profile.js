@@ -72,8 +72,7 @@ export const ProfileAction = {
      * @param {Date} endDate - дата истечения
      * @param {number} code - код
      */
-    saveAddCard(number, 
-       name, endDate, code) {
+    saveAddCard(number, name, endDate, code) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
             data: {

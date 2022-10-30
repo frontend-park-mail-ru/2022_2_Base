@@ -63,6 +63,4 @@ class Validation {
     };
 }
 
-const validation = new Validation();
-
-export default validation;
+export default new Validation();
