@@ -2,8 +2,8 @@
 import BaseComponent from '../components/BaseComponent.js';
 
 // Компоненты по умолчанию
-import HeaderComponent from '../components/Header/Header.js';
-import FooterComponent from '../components/Footer/Footer.js';
+// import HeaderComponent from '../components/Header/Header.js';
+// import FooterComponent from '../components/Footer/Footer.js';
 
 /**
  * Класс, реализующий базовый view.
@@ -48,6 +48,9 @@ export default class BaseView extends BaseComponent {
         this._isActive = false;
     }
 
+    /**
+     * Метод для отрисовки элемента.
+     */
     render() {
         throw new Error('View: метод render должен быть реализован в подклассе');
     }
