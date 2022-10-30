@@ -64,7 +64,7 @@ class Dispatcher {
 
     /**
      * Метод, вызывающий функцию коллбека у id.
-     * @param {int} id идентификатор коллбека
+     * @param {Number} id идентификатор коллбека
      */
     _invokeCallback(id) {
         this._callbacks.get(id).isPending = true;
