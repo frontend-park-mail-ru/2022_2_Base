@@ -60,7 +60,7 @@ export const ItemCardsAction = {
 
     /**
      * Действие: запрос карточки с определенным id.
-     * @param {any} id
+     * @param {number} id
      */
     getItemCard(id) {
         Dispatcher.dispatch({
@@ -71,7 +71,7 @@ export const ItemCardsAction = {
 
     /**
      * Действие: Добавление карточки с определенным id в корзину.
-     * @param {any} id
+     * @param {number} id
      */
     clickedByItemCard(id) {
         Dispatcher.dispatch({

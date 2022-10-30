@@ -67,16 +67,19 @@ export const ProfileAction = {
 
     /**
      * Действие: добавить новую банковскую карту.
-     * @param {Number} number - номер карты
-     * @param {Date} date - дата
+     * @param {String} number - номер карты
+     * @param {String} name - имя на карте
+     * @param {Date} endDate - дата истечения
      * @param {number} code - код
      */
-    saveAddCard(number, date, code) {
+    saveAddCard(number, 
+       name, endDate, code) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
             data: {
                 number,
-                date,
+                name,
+                endDate,
                 code,
             },
         });
@@ -102,7 +105,7 @@ export const ProfileAction = {
     },
 
     /** Удаление банковской карты с определенным id.
-     * @param {any} id
+     * @param {number} id
      */
     deleteCard(id) {
         Dispatcher.dispatch({
@@ -122,17 +125,21 @@ export const ProfileAction = {
 
     /**
      * Действие: добавить новый адрес.
+     * @param {String} country - страна
      * @param {String} city - город
      * @param {String} street - улица
      * @param {String} house - дом
+     * @param {Number} apartmentNumber - номер квартиры
      */
-    saveAddAddress(city, street, house) {
+    saveAddAddress(country, city, street, house, apartmentNumber) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
             data: {
+                country,
                 city,
                 street,
                 house,
+                apartmentNumber,
             },
         });
     },
@@ -140,24 +147,28 @@ export const ProfileAction = {
     /**
      * Действие: редактировать адрес.
      * @param {Number} id
+     * @param {String} country - страна
      * @param {String} city - город
      * @param {String} street - улица
      * @param {String} house - дом
+     * @param {Number} apartmentNumber - номер квартиры
      */
-    saveEditAddress(id, city, street, house) {
+    saveEditAddress(id, country, city, street, house, apartmentNumber) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
             data: {
                 id,
+                country,
                 city,
                 street,
                 house,
+                apartmentNumber,
             },
         });
     },
 
     /** Удаление адреса с определенным id.
-     * @param {any} id
+     * @param {number} id
      */
     deleteAddress(id) {
         Dispatcher.dispatch({

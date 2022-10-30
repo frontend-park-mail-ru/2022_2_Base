@@ -40,7 +40,7 @@ export const BasketAction = {
 
     /**
      * Действие: выбрать товар по ID.
-     * @param {any} id
+     * @param {number} id
      */
     selectById(id) {
         Dispatcher.dispatch({
@@ -51,7 +51,7 @@ export const BasketAction = {
 
     /**
      * Действие: удалить товар по ID.
-     * @param {any} id
+     * @param {number} id
      */
     deleteById(id) {
         Dispatcher.dispatch({
@@ -62,7 +62,7 @@ export const BasketAction = {
 
     /**
          * Действие: увеличить количество товара.
-         * @param {any} id
+         * @param {number} id
          */
     increaseNumber(id) {
         Dispatcher.dispatch({
@@ -73,7 +73,7 @@ export const BasketAction = {
 
     /**
          * Действие: уменьшить количество товара.
-         * @param {any} id
+         * @param {number} id
          */
     decreaseNumber(id) {
         Dispatcher.dispatch({
