@@ -4,18 +4,14 @@
 export default class BaseStore {
     /**
      * @constructor
-     * @param {String} channelName имя канала EventBus
      */
-    constructor(channelName) {
+    constructor() {
         this._changed = false;
         this._changeEvent = 'change';
         this._storage = new Map();
+        this._events = new Map();
 
-        this._invokeOnDispatch = this._invokeOnDispatch.bind(this);
-        // Dispatcher.register(this._invokeOnDispatch);
-
-        EventBus.addChannel(channelName);
-        this._channel = channelName;
+        Dispatcher.register(this._invokeOnDispatch.bind(this));
     }
 
     /**
@@ -28,12 +24,16 @@ export default class BaseStore {
     }
 
     /**
-     * Метод, добавляющий нового слушателя в EventBus.
+     * Метод, добавляющий нового слушателя.
      * @param {function} callback функция-обработчик
      * @param {String?} changeEvent наименование события
      */
     addListener(callback, changeEvent = this._changeEvent) {
-        EventBus.addListener(this._channel, changeEvent, callback);
+        this._events.has(changeEvent) ? this._events.get(changeEvent).callbacks.add(callback) :
+            this._events.set(changeEvent, {
+                callbacks: new Set(),
+                promise: null, // Promise.reject(changeEvent),
+            });
     }
 
     /**
@@ -50,14 +50,19 @@ export default class BaseStore {
 
     /**
      * Метод, устанавливающий статус "изменено".
+     * @param {Array.<string>} events произошедшие события
      */
-    _emitChange() {
+    _emitChange(events) {
         if (Dispatcher.isDispatching) {
-            this._changed = true;
-            return;
+            if (events.every((val) =>
+                this._events.get(val).promise = Promise.resolve(val))) {
+                this._changed = true;
+            } else {
+                throw new Error('Store: метод _emitChange должен быть вызван при работающем Dispatcher');
+            }
+        } else {
+            throw new Error('Store: метод _emitChange должен быть вызван при работающем Dispatcher');
         }
-
-        throw new Error('Store: метод _emitChange должен быть вызван при работающем Dispatcher');
     }
 
     /**
@@ -69,7 +74,11 @@ export default class BaseStore {
         await this._onDispatch(payload);
 
         if (this.hasChanged()) {
-            EventBus.emit(this._channel, this._changeEvent);
+            Object.values(this._events).forEach((value) => {
+                value.promise?.then((changeEvent) => {
+                    value.callbacks.forEach((callback) => callback());
+                }).catch((error) => console.log('_invokeOnDispatch:', error));
+            });
         }
     }
 
