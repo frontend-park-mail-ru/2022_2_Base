@@ -143,7 +143,7 @@ window.addEventListener('DOMContentLoaded', checkSession, {once: true});
 config.currentPage = config.header.main.render(config);
 
 // Регистрация Service Worker
-const registerServiceWorker = async () => {
+const registerServiceWorker = () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', {scope: '/'})
             .then((registration) => {
@@ -156,7 +156,6 @@ const registerServiceWorker = async () => {
                 };
                 if (registration.installing) {
                     registration.installing.postMessage(data);
-                    console.log('Service worker installing');
                 } else if (registration.waiting) {
                     registration.waiting.postMessage(data);
                     console.log('Service worker installed');
@@ -171,4 +170,4 @@ const registerServiceWorker = async () => {
     }
 };
 
-window.addEventListener('load', registerServiceWorker);
+registerServiceWorker();
