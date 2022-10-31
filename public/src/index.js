@@ -143,40 +143,31 @@ window.addEventListener('DOMContentLoaded', checkSession, {once: true});
 config.currentPage = config.header.main.render(config);
 
 // Регистрация Service Worker
-const registerServiceWorker = async () => {
+const registerServiceWorker = () => {
     if ('serviceWorker' in navigator) {
-        try {
-            const registration = await navigator.serviceWorker.register('/sw.js', {
-                scope: '/',
-            });
-            if (registration.installing) {
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
+            .then((registration) => {
                 const data = {
                     type: 'CACHE_URLS',
                     payload: [
                         location.href,
-                        ...performance.getEntriesByType('resource').map((r) => {
-                            if (r.initiatorType === 'fetch') {
-                                return '';
-                            }
-                            return r.name;
-                        }),
+                        ...performance.getEntriesByType('resource').map((r) => r.name),
                     ],
                 };
-                data.payload.forEach( (value, i) => {
-                    if (value.length === 0) {
-                        data.payload.splice(i, 1);
-                    }
-                });
-                registration.installing.postMessage(data);
-            } else if (registration.waiting) {
-                console.log('Service worker installed');
-            } else if (registration.active) {
-                console.log('Service worker active');
-            }
-        } catch (error) {
-            console.log(`Registration failed with ${error}`);
-        }
+                if (registration.installing) {
+                    registration.installing.postMessage(data);
+                } else if (registration.waiting) {
+                    registration.waiting.postMessage(data);
+                    console.log('Service worker installed');
+                } else if (registration.active) {
+                    registration.active.postMessage(data);
+                    console.log('Service worker active');
+                }
+            })
+            .catch((error) => console.log(`SW registration failed with ${error}`));
+    } else {
+        console.log('Service Workers are not supported in this browser');
     }
 };
 
-window.addEventListener('load', registerServiceWorker);
+registerServiceWorker();
