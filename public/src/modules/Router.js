@@ -21,23 +21,25 @@ export default class Router {
     }
 
     /**
-     * Функция отрисовки страницы регистрации
-     * @param {function} PageConstructor конструктор класса страницы
+     * Функция отрисовки страницы
+     * @param {object} PageConstructor конструктор класса страницы
      * @return {object} класс страницы
      */
     renderPage(PageConstructor) {
-        const page = new PageConstructor(this.#mainElement);
+        if (PageConstructor instanceof Function && typeof PageConstructor === 'function') {
+            const page = new PageConstructor(this.#mainElement);
 
-        return (context) => {
-            page.render(context);
-            return page;
-        };
+            return (context) => {
+                page.render(context);
+                return page;
+            };
+        }
     };
 
     /**
      * Регистрирует страницу.
      * @param {string} path - путь к странице
-     * @param {function} view - страница
+     * @param {object} view - страница
      */
     register(path, view) {
         this.#pathToPage.set(path, this.renderPage(view));
@@ -52,7 +54,7 @@ export default class Router {
     }
 
     /**
-     * Функция для рендра страницы при переходе по истории браузера.
+     * Функция для рендера страницы при переходе по истории браузера.
      * @param {object} config - данные для отображения страницы
      * @param {object} event - событие на которое запустилась функция
      */

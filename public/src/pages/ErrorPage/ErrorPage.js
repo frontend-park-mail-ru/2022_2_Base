@@ -22,6 +22,5 @@ export default class ErrorPage extends BasePage {
      */
     render(config) {
         super.render(this.context);
-        errorMessage.render404(document.getElementById('content'));
     }
 }
