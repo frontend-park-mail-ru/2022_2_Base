@@ -64,7 +64,7 @@ export const BasketAction = {
     /**
      * Действие: удалить товар по ID.
      */
-     deleteAll() {
+    deleteAll() {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.DELETE_ALL,
         });
