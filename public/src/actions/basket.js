@@ -10,6 +10,7 @@ export const BasketActionTypes = {
     SELECT_ALL: 'SELECT_ALL',
     SELECT_BY_ID: 'SELECT_BY_ID',
     DELETE_BY_ID: 'DELETE_BY_ID',
+    DELETE_ALL: 'DELETE_ALL',
     INCREASE_NUMBER: 'INCREASE_NUMBER',
     DECREASE_NUMBER: 'DECREASE_NUMBER',
     BUY: 'BUY',
@@ -57,6 +58,15 @@ export const BasketAction = {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.DELETE_BY_ID,
             data: {id},
+        });
+    },
+
+    /**
+     * Действие: удалить товар по ID.
+     */
+     deleteAll() {
+        Dispatcher.dispatch({
+            actionName: BasketActionTypes.DELETE_ALL,
         });
     },
 
