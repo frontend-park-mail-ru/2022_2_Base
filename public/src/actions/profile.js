@@ -87,17 +87,19 @@ export const ProfileAction = {
     /**
      * Действие: редактировать данные банковской карты.
      * @param {Number} id
-     * @param {Number} number - номер карты
-     * @param {Date} date - дата
+     * @param {String} number - номер карты
+     * @param {String} name - имя на карте
+     * @param {Date} endDate - дата истечения
      * @param {number} code - код
      */
-    saveEditCard(id, number, date, code) {
+    saveEditCard(id, number, name, endDate, code) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_CARD,
             data: {
                 id,
                 number,
-                date,
+                name,
+                endDate,
                 code,
             },
         });
