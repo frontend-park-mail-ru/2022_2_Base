@@ -41,7 +41,7 @@ export default class BaseStore {
      * @return {boolean} результат проверки
      */
     hasChanged() {
-        if (Dispatcher.isDispatching) {
+        if (Dispatcher.isDispatching()) {
             return this._changed;
         }
 
@@ -53,7 +53,7 @@ export default class BaseStore {
      * @param {Array.<string>} events произошедшие события
      */
     _emitChange(events) {
-        if (Dispatcher.isDispatching) {
+        if (Dispatcher.isDispatching()) {
             if (events.every((val) =>
                 this._events.get(val).promise = Promise.resolve(val))) {
                 this._changed = true;
