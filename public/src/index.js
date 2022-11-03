@@ -26,6 +26,9 @@ const config = {
         notFound: {
             href: '/error404',
         },
+        logout: {
+            href: '/logout',
+        },
     },
     auth: {
         authorised: false,
@@ -62,7 +65,7 @@ const changePage = async (event) => {
         }
     });
 
-    if (href === '/logout') {
+    if (href === config.header.logout.href) {
         event.preventDefault();
         const [status] = await request.makeDeleteRequest(config.api.logout)
             .catch((err) => console.log(err));
@@ -71,8 +74,8 @@ const changePage = async (event) => {
             config.auth.authorised = false;
             router.register(config.header.login.href, LoginPage);
             router.register(config.header.signup.href, RegisterPage);
-            router.refresh(config);
             window.dispatchEvent(config.auth.event);
+            router.refresh(config);
         }
     }
 };
