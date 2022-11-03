@@ -16,7 +16,8 @@ export default class PopUpEditUserInfo extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на отмену изменений данных.
-     */
+     * @param {object} event - событие
+    */
     async listenClickCancel(event) {
         event.preventDefault();
 
@@ -34,7 +35,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
      */
-     async listenClickApply() {
+    async listenClickApply() {
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {

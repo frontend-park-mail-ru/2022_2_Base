@@ -184,7 +184,7 @@ export default class UserPage extends BasePage {
     }
 
     /**
-     * Функция для передачи в слушателе click на значок редактирования 
+     * Функция для передачи в слушателе click на значок редактирования
      * данных пользователя
      * @param {object} event - событие
      */
@@ -203,7 +203,7 @@ export default class UserPage extends BasePage {
                     value: 'Пирожок',
                 },
             },
-        }
+        };
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {
