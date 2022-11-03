@@ -93,9 +93,6 @@ class Router {
      * @return {boolean} - зарегистрирована ли такая страница
      */
     go(path, config) {
-        console.log('path', path);
-        console.log('this.#pathToPage', this.#pathToPage);
-        console.log('.#pathToPage.has(path)', this.#pathToPage.has(path));
         if (this.#pathToPage.has(path)) {
             this.#currentPage.removeEventListener();
             this.#currentPage = this.#pathToPage.get(path)(config);
@@ -118,4 +115,6 @@ class Router {
     }
 }
 
-export default new Router();
+const router = new Router();
+
+export default router;
