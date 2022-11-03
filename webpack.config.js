@@ -34,8 +34,17 @@ module.exports = {
     },
     devtool: 'source-map',
     devServer: {
-        static: './dist',
         hot: true,
+        historyApiFallback: true,
+        static: path.join(__dirname, 'dist'),
+        client: {
+            logging: 'info',
+            overlay: true,
+            progress: true,
+            reconnect: 3,
+        },
+        compress: true,
+        port: 8081,
     },
     output: {
         filename: '[name].[contenthash].js',
