@@ -54,6 +54,14 @@ class Router {
     }
 
     /**
+     * Обновляет страницу.
+     * @param {object} config - данные для отображения страницы
+     */
+    refresh(config) {
+        this.#currentPage.render(config);
+    }
+
+    /**
      * Функция для рендера страницы при переходе по истории браузера.
      * @param {object} config - данные для отображения страницы
      * @param {object} event - событие на которое запустилась функция
@@ -85,6 +93,9 @@ class Router {
      * @return {boolean} - зарегистрирована ли такая страница
      */
     go(path, config) {
+        console.log('path', path);
+        console.log('this.#pathToPage', this.#pathToPage);
+        console.log('.#pathToPage.has(path)', this.#pathToPage.has(path));
         if (this.#pathToPage.has(path)) {
             this.#currentPage.removeEventListener();
             this.#currentPage = this.#pathToPage.get(path)(config);

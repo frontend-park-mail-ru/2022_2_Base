@@ -4,6 +4,8 @@ import request from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
 import router from './modules/Router.js';
 import '../index.scss';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 const refresh = new RefreshEl(document.getElementById('root'));
 refresh.refreshFooter();
@@ -67,7 +69,9 @@ const changePage = async (event) => {
 
         if (status === 200) {
             config.auth.authorised = false;
-            router.logout(config);
+            router.register(config.header.login.href, LoginPage);
+            router.register(config.header.signup.href, RegisterPage);
+            router.refresh(config);
             window.dispatchEvent(config.auth.event);
         }
     }
