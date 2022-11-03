@@ -5,7 +5,7 @@ import Req from '../../modules/ajax.js';
 import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
 import router from '../../index.js';
-// import './RegisterPage.scss';
+import './RegisterPage.scss';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';

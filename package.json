@@ -47,6 +47,7 @@
     "favicons-webpack-plugin": "^6.0.0-alpha.2",
     "handlebars-loader": "^1.7.2",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "minimist": "^1.2.7",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",

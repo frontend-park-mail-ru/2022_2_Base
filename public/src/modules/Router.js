@@ -69,8 +69,8 @@ export default class Router {
     start(config) {
         this.register(config.header.main.href, MainPage);
         this.register(config.header.notFound.href, ErrorPage);
-
         this.openPage(document.location.pathname, config);
+        console.log(document.location.pathname);
     }
 
     /**

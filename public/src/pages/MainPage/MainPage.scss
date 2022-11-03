@@ -1,16 +1,4 @@
-* {
-    padding: 0;
-    margin: 0;
-}
-
-.page {
-    margin-left: auto;
-    margin-right: auto;
-    display: grid;
-    grid-template-rows: 70px 1000px;
-}
-
-.content {
+.content_main {
     max-width: 1400px;
     min-width: 1400px;
     padding-bottom: 16px;
@@ -94,21 +82,10 @@
     margin-left: 20px;
 }
 
-.paint-background {
+.paint-background_main {
     background-color: var(--background-white);
 }
 
-.paint-background {
-    background-color: var(--background-white);
-}
-
-.paint-purple {
+.paint-purple_main {
     background-color: var(--default_purple);
-}
-
-.disabled {
-    pointer-events: none;
-    cursor: default;
-    color: var(--jet-black);
-    opacity: 0.4;
 }

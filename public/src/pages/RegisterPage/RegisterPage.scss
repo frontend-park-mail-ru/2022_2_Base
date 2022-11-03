@@ -1,38 +1,13 @@
-* {
-    padding: 0;
-    margin: 0;
-}
-
-.page {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-main {
-    background-color: var(--background-white);
-    display: grid;
-    grid-template-columns: 1fr 1400px 1fr;
-}
-
-.content {
+.content_signup {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
     margin-right: auto;
     max-width: 1400px;
     min-width: 1400px;
-    height: 90vh;
 }
 
-.paint-background {
-    background-color: var(--background-white);
-}
-
-.paint-purple {
-    background-color: var(--default_purple);
-}
-
-.left {
+.left_signup {
     display: grid;
     justify-items: center;
     align-items: center;
@@ -45,7 +20,7 @@ main {
 
 }
 
-.page-name {
+.page-name_signup {
     width: 250px;
     height: 52px;
     text-align: center;
@@ -68,20 +43,11 @@ main {
     text-align: center;
 }
 
-.link {
-    text-decoration: none;
-    color: var(--default_purple);
-}
-
-.link:hover {
-    color: var(--hover_purple);
-}
-
-.paint-background {
+.paint-background_signup {
     background-color: var(--background-white);
 }
 
-.paint-purple {
+.paint-purple_signup {
     background-color: var(--default_purple);
 }
 
@@ -92,15 +58,4 @@ main {
     margin-left: auto;
     margin-right: auto;
     margin-top: 104px;
-}
-
-.tagline {
-    display: block;
-    width: 240px;
-    height: 52px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 18px;
-    color: var(--pure_white);
 }
