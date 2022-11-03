@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="user-name text-normal-large-thin"> {{userInfo.userCard.name}}
-                    <a href="/edit" class="disabled">
+                    <a href="/edit" class="edit">
                         <img class="edit-button" src="img/editButton.svg" alt="edit button">
                     </a>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="user-card-block">
                     <div class="user-card-block-title text-normal-large-thin"> Почта</div>
                     <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.email}}
-                        <a href="/edit" class="disabled">
+                        <a href="/edit" class="edit">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="user-card-block">
                     <div class="user-card-block-title text-normal-large-thin">Телефон</div>
                     <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.phone}}
-                        <a href="/edit" class="disabled">
+                        <a href="/edit" class="edit">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
                     </div>
@@ -55,6 +55,9 @@
 
 
             </div>
+
+            <div class="popUp-fade" id="popUp-fade"></div>
+            <div class="popUp" id="popUp"></div>
 
             <div class="global-card payment-cards">
                 <div class="payment-cards-block">

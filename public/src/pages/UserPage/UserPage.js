@@ -5,6 +5,7 @@ import BasePage from '../BasePage.js';
 // import Val from '../../modules/validation.js';
 import PaymentCard from '../../components/PaymentCard/PaymentCard.js';
 import AddressCard from '../../components/AddressCard/AddressCard.js';
+import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -183,6 +184,39 @@ export default class UserPage extends BasePage {
     }
 
     /**
+     * Функция для передачи в слушателе click на значок редактирования 
+     * данных пользователя
+     * @param {object} event - событие
+     */
+    async listenClickUserInfo(event) {
+        event.preventDefault();
+
+        const context = { // fix
+            title: 'Имя',
+            fields: {
+                name: {
+                    name: 'Имя',
+                    value: 'Пирожок',
+                },
+                sername: {
+                    name: 'Имя',
+                    value: 'Пирожок',
+                },
+            },
+        }
+        const PopUp = document.getElementById('popUp');
+        const PopUpFade = document.getElementById('popUp-fade');
+        if (PopUp) {
+            PopUp.style.display = 'block';
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'block';
+        }
+        this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
+        this.PopUpEditUserInfo.render(context);
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -209,6 +243,15 @@ export default class UserPage extends BasePage {
         } else {
             console.log('element not found', AddressCard);
         }
+
+        const userInfo = document.querySelectorAll('.edit');
+        if (userInfo) {
+            userInfo.forEach((key) => {
+                key.addEventListener('click', this.listenClickUserInfo);
+            });
+        } else {
+            console.log('element not found', userInfo);
+        }
     }
 
     /**
@@ -232,8 +275,14 @@ export default class UserPage extends BasePage {
             AddressCard.removeEventListener('mouseover', this.listenMouseOverAddressCard);
             AddressCard.removeEventListener('mouseout', this.listenMouseOutAddressCard);
         }
-    }
 
+        const userInfo = document.querySelectorAll('.edit');
+        if (userInfo) {
+            userInfo.forEach((key) => {
+                userInfo.removeEventListener('click', this.listenClickUserInfo);
+            });
+        }
+    }
 
     /**
      * Метод, отрисовывающий страницу.
