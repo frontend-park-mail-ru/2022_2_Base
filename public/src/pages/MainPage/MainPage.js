@@ -2,7 +2,7 @@ import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
-import Req from '../../modules/ajax.js';
+import request from '../../modules/ajax.js';
 import './MainPage.scss';
 
 /**
@@ -58,8 +58,7 @@ export default class MainPage extends BasePage {
      */
     async loadCards(classToGet, reqPath) {
         //  loading cards
-        const r = new Req();
-        const [status, outD] = await r.makeGetRequest(reqPath)
+        const [status, outD] = await request.makeGetRequest(reqPath)
             .catch((err) => console.log(err));
 
         const rootElement = document.getElementById(classToGet + '__right-arrow');

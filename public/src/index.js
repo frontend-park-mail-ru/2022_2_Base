@@ -1,16 +1,12 @@
 'use strict';
 
-import Req from './modules/ajax.js';
+import request from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
-import Router from './modules/Router.js';
+import router from './modules/Router.js';
 import '../index.scss';
 
-const request = new Req();
 const refresh = new RefreshEl(document.getElementById('root'));
 refresh.refreshFooter();
-
-const router = new Router();
-export default router;
 
 const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
 
@@ -40,8 +36,9 @@ const config = {
         session: 'api/v1/session',
         products: 'api/v1/products',
     },
-    currentPage: null,
 };
+
+router.start(config);
 
 /**
  * Функция перехода на новую страницу
@@ -92,12 +89,10 @@ const checkSession = async () => {
 
     if (status === 200) {
         config.auth.authorised = true;
-        router.login(config);
-    } else {
-        router.logout(config);
+        router.remove(config.header.login.href);
+        router.remove(config.header.signup.href);
     }
     window.dispatchEvent(config.auth.event);
 };
 
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});
-router.start(config);

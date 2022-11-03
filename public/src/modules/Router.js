@@ -6,7 +6,7 @@ import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 /**
  * Класс, реализующий переход между страницами SPA.
  */
-export default class Router {
+class Router {
     #pathToPage;
     #mainElement;
     #currentPage;
@@ -16,8 +16,8 @@ export default class Router {
      */
     constructor() {
         this.#pathToPage = new Map();
-        this.#mainElement = document.getElementById('main');
-        this.#currentPage = new MainPage(this.#mainElement);
+        this.#mainElement = null;
+        this.#currentPage = null;
     }
 
     /**
@@ -67,28 +67,15 @@ export default class Router {
      * @param {object} config - данные для отображения страницы
      */
     start(config) {
+        this.#mainElement = document.getElementById('main');
+
         this.register(config.header.main.href, MainPage);
         this.register(config.header.notFound.href, ErrorPage);
-        this.openPage(document.location.pathname, config);
-        console.log(document.location.pathname);
-    }
-
-    /**
-     * Добавляет страницы авторизации.
-     * @param {object} config - данные для отображения страницы
-     */
-    login(config) {
-        this.remove(config.header.login.href);
-        this.remove(config.header.signup.href);
-    }
-
-    /**
-     * Удаляет страницы авторизации.
-     * @param {object} config - данные для отображения страницы
-     */
-    logout(config) {
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
+
+        this.#currentPage = new MainPage(this.#mainElement);
+        this.openPage(document.location.pathname, config);
     }
 
     /**
@@ -119,3 +106,5 @@ export default class Router {
         }
     }
 }
+
+export default new Router();

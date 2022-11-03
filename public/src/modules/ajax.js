@@ -1,7 +1,7 @@
 /**
  * Класс, реализующий работу с запросами.
  */
-export default class Req {
+class Request {
     #baseURL = 'https://www.reazon.ru';
     #headers = {
         'Content-Type': 'application/json',
@@ -68,3 +68,5 @@ export default class Req {
         return this.makeRequest(`${this.#baseURL}/${url}`, options);
     };
 }
+
+export default new Request();
