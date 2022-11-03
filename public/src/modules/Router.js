@@ -56,7 +56,7 @@ class Router {
      * @param {object} config - данные для отображения страницы
      */
     refresh(config) {
-        this.#currentPage.render(config);
+        this.go(document.location.pathname, config);
     }
 
     /**

@@ -74,8 +74,8 @@ const changePage = async (event) => {
             config.auth.authorised = false;
             router.register(config.header.login.href, LoginPage);
             router.register(config.header.signup.href, RegisterPage);
-            window.dispatchEvent(config.auth.event);
             router.refresh(config);
+            window.dispatchEvent(config.auth.event);
         }
     }
 };
