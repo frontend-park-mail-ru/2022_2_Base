@@ -1,5 +1,6 @@
-import '../templates.js';
+import TopCategoryTemplate from './topCategory.hbs';
 import BaseComponent from '../BaseComponent.js';
+import './topCategory.scss';
 
 /**
  * Класс для реализации компонента TopCategory
@@ -19,7 +20,7 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(this.prepareRenderData(context), 'topCategory.hbs');
+        super.render(this.prepareRenderData(context), TopCategoryTemplate);
     }
 
     /**

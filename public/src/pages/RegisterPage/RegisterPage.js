@@ -1,10 +1,11 @@
-import '../templates.js';
+import registerPageTemplate from './RegisterPage.hbs';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
 import Req from '../../modules/ajax.js';
 import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
 import router from '../../index.js';
+// import './RegisterPage.scss';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -61,7 +62,7 @@ export default class RegisterPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['RegisterPage.hbs'],
+            registerPageTemplate,
         );
     }
 
@@ -71,9 +72,7 @@ export default class RegisterPage extends BasePage {
      */
     removeEventListener(context) {
         const form = document.getElementById('signup__form');
-        form.removeEventListener('focusin', async (event) => {
-            errorMessage.deleteErrorMessage(event.target.name);
-        });
+        form.removeEventListener('focusin', this.onFocusinHandler);
         form.removeEventListener('submit', this.onSubmitHandler);
     }
 

@@ -3,6 +3,7 @@
 import Req from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
 import Router from './modules/Router.js';
+import '../index.scss';
 
 const request = new Req();
 const refresh = new RefreshEl(document.getElementById('root'));
@@ -99,5 +100,4 @@ const checkSession = async () => {
 };
 
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});
-// config.currentPage = config.header.main.render(config);
 router.start(config);

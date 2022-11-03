@@ -1,9 +1,9 @@
-import '../templates.js';
+import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
-
 import Req from '../../modules/ajax.js';
+import './MainPage.scss';
 
 /**
  * Класс, реализующий главную страницу
@@ -47,7 +47,7 @@ export default class MainPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['MainPage.hbs'],
+            mainPageTemplate,
         );
     }
 

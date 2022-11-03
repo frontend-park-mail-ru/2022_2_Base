@@ -1,6 +1,5 @@
-import '../templates.js';
+import errorPageTemplate from './errorPage.hbs';
 import BasePage from '../BasePage.js';
-import errorMessage from '../../modules/ErrorMessage.js';
 
 /**
  * Класс, реализующий страницу входа.
@@ -13,7 +12,7 @@ export default class ErrorPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['ErrorPage.hbs'],
+            errorPageTemplate,
         );
     }
     /**

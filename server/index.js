@@ -4,7 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
-const publicFolder = path.resolve(__dirname, '..', 'public');
+const publicFolder = path.resolve(__dirname, '..', 'dist');
 
 app.use(morgan('dev'));
 app.use(express.static(publicFolder));
