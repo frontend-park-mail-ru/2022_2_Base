@@ -97,6 +97,7 @@ const checkSession = async () => {
         router.remove(config.header.signup.href);
     }
     window.dispatchEvent(config.auth.event);
+    router.openPage(document.location.pathname, config);
 };
 
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});

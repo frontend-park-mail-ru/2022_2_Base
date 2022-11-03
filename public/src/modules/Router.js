@@ -16,8 +16,6 @@ class Router {
      */
     constructor() {
         this.#pathToPage = new Map();
-        this.#mainElement = null;
-        this.#currentPage = null;
     }
 
     /**
@@ -83,7 +81,6 @@ class Router {
         this.register(config.header.signup.href, RegisterPage);
 
         this.#currentPage = new MainPage(this.#mainElement);
-        this.openPage(document.location.pathname, config);
     }
 
     /**
@@ -115,6 +112,4 @@ class Router {
     }
 }
 
-const router = new Router();
-
-export default router;
+export default new Router();
