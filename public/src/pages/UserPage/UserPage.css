@@ -119,6 +119,9 @@
 .user-card-block-password {
     justify-self: center;
     align-self: center;
+}
+
+.link {
     color: var(--default_purple);
     text-decoration: none;
 }

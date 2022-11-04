@@ -184,26 +184,62 @@ export default class UserPage extends BasePage {
     }
 
     /**
+     * Метод, подготавливавающий наполнение для формы, исходя из контекста
+     * @param {Object} context контекст отрисовки шаблона
+     * @return {Object} наполнение для формы
+     */
+     prepareRenderData(context) {
+        const data = {
+            title: context.getAttribute('name'),
+            fields: {
+                field1: {
+                    name: context.getAttribute('name'),
+                    value: context.getAttribute('value'),
+                },
+            },
+        };
+        if (context.getAttribute('id') === 'email') {
+            data.title = 'Почту';
+        }
+        if (context.getAttribute('id') === 'password') {
+            // data.fields.field1.name = 'Старый пароль';
+            // data.fields.field1.value = ''
+
+            // data.fields.field2 = {};
+            data.fields.field1.name = 'Новый пароль';
+            data.fields.field1.value = context.getAttribute('value');
+
+            data.fields.field2 = {};
+            data.fields.field2.name = 'Повторить пароль';
+            data.fields.field2.value = '';
+        }
+        return data;
+    }
+
+    /**
      * Функция для передачи в слушателе click на значок редактирования
      * данных пользователя
      * @param {object} event - событие
      */
-    async listenClickUserInfo(event) {
+    async listenClickUserInfo(event, element) {
         event.preventDefault();
 
-        const context = { // fix
-            title: 'Имя',
-            fields: {
-                name: {
-                    name: 'Имя',
-                    value: 'Пирожок',
-                },
-                sername: {
-                    name: 'Имя',
-                    value: 'Пирожок',
-                },
-            },
-        };
+        // const context = { // fix
+        //     title: 'Имя',
+        //     fields: {
+        //         name: {
+        //             name: 'Имя',
+        //             value: 'Пирожок',
+        //         },
+        //         sername: {
+        //             name: 'Имя',
+        //             value: 'Пирожок',
+        //         },
+        //     },
+        // };
+
+        const context = this.prepareRenderData(element);
+        console.log(context)
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {
@@ -245,9 +281,10 @@ export default class UserPage extends BasePage {
         }
 
         const userInfo = document.querySelectorAll('.edit');
+
         if (userInfo) {
             userInfo.forEach((key) => {
-                key.addEventListener('click', this.listenClickUserInfo);
+                key.addEventListener('click', event => this.listenClickUserInfo(event, key.parentNode));
             });
         } else {
             console.log('element not found', userInfo);

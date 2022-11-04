@@ -25,7 +25,7 @@
 
                 </div>
 
-                <div class="user-name text-normal-large-thin"> {{userInfo.userCard.name}}
+                <div class="user-name text-normal-large-thin" name="Имя" id="name" value="{{userInfo.userCard.name}}"> {{userInfo.userCard.name}}
                     <a href="/edit" class="edit">
                         <img class="edit-button" src="img/editButton.svg" alt="edit button">
                     </a>
@@ -33,7 +33,7 @@
 
                 <div class="user-card-block">
                     <div class="user-card-block-title text-normal-large-thin"> Почта</div>
-                    <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.email}}
+                    <div class="user-card-block-data text-normal-large-thin" name="Почта" id="email" value="{{userInfo.userCard.email}}"> {{userInfo.userCard.email}}
                         <a href="/edit" class="edit">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
@@ -43,15 +43,16 @@
 
                 <div class="user-card-block">
                     <div class="user-card-block-title text-normal-large-thin">Телефон</div>
-                    <div class="user-card-block-data text-normal-large-thin"> {{userInfo.userCard.phone}}
+                    <div class="user-card-block-data text-normal-large-thin" name="Телефон" id="phone" value="{{userInfo.userCard.phone}}"> {{userInfo.userCard.phone}}
                         <a href="/edit" class="edit">
                             <img class="edit-button" src="img/editButton.svg" alt="edit button">
                         </a>
                     </div>
 
                 </div>
-
-                <a href="" class="user-card-block-password text-normal-large-thin disabled"> Изменить пароль </a>
+                <div class="user-card-block-password" name="Пароль" id="password">
+                    <a href="/edit" class="link text-normal-large-thin edit"> Изменить пароль </a>
+                </div>
 
 
             </div>
