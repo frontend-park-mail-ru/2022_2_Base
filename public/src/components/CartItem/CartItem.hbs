@@ -1,0 +1,47 @@
+{{#each item}}
+    <div class="cart-item_cart">
+        <div class="cart-item_cart__checkbox">
+            <label class="item_cart__selection">
+                <input type="checkbox" class="checkbox-opt" {{#if this.checked}} checked {{/if}}>
+            </label>
+        </div>
+
+
+        <a href="" class="cart-item_cart__img">
+            <img src="{{this.img}}" alt="{{this.title}} photo" class="cart-item_cart__img-src">
+        </a>
+
+        <div class="cart-item_cart__main">
+            <span>{{this.title}}</span>
+            <span>{{this.vendor}}</span>
+            <div class="cart-item_cart__bottom">
+                <label class="item_cart__selection">
+                    <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
+                    <span id="favourite-opt_cart__text">{{#if this.favourite}}
+                        В избранном {{else}} В избранное {{/if}}</span>
+                </label>
+                <label class="item_cart__selection">
+                    <input type="button" class="button-default" id="button-default_cart__delete">
+                    <img src="img/Bin.svg" alt="delete picture">
+                    <span>Удалить</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="amount-selector">
+            <button class="button-notext" id="button-minus_cart">
+                <span>−</span>
+            </button>
+            <span class="text-normal-default-bold">
+                {{this.amount}}
+            </span>
+            <button class="button-notext" id="button-plus_cart">
+                <span>+</span>
+            </button>
+        </div>
+
+        <div class="cart-item_cart__price text-normal-very-large">
+            {{this.price}} ₽
+        </div>
+    </div>
+{{/each}}

@@ -5,6 +5,7 @@
     --hover_purple: #3F47D0;
     --pure_white: #FFFFFF;
     --background-white: #F8F8F8;
+    --background-dark-gray: rgba(221, 225, 228, 1);
     --purple_disabled: #6369D1;
     --default_purple: #6369D1;
     --footer_text_grey: #333333;
@@ -16,7 +17,7 @@
     --green-shinny: #68B684;
     --green-correct: #32A416;
     --shadow-dim: #000000FF;
-    --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
+    --apple-dim-shadow: drop-shadow(0 4px 20px var(--shadow-dim));
     --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
 }
 
@@ -98,7 +99,7 @@
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template-rows: 70px 1fr 234px; // 1000px
+    grid-template-rows: 70px 1fr 234px;
 }
 
 main {
@@ -116,12 +117,12 @@ main {
 
 /* fonts */
 
-.text-normal-huge {
+.text-normal-small {
     font-family: var(--font-main);
     font-weight: 500;
-    font-size: 40px;
-    line-height: 52px;
-    color: var(--jet-black);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.05em;
 }
 
 .text-normal-default {
@@ -129,14 +130,6 @@ main {
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
-}
-
-.text-normal-small {
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.05em;
 }
 
 .text-normal-default-bold {
@@ -152,6 +145,29 @@ main {
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
+}
+
+.text-normal-very-large {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 42px;
+}
+
+.button-notext{
+    @extend .button-default;
+    padding: 0 8px 0 8px;
+    color: inherit;
+    background-color: inherit;
+    font-size: 20px;
+}
+
+.text-normal-huge {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 52px;
+    color: var(--jet-black);
 }
 
 /* cyrillic-ext */

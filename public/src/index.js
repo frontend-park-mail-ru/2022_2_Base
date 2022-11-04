@@ -29,6 +29,9 @@ const config = {
         logout: {
             href: '/logout',
         },
+        cart: {
+            href: '/cart',
+        },
     },
     auth: {
         authorised: false,
