@@ -15,6 +15,43 @@ export default class PaymentCard extends BaseComponent {
     }
 
     /**
+     * Функция для передачи в слушателе click на значок удаления
+     * банковской карты
+     * @param {object} event - событие
+     */
+    async listenClickDeletePaymentCard(event) {
+        event.preventDefault();
+
+        /*  Вызов метода, для удаления карты */
+    }
+
+    /**
+     * Метод, добавляющий слушатели.
+     */
+    startEventListener() {
+        const paymentCard = document.querySelectorAll('.delete-payment-card');
+        if (paymentCard) {
+            paymentCard.forEach((key) => {
+                key.addEventListener('click', (event) => this.listenClickDeletePaymentCard(event));
+            });
+        } else {
+            console.log('element not found', paymentCard);
+        }
+    }
+
+    /**
+     * Метод, удаляющий слушатели.
+     */
+    removeEventListener() {
+        const paymentCard = document.querySelectorAll('.delete-payment-card');
+        if (paymentCard) {
+            paymentCard.forEach((key) => {
+                paymentCard.removeEventListener('click', this.listenClickDeletePaymentCard());
+            });
+        }
+    }
+
+    /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
      * @param {context} context, с учетом которого будет произведен рендер

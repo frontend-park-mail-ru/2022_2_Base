@@ -155,7 +155,9 @@
 
 .change-payment-card {
     margin-top: -80px;
-    margin-left: 58px;
+    margin-left: 78px;
+    width: 40px;
+    grid-template-columns: 1fr;
 }
 
 .change-address-card {

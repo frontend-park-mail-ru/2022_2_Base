@@ -267,7 +267,6 @@ export default class UserPage extends BasePage {
         }
 
         const userInfo = document.querySelectorAll('.edit-profile-data');
-
         if (userInfo) {
             userInfo.forEach((key) => {
                 key.addEventListener('click', (event) => this.listenClickUserInfo(

@@ -54,7 +54,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
         const cancel = document.getElementById('popup-form__cancel');
         cancel.addEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('.popup-form__apply');
+        const apply = document.getElementById('popup-form__apply');
         apply.addEventListener('click', this.listenClickApply);
     }
 
