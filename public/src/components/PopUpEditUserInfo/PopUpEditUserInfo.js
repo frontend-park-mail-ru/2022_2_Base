@@ -75,7 +75,6 @@ export default class PopUpEditUserInfo extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        console.log(context)
         super.render(context, 'PopUpEditUserInfo.hbs');
         this.startEventListener();
     }

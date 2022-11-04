@@ -188,7 +188,7 @@ export default class UserPage extends BasePage {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-     prepareRenderData(context) {
+    prepareRenderData(context) {
         const data = {
             title: context.getAttribute('name'),
             fields: {
@@ -220,26 +220,12 @@ export default class UserPage extends BasePage {
      * Функция для передачи в слушателе click на значок редактирования
      * данных пользователя
      * @param {object} event - событие
+     * @param {object} element - элемент DOM-дерева
      */
     async listenClickUserInfo(event, element) {
         event.preventDefault();
 
-        // const context = { // fix
-        //     title: 'Имя',
-        //     fields: {
-        //         name: {
-        //             name: 'Имя',
-        //             value: 'Пирожок',
-        //         },
-        //         sername: {
-        //             name: 'Имя',
-        //             value: 'Пирожок',
-        //         },
-        //     },
-        // };
-
         const context = this.prepareRenderData(element);
-        console.log(context)
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {
@@ -280,11 +266,11 @@ export default class UserPage extends BasePage {
             console.log('element not found', AddressCard);
         }
 
-        const userInfo = document.querySelectorAll('.edit');
+        const userInfo = document.querySelectorAll('.edit-profile-data');
 
         if (userInfo) {
             userInfo.forEach((key) => {
-                key.addEventListener('click', event => this.listenClickUserInfo(event, key.parentNode));
+                key.addEventListener('click', (event) => this.listenClickUserInfo(event, key.parentNode));
             });
         } else {
             console.log('element not found', userInfo);
