@@ -13,7 +13,6 @@ export default class AddressCard extends BaseComponent {
     constructor(parent) {
         super(parent);
     }
-    
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,

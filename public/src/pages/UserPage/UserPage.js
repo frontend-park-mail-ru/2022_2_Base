@@ -270,7 +270,8 @@ export default class UserPage extends BasePage {
 
         if (userInfo) {
             userInfo.forEach((key) => {
-                key.addEventListener('click', (event) => this.listenClickUserInfo(event, key.parentNode));
+                key.addEventListener('click', (event) => this.listenClickUserInfo(
+                    event, key.parentNode));
             });
         } else {
             console.log('element not found', userInfo);
