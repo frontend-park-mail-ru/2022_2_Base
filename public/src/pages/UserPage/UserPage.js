@@ -36,10 +36,10 @@ export default class UserPage extends BasePage {
         if (cardCount < 4) {
             const paymentCard = {
                 addCard: true,
+                id: `paymentCard${String(1)}`,
+                index: 1,
             };
 
-            paymentCard.id = `paymentCard${String(1)}`;
-            paymentCard.index = 1;
             this.paymentCards = new PaymentCard(document.getElementById('payment-cards-items'));
             this.paymentCards.render(paymentCard);
         }
@@ -50,11 +50,9 @@ export default class UserPage extends BasePage {
             type: 'MIR',
             expiryDate: '00/00',
             addCard: false,
+            id: `addressCard${String(cardCount + 1)}`,
+            index: cardCount +  1,
         };
-
-        paymentCard.id = `addressCard${String(cardCount + 1)}`;
-        paymentCard.index = cardCount + 1;
-
 
         this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
         this.paymentCard.render(paymentCard);
@@ -74,10 +72,9 @@ export default class UserPage extends BasePage {
         if (cardCount < 4) {
             const addressCard = {
                 addCard: true,
+                id: `addressCard${String(cardCount + 1)}`,
+                index: cardCount + 1,
             };
-
-            addressCard.id = `addressCard${String(cardCount + 1)}`;
-            addressCard.index = cardCount + 1;
 
             this.addressCard = new AddressCard(document.getElementById('address-cards-items'));
             this.addressCard.render(addressCard);
@@ -89,10 +86,9 @@ export default class UserPage extends BasePage {
             street: 'улица Бассейная',
             house: 'д. 228',
             addCard: false,
+            id: `addressCard${String(1)}`,
+            index: 1,
         };
-
-        addressCard.id = `addressCard${String(1)}`;
-        addressCard.index = 1;
 
         this.addressCard = new AddressCard(document.getElementById('address-cards-items'));
         this.addressCard.render(addressCard);
@@ -102,10 +98,10 @@ export default class UserPage extends BasePage {
      * Функция для передачи в слушателе mouseover на фотографии пользователя.
      */
     async listenMouseOverProfile() {
-        const PopUp = document.querySelector('.change-user-photo');
+        const PopUp = document.getElementById('change-user-photo');
         PopUp.style.display = 'grid';
 
-        const Photo = document.querySelector('.user-photo');
+        const Photo = document.getElementById('user-photo');
         Photo.style.filter = 'blur(4px)';
     }
 
@@ -143,7 +139,6 @@ export default class UserPage extends BasePage {
         if (PopUp) {
             PopUp.style.display = 'none';
         }
-        // PopUp.style.display = 'none';
 
         const PaymentCard = document.querySelector('.payment-card');
         if (PaymentCard) {
