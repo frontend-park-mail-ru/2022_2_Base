@@ -26,9 +26,9 @@ export default class AddressCard extends BaseComponent {
 
         // Запрос данных адреса
         const address = {
-            country: "Россия",
-            city: "Москва",
-            street: "Бассейная",
+            country: 'Россия',
+            city: 'Москва',
+            street: 'Бассейная',
             house: 228,
             flat: 5,
         };
