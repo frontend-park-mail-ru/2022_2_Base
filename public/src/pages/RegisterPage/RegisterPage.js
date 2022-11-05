@@ -1,9 +1,11 @@
-import '../templates.js';
+import registerPageTemplate from './RegisterPage.hbs';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
-import Req from '../../modules/ajax.js';
+import request from '../../modules/ajax.js';
 import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
+import router from '../../modules/Router.js';
+import './RegisterPage.scss';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -60,7 +62,7 @@ export default class RegisterPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['RegisterPage.hbs'],
+            registerPageTemplate,
         );
     }
 
@@ -70,9 +72,7 @@ export default class RegisterPage extends BasePage {
      */
     removeEventListener(context) {
         const form = document.getElementById('signup__form');
-        form.removeEventListener('focusin', async (event) => {
-            errorMessage.deleteErrorMessage(event.target.name);
-        });
+        form.removeEventListener('focusin', this.onFocusinHandler);
         form.removeEventListener('submit', this.onSubmitHandler);
     }
 
@@ -113,9 +113,8 @@ export default class RegisterPage extends BasePage {
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (this.validate(data)) {
-            const r = new Req();
             const {username, email, password} = data;
-            const [status] = await r.makePostRequest(config.api.signup, {
+            const [status] = await request.makePostRequest(config.api.signup, {
                 password,
                 email,
                 username,
@@ -125,9 +124,10 @@ export default class RegisterPage extends BasePage {
             case 201:
                 console.log('auth');
                 config.auth.authorised = true;
+                router.remove(config.header.login.href);
+                router.remove(config.header.signup.href);
                 window.dispatchEvent(config.auth.event);
-                this.removeEventListener(this.context);
-                config.currentPage = config.header.main.render(config);
+                router.openPage(config.header.main.href, config);
                 break;
             case 400:
                 document.getElementById('Error400Message') === null ?
@@ -163,7 +163,6 @@ export default class RegisterPage extends BasePage {
 
         const form = document.getElementById('signup__form');
         document.getElementById(this.context.fields.name.name).focus();
-
 
         form.addEventListener('focusin', this.onFocusinHandler);
         form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));

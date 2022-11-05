@@ -1,14 +1,45 @@
-import '../templates.js';
+import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
-
-import Req from '../../modules/ajax.js';
+import request from '../../modules/ajax.js';
+import './MainPage.scss';
 
 /**
  * Класс, реализующий главную страницу
  */
 export default class MainPage extends BasePage {
+    #topCategory = {
+        Smartphone: {
+            nameCategory: 'Телефоны',
+            img: './img/Smartphone.png',
+        },
+        Computer: {
+            nameCategory: 'Компьютеры',
+            img: './img/Computer.png',
+        },
+        Headphones: {
+            nameCategory: 'Наушники',
+            img: './img/Headphones.png',
+        },
+        TV: {
+            nameCategory: 'Телевизоры',
+            img: './img/TV.png',
+        },
+        Watch: {
+            nameCategory: 'Часы',
+            img: './img/Watch.png',
+        },
+        Tablet: {
+            nameCategory: 'Планшеты',
+            img: './img/Tablet.png',
+        },
+        Accessories: {
+            nameCategory: 'Аксессуары',
+            img: './img/Accessories.png',
+        },
+    };
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -16,7 +47,7 @@ export default class MainPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['MainPage.hbs'],
+            mainPageTemplate,
         );
     }
 
@@ -27,8 +58,7 @@ export default class MainPage extends BasePage {
      */
     async loadCards(classToGet, reqPath) {
         //  loading cards
-        const r = new Req();
-        const [status, outD] = await r.makeGetRequest(reqPath)
+        const [status, outD] = await request.makeGetRequest(reqPath)
             .catch((err) => console.log(err));
 
         const rootElement = document.getElementById(classToGet + '__right-arrow');
@@ -75,7 +105,7 @@ export default class MainPage extends BasePage {
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(config.topcategory);
+        this.topComponent.render(this.#topCategory);
 
         await this.loadCards('salesCard', config.api.products);
         await this.loadCards('popularCard', config.api.products);

@@ -7,7 +7,7 @@
     --background-white: #F8F8F8;
     --purple_disabled: #6369D1;
     --default_purple: #6369D1;
-    --footer_text_grey: #333333;
+    --jet-black: #333333;
     --secondary-purple: #999AAD;
     --shadow-default: #D6D6D6;
     --pink-accent: #D14372;
@@ -16,8 +16,14 @@
     --green-shinny: #68B684;
     --green-correct: #32A416;
     --shadow-dim: #000000FF;
-    --apple-dim-shadow: drop-shadow(0 4 20px var(--shadow-dim));
-    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
+    --apple-dim-shadow: drop-shadow(0 4px 20px var(--shadow-dim));
+    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);
+    --black-form: #171717;
+}
+
+* {
+    padding: 0;
+    margin: 0;
 }
 
 .input-field-error {
@@ -34,12 +40,9 @@
 }
 
 .input-field-error__text {
+    @extend .text-normal-small;
     display: inline-block;
     font-family: var(--font-main);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
 }
 
 .server-error {
@@ -62,6 +65,53 @@
     line-height: 25px;
 }
 
+.paint-background {
+    background-color: var(--background-white);
+}
+
+.paint-purple {
+    background-color: var(--default_purple);
+}
+
+.button-default {
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--default_purple);
+}
+
+.link:hover {
+    color: var(--hover_purple);
+}
+
+.page {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-rows: 70px 1fr 234px;
+}
+
+main {
+    background-color: var(--background-white);
+    display: grid;
+    grid-template-columns: 1fr 1400px 1fr;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: var(--jet-black);
+    opacity: 0.4;
+}
+
 /* fonts */
 
 .text-normal-huge {
@@ -79,16 +129,6 @@
     line-height: 20px;
 }
 
-.button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-}
-
 .text-normal-small {
     font-family: var(--font-main);
     font-weight: 500;
@@ -98,11 +138,8 @@
 }
 
 .text-normal-default-bold {
-    font-family: var(--font-main);
+    @extend .text-normal-default;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 25px;
-    color: var(--jet-black);
 }
 
 .text-normal-large {
@@ -110,6 +147,11 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
+}
+
+.text-normal-large-normal {
+    @extend.text-normal-large;
+    font-weight: 500;
 }
 
 /* cyrillic-ext */

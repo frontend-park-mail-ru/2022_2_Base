@@ -1,9 +1,11 @@
-import '../templates.js';
+import loginPageTemplate from './LoginPage.hbs';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
-import Req from '../../modules/ajax.js';
+import request from '../../modules/ajax.js';
 import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
+import router from '../../modules/Router.js';
+import './LoginPage.scss';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -44,7 +46,7 @@ export default class LoginPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['LoginPage.hbs'],
+            loginPageTemplate,
         );
     }
 
@@ -93,9 +95,8 @@ export default class LoginPage extends BasePage {
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (this.validate(data)) {
-            const r = new Req();
             const {email, password} = data;
-            const [status] = await r.makePostRequest(config.api.login, {
+            const [status] = await request.makePostRequest(config.api.login, {
                 password,
                 email,
             }).catch((err) => console.log(err));
@@ -104,9 +105,10 @@ export default class LoginPage extends BasePage {
             case 201:
                 console.log('auth');
                 config.auth.authorised = true;
+                router.remove(config.header.login.href);
+                router.remove(config.header.signup.href);
                 window.dispatchEvent(config.auth.event);
-                this.removeEventListener(this.context);
-                config.currentPage = config.header.main.render(config);
+                router.openPage(config.header.main.href, config);
                 break;
             case 400:
                 !document.getElementById('Error400Message') ?

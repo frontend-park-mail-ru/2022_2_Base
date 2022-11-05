@@ -1,5 +1,6 @@
-import '../templates.js';
+import formTemplate from './form.hbs';
 import BaseComponent from '../BaseComponent.js';
+import './form.scss';
 
 /**
  * Класс для реализации компонента Form
@@ -19,7 +20,7 @@ export default class Form extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(this.prepareRenderData(context), 'form.hbs');
+        super.render(this.prepareRenderData(context), formTemplate);
     }
 
     /**
