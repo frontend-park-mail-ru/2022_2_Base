@@ -57,7 +57,6 @@ export default class UserPage extends BasePage {
 
 
         this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
-        console.log(this.paymentCard.id);
         this.paymentCard.render(paymentCard);
     }
 

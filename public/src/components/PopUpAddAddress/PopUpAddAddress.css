@@ -17,29 +17,22 @@
 
 }
 
-.popup-form__date-and-code {
+.popup-form__country-city {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 50px;
+    grid-gap: 10px;
 }
 
-.popup-form__date {
+.popup-form__street-house {
     display: grid;
-    grid-template-columns: 1fr 20px 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
 }
 
-.popup-form__month-year {
-    width: 90%;
-}
-
-.popup-form__code {
-    width: 45%;
-}
-
-.separation-line-date {
-    height: 100%;
-    text-align: center;
-    padding-top: 10px;
+.popup-form__house {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
 }
 
 .field-name {

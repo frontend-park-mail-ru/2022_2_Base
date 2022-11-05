@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./src/components/AddressCard/AddressCard.css" type="text/css">
 
 {{#if addCard}}
-    <a href="/addAddressCard" class="address-card-template add-address-card">
+    <a href="/addAddressCard" class="address-card-template add-address-card" id="add-address-card">
         <div class="card-title text-normal-default"></div>
 
         <div class="card-number text-normal-small">
@@ -30,7 +30,7 @@
         </a>
 
         <div class="change-pop-up change-address-card">
-            <a href="/editAddressCard{{index}}" class="pop-up-button">
+            <a href="/editAddressCard{{index}}" class="pop-up-button edit-address">
                 <img src="img/editButton.svg" class="pop-up-button-pic">
             </a>
             <div class="separation-line"></div>
