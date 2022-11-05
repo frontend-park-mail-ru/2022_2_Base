@@ -7,13 +7,17 @@
         </div>
 
 
-        <a href="" class="cart-item_cart__img">
+        <a href="/item/{{this.id}}" class="cart-item_cart__img">
             <img src="{{this.img}}" alt="{{this.title}} photo" class="cart-item_cart__img-src">
         </a>
 
         <div class="cart-item_cart__main">
-            <span>{{this.title}}</span>
-            <span>{{this.vendor}}</span>
+            <a href="/item/{{this.id}}" class="link-no-color">
+                <span>{{this.title}}</span>
+            </a>
+            <a href="/vendor/{{this.vendorID}}" class="link-no-color">
+                <span class="vendor_cart__text">{{this.vendor}}</span>
+            </a>
             <div class="cart-item_cart__bottom">
                 <label class="item_cart__selection">
                     <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
@@ -21,8 +25,8 @@
                         В избранном {{else}} В избранное {{/if}}</span>
                 </label>
                 <label class="item_cart__selection">
-                    <input type="button" class="button-default" id="button-default_cart__delete">
-                    <img src="img/Bin.svg" alt="delete picture">
+                    <input type="button" class="button-default-no-box" id="button-default_cart__delete">
+                    <img src="img/Bin.svg" alt="delete picture" class="button-delete_cart__img">
                     <span>Удалить</span>
                 </label>
             </div>
@@ -30,18 +34,23 @@
 
         <div class="amount-selector">
             <button class="button-notext" id="button-minus_cart">
-                <span>−</span>
+                <span class="link-no-color">−</span>
             </button>
+            <div class="amount-selector__amount">
             <span class="text-normal-default-bold">
                 {{this.amount}}
             </span>
+            </div>
             <button class="button-notext" id="button-plus_cart">
-                <span>+</span>
+                <span class="link-no-color">+</span>
             </button>
         </div>
 
-        <div class="cart-item_cart__price text-normal-very-large">
-            {{this.price}} ₽
+        <div class="cart-item_cart__price">
+            <span class="text-normal-very-large">{{#if this.salePrice}}{{this.salePrice}}{{else}}{{this.price}}
+                ₽{{/if}}</span>
+            <span class="text-normal-large__strikethrough item_cart__salePrice">{{#if this.salePrice}}{{this.price}}
+                ₽{{/if}}</span>
         </div>
     </div>
 {{/each}}

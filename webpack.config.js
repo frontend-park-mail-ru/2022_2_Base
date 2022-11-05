@@ -59,7 +59,9 @@ const config = {
                             avif: {
                                 lossless: true,
                             },
-                            png: {},
+                            png: {
+                                lossless: true,
+                            },
                             gif: {},
                         },
                     },

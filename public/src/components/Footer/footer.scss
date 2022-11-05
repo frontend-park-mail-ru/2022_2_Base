@@ -12,7 +12,7 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
-    color: var(--footer_text_grey);
+    color: var(--jet-black);
 }
 
 .footer__members {
@@ -33,7 +33,7 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
-    color: var(--footer_text_grey);
+    color: var(--jet-black);
     display: flex;
     align-items: center;
     text-align: center;
@@ -50,4 +50,9 @@
 
 .footer__margin-contact-logo {
     margin-left: 20px;
+}
+
+.logo-img {
+    width: 100px;
+    height: 38px;
 }

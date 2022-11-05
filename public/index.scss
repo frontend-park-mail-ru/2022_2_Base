@@ -8,8 +8,7 @@
     --background-dark-gray: rgba(221, 225, 228, 1);
     --purple_disabled: #6369D1;
     --default_purple: #6369D1;
-    --footer_text_grey: #333333;
-    --secondary-purple: #999AAD;
+    --secondary-purple: rgba(153, 154, 173, 1);
     --shadow-default: #D6D6D6;
     --pink-accent: #D14372;
     --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
@@ -19,6 +18,7 @@
     --shadow-dim: #000000FF;
     --apple-dim-shadow: drop-shadow(0 4px 20px var(--shadow-dim));
     --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
+    --jet-black: #333333;
 }
 
 * {
@@ -77,13 +77,16 @@
 }
 
 .button-default {
+    @extend .text-normal-default;
     border-radius: 10px;
     border: none;
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
     text-align: center;
+}
+
+.button-default-no-box {
+    @extend .button-default;
+    border-radius: 0;
+    background-color: inherit;
 }
 
 .link {
@@ -93,6 +96,12 @@
 
 .link:hover {
     color: var(--hover_purple);
+}
+
+.link-no-color {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .page {
@@ -132,6 +141,12 @@ main {
     line-height: 20px;
 }
 
+.text-normal-default__strikethrough{
+    @extend .text-normal-default;
+    text-decoration: line-through;
+    color: var(--secondary-purple);
+}
+
 .text-normal-default-bold {
     font-family: var(--font-main);
     font-weight: 600;
@@ -145,6 +160,14 @@ main {
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
+    color: var(--jet-black);
+}
+
+.text-normal-large__strikethrough{
+    @extend .text-normal-large;
+    font-weight: 500;
+    text-decoration: line-through;
+    color: var(--secondary-purple);
 }
 
 .text-normal-very-large {
@@ -152,6 +175,7 @@ main {
     font-weight: 500;
     font-size: 32px;
     line-height: 42px;
+    color: var(--jet-black);
 }
 
 .button-notext{

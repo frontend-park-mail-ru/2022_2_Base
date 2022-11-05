@@ -20,7 +20,7 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(this.prepareRenderData(context), TopCategoryTemplate);
+        super.render(this.prepareCategory(context), TopCategoryTemplate);
     }
 
     /**
@@ -28,7 +28,7 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} значение категории из контекста отрисовки
      */
-    prepareRenderData(context) {
+    prepareCategory(context) {
         return {category: {...context}};
     }
 }
