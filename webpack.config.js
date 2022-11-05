@@ -9,7 +9,6 @@ module.exports = {
     entry: './public/src/index.js',
     module: {
         rules: [
-            {test: /\.svg$/, use: 'svg-inline-loader'},
             {
                 test: /\.s[ac]ss$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
