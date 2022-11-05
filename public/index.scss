@@ -19,6 +19,7 @@
     --apple-dim-shadow: drop-shadow(0 4px 20px var(--shadow-dim));
     --border-color: 0.5px solid rgba(111, 111, 111, 0.24);;
     --jet-black: #333333;
+    --black-form: #171717;
 }
 
 * {
@@ -40,12 +41,9 @@
 }
 
 .input-field-error__text {
+    @extend .text-normal-small;
     display: inline-block;
     font-family: var(--font-main);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
 }
 
 .server-error {
@@ -148,11 +146,8 @@ main {
 }
 
 .text-normal-default-bold {
-    font-family: var(--font-main);
+    @extend .text-normal-default;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 25px;
-    color: var(--jet-black);
 }
 
 .text-normal-large {
@@ -192,6 +187,11 @@ main {
     font-size: 40px;
     line-height: 52px;
     color: var(--jet-black);
+}
+
+.text-normal-large-normal {
+    @extend.text-normal-large;
+    font-weight: 500;
 }
 
 /* cyrillic-ext */
