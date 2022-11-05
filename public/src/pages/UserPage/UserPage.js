@@ -51,7 +51,7 @@ export default class UserPage extends BasePage {
             expiryDate: '00/00',
             addCard: false,
             id: `addressCard${String(cardCount + 1)}`,
-            index: cardCount +  1,
+            index: cardCount + 1,
         };
 
         this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
