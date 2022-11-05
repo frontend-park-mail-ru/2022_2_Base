@@ -7,7 +7,6 @@ export default class BaseStore {
      */
     constructor() {
         this._changed = false;
-        this._changeEvent = 'change';
         this._storage = new Map();
         this._events = new Map();
 
@@ -28,11 +27,11 @@ export default class BaseStore {
      * @param {function} callback функция-обработчик
      * @param {String?} changeEvent наименование события
      */
-    addListener(callback, changeEvent = this._changeEvent) {
+    addListener(callback, changeEvent) {
         this._events.has(changeEvent) ? this._events.get(changeEvent).callbacks.add(callback) :
             this._events.set(changeEvent, {
                 callbacks: new Set(),
-                promise: null, // Promise.reject(changeEvent),
+                promise: null,
             });
     }
 
@@ -74,10 +73,13 @@ export default class BaseStore {
         await this._onDispatch(payload);
 
         if (this.hasChanged()) {
-            Object.values(this._events).forEach((value) => {
-                value.promise?.then((changeEvent) => {
-                    value.callbacks.forEach((callback) => callback());
-                }).catch((error) => console.log('_invokeOnDispatch:', error));
+            this._events.forEach((value, key) => {
+                value.promise?.then(
+                    (changeEvent) => {
+                        value.callbacks.forEach((callback) => callback());
+                        this._events.get(key).promise = null;
+                    })
+                    .catch((error) => console.log('_invokeOnDispatch:', error));
             });
         }
     }
