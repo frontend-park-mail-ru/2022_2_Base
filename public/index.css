@@ -77,6 +77,7 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
+    font-style: normal;
 }
 
 .button-default {
@@ -110,6 +111,21 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
+}
+
+.text-normal-large-strikethrough {
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    text-decoration-line: line-through;
+}
+
+.text-normal-very-big {
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 42px;
 }
 
 /* cyrillic-ext */

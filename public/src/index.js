@@ -3,6 +3,8 @@
 import LoginPage from './pages/LoginPage/LoginPage.js';
 import MainPage from './pages/MainPage/MainPage.js';
 import RegisterPage from './pages/RegisterPage/RegisterPage.js';
+import CatalogPage from './pages/CatalogPage/CatalogPage.js';
+
 import Req from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
 
@@ -43,6 +45,12 @@ const config = {
             name: 'Регистрация',
             render: renderPage(RegisterPage),
         },
+        catalog: {
+            href: '/catalogPage',
+            name: 'Каталог',
+            render: renderPage(CatalogPage),
+        },
+
     },
     topcategory: {
         Smartphone: {
