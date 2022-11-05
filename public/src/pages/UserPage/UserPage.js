@@ -40,8 +40,8 @@ export default class UserPage extends BasePage {
 
             paymentCard.id = `paymentCard${String(1)}`;
             paymentCard.index = 1;
-            this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
-            this.paymentCard.render(paymentCard);
+            this.paymentCards = new PaymentCard(document.getElementById('payment-cards-items'));
+            this.paymentCards.render(paymentCard);
         }
 
         const paymentCard = {
@@ -58,7 +58,6 @@ export default class UserPage extends BasePage {
 
         this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
         console.log(this.paymentCard.id);
-
         this.paymentCard.render(paymentCard);
     }
 

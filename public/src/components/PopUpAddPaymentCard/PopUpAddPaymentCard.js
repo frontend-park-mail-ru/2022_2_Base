@@ -4,9 +4,9 @@ import BaseComponent from '../BaseComponent.js';
 /**
  * Класс для реализации компонента Footer
  */
-export default class PopUpEditUserInfo extends BaseComponent {
+export default class PopUpAddPaymentCard extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента PopUpEditUserInfo
+     * Конструктор, создающий класс компонента PopUpAddPaymentCard
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -72,10 +72,9 @@ export default class PopUpEditUserInfo extends BaseComponent {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {context} context, с учетом которого будет произведен рендер
      */
-    render(context) {
-        super.render(context, 'PopUpEditUserInfo.hbs');
+    render() {
+        super.render(null, 'PopUpAddPaymentCard.hbs');
         this.startEventListener();
     }
 }

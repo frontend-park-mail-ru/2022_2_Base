@@ -1,5 +1,6 @@
 import '../templates.js';
 import BaseComponent from '../BaseComponent.js';
+import PopUpAddPaymentCard from '../PopUpAddPaymentCard/PopUpAddPaymentCard.js';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -15,6 +16,26 @@ export default class PaymentCard extends BaseComponent {
     }
 
     /**
+     * Функция для передачи в слушателе click на значок добавления
+     * банковской карты
+     * @param {object} event - событие
+     */
+     async listenClickAddPaymentCard(event) {
+        event.preventDefault();
+
+        const PopUp = document.getElementById('popUp');
+        const PopUpFade = document.getElementById('popUp-fade');
+        if (PopUp) {
+            PopUp.style.display = 'block';
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'block';
+        }
+        this.popUpAddPaymentCard = new PopUpAddPaymentCard(PopUp);
+        this.popUpAddPaymentCard.render();
+    }
+
+    /**
      * Функция для передачи в слушателе click на значок удаления
      * банковской карты
      * @param {object} event - событие
@@ -27,8 +48,9 @@ export default class PaymentCard extends BaseComponent {
 
     /**
      * Метод, добавляющий слушатели.
+     * @param {boolean} addCard - контекст для навешивания обработчиков
      */
-    startEventListener() {
+    startEventListener(addCard) {
         const paymentCard = document.querySelectorAll('.delete-payment-card');
         if (paymentCard) {
             paymentCard.forEach((key) => {
@@ -36,6 +58,15 @@ export default class PaymentCard extends BaseComponent {
             });
         } else {
             console.log('element not found', paymentCard);
+        }
+
+        if (addCard) {
+            const newPaymentCard = document.getElementById('add-payment-card');
+            if (newPaymentCard) {
+                newPaymentCard.addEventListener('click', (event) => this.listenClickAddPaymentCard(event));
+            } else {
+                console.log('element not found', newPaymentCard);
+            }
         }
     }
 
@@ -49,6 +80,13 @@ export default class PaymentCard extends BaseComponent {
                 paymentCard.removeEventListener('click', this.listenClickDeletePaymentCard());
             });
         }
+
+        const newPaymentCard = document.getElementById('add-payment-card');
+        if (newPaymentCard) {
+            newPaymentCard.removeEventListener('click', (event) => this.listenClickAddPaymentCard(event));
+        } else {
+            console.log('element not found', newPaymentCard);
+        }
     }
 
     /**
@@ -58,6 +96,6 @@ export default class PaymentCard extends BaseComponent {
      */
     render(context) {
         super.render(context, 'paymentCard.hbs');
-        this.startEventListener();
+        this.startEventListener(context.addCard);
     }
 }

@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="./src/components/PopUpAddPaymentCard/PopUpAddPaymentCard.css" type="text/css">
+
+<form method="post" class="popup-form" novalidate>
+    <div class="popup-form__header text-normal-large-thin">
+        Добавить банковскую карту
+    </div>
+    <div class="popup-form__fields">
+        <div class="popup-form__date-and-code">
+            <div class="popup-form__field">
+                <div class="field-name text-normal-default">
+                    Действует до
+                </div>
+                <div class="popup-form__date popup-form__month-year">
+                    <input class="popup-form__input text-normal-default" id="month" placeholder="MM">
+                    <div class="separation-line-date text-normal-default">/</div>
+                    <input class="popup-form__input text-normal-default" id="year" placeholder="YY">
+                </div>
+            </div>
+            <div class="popup-form__field popup-form__code">
+                <div class="field-name text-normal-default">
+                    Код
+                </div>
+                <input class="popup-form__input text-normal-default" id="cvc" placeholder="CVC">
+            </div>
+        </div>
+        <div class="popup-form__field">
+            <div class="field-name text-normal-default">
+                Номер карты
+            </div>
+            <input class="popup-form__input text-normal-default" id="cardNumber" placeholder="0000 0000 0000 0000">
+        </div>
+    </div>
+    <div class="popup-form__buttons">
+        <button class="button-default popup-form__button popup-form__cancel" id="popup-form__cancel">Отменить</button>
+        <button class="button-default popup-form__button popup-form__apply" id="popup-form__apply">Применить</button>
+    </div>
+</form>
