@@ -5,14 +5,10 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
-module.exports = {
+const config = {
     entry: './public/src/index.js',
     module: {
         rules: [
-            {
-                test: /\.s[ac]ss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
-            },
             {test: /\.(js)$/, use: 'babel-loader'},
             {test: /\.(json)$/, use: 'cson-loader'},
             {test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader'},
@@ -30,11 +26,6 @@ module.exports = {
                 },
             },
         ],
-    },
-    devtool: 'source-map',
-    devServer: {
-        static: './dist',
-        hot: true,
     },
     output: {
         filename: '[name].[contenthash].js',
@@ -108,8 +99,39 @@ module.exports = {
             ignoreOrder: false,
         }),
     ],
-    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    stats: {
-        errorDetails: true,
-    },
+};
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'production' || env.mode === 'production') {
+        config.module.rules.push({
+            test: /\.s[ac]ss$/i,
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+        });
+        config.mode = 'production';
+    } else {
+        config.module.rules.push({
+            test: /\.s[ac]ss$/i,
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        });
+        config.devtool = 'source-map';
+        config.devServer = {
+            hot: true,
+            historyApiFallback: true,
+            static: path.join(__dirname, 'dist'),
+            client: {
+                logging: 'info',
+                overlay: true,
+                progress: true,
+                reconnect: 3,
+            },
+            compress: true,
+            port: 8081,
+        };
+        config.stats = {
+            errorDetails: true,
+        };
+        config.mode = 'development';
+    }
+
+    return config;
 };
