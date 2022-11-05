@@ -9,7 +9,6 @@ const config = {
     entry: './public/src/index.js',
     module: {
         rules: [
-            {test: /\.svg$/, use: 'svg-inline-loader'},
             {test: /\.(js)$/, use: 'babel-loader'},
             {test: /\.(json)$/, use: 'cson-loader'},
             {test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader'},
