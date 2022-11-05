@@ -20,7 +20,7 @@ export default class PaymentCard extends BaseComponent {
      * банковской карты
      * @param {object} event - событие
      */
-     async listenClickAddPaymentCard(event) {
+    async listenClickAddPaymentCard(event) {
         event.preventDefault();
 
         const PopUp = document.getElementById('popUp');
@@ -63,7 +63,8 @@ export default class PaymentCard extends BaseComponent {
         if (addCard) {
             const newPaymentCard = document.getElementById('add-payment-card');
             if (newPaymentCard) {
-                newPaymentCard.addEventListener('click', (event) => this.listenClickAddPaymentCard(event));
+                newPaymentCard.addEventListener('click', (event) => this.listenClickAddPaymentCard(
+                    event));
             } else {
                 console.log('element not found', newPaymentCard);
             }
@@ -83,7 +84,8 @@ export default class PaymentCard extends BaseComponent {
 
         const newPaymentCard = document.getElementById('add-payment-card');
         if (newPaymentCard) {
-            newPaymentCard.removeEventListener('click', (event) => this.listenClickAddPaymentCard(event));
+            newPaymentCard.removeEventListener('click', (event) => this.listenClickAddPaymentCard(
+                event));
         } else {
             console.log('element not found', newPaymentCard);
         }

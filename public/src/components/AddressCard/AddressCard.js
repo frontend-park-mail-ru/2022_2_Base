@@ -19,7 +19,7 @@ export default class AddressCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-     async listenClickDeleteAddress(event) {
+    async listenClickDeleteAddress(event) {
         event.preventDefault();
 
         /*  Вызов метода, для удаления адреса */
