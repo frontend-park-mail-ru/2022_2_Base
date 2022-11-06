@@ -8,8 +8,8 @@ import router from '../../modules/Router.js';
 import './CartPage.scss';
 import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
-import PopUpChooseAddressAndPaymentCard 
-from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
+import PopUpChooseAddressAndPaymentCard
+    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -156,7 +156,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
             editAddress.addEventListener('click', (event) => 
-            this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
+                this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
         } else {
             console.log('element not found', editAddress);
         }
@@ -164,7 +164,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
             editPaymentCard.addEventListener('click', (event) => 
-            this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
+                this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
         } else {
             console.log('element not found', editPaymentCard);
         }
@@ -177,7 +177,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
             editAddress.removeEventListener('click', (event) => 
-            this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
+                this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
         } else {
             console.log('element not found', editAddress);
         }
@@ -185,7 +185,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
             editPaymentCard.removeEventListener('click', (event) => 
-            this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
+                this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
         } else {
             console.log('element not found', editPaymentCard);
         }
