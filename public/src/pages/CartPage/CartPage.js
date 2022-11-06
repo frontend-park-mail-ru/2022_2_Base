@@ -8,7 +8,8 @@ import router from '../../modules/Router.js';
 import './CartPage.scss';
 import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
-import PopUpChooseAddressAndPaymentCard from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
+import PopUpChooseAddressAndPaymentCard 
+from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -105,34 +106,35 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     // },
                 },
             };
-        } else 
-        if (id === 'edit-payment-card') {
-            // Загрузить адреса нужно
-            context = {
-                paymentCard: {
-                    paymentCard1: {
-                        id: 1,
-                        number: '1234567812345678',
-                        code: 910,
-                        month: 5,
-                        year: 24,
+        } else {
+            if (id === 'edit-payment-card') {
+                // Загрузить адреса нужно
+                context = {
+                    paymentCard: {
+                        paymentCard1: {
+                            id: 1,
+                            number: '1234567812345678',
+                            code: 910,
+                            month: 5,
+                            year: 24,
+                        },
+                        paymentCard2: {
+                            id: 2,
+                            number: '1234567812345678',
+                            code: 910,
+                            month: 5,
+                            year: 24,
+                        },
+                        paymentCard3: {
+                            id: 3,
+                            number: '1234567812345678',
+                            code: 910,
+                            month: 5,
+                            year: 24,
+                        },
                     },
-                    paymentCard2: {
-                        id: 2,
-                        number: '1234567812345678',
-                        code: 910,
-                        month: 5,
-                        year: 24,
-                    },
-                    paymentCard3: {
-                        id: 3,
-                        number: '1234567812345678',
-                        code: 910,
-                        month: 5,
-                        year: 24,
-                    },
-                },
-            };
+                };
+            }
         }
 
         const PopUp = document.getElementById('popUp');
@@ -153,14 +155,16 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     startEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.addEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
+            editAddress.addEventListener('click', (event) => 
+            this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.addEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
+            editPaymentCard.addEventListener('click', (event) => 
+            this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
         } else {
             console.log('element not found', editPaymentCard);
         }
@@ -172,14 +176,16 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     removeEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.removeEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
+            editAddress.removeEventListener('click', (event) => 
+            this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.removeEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
+            editPaymentCard.removeEventListener('click', (event) => 
+            this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
         } else {
             console.log('element not found', editPaymentCard);
         }

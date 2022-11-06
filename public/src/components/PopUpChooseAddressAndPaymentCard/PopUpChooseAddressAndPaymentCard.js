@@ -53,11 +53,12 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на выбор новых данных.
+     * @param {number} id - id элемента
      */
-    async listenClickAddress(event, id) {
+    async listenClickAddressAndPaymentCard(id) {
         const chooseAddress = document.getElementById(id);
         if (chooseAddress) {
-            const fields = document.querySelectorAll(".popup-form__input");
+            const fields = document.querySelectorAll('.popup-form__input');
             if (fields) {
                 fields.forEach((key) => {
                     key.style.border = '1px solid #d5d5d5';
@@ -77,12 +78,10 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         const apply = document.getElementById('popup-form__apply');
         apply.addEventListener('click', this.listenClickApply);
 
-        const fields = document.querySelectorAll(".popup-form__input");
+        const fields = document.querySelectorAll('.popup-form__input');
         if (fields) {
             fields.forEach((key) => {
-                key.addEventListener('click', (event) => {
-                    this.listenClickAddress(event, key.getAttribute('id'))
-                })
+                key.addEventListener('click', this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
             });
         }
     }
@@ -97,12 +96,10 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         const apply = document.getElementById('.popup-form__apply');
         apply.removeEventListener('click', this.listenClickApply);
 
-        const fields = document.querySelectorAll(".popup-form__input");
+        const fields = document.querySelectorAll('.popup-form__input');
         if (fields) {
             fields.forEach((key) => {
-                key.removeEventListener('click', (event) => {
-                    this.listenClickAddress(event, key.getAttribute('id'))
-                })
+                key.removeEventListener('click', this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
             });
         }
     }
