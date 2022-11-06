@@ -1,4 +1,4 @@
-import registerPageTemplate from './CartPage.hbs';
+import cartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage.js';
 import CartItem from '../../components/CartItem/CartItem.js';
 import request from '../../modules/ajax.js';
@@ -8,6 +8,7 @@ import router from '../../modules/Router.js';
 import './CartPage.scss';
 import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
+import PopUpChooseAddressAndPaymentCard from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -64,16 +65,124 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     constructor(parent) {
         super(
             parent,
-            registerPageTemplate,
+            cartPageTemplate,
         );
     }
 
     /**
-     * Метод, удаляющий слушатели.
-     * @param {any} context контекст данных для страницы
+     * Функция для передачи в слушателе click на значок редактирования
+     * адреса
+     * @param {object} event - событие
+     * @param {string} id - id элемента
      */
-    removeEventListener(context) {
+    async listenClickEditAddressAndPaymentCard(event, id) {
+        event.preventDefault();
+        let context;
+        if (id === 'edit-address') {
+            // Загрузить банковские карты
+            context = {
+                address: {
+                    address1: {
+                        id: 1,
+                        city: 'Москва',
+                        street: 'Ленина',
+                        house: 5,
+                        flat: 34,
+                    },
+                    address2: {
+                        id: 2,
+                        city: 'Москва',
+                        street: 'Ленина',
+                        house: 5,
+                        flat: 34,
+                    },
+                    // address3: {
+                    //     id: 3,
+                    //     city: 'Москва',
+                    //     street: 'Ленина',
+                    //     house: 5,
+                    //     flat: 34,
+                    // },
+                },
+            };
+        } else 
+        if (id === 'edit-payment-card') {
+            // Загрузить адреса нужно
+            context = {
+                paymentCard: {
+                    paymentCard1: {
+                        id: 1,
+                        number: '1234567812345678',
+                        code: 910,
+                        month: 5,
+                        year: 24,
+                    },
+                    paymentCard2: {
+                        id: 2,
+                        number: '1234567812345678',
+                        code: 910,
+                        month: 5,
+                        year: 24,
+                    },
+                    paymentCard3: {
+                        id: 3,
+                        number: '1234567812345678',
+                        code: 910,
+                        month: 5,
+                        year: 24,
+                    },
+                },
+            };
+        }
 
+        const PopUp = document.getElementById('popUp');
+        const PopUpFade = document.getElementById('popUp-fade');
+        if (PopUp) {
+            PopUp.style.display = 'block';
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'block';
+        }
+        this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+        this.PopUpChooseAddressAndPaymentCard.render(context);
+    }
+
+    /**
+     * Метод, добавляющий слушатели.
+     */
+    startEventListener() {
+        const editAddress = document.getElementById('edit-address');
+        if (editAddress) {
+            editAddress.addEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
+        } else {
+            console.log('element not found', editAddress);
+        }
+
+        const editPaymentCard = document.getElementById('edit-payment-card');
+        if (editPaymentCard) {
+            editPaymentCard.addEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
+        } else {
+            console.log('element not found', editPaymentCard);
+        }
+    }
+
+    /**
+     * Метод, удаляющий слушатели.
+     */
+    removeEventListener() {
+        const editAddress = document.getElementById('edit-address');
+        if (editAddress) {
+            editAddress.removeEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
+        } else {
+            console.log('element not found', editAddress);
+        }
+
+        const editPaymentCard = document.getElementById('edit-payment-card');
+        if (editPaymentCard) {
+            editPaymentCard.removeEventListener('click', (event) => this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
+        } else {
+            console.log('element not found', editPaymentCard);
+        }
     }
 
     /**
@@ -116,5 +225,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         this.CartItem = new CartItem(document.getElementById('checkboxes_cart'));
         this.CartItem.render(this.#item);
+        this.startEventListener();
     }
 }

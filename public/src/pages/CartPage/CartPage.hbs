@@ -1,4 +1,6 @@
 <div class="paint-background"></div>
+<div class="popUp-fade" id="popUp-fade"></div>
+<div class="popUp" id="popUp"></div>
 <div class="content_cart">
     <div class="content_cart__left">
         <div class="items_cart">
@@ -23,7 +25,7 @@
             <div class="items_cart__upper">
                 <span class="text-normal-very-large">Доставка</span>
                 <button class="button-default-no-box" id="button-default_cart__delete">
-                    <span class="items_cart__upper-button">Изменить</span>
+                    <span class="items_cart__upper-button" id="edit-address">Изменить</span>
                 </button>
             </div>
             <div class="address_cart__main text-normal-default">
@@ -68,7 +70,7 @@
             <div class="items_cart__upper">
                 <span class="text-normal-very-large">Способ оплаты</span>
                 <button class="button-default-no-box" id="button-default_cart__delete">
-                    <span class="items_cart__upper-button">Изменить</span>
+                    <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
                 </button>
             </div>
             <div class="payment-method_cart" id="payment-method_cart__info">
@@ -93,7 +95,7 @@
             <div class="items_cart__upper">
                 <span class="text-normal-very-large">Ваши данные</span>
                 <button class="button-default-no-box" id="button-default_cart__delete">
-                    <span class="items_cart__upper-button">Изменить</span>
+                    <a href ="/" class="items_cart__upper-button">Изменить</a>
                 </button>
             </div>
             <div class="user-data_cart__bottom">
