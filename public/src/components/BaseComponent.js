@@ -14,6 +14,12 @@ export default class BaseComponent {
     }
 
     /**
+     * Метод, добавляющий слушатели.
+     */
+    startEventListener() {
+    }
+
+    /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
