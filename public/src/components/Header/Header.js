@@ -1,5 +1,6 @@
-import '../templates.js';
+import headerTemplate from './header.hbs';
 import BaseComponent from '../BaseComponent.js';
+import './header.scss';
 
 /**
  * Класс для реализации компонента Header
@@ -60,7 +61,7 @@ export default class Header extends BaseComponent {
      * @param {Boolean} session контекст отрисовки шаблона, содержащий информацию об авторизации
      */
     render(session) {
-        super.render(this.prepareRenderData(session), 'header.hbs');
+        super.render(this.prepareRenderData(session), headerTemplate);
     }
 
     /**

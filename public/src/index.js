@@ -1,85 +1,32 @@
 'use strict';
-
-import LoginPage from './pages/LoginPage/LoginPage.js';
-import MainPage from './pages/MainPage/MainPage.js';
-import RegisterPage from './pages/RegisterPage/RegisterPage.js';
-import CatalogPage from './pages/CatalogPage/CatalogPage.js';
-
-import Req from './modules/ajax.js';
+import request from './modules/ajax.js';
 import RefreshEl from './modules/refreshElements.js';
+import router from './modules/Router.js';
+import '../index.scss';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
-const request = new Req();
 const refresh = new RefreshEl(document.getElementById('root'));
 refresh.refreshFooter();
-const main = document.getElementById('main');
+
 const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
-
-/**
- * Функция отрисовки страницы регистрации
- * @param {function} PageConstructor конструктор класса страницы
- * @return {object} класс страницы
- */
-const renderPage = (PageConstructor) => {
-    const page = new PageConstructor(main);
-
-    return (context) => {
-        page.render(context);
-        return page;
-    };
-};
 
 const config = {
     header: {
         main: {
-            href: '/main',
-            name: 'Главная',
-            render: renderPage(MainPage),
+            href: '/',
         },
         login: {
             href: '/login',
-            name: 'Авторизация',
-            render: renderPage(LoginPage),
         },
         signup: {
             href: '/signup',
-            name: 'Регистрация',
-            render: renderPage(RegisterPage),
         },
-        catalog: {
-            href: '/catalogPage',
-            name: 'Каталог',
-            render: renderPage(CatalogPage),
+        notFound: {
+            href: '/error404',
         },
-
-    },
-    topcategory: {
-        Smartphone: {
-            nameCategory: 'Телефоны',
-            img: './img/Smartphone.png',
-        },
-        Computer: {
-            nameCategory: 'Компьютеры',
-            img: './img/Computer.png',
-        },
-        Headphones: {
-            nameCategory: 'Наушники',
-            img: './img/Headphones.png',
-        },
-        TV: {
-            nameCategory: 'Телевизоры',
-            img: './img/TV.png',
-        },
-        Watch: {
-            nameCategory: 'Часы',
-            img: './img/Watch.png',
-        },
-        Tablet: {
-            nameCategory: 'Планшеты',
-            img: './img/Tablet.png',
-        },
-        Accessories: {
-            nameCategory: 'Аксессуары',
-            img: './img/Accessories.png',
+        logout: {
+            href: '/logout',
         },
     },
     auth: {
@@ -93,8 +40,9 @@ const config = {
         session: 'api/v1/session',
         products: 'api/v1/products',
     },
-    currentPage: null,
 };
+
+router.start(config);
 
 /**
  * Функция перехода на новую страницу
@@ -112,18 +60,20 @@ const changePage = async (event) => {
     Object.keys(config.header).forEach((page) => {
         if (config.header[page].href === href) {
             event.preventDefault();
-            config.currentPage.removeEventListener(config);
-            config.currentPage = config.header[page].render(config);
+            router.openPage(href, config);
         }
     });
 
-    if (href === '/logout') {
+    if (href === config.header.logout.href) {
         event.preventDefault();
         const [status] = await request.makeDeleteRequest(config.api.logout)
             .catch((err) => console.log(err));
 
         if (status === 200) {
             config.auth.authorised = false;
+            router.register(config.header.login.href, LoginPage);
+            router.register(config.header.signup.href, RegisterPage);
+            router.refresh(config);
             window.dispatchEvent(config.auth.event);
         }
     }
@@ -143,12 +93,16 @@ window.addEventListener('authEvent', onAuthAndLogout);
 const checkSession = async () => {
     const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
 
-    config.auth.authorised = status === 200;
+    if (status === 200) {
+        config.auth.authorised = true;
+        router.remove(config.header.login.href);
+        router.remove(config.header.signup.href);
+    }
     window.dispatchEvent(config.auth.event);
+    router.openPage(document.location.pathname, config);
 };
 
 window.addEventListener('DOMContentLoaded', checkSession, {once: true});
-config.currentPage = config.header.main.render(config);
 
 // Регистрация Service Worker
 const registerServiceWorker = () => {

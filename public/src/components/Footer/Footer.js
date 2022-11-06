@@ -1,5 +1,6 @@
-import '../templates.js';
+import footerTemplate from './footer.hbs';
 import BaseComponent from '../BaseComponent.js';
+import './footer.scss';
 
 /**
  * Класс для реализации компонента Footer
@@ -19,6 +20,6 @@ export default class Header extends BaseComponent {
      * импортированному из templates.js
      */
     render() {
-        super.render(null, 'footer.hbs');
+        super.render(null, footerTemplate);
     }
 }
