@@ -82,7 +82,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         if (fields) {
             fields.forEach((key) => {
                 key.addEventListener('click', 
-                this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
+                    this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
             });
         }
     }
@@ -101,7 +101,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         if (fields) {
             fields.forEach((key) => {
                 key.removeEventListener('click', 
-                this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
+                    this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
             });
         }
     }
