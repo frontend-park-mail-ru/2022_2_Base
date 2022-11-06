@@ -14,6 +14,12 @@ export default class BaseComponent {
     }
 
     /**
+     * Метод, добавляющий слушатели.
+     */
+    startEventListener() {
+    }
+
+    /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
@@ -23,11 +29,11 @@ export default class BaseComponent {
     /**
      * Метод, отрисовывающий компонент.
      * @param {any} context контекст данных для компонента
-     * @param {string} templateName название шаблона
+     * @param {HandlebarsTemplateDelegate} templateName скомпилированный шаблон шаблона
      */
     render(context, templateName) {
         this._parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates[templateName](context));
+            templateName(context));
     }
 
     /**

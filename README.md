@@ -24,4 +24,7 @@ Ozon frontend repository for Base team, autumn of 2022.
 [Link to API](http://89.208.198.137:8080/api/v1/docs/index.html).
 
 ### Deploy
-[Link to deploy](http://89.208.198.137:8081/).
+[Link to deploy](https://www.reazon.ru/).
+
+### UI/UX
+[Figma](https://www.figma.com/file/50tSCBfwThZhBibCyDoQ8J/Base?node-id=884%3A2272).

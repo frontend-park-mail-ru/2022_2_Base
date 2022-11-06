@@ -1,5 +1,6 @@
-import '../templates.js';
+import itemTemplate from './itemCard.hbs';
 import BaseComponent from '../BaseComponent.js';
+import './itemCard.scss';
 
 /**
  * Класс для реализации компонента ItemCard
@@ -19,6 +20,6 @@ export default class ItemCard extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(context, 'itemCard.hbs');
+        super.render(context, itemTemplate);
     }
 }

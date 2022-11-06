@@ -6,15 +6,6 @@
     justify-items: center;
 }
 
-.text-footer-team {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 26px;
-    color: var(--footer_text_grey);
-}
-
 .footer__members {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -29,12 +20,6 @@
 }
 
 .footer__member-name {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 26px;
-    color: var(--footer_text_grey);
     display: flex;
     align-items: center;
     text-align: center;

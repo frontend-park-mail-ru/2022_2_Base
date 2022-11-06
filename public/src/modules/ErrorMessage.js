@@ -63,6 +63,4 @@ class ErrorMessage {
     }
 }
 
-const errorMessage = new ErrorMessage();
-
-export default errorMessage;
+export default new ErrorMessage();

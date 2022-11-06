@@ -1,13 +1,12 @@
 /**
  * Класс, реализующий работу с запросами.
  */
-export default class Req {
-    #baseURL = 'http://89.208.198.137';
-    #port = 8080;
+class Request {
+    #baseURL = 'https://www.reazon.ru';
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
-        'Origin': 'http://89.208.198.137:8081/',
+        'Origin': 'https://www.reazon.ru',
     };
 
     /**
@@ -34,7 +33,7 @@ export default class Req {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}/${url}`, options);
     };
 
     /**
@@ -51,7 +50,7 @@ export default class Req {
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}/${url}`, options);
     };
 
     /**
@@ -66,6 +65,8 @@ export default class Req {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURL}/${url}`, options);
     };
 }
+
+export default new Request();
