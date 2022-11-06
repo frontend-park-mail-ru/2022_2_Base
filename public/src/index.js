@@ -28,9 +28,13 @@ const config = {
         logout: {
             href: '/logout',
         },
+        // temp!!!
+        catalogPage: {
+            href: '/catalogPage',
+        },
     },
     auth: {
-        authorised: false,
+        authorised: true, // !!!
         event: authEvent,
     },
     api: {

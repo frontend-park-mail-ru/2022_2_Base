@@ -1,6 +1,9 @@
-import '../templates.js';
 import BasePage from '../BasePage.js';
 import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
+import './CatalogPage.scss';
+import request from '../../modules/ajax.js';
+import router from '../../modules/Router.js';
+import CatalogPageTemplate from './CatalogPage.hbs';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -15,7 +18,7 @@ export default class CatalogPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['CatalogPage.hbs'],
+            CatalogPageTemplate,
         );
     }
 

@@ -42,7 +42,6 @@
 .input-field-error__text {
     @extend .text-normal-small;
     display: inline-block;
-    font-family: var(--font-main);
 }
 
 .server-error {

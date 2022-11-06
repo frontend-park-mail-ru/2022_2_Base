@@ -1,11 +1,11 @@
-import '../templates.js';
 import BaseComponent from '../BaseComponent.js';
+import catalogItemCardTemplate from './CatalogItemCard.hbs';
+import './CatalogItemCard.scss';
 
 /**
  * Класс для реализации компонента CatalogItemCard
  */
 export default class CatalogItemCard extends BaseComponent {
-    _context;
     /**
      * Конструктор, создающий класс компонента PaymentCard
      * @param {Element} parent HTML-элемент, в который будет
@@ -85,8 +85,7 @@ export default class CatalogItemCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        this._context = context;
-        super.render(context, 'CatalogItemCard.hbs');
+        super.render(context, catalogItemCardTemplate);
         this.startEventListener();
     }
 }
