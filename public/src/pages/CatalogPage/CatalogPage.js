@@ -11,6 +11,7 @@ import CatalogPageTemplate from './CatalogPage.hbs';
 export default class CatalogPage extends BasePage {
     context = {};
     CatalogItemCards = {};
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -26,7 +27,7 @@ export default class CatalogPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карточки товаров
      */
     async loadCatalogItemCards() {
-        const catalogItemCard = {
+        let catalogItemCard1 = {
             itemName: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             exPrice: '26 990 ₽',
             price: '25 990 ₽',
@@ -38,17 +39,56 @@ export default class CatalogPage extends BasePage {
             property3: 'iPadOS',
             propertyName4: 'цвет',
             property4: 'серебристый',
-            id: 'some_ref',
+            id: 'some_ref1',
             favourite: true,
             img: './../../../img/ipad.png',
+            inCart: false,
+            amount: 5,
         };
 
         const CatalogItemCardsInfo = [];
-        CatalogItemCardsInfo.push(catalogItemCard);
-        CatalogItemCardsInfo.push(catalogItemCard);
-        CatalogItemCardsInfo.push(catalogItemCard);
-        CatalogItemCardsInfo.push(catalogItemCard);
+        CatalogItemCardsInfo.push(catalogItemCard1);
 
+        let catalogItemCard2 = {
+            itemName: 'Планшет Apple iPad Pro 11 2021, 128 ГБ, Wi-Fi, серебристый',
+            exPrice: '26 990 ₽',
+            price: '25 990 ₽',
+            propertyName1: 'экран',
+            property1: '10.2" (2160x1620), IPS',
+            propertyName2: 'процессор',
+            property2: 'Apple A13 Bionic',
+            propertyName3: 'версия ОС',
+            property3: 'iPadOS',
+            propertyName4: 'цвет',
+            property4: 'серебристый',
+            id: 'some_ref2',
+            favourite: true,
+            img: './../../../img/ipad.png',
+            inCart: false,
+            amount: 5,
+        };
+
+        CatalogItemCardsInfo.push(catalogItemCard2);
+
+        let catalogItemCard3 = {
+            itemName: 'Планшет Apple iPad Pro 12.9 2021, 128 ГБ, Wi-Fi, серебристый',
+            exPrice: '26 990 ₽',
+            price: '25 990 ₽',
+            propertyName1: 'экран',
+            property1: '10.2" (2160x1620), IPS',
+            propertyName2: 'процессор',
+            property2: 'Apple A13 Bionic',
+            propertyName3: 'версия ОС',
+            property3: 'iPadOS',
+            propertyName4: 'цвет',
+            property4: 'серебристый',
+            id: 'some_ref3',
+            favourite: true,
+            img: './../../../img/ipad.png',
+            inCart: false,
+            amount: 5,
+        };
+        CatalogItemCardsInfo.push(catalogItemCard3);
         await this.renderCards(CatalogItemCardsInfo);
     }
 
@@ -58,7 +98,7 @@ export default class CatalogPage extends BasePage {
      */
     async renderCards(CatalogItemCardsInfo) {
         const CatalogItemCards = [];
-        CatalogItemCardsInfo.forEach(function(catalogItemCard, index, array) {
+        CatalogItemCardsInfo.forEach(function (catalogItemCard, index, array) {
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             Card.render(catalogItemCard);
             CatalogItemCards.push(Card);
@@ -77,7 +117,7 @@ export default class CatalogPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        this.CatalogItemCards.forEach(function(catalogItemCard, index, array) {
+        this.CatalogItemCards.forEach(function (catalogItemCard, index, array) {
             catalogItemCard.removeEventListener();
         });
     }

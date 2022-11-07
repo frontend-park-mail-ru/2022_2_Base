@@ -11,32 +11,39 @@ import './MainPage.scss';
 export default class MainPage extends BasePage {
     #topCategory = {
         Smartphone: {
-            nameCategory: 'Телефоны',
+            nameCategory: 'Смартфоны',
             img: './img/Smartphone.png',
+            href: '/smartphones'
         },
         Computer: {
             nameCategory: 'Компьютеры',
             img: './img/Computer.png',
+            href: '/computers',
         },
         Headphones: {
-            nameCategory: 'Наушники',
-            img: './img/Headphones.png',
+            nameCategory: 'Мониторы',
+            img: './img/Monitors.png',
+            href: '/monitors',
         },
         TV: {
             nameCategory: 'Телевизоры',
             img: './img/TV.png',
+            href: '/televisors',
         },
         Watch: {
             nameCategory: 'Часы',
             img: './img/Watch.png',
+            href: '/watches',
         },
         Tablet: {
             nameCategory: 'Планшеты',
             img: './img/Tablet.png',
+            href: '/tablets',
         },
         Accessories: {
             nameCategory: 'Аксессуары',
             img: './img/Accessories.png',
+            href: '/accessories',
         },
     };
 

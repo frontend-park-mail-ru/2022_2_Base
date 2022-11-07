@@ -1,43 +1,47 @@
 <div class="catalog-item-card">
-    <div class="catalog-item-pic-block">
-        <a href="/item/{{id}}" class="cart-item_cart__img">
-            <img src="{{this.img}}" class="catalog-item-pic" alt="item_photo" id="catalog-item-pic">
+    <div class="catalog-item-card__pic-block">
+        <a href="/item/{{id}}">
+            <img src="{{this.img}}" class="catalog-item-card__pic-block__pic" alt="item_photo" id="catalog-item-pic">
         </a>
     </div>
-    <div class="catalog-item-description-block">
-        <div class="item-description-title" id="item-title">
-            <a href="/item/{{this.id}}" class="item-description-title text-normal-large">
+    <div class="catalog-item-card__description-block">
+        <div class="catalog-item-card__description-block__description-title" id="item-title">
+            <a href="/item/{{this.id}}"
+               class="catalog-item-card__description-block__description-title text-normal-large">
                 {{this.itemName}}
             </a>
         </div>
 
-
-        <div class="properties-block">
-            <div class="rating-block">
-                <img src="./../../../img/star-icon.svg" class="star-icon" alt="star_icon">
-                <div class="text-normal-large rating-num"> {{this.rating}} 5.0</div>
+        <div class="catalog-item-card__properties-block">
+            <div class="catalog-item-card-properties-block__rating-block">
+                <img src="./../../../img/star-icon.svg"
+                     class="catalog-item-card__description-block__properties-block__rating-block__star-icon"
+                     alt="star_icon">
+                <div class="text-normal-large catalog-item-card-properties-block__rating-block__rating-num"> {{this.rating}}
+                    5.0
+                </div>
             </div>
 
-            <div class="text-normal-default property-line">
+            <div class="text-normal-default catalog-item-card__properties-block__property-line">
                 {{#if this.propertyName1}}
                     {{this.propertyName1}}: {{this.property1}}
                 {{/if}}
             </div>
 
-            <div class="text-normal-default property-line">
+            <div class="text-normal-default catalog-item-card__properties-block__property-line">
                 {{#if this.propertyName2}}
                     {{this.propertyName2}}: {{this.property2}}
 
                 {{/if}}
             </div>
 
-            <div class="text-normal-default property-line">
+            <div class="text-normal-default catalog-item-card__properties-block__property-line">
                 {{#if this.propertyName3}}
                     {{this.propertyName3}}: {{this.property3}}
                 {{/if}}
             </div>
 
-            <div class="text-normal-default property-line">
+            <div class="text-normal-default catalog-item-card__properties-block__property-line">
                 {{#if this.propertyName4}}
                     {{this.propertyName4}}: {{this.property4}}
                 {{/if}}
@@ -46,40 +50,36 @@
         </div>
 
     </div>
-    <div class="sale-block">
-        <div class="ex-price-and-like-block">
-            <div class="ex-price text-normal-large-strikethrough "> {{this.exPrice}} </div>
+    <div class="catalog-item-card__sale-block">
+        <div class="catalog-item-card__sale-block__ex-price-and-like-block">
+            <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large-strikethrough "> {{this.exPrice}} </div>
 
-            <div class="like-button disabled" id="like-button">
-                <svg class="like-icon" width="16" height="16" viewBox="0 0 16 16" fill="333333"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.5277 1.3969C14.1328 0.953813 13.664 0.602385 13.148 0.362699C12.632
-                                    0.123012 12.079 -0.000234964 11.5206 3.36287e-07C10.9622 0.000235637 10.4092
-                                    0.123949 9.89344 0.36407C9.37763 0.604191 8.90905 0.956014 8.51447 1.39943L7.99941
-                                    1.98442L7.48864 1.4007L7.48532 1.39697C7.09063 0.954095 6.62207 0.602786 6.10639
-                                    0.363103C5.59071 0.12342 5.03801 5.67646e-05 4.47984 5.67646e-05C3.92167 5.67646e-05
-                                    3.36896 0.12342 2.85328 0.363103C2.3376 0.602786 1.86904 0.954095 1.47435
-                                    1.39697L1.2449 1.65444C0.447804 2.54886 0 3.76195 0 5.02685C0 6.29175 0.447804
-                                    7.50485 1.2449 8.39927L7.30079 15.1945L7.98467 15.9985L8.00098 15.9801L8.01867
-                                    16L8.65942 15.2414L14.7571 8.39915C15.553 7.50402 16 6.2912 16 5.02674C16 3.76229
-                                    15.553 2.54946 14.7571 1.65433L14.5277 1.3969ZM14.0056 7.55607L8.00098
-                                    14.294L1.99622 7.55607C1.3984 6.88525 1.06255 5.97543 1.06255 5.02676C1.06255
-                                    4.07809 1.3984 3.16827 1.99622 2.49745L2.22571 2.23999C2.82324 1.5695 3.63357
-                                    1.19267 4.47861 1.19232C5.32364 1.19196 6.13422 1.56811 6.7322 2.23809L7.99712
-                                    3.6833L9.26805 2.23999C9.56407 1.90783 9.91549 1.64435 10.3022 1.46458C10.689
-                                    1.28482 11.1035 1.1923 11.5222 1.1923C11.9408 1.1923 12.3553 1.28482 12.7421
-                                    1.46458C13.1288 1.64435 13.4803 1.90783 13.7763 2.23999L14.0057 2.49742C14.6026
-                                    3.16879 14.9379 4.07842 14.9378 5.02677C14.9378 5.97512 14.6026 6.88474 14.0056
-                                    7.55607Z"/>
-                </svg>
-            </div>
+            <label class="item_cart__selection">
+                <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
+            </label>
 
         </div>
 
-        <div class="text-normal-very-big catalog-price"> {{this.price}} </div>
+        <div class="text-normal-very-big catalog-item-card__sale-block__catalog-price"> {{this.price}} </div>
 
-        <div class="button-default button-add-to-cart paint-purple" id="button-add-to-cart" property="/item/{{this.id}}">
-            В корзину
+        <div id="block-button-add-to-cart" data-id="{{this.id}}">
+            <div class="button-default catalog-item-card_button-add-to-cart paint-purple"
+                 id="button-add-to-cart/{{this.id}}">
+                В корзину
+            </div>
+            <div class="catalog_amount-selector" id="amount-selector/{{this.id}}">
+                <button class="button-notext" id="button-minus_cart">
+                    <span class="link-no-color text-normal-large">−</span>
+                </button>
+                <div class="catalog_amount-selector__amount">
+            <span class="text-normal-large">
+                {{this.amount}}
+            </span>
+                </div>
+                <button class="button-notext" id="button-plus_cart">
+                    <span class="link-no-color text-normal-large">+</span>
+                </button>
+            </div>
         </div>
 
     </div>

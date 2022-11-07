@@ -42,18 +42,27 @@ export default class CatalogItemCard extends BaseComponent {
      */
     async listenClickAddToCart(event) {
         event.preventDefault();
+        const addToCartButton = document.getElementById(`button-add-to-cart/${this.dataset.id}`);
 
-        const addToCartButton = document.getElementById('button-add-to-cart');
-        if (addToCartButton) {
-            /*  Добавление товара в корзину */
+        const amountSelector = document.getElementById(`amount-selector/${this.dataset.id}`);
+
+        if (!!addToCartButton && !!amountSelector) {
+
+            amountSelector.style.display = 'grid';
+            addToCartButton.style.display = 'none';
+        } else {
+            console.warn("Элементы не найдены: addToCartButton, addToCartButton");
         }
+
+
+        /*  Добавление товара в корзину */
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const addToCartButton = document.getElementById('button-add-to-cart');
+        const addToCartButton = document.getElementById('block-button-add-to-cart');
         if (addToCartButton) {
             addToCartButton.addEventListener('click', this.listenClickAddToCart);
         }
