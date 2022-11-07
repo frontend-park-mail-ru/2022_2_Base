@@ -2,6 +2,7 @@ import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddress from '../PopUpAddAddress/PopUpAddAddress.js';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
+import PaymentCardTemplate from '../PaymentCard/paymentCard.hbs';
 
 /**
  * Класс для реализации компонента Footer
@@ -33,8 +34,8 @@ export default class AddressCard extends BaseComponent {
             flat: 5,
         };
 
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'block';
         }
@@ -53,8 +54,8 @@ export default class AddressCard extends BaseComponent {
     async listenClickAddAddress(event) {
         event.preventDefault();
 
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'block';
         }
@@ -145,7 +146,7 @@ export default class AddressCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, AddressCardTemplate);
-        this.startEventListener(context.addCard);
+        super.render(super.prepareCategory(context), AddressCardTemplate);
+        this.startEventListener(context); // context.addCard
     }
 }

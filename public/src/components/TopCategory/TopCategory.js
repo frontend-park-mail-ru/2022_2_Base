@@ -20,15 +20,6 @@ export default class TopCategory extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(this.prepareRenderData(context), TopCategoryTemplate);
-    }
-
-    /**
-     * Метод, подготавливавающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} значение категории из контекста отрисовки
-     */
-    prepareRenderData(context) {
-        return {category: {...context}};
+        super.render(super.prepareCategory(context), TopCategoryTemplate);
     }
 }

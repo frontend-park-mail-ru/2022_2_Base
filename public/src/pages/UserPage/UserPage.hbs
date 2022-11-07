@@ -5,7 +5,7 @@
     <div class=" global-card_user-page user-card_user-page">
 
         <div>
-            <img src="img/UserPhoto.png" class="user-photo_user-page" id="user-photo_user-page"
+            <img src={{#if userCard.avatar}}{{userCard.avatar}}{{else}}"img/UserPhoto.png"{{/if}} class="user-photo_user-page" id="user-photo_user-page"
                  alt="user photo">
 
             <div class="change-pop-up_user-page change-user-photo_user-page" id="change-user-photo_user-page">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="user-name_user-page text-normal-large-normal" name="Имя" id="name"
-             value="{{userInfo.userCard.name}}"> {{userInfo.userCard.name}}
+            {{#if userCard.name}}value="{{userCard.name}}"> {{userCard.name}}{{else}}value="Нет информации"> Нет информации{{/if}}
             <a href="/edit" class="edit-profile-data">
                 <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
             </a>
@@ -30,7 +30,7 @@
         <div class="user-card_user-page-block">
             <div class="user-card_user-page-block-title text-normal-large-normal"> Почта</div>
             <div class="user-card_user-page-block-data text-normal-large-normal" name="Почта" id="email"
-                 value="{{userInfo.userCard.email}}"> {{userInfo.userCard.email}}
+                {{#if userCard.email}}value="{{userCard.email}}"> {{userCard.email}}{{else}}value="Нет информации"> Нет информации{{/if}}
                 <a href="/edit" class="edit-profile-data">
                     <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
                 </a>
@@ -41,7 +41,8 @@
         <div class="user-card_user-page-block">
             <div class="user-card_user-page-block-title text-normal-large-normal">Телефон</div>
             <div class="user-card_user-page-block-data text-normal-large-normal" name="Телефон" id="phone"
-                 value="{{userInfo.userCard.phone}}"> {{userInfo.userCard.phone}}
+            {{#if userCard.phone}}value={{userCard.phone}}> {{userCard.phone}}{{else}}value="Нет информации"> Нет информации{{/if}}
+
                 <a href="/edit" class="edit-profile-data">
                     <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
                 </a>

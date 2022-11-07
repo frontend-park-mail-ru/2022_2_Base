@@ -37,9 +37,11 @@ export default class BaseComponent {
     }
 
     /**
-     * Метод, подготавливающий к отрисовки компонента.
-     * @param {any} context контекст данных для компонента
+     * Метод, подготавливающий наполнение для формы, исходя из контекста
+     * @param {Object} context контекст отрисовки шаблона
+     * @return {Object} значение категории из контекста отрисовки
      */
     prepareCategory(context) {
+        return {item: {...context}};
     }
 }

@@ -7,6 +7,8 @@ import AddressCard from '../../components/AddressCard/AddressCard.js';
 import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
+import request from '../../modules/ajax';
+import router from '../../modules/Router';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -24,66 +26,47 @@ export default class UserPage extends BasePage {
     }
 
     /**
-     * Функция, подгружающая и отрисовывающая банковские карты пользователя
+     * Функция, подгружающая и отрисовывающая карты пользователя
+     * @param {object} componentEntity - экземпляр класса компонента
+     * @param {string} nameOfCard - название карты
      */
-    async loadPaymentCards() {
+    async loadCards(componentEntity, nameOfCard) {
         const cardCount = 1; // изначально 0
-        /* Тут должен быть запрос и получение количества карт */
 
-        /*
-         * Проверка, нужно ли отрисовывать карточку добавления или максимальное количество карт уже
-         * достигнуто. Если предел не достигнут, отрисовка карточки добавления
-         */
-        if (cardCount < 4) {
-            this.paymentCards = new PaymentCard(
-                document.getElementById('payment-cards-items_user-page'));
-            this.paymentCards.render({
-                addCard: true,
-                id: `paymentCard${String(1)}`,
+        /* make request to server */
+
+        const temp = {};
+        if (nameOfCard === 'paymentCard') {
+            temp.item1 = {
+                priority: true,
+                number: '123456******1234',
+                type: 'MIR',
+                expiryDate: '00/00',
+                addCard: false,
+                id: `paymentCard/${String(1)}`,
                 index: 1,
-            });
+            };
+        } else {
+            temp.item1 = {
+                priority: false,
+                city: 'г. Москва',
+                street: 'улица Бассейная',
+                house: 'д. 228',
+                addCard: false,
+                id: `addressCard${String(1)}`,
+            };
         }
-        this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items_user-page'));
-        this.paymentCard.render({
-            priority: true,
-            number: '123456******1234',
-            type: 'MIR',
-            expiryDate: '00/00',
-            addCard: false,
-            id: `addressCard${String(cardCount + 1)}`,
-            index: cardCount + 1,
-        });
-    }
 
-    /**
-     * Функция, подгружающая и отрисовывающая адреса пользователя
-     */
-    async loadAddressCards() {
-        const cardCount = 1;
-        /* Тут должен быть запрос и получение количества карт */
-
-        /**
-         * Проверка, нужно ли отрисовывать карточку добавления или максимальное количество карт уже
-         * достигнуто. Если предел не достигнут, отрисовка карточки добавления.
-         */
         if (cardCount < 4) {
-            this.addressCard = new AddressCard(document.getElementById('address-cards_user-page-items'));
-            this.addressCard.render({
+            temp.addCard = {
                 addCard: true,
-                id: `addressCard${String(cardCount + 1)}`,
-                index: cardCount + 1,
-            });
+                id: `${nameOfCard}/${String(cardCount)}`,
+            };
         }
-        this.addressCard = new AddressCard(document.getElementById('address-cards_user-page-items'));
-        this.addressCard.render({
-            priority: false,
-            city: 'г. Москва',
-            street: 'улица Бассейная',
-            house: 'д. 228',
-            addCard: false,
-            id: `addressCard${String(1)}`,
-            index: 1,
-        });
+
+        //  [...Array(cardCount)].forEach((it) => {
+        componentEntity.render(temp);
+        //  });
     }
 
     /**
@@ -197,10 +180,46 @@ export default class UserPage extends BasePage {
         this.PopUpEditUserInfo.render(context);
     }
 
+    /*
+        /!**
+         * Функция для передачи в слушатель mouseOver или mouseOut.
+         * @param {string} id элемента для изменения display
+         * @param {string} display - none или grid
+         *!/
+        async listenMouse(id, display) {
+            const PopUp = document.getElementById(id);
+            if (PopUp) {
+                PopUp.style.display = display;
+            }
+        }
+
+            /!**
+             * Функция для передачи в слушатель mouseOver или mouseOut.
+             * @param {string} elementToListen - элемента для передачи в EventListener
+             * @param {string} elementToChange - элемента для изменения display
+             *!/
+            startListen(elementToListen, elementToChange) {
+                const element = document.querySelector(elementToListen);
+                if (element) {
+                    this.Listners.append(this.listenMouse.bind(this, elementToChange, 'grid'));
+                    this.Listners.append(this.listenMouse.bind(this, elementToChange, 'none'));
+                    element.addEventListener('mouseover', this.Listners[this.Listners.length - 2]);
+                    element.addEventListener('mouseout', this.Listners[this.Listners.length - 1]);
+                } else {
+                    console.log('element not found', element);
+                }
+            };*/
+
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
+        /*        this.Listners = [];
+                this.startListen('.user-photo-block', 'change-user-photo');
+                this.startListen('.payment-card-wrapper', '.change-payment-card');
+                this.startListen('.address-card-wrapper', '.change-address-card');
+                this.startListen('.edit-profile-data', 'change-user-photo');*/
+
         const Profile = document.querySelector('.user-photo-block');
         if (Profile) {
             Profile.addEventListener('mouseover', this.listenMouseOverProfile);
@@ -225,6 +244,8 @@ export default class UserPage extends BasePage {
             console.log('element not found', AddressCard);
         }
 
+
+        // FIX!
         const userInfo = document.querySelectorAll('.edit-profile-data');
         if (userInfo) {
             userInfo.forEach((key) => {
@@ -240,6 +261,15 @@ export default class UserPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
+        /*        for (let i = 0; i < this.Listners.length; ++i) {
+                    const Profile = document.querySelector('.user-photo-block');
+                    if (Profile) {
+                        Profile.removeEventListener('mouseover', this.listenMouseOverProfile);
+                        Profile.removeEventListener('mouseout', this.listenMouseOutProfile);
+                    }
+                }*/
+
+
         const Profile = document.querySelector('.user-photo-block');
         if (Profile) {
             Profile.removeEventListener('mouseover', this.listenMouseOverProfile);
@@ -271,16 +301,29 @@ export default class UserPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     async render(config) {
-        config.userInfo.userCard.name = 'Имя Фамилия';
-        config.userInfo.userCard.email = 'email@domain.ru';
-        config.userInfo.userCard.phone = '7 777 777 77 77';
+        const [status, outD] = await request.makeGetRequest(config.api.profile)
+            .catch((err) => console.log(err));
 
-        const context = config.header.user;
-        context.userInfo = config.userInfo;
-        super.render(context);
+        switch (status) {
+        case 200:
+            outD.body;
+            config.userdata = {
+                name: outD.body.username,
+                email: outD.body.email,
+                phone: outD.body.phone,
+                avatar: outD.body.avatar,
+            };
+            break;
+        default:
+            console.log('error', status);
+        }
 
-        await this.loadPaymentCards();
-        await this.loadAddressCards();
+        super.render(config.userdata);
+
+        await this.loadCards(new PaymentCard(
+            document.getElementById('payment-cards-items_user-page')), 'paymentCard');
+        await this.loadCards(new AddressCard(
+            document.getElementById('address-cards_user-page-items')), 'addressCard');
 
         // this.startEventListener();
     }

@@ -40,7 +40,7 @@ const config = {
         },
     },
     auth: {
-        authorised: true, // fix!!!
+        authorised: false, // fix!!!
         event: authEvent,
     },
     api: {
@@ -49,15 +49,7 @@ const config = {
         logout: 'api/v1/logout',
         session: 'api/v1/session',
         products: 'api/v1/products',
-    },
-
-    // fix
-    userInfo: {
-        userCard: {
-            name: 'test',
-            email: 'test',
-            phone: 'test',
-        },
+        profile: '/api/v1/profile',
     },
 };
 
@@ -96,7 +88,6 @@ const changePage = async (event) => {
             window.dispatchEvent(config.auth.event);
         }
     }
-    console.log(href); // fix
 };
 
 window.addEventListener('click', changePage);

@@ -49,23 +49,22 @@ export default class PaymentCard extends BaseComponent {
 
     /**
      * Метод, добавляющий слушатели.
-     * @param {boolean} addCard - контекст для навешивания обработчиков
+     * @param {object} context - контекст для навешивания обработчиков
      */
-    startEventListener(addCard) {
+    startEventListener(context) {
         const paymentCard = document.querySelectorAll('.delete-payment-card');
         if (paymentCard) {
             paymentCard.forEach((key) => {
-                key.addEventListener('click', (event) => this.listenClickDeletePaymentCard(event));
+                key.addEventListener('click', this.listenClickDeletePaymentCard);
             });
         } else {
             console.log('element not found', paymentCard);
         }
 
-        if (addCard) {
+        if (context.addCard) {
             const newPaymentCard = document.getElementById('add-payment-card');
             if (newPaymentCard) {
-                newPaymentCard.addEventListener('click', (event) => this.listenClickAddPaymentCard(
-                    event));
+                newPaymentCard.addEventListener('click', this.listenClickAddPaymentCard);
             } else {
                 console.log('element not found', newPaymentCard);
             }
@@ -79,14 +78,13 @@ export default class PaymentCard extends BaseComponent {
         const paymentCard = document.querySelectorAll('.delete-payment-card');
         if (paymentCard) {
             paymentCard.forEach((key) => {
-                paymentCard.removeEventListener('click', this.listenClickDeletePaymentCard());
+                paymentCard.removeEventListener('click', this.listenClickDeletePaymentCard);
             });
         }
 
         const newPaymentCard = document.getElementById('add-payment-card');
         if (newPaymentCard) {
-            newPaymentCard.removeEventListener('click', (event) => this.listenClickAddPaymentCard(
-                event));
+            newPaymentCard.removeEventListener('click', this.listenClickAddPaymentCard);
         } else {
             console.log('element not found', newPaymentCard);
         }
@@ -98,7 +96,8 @@ export default class PaymentCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, PaymentCardTemplate);
-        this.startEventListener(context.addCard);
+        super.render(super.prepareCategory(context), PaymentCardTemplate);
+        console.log(context);
+        this.startEventListener(context);
     }
 }

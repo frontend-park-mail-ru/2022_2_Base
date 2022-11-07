@@ -63,6 +63,8 @@
     height: 128px;
     width: 128px;
     filter: none;
+    cursor: pointer;
+    border-radius: 50px;
 }
 
 .user-photo_user-page:hover {
@@ -117,6 +119,11 @@
     margin-top: 4px;
 }
 
+.pop-up-button-pic_user-page {
+    height: 16px;
+    width: 16px;
+}
+
 .popUp-fade_user-page {
     left: 0;
 	top: 0;
@@ -146,9 +153,4 @@
     padding: 34px 40px;
     opacity: 1;
     z-index: 99999;
-}
-
-.change-address-card {
-    margin-top: -80px;
-    margin-left: 58px;
 }

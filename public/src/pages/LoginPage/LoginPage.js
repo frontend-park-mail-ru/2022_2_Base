@@ -57,7 +57,7 @@ export default class LoginPage extends BasePage {
     removeEventListener(context) {
         const form = document.getElementById('login-form');
         form.removeEventListener('focusin', this.onFocusinHandler);
-        form.removeEventListener('submit', this.onSubmitHandler);
+        form.removeEventListener('submit', this.onSubmitHandlerRemove);
     }
 
     /**
@@ -146,7 +146,8 @@ export default class LoginPage extends BasePage {
         document.getElementById(this.context.fields.email.name).focus();
 
         form.addEventListener('focusin', this.onFocusinHandler);
-        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
+        this.onSubmitHandlerRemove = this.onSubmitHandler.bind(this, config, form);
+        form.addEventListener('submit', this.onSubmitHandlerRemove);
     }
 
     /**
