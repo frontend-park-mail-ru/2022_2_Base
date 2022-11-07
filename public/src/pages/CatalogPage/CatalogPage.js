@@ -1,8 +1,8 @@
 import BasePage from '../BasePage.js';
 import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
 import './CatalogPage.scss';
-import request from '../../modules/ajax.js';
-import router from '../../modules/Router.js';
+// import request from '../../modules/ajax.js';
+// import router from '../../modules/Router.js';
 import CatalogPageTemplate from './CatalogPage.hbs';
 
 /**
@@ -27,7 +27,7 @@ export default class CatalogPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карточки товаров
      */
     async loadCatalogItemCards() {
-        let catalogItemCard1 = {
+        const catalogItemCard1 = {
             itemName: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             exPrice: '26 990 ₽',
             price: '25 990 ₽',
@@ -49,7 +49,7 @@ export default class CatalogPage extends BasePage {
         const CatalogItemCardsInfo = [];
         CatalogItemCardsInfo.push(catalogItemCard1);
 
-        let catalogItemCard2 = {
+        const catalogItemCard2 = {
             itemName: 'Планшет Apple iPad Pro 11 2021, 128 ГБ, Wi-Fi, серебристый',
             exPrice: '26 990 ₽',
             price: '25 990 ₽',
@@ -70,7 +70,7 @@ export default class CatalogPage extends BasePage {
 
         CatalogItemCardsInfo.push(catalogItemCard2);
 
-        let catalogItemCard3 = {
+        const catalogItemCard3 = {
             itemName: 'Планшет Apple iPad Pro 12.9 2021, 128 ГБ, Wi-Fi, серебристый',
             exPrice: '26 990 ₽',
             price: '25 990 ₽',
@@ -98,7 +98,7 @@ export default class CatalogPage extends BasePage {
      */
     async renderCards(CatalogItemCardsInfo) {
         const CatalogItemCards = [];
-        CatalogItemCardsInfo.forEach(function (catalogItemCard, index, array) {
+        CatalogItemCardsInfo.forEach(function(catalogItemCard, index, array) {
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             Card.render(catalogItemCard);
             CatalogItemCards.push(Card);
@@ -117,7 +117,7 @@ export default class CatalogPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        this.CatalogItemCards.forEach(function (catalogItemCard, index, array) {
+        this.CatalogItemCards.forEach(function(catalogItemCard, index, array) {
             catalogItemCard.removeEventListener();
         });
     }

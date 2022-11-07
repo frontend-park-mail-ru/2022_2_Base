@@ -47,13 +47,11 @@ export default class CatalogItemCard extends BaseComponent {
         const amountSelector = document.getElementById(`amount-selector/${this.dataset.id}`);
 
         if (!!addToCartButton && !!amountSelector) {
-
             amountSelector.style.display = 'grid';
             addToCartButton.style.display = 'none';
         } else {
-            console.warn("Элементы не найдены: addToCartButton, addToCartButton");
+            console.warn('Элементы не найдены: addToCartButton, addToCartButton');
         }
-
 
         /*  Добавление товара в корзину */
     }

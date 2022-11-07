@@ -13,7 +13,7 @@ export default class MainPage extends BasePage {
         Smartphone: {
             nameCategory: 'Смартфоны',
             img: './img/Smartphone.png',
-            href: '/smartphones'
+            href: '/smartphones',
         },
         Computer: {
             nameCategory: 'Компьютеры',
