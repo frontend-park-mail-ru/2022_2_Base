@@ -20,7 +20,7 @@ export default class RegisterPage extends BasePage {
             name: {
                 title: 'Имя',
                 type: 'text',
-                name: 'name',
+                name: 'username',
                 placeholder: 'Введите имя',
                 maxLength: '30',
                 errorID: 'nameError',

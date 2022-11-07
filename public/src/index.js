@@ -49,7 +49,7 @@ const config = {
         logout: 'api/v1/logout',
         session: 'api/v1/session',
         products: 'api/v1/products',
-        profile: '/api/v1/profile',
+        profile: 'api/v1/profile',
     },
 };
 

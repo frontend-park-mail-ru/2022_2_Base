@@ -306,12 +306,11 @@ export default class UserPage extends BasePage {
 
         switch (status) {
         case 200:
-            outD.body;
             config.userdata = {
-                name: outD.body.username,
-                email: outD.body.email,
-                phone: outD.body.phone,
-                avatar: outD.body.avatar,
+                name: outD?.username,
+                email: outD?.email,
+                phone: outD?.phone,
+                avatar: outD?.avatar,
             };
             break;
         default:
