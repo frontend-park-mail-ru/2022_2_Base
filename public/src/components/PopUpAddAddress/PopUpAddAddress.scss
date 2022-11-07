@@ -1,45 +1,43 @@
-@import '../../../index.css';
-
-.popup-form {
+.popup-form_add-address {
     display: grid;
     grid-template-rows: 32px 3fr 1fr;
     grid-gap: 6px;
 }
 
-.popup-form__header {
+.popup-form_add-address__header {
     height: 32px;
     color: var(--jet-black);
 }
 
-.popup-form__fields {
+.popup-form_add-address__fields {
     display: grid;
     grid-template-rows: 1fr 1fr;
 
 }
 
-.popup-form__country-city {
+.popup-form_add-address__country-city {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
 
-.popup-form__street-house {
+.popup-form_add-address__street-house {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
 
-.popup-form__house {
+.popup-form_add-address__house {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
 
-.field-name {
+.field-name_add-address {
     color: var(--secondary-purple);
 }
 
-.popup-form__input {
+.popup-form_add-address__input {
     height: 44px;
     width: 100%;
     padding: 10px 14px 11px;
@@ -49,21 +47,21 @@
     color: var(--jet-black);
 }
 
-.popup-form__buttons {
+.popup-form_add-address__buttons {
     text-align: right;
 }
 
-.popup-form__button {
+.popup-form_add-address__button {
     height: 40px;
     width: 100px;
     /* padding: 8px 24px 10px; */
 }
 
-.popup-form__cancel {
+.popup-form_add-address__cancel {
 
 }
 
-.popup-form__apply {
+.popup-form_add-address__apply {
     background-color: var(--purple_disabled);
     color: var(--pure_white);
 }

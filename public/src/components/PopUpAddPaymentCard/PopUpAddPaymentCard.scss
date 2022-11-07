@@ -1,52 +1,50 @@
-@import '../../../index.css';
-
-.popup-form {
+.popup-form_add-card {
     display: grid;
     grid-template-rows: 32px 3fr 1fr;
     grid-gap: 6px;
 }
 
-.popup-form__header {
+.popup-form_add-card__header {
     height: 32px;
     color: var(--jet-black);
 }
 
-.popup-form__fields {
+.popup-form_add-card__fields {
     display: grid;
     grid-template-rows: 1fr 1fr;
 
 }
 
-.popup-form__date-and-code {
+.popup-form_add-card__date-and-code {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 50px;
 }
 
-.popup-form__date {
+.popup-form_add-card__date {
     display: grid;
     grid-template-columns: 1fr 20px 1fr;
 }
 
-.popup-form__month-year {
+.popup-form_add-card__month-year {
     width: 90%;
 }
 
-.popup-form__code {
+.popup-form_add-card__code {
     width: 45%;
 }
 
-.separation-line-date {
+.separation-line-date_add-card {
     height: 100%;
     text-align: center;
     padding-top: 10px;
 }
 
-.field-name {
+.field-name_add-card {
     color: var(--secondary-purple);
 }
 
-.popup-form__input {
+.popup-form_add-card__input {
     height: 44px;
     width: 100%;
     padding: 10px 14px 11px;
@@ -56,21 +54,21 @@
     color: var(--jet-black);
 }
 
-.popup-form__buttons {
+.popup-form_add-card__buttons {
     text-align: right;
 }
 
-.popup-form__button {
+.popup-form_add-card__button {
     height: 40px;
     width: 100px;
     /* padding: 8px 24px 10px; */
 }
 
-.popup-form__cancel {
+.popup-form_add-card__cancel {
 
 }
 
-.popup-form__apply {
+.popup-form_add-card__apply {
     background-color: var(--purple_disabled);
     color: var(--pure_white);
 }

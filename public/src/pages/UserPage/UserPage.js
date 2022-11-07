@@ -1,4 +1,3 @@
-import '../templates.js';
 import BasePage from '../BasePage.js';
 // import FormComponent from '../../components/Form/Form.js';
 // import Req from '../../modules/ajax.js';
@@ -6,6 +5,8 @@ import BasePage from '../BasePage.js';
 import PaymentCard from '../../components/PaymentCard/PaymentCard.js';
 import AddressCard from '../../components/AddressCard/AddressCard.js';
 import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
+import UserPageTemplate from './UserPage.hbs';
+import './UserPage.scss';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -18,7 +19,7 @@ export default class UserPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            window.Handlebars.templates['UserPage.hbs'],
+            UserPageTemplate,
         );
     }
 
@@ -34,17 +35,16 @@ export default class UserPage extends BasePage {
          * достигнуто. Если предел не достигнут, отрисовка карточки добавления
          */
         if (cardCount < 4) {
-            const paymentCard = {
+            this.paymentCards = new PaymentCard(
+                document.getElementById('payment-cards-items_user-page'));
+            this.paymentCards.render({
                 addCard: true,
                 id: `paymentCard${String(1)}`,
                 index: 1,
-            };
-
-            this.paymentCards = new PaymentCard(document.getElementById('payment-cards-items'));
-            this.paymentCards.render(paymentCard);
+            });
         }
-
-        const paymentCard = {
+        this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items_user-page'));
+        this.paymentCard.render({
             priority: true,
             number: '123456******1234',
             type: 'MIR',
@@ -52,10 +52,7 @@ export default class UserPage extends BasePage {
             addCard: false,
             id: `addressCard${String(cardCount + 1)}`,
             index: cardCount + 1,
-        };
-
-        this.paymentCard = new PaymentCard(document.getElementById('payment-cards-items'));
-        this.paymentCard.render(paymentCard);
+        });
     }
 
     /**
@@ -70,17 +67,15 @@ export default class UserPage extends BasePage {
          * достигнуто. Если предел не достигнут, отрисовка карточки добавления.
          */
         if (cardCount < 4) {
-            const addressCard = {
+            this.addressCard = new AddressCard(document.getElementById('address-cards_user-page-items'));
+            this.addressCard.render({
                 addCard: true,
                 id: `addressCard${String(cardCount + 1)}`,
                 index: cardCount + 1,
-            };
-
-            this.addressCard = new AddressCard(document.getElementById('address-cards-items'));
-            this.addressCard.render(addressCard);
+            });
         }
-
-        const addressCard = {
+        this.addressCard = new AddressCard(document.getElementById('address-cards_user-page-items'));
+        this.addressCard.render({
             priority: false,
             city: 'г. Москва',
             street: 'улица Бассейная',
@@ -88,10 +83,7 @@ export default class UserPage extends BasePage {
             addCard: false,
             id: `addressCard${String(1)}`,
             index: 1,
-        };
-
-        this.addressCard = new AddressCard(document.getElementById('address-cards-items'));
-        this.addressCard.render(addressCard);
+        });
     }
 
     /**
@@ -100,9 +92,6 @@ export default class UserPage extends BasePage {
     async listenMouseOverProfile() {
         const PopUp = document.getElementById('change-user-photo');
         PopUp.style.display = 'grid';
-
-        const Photo = document.getElementById('user-photo');
-        Photo.style.filter = 'blur(4px)';
     }
 
     /**
@@ -111,9 +100,6 @@ export default class UserPage extends BasePage {
     async listenMouseOutProfile() {
         const PopUp = document.querySelector('.change-user-photo');
         PopUp.style.display = 'none';
-
-        const Photo = document.querySelector('.user-photo');
-        Photo.style.filter = 'none';
     }
 
     /**
@@ -123,11 +109,6 @@ export default class UserPage extends BasePage {
         const PopUp = document.querySelector('.change-payment-card');
         if (PopUp) {
             PopUp.style.display = 'grid';
-        }
-
-        const PaymentCard = document.querySelector('.payment-card');
-        if (PaymentCard) {
-            PaymentCard.style.filter = 'blur(4px)';
         }
     }
 
@@ -139,11 +120,6 @@ export default class UserPage extends BasePage {
         if (PopUp) {
             PopUp.style.display = 'none';
         }
-
-        const PaymentCard = document.querySelector('.payment-card');
-        if (PaymentCard) {
-            PaymentCard.style.filter = 'none';
-        }
     }
 
     /**
@@ -154,11 +130,6 @@ export default class UserPage extends BasePage {
         if (PopUp) {
             PopUp.style.display = 'grid';
         }
-
-        const AddressCard = document.querySelector('.address-card');
-        if (AddressCard) {
-            AddressCard.style.filter = 'blur(4px)';
-        }
     }
 
     /**
@@ -168,11 +139,6 @@ export default class UserPage extends BasePage {
         const PopUp = document.querySelector('.change-address-card');
         if (PopUp) {
             PopUp.style.display = 'none';
-        }
-
-        const AddressCard = document.querySelector('.address-card');
-        if (AddressCard) {
-            AddressCard.style.filter = 'none';
         }
     }
 
@@ -305,6 +271,10 @@ export default class UserPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     async render(config) {
+        config.userInfo.userCard.name = 'Имя Фамилия';
+        config.userInfo.userCard.email = 'email@domain.ru';
+        config.userInfo.userCard.phone = '7 777 777 77 77';
+
         const context = config.header.user;
         context.userInfo = config.userInfo;
         super.render(context);
@@ -312,6 +282,6 @@ export default class UserPage extends BasePage {
         await this.loadPaymentCards();
         await this.loadAddressCards();
 
-        this.startEventListener();
+        // this.startEventListener();
     }
 }

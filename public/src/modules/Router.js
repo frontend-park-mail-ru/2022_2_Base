@@ -1,6 +1,7 @@
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import UserPage from '../pages/UserPage/UserPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 
 /**
@@ -79,6 +80,8 @@ class Router {
         this.register(config.header.notFound.href, ErrorPage);
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
+        this.register(config.header.signup.href, RegisterPage);
+        this.register(config.header.user.href, UserPage);
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

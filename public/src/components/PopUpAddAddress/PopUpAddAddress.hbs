@@ -1,49 +1,56 @@
-<link rel="stylesheet" href="./src/components/PopUpAddAddress/PopUpAddAddress.css" type="text/css">
-
-<form method="post" class="popup-form" novalidate>
-    <div class="popup-form__header text-normal-large-normal">
+<form method="post" class="popup-form_add-address" novalidate>
+    <div class="popup-form_add-address__header text-normal-large-normal">
         Добавить адрес
     </div>
-    <div class="popup-form__fields">
-        <div class="popup-form__country-city">
+    <div class="popup-form_add-address__fields">
+        <div class="popup-form_add-address__country-city">
             <div class="popup-form__field">
-                <div class="field-name text-normal-default">
+                <div class="field-name_add-address text-normal-default">
                     Страна
                 </div>
-                <input class="popup-form__input text-normal-default" id="country" {{#if country}} value="{{country}}" {{/if}}>
+                <input class="popup-form_add-address__input text-normal-default" id="country" {{#if country}}
+                       value="{{country}}" {{/if}}>
             </div>
             <div class="popup-form__field">
-                <div class="field-name text-normal-default">
+                <div class="field-name_add-address text-normal-default">
                     Город
                 </div>
-                <input class="popup-form__input text-normal-default" id="city" {{#if city}} value="{{city}}" {{/if}}>
+                <input class="popup-form_add-address__input text-normal-default" id="city" {{#if city}}
+                       value="{{city}}" {{/if}}>
             </div>
         </div>
-        <div class="popup-form__street-house">
+        <div class="popup-form_add-address__street-house">
             <div class="popup-form__field">
-                <div class="field-name text-normal-default">
+                <div class="field-name_add-address text-normal-default">
                     Улица
                 </div>
-                <input class="popup-form__input text-normal-default" id="street" {{#if street}} value="{{street}}" {{/if}}>
+                <input class="popup-form_add-address__input text-normal-default" id="street" {{#if street}}
+                       value="{{street}}" {{/if}}>
             </div>
-            <div class="popup-form__house">
+            <div class="popup-form_add-address__house">
                 <div class="popup-form__field">
-                    <div class="field-name text-normal-default">
+                    <div class="field-name_add-address text-normal-default">
                         Дом
                     </div>
-                    <input class="popup-form__input text-normal-default" id="house" {{#if house}} value="{{house}}" {{/if}}>
+                    <input class="popup-form_add-address__input text-normal-default" id="house" {{#if house}}
+                           value="{{house}}" {{/if}}>
                 </div>
                 <div class="popup-form__field">
-                    <div class="field-name text-normal-default">
+                    <div class="field-name_add-address text-normal-default">
                         Квартира
                     </div>
-                    <input class="popup-form__input text-normal-default" id="flat" {{#if flat}} value="{{flat}}" {{/if}}>
+                    <input class="popup-form_add-address__input text-normal-default" id="flat" {{#if flat}}
+                           value="{{flat}}" {{/if}}>
                 </div>
             </div>
         </div>
     </div>
-    <div class="popup-form__buttons">
-        <button class="button-default popup-form__button popup-form__cancel" id="popup-form__cancel">Отменить</button>
-        <button class="button-default popup-form__button popup-form__apply" id="popup-form__apply">Применить</button>
+    <div class="popup-form_add-address__buttons">
+        <button class="button-default popup-form_add-address__button popup-form_add-address__cancel"
+                id="popup-form_add-address__cancel">Отменить
+        </button>
+        <button class="button-default popup-form_add-address__button popup-form_add-address__apply"
+                id="popup-form_add-address__apply">Применить
+        </button>
     </div>
 </form>

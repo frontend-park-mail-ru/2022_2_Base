@@ -1,6 +1,7 @@
-import '../templates.js';
 import BaseComponent from '../BaseComponent.js';
 import PopUpAddPaymentCard from '../PopUpAddPaymentCard/PopUpAddPaymentCard.js';
+import PaymentCardTemplate from './paymentCard.hbs';
+import './PaymentCard.scss';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -97,7 +98,7 @@ export default class PaymentCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, 'paymentCard.hbs');
+        super.render(context, PaymentCardTemplate);
         this.startEventListener(context.addCard);
     }
 }

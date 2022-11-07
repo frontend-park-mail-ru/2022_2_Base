@@ -1,91 +1,76 @@
-<link rel="stylesheet" href="./src/pages/UserPage/UserPage.css" type="text/css">
+<div class="paint-background"></div>
 
-<div class="page">
-    <header id="header"></header>
+<div class="content_user-page">
 
-    <main class="paint-background">
-        <div class="paint-background"></div>
+    <div class=" global-card_user-page user-card_user-page">
 
-        <div class="content">
+        <div>
+            <img src="img/UserPhoto.png" class="user-photo_user-page" id="user-photo_user-page"
+                 alt="user photo">
 
-            <div class=" global-card user-card">
-
-                <div class="user-photo-block">
-                    <img src="img/UserPhoto.png" class="user-photo" id="user-photo" alt="user photo">
-
-                    <div class="change-pop-up change-user-photo" id="change-user-photo">
-                        <a href="/changeUserPhoto" class="pop-up-button">
-                            <img src="img/editButton.svg" class="pop-up-button-pic">
-                        </a>
-                        <div class="separation-line"></div>
-                        <a href="/deleteUserPhoto" class="pop-up-button">
-                            <img src="img/deleteButton.svg" class="pop-up-button-pic">
-                        </a>
-                    </div>
-
-                </div>
-
-                <div class="user-name text-normal-large-normal" name="Имя" id="name" value="{{userInfo.userCard.name}}"> {{userInfo.userCard.name}}
-                    <a href="/edit" class="edit-profile-data">
-                        <img class="edit-button" src="img/editButton.svg" alt="edit button">
-                    </a>
-                </div>
-
-                <div class="user-card-block">
-                    <div class="user-card-block-title text-normal-large-normal"> Почта</div>
-                    <div class="user-card-block-data text-normal-large-normal" name="Почта" id="email" value="{{userInfo.userCard.email}}"> {{userInfo.userCard.email}}
-                        <a href="/edit" class="edit-profile-data">
-                            <img class="edit-button" src="img/editButton.svg" alt="edit button">
-                        </a>
-                    </div>
-
-                </div>
-
-                <div class="user-card-block">
-                    <div class="user-card-block-title text-normal-large-normal">Телефон</div>
-                    <div class="user-card-block-data text-normal-large-normal" name="Телефон" id="phone" value="{{userInfo.userCard.phone}}"> {{userInfo.userCard.phone}}
-                        <a href="/edit" class="edit-profile-data">
-                            <img class="edit-button" src="img/editButton.svg" alt="edit button">
-                        </a>
-                    </div>
-
-                </div>
-                <div class="user-card-block-password" name="Пароль" id="password">
-                    <a href="/edit" class="link text-normal-large-normal edit-profile-data"> Изменить пароль </a>
-                </div>
-
-
+            <div class="change-pop-up_user-page change-user-photo_user-page" id="change-user-photo_user-page">
+                <a href="/changeUserPhoto" class="pop-up-button_user-page">
+                    <img src="img/editButton.svg" class="pop-up-button_user-page-pic" alt="edit button">
+                </a>
+                <div class="separation-line_user-page"></div>
+                <a href="/deleteUserPhoto" class="pop-up-button_user-page">
+                    <img src="img/deleteButton.svg" class="pop-up-button_user-page-pic" alt="delete button">
+                </a>
             </div>
 
-            <div class="popUp-fade" id="popUp-fade"></div>
-            <div class="popUp" id="popUp"></div>
+        </div>
 
-            <div class="global-card payment-cards">
-                <div class="payment-cards-block">
-                    <div class="card-block-title text-normal-large-normal"> Банковские карты</div>
-                    <div class="payment-cards-items" id="payment-cards-items">
+        <div class="user-name_user-page text-normal-large-normal" name="Имя" id="name"
+             value="{{userInfo.userCard.name}}"> {{userInfo.userCard.name}}
+            <a href="/edit" class="edit-profile-data">
+                <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
+            </a>
+        </div>
 
-
-
-
-                    </div>
-                </div>
+        <div class="user-card_user-page-block">
+            <div class="user-card_user-page-block-title text-normal-large-normal"> Почта</div>
+            <div class="user-card_user-page-block-data text-normal-large-normal" name="Почта" id="email"
+                 value="{{userInfo.userCard.email}}"> {{userInfo.userCard.email}}
+                <a href="/edit" class="edit-profile-data">
+                    <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
+                </a>
             </div>
 
-            <div class="global-card address-cards">
-                <div class="address-cards-block">
-                    <div class="card-block-title text-normal-large-normal"> Адреса доставки</div>
-                    <div class="address-cards-items" id="address-cards-items">
+        </div>
 
-                    </div>
-                </div>
-
+        <div class="user-card_user-page-block">
+            <div class="user-card_user-page-block-title text-normal-large-normal">Телефон</div>
+            <div class="user-card_user-page-block-data text-normal-large-normal" name="Телефон" id="phone"
+                 value="{{userInfo.userCard.phone}}"> {{userInfo.userCard.phone}}
+                <a href="/edit" class="edit-profile-data">
+                    <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
+                </a>
             </div>
+
+        </div>
+        <div class="user-card_user-page-block-password" name="Пароль" id="password">
+            <a href="/edit" class="link text-normal-large-normal edit-profile-data"> Изменить пароль </a>
+        </div>
+
+
+    </div>
+
+    <div class="popUp-fade_user-page" id="popUp-fade_user-page"></div>
+    <div class="popUp_user-page" id="popUp_user-page"></div>
+
+    <div class="global-card_user-page payment-cards-block_user-page">
+        <div class="card-block-title_user-page text-normal-large-normal"> Банковские карты</div>
+        <div class="payment-cards-items_user-page" id="payment-cards-items_user-page">
 
 
         </div>
-    </main>
+    </div>
 
-    <footer id="footer"></footer>
+    <div class="global-card_user-page address-cards_user-page-block">
+        <div class="card-block-title_user-page text-normal-large-normal"> Адреса доставки</div>
+        <div class="address-cards_user-page-items" id="address-cards_user-page-items">
 
+        </div>
+    </div>
 </div>
+

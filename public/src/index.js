@@ -35,9 +35,12 @@ const config = {
         logout: {
             href: '/logout',
         },
+        user: {
+            href: '/user',
+        },
     },
     auth: {
-        authorised: false,
+        authorised: true, // fix!!!
         event: authEvent,
     },
     api: {
@@ -56,18 +59,9 @@ const config = {
             phone: 'test',
         },
     },
-    authorised: false,
-    currentPage: null,
 };
 
-/* fix!!! */
-config.authorised = true;
-config.userInfo.userCard.name = 'Имя Фамилия';
-config.userInfo.userCard.email = 'email@domain.ru';
-config.userInfo.userCard.phone = '7 777 777 77 77';
-
 router.start(config);
-
 
 /**
  * Функция перехода на новую страницу

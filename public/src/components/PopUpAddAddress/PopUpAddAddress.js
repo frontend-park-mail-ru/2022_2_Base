@@ -1,5 +1,6 @@
-import '../templates.js';
 import BaseComponent from '../BaseComponent.js';
+import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
+import './PopUpAddAddress.scss';
 
 /**
  * Класс для реализации компонента Footer
@@ -17,7 +18,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     /**
      * Функция для передачи в слушателе click на отмену изменений данных.
      * @param {object} event - событие
-    */
+     */
     async listenClickCancel(event) {
         event.preventDefault();
 
@@ -75,7 +76,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * @param {object} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, 'PopUpAddAddress.hbs');
+        super.render(context, PopUpAddAddressTemplate);
         this.startEventListener();
     }
 }

@@ -1,13 +1,11 @@
-<link rel="stylesheet" href="./src/components/PaymentCard/PaymentCard.css" type="text/css">
-
 {{#if addCard}}
 
-    <a href="/addPaymentCard" class="payment-card-template add-payment-card" id="add-payment-card">
+    <a href="" class="payment-card-template add-payment-card" id="add-payment-card">
         <div class="card-title text-normal-default"></div>
 
         <div class="card-number text-normal-default">
-            <img class="add-card-pic" src="img/Add_card.svg" alt="Add new card">
-            <div class="text-add-card text-normal-default"> Добавить карту</div>
+            <img class="add-card-pic__payment-card" src="img/Add_card.svg" alt="Add new card">
+            <div class="text-add-card_payment-card text-normal-default"> Добавить карту</div>
 
         </div>
 
@@ -36,8 +34,8 @@
             </div>
 
 
-            <div class="card-date-type">
-                <div class="expiry-date text-normal-default">{{expiryDate}}</div>
+            <div class="card-date-type_payment-card">
+                <div class="expiry-date_payment-card text-normal-default">{{expiryDate}}</div>
 
                 <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">
 

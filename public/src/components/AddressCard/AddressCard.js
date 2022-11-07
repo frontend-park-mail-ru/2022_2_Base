@@ -1,7 +1,7 @@
-import '../templates.js';
 import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddress from '../PopUpAddAddress/PopUpAddAddress.js';
-
+import AddressCardTemplate from './addressCard.hbs';
+import './AddressCard.scss';
 
 /**
  * Класс для реализации компонента Footer
@@ -145,7 +145,7 @@ export default class AddressCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, 'addressCard.hbs');
+        super.render(context, AddressCardTemplate);
         this.startEventListener(context.addCard);
     }
 }
