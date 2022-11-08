@@ -1,21 +1,21 @@
-.popup-form {
+.cart-popup-form {
     display: grid;
     grid-template-rows: 32px 4fr 1fr;
     grid-gap: 6px;
 }
 
-.popup-form__header {
+.cart-popup-form__header {
     height: 32px;
     color: var(--jet-black);
 }
 
-.popup-form__fields {
+.cart-popup-form__fields {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
 }
 
-.popup-form__input {
+.cart-popup-form__input {
     height: 44px;
     width: 100%;
     padding: 10px 14px 11px;
@@ -27,21 +27,21 @@
     outline:none;
 }
 
-.popup-form__buttons {
+.cart-popup-form__buttons {
     text-align: right;
 }
 
-.popup-form__button {
+.cart-popup-form__button {
     height: 40px;
     width: 100px;
     /* padding: 8px 24px 10px; */
 }
 
-.popup-form__cancel {
+.cart-popup-form__cancel {
 
 }
 
-.popup-form__apply {
+.cart-popup-form__apply {
     background-color: var(--purple_disabled);
     color: var(--pure_white);
 }

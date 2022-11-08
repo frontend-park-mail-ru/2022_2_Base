@@ -58,7 +58,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     async listenClickAddressAndPaymentCard(id) {
         const chooseAddress = document.getElementById(id);
         if (chooseAddress) {
-            const fields = document.querySelectorAll('.popup-form__input');
+            const fields = document.querySelectorAll('.cart-popup-form__input');
             if (fields) {
                 fields.forEach((key) => {
                     key.style.border = '1px solid #d5d5d5';
@@ -72,13 +72,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cancel = document.getElementById('popup-form__cancel');
+        const cancel = document.getElementById('cart-popup-form__cancel');
         cancel.addEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('popup-form__apply');
+        const apply = document.getElementById('cart-popup-form__apply');
         apply.addEventListener('click', this.listenClickApply);
 
-        const fields = document.querySelectorAll('.popup-form__input');
+        const fields = document.querySelectorAll('.cart-popup-form__input');
         if (fields) {
             fields.forEach((key) => {
                 const fieldId = key.getAttribute('id');
@@ -91,13 +91,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const cancel = document.getElementById('.popup-form__cancel');
+        const cancel = document.getElementById('.cart-popup-form__cancel');
         cancel.removeEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('.popup-form__apply');
+        const apply = document.getElementById('.cart-popup-form__apply');
         apply.removeEventListener('click', this.listenClickApply);
 
-        const fields = document.querySelectorAll('.popup-form__input');
+        const fields = document.querySelectorAll('.cart-popup-form__input');
         if (fields) {
             fields.forEach((key) => {
                 const fieldId = key.getAttribute('id');

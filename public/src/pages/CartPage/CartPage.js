@@ -46,6 +46,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     };
 
     #data = {
+        addressID: 1,
         address: `Республика , ул. Территория, изъятая из земель подсобного хозяйства Всесоюзного
          центрального совета профессиональных союзов для организации крестьянского хозяйства`,
         deliveryPrice: null,
@@ -150,6 +151,39 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     }
 
     /**
+     * Функция для передачи в слушателе click на значок создания заказа
+     */
+    async listenClickCreateOrder() {
+        const orderData = {
+            itemsCart: {
+
+            },
+        };
+
+        let index = 1;
+        const itemsInCart = document.querySelectorAll('.cart-item_cart');
+        if (itemsInCart) {
+            itemsInCart.forEach((item) => {
+                const itemInCartId = item.querySelector('.cart-item_cart__id').getAttribute('id');
+                const itemInCartAmount = item.querySelector('.amount-product').getAttribute('id');
+                orderData.itemsCart[index] = {
+                    id: itemInCartId,
+                    amount: itemInCartAmount,
+                };
+                index++;
+            })
+        } else {
+            console.log('element not found', itemsInCart);
+        }
+
+        const addressID = document.querySelector('.addressID').getAttribute('id');
+        orderData.addressID = addressID;
+        orderData.dateDelivery = document.getElementById('date-delivery').innerHTML;
+        orderData.timeDelivery = document.getElementById('time-delivery').innerHTML;
+        orderData.paymentCardId = document.querySelector('.card-id').getAttribute('id');
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -165,6 +199,13 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             editPaymentCard.addEventListener('click', this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-payment-card'));
         } else {
             console.log('element not found', editPaymentCard);
+        }
+
+        const createOrder = document.getElementById('summary_cart__create-order-button');
+        if (createOrder) {
+            createOrder.addEventListener('click', this.listenClickCreateOrder);
+        } else {
+            console.log('element not found', createOrder);
         }
     }
 

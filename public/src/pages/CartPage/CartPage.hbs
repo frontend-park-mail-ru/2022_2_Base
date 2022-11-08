@@ -32,7 +32,7 @@
                 <span class="address_cart__title">
                     Адрес
                 </span>
-                <span class="text-normal-default">
+                <span class="text-normal-default addressID" id="{{this.addressID}}">
                     {{this.address}}
                 </span>
                 <span class="address_cart__title">
@@ -139,11 +139,11 @@
                 </div>
                 <div class="summary_cart__delivery-info">
                     <span class="text-normal-default">Дата: </span>
-                    <a href="#delivery-info_cart" class="text-normal-default link">6 / 10 / 2022</a>
+                    <a href="#delivery-info_cart" class="text-normal-default link" id="date-delivery">6 / 10 / 2022</a>
                 </div>
                 <div class="summary_cart__delivery-info">
                     <span class="text-normal-default">Время: </span>
-                    <a href="#delivery-info_cart" class="text-normal-default link">8:00 - 12:00</a>
+                    <a href="#delivery-info_cart" class="text-normal-default link" id="time-delivery">8:00 - 12:00</a>
                 </div>
             </div>
 
@@ -164,7 +164,7 @@
 
                             <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
                                  class="payment-method-provider">
-                            <span class="text-normal-default">{{this.cardNumber}}</span>
+                            <span class="text-normal-default card-id" id="{{this.cardId}}">{{this.cardNumber}}</span>
                             <span class="payment-method_cart__expiry text-normal-default">{{this.cardExpiryDate}}</span>
                         {{else}}
                             <span class="text-normal-default">

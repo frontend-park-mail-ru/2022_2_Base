@@ -1,24 +1,24 @@
-<form method="post" class="popup-form" novalidate>
-    <div class="popup-form__header text-normal-large">
+<form method="post" class="cart-popup-form" novalidate>
+    <div class="cart-popup-form__header text-normal-large">
         {{#if address}} Мои адреса {{else}} Мои карты {{/if}}
     </div>
-    <div class="popup-form__fields">
+    <div class="cart-popup-form__fields">
         {{#if address}}
             {{#each address}}
             <label for="{{this.id}}">
-                <input type="text" class="popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}" readonly="">
+                <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}" readonly="">
             </label>
             {{/each}}
         {{else}}
             {{#each paymentCard}}
                 <label for="{{this.id}}">
-                    <input type="text" class="popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="{{#if this.number}} {{this.number}} {{/if}}    {{#if this.month}} {{this.month}} {{/if}} / {{#if this.year}} {{this.year}} {{/if}}" readonly="">
+                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="{{#if this.number}} {{this.number}} {{/if}}    {{#if this.month}} {{this.month}} {{/if}} / {{#if this.year}} {{this.year}} {{/if}}" readonly="">
                 </label>
             {{/each}}
         {{/if}}
     </div>
-    <div class="popup-form__buttons">
-        <button class="button-default popup-form__button popup-form__cancel" id="popup-form__cancel">Отменить</button>
-        <button class="button-default popup-form__button popup-form__apply" id="popup-form__apply">Применить</button>
+    <div class="cart-popup-form__buttons">
+        <button class="button-default cart-popup-form__button cart-popup-form__cancel" id="cart-popup-form__cancel">Отменить</button>
+        <button class="button-default cart-popup-form__button cart-popup-form__apply" id="cart-popup-form__apply">Применить</button>
     </div>
 </form>
