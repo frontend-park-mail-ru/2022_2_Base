@@ -20,7 +20,8 @@
 .catalog_path-and-sort-block {
   margin-top: 12px;
   display: grid;
-  grid-template-columns: 40fr 64fr 36fr;}
+  grid-template-columns: 40fr 64fr 36fr;
+}
 
 .catalog_filter-block {
   width: 368px;
@@ -54,5 +55,11 @@
 
   justify-content: center;
   justify-items: center;
-justify-self: center;
+  justify-self: center;
+}
+
+.catalog-sort-order-icon {
+  height: 12px;
+  width: 12px;
+  margin-left: 2px;
 }

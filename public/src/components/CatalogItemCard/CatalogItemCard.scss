@@ -61,17 +61,20 @@
 }
 
 .catalog-item-card_button-add-to-cart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 104px;
   height: 40px;
+  }
+
+.button_add-to-card {
+  align-items: center;
+  justify-content: center;
+  display: flex;
   text-decoration: none;
   color: var(--background-white);
   cursor: pointer;
 }
 
-.catalog-item-card_button-add-to-cart:hover {
+.button_add-to-card:hover {
   background-color: var(--hover_purple);
 }
 

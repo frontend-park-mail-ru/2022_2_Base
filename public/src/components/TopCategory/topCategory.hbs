@@ -1,6 +1,8 @@
 {{#each category}}
-    <a class="item-top-cards text-normal-default" href="{{this.href}}">
-        <img src={{this.img}} alt={{this.key}}>
-        <p>{{this.nameCategory}}</p>
+    <a class="item-top-cards text-normal-default" href="{{this.href}}" id="mainpage_top-category"
+       data-href="{{this.href}}">
+        <img src={{this.img}} class="mainpage_top-categor_img" id="mainpage_top-category" data-href="{{this.href}}"
+             alt={{this.key}}>
+        <p id="mainpage_top-category" data-href="{{this.href}}">{{this.nameCategory}} </p>
     </a>
 {{/each}}
