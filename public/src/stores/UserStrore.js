@@ -210,7 +210,7 @@ class UserStore extends BaseStore {
         }).catch((err) => console.log(err));
         this._storage.set(this._storeNames.authResponse, status);
 
-        if (status === 200) {
+        if (status === 201) {
             this._storage.set(this._storeNames.isAuth, true);
         }
     }
@@ -227,7 +227,7 @@ class UserStore extends BaseStore {
         }).catch((err) => console.log(err));
         this._storage.set(this._storeNames.authResponse, status);
 
-        if (status === 200) {
+        if (status === 201) {
             this._storage.set(this._storeNames.isAuth, true);
             console.log('set', this._storage);
         }
