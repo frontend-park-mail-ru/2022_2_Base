@@ -73,10 +73,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     /**
      * Функция для передачи в слушателе click на значок редактирования
      * адреса
-     * @param {object} event - событие
      * @param {string} id - id элемента
+     * @param {object} event - событие
      */
-    async listenClickEditAddressAndPaymentCard(event, id) {
+    async listenClickEditAddressAndPaymentCard(id, event) {
         event.preventDefault();
         let context;
         if (id === 'edit-address') {
@@ -155,16 +155,14 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     startEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.addEventListener('click', (event) =>
-                this.listenClickEditAddressAndPaymentCard(event, 'edit-address'));
+            editAddress.addEventListener('click', this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-address'));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.addEventListener('click', (event) =>
-                this.listenClickEditAddressAndPaymentCard(event, 'edit-payment-card'));
+            editPaymentCard.addEventListener('click', this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-payment-card'));
         } else {
             console.log('element not found', editPaymentCard);
         }
@@ -176,16 +174,14 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     removeEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.removeEventListener('click', (event) =>
-                this.listenClickEditAddressAndPaymentCard(event, editAddress.hasAttribute('id')));
+            editAddress.removeEventListener('click', this.listenClickEditAddressAndPaymentCard(this, editAddress.hasAttribute('id')));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.removeEventListener('click', (event) =>
-                this.listenClickEditAddressAndPaymentCard(event, editPaymentCard.hasAttribute('id')));
+            editPaymentCard.removeEventListener('click', this.listenClickEditAddressAndPaymentCard(this, editPaymentCard.hasAttribute('id')));
         } else {
             console.log('element not found', editPaymentCard);
         }
