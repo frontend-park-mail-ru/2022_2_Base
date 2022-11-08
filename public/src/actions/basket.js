@@ -22,15 +22,6 @@ export const BasketActionTypes = {
  */
 export const BasketAction = {
     /**
-     * Действие: запрос корзины.
-     */
-    getBasket() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.GET_BASKET,
-        });
-    },
-
-    /**
      * Действие: выбрать все товары в корзине.
      */
     selectAllBasket() {
@@ -98,23 +89,6 @@ export const BasketAction = {
     buy() {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.BUY,
-        });
-    },
-
-    /**
-     * Действие: редактировать данные доставки.
-     * @param {String} address - адрес
-     * @param {String} price - стоимость
-     * @param {String} date - дата
-     */
-    saveEditDelivery(address, price, date) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.SAVE_EDIT_DELIVERY,
-            data: {
-                address,
-                price,
-                date,
-            },
         });
     },
 };

@@ -17,6 +17,8 @@ export const ProfileActionTypes = {
     SAVE_ADD_ADDRESS: 'SAVE_ADD_ADDRESS',
     SAVE_EDIT_ADDRESS: 'SAVE_EDIT_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
+    GET_BASKET: 'GET_BASKET',
+    SAVE_EDIT_DELIVERY: 'SAVE_EDIT_DELIVERY',
 };
 
 /**
@@ -110,7 +112,7 @@ export const ProfileAction = {
      */
     deleteCard(id) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.DELETE_CARD,
+            actionName: ProfileActionTypes.DELETE_CARD,
             data: {id},
         });
     },
@@ -173,8 +175,33 @@ export const ProfileAction = {
      */
     deleteAddress(id) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.DELETE_ADDRESS,
+            actionName: ProfileActionTypes.DELETE_ADDRESS,
             data: {id},
+        });
+    },
+    /**
+     * Действие: редактировать данные доставки.
+     * @param {String} address - адрес
+     * @param {String} price - стоимость
+     * @param {String} date - дата
+     */
+    saveEditDelivery(address, price, date) {
+        Dispatcher.dispatch({
+            actionName: ProfileActionTypes.SAVE_EDIT_DELIVERY,
+            data: {
+                address,
+                price,
+                date,
+            },
+        });
+    },
+
+    /**
+     * Действие: запрос корзины.
+     */
+    getBasket() {
+        Dispatcher.dispatch({
+            actionName: ProfileActionTypes.GET_BASKET,
         });
     },
 };

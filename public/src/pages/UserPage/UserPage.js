@@ -36,11 +36,11 @@ export default class UserPage extends BasePage {
             .catch((err) => console.log(err));
 
         switch (status) {
-            case 200:
-                this.loadCards(componentEntity, nameOfCard, apiPath, outD);
-                break;
-            default:
-                console.log('error', status);
+        case 200:
+            this.loadCards(componentEntity, nameOfCard, apiPath, outD);
+            break;
+        default:
+            console.log('error', status);
         }
     }
 
@@ -57,46 +57,46 @@ export default class UserPage extends BasePage {
         const temp = {};
 
         switch (nameOfCard) {
-            case 'userDataCard':
-                super.render({
-                    name: 'name',
-                    email: 'email',
-                    phone: 'phone',
-                    avatar: null,
-                });
-                return;
-            case 'paymentCard':
-                temp.item1 = {
-                    priority: true,
-                    number: '123456******1234',
-                    type: 'MIR',
-                    expiryDate: '00/00',
-                    id: `paymentCard/${String(1)}`,
-                };
-                temp.item2 = {
-                    number: '123456******1234',
-                    type: 'MIR',
-                    expiryDate: '00/00',
-                    id: `paymentCard/${String(2)}`,
-                };
-                break;
-            case 'addressCard':
-                temp.item1 = {
-                    priority: true,
-                    city: 'г. Москва',
-                    street: 'улица Бассейная',
-                    house: 'д. 228',
-                    id: `addressCard/${String(1)}`,
-                };
-                temp.item2 = {
-                    city: 'г. Москва',
-                    street: 'улица Бассейная',
-                    house: 'д. 228',
-                    id: `addressCard/${String(2)}`,
-                };
-                break;
-            default:
-                console.log('unknown command', nameOfCard);
+        case 'userDataCard':
+            super.render({
+                name: 'name',
+                email: 'email',
+                phone: 'phone',
+                avatar: null,
+            });
+            return;
+        case 'paymentCard':
+            temp.item1 = {
+                priority: true,
+                number: '123456******1234',
+                type: 'MIR',
+                expiryDate: '00/00',
+                id: `paymentCard/${String(1)}`,
+            };
+            temp.item2 = {
+                number: '123456******1234',
+                type: 'MIR',
+                expiryDate: '00/00',
+                id: `paymentCard/${String(2)}`,
+            };
+            break;
+        case 'addressCard':
+            temp.item1 = {
+                priority: true,
+                city: 'г. Москва',
+                street: 'улица Бассейная',
+                house: 'д. 228',
+                id: `addressCard/${String(1)}`,
+            };
+            temp.item2 = {
+                city: 'г. Москва',
+                street: 'улица Бассейная',
+                house: 'д. 228',
+                id: `addressCard/${String(2)}`,
+            };
+            break;
+        default:
+            console.log('unknown command', nameOfCard);
         }
         if (cardCount < 4) {
             temp.addCard = {
@@ -195,7 +195,6 @@ export default class UserPage extends BasePage {
             data.title = 'Почту';
         }
         if (context.getAttribute('id') === 'password') {
-
             data.fields.field1.name = 'Новый пароль';
             data.fields.field1.value = context.getAttribute('value');
 

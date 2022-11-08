@@ -1,57 +1,19 @@
 'use strict';
 
-import request from './modules/ajax.js';
-import RefreshEl from './modules/refreshElements.js';
+import refresh from './modules/refreshElements.js';
 import router from './modules/Router.js';
 import '../index.scss';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
+import {userActions, UserActionTypes} from './actions/user.js';
+import {config} from './config.js';
+import userStore from './stores/UserStrore.js';
 
-const refresh = new RefreshEl(document.getElementById('root'));
 refresh.refreshFooter();
-
-const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
+// const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
 
 /**
  * Функция отрисовки страницы пользователя
  * @param {object} context контекст отрисовки страницы
  */
-
-
-const config = {
-    header: {
-        main: {
-            href: '/',
-        },
-        login: {
-            href: '/login',
-        },
-        signup: {
-            href: '/signup',
-        },
-        notFound: {
-            href: '/error404',
-        },
-        logout: {
-            href: '/logout',
-        },
-        user: {
-            href: '/user',
-        },
-    },
-    auth: {
-        authorised: false, // fix!!!
-        event: authEvent,
-    },
-    api: {
-        login: 'api/v1/login',
-        signup: 'api/v1/signup',
-        logout: 'api/v1/logout',
-        session: 'api/v1/session',
-        products: 'api/v1/products',
-        profile: 'api/v1/profile',
-    },
-};
 
 router.start(config);
 
@@ -77,43 +39,30 @@ const changePage = async (event) => {
 
     if (href === config.header.logout.href) {
         event.preventDefault();
-        const [status] = await request.makeDeleteRequest(config.api.logout)
-            .catch((err) => console.log(err));
-
-        if (status === 200) {
-            config.auth.authorised = false;
-            router.register(config.header.login.href, LoginPage);
-            router.register(config.header.signup.href, RegisterPage);
-            router.refresh(config);
-            window.dispatchEvent(config.auth.event);
-        }
+        userActions.logout();
     }
 };
 
 window.addEventListener('click', changePage);
 
-const onAuthAndLogout = async () => {
-    refresh.refreshHeader(config);
-};
-
-window.addEventListener('authEvent', onAuthAndLogout);
-
-/**
- * Функция для получения сессии
- */
-const checkSession = async () => {
-    const [status] = await request.makeGetRequest(config.api.session).catch((err) => console.log(err));
-
-    if (status === 200) {
-        config.auth.authorised = true;
-        router.remove(config.header.login.href);
-        router.remove(config.header.signup.href);
-    }
-    window.dispatchEvent(config.auth.event);
+userStore.addListener(() => {
     router.openPage(document.location.pathname, config);
-};
+    if (userStore.getContext(userStore._storeNames.authResponse) === 200) {
+        refresh.onAuth();
+    } else {
+        refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
+    }
+},
+UserActionTypes.USER_FETCH);
 
-window.addEventListener('DOMContentLoaded', checkSession, {once: true});
+userStore.addListener(() => {
+    if (userStore.getContext(userStore._storeNames.authResponse) === 200) {
+        refresh.onLogOut();
+    }
+},
+UserActionTypes.USER_LOGOUT);
+
+window.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
 
 // Регистрация Service Worker
 const registerServiceWorker = () => {

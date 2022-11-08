@@ -40,7 +40,7 @@ export const ItemCardsAction = {
      * Действие: запрос списка карточек по категориям.
      * @param {String} category - категория
      */
-    getItemCardsByCategory() {
+    getItemCardsByCategory(category) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
             data: {category},
