@@ -36,6 +36,5 @@ export default class BasePage {
      */
     render(data) {
         this.#parent.innerHTML = this.#template(data);
-        console.log(data);
     }
 }

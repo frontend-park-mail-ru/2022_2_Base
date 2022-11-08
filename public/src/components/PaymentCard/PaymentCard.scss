@@ -15,9 +15,9 @@
     cursor: pointer;
 }
 
-.payment-card:hover {
-    filter: blur(1px);
-}
+//.payment-card:hover {
+//    filter: blur(1px);
+//}
 
 .primary-payment-card {
     height: 120px;
@@ -36,11 +36,12 @@
 }
 
 .change-payment-card {
-    display: none;
     margin-top: -80px;
     margin-left: 78px;
     width: 40px;
-    grid-template-columns: 1fr;
+    align-items: center;
+    //grid-template-columns: 1fr;
+    //display:grid;
 }
 
 .payment-card-title {

@@ -2,7 +2,6 @@ import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddress from '../PopUpAddAddress/PopUpAddAddress.js';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
-import PaymentCardTemplate from '../PaymentCard/paymentCard.hbs';
 
 /**
  * Класс для реализации компонента Footer
@@ -63,7 +62,7 @@ export default class AddressCard extends BaseComponent {
             PopUpFade.style.display = 'block';
         }
         this.PopUpAddAddress = new PopUpAddAddress(PopUp);
-        this.PopUpAddAddress.render();
+        this.PopUpAddAddress.render(null);
     }
 
     /**
@@ -81,11 +80,11 @@ export default class AddressCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      * @param {boolean} addCard - контекст для навешивания обработчиков
      */
-    startEventListener(addCard) {
+    startEventListener({addCard}) {
         const deleteAddress = document.querySelectorAll('.delete-address');
         if (deleteAddress) {
             deleteAddress.forEach((key) => {
-                key.addEventListener('click', (event) => this.listenClickDeleteAddress(event));
+                key.addEventListener('click', this.listenClickDeleteAddress);
             });
         } else {
             console.log('element not found', deleteAddress);
@@ -94,7 +93,7 @@ export default class AddressCard extends BaseComponent {
         const editAddress = document.querySelectorAll('.edit-address');
         if (editAddress) {
             editAddress.forEach((key) => {
-                key.addEventListener('click', (event) => this.listenClickEditeAddress(event));
+                key.addEventListener('click', this.listenClickEditeAddress);
             });
         } else {
             console.log('element not found', editAddress);
@@ -103,8 +102,7 @@ export default class AddressCard extends BaseComponent {
         if (addCard) {
             const newAddress = document.getElementById('add-address-card');
             if (newAddress) {
-                newAddress.addEventListener('click', (event) => this.listenClickAddAddress(
-                    event));
+                newAddress.addEventListener('click', this.listenClickAddAddress);
             } else {
                 console.log('element not found', newAddress);
             }
@@ -118,14 +116,14 @@ export default class AddressCard extends BaseComponent {
         const address = document.querySelectorAll('.delete-address');
         if (address) {
             address.forEach((key) => {
-                address.removeEventListener('click', (event) => this.listenClickDeleteAddress(event));
+                address.removeEventListener('click', this.listenClickDeleteAddress);
             });
         }
 
         const editAddress = document.querySelectorAll('.edit-address');
         if (editAddress) {
             editAddress.forEach((key) => {
-                key.removeEventListener('click', (event) => this.listenClickEditeAddress(event));
+                key.removeEventListener('click', this.listenClickEditeAddress);
             });
         } else {
             console.log('element not found', editAddress);
@@ -133,8 +131,7 @@ export default class AddressCard extends BaseComponent {
 
         const newAddress = document.getElementById('add-address-card');
         if (newAddress) {
-            newAddress.addEventListener('click', (event) => this.listenClickAddAddress(
-                event));
+            newAddress.addEventListener('click', this.listenClickAddAddress);
         } else {
             console.log('element not found', newAddress);
         }

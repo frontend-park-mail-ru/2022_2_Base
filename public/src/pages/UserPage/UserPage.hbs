@@ -4,7 +4,7 @@
 
     <div class=" global-card_user-page user-card_user-page">
 
-        <div>
+        <div id="user-photo-block">
             <img src={{#if this.avatar}}{{this.avatar}}{{else}}"img/UserPhoto.png"{{/if}} class="user-photo_user-page" id="user-photo_user-page"
                  alt="user photo">
 
@@ -20,15 +20,18 @@
 
         </div>
 
+        <div class="user-card_user-page-block">
+            <div class="user-card_user-page__block-title text-normal-large-normal"> Имя</div>
         <div class="user-name_user-page text-normal-large-normal" name="Имя" id="name"
             {{#if this.name}}value="{{this.name}}"> {{this.name}}{{else}}value="Нет информации"> Нет информации{{/if}}
             <a href="/edit" class="edit-profile-data">
                 <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
             </a>
         </div>
+        </div>
 
         <div class="user-card_user-page-block">
-            <div class="user-card_user-page-block-title text-normal-large-normal"> Почта</div>
+            <div class="user-card_user-page__block-title text-normal-large-normal"> Почта</div>
             <div class="user-card_user-page-block-data text-normal-large-normal" name="Почта" id="email"
                 {{#if this.email}}value="{{this.email}}"> {{this.email}}{{else}}value="Нет информации"> Нет информации{{/if}}
                 <a href="/edit" class="edit-profile-data">
@@ -39,7 +42,7 @@
         </div>
 
         <div class="user-card_user-page-block">
-            <div class="user-card_user-page-block-title text-normal-large-normal">Телефон</div>
+            <div class="user-card_user-page__block-title text-normal-large-normal">Телефон</div>
             <div class="user-card_user-page-block-data text-normal-large-normal" name="Телефон" id="phone"
             {{#if this.phone}}value={{this.phone}}> {{this.phone}}{{else}}value="Нет информации"> Нет информации{{/if}}
 
@@ -59,7 +62,7 @@
     <div class="popUp-fade_user-page" id="popUp-fade_user-page"></div>
     <div class="popUp_user-page" id="popUp_user-page"></div>
 
-    <div class="global-card_user-page payment-cards-block_user-page">
+    <div class="global-card_user-page payment-cards-block_user-page" id="bank-card_user-page__main">
         <div class="card-block-title_user-page text-normal-large-normal"> Банковские карты</div>
         <div class="payment-cards-items_user-page" id="payment-cards-items_user-page">
 
@@ -67,7 +70,7 @@
         </div>
     </div>
 
-    <div class="global-card_user-page address-cards_user-page-block">
+    <div class="global-card_user-page address-cards_user-page-block" id="address-card_user-page__main">
         <div class="card-block-title_user-page text-normal-large-normal"> Адреса доставки</div>
         <div class="address-cards_user-page-items" id="address-cards_user-page-items">
 

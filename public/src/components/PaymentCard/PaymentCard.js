@@ -24,8 +24,8 @@ export default class PaymentCard extends BaseComponent {
     async listenClickAddPaymentCard(event) {
         event.preventDefault();
 
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'block';
         }
@@ -51,7 +51,7 @@ export default class PaymentCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      * @param {object} context - контекст для навешивания обработчиков
      */
-    startEventListener(context) {
+    startEventListener({addCard}) {
         const paymentCard = document.querySelectorAll('.delete-payment-card');
         if (paymentCard) {
             paymentCard.forEach((key) => {
@@ -61,7 +61,7 @@ export default class PaymentCard extends BaseComponent {
             console.log('element not found', paymentCard);
         }
 
-        if (context.addCard) {
+        if (addCard) {
             const newPaymentCard = document.getElementById('add-payment-card');
             if (newPaymentCard) {
                 newPaymentCard.addEventListener('click', this.listenClickAddPaymentCard);
@@ -97,7 +97,6 @@ export default class PaymentCard extends BaseComponent {
      */
     render(context) {
         super.render(super.prepareCategory(context), PaymentCardTemplate);
-        console.log(context);
         this.startEventListener(context);
     }
 }

@@ -1,21 +1,21 @@
 {{#each item}}
     {{#if this.addCard}}
-        <a id="add-/{{this.id}}" class="address-card-template add-address-card" id="add-address-card">
+        <a class="address-card-template add-address-card" id="add-address-card">
             <div class="text-normal-default"></div>
 
             <div class="text-normal-small">
-                <img class="add-address-card-pic" src="img/Add_card.svg" alt="PLUS">
+                <img class="add-address-card-pic" src="img/Add_card.svg" alt="add address card">
                 <div class="text-add-address-card text-normal-default"> Добавить адрес</div>
             </div>
         </a>
 
     {{else}}
-        <div>
+        <div class="address-card-wrapper" id="wrapper-{{this.id}}">
             <a {{#if this.priority}}
-            class="address-card-template address-card"
+            class="address-card-template address-card primary-address-card"
             {{else}}
             class="address-card-template address-card other-address-card"
-            {{/if}}>
+            {{/if}} >
 
                 <div class="address-card-city text-normal-default">
                     {{this.city}}
@@ -28,13 +28,13 @@
                 <div class="address-card-city text-normal-default"> {{this.house}} </div>
             </a>
 
-            <div class="change-pop-up_user-page change-address-card">
-                <a id="edit-/{{this.id}}" class="pop-up-button_user-page">
-                    <img src="img/editButton.svg" class="pop-up-button-pic_user-page">
+            <div class="change-address-card change-pop-up_user-page" id="change-address-card-{{this.id}}">
+                <a id="edit-{{this.id}}" class="pop-up-button_user-page edit-address">
+                    <img src="img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
                 </a>
                 <div class="separation-line_user-page"></div>
-                <a id="delete-{{this.id}}" class="pop-up-button_user-page">
-                    <img src="img/deleteButton.svg" class="pop-up-button-pic_user-page">
+                <a id="delete-{{this.id}}" class="pop-up-button_user-page delete-address">
+                    <img src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
                 </a>
             </div>
         </div>

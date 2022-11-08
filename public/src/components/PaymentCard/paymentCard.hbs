@@ -13,7 +13,7 @@
         </a>
 
     {{else}}
-        <div>
+        <div class="payment-card-wrapper" id="wrapper-{{this.id}}">
 
             <div {{#if this.priority}}
             class="payment-card payment-card-template primary-payment-card"
@@ -44,11 +44,7 @@
             </div>
 
 
-            <div class="change-pop-up_user-page change-payment-card">
-                {{!-- <a href="/editPaymentCard{{index}}" class="pop-up-button_user-page edit-payment-card">
-                    <img src="img/editButton.svg" class="pop-up-button-pic_user-page">
-                </a> --}}
-                {{!-- <div class="separation-line"></div> --}}
+            <div class="change-payment-card change-pop-up_user-page" id="change-payment-card-{{this.id}}">
                 <a id="delete-{{this.id}}" class="pop-up-button_user-page">
                     <img src="img/deleteButton.svg" class="pop-up-button-pic_user-page" alt="delete button">
                 </a>

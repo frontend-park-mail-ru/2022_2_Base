@@ -26,80 +26,125 @@ export default class UserPage extends BasePage {
     }
 
     /**
+     * Функция, делающая запрос за картами пользователя и загружающая их
+     * @param {object} componentEntity - экземпляр класса компонента
+     * @param {string} nameOfCard - название карты
+     * @param {string} apiPath - путь для запроса к серверу
+     */
+    async getCards(componentEntity, nameOfCard, apiPath) {
+        const [status, outD] = await request.makeGetRequest(apiPath)
+            .catch((err) => console.log(err));
+
+        switch (status) {
+            case 200:
+                this.loadCards(componentEntity, nameOfCard, apiPath, outD);
+                break;
+            default:
+                console.log('error', status);
+        }
+    }
+
+    /**
      * Функция, подгружающая и отрисовывающая карты пользователя
      * @param {object} componentEntity - экземпляр класса компонента
      * @param {string} nameOfCard - название карты
+     * @param {string} apiPath - путь для запроса к серверу
+     * @param {object} data - данные для заполнения карт
      */
-    async loadCards(componentEntity, nameOfCard) {
-        const cardCount = 1; // изначально 0
-
-        /* make request to server */
+    async loadCards(componentEntity, nameOfCard, apiPath, data) {
+        const cardCount = 1; // remove
 
         const temp = {};
-        if (nameOfCard === 'paymentCard') {
-            temp.item1 = {
-                priority: true,
-                number: '123456******1234',
-                type: 'MIR',
-                expiryDate: '00/00',
-                addCard: false,
-                id: `paymentCard/${String(1)}`,
-                index: 1,
-            };
-        } else {
-            temp.item1 = {
-                priority: false,
-                city: 'г. Москва',
-                street: 'улица Бассейная',
-                house: 'д. 228',
-                addCard: false,
-                id: `addressCard${String(1)}`,
-            };
-        }
 
+        switch (nameOfCard) {
+            case 'userDataCard':
+                super.render({
+                    name: 'name',
+                    email: 'email',
+                    phone: 'phone',
+                    avatar: null,
+                });
+                return;
+            case 'paymentCard':
+                temp.item1 = {
+                    priority: true,
+                    number: '123456******1234',
+                    type: 'MIR',
+                    expiryDate: '00/00',
+                    id: `paymentCard/${String(1)}`,
+                };
+                temp.item2 = {
+                    number: '123456******1234',
+                    type: 'MIR',
+                    expiryDate: '00/00',
+                    id: `paymentCard/${String(2)}`,
+                };
+                break;
+            case 'addressCard':
+                temp.item1 = {
+                    priority: true,
+                    city: 'г. Москва',
+                    street: 'улица Бассейная',
+                    house: 'д. 228',
+                    id: `addressCard/${String(1)}`,
+                };
+                temp.item2 = {
+                    city: 'г. Москва',
+                    street: 'улица Бассейная',
+                    house: 'д. 228',
+                    id: `addressCard/${String(2)}`,
+                };
+                break;
+            default:
+                console.log('unknown command', nameOfCard);
+        }
         if (cardCount < 4) {
             temp.addCard = {
                 addCard: true,
                 id: `${nameOfCard}/${String(cardCount)}`,
             };
         }
-
-        //  [...Array(cardCount)].forEach((it) => {
         componentEntity.render(temp);
-        //  });
     }
 
     /**
      * Функция для передачи в слушателе mouseover на фотографии пользователя.
      */
     async listenMouseOverProfile() {
-        const PopUp = document.getElementById('change-user-photo');
-        PopUp.style.display = 'grid';
+        const PopUp = document.getElementById('change-user-photo_user-page');
+        PopUp.style.display = 'flex';
     }
 
     /**
      * Функция для передачи в слушателе mouseout на фотографии пользователя.
      */
     async listenMouseOutProfile() {
-        const PopUp = document.querySelector('.change-user-photo');
+        const PopUp = document.getElementById('change-user-photo_user-page');
         PopUp.style.display = 'none';
     }
 
     /**
      * Функция для передачи в слушателе mouseover на карточке банковской карты.
+     * @param {object} event - событие, вызвавшее обработчик
      */
-    async listenMouseOverPaymentCard() {
-        const PopUp = document.querySelector('.change-payment-card');
+    async listenMouseOverPaymentCard(event) {
+        const {id} = event.target;
+        const PopUp = document
+            .getElementById('change-payment-card' + id.replace('wrapper', ''));
         if (PopUp) {
-            PopUp.style.display = 'grid';
+            PopUp.style.display = 'flex';
         }
     }
 
     /**
      * Функция для передачи в слушателе mouseout на карточке банковской карты.
+     * @param {object} event - событие, вызвавшее обработчик
      */
-    async listenMouseOutPaymentCard() {
-        const PopUp = document.querySelector('.change-payment-card');
+    async listenMouseOutPaymentCard(event) {
+        // const PopUp = document.querySelector('.change-payment-card');
+        const {id} = event.target;
+        const PopUp = document
+            .getElementById('change-payment-card' + id.replace('wrapper', ''));
         if (PopUp) {
             PopUp.style.display = 'none';
         }
@@ -107,19 +152,25 @@ export default class UserPage extends BasePage {
 
     /**
      * Функция для передачи в слушателе mouseover на карточке адреса.
+     * @param {object} event - событие, вызвавшее обработчик
      */
-    async listenMouseOverAddressCard() {
-        const PopUp = document.querySelector('.change-address-card');
+    async listenMouseOverAddressCard(event) {
+        const {id} = event.target;
+        const PopUp = document
+            .getElementById('change-address-card' + id.replace('wrapper', ''));
         if (PopUp) {
-            PopUp.style.display = 'grid';
+            PopUp.style.display = 'flex';
         }
     }
 
     /**
      * Функция для передачи в слушателе mouseout на карточке адреса.
+     // * @param {object} event - событие, вызвавшее обработчик
      */
     async listenMouseOutAddressCard() {
-        const PopUp = document.querySelector('.change-address-card');
+        const {id} = event.target;
+        const PopUp = document
+            .getElementById('change-address-card' + id.replace('wrapper', ''));
         if (PopUp) {
             PopUp.style.display = 'none';
         }
@@ -144,10 +195,7 @@ export default class UserPage extends BasePage {
             data.title = 'Почту';
         }
         if (context.getAttribute('id') === 'password') {
-            // data.fields.field1.name = 'Старый пароль';
-            // data.fields.field1.value = ''
 
-            // data.fields.field2 = {};
             data.fields.field1.name = 'Новый пароль';
             data.fields.field1.value = context.getAttribute('value');
 
@@ -161,15 +209,15 @@ export default class UserPage extends BasePage {
     /**
      * Функция для передачи в слушателе click на значок редактирования
      * данных пользователя
-     * @param {object} event - событие
      * @param {object} element - элемент DOM-дерева
+     * @param {object} event - событие
      */
-    async listenClickUserInfo(event, element) {
+    async listenClickUserInfo(element, event) {
         event.preventDefault();
 
         const context = this.prepareRenderData(element);
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'block';
         }
@@ -220,37 +268,41 @@ export default class UserPage extends BasePage {
                 this.startListen('.address-card-wrapper', '.change-address-card');
                 this.startListen('.edit-profile-data', 'change-user-photo');*/
 
-        const Profile = document.querySelector('.user-photo-block');
+        const Profile = document.getElementById('user-photo-block');
         if (Profile) {
-            Profile.addEventListener('mouseover', this.listenMouseOverProfile);
-            Profile.addEventListener('mouseout', this.listenMouseOutProfile);
+            Profile.addEventListener('mouseenter', this.listenMouseOverProfile);
+            Profile.addEventListener('mouseleave', this.listenMouseOutProfile);
         } else {
             console.log('element not found', Profile);
         }
 
-        const PaymentCard = document.querySelector('.payment-card-wrapper');
+        // const PaymentCards = document.getElementById('bank-card_user-page__main');
+        const PaymentCard = document.querySelectorAll('.payment-card-wrapper');
         if (PaymentCard) {
-            PaymentCard.addEventListener('mouseover', this.listenMouseOverPaymentCard);
-            PaymentCard.addEventListener('mouseout', this.listenMouseOutPaymentCard);
+            PaymentCard.forEach((paymentCard) => {
+                paymentCard.addEventListener('mouseenter', this.listenMouseOverPaymentCard);
+                paymentCard.addEventListener('mouseleave', this.listenMouseOutPaymentCard);
+            });
         } else {
             console.log('element not found', PaymentCard);
         }
 
-        const AddressCard = document.querySelector('.address-card-wrapper');
+        // const AddressCards = document.getElementById('address-card_user-page__main');
+        const AddressCard = document.querySelectorAll('.address-card-wrapper');
         if (AddressCard) {
-            AddressCard.addEventListener('mouseover', this.listenMouseOverAddressCard);
-            AddressCard.addEventListener('mouseout', this.listenMouseOutAddressCard);
+            AddressCard.forEach((addressCard) => {
+                addressCard.addEventListener('mouseenter', this.listenMouseOverAddressCard);
+                addressCard.addEventListener('mouseleave', this.listenMouseOutAddressCard);
+            });
         } else {
             console.log('element not found', AddressCard);
         }
 
-
-        // FIX!
         const userInfo = document.querySelectorAll('.edit-profile-data');
         if (userInfo) {
             userInfo.forEach((key) => {
-                key.addEventListener('click', (event) => this.listenClickUserInfo(
-                    event, key.parentNode));
+                // fix
+                key.addEventListener('click', this.listenClickUserInfo.bind(this, key.parentNode));
             });
         } else {
             console.log('element not found', userInfo);
@@ -270,25 +322,29 @@ export default class UserPage extends BasePage {
                 }*/
 
 
-        const Profile = document.querySelector('.user-photo-block');
+        const Profile = document.getElementById('user-photo-block');
         if (Profile) {
             Profile.removeEventListener('mouseover', this.listenMouseOverProfile);
-            Profile.removeEventListener('mouseout', this.listenMouseOutProfile);
+            Profile.removeEventListener('mouseleave', this.listenMouseOutProfile);
         }
 
-        const PaymentCard = document.querySelector('.payment-card');
+        const PaymentCard = document.querySelectorAll('.payment-card');
         if (PaymentCard) {
-            PaymentCard.removeEventListener('mouseover', this.listenMouseOverPaymentCard);
-            PaymentCard.removeEventListener('mouseout', this.listenMouseOutPaymentCard);
+            PaymentCard.forEach((key) => {
+                PaymentCard.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
+                PaymentCard.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
+            });
         }
 
-        const AddressCard = document.querySelector('.address-card-wrapper');
+        const AddressCard = document.querySelectorAll('.address-card-wrapper');
         if (AddressCard) {
-            AddressCard.removeEventListener('mouseover', this.listenMouseOverAddressCard);
-            AddressCard.removeEventListener('mouseout', this.listenMouseOutAddressCard);
+            AddressCard.forEach((key) => {
+                AddressCard.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
+                AddressCard.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
+            });
         }
 
-        const userInfo = document.querySelectorAll('.edit');
+        const userInfo = document.querySelectorAll('.edit-profile-data');
         if (userInfo) {
             userInfo.forEach((key) => {
                 userInfo.removeEventListener('click', this.listenClickUserInfo);
@@ -301,29 +357,15 @@ export default class UserPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     async render(config) {
-        const [status, outD] = await request.makeGetRequest(config.api.profile)
-            .catch((err) => console.log(err));
-
-        switch (status) {
-        case 200:
-            config.userdata = {
-                name: outD?.username,
-                email: outD?.email,
-                phone: outD?.phone,
-                avatar: outD?.avatar,
-            };
-            break;
-        default:
-            console.log('error', status);
-        }
-
-        super.render(config.userdata);
+        await this.loadCards(null, 'userDataCard', config.api.profile);
 
         await this.loadCards(new PaymentCard(
-            document.getElementById('payment-cards-items_user-page')), 'paymentCard');
+            document.getElementById('payment-cards-items_user-page')),
+        'paymentCard', config.api.profile);
         await this.loadCards(new AddressCard(
-            document.getElementById('address-cards_user-page-items')), 'addressCard');
+            document.getElementById('address-cards_user-page-items')),
+        'addressCard', config.api.profile);
 
-        // this.startEventListener();
+        this.startEventListener();
     }
 }

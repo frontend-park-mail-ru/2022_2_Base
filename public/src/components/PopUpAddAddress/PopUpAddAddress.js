@@ -22,8 +22,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     async listenClickCancel(event) {
         event.preventDefault();
 
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'none';
             PopUp.replaceChildren();
@@ -35,10 +35,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
+     * @param {object} event - событие
      */
-    async listenClickApply() {
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
+    async listenClickApply(event) {
+        event.preventDefault();
+
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
             PopUp.style.display = 'none';
             PopUp.replaceChildren();
@@ -52,10 +55,10 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cancel = document.getElementById('popup-form__cancel');
+        const cancel = document.getElementById('popup-form_add-address__cancel');
         cancel.addEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('popup-form__apply');
+        const apply = document.getElementById('popup-form_add-address__apply');
         apply.addEventListener('click', this.listenClickApply);
     }
 
@@ -63,10 +66,10 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const cancel = document.getElementById('.popup-form__cancel');
+        const cancel = document.getElementById('.popup-form_add-address__cancel');
         cancel.removeEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('.popup-form__apply');
+        const apply = document.getElementById('.popup-form_add-address__apply');
         apply.removeEventListener('click', this.listenClickApply);
     }
 

@@ -8,6 +8,7 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .address-card {
@@ -19,6 +20,7 @@
 }
 
 .change-address-card {
+    width: 84px;
     margin-top: -80px;
     margin-left: 58px;
 }
