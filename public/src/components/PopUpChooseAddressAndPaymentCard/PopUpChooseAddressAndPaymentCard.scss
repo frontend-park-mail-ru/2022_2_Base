@@ -13,7 +13,7 @@
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
-}input {outline:none;}
+}
 
 .popup-form__input {
     height: 44px;
@@ -23,9 +23,9 @@
     border-radius: 8px;
     box-sizing: border-box;
     color: var(--jet-black);
+    cursor: pointer;
+    outline:none;
 }
-
-input {outline:none;}
 
 .popup-form__buttons {
     text-align: right;

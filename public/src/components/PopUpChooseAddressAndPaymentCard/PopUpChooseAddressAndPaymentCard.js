@@ -81,8 +81,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         const fields = document.querySelectorAll('.popup-form__input');
         if (fields) {
             fields.forEach((key) => {
-                key.addEventListener('click',
-                    this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
+                const fieldId = key.getAttribute('id');
+                key.addEventListener('click', this.listenClickAddressAndPaymentCard.bind(null, fieldId));
             });
         }
     }
@@ -100,8 +100,9 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         const fields = document.querySelectorAll('.popup-form__input');
         if (fields) {
             fields.forEach((key) => {
+                const fieldId = key.getAttribute('id');
                 key.removeEventListener('click',
-                    this.listenClickAddressAndPaymentCard(key.getAttribute('id')));
+                    this.listenClickAddressAndPaymentCard.bind(null, fieldId));
             });
         }
     }
