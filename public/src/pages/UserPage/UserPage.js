@@ -330,23 +330,23 @@ export default class UserPage extends BasePage {
         const PaymentCard = document.querySelectorAll('.payment-card');
         if (PaymentCard) {
             PaymentCard.forEach((key) => {
-                PaymentCard.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
-                PaymentCard.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
+                key.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
+                key.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
             });
         }
 
         const AddressCard = document.querySelectorAll('.address-card-wrapper');
         if (AddressCard) {
             AddressCard.forEach((key) => {
-                AddressCard.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
-                AddressCard.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
+                key.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
+                key.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
             });
         }
 
         const userInfo = document.querySelectorAll('.edit-profile-data');
         if (userInfo) {
             userInfo.forEach((key) => {
-                userInfo.removeEventListener('click', this.listenClickUserInfo);
+                key.removeEventListener('click', this.listenClickUserInfo);
             });
         }
     }

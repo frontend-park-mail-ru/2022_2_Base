@@ -202,7 +202,6 @@ class UserStore extends BaseStore {
      * @param {object} data - данные для входа
      */
     async _signup(data) {
-        console.log('val', this.#validate(data));
         const {username, email, password} = data;
         const [status] = await request.makePostRequest(config.api.signup, {
             password,
@@ -221,7 +220,6 @@ class UserStore extends BaseStore {
      * @param {object} data - данные для входа
      */
     async _login(data) {
-        console.log('val', this.#validate(data));
         const {email, password} = data;
         const [status] = await request.makePostRequest(config.api.login, {
             password,
@@ -231,6 +229,7 @@ class UserStore extends BaseStore {
 
         if (status === 200) {
             this._storage.set(this._storeNames.isAuth, true);
+            console.log('set', this._storage);
         }
     }
 

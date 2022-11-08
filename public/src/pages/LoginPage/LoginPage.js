@@ -36,7 +36,6 @@ export default class LoginPage extends BasePage {
         const status = userStore.getContext(userStore._storeNames.authResponse);
         switch (status) {
         case 201:
-            console.log('auth');
             refresh.onAuth();
             router.openPage(config.header.main.href, config); // fix change to prev
             break;
