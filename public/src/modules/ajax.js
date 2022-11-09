@@ -16,6 +16,7 @@ class Request {
      * @return {Promise<Response>} промис запроса
      */
     makeRequest = (url, options) => {
+        console.log(fetch(url, options))
         return fetch(url, options).then((response) => response.ok ?
             response.json().then((data) => [response.status, data]) :
             [response.status, response.body]).catch((error) => [500, error]);
