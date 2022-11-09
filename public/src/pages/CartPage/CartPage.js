@@ -123,195 +123,205 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'edit-address':
-                case 'edit-payment-card':
-                    let context;
-                    let choiseItemId
-                    if (elementId === 'edit-address') {
-                        const choice = document.querySelector('.addressID');
+            case 'edit-address':
+            case 'edit-payment-card':
+                let context, choiseItemId;
+                if (elementId === 'edit-address') {
+                    const choice = document.querySelector('.addressID');
+                    choiseItemId = choice.getAttribute('id');
+
+                    // Загрузить адреса
+                    context = {
+                        address: {
+                            address1: {
+                                id: 1111,
+                                city: 'Москва',
+                                street: 'Мира',
+                                house: 15,
+                                flat: 4,
+                            },
+                            address2: {
+                                id: 222222,
+                                city: 'Москва',
+                                street: 'Ленина',
+                                house: 5,
+                                flat: 34,
+                            },
+                            // address3: {
+                            //     id: 3,
+                            //     city: 'Москва',
+                            //     street: 'Ленина',
+                            //     house: 5,
+                            //     flat: 34,
+                            // },
+                        },
+                    };
+                } else {
+                    if (elementId === 'edit-payment-card') {
+                        const choice = document.querySelector('.payment-method_cart');
                         choiseItemId = choice.getAttribute('id');
 
-                        // Загрузить адреса
+                        // Загрузить банковские карты
                         context = {
-                            address: {
-                                address1: {
-                                    id: 1111,
-                                    city: 'Москва',
-                                    street: 'Мира',
-                                    house: 15,
-                                    flat: 4,
+                            paymentCard: {
+                                paymentCard1: {
+                                    id: 1,
+                                    cardNumber: '8765432143212546',
+                                    code: 910,
+                                    cardExpiryDate: '05 / 24',
                                 },
-                                address2: {
-                                    id: 222222,
-                                    city: 'Москва',
-                                    street: 'Ленина',
-                                    house: 5,
-                                    flat: 34,
+                                paymentCard2: {
+                                    id: 2,
+                                    cardNumber: '1234567812345678',
+                                    code: 910,
+                                    cardExpiryDate: '06 / 23',
                                 },
-                                // address3: {
-                                //     id: 3,
-                                //     city: 'Москва',
-                                //     street: 'Ленина',
-                                //     house: 5,
-                                //     flat: 34,
-                                // },
+                                paymentCard3: {
+                                    id: 3,
+                                    cardNumber: '1694257931658879',
+                                    code: 910,
+                                    cardExpiryDate: '12 / 25',
+                                },
                             },
                         };
+                    }
+                }
+
+                const PopUp = document.getElementById('popUp');
+                const PopUpFade = document.getElementById('popUp-fade');
+                if (PopUp) {
+                    PopUp.style.display = 'block';
+                }
+                if (PopUpFade) {
+                    PopUpFade.style.display = 'block';
+                }
+                this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+                this.PopUpChooseAddressAndPaymentCard.render(context);
+                const chooseAddress = document.getElementById(choiseItemId);
+                if (chooseAddress) {
+                    chooseAddress.style.border = '1px solid #6369D1';
+                    chooseAddress.classList.add('choice');
+                }
+                break;
+            case 'empty-cart':
+                // вызов action для очищения корзины  и перерисовать итого в корзине
+                break;
+            case 'delete-cart-item':
+                // action: удалить элемент из корзины по elementId  и перерисовать итого в корзине
+                break;
+            case 'cart-popup-form__apply':
+                const choice = document.querySelector('.choice');
+                const data = choice.getAttribute('value');
+                const choiseIdWithType = choice.getAttribute('id');
+                let type;
+                let choiceId;
+                if (choiseIdWithType.includes('/')) {
+                    [type, choiceId] = choiseIdWithType.split('/');
+                    if (type === 'address') {
+                        const addressField = document.querySelector('.addressID');
+                        addressField.textContent = data;
+                        addressField.setAttribute('id', `address/${choiceId}`);
                     } else {
-                        if (elementId === 'edit-payment-card') {
-                            const choice = document.querySelector('.payment-method_cart');
-                            choiseItemId = choice.getAttribute('id');
-
-                            // Загрузить банковские карты
-                            context = {
-                                paymentCard: {
-                                    paymentCard1: {
-                                        id: 1,
-                                        cardNumber: '8765432143212546',
-                                        code: 910,
-                                        cardExpiryDate: '05 / 24',
-                                    },
-                                    paymentCard2: {
-                                        id: 2,
-                                        cardNumber: '1234567812345678',
-                                        code: 910,
-                                        cardExpiryDate: '06 / 23',
-                                    },
-                                    paymentCard3: {
-                                        id: 3,
-                                        cardNumber: '1694257931658879',
-                                        code: 910,
-                                        cardExpiryDate: '12 / 25',
-                                    },
-                                },
-                            };
+                        const cardNumber = document.querySelectorAll('.card-number');
+                        if (cardNumber) {
+                            cardNumber.forEach((key) => {
+                                key.textContent = data.split(' ', 1);
+                            });
+                        }
+                        const cardExpiryDate = document.querySelectorAll(
+                            '.payment-method_cart__expiry');
+                        if (cardExpiryDate) {
+                            cardExpiryDate.forEach((key) => {
+                                key.textContent = data.split(' ').slice(1).join(' ').trim();
+                            });
+                        }
+                        const choice = document.querySelectorAll('.payment-method_cart');
+                        if (choice) {
+                            choice.forEach((key) => {
+                                key.setAttribute('id', `paymentCard/${choiceId}`);
+                            });
                         }
                     }
-
-                    const PopUp = document.getElementById('popUp');
-                    const PopUpFade = document.getElementById('popUp-fade');
-                    if (PopUp) {
-                        PopUp.style.display = 'block';
-                    }
-                    if (PopUpFade) {
-                        PopUpFade.style.display = 'block';
-                    }
-                    this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
-                    this.PopUpChooseAddressAndPaymentCard.render(context);
-                    const chooseAddress = document.getElementById(choiseItemId);
-                    if (chooseAddress) {
-                        chooseAddress.style.border = '1px solid #6369D1';
-                        chooseAddress.classList.add('choice');
-                    }
-                    break;
-                case 'empty-cart':
-                    // вызов action для очищения корзины  и перерисовать итого в корзине
-                    break;
-                case 'delete-cart-item':
-                    // action: удалить элемент из корзины по elementId  и перерисовать итого в корзине
-                    break;
-                case 'cart-popup-form__apply':
-                    const choice = document.querySelector('.choice');
-                    const data = choice.getAttribute('value');
-                    const choiseIdWithType = choice.getAttribute('id');
-                    let type, choiceId = '';
-                    if (choiseIdWithType.includes('/')) {
-                        [type, choiceId] = choiseIdWithType.split('/');
-                        if (type === 'address') {
-                            const addressField = document.querySelector('.addressID');
-                            addressField.textContent = data;
-                            addressField.setAttribute('id', `address/${choiceId}`);
-                        } else {
-                            const cardNumber = document.querySelectorAll('.card-number');
-                            if (cardNumber) {
-                                cardNumber.forEach((key) => {
-                                    key.textContent = data.split(' ', 1);
-                                });
-                            }
-                            const cardExpiryDate = document.querySelectorAll('.payment-method_cart__expiry');
-                            if (cardExpiryDate) {
-                                cardExpiryDate.forEach((key) => {
-                                    key.textContent = data.split(' ').slice(1).join(' ').trim();
-                                });
-                            }
-                            const choice = document.querySelectorAll('.payment-method_cart');
-                            if (choice) {
-                                choice.forEach((key) => {
-                                    key.setAttribute('id', `paymentCard/${choiceId}`);
-                                });
-                            }
-                        }
-                    }
-                    const popUp = document.getElementById('popUp');
-                    const popUpFade = document.getElementById('popUp-fade');
-                    if (popUp) {
-                        popUp.style.display = 'none';
-                        popUp.replaceChildren();
-                    }
-                    if (popUpFade) {
-                        popUpFade.style.display = 'none';
-                    }
-                    break;
-                case 'button-minus_cart':
-                    const amountItem = document.getElementById(`amount-product/${itemId}`);
-                    if (amountItem) {
-                        const amount = parseInt(amountItem.textContent);
-                        if (amount === 1) {
-                            // action: удалить элемент из корзины по itemId и перерисовать итого в корзине
-                        } else {
-                            amountItem.textContent = (amount - 1).toString();
-
-                            // Получение стоимости товара со скидкой и без
-                            const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
-                            let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
-                            if (isNaN(salePrice)) {
-                                salePrice = price;
-                            }
-                            // Изменение итоговых сумм
-                            const totalPrice = document.getElementById('total-price');
-                            totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
-                            const productsNumber = document.getElementById('products-number');
-                            productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) - 1).toString() + ' шт.';
-                            const priceWithoutDiscount = document.getElementById('price-without-discount');
-                            priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice)).toString() + ' ₽';
-                            const discount = document.getElementById('discount');
-                            discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount.textContent.replace(/\s/g, '')) - (salePrice - price))).toString() + ' ₽';
-                        }
-                    }
-                    break;
-                case 'button-plus_cart':
-                    const itemAmount = document.getElementById(`amount-product/${itemId}`);
-                    if (itemAmount) {
-                        const amount = parseInt(itemAmount.textContent);
-                        itemAmount.textContent = (amount + 1).toString();
+                }
+                const popUp = document.getElementById('popUp');
+                const popUpFade = document.getElementById('popUp-fade');
+                if (popUp) {
+                    popUp.style.display = 'none';
+                    popUp.replaceChildren();
+                }
+                if (popUpFade) {
+                    popUpFade.style.display = 'none';
+                }
+                break;
+            case 'button-minus_cart':
+                const amountItem = document.getElementById(`amount-product/${itemId}`);
+                if (amountItem) {
+                    const amount = parseInt(amountItem.textContent);
+                    if (amount === 1) {
+                        /* action: удалить элемент из корзины по itemId и перерисовать итого 
+                        в корзине */
+                    } else {
+                        amountItem.textContent = (amount - 1).toString();
 
                         // Получение стоимости товара со скидкой и без
-                        const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
-                        let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
+                        const price = parseInt(document.getElementById(`price/${itemId}`).textContent
+                            .replace(/\s/g, ''));
+                        let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`)
+                            .textContent.replace(/\s/g, ''));
                         if (isNaN(salePrice)) {
                             salePrice = price;
                         }
                         // Изменение итоговых сумм
                         const totalPrice = document.getElementById('total-price');
-                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent.replace(/\s/g, '')) + price)).toString() + ' ₽';
+                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice
+                            .textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
                         const productsNumber = document.getElementById('products-number');
-                        productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) + 1).toString() + ' шт.';
+                        productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
+                            .split(' ', 2)[1]) - 1).toString() + ' шт.';
                         const priceWithoutDiscount = document.getElementById('price-without-discount');
-                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
+                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
+                            priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice)).toString() + ' ₽';
                         const discount = document.getElementById('discount');
-                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount.textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
-
+                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
+                            discount.textContent.replace(/\s/g, '')) - (salePrice - price))).toString() + ' ₽';
                     }
-                    break;
-                case 'address_cart__date':
-                    const selectOpt = document.querySelectorAll('.select-opt');
-                    selectOpt.forEach((opt) => {
+                }
+                break;
+            case 'button-plus_cart':
+                const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                if (itemAmount) {
+                    const amount = parseInt(itemAmount.textContent);
+                    itemAmount.textContent = (amount + 1).toString();
 
-                    });
-                    break;
-                default:
-                    console.log(elementId)
+                    // Получение стоимости товара со скидкой и без
+                    const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
+                    let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
+                    if (isNaN(salePrice)) {
+                        salePrice = price;
+                    }
+                    // Изменение итоговых сумм
+                    const totalPrice = document.getElementById('total-price');
+                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent
+                        .replace(/\s/g, '')) + price)).toString() + ' ₽';
+                    const productsNumber = document.getElementById('products-number');
+                    productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) + 1)
+                        .toString() + ' шт.';
+                    const priceWithoutDiscount = document.getElementById('price-without-discount');
+                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount
+                        .textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
+                    const discount = document.getElementById('discount');
+                    discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount
+                        .textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
 
+                }
+                break;
+            case 'address_cart__date':
+                const selectOpt = document.querySelectorAll('.select-opt');
+                selectOpt.forEach((opt) => {
+                });
+                break;
+            default:
+                console.log(elementId);
             }
         }
     }
