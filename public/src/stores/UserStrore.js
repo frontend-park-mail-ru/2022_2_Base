@@ -372,7 +372,7 @@ class UserStore extends BaseStore {
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAva(config.api.uploadAvatar, avatar)
             .catch((err) => console.log(err));
-
+        
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200) {
             this._storage.set(this._storeNames.avatar,

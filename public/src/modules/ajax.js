@@ -61,9 +61,8 @@ class Request {
      */
      makePostRequestSendAva = async (url, data) => {
         const headers = this.#headers;
-        headers['Content-Type'] = "multipart/form-data";
-        let formData = new FormData();  
-        formData.append("file", data);
+        headers['Content-Type'] = 'multipart/form-data';
+        let formData = new FormData(data); 
         const options = {
             method: 'post',
             mode: 'cors',
