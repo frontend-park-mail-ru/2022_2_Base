@@ -54,6 +54,25 @@ class Request {
     };
 
     /**
+     * Метод, реализующий запрос POST.
+     * @param {string} url - путь URL
+     * @param {object} data - полезная нагрузка запроса
+     * @return {Promise<Response>} промис запроса
+     */
+     makePostRequestSendAva = async (url, data) => {
+        const headers = this.#headers;
+        headers['Content-Type'] = "multipart/form-data"
+        const options = {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'include',
+            headers: headers,
+            body: data,
+        };
+        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+    };
+
+    /**
      * Метод, реализующий запрос DELETE
      * @param {string} url - путь URL
      * @return {Promise<Response>} промис запроса

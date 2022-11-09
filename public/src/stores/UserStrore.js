@@ -370,7 +370,7 @@ class UserStore extends BaseStore {
      * @param {Blob} avatar
      */
     async _uploadAvatar(avatar) {
-        const [status] = await request.makePostRequest(config.api.uploadAvatar, avatar)
+        const [status] = await request.makePostRequestSendAva(config.api.uploadAvatar, avatar)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
@@ -444,17 +444,16 @@ class UserStore extends BaseStore {
      * @param {object} data - данные для обработки
      */
     async _saveAddAddress(data) {
-        // ???
-        const [status] = await request.makePostRequest(config.api.profile, data)
+        const addresses = this._storage.get(this._storeNames.address);
+        data.id = `addressCard/${String(Object.keys(addresses).length)}`;
+        Object.values(addresses).forEach((item) => item.priority = false);
+        data.priority = true;
+        addresses[`${Object.keys(addresses).length}`] = data;
+        const [status] = await request.makePostRequest(config.api.profile, addresses)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200) {
-            const addresses = this._storage.get(this._storeNames.address);
-            data.id = `addressCard/${String(Object.keys(addresses).length)}`;
-            Object.values(addresses).forEach((item) => item.priority = false);
-            data.priority = true;
-            addresses[`${Object.keys(addresses).length}`] = data;
             this._storage.set(this._storeNames.address, addresses);
         } else {
             console.log('error', status);
