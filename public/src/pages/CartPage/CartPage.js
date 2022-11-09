@@ -23,8 +23,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             img: './img/Smartphone.png',
             vendor: 'OOO-iPhones-RUS',
             favourite: true,
-            amount: 55,
-            price: 123,
+            amount: 1,
+            price: 100000,
             salePrice: null,
             id: 1,
             vendorID: 1,
@@ -36,9 +36,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             img: './img/Smartphone.png',
             vendor: 'OOO-iPhones-RUS',
             favourite: true,
-            amount: 55,
-            price: 2000,
-            salePrice: 1001,
+            amount: 2,
+            price: 100000,
+            salePrice: 80000,
             checked: true,
             id: '12asdaf231231',
             vendorID: '282374asdas823',
@@ -222,12 +222,24 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                             addressField.textContent = data;
                             addressField.setAttribute('id', `address/${choiceId}`);
                         } else {
-                            const cardNumber = document.getElementById('cardNumber');
-                            const cardExpiryDate = document.getElementById('cardExpiryDate');
-                            cardNumber.textContent = data.split(' ', 1);
-                            cardExpiryDate.textContent = data.split(' ').slice(1).join(' ').trim();
-                            const choice = document.querySelector('.payment-method_cart');
-                            choice.setAttribute('id', `paymentCard/${choiceId}`);
+                            const cardNumber = document.querySelectorAll('.card-number');
+                            if (cardNumber) {
+                                cardNumber.forEach((key) => {
+                                    key.textContent = data.split(' ', 1);
+                                });
+                            }
+                            const cardExpiryDate = document.querySelectorAll('.payment-method_cart__expiry');
+                            if (cardExpiryDate) {
+                                cardExpiryDate.forEach((key) => {
+                                    key.textContent = data.split(' ').slice(1).join(' ').trim();
+                                });
+                            }
+                            const choice = document.querySelectorAll('.payment-method_cart');
+                            if (choice) {
+                                choice.forEach((key) => {
+                                    key.setAttribute('id', `paymentCard/${choiceId}`);
+                                });
+                            }
                         }
                     }
                     const popUp = document.getElementById('popUp');
@@ -248,6 +260,22 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                             // action: удалить элемент из корзины по itemId и перерисовать итого в корзине
                         } else {
                             amountItem.textContent = (amount - 1).toString();
+
+                            // Получение стоимости товара со скидкой и без
+                            const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
+                            let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
+                            if (isNaN(salePrice)) {
+                                salePrice = price;
+                            }
+                            // Изменение итоговых сумм
+                            const totalPrice = document.getElementById('total-price');
+                            totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
+                            const productsNumber = document.getElementById('products-number');
+                            productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) - 1).toString() + ' шт.';
+                            const priceWithoutDiscount = document.getElementById('price-without-discount');
+                            priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice)).toString() + ' ₽';
+                            const discount = document.getElementById('discount');
+                            discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount.textContent.replace(/\s/g, '')) - (salePrice - price))).toString() + ' ₽';
                         }
                     }
                     break;
@@ -256,7 +284,30 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     if (itemAmount) {
                         const amount = parseInt(itemAmount.textContent);
                         itemAmount.textContent = (amount + 1).toString();
+
+                        // Получение стоимости товара со скидкой и без
+                        const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
+                        let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
+                        if (isNaN(salePrice)) {
+                            salePrice = price;
+                        }
+                        // Изменение итоговых сумм
+                        const totalPrice = document.getElementById('total-price');
+                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent.replace(/\s/g, '')) + price)).toString() + ' ₽';
+                        const productsNumber = document.getElementById('products-number');
+                        productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) + 1).toString() + ' шт.';
+                        const priceWithoutDiscount = document.getElementById('price-without-discount');
+                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
+                        const discount = document.getElementById('discount');
+                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount.textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
+
                     }
+                    break;
+                case 'address_cart__date':
+                    const selectOpt = document.querySelectorAll('.select-opt');
+                    selectOpt.forEach((opt) => {
+
+                    });
                     break;
                 default:
                     console.log(elementId)
@@ -325,13 +376,13 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
             Object.keys(this.#item).reduce((sumVal, key, it) => {
                 // sumPrice
-                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price);
+                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price) * this.#item[key].amount;
                 // noSalePrice
-                sumVal[1] += this.#item[key].price;
+                sumVal[1] += this.#item[key].price * this.#item[key].amount;
                 // priceDiff
                 sumVal[2] = sumVal[1] - sumVal[0];
                 // amount
-                sumVal[3] = it + 1;
+                sumVal[3] = it + this.#item[key].amount;
                 return sumVal;
             }, [0, 0, 0, 0]).map((val) => {
                 return sharedFunctions._truncate(val);

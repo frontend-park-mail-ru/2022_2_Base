@@ -79,7 +79,7 @@
                         {{#if cardNumber}}
                             <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
                                 class="payment-method-provider">
-                            <span class="text-normal-default" id="cardNumber">{{this.cardNumber}}</span>
+                            <span class="text-normal-default card-number" id="cardNumber">{{this.cardNumber}}</span>
                             <span class="payment-method_cart__expiry text-normal-default" id="cardExpiryDate">{{this.cardExpiryDate}}</span>
                         {{else}}
                             <span class="text-normal-default">Картой или наличными при получении</span>
@@ -117,16 +117,16 @@
             <div class="summary_cart">
                 <div class="summary_cart__item-price">
                     <span class="text-normal-very-large">Итого</span>
-                    <span class="text-normal-very-large">{{this.sumPrice}} ₽</span>
+                    <span class="text-normal-very-large" id="total-price">{{this.sumPrice}} ₽</span>
                 </div>
                 <div class="summary_cart__price">
                     <div class="summary_cart__item-price">
-                        <span class="text-normal-default">Товары, {{this.amount}} шт.</span>
-                        <span class="text-normal-default">{{this.noSalePrice}} ₽</span>
+                        <span class="text-normal-default" id="products-number">Товары, {{this.amount}} шт.</span>
+                        <span class="text-normal-default" id="price-without-discount">{{this.noSalePrice}} ₽</span>
                     </div>
                     <div class="summary_cart__item-price">
                         <span class="text-normal-default">Скидка</span>
-                        <span class="text-normal-default">{{this.priceDiff}} ₽</span>
+                        <span class="text-normal-default" id="discount">{{this.priceDiff}} ₽</span>
                     </div>
                     <div class="summary_cart__item-price">
                         <span class="text-normal-default">Доставка</span>
@@ -160,18 +160,18 @@
                         </a>
                     </div>
                     {{#if cardNumber}}
-                        <div class="payment-method_cart" id="summary_cart__payment-data">
+                        <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}>
                             {{#if this.auth}}
 
                                 <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
                                     class="payment-method-provider">
-                                <span class="text-normal-default card-id" id="{{this.cardId}}">{{this.cardNumber}}</span>
+                                <span class="text-normal-default card-number" id="{{this.cardId}}">{{this.cardNumber}}</span>
                                 <span class="payment-method_cart__expiry text-normal-default">{{this.cardExpiryDate}}</span>
                             {{else}}
                                 <span class="text-normal-default">
                             <a href="/login" class="link">Войти</a> или
                             <a href="/signup" class="link">зарегистрироваться</a>, чтобы оформить заказ
-                        </span>
+                        </span>data.split(' ').slice(1).join(' ').trim();
                             {{/if}}
                         </div>
                     {{/if}}

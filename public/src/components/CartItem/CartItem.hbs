@@ -46,9 +46,9 @@
         </div>
 
         <div class="cart-item_cart__price">
-            <span class="text-normal-very-large">{{#if this.salePrice}}{{this.salePrice}}{{else}}{{this.price}}
+            <span class="text-normal-very-large" id="price/{{this.id}}">{{#if this.salePrice}}{{this.salePrice}}{{else}}{{this.price}}
                 ₽{{/if}}</span>
-            <span class="text-normal-large__strikethrough item_cart__salePrice">{{#if this.salePrice}}{{this.price}}
+            <span class="text-normal-large__strikethrough item_cart__salePrice" id="sale-price/{{this.id}}">{{#if this.salePrice}}{{this.price}}
                 ₽{{/if}}</span>
         </div>
     </div>
