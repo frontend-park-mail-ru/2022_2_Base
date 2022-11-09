@@ -19,10 +19,10 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCards,
+        itemsStore.addListener(this.loadCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
-        itemsStore.addListener(this.loadCards,
+        itemsStore.addListener(this.loadCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
         );
     }
@@ -34,7 +34,6 @@ export default class MainPage extends BasePage {
         const response = itemsStore.getContext(itemsStore._storeNames.cardsHome);
         const rootElement = document.getElementById(response.classToGet + '__right-arrow');
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
-            console.log(response);
             response.body.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
