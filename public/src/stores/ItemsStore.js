@@ -54,6 +54,8 @@ class ItemsStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.topCategory, this.#topCategory);
         this._storage.set(this._storeNames.responseCode, null);
+        this._storage.set(this._storeNames.cardsByPopularity, null);
+        this._storage.set(this._storeNames.cardsBySales, null);
     }
 
 
@@ -111,6 +113,7 @@ class ItemsStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
+        console.log(status, outD);
         if (status === 200) {
             this._storage.set(this._storeNames.cardsByPopularity, outD.body);
         }
