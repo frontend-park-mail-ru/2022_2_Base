@@ -19,8 +19,7 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCards.bind(this, 'salesCard',
-            itemsStore.getContext(itemsStore._storeNames.cardsBySales)),
+        itemsStore.addListener(this.loadCards.bind(this, 'salesCard'),
         ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
 
         itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
@@ -41,6 +40,7 @@ export default class MainPage extends BasePage {
             } else {
                 response = itemsStore.getContext(itemsStore._storeNames.cardsBySales);
             }
+            console.log(response);
             response.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
