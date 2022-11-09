@@ -99,7 +99,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 200) {
-            this._storage.set(this._storeNames.cardsBySales, outD);
+            this._storage.set(this._storeNames.cardsBySales, outD.body);
         }
     }
 
@@ -112,7 +112,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 200) {
-            this._storage.set(this._storeNames.cardsByPopularity, outD);
+            this._storage.set(this._storeNames.cardsByPopularity, outD.body);
         }
     }
 
