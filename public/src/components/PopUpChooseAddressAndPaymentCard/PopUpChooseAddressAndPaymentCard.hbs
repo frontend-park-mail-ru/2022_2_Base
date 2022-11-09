@@ -5,14 +5,14 @@
     <div class="cart-popup-form__fields">
         {{#if address}}
             {{#each address}}
-            <label for="{{this.id}}">
-                <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}" readonly="">
+            <label for="address/{{this.id}}">
+                <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="address/{{this.id}}" {{/if}} value="г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}" readonly="">
             </label>
             {{/each}}
         {{else}}
             {{#each paymentCard}}
-                <label for="{{this.id}}">
-                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="{{this.id}}" {{/if}} value="{{#if this.number}} {{this.number}} {{/if}}    {{#if this.month}} {{this.month}} {{/if}} / {{#if this.year}} {{this.year}} {{/if}}" readonly="">
+                <label for="paymentCard/{{this.id}}">
+                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}} value="{{#if this.number}} {{this.number}} {{/if}}    {{#if this.month}} {{this.month}} {{/if}} / {{#if this.year}} {{this.year}} {{/if}}" readonly="">
                 </label>
             {{/each}}
         {{/if}}

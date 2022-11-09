@@ -35,23 +35,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     }
 
     /**
-     * Функция для передачи в слушателе click на сохранение новых данных.
-     */
-    async listenClickApply() {
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
-        }
-
-        // Сохранить данные
-    }
-
-    /**
      * Функция для передачи в слушателе click на выбор новых данных.
      * @param {number} id - id элемента
      */
@@ -62,9 +45,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             if (fields) {
                 fields.forEach((key) => {
                     key.style.border = '1px solid #d5d5d5';
+                    if (key.classList.contains('choice')) {
+                        key.classList.remove('choice')
+                    }
                 });
             }
             chooseAddress.style.border = '1px solid #6369D1';
+            chooseAddress.classList.add('choice');
         }
     }
 
@@ -74,9 +61,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     startEventListener() {
         const cancel = document.getElementById('cart-popup-form__cancel');
         cancel.addEventListener('click', this.listenClickCancel);
-
-        const apply = document.getElementById('cart-popup-form__apply');
-        apply.addEventListener('click', this.listenClickApply);
 
         const fields = document.querySelectorAll('.cart-popup-form__input');
         if (fields) {
@@ -93,9 +77,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     removeEventListener() {
         const cancel = document.getElementById('.cart-popup-form__cancel');
         cancel.removeEventListener('click', this.listenClickCancel);
-
-        const apply = document.getElementById('.cart-popup-form__apply');
-        apply.removeEventListener('click', this.listenClickApply);
 
         const fields = document.querySelectorAll('.cart-popup-form__input');
         if (fields) {

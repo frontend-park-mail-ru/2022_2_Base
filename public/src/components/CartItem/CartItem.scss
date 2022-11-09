@@ -76,3 +76,12 @@
   justify-content: flex-end;
   padding-right: 6px;
 }
+
+.delete-cart-item {
+  cursor: pointer;
+}
+
+.delete-cart-item__down {
+  display: flex;
+  align-items: flex-end;
+}

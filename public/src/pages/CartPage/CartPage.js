@@ -1,4 +1,4 @@
-import cartPageTemplate from './CartPage.hbs';
+import СartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage.js';
 import CartItem from '../../components/CartItem/CartItem.js';
 import request from '../../modules/ajax.js';
@@ -67,87 +67,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     constructor(parent) {
         super(
             parent,
-            cartPageTemplate,
+            СartPageTemplate,
         );
-    }
-
-    /**
-     * Функция для передачи в слушателе click на значок редактирования
-     * адреса
-     * @param {string} id - id элемента
-     * @param {object} event - событие
-     */
-    async listenClickEditAddressAndPaymentCard(id, event) {
-        event.preventDefault();
-        let context;
-        if (id === 'edit-address') {
-            // Загрузить банковские карты
-            context = {
-                address: {
-                    address1: {
-                        id: 1,
-                        city: 'Москва',
-                        street: 'Ленина',
-                        house: 5,
-                        flat: 34,
-                    },
-                    address2: {
-                        id: 2,
-                        city: 'Москва',
-                        street: 'Ленина',
-                        house: 5,
-                        flat: 34,
-                    },
-                    // address3: {
-                    //     id: 3,
-                    //     city: 'Москва',
-                    //     street: 'Ленина',
-                    //     house: 5,
-                    //     flat: 34,
-                    // },
-                },
-            };
-        } else {
-            if (id === 'edit-payment-card') {
-                // Загрузить адреса нужно
-                context = {
-                    paymentCard: {
-                        paymentCard1: {
-                            id: 1,
-                            number: '1234567812345678',
-                            code: 910,
-                            month: 5,
-                            year: 24,
-                        },
-                        paymentCard2: {
-                            id: 2,
-                            number: '1234567812345678',
-                            code: 910,
-                            month: 5,
-                            year: 24,
-                        },
-                        paymentCard3: {
-                            id: 3,
-                            number: '1234567812345678',
-                            code: 910,
-                            month: 5,
-                            year: 24,
-                        },
-                    },
-                };
-            }
-        }
-
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
-        if (PopUp) {
-            PopUp.style.display = 'block';
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'block';
-        }
-        this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
-        this.PopUpChooseAddressAndPaymentCard.render(context);
     }
 
     /**
@@ -184,23 +105,143 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     }
 
     /**
+     * Функция, обрабатывающая клики на данной странице
+     * @param {Event} event контекст события для обработки
+     */
+    listenClickHandler(event) {
+        event.preventDefault();
+        const target = event.target;
+        const elementId = target.id;
+        if (elementId) {
+            
+            switch (elementId) {
+                case 'edit-address':
+                case 'edit-payment-card':
+                    let context;
+                    if (elementId === 'edit-address') {
+                        // Загрузить адреса
+                        context = {
+                            address: {
+                                address1: {
+                                    id: 1111,
+                                    city: 'Москва',
+                                    street: 'Ленина',
+                                    house: 5,
+                                    flat: 34,
+                                },
+                                address2: {
+                                    id: 222222,
+                                    city: 'Москва',
+                                    street: 'Ленина',
+                                    house: 5,
+                                    flat: 34,
+                                },
+                                // address3: {
+                                //     id: 3,
+                                //     city: 'Москва',
+                                //     street: 'Ленина',
+                                //     house: 5,
+                                //     flat: 34,
+                                // },
+                            },
+                        };
+                    } else {
+                        if (elementId === 'edit-payment-card') {
+                            // Загрузить банковские карты
+                            context = {
+                                paymentCard: {
+                                    paymentCard1: {
+                                        id: 1,
+                                        number: '1234567812345678',
+                                        code: 910,
+                                        month: 5,
+                                        year: 24,
+                                    },
+                                    paymentCard2: {
+                                        id: 2,
+                                        number: '1234567812345678',
+                                        code: 910,
+                                        month: 5,
+                                        year: 24,
+                                    },
+                                    paymentCard3: {
+                                        id: 3,
+                                        number: '1234567812345678',
+                                        code: 910,
+                                        month: 5,
+                                        year: 24,
+                                    },
+                                },
+                            };
+                        }
+                    }
+
+                    const PopUp = document.getElementById('popUp');
+                    const PopUpFade = document.getElementById('popUp-fade');
+                    if (PopUp) {
+                        PopUp.style.display = 'block';
+                    }
+                    if (PopUpFade) {
+                        PopUpFade.style.display = 'block';
+                    }
+                    this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+                    this.PopUpChooseAddressAndPaymentCard.render(context);
+                    break;
+                case 'empty-cart':
+                    // вызов action для очищения корзины
+                    break;
+                case 'delete-cart-item':
+                    // удалить элемент из корзины по elementId
+                    break;
+                case 'cart-popup-form__apply':
+                    const choice = document.querySelector('.choice');
+                    const data = choice.getAttribute('value');
+                    const choiseIdWithType = choice.getAttribute('id');
+                    let type, choiceId = '';
+                    if (choiseIdWithType.includes('/')) {
+                        [type, choiceId] = choiseIdWithType.split('/');
+                        console.log(type)
+                        if (type === 'address') {
+                            const addressField = document.querySelector('.addressID');
+                            addressField.textContent = data;
+                        } else {
+                            const addressField = document.querySelector('.addressID');
+                            addressField.textContent = data;
+                        }
+                    }
+                    // По этому id нужно перерисовать элемент
+                    const popUp = document.getElementById('popUp');
+                    const popUpFade = document.getElementById('popUp-fade');
+                    if (popUp) {
+                        popUp.style.display = 'none';
+                        popUp.replaceChildren();
+                    }
+                    if (popUpFade) {
+                        popUpFade.style.display = 'none';
+                    }
+                    break;
+                default:
+                    // console.log(elementId)
+
+            }
+        }
+    }
+
+    // renderPage(context){
+    //     switch (context.type) {
+    //         case 'itemCart':
+    //             const CartItem = new CartItem(document.getElementById('checkboxes_cart'));
+    //             CartItem.render(context.value);
+    //     }
+    // }
+ 
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const editAddress = document.getElementById('edit-address');
-        if (editAddress) {
-            editAddress.addEventListener('click',
-                this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-address'));
-        } else {
-            console.log('element not found', editAddress);
-        }
-
-        const editPaymentCard = document.getElementById('edit-payment-card');
-        if (editPaymentCard) {
-            editPaymentCard.addEventListener('click',
-                this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-payment-card'));
-        } else {
-            console.log('element not found', editPaymentCard);
+        const cartContent = document.getElementById("cart");
+        if(cartContent) {
+            cartContent.addEventListener('click', this.listenClickHandler);
         }
 
         const createOrder = document.getElementById('summary_cart__create-order-button');
@@ -215,20 +256,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const editAddress = document.getElementById('edit-address');
-        if (editAddress) {
-            editAddress.removeEventListener('click',
-                this.listenClickEditAddressAndPaymentCard(this, editAddress.hasAttribute('id')));
-        } else {
-            console.log('element not found', editAddress);
-        }
-
-        const editPaymentCard = document.getElementById('edit-payment-card');
-        if (editPaymentCard) {
-            editPaymentCard.removeEventListener('click',
-                this.listenClickEditAddressAndPaymentCard(this, editPaymentCard.hasAttribute('id')));
-        } else {
-            console.log('element not found', editPaymentCard);
+        const cartContent = document.getElementById("content_cart");
+        if(cartContent) {
+            cartContent.removeEventListener('click', this.listenClickHandler);
         }
     }
 
