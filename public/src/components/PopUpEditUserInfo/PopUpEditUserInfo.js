@@ -1,6 +1,7 @@
 import BaseComponent from '../BaseComponent.js';
 import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
+import {profileAction} from '../../actions/profile.js';
 
 /**
  * Класс для реализации компонента Footer
@@ -35,10 +36,17 @@ export default class PopUpEditUserInfo extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
+     * @param {object} event - событие
      */
-    async listenClickApply() {
+    async listenClickApply(event) {
+        event.preventDefault();
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
+
+        profileAction.saveEditData({
+            value: document.getElementById(this.context.id + '__popUp').value,
+            id: this.context.id,
+        });
         if (PopUp) {
             PopUp.style.display = 'none';
             PopUp.replaceChildren();
@@ -46,6 +54,40 @@ export default class PopUpEditUserInfo extends BaseComponent {
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
         }
+    }
+
+
+    /**
+     * Метод, подготавливавающий наполнение для формы, исходя из контекста
+     * @param {Object} context контекст отрисовки шаблона
+     * @return {Object} наполнение для формы
+     */
+    prepareRenderData(context) {
+        const data = {
+            title: context.getAttribute('name'),
+            fields: {
+                field1: {
+                    name: context.getAttribute('name'),
+                    id: context.id + '__popUp',
+                    type: context.id,
+                },
+            },
+        };
+
+        switch (context.id) {
+        case 'email':
+            data.title = 'почту';
+            break;
+        case 'password':
+            data.fields.field1.name = 'Новый пароль';
+            data.fields.field1.value = context.value;
+
+            data.fields.field2 = {};
+            data.fields.field2.name = 'Повторить пароль';
+            data.fields.field2.value = '';
+            data.fields.field2.type = context.id;
+        }
+        return data;
     }
 
     /**
@@ -56,7 +98,8 @@ export default class PopUpEditUserInfo extends BaseComponent {
         cancel.addEventListener('click', this.listenClickCancel);
 
         const apply = document.getElementById('popup-form_user-info__apply');
-        apply.addEventListener('click', this.listenClickApply);
+        this.listenClickApplyBind = this.listenClickApply.bind(this);
+        apply.addEventListener('click', this.listenClickApplyBind);
     }
 
     /**
@@ -67,7 +110,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
         cancel.removeEventListener('click', this.listenClickCancel);
 
         const apply = document.getElementById('.popup-form_user-info__apply');
-        apply.removeEventListener('click', this.listenClickApply);
+        apply.removeEventListener('click', this.listenClickApplyBind);
     }
 
     /**
@@ -76,7 +119,8 @@ export default class PopUpEditUserInfo extends BaseComponent {
      * @param {object} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        super.render(context, PopUpEditUserInfoTemplate);
+        this.context = context;
+        super.render(this.prepareRenderData(context), PopUpEditUserInfoTemplate);
         this.startEventListener();
     }
 }

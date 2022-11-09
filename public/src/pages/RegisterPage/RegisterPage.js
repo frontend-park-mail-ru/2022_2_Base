@@ -33,7 +33,7 @@ export default class RegisterPage extends BasePage {
      * В зависимости от статуса ответа показывает ошибку или редиректит
      */
     #authServerResponse() {
-        const status = userStore.getContext(userStore._storeNames.authResponse);
+        const status = userStore.getContext(userStore._storeNames.responseCode);
         switch (status) {
         case 201:
             refresh.onAuth();

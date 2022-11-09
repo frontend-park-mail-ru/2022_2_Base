@@ -52,12 +52,16 @@ class UserStore extends BaseStore {
 
     _storeNames = {
         isAuth: 'isAuth',
-        authResponse: 'authResponse',
+        responseCode: 'responseCode',
         name: 'name',
         surname: 'surname',
         email: 'email',
         phone: 'phone',
         context: 'context',
+        avatar: 'avatar',
+        paymentMethods: 'paymentMethods',
+        address: 'address',
+        temp: 'temp',
     };
 
     /**
@@ -67,11 +71,44 @@ class UserStore extends BaseStore {
         super();
         this._storage = new Map();
         this._storage.set(this._storeNames.isAuth, false);
-        this._storage.set(this._storeNames.authResponse, null);
+        this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.name, null);
         this._storage.set(this._storeNames.surname, null);
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
+        this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
+        this._storage.set(this._storeNames.paymentMethods, {
+            item1: {
+                priority: true,
+                number: '123456******1234',
+                type: 'MIR',
+                expiryDate: '00/00',
+                id: `paymentCard/${String(1)}`,
+            },
+            item2: {
+                number: '123456******1234',
+                type: 'MIR',
+                expiryDate: '00/00',
+                id: `paymentCard/${String(2)}`,
+            },
+        });
+        this._storage.set(this._storeNames.address, {
+            item1: {
+                priority: true,
+                city: 'г. Москва',
+                street: 'улица Бассейная',
+                house: 'д. 228',
+                flat: 'кв. 420',
+                id: `addressCard/${String(1)}`,
+            },
+            item2: {
+                city: 'г. Москва',
+                street: 'улица Бассейная',
+                house: 'д. 228',
+                flat: 'кв. 420',
+                id: `addressCard/${String(2)}`,
+            },
+        });
         this._storage.set(this._storeNames.context, this.#context);
     }
 
@@ -111,13 +148,18 @@ class UserStore extends BaseStore {
             break;
 
         case ProfileActionTypes.SAVE_EDIT_DATA:
-            await this._saveEditData();
+            await this._saveEditData(payload.data);
             this._emitChange([ProfileActionTypes.SAVE_EDIT_DATA]);
             break;
 
-        case ProfileActionTypes.DOWNLOAD_PHOTO:
-            await this._downloadPhoto();
-            this._emitChange([ProfileActionTypes.DOWNLOAD_PHOTO]);
+        case ProfileActionTypes.UPLOAD_AVATAR:
+            await this._uploadAvatar(payload.data);
+            this._emitChange([ProfileActionTypes.UPLOAD_AVATAR]);
+            break;
+
+        case ProfileActionTypes.DELETE_AVATAR:
+            await this._uploadAvatar(null);
+            this._emitChange([ProfileActionTypes.DELETE_AVATAR]);
             break;
 
         case ProfileActionTypes.GET_CARDS:
@@ -176,7 +218,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.authResponse, status);
+        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 200) {
             this._storage.set(this._storeNames.isAuth, true);
@@ -190,7 +232,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makeDeleteRequest(config.api.logout)
             .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.authResponse, status);
+        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 200) {
             this._storage.set(this._storeNames.isAuth, false);
@@ -208,7 +250,7 @@ class UserStore extends BaseStore {
             email,
             username,
         }).catch((err) => console.log(err));
-        this._storage.set(this._storeNames.authResponse, status);
+        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 201) {
             this._storage.set(this._storeNames.isAuth, true);
@@ -225,7 +267,7 @@ class UserStore extends BaseStore {
             password,
             email,
         }).catch((err) => console.log(err));
-        this._storage.set(this._storeNames.authResponse, status);
+        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === 201) {
             this._storage.set(this._storeNames.isAuth, true);
@@ -265,24 +307,86 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий получение данных пользователя.
      */
     async _getData() {
+        const [status, outD] = await request.makeGetRequest(config.api.profile)
+            .catch((err) => console.log(err));
 
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            this._storage.set(this._storeNames.name, outD.username);
+            this._storage.set(this._storeNames.email, outD.email);
+            this._storage.set(this._storeNames.phone, outD.phone);
+            this._storage.set(this._storeNames.avatar, outD.avatar);
+            this._storage.set(this._storeNames.paymentMethods, outD.paymentMethods);
+            this._storage.set(this._storeNames.address, outD.address);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий сохранение данных профиля.
+     * @param {object} data данные для изменения
      */
-    async _saveEditData() {
+    async _saveEditData(data) {
+        let sendData = {};
+        switch (data.id) {
+        case 'name':
+            sendData = {
+                username: data.value,
+            };
+            break;
+        case 'email':
+            sendData = {
+                email: data.value,
+            };
+            break;
+        case 'phone':
+            sendData = {
+                phone: data.value,
+            };
+            break;
+        case 'password':
+            sendData = {
+                password: data.value,
+            };
+            const [status] = await request.makePostRequest(config.api.password, sendData)
+                .catch((err) => console.log(err));
+            if (status !== 200) {
+                console.log(data.id, status);
+            }
+            return;
+        }
+        const [status] = await request.makePostRequest(config.api.profile, sendData)
+            .catch((err) => console.log(err));
 
+        this._storage.set(this._storeNames.responseCode, status);
+        this._storage.set(this._storeNames.temp, data);
+        if (status === 200) {
+            this._storage.has(data.id) ?
+                this._storage.set(data.id, data.value) : console.log('wrong id');
+        } else {
+            console.log(data.id, status);
+        }
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий загрузку аватара.
+     * @param {Blob} avatar
      */
-    async _downloadPhoto() {
+    async _uploadAvatar(avatar) {
+        const [status] = await request.makePostRequest(config.api.uploadAvatar, avatar)
+            .catch((err) => console.log(err));
 
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            this._storage.set(this._storeNames.avatar,
+                URL.createObjectURL(avatar ?? 'img/UserPhoto.png'));
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**

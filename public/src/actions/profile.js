@@ -8,7 +8,8 @@ import Dispatcher from '../modules/dispatcher.js';
 export const ProfileActionTypes = {
     GET_DATA: 'GET_DATA',
     SAVE_EDIT_DATA: 'SAVE_EDIT_DATA',
-    DOWNLOAD_PHOTO: 'DOWNLOAD_PHOTO',
+    UPLOAD_AVATAR: 'UPLOAD_AVATAR',
+    DELETE_AVATAR: 'DELETE_AVATAR',
     GET_CARDS: 'GET_CARDS',
     SAVE_ADD_CARD: 'SAVE_ADD_CARD',
     SAVE_EDIT_CARD: 'SAVE_EDIT_CARD',
@@ -24,7 +25,7 @@ export const ProfileActionTypes = {
 /**
  * Класс, содержащий в себе действия в профиле.
  */
-export const ProfileAction = {
+export const profileAction = {
     /**
      * Действие: запрос данных пользователя.
      */
@@ -36,25 +37,32 @@ export const ProfileAction = {
 
     /**
      * Действие: редактировать данные.
-     * @param {String} field - отредактированное поле
-     * @param {String} newData - новые данные
+     * @param {object} data - отредактированное поле
      */
-    saveEditData(field, newData) {
+    saveEditData( data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
-            data: {
-                field,
-                newData,
-            },
+            data: data,
         });
     },
 
     /**
-     * Действие: загрузка фото.
+     * Действие: загрузка аватара.
+     * @param {Blob} avatar - аватар
      */
-    downloadPhoto() {
+    uploadAvatar(avatar) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.DOWNLOAD_PHOTO,
+            actionName: ProfileActionTypes.UPLOAD_AVATAR,
+            data: avatar,
+        });
+    },
+
+    /**
+     * Действие: удаление аватара.
+     */
+    deleteAvatar() {
+        Dispatcher.dispatch({
+            actionName: ProfileActionTypes.DELETE_AVATAR,
         });
     },
 

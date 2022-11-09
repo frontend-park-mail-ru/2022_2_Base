@@ -9,22 +9,23 @@
                  alt="user photo">
 
             <div class="change-pop-up_user-page change-user-photo_user-page" id="change-user-photo_user-page">
-                <a href="/changeUserPhoto" class="pop-up-button_user-page">
-                    <img src="img/editButton.svg" class="pop-up-button_user-page-pic" alt="edit button">
-                </a>
+                <input type="file" style="display: none;" id="changeUserPhoto__upload" accept="image/jpeg, image/png, image/jpg">
+                <div class="pop-up-button_user-page">
+                    <img src="img/editButton.svg" id="changeUserPhoto" class="pop-up-button_user-page-pic" alt="edit button">
+                </div>
                 <div class="separation-line_user-page"></div>
-                <a href="/deleteUserPhoto" class="pop-up-button_user-page">
-                    <img src="img/deleteButton.svg" class="pop-up-button_user-page-pic" alt="delete button">
-                </a>
+                <div class="pop-up-button_user-page">
+                    <img src="img/deleteButton.svg" id="deleteUserPhoto" class="pop-up-button_user-page-pic" alt="delete button">
+                </div>
             </div>
 
         </div>
 
         <div class="user-card_user-page-block">
             <div class="user-card_user-page__block-title text-normal-large-normal"> Имя</div>
-        <div class="user-name_user-page text-normal-large-normal" name="Имя" id="name"
-            {{#if this.name}}value="{{this.name}}"> {{this.name}}{{else}}value="Нет информации"> Нет информации{{/if}}
-            <a href="/edit" class="edit-profile-data">
+        <div class="user-name_user-page text-normal-large-normal" name="Имя" id="name" type="text"
+            {{#if this.name}}value="{{this.name}}"> <span id="name-text">{{this.name}}</span>{{else}}value="Нет информации"> <span id="name-text">Нет информации</span>{{/if}}
+            <a class="edit-profile-data">
                 <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
             </a>
         </div>
@@ -32,9 +33,9 @@
 
         <div class="user-card_user-page-block">
             <div class="user-card_user-page__block-title text-normal-large-normal"> Почта</div>
-            <div class="user-card_user-page-block-data text-normal-large-normal" name="Почта" id="email"
-                {{#if this.email}}value="{{this.email}}"> {{this.email}}{{else}}value="Нет информации"> Нет информации{{/if}}
-                <a href="/edit" class="edit-profile-data">
+            <div class="user-card_user-page-block-data text-normal-large-normal" name="Почта" id="email" type="email"
+                {{#if this.email}}value="{{this.email}}"> <span id="email-text">{{this.email}}</span>{{else}}value="Нет информации"> <span id="email-text">Нет информации </span>{{/if}}
+                <a class="edit-profile-data">
                     <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
                 </a>
             </div>
@@ -43,16 +44,16 @@
 
         <div class="user-card_user-page-block">
             <div class="user-card_user-page__block-title text-normal-large-normal">Телефон</div>
-            <div class="user-card_user-page-block-data text-normal-large-normal" name="Телефон" id="phone"
-            {{#if this.phone}}value={{this.phone}}> {{this.phone}}{{else}}value="Нет информации"> Нет информации{{/if}}
+            <div class="user-card_user-page-block-data text-normal-large-normal" name="Телефон" id="phone" type="tel"
+                {{#if this.phone}}value={{this.phone}}> <span id="phone-text">{{this.phone}} </span>{{else}}value="Нет информации"> <span id="phone-text">Нет информации </span>{{/if}}
 
-                <a href="/edit" class="edit-profile-data">
+                <a class="edit-profile-data">
                     <img class="edit-button_user-page" src="img/editButton.svg" alt="edit button">
                 </a>
             </div>
 
         </div>
-        <div class="user-card_user-page-block-password" name="Пароль" id="password">
+        <div class="user-card_user-page-block-password" name="Пароль" id="password" type="password">
             <a href="/edit" class="link text-normal-large-normal edit-profile-data"> Изменить пароль </a>
         </div>
 

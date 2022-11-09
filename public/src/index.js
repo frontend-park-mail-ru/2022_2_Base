@@ -47,7 +47,7 @@ window.addEventListener('click', changePage);
 
 userStore.addListener(() => {
     router.openPage(document.location.pathname, config);
-    if (userStore.getContext(userStore._storeNames.authResponse) === 200) {
+    if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
     } else {
         refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
@@ -56,7 +56,7 @@ userStore.addListener(() => {
 UserActionTypes.USER_FETCH);
 
 userStore.addListener(() => {
-    if (userStore.getContext(userStore._storeNames.authResponse) === 200) {
+    if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onLogOut();
     }
 },

@@ -17,7 +17,7 @@ export const ItemCardsActionTypes = {
 /**
  * Класс, содержащий в себе действия с карточками товаров.
  */
-export const ItemCardsAction = {
+export const itemCardsAction = {
     /**
      * Действие: запрос списка карточек по скидке.
      */

@@ -20,7 +20,7 @@ export const BasketActionTypes = {
 /**
  * Класс, содержащий в себе действия в корзине.
  */
-export const BasketAction = {
+export const basketAction = {
     /**
      * Действие: выбрать все товары в корзине.
      */

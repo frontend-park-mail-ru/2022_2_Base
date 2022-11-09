@@ -1,5 +1,7 @@
 'use strict';
 
+const basePathApi = 'api/v1/';
+
 export const config = {
     header: {
         main: {
@@ -22,11 +24,12 @@ export const config = {
         },
     },
     api: {
-        login: 'api/v1/login',
-        signup: 'api/v1/signup',
-        logout: 'api/v1/logout',
-        session: 'api/v1/session',
-        products: 'api/v1/products',
-        profile: 'api/v1/profile',
+        login: basePathApi + 'login',
+        signup: basePathApi + 'signup',
+        logout: basePathApi + 'logout',
+        session: basePathApi + 'session',
+        products: basePathApi + 'products',
+        profile: basePathApi + 'profile',
+        uploadAvatar: basePathApi + 'avatar',
     },
 };
