@@ -19,10 +19,10 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCards.bind(this, 'salesCard'),
+        itemsStore.addListener(this.loadCardds.bind(this, 'salesCard'),
         ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
 
-        itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
+        itemsStore.addListener(this.loadCardds.bind(this, 'popularCard'),
             ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
         );
     }
@@ -31,7 +31,7 @@ export default class MainPage extends BasePage {
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
      */
-    async loadCards(classToGet) {
+    async loadCardds(classToGet) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             let response;
