@@ -19,10 +19,10 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCards.bind(this),
+        itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
-        itemsStore.addListener(this.loadCards.bind(this),
+        itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
         );
     }
@@ -52,8 +52,8 @@ export default class MainPage extends BasePage {
                 cardElement.classList.add('item-card');
                 rootElement.before(cardElement);
                 /* rendering card itself */
-                this.itemCard = new ItemCard(cardElement);
-                this.itemCard.render(newCard);
+                const itemCard = new ItemCard(cardElement);
+                itemCard.render(newCard);
             });
         } else if (!document.getElementById('ServerLoadError')) {
             const div = document.createElement('div');
