@@ -113,7 +113,6 @@ class ItemsStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        console.log(status, outD);
         if (status === 200) {
             this._storage.set(this._storeNames.cardsByPopularity, outD.body);
         }

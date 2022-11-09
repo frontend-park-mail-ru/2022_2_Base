@@ -36,7 +36,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные пользователя
      */
     editUserInfo() {
-        if (userStore.getContext(userStore.responseCode) === 200) {
+        if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
             const data = userStore.getContext(userStore._storeNames.temp);
             document.getElementById(data.id).innerText = data.value;
         }

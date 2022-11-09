@@ -20,12 +20,13 @@ export default class MainPage extends BasePage {
             mainPageTemplate,
         );
         itemsStore.addListener(this.loadCards.bind(this, 'salesCard',
-            itemsStore.getContext(itemsStore.cardsBySales)),
+            itemsStore.getContext(itemsStore._storeNames.cardsBySales)),
         ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
 
-        itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
-            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
-            itemsStore.getContext(itemsStore.cardsByPopularity));
+        itemsStore.addListener(this.loadCards.bind(this, 'popularCard',
+            itemsStore.getContext(itemsStore._storeNames.cardsByPopularity)),
+        ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+        );
     }
 
     /**
@@ -35,9 +36,7 @@ export default class MainPage extends BasePage {
      */
     async loadCards(classToGet, response) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
-        console.log(itemsStore.getContext(itemsStore.responseCode));
-        console.log('response', response);
-        if (itemsStore.getContext(itemsStore.responseCode) === 200) {
+        if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             response.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
