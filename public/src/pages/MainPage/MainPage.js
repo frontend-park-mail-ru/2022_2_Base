@@ -19,21 +19,24 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCards.bind(this, 'salesCard'),
-            ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
+        itemsStore.addListener(this.loadCards.bind(this, 'salesCard',
+            itemsStore.getContext(itemsStore.cardsBySales)),
+        ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
+
         itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
-            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR);
+            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+            itemsStore.getContext(itemsStore.cardsByPopularity));
     }
 
     /**
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
+     * @param {object} response данные ответа
      */
-    async loadCards(classToGet) {
+    async loadCards(classToGet, response) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
         if (itemsStore.getContext(itemsStore.responseCode) === 200) {
-            const itemCards = outD.body;
-            itemCards.forEach((card, num) => {
+            response.body.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
                     discount = 100 - Math.round(card.lowprice / card.price * 100);
