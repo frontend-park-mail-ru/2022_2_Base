@@ -61,13 +61,17 @@ class Request {
      */
      makePostRequestSendAva = async (url, data) => {
         const headers = this.#headers;
-        headers['Content-Type'] = 'multipart/form-data';
+        //headers['Content-Type'] = 'multipart/form-data';
         let formData = new FormData(data); 
         const options = {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            headers: headers,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json',
+                'Origin': 'https://www.reazon.ru',
+            },
             body: formData,
         };
         return this.makeRequest(`${this.#baseURL}/${url}`, options);

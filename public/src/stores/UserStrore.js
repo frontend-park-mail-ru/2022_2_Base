@@ -325,26 +325,27 @@ class UserStore extends BaseStore {
      */
     async _saveEditData(data) {
         let sendData = {};
+        sendData = {
+            username:this._storage.get(this._storeNames.name),
+            email:this._storage.get(this._storeNames.email),
+            phone:this._storage.get(this._storeNames.phone),
+            paymentMethods: this._storage.gey(this._storeNames.paymentMethods),
+            address:this._storage.get(this._storeNames.address)
+        }
         switch (data.id) {
         case 'name':
-            sendData = {
-                username: data.value,
-            };
+            sendData.username = data.value;
             break;
         case 'email':
-            sendData = {
-                email: data.value,
-            };
+            sendData.email = data.value;
             break;
         case 'phone':
-            sendData = {
-                phone: data.value,
-            };
+            sendData.phone = data.value;
             break;
         case 'password':
-            sendData = {
-                password: data.value,
-            };
+            // sendData = {
+            //     password: data.value,
+            // };
             const [status] = await request.makePostRequest(config.api.password, sendData)
                 .catch((err) => console.log(err));
             if (status === 200) {
@@ -352,6 +353,7 @@ class UserStore extends BaseStore {
             }
             return;
         }
+        
         const [status] = await request.makePostRequest(config.api.profile, sendData)
             .catch((err) => console.log(err));
 
