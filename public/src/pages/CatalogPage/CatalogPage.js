@@ -1,19 +1,15 @@
 import BasePage from '../BasePage.js';
 import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
 import './CatalogPage.scss';
-// import request from '../../modules/ajax.js';
-// import router from '../../modules/Router.js';
 import CatalogPageTemplate from './CatalogPage.hbs';
-// import request from '../../modules/ajax';
-// import ItemCard from '../../components/ItemCard/ItemCard';
-// import {assertSimpleType} from '@babel/core/lib/config/caching';
+import cartStore from '../../stores/CartStore.js';
+import {basketAction, BasketActionTypes} from '../../actions/basket';
 
 /**
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
     context = {};
-    CatalogItemCards = {};
     loadedCardsCount = 0;
 
     /**
@@ -22,6 +18,17 @@ export default class CatalogPage extends BasePage {
      */
     constructor(parent) {
         super(parent, CatalogPageTemplate);
+
+        cartStore.addListener(this.buttonAdd,
+            BasketActionTypes.ADD_TO_CART);
+
+        cartStore.addListener(this.buttonAdd,
+            BasketActionTypes.INCREASE_NUMBER,
+        );
+
+        cartStore.addListener(this.buttonMinus,
+            BasketActionTypes.DECREASE_NUMBER,
+        );
     }
 
     /**
@@ -34,13 +41,12 @@ export default class CatalogPage extends BasePage {
         const CatalogItemCardsInfo = []; // cюда нужно пушнуть все карточки
 
 
-        /*
         const catalogItemCard1 = {
             itemName: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый', // имя товара
             exPrice: 26990,
             price: 25990,
             propertyName1: 'экран', // название первой характеристики
-            property1: '10.2' (2160x1620), IPS', // первая характеристика
+            property1: '10.2\' (2160x1620), IPS', // первая характеристика
             propertyName2: 'процессор', // название второй характеристики
             property2: 'Apple A13 Bionic', // вторая характеристика
             propertyName3: 'версия ОС', // название третьей характеристики
@@ -54,7 +60,6 @@ export default class CatalogPage extends BasePage {
             rating: 0, // пока disabled
         };
 
-        const CatalogItemCardsInfo = [];
         CatalogItemCardsInfo.push(catalogItemCard1);
 
         const catalogItemCard2 = {
@@ -62,7 +67,7 @@ export default class CatalogPage extends BasePage {
             exPrice: 26990,
             price: 25990,
             propertyName1: 'экран',
-            property1: '10.2' (2160x1620), IPS',
+            property1: '10.2\' (2160x1620), IPS',
             propertyName2: 'процессор',
             property2: 'Apple A13 Bionic',
             propertyName3: 'версия ОС',
@@ -83,7 +88,7 @@ export default class CatalogPage extends BasePage {
             exPrice: 26990,
             price: 25990,
             propertyName1: 'экран',
-            property1: '10.2' (2160x1620), IPS',
+            property1: '10.2\' (2160x1620), IPS',
             propertyName2: 'процессор',
             property2: 'Apple A13 Bionic',
             propertyName3: 'версия ОС',
@@ -97,12 +102,10 @@ export default class CatalogPage extends BasePage {
             amount: 5,
         };
 
-*/
 
+        CatalogItemCardsInfo.push(catalogItemCard3);
 
-        // CatalogItemCardsInfo.push(catalogItemCard3);
-
-        // this.loadedCardsCount = 3;
+        this.loadedCardsCount = 3;
 
         this.renderCards(CatalogItemCardsInfo);
     }
@@ -114,6 +117,76 @@ export default class CatalogPage extends BasePage {
     renderCards(CatalogItemCardsInfo) {
         const Card = new CatalogItemCard(document.getElementById('items-block'));
         Card.render(CatalogItemCardsInfo);
+    }
+
+
+    /**
+     * Функция, увеличение количество
+     */
+    buttonCrete() {
+        if (cartStore.getContext(cartStore._storeNames.responseCode)) {
+            const addToCartButton = document.getElementById(
+                `catalog_button-add-to-cart/${cartStore._storeNames.currID}`);
+            const amountSelector = document.getElementById(
+                `catalog_amount-selector/${cartStore._storeNames.currID}`);
+            if (!!addToCartButton && !!amountSelector) {
+                amountSelector.style.display = 'grid';
+                addToCartButton.style.display = 'none';
+
+                const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
+                if (itemAmount) {
+                    if (parseInt(itemAmount.textContent) === 0) {
+                        // Можно получать количество элементов из HTML, а можно по запросу,
+                        // так данные будут более актуальны
+                        itemAmount.textContent = '1';
+                    }
+                }
+            } else {
+                console.warn('Элементы не найдены: addToCartButton, addToCartButton');
+            }
+        }
+    }
+
+    /**
+     * Функция, увеличение количество
+     */
+    buttonAdd() {
+        if (cartStore.getContext(cartStore._storeNames.responseCode)) { // FIX!!! если запрос успешный
+            const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
+            if (itemAmount) {
+                const amount = parseInt(itemAmount.textContent);
+                // Можно получать количество элементов из HTML, а можно по запросу,
+                // так данные будут более актуальны
+                itemAmount.textContent = (amount + 1).toString();
+            }
+        }
+    }
+
+    buttonMinus() {
+        if (cartStore.getContext(cartStore._storeNames.responseCode)) { // FIX!!! если запрос успешный
+            const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
+            if (itemAmount) {
+                const amount = parseInt(itemAmount.textContent);
+                // Можно получать количество элементов из HTML, а можно по запросу,
+                // так данные будут более актуальны
+
+                if (amount === 1) {
+                    const amountSelector = document.getElementById(
+                        `catalog_amount-selector/${cartStore._storeNames.currID}`);
+                    const addToCartButton = document.getElementById(
+                        `catalog_button-add-to-cart/${cartStore._storeNames.currID}`);
+                    if (!!addToCartButton && !!amountSelector) {
+                        amountSelector.style.display = 'none';
+                        addToCartButton.style.display = 'flex';
+                    } else {
+                        console.warn(
+                            'Элементы не найдены: addToCartButton, addToCartButton');
+                    }
+                } else {
+                    itemAmount.textContent = (amount - 1).toString();
+                }
+            }
+        }
     }
 
     /**
@@ -131,70 +204,15 @@ export default class CatalogPage extends BasePage {
                 switch (elementId) {
                 case 'catalog_button-add-to-cart':
                     /* запрос на добавление товара в корзину */
-
-                    if (true) { // FIX!!! если запрос успешный
-                        const addToCartButton = document.getElementById(
-                            `catalog_button-add-to-cart/${itemId}`);
-                        const amountSelector = document.getElementById(
-                            `catalog_amount-selector/${itemId}`);
-                        if (!!addToCartButton && !!amountSelector) {
-                            amountSelector.style.display = 'grid';
-                            addToCartButton.style.display = 'none';
-
-                            const itemAmount = document.getElementById(`catalog_item-amount/${itemId}`);
-                            if (itemAmount) {
-                                if (parseInt(itemAmount.textContent) === 0) {
-                                    // Можно получать количество элементов из HTML, а можно по запросу,
-                                    // так данные будут более актуальны
-                                    itemAmount.textContent = '1';
-                                }
-                            }
-                        } else {
-                            console.warn('Элементы не найдены: addToCartButton, addToCartButton');
-                        }
-                    }
+                    basketAction.addToCart(itemId);
                     break;
                 case 'catalog_button-minus_cart':
                     /* Запрос на уменьшение количества единиц товара в корзине */
-
-                    if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`catalog_item-amount/${itemId}`);
-                        if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
-                            // Можно получать количество элементов из HTML, а можно по запросу,
-                            // так данные будут более актуальны
-
-                            if (amount === 1) {
-                                const amountSelector = document.getElementById(
-                                    `catalog_amount-selector/${itemId}`);
-                                const addToCartButton = document.getElementById(
-                                    `catalog_button-add-to-cart/${itemId}`);
-                                if (!!addToCartButton && !!amountSelector) {
-                                    amountSelector.style.display = 'none';
-                                    addToCartButton.style.display = 'flex';
-                                } else {
-                                    console.warn(
-                                        'Элементы не найдены: addToCartButton, addToCartButton');
-                                }
-                            } else {
-                                itemAmount.textContent = (amount - 1).toString();
-                            }
-                        }
-                    }
-
+                    basketAction.decreaseNumber(itemId);
                     break;
                 case 'catalog_button-plus_cart':
                     /* Запрос на увеличение количества единиц товара в корзине */
-
-                    if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`catalog_item-amount/${itemId}`);
-                        if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
-                            // Можно получать количество элементов из HTML, а можно по запросу,
-                            // так данные будут более актуальны
-                            itemAmount.textContent = (amount + 1).toString();
-                        }
-                    }
+                    basketAction.increaseNumber(itemId);
                     break;
                 case 'catalog_like-button':
                     /* Запрос на добавление товара в избраннное */
@@ -227,6 +245,7 @@ export default class CatalogPage extends BasePage {
      */
     bottomOfPageHandlerPrototype(event) {
         if ((scrollY + innerHeight > (0.95 * document.body.scrollHeight))) {
+
             this.loadCatalogItemCards();
         }
     }

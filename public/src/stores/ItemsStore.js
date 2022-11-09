@@ -1,7 +1,6 @@
 import BaseStore from './BaseStore.js';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
-import {config} from '../config';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -106,7 +105,9 @@ class ItemsStore extends BaseStore {
      * @param {String} category - категория
      */
     async _getItemCardsByCategory(category) {
-
+        //const [status, outD] = await request.makeGetRequest(`productsByCategory${category}`)
+        //    .catch((err) => console.log(err));
+        //this._storage.set(this._storeNames.responseCode, status);
     }
 
     /**

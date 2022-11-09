@@ -357,7 +357,7 @@ class UserStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.temp, data);
-        if (status === 200) {
+        if (status === 200 || true) {
             this._storage.has(data.id) ?
                 this._storage.set(data.id, data.value) : console.log('wrong id');
         } else {
@@ -374,7 +374,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             this._storage.set(this._storeNames.avatar,
                 URL.createObjectURL(avatar ?? 'img/UserPhoto.png'));
         } else {
@@ -399,7 +399,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             const paymentMethods = this._storage.get(this._storeNames.paymentMethods);
             data.id = `paymentCard/${String(Object.keys(paymentMethods).length)}`;
             Object.values(paymentMethods).forEach((item) => item.priority = false);
@@ -425,7 +425,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, paymentMethods)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             this._storage.set(this._storeNames.paymentMethods, paymentMethods);
         } else {
             console.log('error', status);
@@ -449,7 +449,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             const addresses = this._storage.get(this._storeNames.address);
             data.id = `addressCard/${String(Object.keys(addresses).length)}`;
             Object.values(addresses).forEach((item) => item.priority = false);
@@ -477,7 +477,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, addresses)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             this._storage.set(this._storeNames.address, addresses);
         } else {
             console.log('error', status);
@@ -499,7 +499,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, addresses)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
+        if (status === 200 || true) {
             this._storage.set(this._storeNames.address, addresses);
         } else {
             console.log('error', status);

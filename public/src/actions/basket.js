@@ -15,6 +15,7 @@ export const BasketActionTypes = {
     DECREASE_NUMBER: 'DECREASE_NUMBER',
     BUY: 'BUY',
     SAVE_EDIT_DELIVERY: 'SAVE_EDIT_DELIVERY',
+    ADD_TO_CART: 'ADD_TO_CART',
 };
 
 /**
@@ -37,7 +38,7 @@ export const basketAction = {
     selectById(id) {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.SELECT_BY_ID,
-            data: {id},
+            data: id,
         });
     },
 
@@ -48,7 +49,7 @@ export const basketAction = {
     deleteById(id) {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.DELETE_BY_ID,
-            data: {id},
+            data: id,
         });
     },
 
@@ -68,7 +69,18 @@ export const basketAction = {
     increaseNumber(id) {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.INCREASE_NUMBER,
-            data: {id},
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: увеличить количество товара.
+     * @param {number} id
+     */
+    addToCart(id) {
+        Dispatcher.dispatch({
+            actionName: BasketActionTypes.ADD_TO_CART,
+            data: id,
         });
     },
 
@@ -79,7 +91,7 @@ export const basketAction = {
     decreaseNumber(id) {
         Dispatcher.dispatch({
             actionName: BasketActionTypes.DECREASE_NUMBER,
-            data: {id},
+            data: id,
         });
     },
 

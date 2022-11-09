@@ -34,5 +34,8 @@ export const config = {
         products: basePathApi + 'products',
         profile: basePathApi + 'profile',
         uploadAvatar: basePathApi + 'avatar',
+        insertIntoCart: basePathApi + 'insertintocart',
+        deletefromcart: basePathApi + 'deletefromcart',
+        productsByCategory: basePathApi + 'products/',
     },
 };
