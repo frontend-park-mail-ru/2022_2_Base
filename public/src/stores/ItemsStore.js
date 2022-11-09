@@ -88,7 +88,7 @@ class ItemsStore extends BaseStore {
     /**
      * Действие: запрос списка популярных карточек.
      */
-    async _getItemCardsHome(path, popularCard) {
+    async _getItemCardsHome({path, popularCard}) {
         const [status, outD] = await request.makeGetRequest(path)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);

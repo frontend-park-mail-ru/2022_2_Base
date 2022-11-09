@@ -25,6 +25,10 @@ export const itemCardsAction = {
     getHomeItemCards(path, selector) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
+            data: {
+                path: path,
+                popularCard: selector,
+            },
         });
     },
 
