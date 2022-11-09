@@ -62,7 +62,9 @@ export default class AddressCard extends BaseComponent {
             PopUpFade.style.display = 'block';
         }
         this.PopUpAddAddress = new PopUpAddAddress(PopUp);
-        this.PopUpAddAddress.render(null);
+        this.PopUpAddAddress.render({
+            add: true,
+        });
     }
 
     /**
@@ -144,6 +146,6 @@ export default class AddressCard extends BaseComponent {
      */
     render(context) {
         super.render(super.prepareCategory(context), AddressCardTemplate);
-        this.startEventListener(context); // context.addCard
+        this.startEventListener(context);
     }
 }

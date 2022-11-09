@@ -24,12 +24,39 @@ export default class UserPage extends BasePage {
         userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
         userStore.addListener(this.onUploadAvatar,
             ProfileActionTypes.DELETE_AVATAR);
-        userStore.addListener(()=>{
-            if (userStore.getContext(userStore.responseCode) === 200) {
-                const data = userStore.getContext(userStore._storeNames.temp);
-                document.getElementById( data.id).innerText = data.value;
-            }
-        }, ProfileActionTypes.SAVE_EDIT_DATA);
+        userStore.addListener(this.editUserInfo, ProfileActionTypes.SAVE_EDIT_DATA);
+        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_ADD_ADDRESS);
+    }
+
+    /**
+     * Функция, делающая изменяющая данные пользователя
+     */
+    editUserInfo() {
+        if (userStore.getContext(userStore.responseCode) === 200) {
+            const data = userStore.getContext(userStore._storeNames.temp);
+            document.getElementById( data.id).innerText = data.value;
+        }
+    }
+
+    /**
+     * Функция, делающая изменяющая данные о способах оплаты
+     */
+    renderBankCards() {
+        const bankCard = document.getElementById('payment-cards-items_user-page');
+        bankCard.innerHTML = '';
+        this.loadCards(new PaymentCard(bankCard),
+            'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
+    }
+
+    /**
+     * Функция, делающая изменяющая данные об адресах доставки
+     */
+    renderAddresses() {
+        const addressCard = document.getElementById('address-cards_user-page-items');
+        addressCard.innerHTML = '';
+        this.loadCards(new AddressCard(
+            addressCard),
+        'addressCard', userStore.getContext(userStore._storeNames.address));
     }
 
     /**
@@ -42,14 +69,8 @@ export default class UserPage extends BasePage {
             phone: userStore.getContext(userStore._storeNames.phone),
             avatar: userStore.getContext(userStore._storeNames.avatar),
         });
-
-        this.loadCards(new PaymentCard(
-            document.getElementById('payment-cards-items_user-page')),
-        'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
-
-        this.loadCards(new AddressCard(
-            document.getElementById('address-cards_user-page-items')),
-        'addressCard', userStore.getContext(userStore._storeNames.address));
+        this.renderBankCards();
+        this.renderAddresses();
 
         this.startEventListener();
     }
@@ -87,6 +108,7 @@ export default class UserPage extends BasePage {
             };
         }
         componentEntity.render(data);
+        delete data.addCard;
     }
 
     /**

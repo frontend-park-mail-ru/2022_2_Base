@@ -183,7 +183,7 @@ class UserStore extends BaseStore {
             break;
 
         case ProfileActionTypes.SAVE_ADD_ADDRESS:
-            await this._saveAddAddress();
+            await this._saveAddAddress(payload.data);
             this._emitChange([ProfileActionTypes.SAVE_ADD_ADDRESS]);
             break;
 
@@ -419,9 +419,22 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий выход из сессии.
+     * @param {object} data - данные для обработки
      */
-    async _saveAddAddress() {
+    async _saveAddAddress(data) {
+        // ???
+        const [status] = await request.makePostRequest(config.api.profile, data)
+            .catch((err) => console.log(err));
 
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            const addresses = this._storage.get(this._storeNames.address);
+            data.id = `addressCard/${String(Object.keys(addresses).length)}`;
+            Object.values(addresses).forEach((item) => item.priority = false);
+            data.priority = true;
+            addresses[`${Object.keys(addresses).length}`] = data;
+            this._storage.set(this._storeNames.address, addresses);
+        }
     }
 
     /**

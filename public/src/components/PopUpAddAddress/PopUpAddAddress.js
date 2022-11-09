@@ -1,6 +1,7 @@
 import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
 import './PopUpAddAddress.scss';
+import {profileAction} from "../../actions/profile";
 
 /**
  * Класс для реализации компонента Footer
@@ -39,6 +40,18 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     async listenClickApply(event) {
         event.preventDefault();
+        const inputData = {
+            city: document.getElementById('city').value,
+            street: document.getElementById('street').value,
+            house: document.getElementById('house').value,
+            flat: document.getElementById('flat').value,
+        };
+
+        if (this.context.add) {
+            profileAction.saveAddAddress(inputData);
+        } else {
+            profileAction.saveEditAddress(inputData);
+        }
 
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
@@ -59,7 +72,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         cancel.addEventListener('click', this.listenClickCancel);
 
         const apply = document.getElementById('popup-form_add-address__apply');
-        apply.addEventListener('click', this.listenClickApply);
+        this.listenClickApplyBind = this.listenClickApply.bind(this);
+        apply.addEventListener('click', this.listenClickApplyBind);
     }
 
     /**
@@ -70,7 +84,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         cancel.removeEventListener('click', this.listenClickCancel);
 
         const apply = document.getElementById('.popup-form_add-address__apply');
-        apply.removeEventListener('click', this.listenClickApply);
+        apply.removeEventListener('click', this.listenClickApplyBind);
     }
 
     /**
@@ -79,6 +93,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * @param {object} context, с учетом которого будет произведен рендер
      */
     render(context) {
+        this.context = context;
         super.render(context, PopUpAddAddressTemplate);
         this.startEventListener();
     }

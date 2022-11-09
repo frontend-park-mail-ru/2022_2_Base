@@ -96,22 +96,12 @@ export const profileAction = {
 
     /**
      * Действие: редактировать данные банковской карты.
-     * @param {Number} id
-     * @param {String} number - номер карты
-     * @param {String} name - имя на карте
-     * @param {Date} endDate - дата истечения
-     * @param {number} code - код
+     * @param {object} data - данные для обработки
      */
-    saveEditCard(id, number, name, endDate, code) {
+    saveEditCard(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_CARD,
-            data: {
-                id,
-                number,
-                name,
-                endDate,
-                code,
-            },
+            data: data,
         });
     },
 
@@ -136,45 +126,23 @@ export const profileAction = {
 
     /**
      * Действие: добавить новый адрес.
-     * @param {String} country - страна
-     * @param {String} city - город
-     * @param {String} street - улица
-     * @param {String} house - дом
-     * @param {Number} apartmentNumber - номер квартиры
+     * @param {object} data - данные для обработки
      */
-    saveAddAddress(country, city, street, house, apartmentNumber) {
+    saveAddAddress(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
-            data: {
-                country,
-                city,
-                street,
-                house,
-                apartmentNumber,
-            },
+            data: data,
         });
     },
 
     /**
      * Действие: редактировать адрес.
-     * @param {Number} id
-     * @param {String} country - страна
-     * @param {String} city - город
-     * @param {String} street - улица
-     * @param {String} house - дом
-     * @param {Number} apartmentNumber - номер квартиры
+     * @param {object} data - данные для обработки
      */
-    saveEditAddress(id, country, city, street, house, apartmentNumber) {
+    saveEditAddress(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
-            data: {
-                id,
-                country,
-                city,
-                street,
-                house,
-                apartmentNumber,
-            },
+            data: data,
         });
     },
 
