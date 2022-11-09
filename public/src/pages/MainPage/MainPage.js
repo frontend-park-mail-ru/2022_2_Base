@@ -23,22 +23,24 @@ export default class MainPage extends BasePage {
             itemsStore.getContext(itemsStore._storeNames.cardsBySales)),
         ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
 
-        itemsStore.addListener(this.loadCards.bind(this, 'popularCard',
-            itemsStore.getContext(itemsStore._storeNames.cardsByPopularity)),
-        ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+        itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
+            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
         );
     }
 
     /**
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
-     * @param {object} response данные ответа
      */
-    async loadCards(classToGet, response) {
+    async loadCards(classToGet) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
-        console.log('response', response);
-        console.log('response code', itemsStore.getContext(itemsStore._storeNames.responseCode));
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
+            let response;
+            if (classToGet === 'popularCard') {
+                response = itemsStore.getContext(itemsStore._storeNames.cardsByPopularity);
+            } else {
+                response = itemsStore.getContext(itemsStore._storeNames.cardsBySales);
+            }
             response.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
