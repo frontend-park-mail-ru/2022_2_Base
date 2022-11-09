@@ -329,7 +329,7 @@ class UserStore extends BaseStore {
             username:this._storage.get(this._storeNames.name),
             email:this._storage.get(this._storeNames.email),
             phone:this._storage.get(this._storeNames.phone),
-            paymentMethods: this._storage.gey(this._storeNames.paymentMethods),
+            paymentMethods: this._storage.get(this._storeNames.paymentMethods),
             address:this._storage.get(this._storeNames.address)
         }
         switch (data.id) {
