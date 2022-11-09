@@ -42,8 +42,7 @@ class ItemsStore extends BaseStore {
     _storeNames = {
         topCategory: 'topCategory',
         responseCode: 'responseCode',
-        cardsBySales: 'cardsBySales',
-        cardsByPopularity: 'cardsByPopularity',
+        cardsHome: 'cardsHome',
     };
 
     /**
@@ -54,8 +53,7 @@ class ItemsStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.topCategory, this.#topCategory);
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.cardsByPopularity, null);
-        this._storage.set(this._storeNames.cardsBySales, null);
+        this._storage.set(this._storeNames.cardsHome, null);
     }
 
 
@@ -65,14 +63,9 @@ class ItemsStore extends BaseStore {
      */
     async _onDispatch(payload) {
         switch (payload.actionName) {
-        case ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES:
-            await this._getSalesItemCards();
-            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES]);
-            break;
-
-        case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
-            await this._getPopularItemCards();
-            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
+        case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
+            await this._getItemCardsHome(payload.data);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_HOME]);
             break;
 
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
@@ -93,30 +86,18 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-     * Действие: запрос списка карточек по скидке.
-     */
-    async _getSalesItemCards() {
-        const [status, outD] = await request.makeGetRequest(config.api.products)
-            .catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, status);
-
-        console.log(status, outD.body);
-        if (status === 200) {
-            this._storage.set(this._storeNames.cardsBySales, outD.body);
-        }
-    }
-
-    /**
      * Действие: запрос списка популярных карточек.
      */
-    async _getPopularItemCards() {
-        const [status, outD] = await request.makeGetRequest(config.api.products)
+    async _getItemCardsHome(path, popularCard) {
+        const [status, outD] = await request.makeGetRequest(path)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        console.log(status, outD.body);
         if (status === 200) {
-            this._storage.set(this._storeNames.cardsByPopularity, outD.body);
+            this._storage.set(this._storeNames.cardsHome, {
+                classToGet: popularCard ? 'popularCard' : 'salesCard',
+                body: outD.body,
+            });
         }
     }
 

@@ -5,6 +5,7 @@ import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './MainPage.scss';
 import itemsStore from '../../stores/ItemsStore.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
+import {config} from "../../config";
 
 /**
  * Класс, реализующий главную страницу
@@ -19,29 +20,23 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
-        itemsStore.addListener(this.loadCardds.bind(this, 'salesCard'),
-        ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
+        itemsStore.addListener(this.loadCards,
+        ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
-        itemsStore.addListener(this.loadCardds.bind(this, 'popularCard'),
-            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+        itemsStore.addListener(this.loadCards,
+            ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
         );
     }
 
     /**
      * Метод, загружающий карты.
-     * @param {string} classToGet имя класса, в который надо вставить карту
      */
-    async loadCardds(classToGet) {
-        const rootElement = document.getElementById(classToGet + '__right-arrow');
+    async loadCards() {
+        const response = itemsStore.getContext(itemsStore._storeNames.cardsByPopularity);
+        const rootElement = document.getElementById(response.classToGet + '__right-arrow');
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
-            let response;
-            if (classToGet === 'popularCard') {
-                response = itemsStore.getContext(itemsStore._storeNames.cardsByPopularity);
-            } else {
-                response = itemsStore.getContext(itemsStore._storeNames.cardsBySales);
-            }
             console.log(response);
-            response.forEach((card, num) => {
+            response.body.forEach((card, num) => {
                 let discount = null;
                 card.price === card.lowprice ? card.price = discount :
                     discount = 100 - Math.round(card.lowprice / card.price * 100);
@@ -84,7 +79,7 @@ export default class MainPage extends BasePage {
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
-        itemCardsAction.getSalesItemCards();
-        itemCardsAction.getPopularItemCards();
+        itemCardsAction.getHomeItemCards(config.api.products, true);
+        itemCardsAction.getHomeItemCards(config.api.products, false);
     }
 }
