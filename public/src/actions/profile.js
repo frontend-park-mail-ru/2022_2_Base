@@ -12,14 +12,12 @@ export const ProfileActionTypes = {
     DELETE_AVATAR: 'DELETE_AVATAR',
     GET_CARDS: 'GET_CARDS',
     SAVE_ADD_CARD: 'SAVE_ADD_CARD',
-    SAVE_EDIT_CARD: 'SAVE_EDIT_CARD',
     DELETE_CARD: 'DELETE_CARD',
     GET_ADDRESS: 'GET_ADDRESS',
     SAVE_ADD_ADDRESS: 'SAVE_ADD_ADDRESS',
     SAVE_EDIT_ADDRESS: 'SAVE_EDIT_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
     GET_BASKET: 'GET_BASKET',
-    SAVE_EDIT_DELIVERY: 'SAVE_EDIT_DELIVERY',
 };
 
 /**
@@ -86,17 +84,6 @@ export const profileAction = {
         });
     },
 
-    /**
-     * Действие: редактировать данные банковской карты.
-     * @param {object} data - данные для обработки
-     */
-    saveEditCard(data) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.SAVE_EDIT_CARD,
-            data: data,
-        });
-    },
-
     /** Удаление банковской карты с определенным id.
      * @param {number} id
      */
@@ -145,22 +132,6 @@ export const profileAction = {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_ADDRESS,
             data: id,
-        });
-    },
-    /**
-     * Действие: редактировать данные доставки.
-     * @param {String} address - адрес
-     * @param {String} price - стоимость
-     * @param {String} date - дата
-     */
-    saveEditDelivery(address, price, date) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.SAVE_EDIT_DELIVERY,
-            data: {
-                address,
-                price,
-                date,
-            },
         });
     },
 

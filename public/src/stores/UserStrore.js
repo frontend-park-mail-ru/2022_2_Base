@@ -172,11 +172,6 @@ class UserStore extends BaseStore {
             this._emitChange([ProfileActionTypes.SAVE_ADD_CARD]);
             break;
 
-        case ProfileActionTypes.SAVE_EDIT_CARD:
-            await this._saveEditCard();
-            this._emitChange([ProfileActionTypes.SAVE_EDIT_CARD]);
-            break;
-
         case ProfileActionTypes.DELETE_CARD:
             await this._saveDeleteCard(payload.data);
             this._emitChange([ProfileActionTypes.DELETE_CARD]);
@@ -207,10 +202,6 @@ class UserStore extends BaseStore {
             this._emitChange([ProfileActionTypes.GET_BASKET]);
             break;
 
-        case ProfileActionTypes.SAVE_EDIT_DELIVERY:
-            await this._saveEditDelivery();
-            this._emitChange([ProfileActionTypes.SAVE_EDIT_DELIVERY]);
-            break;
         default:
             console.log('unregistered action in user store');
         }
@@ -359,7 +350,7 @@ class UserStore extends BaseStore {
             };
             const [status] = await request.makePostRequest(config.api.password, sendData)
                 .catch((err) => console.log(err));
-            if (status !== 200) {
+            if (status === 200) {
                 console.log(data.id, status);
             }
             return;
@@ -411,7 +402,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status !== 200) {
+        if (status === 200) {
             const paymentMethods = this._storage.get(this._storeNames.paymentMethods);
             data.id = `paymentCard/${String(Object.keys(paymentMethods).length)}`;
             Object.values(paymentMethods).forEach((item) => item.priority = false);
@@ -421,13 +412,6 @@ class UserStore extends BaseStore {
         } else {
             console.log('error', status);
         }
-    }
-
-    /**
-     * Метод, реализующий выход из сессии.
-     */
-    async _saveEditCard() {
-
     }
 
     /**
@@ -526,16 +510,9 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий запрос корзины.
      */
     async _getBasket() {
-
-    }
-
-    /**
-     * Метод, реализующий выход из сессии.
-     */
-    async _saveEditDelivery() {
 
     }
 }

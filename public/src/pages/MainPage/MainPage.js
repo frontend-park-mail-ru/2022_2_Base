@@ -2,44 +2,14 @@ import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
-import request from '../../modules/ajax.js';
 import './MainPage.scss';
+import itemsStore from '../../stores/ItemsStore';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 
 /**
  * Класс, реализующий главную страницу
  */
 export default class MainPage extends BasePage {
-    #topCategory = {
-        Smartphone: {
-            nameCategory: 'Телефоны',
-            img: './img/Smartphone.png',
-        },
-        Computer: {
-            nameCategory: 'Компьютеры',
-            img: './img/Computer.png',
-        },
-        Headphones: {
-            nameCategory: 'Наушники',
-            img: './img/Headphones.png',
-        },
-        TV: {
-            nameCategory: 'Телевизоры',
-            img: './img/TV.png',
-        },
-        Watch: {
-            nameCategory: 'Часы',
-            img: './img/Watch.png',
-        },
-        Tablet: {
-            nameCategory: 'Планшеты',
-            img: './img/Tablet.png',
-        },
-        Accessories: {
-            nameCategory: 'Аксессуары',
-            img: './img/Accessories.png',
-        },
-    };
-
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -49,20 +19,19 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
+        itemsStore.addListener(this.loadCards.bind(this, 'salesCard'),
+            ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES);
+        itemsStore.addListener(this.loadCards.bind(this, 'popularCard'),
+            ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR);
     }
 
     /**
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
-     * @param {string} reqPath путь для api запроса к беку
      */
-    async loadCards(classToGet, reqPath) {
-        //  loading cards
-        const [status, outD] = await request.makeGetRequest(reqPath)
-            .catch((err) => console.log(err));
-
+    async loadCards(classToGet) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
-        if (status === 200) {
+        if (itemsStore.getContext(itemsStore.responseCode) === 200) {
             const itemCards = outD.body;
             itemCards.forEach((card, num) => {
                 let discount = null;
@@ -105,9 +74,9 @@ export default class MainPage extends BasePage {
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(this.#topCategory);
+        this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
-        await this.loadCards('salesCard', config.api.products);
-        await this.loadCards('popularCard', config.api.products);
+        itemCardsAction.getSalesItemCards();
+        itemCardsAction.getPopularItemCards();
     }
 }

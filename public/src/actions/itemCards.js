@@ -1,6 +1,6 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий с карточками товаров.
@@ -11,13 +11,13 @@ export const ItemCardsActionTypes = {
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
-    ITEM_CARD_CLICKED_BUY: 'ITEM_CARD_CLICKED_BUY',
 };
 
 /**
  * Класс, содержащий в себе действия с карточками товаров.
  */
 export const itemCardsAction = {
+
     /**
      * Действие: запрос списка карточек по скидке.
      */
@@ -65,17 +65,6 @@ export const itemCardsAction = {
     getItemCard(id) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
-            data: {id},
-        });
-    },
-
-    /**
-     * Действие: Добавление карточки с определенным id в корзину.
-     * @param {number} id
-     */
-    clickedByItemCard(id) {
-        Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARD_CLICKED_BUY,
             data: {id},
         });
     },
