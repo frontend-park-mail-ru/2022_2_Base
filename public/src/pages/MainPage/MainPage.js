@@ -5,7 +5,6 @@ import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './MainPage.scss';
 import itemsStore from '../../stores/ItemsStore.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
-import {config} from "../../config";
 
 /**
  * Класс, реализующий главную страницу
@@ -21,7 +20,7 @@ export default class MainPage extends BasePage {
             mainPageTemplate,
         );
         itemsStore.addListener(this.loadCards,
-        ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
+            ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
         itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
@@ -50,7 +49,7 @@ export default class MainPage extends BasePage {
                 };
                 /* creating div to add */
                 const cardElement = document.createElement('div');
-                cardElement.id = `${classToGet}${String(num)}`;
+                cardElement.id = `${response.classToGet}${String(num)}`;
                 cardElement.classList.add('item-card');
                 rootElement.before(cardElement);
                 /* rendering card itself */
