@@ -37,6 +37,7 @@ export default class MainPage extends BasePage {
     async loadCards(classToGet, response) {
         const rootElement = document.getElementById(classToGet + '__right-arrow');
         console.log('response', response);
+        console.log('response code', itemsStore.getContext(itemsStore._storeNames.responseCode));
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             response.forEach((card, num) => {
                 let discount = null;
