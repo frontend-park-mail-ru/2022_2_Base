@@ -171,7 +171,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     amount: itemInCartAmount,
                 };
                 index++;
-            })
+            });
         } else {
             console.log('element not found', itemsInCart);
         }
@@ -189,14 +189,16 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     startEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.addEventListener('click', this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-address'));
+            editAddress.addEventListener('click', 
+            this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-address'));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.addEventListener('click', this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-payment-card'));
+            editPaymentCard.addEventListener('click', 
+            this.listenClickEditAddressAndPaymentCard.bind(this, 'edit-payment-card'));
         } else {
             console.log('element not found', editPaymentCard);
         }
@@ -215,14 +217,16 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     removeEventListener() {
         const editAddress = document.getElementById('edit-address');
         if (editAddress) {
-            editAddress.removeEventListener('click', this.listenClickEditAddressAndPaymentCard(this, editAddress.hasAttribute('id')));
+            editAddress.removeEventListener('click', 
+            this.listenClickEditAddressAndPaymentCard(this, editAddress.hasAttribute('id')));
         } else {
             console.log('element not found', editAddress);
         }
 
         const editPaymentCard = document.getElementById('edit-payment-card');
         if (editPaymentCard) {
-            editPaymentCard.removeEventListener('click', this.listenClickEditAddressAndPaymentCard(this, editPaymentCard.hasAttribute('id')));
+            editPaymentCard.removeEventListener('click', 
+            this.listenClickEditAddressAndPaymentCard(this, editPaymentCard.hasAttribute('id')));
         } else {
             console.log('element not found', editPaymentCard);
         }
