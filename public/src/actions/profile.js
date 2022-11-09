@@ -77,20 +77,12 @@ export const profileAction = {
 
     /**
      * Действие: добавить новую банковскую карту.
-     * @param {String} number - номер карты
-     * @param {String} name - имя на карте
-     * @param {Date} endDate - дата истечения
-     * @param {number} code - код
+     * @param {object} data - данные для обработки
      */
-    saveAddCard(number, name, endDate, code) {
+    saveAddCard(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
-            data: {
-                number,
-                name,
-                endDate,
-                code,
-            },
+            data: data,
         });
     },
 
@@ -111,7 +103,7 @@ export const profileAction = {
     deleteCard(id) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_CARD,
-            data: {id},
+            data: id,
         });
     },
 
@@ -147,12 +139,12 @@ export const profileAction = {
     },
 
     /** Удаление адреса с определенным id.
-     * @param {number} id
+     * @param {int} id
      */
     deleteAddress(id) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_ADDRESS,
-            data: {id},
+            data: id,
         });
     },
     /**

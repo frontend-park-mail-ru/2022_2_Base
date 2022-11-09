@@ -26,6 +26,10 @@ export default class UserPage extends BasePage {
             ProfileActionTypes.DELETE_AVATAR);
         userStore.addListener(this.editUserInfo, ProfileActionTypes.SAVE_EDIT_DATA);
         userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_ADD_ADDRESS);
+        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_EDIT_ADDRESS);
+        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.SAVE_ADD_CARD);
+        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.DELETE_ADDRESS);
+        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.DELETE_CARD);
     }
 
     /**
@@ -34,29 +38,33 @@ export default class UserPage extends BasePage {
     editUserInfo() {
         if (userStore.getContext(userStore.responseCode) === 200) {
             const data = userStore.getContext(userStore._storeNames.temp);
-            document.getElementById( data.id).innerText = data.value;
+            document.getElementById(data.id).innerText = data.value;
         }
     }
 
     /**
      * Функция, делающая изменяющая данные о способах оплаты
      */
-    renderBankCards() {
+    renderPaymentCards() {
+        this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         bankCard.innerHTML = '';
         this.loadCards(new PaymentCard(bankCard),
             'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
+        this.startListenerPaymentCard();
     }
 
     /**
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
+        this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         addressCard.innerHTML = '';
         this.loadCards(new AddressCard(
             addressCard),
         'addressCard', userStore.getContext(userStore._storeNames.address));
+        this.startListenerAddressCard();
     }
 
     /**
@@ -69,7 +77,7 @@ export default class UserPage extends BasePage {
             phone: userStore.getContext(userStore._storeNames.phone),
             avatar: userStore.getContext(userStore._storeNames.avatar),
         });
-        this.renderBankCards();
+        this.renderPaymentCards();
         this.renderAddresses();
 
         this.startEventListener();
@@ -187,7 +195,6 @@ export default class UserPage extends BasePage {
      */
     async listenClickUserInfo(element, event) {
         event.preventDefault();
-        // const context = this.prepareRenderData(element);
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
@@ -225,6 +232,60 @@ export default class UserPage extends BasePage {
     }
 
     /**
+     * Метод, добавляющий слушатели для способов оплаты.
+     */
+    startListenerPaymentCard() {
+        this.paymentCard = document.querySelectorAll('.payment-card-wrapper');
+        if (this.paymentCard) {
+            this.paymentCard.forEach((paymentCard) => {
+                paymentCard.addEventListener('mouseenter', this.listenMouseOverPaymentCard);
+                paymentCard.addEventListener('mouseleave', this.listenMouseOutPaymentCard);
+            });
+        } else {
+            console.log('element not found', this.paymentCard);
+        }
+    }
+
+    /**
+     * Метод, добавляющий слушатели для карт адресов.
+     */
+    startListenerAddressCard() {
+        this.addressCard = document.querySelectorAll('.address-card-wrapper');
+        if (this.addressCard) {
+            this.addressCard.forEach((addressCard) => {
+                addressCard.addEventListener('mouseenter', this.listenMouseOverAddressCard);
+                addressCard.addEventListener('mouseleave', this.listenMouseOutAddressCard);
+            });
+        } else {
+            console.log('element not found', this.addressCard);
+        }
+    }
+
+    /**
+     * Метод, удаляющий слушатели для способов оплаты.
+     */
+    removeListenerPaymentCard() {
+        if (this.paymentCard) {
+            this.paymentCard.forEach((key) => {
+                key.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
+                key.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
+            });
+        }
+    }
+
+    /**
+     * Метод, удаляющий слушатели для карт адресов.
+     */
+    removeListenerAddressCard() {
+        if (this.addressCard) {
+            this.addressCard.forEach((key) => {
+                key.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
+                key.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
+            });
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -246,28 +307,6 @@ export default class UserPage extends BasePage {
             this.profile.addEventListener('mouseleave', this.listenMouseOutProfile);
         } else {
             console.log('element not found', this.profile);
-        }
-
-        // const PaymentCards = document.getElementById('bank-card_user-page__main');
-        this.paymentCard = document.querySelectorAll('.payment-card-wrapper');
-        if (this.paymentCard) {
-            this.paymentCard.forEach((paymentCard) => {
-                paymentCard.addEventListener('mouseenter', this.listenMouseOverPaymentCard);
-                paymentCard.addEventListener('mouseleave', this.listenMouseOutPaymentCard);
-            });
-        } else {
-            console.log('element not found', this.paymentCard);
-        }
-
-        // const AddressCards = document.getElementById('address-card_user-page__main');
-        this.addressCard = document.querySelectorAll('.address-card-wrapper');
-        if (this.addressCard) {
-            this.addressCard.forEach((addressCard) => {
-                addressCard.addEventListener('mouseenter', this.listenMouseOverAddressCard);
-                addressCard.addEventListener('mouseleave', this.listenMouseOutAddressCard);
-            });
-        } else {
-            console.log('element not found', this.addressCard);
         }
 
         this.userInfo = document.querySelectorAll('.edit-profile-data');
@@ -297,20 +336,6 @@ export default class UserPage extends BasePage {
         if (this.profile) {
             this.profile.removeEventListener('mouseenter', this.listenMouseOverProfile);
             this.profile.removeEventListener('mouseleave', this.listenMouseOutProfile);
-        }
-
-        if (this.paymentCard) {
-            this.paymentCard.forEach((key) => {
-                key.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
-                key.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
-            });
-        }
-
-        if (this.addressCard) {
-            this.addressCard.forEach((key) => {
-                key.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
-                key.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
-            });
         }
 
         if (this.userInfo) {

@@ -1,7 +1,7 @@
 import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
 import './PopUpAddAddress.scss';
-import {profileAction} from "../../actions/profile";
+import {profileAction} from '../../actions/profile';
 
 /**
  * Класс для реализации компонента Footer
@@ -45,6 +45,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             street: document.getElementById('street').value,
             house: document.getElementById('house').value,
             flat: document.getElementById('flat').value,
+            id: this.context.id,
         };
 
         if (this.context.add) {
@@ -52,7 +53,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         } else {
             profileAction.saveEditAddress(inputData);
         }
-
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {

@@ -15,7 +15,7 @@
             class="address-card-template address-card primary-address-card"
             {{else}}
             class="address-card-template address-card other-address-card"
-            {{/if}} >
+            {{/if}} id="text-{{this.id}}">
 
                 <div class="address-card-city text-normal-default">
                     {{this.city}}
@@ -25,16 +25,16 @@
                     {{this.street}}
                 </div>
 
-                <div class="address-card-city text-normal-default"> {{this.house}}, {{this.flat}} </div>
+                <div class="address-card-city text-normal-default"> д. {{this.house}}, кв. {{this.flat}} </div>
             </a>
 
             <div class="change-address-card change-pop-up_user-page" id="change-address-card-{{this.id}}">
                 <a id="edit-{{this.id}}" class="pop-up-button_user-page edit-address">
-                    <img src="img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
+                    <img id="edit-img-{{this.id}}" src="img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
                 </a>
                 <div class="separation-line_user-page"></div>
                 <a id="delete-{{this.id}}" class="pop-up-button_user-page delete-address">
-                    <img src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
+                    <img id="delete-img-{{this.id}}" src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
                 </a>
             </div>
         </div>

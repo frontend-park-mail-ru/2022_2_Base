@@ -2,6 +2,8 @@ import BaseComponent from '../BaseComponent.js';
 import PopUpAddAddress from '../PopUpAddAddress/PopUpAddAddress.js';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
+import userStore from '../../stores/UserStrore';
+import {profileAction} from '../../actions/profile';
 
 /**
  * Класс для реализации компонента Footer
@@ -23,26 +25,21 @@ export default class AddressCard extends BaseComponent {
      */
     async listenClickEditeAddress(event) {
         event.preventDefault();
-
-        // Запрос данных адреса
-        const address = {
-            country: 'Россия',
-            city: 'Москва',
-            street: 'Бассейная',
-            house: 228,
-            flat: 5,
-        };
-
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'block';
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'block';
-        }
-        this.PopUpAddAddress = new PopUpAddAddress(PopUp);
-        this.PopUpAddAddress.render(address);
+        const cardId = event.target.id.replace('edit-img-', '');
+        Object.values(userStore.getContext(userStore._storeNames.address)).forEach((addres) => {
+            if (addres.id === cardId) {
+                const PopUp = document.getElementById('popUp_user-page');
+                const PopUpFade = document.getElementById('popUp-fade_user-page');
+                if (PopUp) {
+                    PopUp.style.display = 'block';
+                }
+                if (PopUpFade) {
+                    PopUpFade.style.display = 'block';
+                }
+                this.PopUpAddAddress = new PopUpAddAddress(PopUp);
+                this.PopUpAddAddress.render(addres);
+            }
+        });
     }
 
     /**
@@ -74,8 +71,7 @@ export default class AddressCard extends BaseComponent {
      */
     async listenClickDeleteAddress(event) {
         event.preventDefault();
-
-        /*  Вызов метода, для удаления адреса */
+        profileAction.deleteAddress(event.target.id.replace('delete-img-', ''));
     }
 
     /**
@@ -145,6 +141,7 @@ export default class AddressCard extends BaseComponent {
      * @param {context} context, с учетом которого будет произведен рендер
      */
     render(context) {
+        this.context = context;
         super.render(super.prepareCategory(context), AddressCardTemplate);
         this.startEventListener(context);
     }

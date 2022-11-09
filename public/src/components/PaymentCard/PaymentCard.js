@@ -2,6 +2,7 @@ import BaseComponent from '../BaseComponent.js';
 import PopUpAddPaymentCard from '../PopUpAddPaymentCard/PopUpAddPaymentCard.js';
 import PaymentCardTemplate from './paymentCard.hbs';
 import './PaymentCard.scss';
+import {profileAction} from '../../actions/profile';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -43,8 +44,7 @@ export default class PaymentCard extends BaseComponent {
      */
     async listenClickDeletePaymentCard(event) {
         event.preventDefault();
-
-        /*  Вызов метода, для удаления карты */
+        profileAction.deleteCard(event.target.id.replace('delete-img-', ''));
     }
 
     /**

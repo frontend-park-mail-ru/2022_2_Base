@@ -97,15 +97,15 @@ class UserStore extends BaseStore {
                 priority: true,
                 city: 'г. Москва',
                 street: 'улица Бассейная',
-                house: 'д. 228',
-                flat: 'кв. 420',
+                house: '228',
+                flat: '420',
                 id: `addressCard/${String(1)}`,
             },
             item2: {
                 city: 'г. Москва',
                 street: 'улица Бассейная',
-                house: 'д. 228',
-                flat: 'кв. 420',
+                house: '228',
+                flat: '420',
                 id: `addressCard/${String(2)}`,
             },
         });
@@ -168,13 +168,18 @@ class UserStore extends BaseStore {
             break;
 
         case ProfileActionTypes.SAVE_ADD_CARD:
-            await this._saveAddCard();
+            await this._saveAddCard(payload.data);
             this._emitChange([ProfileActionTypes.SAVE_ADD_CARD]);
             break;
 
         case ProfileActionTypes.SAVE_EDIT_CARD:
             await this._saveEditCard();
             this._emitChange([ProfileActionTypes.SAVE_EDIT_CARD]);
+            break;
+
+        case ProfileActionTypes.DELETE_CARD:
+            await this._saveDeleteCard(payload.data);
+            this._emitChange([ProfileActionTypes.DELETE_CARD]);
             break;
 
         case ProfileActionTypes.GET_ADDRESS:
@@ -188,12 +193,12 @@ class UserStore extends BaseStore {
             break;
 
         case ProfileActionTypes.SAVE_EDIT_ADDRESS:
-            await this._saveEditAddress();
+            await this._saveEditAddress(payload.data);
             this._emitChange([ProfileActionTypes.SAVE_EDIT_ADDRESS]);
             break;
 
         case ProfileActionTypes.DELETE_ADDRESS:
-            await this._deleteAddress();
+            await this._deleteAddress(payload.data);
             this._emitChange([ProfileActionTypes.DELETE_ADDRESS]);
             break;
 
@@ -397,10 +402,25 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий сохранение карты.
+     * @param {object} data - данные для обработки
      */
-    async _saveAddCard() {
+    async _saveAddCard(data) {
+        // ??
+        const [status] = await request.makePostRequest(config.api.profile, data)
+            .catch((err) => console.log(err));
 
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status !== 200) {
+            const paymentMethods = this._storage.get(this._storeNames.paymentMethods);
+            data.id = `paymentCard/${String(Object.keys(paymentMethods).length)}`;
+            Object.values(paymentMethods).forEach((item) => item.priority = false);
+            data.priority = true;
+            paymentMethods[`${Object.keys(paymentMethods).length}`] = data;
+            this._storage.set(this._storeNames.paymentMethods, paymentMethods);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
@@ -411,6 +431,27 @@ class UserStore extends BaseStore {
     }
 
     /**
+     * Метод, реализующий удаление способа оплаты.
+     * @param {int} id - идентификатор элемента
+     */
+    async _saveDeleteCard(id) {
+        const paymentMethods = this._storage.get(this._storeNames.paymentMethods);
+        Object.entries(paymentMethods).forEach(([key, item]) => {
+            if (item.id === id) {
+                delete paymentMethods[key];
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.profile, paymentMethods)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            this._storage.set(this._storeNames.paymentMethods, paymentMethods);
+        } else {
+            console.log('error', status);
+        }
+    }
+
+    /**
      * Метод, реализующий выход из сессии.
      */
     async _getAddress() {
@@ -418,7 +459,7 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий добавление карты адреса.
      * @param {object} data - данные для обработки
      */
     async _saveAddAddress(data) {
@@ -434,21 +475,54 @@ class UserStore extends BaseStore {
             data.priority = true;
             addresses[`${Object.keys(addresses).length}`] = data;
             this._storage.set(this._storeNames.address, addresses);
+        } else {
+            console.log('error', status);
         }
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий изменение карты адреса.
+     * @param {object} data - данные для обработки
      */
-    async _saveEditAddress() {
-
+    async _saveEditAddress(data) {
+        // ??
+        const addresses = this._storage.get(this._storeNames.address);
+        Object.entries(addresses).forEach(([key, item]) => {
+            if (item.id === data.id) {
+                data.priority = item.priority;
+                addresses[key] = data;
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.profile, addresses)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            this._storage.set(this._storeNames.address, addresses);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
-     * Метод, реализующий выход из сессии.
+     * Метод, реализующий удаление карты адреса.
+     * @param {int} id - идентификатор элемента
      */
-    async _deleteAddress() {
-
+    async _deleteAddress(id) {
+        // ??
+        const addresses = this._storage.get(this._storeNames.address);
+        Object.entries(addresses).forEach(([key, item]) => {
+            if (item.id === id) {
+                delete addresses[key];
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.profile, addresses)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200) {
+            this._storage.set(this._storeNames.address, addresses);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**

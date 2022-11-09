@@ -1,6 +1,7 @@
 import BaseComponent from '../BaseComponent.js';
 import PopUpAddPaymentCardTemplate from './PopUpAddPaymentCard.hbs';
 import './PopUpAddPaymentCard.scss';
+import {profileAction} from '../../actions/profile';
 
 /**
  * Класс для реализации компонента Footer
@@ -35,8 +36,17 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
+     * @param {object} event - событие
      */
-    async listenClickApply() {
+    async listenClickApply(event) {
+        event.preventDefault();
+        profileAction.saveAddCard({
+            city: document.getElementById('month').value,
+            street: document.getElementById('year').value,
+            house: document.getElementById('cvc').value,
+            flat: document.getElementById('cardNumber').value,
+        });
+
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
