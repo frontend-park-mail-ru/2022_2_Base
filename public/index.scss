@@ -52,9 +52,8 @@ input[type=number] {
 }
 
 .input-field-error__text {
-  @extend .text-normal-small;
-  display: inline-block;
-  font-family: var(--font-main);
+    @extend .text-normal-small;
+    display: inline-block;
 }
 
 .server-error {
@@ -135,10 +134,18 @@ main {
 }
 
 .text-normal-default {
+<<<<<<< HEAD
   font-family: var(--font-main);
   font-weight: 500;
   font-size: 15px;
   line-height: 20px;
+=======
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    font-style: normal;
+>>>>>>> Base-2.12_catalog_page
 }
 
 .text-normal-small {
@@ -159,6 +166,17 @@ main {
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
+}
+
+.text-normal-large-strikethrough {
+    @extend .text-normal-large;
+    text-decoration-line: line-through;
+}
+
+.text-normal-very-big {
+    @extend .text-normal-large;
+    font-size: 32px;
+    line-height: 42px;
 }
 
 .text-normal-large-normal {

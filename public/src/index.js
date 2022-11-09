@@ -8,13 +8,6 @@ import {config} from './config.js';
 import userStore from './stores/UserStrore.js';
 
 refresh.refreshFooter();
-// const authEvent = new CustomEvent('authEvent', {detail: 'trigger on auth'});
-
-/**
- * Функция отрисовки страницы пользователя
- * @param {object} context контекст отрисовки страницы
- */
-
 router.start(config);
 
 /**

@@ -45,6 +45,7 @@ export default class MainPage extends BasePage {
                     salePrice: card.price,
                     cardTitle: card.name,
                     rating: card.rating,
+                    id: card.id,
                 };
                 /* creating div to add */
                 const cardElement = document.createElement('div');
@@ -68,6 +69,127 @@ export default class MainPage extends BasePage {
     }
 
     /**
+     * Функция, обрабатывающая клики на данной странице
+     * @param {Event} event контекст события для обработки
+     */
+    localEventListenersHandler(event) {
+        event.preventDefault();
+        const target = event.target;
+        let elementId = target.id;
+        let itemId;
+        if (elementId) {
+            if (elementId.includes('/')) {
+                [elementId, itemId] = elementId.split('/');
+                switch (elementId) {
+                case 'itemcard_button-add-to-cart':
+                    /* запрос на добавление товара в корзину */
+                    if (true) { // FIX!!! если запрос успешный
+                        const addToCartButton = document.getElementById(
+                            `itemcard_button-add-to-cart/${itemId}`);
+                        const amountSelector = document.getElementById(
+                            `itemcard_amount-selector/${itemId}`);
+                        if (!!addToCartButton && !!amountSelector) {
+                            amountSelector.style.display = 'grid';
+                            addToCartButton.style.display = 'none';
+
+                            const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                            if (itemAmount) {
+                                if (parseInt(itemAmount.textContent) === 0) {
+                                    // Можно получать количество элементов из HTML, а можно по запросу,
+                                    // так данные будут более актуальны
+                                    itemAmount.textContent = '1';
+                                }
+                            }
+                        } else {
+                            console.warn('Элементы не найдены: addToCartButton, addToCartButton');
+                        }
+                    }
+                    break;
+                case 'itemcard_button-minus_cart':
+                    /* Запрос на уменьшение количества единиц товара в корзине */
+                    if (true) { // FIX!!! если запрос успешный
+                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                        if (itemAmount) {
+                            const amount = parseInt(itemAmount.textContent);
+                            // Можно получать количество элементов из HTML, а можно по запросу,
+                            // так данные будут более актуальны
+
+                            if (amount === 1) {
+                                const amountSelector = document.getElementById(
+                                    `itemcard_amount-selector/${itemId}`);
+                                const addToCartButton = document.getElementById(
+                                    `itemcard_button-add-to-cart/${itemId}`);
+                                if (!!addToCartButton && !!amountSelector) {
+                                    amountSelector.style.display = 'none';
+                                    addToCartButton.style.display = 'flex';
+                                    itemAmount.textContent = '0';
+                                } else {
+                                    console.warn(
+                                        'Элементы не найдены: addToCartButton, addToCartButton');
+                                }
+                            } else {
+                                itemAmount.textContent = (amount - 1).toString();
+                            }
+                        }
+                    }
+
+                    break;
+                case 'itemcard_button-plus_cart':
+                    /* Запрос на увеличение количества единиц товара в корзине */
+                    if (true) { // FIX!!! если запрос успешный
+                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                        if (itemAmount) {
+                            const amount = parseInt(itemAmount.textContent);
+                            // Можно получать количество элементов из HTML, а можно по запросу,
+                            // так данные будут более актуальны
+                            itemAmount.textContent = (amount + 1).toString();
+                        }
+                    }
+                    break;
+                case 'itemcard_item-title':
+                    // 'item/'+itemId
+                    /* Переход на страницу товара по ссылке в комменте выше */
+                    break;
+                case 'itemcard_item-pic':
+                    // 'item/' + itemId
+                    /* Переход на страницу товара по ссылке в комменте выше */
+
+                    break;
+                }
+            } else {
+                switch (elementId) {
+                case 'mainpage_top-category':
+                    // 'item/'+ target.dataset.href
+                    /* Переход на страницу категории по ссылке в комменте выше */
+
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Метод, добавляющий слушатели.
+     */
+    startEventListener() {
+        const catalogContent = document.getElementById('content_main');
+        if (catalogContent) {
+            catalogContent.addEventListener('click', this.localEventListenersHandler);
+        }
+    }
+
+    /**
+     * Метод, удаляющий слушатели.
+     */
+    removeEventListener() {
+        const catalogContent = document.getElementById('catalog_content');
+        if (catalogContent) {
+            catalogContent.removeEventListener('click', this.localEventListenersHandler);
+        }
+    }
+
+
+    /**
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
@@ -79,5 +201,6 @@ export default class MainPage extends BasePage {
 
         itemCardsAction.getHomeItemCards(config.api.products, true);
         itemCardsAction.getHomeItemCards(config.api.products, false);
+        this.startEventListener();
     }
 }

@@ -1,7 +1,8 @@
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import RegisterPage from '../pages/RegisterPage/RegisterPage.js'
 import UserPage from '../pages/UserPage/UserPage.js';
+import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 
 /**
@@ -82,6 +83,7 @@ class Router {
         this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.user.href, UserPage);
+        this.register(config.header.catalogPage.href, CatalogPage);
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

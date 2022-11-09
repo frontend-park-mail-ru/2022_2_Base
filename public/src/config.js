@@ -22,6 +22,9 @@ export const config = {
         user: {
             href: '/user',
         },
+        catalogPage: {
+            href: '/catalogPage',
+        },
     },
     api: {
         login: basePathApi + 'login',
