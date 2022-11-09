@@ -32,7 +32,7 @@ export default class MainPage extends BasePage {
      * Метод, загружающий карты.
      */
     async loadCards() {
-        const response = itemsStore.getContext(itemsStore._storeNames.cardsByPopularity);
+        const response = itemsStore.getContext(itemsStore._storeNames.cardsHome);
         const rootElement = document.getElementById(response.classToGet + '__right-arrow');
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             console.log(response);
