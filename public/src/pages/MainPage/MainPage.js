@@ -3,8 +3,8 @@ import BasePage from '../BasePage.js';
 import TopCategory from '../../components/TopCategory/TopCategory.js';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './MainPage.scss';
-import itemsStore from '../../stores/ItemsStore';
-import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import itemsStore from '../../stores/ItemsStore.js';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
 
 /**
  * Класс, реализующий главную страницу

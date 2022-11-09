@@ -201,9 +201,6 @@ class UserStore extends BaseStore {
             await this._getBasket();
             this._emitChange([ProfileActionTypes.GET_BASKET]);
             break;
-
-        default:
-            console.log('unregistered action in user store');
         }
     }
 
@@ -315,8 +312,8 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.email, outD.email);
             this._storage.set(this._storeNames.phone, outD.phone);
             this._storage.set(this._storeNames.avatar, outD.avatar);
-            this._storage.set(this._storeNames.paymentMethods, outD.paymentMethods);
-            this._storage.set(this._storeNames.address, outD.address);
+            this._storage.set(this._storeNames.paymentMethods, outD.paymentMethods ?? {});
+            this._storage.set(this._storeNames.address, outD.address ?? {});
         } else {
             console.log('error', status);
         }
