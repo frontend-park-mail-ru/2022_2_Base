@@ -46,7 +46,11 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     };
 
     #data = {
-        addressID: 1,
+        addressID: 1111,
+        city: 'Москва',
+        street: 'Мира',
+        house: 15,
+        flat: 4,
         address: `Республика , ул. Территория, изъятая из земель подсобного хозяйства Всесоюзного
          центрального совета профессиональных союзов для организации крестьянского хозяйства`,
         deliveryPrice: null,
@@ -56,8 +60,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         username: 'Джахар',
         phone: '+7 (872) 234-23-65',
         deliveryDate: this.#getDate(1),
-        cardNumber: '123456******1234',
-        cardExpiryDate: '09 / 27',
+        cardNumber: '8765432143212546',
+        cardExpiryDate: '05 / 24',
+        paymentCardId: 1,
     };
 
     /**
@@ -111,23 +116,30 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     listenClickHandler(event) {
         event.preventDefault();
         const target = event.target;
-        const elementId = target.id;
+        let elementId = target.id;
+        let itemId;
         if (elementId) {
-            
+            if (elementId.includes('/')) {
+                [elementId, itemId] = elementId.split('/');
+            }
             switch (elementId) {
                 case 'edit-address':
                 case 'edit-payment-card':
                     let context;
+                    let choiseItemId
                     if (elementId === 'edit-address') {
+                        const choice = document.querySelector('.addressID');
+                        choiseItemId = choice.getAttribute('id');
+
                         // Загрузить адреса
                         context = {
                             address: {
                                 address1: {
                                     id: 1111,
                                     city: 'Москва',
-                                    street: 'Ленина',
-                                    house: 5,
-                                    flat: 34,
+                                    street: 'Мира',
+                                    house: 15,
+                                    flat: 4,
                                 },
                                 address2: {
                                     id: 222222,
@@ -147,29 +159,29 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         };
                     } else {
                         if (elementId === 'edit-payment-card') {
+                            const choice = document.querySelector('.payment-method_cart');
+                            choiseItemId = choice.getAttribute('id');
+
                             // Загрузить банковские карты
                             context = {
                                 paymentCard: {
                                     paymentCard1: {
                                         id: 1,
-                                        number: '1234567812345678',
+                                        cardNumber: '8765432143212546',
                                         code: 910,
-                                        month: 5,
-                                        year: 24,
+                                        cardExpiryDate: '05 / 24',
                                     },
                                     paymentCard2: {
                                         id: 2,
-                                        number: '1234567812345678',
+                                        cardNumber: '1234567812345678',
                                         code: 910,
-                                        month: 5,
-                                        year: 24,
+                                        cardExpiryDate: '06 / 23',
                                     },
                                     paymentCard3: {
                                         id: 3,
-                                        number: '1234567812345678',
+                                        cardNumber: '1694257931658879',
                                         code: 910,
-                                        month: 5,
-                                        year: 24,
+                                        cardExpiryDate: '12 / 25',
                                     },
                                 },
                             };
@@ -186,12 +198,17 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     }
                     this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
                     this.PopUpChooseAddressAndPaymentCard.render(context);
+                    const chooseAddress = document.getElementById(choiseItemId);
+                    if (chooseAddress) {
+                        chooseAddress.style.border = '1px solid #6369D1';
+                        chooseAddress.classList.add('choice');
+                    }
                     break;
                 case 'empty-cart':
-                    // вызов action для очищения корзины
+                    // вызов action для очищения корзины  и перерисовать итого в корзине
                     break;
                 case 'delete-cart-item':
-                    // удалить элемент из корзины по elementId
+                    // action: удалить элемент из корзины по elementId  и перерисовать итого в корзине
                     break;
                 case 'cart-popup-form__apply':
                     const choice = document.querySelector('.choice');
@@ -200,16 +217,19 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     let type, choiceId = '';
                     if (choiseIdWithType.includes('/')) {
                         [type, choiceId] = choiseIdWithType.split('/');
-                        console.log(type)
                         if (type === 'address') {
                             const addressField = document.querySelector('.addressID');
                             addressField.textContent = data;
+                            addressField.setAttribute('id', `address/${choiceId}`);
                         } else {
-                            const addressField = document.querySelector('.addressID');
-                            addressField.textContent = data;
+                            const cardNumber = document.getElementById('cardNumber');
+                            const cardExpiryDate = document.getElementById('cardExpiryDate');
+                            cardNumber.textContent = data.split(' ', 1);
+                            cardExpiryDate.textContent = data.split(' ').slice(1).join(' ').trim();
+                            const choice = document.querySelector('.payment-method_cart');
+                            choice.setAttribute('id', `paymentCard/${choiceId}`);
                         }
                     }
-                    // По этому id нужно перерисовать элемент
                     const popUp = document.getElementById('popUp');
                     const popUpFade = document.getElementById('popUp-fade');
                     if (popUp) {
@@ -220,8 +240,26 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         popUpFade.style.display = 'none';
                     }
                     break;
+                case 'button-minus_cart':
+                    const amountItem = document.getElementById(`amount-product/${itemId}`);
+                    if (amountItem) {
+                        const amount = parseInt(amountItem.textContent);
+                        if (amount === 1) {
+                            // action: удалить элемент из корзины по itemId и перерисовать итого в корзине
+                        } else {
+                            amountItem.textContent = (amount - 1).toString();
+                        }
+                    }
+                    break;
+                case 'button-plus_cart':
+                    const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                    if (itemAmount) {
+                        const amount = parseInt(itemAmount.textContent);
+                        itemAmount.textContent = (amount + 1).toString();
+                    }
+                    break;
                 default:
-                    // console.log(elementId)
+                    console.log(elementId)
 
             }
         }

@@ -33,8 +33,8 @@
                     <span class="address_cart__title">
                         Адрес
                     </span>
-                    <span class="text-normal-default addressID" id="{{this.addressID}}">
-                        {{this.address}}
+                    <span class="text-normal-default addressID" id="address/{{this.addressID}}">
+                        г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}
                     </span>
                     <span class="address_cart__title">
                         Стоимость доставки
@@ -73,14 +73,14 @@
                     <button class="button-default-no-box" id="button-default_cart__delete">
                         <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
                     </button>
-                </div>
-                <div class="payment-method_cart" id="payment-method_cart__info">
+                </div> / {{#if this.year}} {{this.year}} {{/if}}
+                <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}">
                     {{#if this.auth}}
                         {{#if cardNumber}}
                             <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
                                 class="payment-method-provider">
-                            <span class="text-normal-default">{{this.cardNumber}}</span>
-                            <span class="payment-method_cart__expiry text-normal-default">{{this.cardExpiryDate}}</span>
+                            <span class="text-normal-default" id="cardNumber">{{this.cardNumber}}</span>
+                            <span class="payment-method_cart__expiry text-normal-default" id="cardExpiryDate">{{this.cardExpiryDate}}</span>
                         {{else}}
                             <span class="text-normal-default">Картой или наличными при получении</span>
                         {{/if}}

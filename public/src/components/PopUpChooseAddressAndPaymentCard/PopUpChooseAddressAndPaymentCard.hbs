@@ -12,7 +12,7 @@
         {{else}}
             {{#each paymentCard}}
                 <label for="paymentCard/{{this.id}}">
-                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}} value="{{#if this.number}} {{this.number}} {{/if}}    {{#if this.month}} {{this.month}} {{/if}} / {{#if this.year}} {{this.year}} {{/if}}" readonly="">
+                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}} value="{{#if this.paymentMethodProvider}}{{this.paymentMethodProvider}}{{/if}}{{#if this.cardNumber}}{{this.cardNumber}}{{/if}}    {{#if this.cardExpiryDate}} {{this.cardExpiryDate}} {{/if}}" readonly="">
                 </label>
             {{/each}}
         {{/if}}
