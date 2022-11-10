@@ -4,7 +4,6 @@ import { config } from "../config.js";
  * Класс, реализующий работу с запросами.
  */
  class Request {
-    //baseURL = 'https://www.reazon.ru';
     baseURL = config.basePath;
     #headers = {
         'Content-Type': 'application/json',
