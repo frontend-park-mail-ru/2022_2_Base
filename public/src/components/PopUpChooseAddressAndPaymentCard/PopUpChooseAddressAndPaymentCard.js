@@ -46,7 +46,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 fields.forEach((key) => {
                     key.style.border = '1px solid #d5d5d5';
                     if (key.classList.contains('choice')) {
-                        key.classList.remove('choice')
+                        key.classList.remove('choice');
                     }
                 });
             }

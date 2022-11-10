@@ -125,7 +125,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             switch (elementId) {
             case 'edit-address':
             case 'edit-payment-card':
-                let context, choiseItemId;
+                let context;
+                let choiseItemId;
                 if (elementId === 'edit-address') {
                     const choice = document.querySelector('.addressID');
                     choiseItemId = choice.getAttribute('id');
@@ -279,11 +280,13 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
                             .split(' ', 2)[1]) - 1).toString() + ' шт.';
                         const priceWithoutDiscount = document.getElementById('price-without-discount');
-                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                            priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice)).toString() + ' ₽';
+                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(
+                            parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice))
+                            .toString() + ' ₽';
                         const discount = document.getElementById('discount');
                         discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                            discount.textContent.replace(/\s/g, '')) - (salePrice - price))).toString() + ' ₽';
+                            discount.textContent.replace(/\s/g, '')) - (salePrice - price)))
+                            .toString() + ' ₽';
                     }
                 }
                 break;
@@ -294,25 +297,26 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     itemAmount.textContent = (amount + 1).toString();
 
                     // Получение стоимости товара со скидкой и без
-                    const price = parseInt(document.getElementById(`price/${itemId}`).textContent.replace(/\s/g, ''));
-                    let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`).textContent.replace(/\s/g, ''));
+                    const price = parseInt(document.getElementById(`price/${itemId}`).textContent
+                        .replace(/\s/g, ''));
+                    let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`)
+                        .textContent.replace(/\s/g, ''));
                     if (isNaN(salePrice)) {
                         salePrice = price;
                     }
                     // Изменение итоговых сумм
                     const totalPrice = document.getElementById('total-price');
-                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice.textContent
-                        .replace(/\s/g, '')) + price)).toString() + ' ₽';
+                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice
+                        .textContent.replace(/\s/g, '')) + price)).toString() + ' ₽';
                     const productsNumber = document.getElementById('products-number');
-                    productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent.split(' ', 2)[1]) + 1)
-                        .toString() + ' шт.';
+                    productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
+                        .split(' ', 2)[1]) + 1).toString() + ' шт.';
                     const priceWithoutDiscount = document.getElementById('price-without-discount');
-                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(priceWithoutDiscount
-                        .textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
+                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
+                        priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
                     const discount = document.getElementById('discount');
                     discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount
                         .textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
-
                 }
                 break;
             case 'address_cart__date':
@@ -333,13 +337,13 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     //             CartItem.render(context.value);
     //     }
     // }
- 
+
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cartContent = document.getElementById("cart");
-        if(cartContent) {
+        const cartContent = document.getElementById('cart');
+        if (cartContent) {
             cartContent.addEventListener('click', this.listenClickHandler);
         }
 
@@ -355,8 +359,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const cartContent = document.getElementById("content_cart");
-        if(cartContent) {
+        const cartContent = document.getElementById('content_cart');
+        if (cartContent) {
             cartContent.removeEventListener('click', this.listenClickHandler);
         }
     }
@@ -386,7 +390,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
             Object.keys(this.#item).reduce((sumVal, key, it) => {
                 // sumPrice
-                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price) * this.#item[key].amount;
+                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price)
+                * this.#item[key].amount;
                 // noSalePrice
                 sumVal[1] += this.#item[key].price * this.#item[key].amount;
                 // priceDiff
