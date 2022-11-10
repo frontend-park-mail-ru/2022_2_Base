@@ -5,6 +5,7 @@
 .item-card__image {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
+    cursor: pointer;
 }
 
 .a-inherit {
@@ -35,6 +36,8 @@
 
 .item-card__bottom {
     justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 2.8fr 1fr;
 }
 
 .item-card__bottom:disabled {
@@ -59,6 +62,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 40px;
+    cursor: pointer;
 }
 
 
@@ -104,11 +108,14 @@
 }
 
 
-.button_add-to-card {
+.itemcard_button_add-to-card {
     width: 100px;
     height: 40px;
     justify-self: left;
     margin-right: 10px;
-    background: var(--default_purple);
-    color: var(--background-white);
+
+}
+
+.itemcard_block-button-add-to-cart {
+    width: 100px;
 }

@@ -1,32 +1,55 @@
-<a href="" class="item-card__top disabled">
+<div class="item-card__top">
     <div class="text-normal-small content__sales-image">
-        <img src={{imgsrc}} class="item-card__image" alt="iPhone 13">
+        <img src={{imgsrc}} class="item-card__image" id="itemcard_item-pic/{{this.id}}" alt="Item_Photo">
         {{#if salePrice}}
             <div class="content__sales-value">
-               -{{discount}}%
+                -{{discount}}%
             </div>
         {{/if}}
     </div>
-</a>
+</div>
 
- <div class="item-card__textbox">
+<div class="item-card__textbox">
                 <span class="text-normal-large">
                     {{price}}₽
                 </span>
-        {{#if salePrice}}
-            <span class="text-normal-default__strikethrough item-card__text-strikethrough">
+    {{#if salePrice}}
+        <span class="text-normal-default item-card__text-strikethrough">
                     {{salePrice}}₽
                 </span>
-        {{/if}}
-        <span class="text-normal-default item-card__title">
-            {{cardTitle}}
-        </span>
-    </div>
+    {{/if}}
+    <span class="text-normal-default item-card__title" id="itemcard_item-title/{{this.id}}">
+        {{cardTitle}}
+    </span>
+</div>
 
 <div class="item-card__bottom">
-    <button type="button" class="button-default button_add-to-card paint-purple-disabled" >В корзину
-    </button>
-    <button type="button" class="item-card__rating" disabled>
+    <div class="itemcard_block-button-add-to-cart" id="itemcard_block-button-add-to-cart" data-id="{{this.id}}">
+        <div class="itemcard_button_add-to-card button-default button_add-to-card paint-purple"
+             id="itemcard_button-add-to-cart/{{this.id}}">
+            В корзину
+        </div>
+        <div class="catalog_amount-selector" id="itemcard_amount-selector/{{this.id}}"
+             data-amount="
+             {{#if this.amount}} {{this.amount}}
+
+             {{else}} 1
+             {{/if}}">
+            <button class="button-notext">
+                <span class="link-no-color text-normal-large" id="itemcard_button-minus_cart/{{this.id}}">−</span>
+            </button>
+            <div class="catalog_amount-selector__amount">
+            <span class="text-normal-large" id="itemcard_item-amount/{{this.id}}">
+                {{this.amount}}
+            </span>
+            </div>
+            <button class="button-notext">
+                <span class="link-no-color text-normal-large" id="itemcard_button-plus_cart/{{this.id}}">+</span>
+            </button>
+        </div>
+    </div>
+
+    <button type="button" class="item-card__rating">
         <img src="img/Star.svg" alt="S" class="rating-icon">
         <span class="text-normal-default-bold">
             {{rating}}

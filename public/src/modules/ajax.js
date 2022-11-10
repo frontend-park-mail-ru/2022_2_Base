@@ -1,12 +1,15 @@
+import { config } from "../config.js";
+
 /**
  * Класс, реализующий работу с запросами.
  */
-class Request {
-    #baseURL = 'https://www.reazon.ru';
+ class Request {
+    baseURL = config.basePath;
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
         'Origin': 'https://www.reazon.ru',
+        //'Origin': 'http://localhost:8081',
     };
 
     /**
@@ -33,7 +36,7 @@ class Request {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${this.baseURL}/${url}`, options);
     };
 
     /**
@@ -50,7 +53,38 @@ class Request {
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${this.baseURL}/${url}`, options);
+    };
+
+    /**
+     * Метод, реализующий запрос POST.
+     * @param {string} url - путь URL
+     * @param {object} data - полезная нагрузка запроса
+     * @return {Promise<Response>} промис запроса
+     */
+     makePostRequestSendAva = async (url, data) => {
+        const headers = this.#headers;
+        //headers['Content-Type'] = 'multipart/form-data';
+        //let formData = new FormData(data); 
+        //const fdata = new URLSearchParams();
+        let formData = new FormData();
+     
+        formData.append("file", data);
+        //fdata.append("file", data);
+        //console.log(formData)
+        const options = {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'include',
+            // headers: {
+            //     'Content-Type': 'multipart/form-data',
+            //     'accept': 'application/json',
+            //     //'Origin': 'https://www.reazon.ru',
+            //     'Origin': 'http://localhost:8081',
+            // },
+            body: formData,
+        };
+        return this.makeRequest(`${this.baseURL}/${url}`, options);
     };
 
     /**
@@ -65,7 +99,7 @@ class Request {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${this.baseURL}/${url}`, options);
     };
 }
 

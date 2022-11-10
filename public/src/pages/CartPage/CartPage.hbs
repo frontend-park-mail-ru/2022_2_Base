@@ -140,11 +140,23 @@
                     </div>
                     <div class="summary_cart__delivery-info">
                         <span class="text-normal-default">Дата: </span>
-                        <a href="#delivery-info_cart" class="text-normal-default link" id="date-delivery">6 / 10 / 2022</a>
+                        <a href="#delivery-info_cart" class="text-normal-default link" id="date-delivery">
+                            {{#each this.deliveryDate}}
+                                {{#if @first}}
+                                    {{this}}
+                                {{/if}}
+                            {{/each}}
+                        </a>
                     </div>
                     <div class="summary_cart__delivery-info">
                         <span class="text-normal-default">Время: </span>
-                        <a href="#delivery-info_cart" class="text-normal-default link" id="time-delivery">8:00 - 12:00</a>
+                        <a href="#delivery-info_cart" class="text-normal-default link" id="time-delivery">
+                            {{#if this.deliveryTime}}
+                                {{this.deliveryTime}}
+                            {{else}}
+                                8:00 - 12:00
+                            {{/if}}
+                        </a>
                     </div>
                 </div>
 

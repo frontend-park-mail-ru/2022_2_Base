@@ -1,11 +1,13 @@
 import registerPageTemplate from './RegisterPage.hbs';
 import BasePage from '../BasePage.js';
 import FormComponent from '../../components/Form/Form.js';
-import request from '../../modules/ajax.js';
-import validation from '../../modules/validation.js';
 import errorMessage from '../../modules/ErrorMessage.js';
 import router from '../../modules/Router.js';
 import './RegisterPage.scss';
+import userStore from '../../stores/UserStrore.js';
+import {userActions, UserActionTypes} from '../../actions/user.js';
+import {config} from '../../config.js';
+import refresh from '../../modules/refreshElements.js';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -15,46 +17,6 @@ const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте 
  * Класс, реализующий страницу с регистрации.
  */
 export default class RegisterPage extends BasePage {
-    context = {
-        fields: {
-            name: {
-                title: 'Имя',
-                type: 'text',
-                name: 'name',
-                placeholder: 'Введите имя',
-                maxLength: '30',
-                errorID: 'nameError',
-            },
-            email: {
-                title: 'Почта',
-                type: 'email',
-                name: 'email',
-                placeholder: 'mail@website.com',
-                maxLength: '30',
-                errorID: 'emailError',
-            },
-            password: {
-                title: 'Пароль',
-                type: 'password',
-                name: 'password',
-                placeholder: 'Придумайте пароль',
-                maxLength: '16',
-                errorID: 'passwordError',
-            },
-            repeatPassword: {
-                title: 'Повторить пароль',
-                type: 'password',
-                name: 'repeatPassword',
-                placeholder: 'Повторите пароль',
-                maxLength: '16',
-                errorID: 'repeatPasswordError',
-            },
-        },
-        button: {
-            buttonValue: 'Зарегистрироваться',
-        },
-    };
-
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -64,6 +26,37 @@ export default class RegisterPage extends BasePage {
             parent,
             registerPageTemplate,
         );
+        userStore.addListener(this.#authServerResponse, UserActionTypes.USER_REGISTER);
+    }
+
+    /**
+     * В зависимости от статуса ответа показывает ошибку или редиректит
+     */
+    #authServerResponse() {
+        const status = userStore.getContext(userStore._storeNames.responseCode);
+        switch (status) {
+        case 201:
+            refresh.onAuth();
+            router.openPage(config.header.main.href, config); // fix change to prev
+            break;
+        case 400:
+            !document.getElementById('Error400Message') ?
+                errorMessage.getServerMessage(document.getElementById('inForm'),
+                    'Error400Message', ERROR_400_MESSAGE) :
+                console.log('bad request: ', status);
+            break;
+        case 401:
+            errorMessage.getErrorMessage(document.getElementById(this.context.fields.email.name),
+                'emailError', ERROR_401_MESSAGE);
+            console.log('no auth: ', status);
+            break;
+        default:
+            !document.getElementById('serverErrorMessage') ?
+                errorMessage.getServerMessage(document.getElementById('inForm'),
+                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                console.log('server error: ', status);
+            break;
+        }
     }
 
     /**
@@ -73,7 +66,7 @@ export default class RegisterPage extends BasePage {
     removeEventListener(context) {
         const form = document.getElementById('signup__form');
         form.removeEventListener('focusin', this.onFocusinHandler);
-        form.removeEventListener('submit', this.onSubmitHandler);
+        form.removeEventListener('submit', this.onSubmitHandlerRemove);
     }
 
     /**
@@ -100,8 +93,6 @@ export default class RegisterPage extends BasePage {
             const element = form.querySelector(`[name=${fields[page].name}]`);
             data[fields[page].name] = element.value;
         });
-
-        // timing email
         data.email = data.email.trim();
 
         // Удаление отрисованных ошибок
@@ -112,42 +103,7 @@ export default class RegisterPage extends BasePage {
         }
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
-        if (this.validate(data)) {
-            const {username, email, password} = data;
-            const [status] = await request.makePostRequest(config.api.signup, {
-                password,
-                email,
-                username,
-            }).catch((err) => console.log(err));
-
-            switch (status) {
-            case 201:
-                console.log('auth');
-                config.auth.authorised = true;
-                router.remove(config.header.login.href);
-                router.remove(config.header.signup.href);
-                window.dispatchEvent(config.auth.event);
-                router.openPage(config.header.main.href, config);
-                break;
-            case 400:
-                document.getElementById('Error400Message') === null ?
-                    errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'Error400Message', ERROR_400_MESSAGE) :
-                    console.log('bad request: ', status);
-                break;
-            case 401:
-                errorMessage.getErrorMessage(document.getElementById(fields.email.name),
-                    'emailError', ERROR_401_MESSAGE);
-                console.log('no auth: ', status);
-                break;
-            default:
-                !document.getElementById('serverErrorMessage') ?
-                    errorMessage.getServerMessage(document.getElementById('inForm'),
-                        'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                    console.log('server error: ', status);
-                break;
-            }
-        }
+        userActions.signup(data);
     };
 
     /**
@@ -155,6 +111,7 @@ export default class RegisterPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
+        this.context = userStore.getContext(userStore._storeNames.context);
         super.render(this.context);
 
         /* Создание и отрисовка компонента Form */
@@ -165,37 +122,7 @@ export default class RegisterPage extends BasePage {
         document.getElementById(this.context.fields.name.name).focus();
 
         form.addEventListener('focusin', this.onFocusinHandler);
-        form.addEventListener('submit', this.onSubmitHandler.bind(this, config, form));
-    }
-
-    /**
-     * Метод, осуществляющий валидацию данных из формы.
-     * @param {object} data - объект, содержащий данные из формы
-     * @return {boolean} статус валидации
-     */
-    validate(data) {
-        let isValid = true;
-        Object.entries(data).forEach(([key, value]) => {
-            switch (key) {
-            case this.context.fields.name.name:
-                isValid &= errorMessage.validateFiled(validation.checkEmptyField(value),
-                    this.context.fields.name);
-                break;
-            case this.context.fields.email.name:
-                isValid &= errorMessage.validateFiled(validation.validateEMail(value),
-                    this.context.fields.email);
-                break;
-            case this.context.fields.password.name:
-                isValid &= errorMessage.validateFiled(validation.validatePassword(value),
-                    this.context.fields.password);
-                break;
-            case this.context.fields.repeatPassword.name:
-                isValid &= errorMessage.validateFiled(validation
-                    .validateRepeatPassword(data.password === data.repeatPassword),
-                this.context.fields.repeatPassword);
-                break;
-            }
-        });
-        return isValid;
+        this.onSubmitHandlerRemove = this.onSubmitHandler.bind(this, config, form);
+        form.addEventListener('submit', this.onSubmitHandlerRemove);
     }
 }

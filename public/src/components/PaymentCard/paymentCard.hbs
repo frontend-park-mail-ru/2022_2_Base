@@ -1,0 +1,54 @@
+{{#each item}}
+    {{#if this.addCard}}
+
+        <a href="" class="payment-card-template add-payment-card" id="add-payment-card">
+            <div class="text-normal-default"></div>
+
+            <div class="text-normal-default">
+                <img class="add-card-pic__payment-card" src="img/Add_card.svg" alt="Add new card">
+                <div class="text-add-card_payment-card text-normal-default"> Добавить карту</div>
+
+            </div>
+
+        </a>
+
+    {{else}}
+        <div class="payment-card-wrapper" id="wrapper-{{this.id}}">
+
+            <div {{#if this.priority}}
+            class="payment-card payment-card-template primary-payment-card"
+            {{else}}
+            class="payment-card payment-card-template other-payment-card payment-card"
+            {{/if}} id="create-{{this.id}}">
+                <div class="payment-card-title text-normal-default">
+                    {{#if this.priority}}
+                        Основная карта
+                    {{else}}
+                        Дополнительная карта
+                    {{/if}}
+
+                </div>
+
+                <div class="payment-card-number text-normal-default">
+                    {{this.number}}
+
+                </div>
+
+
+                <div class="card-date-type_payment-card">
+                    <div class="expiry-date_payment-card text-normal-default">{{this.expiryDate}}</div>
+
+                    <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">
+
+                </div>
+            </div>
+
+
+            <div class="change-payment-card change-pop-up_user-page" id="change-payment-card-{{this.id}}">
+                <a id="delete-{{this.id}}" class="pop-up-button_user-page">
+                    <img id="delete-img-{{this.id}}" src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-payment-card" alt="delete button">
+                </a>
+            </div>
+        </div>
+    {{/if}}
+{{/each}}

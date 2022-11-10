@@ -15,7 +15,7 @@ app.get('/sw.js', (req, res) => {
     res.sendFile(path.resolve(`${publicFolder}/src/sw.js`));
 });
 
-app.all('/*', (req, res) => {
+app.all('*', (req, res) => {
     res.sendFile(path.resolve(`${publicFolder}/index.html`));
 });
 

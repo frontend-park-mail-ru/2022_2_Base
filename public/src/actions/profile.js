@@ -8,21 +8,22 @@ import Dispatcher from '../modules/dispatcher.js';
 export const ProfileActionTypes = {
     GET_DATA: 'GET_DATA',
     SAVE_EDIT_DATA: 'SAVE_EDIT_DATA',
-    DOWNLOAD_PHOTO: 'DOWNLOAD_PHOTO',
+    UPLOAD_AVATAR: 'UPLOAD_AVATAR',
+    DELETE_AVATAR: 'DELETE_AVATAR',
     GET_CARDS: 'GET_CARDS',
     SAVE_ADD_CARD: 'SAVE_ADD_CARD',
-    SAVE_EDIT_CARD: 'SAVE_EDIT_CARD',
     DELETE_CARD: 'DELETE_CARD',
     GET_ADDRESS: 'GET_ADDRESS',
     SAVE_ADD_ADDRESS: 'SAVE_ADD_ADDRESS',
     SAVE_EDIT_ADDRESS: 'SAVE_EDIT_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
+    GET_BASKET: 'GET_BASKET',
 };
 
 /**
  * Класс, содержащий в себе действия в профиле.
  */
-export const ProfileAction = {
+export const profileAction = {
     /**
      * Действие: запрос данных пользователя.
      */
@@ -34,25 +35,32 @@ export const ProfileAction = {
 
     /**
      * Действие: редактировать данные.
-     * @param {String} field - отредактированное поле
-     * @param {String} newData - новые данные
+     * @param {object} data - отредактированное поле
      */
-    saveEditData(field, newData) {
+    saveEditData( data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
-            data: {
-                field,
-                newData,
-            },
+            data: data,
         });
     },
 
     /**
-     * Действие: загрузка фото.
+     * Действие: загрузка аватара.
+     * @param {Blob} avatar - аватар
      */
-    downloadPhoto() {
+    uploadAvatar(avatar) {
         Dispatcher.dispatch({
-            actionName: ProfileActionTypes.DOWNLOAD_PHOTO,
+            actionName: ProfileActionTypes.UPLOAD_AVATAR,
+            data: avatar,
+        });
+    },
+
+    /**
+     * Действие: удаление аватара.
+     */
+    deleteAvatar() {
+        Dispatcher.dispatch({
+            actionName: ProfileActionTypes.DELETE_AVATAR,
         });
     },
 
@@ -67,41 +75,12 @@ export const ProfileAction = {
 
     /**
      * Действие: добавить новую банковскую карту.
-     * @param {String} number - номер карты
-     * @param {String} name - имя на карте
-     * @param {Date} endDate - дата истечения
-     * @param {number} code - код
+     * @param {object} data - данные для обработки
      */
-    saveAddCard(number, name, endDate, code) {
+    saveAddCard(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
-            data: {
-                number,
-                name,
-                endDate,
-                code,
-            },
-        });
-    },
-
-    /**
-     * Действие: редактировать данные банковской карты.
-     * @param {Number} id
-     * @param {String} number - номер карты
-     * @param {String} name - имя на карте
-     * @param {Date} endDate - дата истечения
-     * @param {number} code - код
-     */
-    saveEditCard(id, number, name, endDate, code) {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.SAVE_EDIT_CARD,
-            data: {
-                id,
-                number,
-                name,
-                endDate,
-                code,
-            },
+            data: data,
         });
     },
 
@@ -110,8 +89,8 @@ export const ProfileAction = {
      */
     deleteCard(id) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.DELETE_CARD,
-            data: {id},
+            actionName: ProfileActionTypes.DELETE_CARD,
+            data: id,
         });
     },
 
@@ -126,55 +105,42 @@ export const ProfileAction = {
 
     /**
      * Действие: добавить новый адрес.
-     * @param {String} country - страна
-     * @param {String} city - город
-     * @param {String} street - улица
-     * @param {String} house - дом
-     * @param {Number} apartmentNumber - номер квартиры
+     * @param {object} data - данные для обработки
      */
-    saveAddAddress(country, city, street, house, apartmentNumber) {
+    saveAddAddress(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
-            data: {
-                country,
-                city,
-                street,
-                house,
-                apartmentNumber,
-            },
+            data: data,
         });
     },
 
     /**
      * Действие: редактировать адрес.
-     * @param {Number} id
-     * @param {String} country - страна
-     * @param {String} city - город
-     * @param {String} street - улица
-     * @param {String} house - дом
-     * @param {Number} apartmentNumber - номер квартиры
+     * @param {object} data - данные для обработки
      */
-    saveEditAddress(id, country, city, street, house, apartmentNumber) {
+    saveEditAddress(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
-            data: {
-                id,
-                country,
-                city,
-                street,
-                house,
-                apartmentNumber,
-            },
+            data: data,
         });
     },
 
     /** Удаление адреса с определенным id.
-     * @param {number} id
+     * @param {int} id
      */
     deleteAddress(id) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.DELETE_ADDRESS,
-            data: {id},
+            actionName: ProfileActionTypes.DELETE_ADDRESS,
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: запрос корзины.
+     */
+    getBasket() {
+        Dispatcher.dispatch({
+            actionName: ProfileActionTypes.GET_BASKET,
         });
     },
 };

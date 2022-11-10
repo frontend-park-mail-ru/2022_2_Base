@@ -60,6 +60,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         username: 'Джахар',
         phone: '+7 (872) 234-23-65',
         deliveryDate: this.#getDate(1),
+        deliveryTime: '18:00 - 23:00',
         cardNumber: '8765432143212546',
         cardExpiryDate: '05 / 24',
         paymentCardId: 1,
@@ -287,11 +288,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         .textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
                 }
                 break;
-            case 'address_cart__date':
-                const selectOpt = document.querySelectorAll('.select-opt');
-                selectOpt.forEach((opt) => {
-                });
-                break;
             case 'summary_cart__create-order-button':
                 const orderData = {
                     itemsCart: {
@@ -320,7 +316,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 orderData.dateDelivery = document.getElementById('date-delivery').textContent;
                 orderData.timeDelivery = document.getElementById('time-delivery').textContent;
                 orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart').getAttribute('id').split('/',2)[1]);
-                
                 // нужно передавать данные из orderData на сервер для оформления заказа
                 
                 break;
@@ -330,13 +325,25 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         }
     }
 
-    // renderPage(context){
-    //     switch (context.type) {
-    //         case 'itemCart':
-    //             const CartItem = new CartItem(document.getElementById('checkboxes_cart'));
-    //             CartItem.render(context.value);
-    //     }
-    // }
+    /**
+     * Функция, обрабатывающая выбор даты доставки
+     * @param {Event} event контекст события для обработки
+     */
+    listenChangeDate(event) {
+        const tagInputDate = document.getElementById(event.target.getAttribute('for'));
+        tagInputDate.checked = true;
+        document.getElementById('date-delivery').textContent = event.target.textContent;
+    }
+
+    /**
+     * Функция, обрабатывающая выбор времени доставки
+     * @param {Event} event контекст события для обработки
+     */
+     listenChangeTime(event) {
+        const tagInputTime = document.getElementById(event.target.getAttribute('for'));
+        tagInputTime.checked = true;
+        document.getElementById('time-delivery').textContent = event.target.textContent;
+    }
 
     /**
      * Метод, добавляющий слушатели.
@@ -345,6 +352,20 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const cartContent = document.getElementById('cart');
         if (cartContent) {
             cartContent.addEventListener('click', this.listenClickHandler);
+        }
+
+        const addressCartDate = document.querySelectorAll('.option_select__date');
+        if (addressCartDate) {
+            addressCartDate.forEach((key) => {
+                key.addEventListener('click', this.listenChangeDate);
+            })
+        }
+
+        const addressCartTime = document.querySelectorAll('.option_select__time');
+        if (addressCartTime) {
+            addressCartTime.forEach((key) => {
+                key.addEventListener('click', this.listenChangeTime);
+            })
         }
     }
 
@@ -355,6 +376,20 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const cartContent = document.getElementById('content_cart');
         if (cartContent) {
             cartContent.removeEventListener('click', this.listenClickHandler);
+        }
+
+        const addressCartDate = document.querySelectorAll('.option_select__date');
+        if (addressCartDate) {
+            addressCartDate.forEach((key) => {
+                key.removeEventListener('click', this.listenChangeDate);
+            })
+        }
+
+        const addressCartTime = document.querySelectorAll('.option_select__time');
+        if (addressCartTime) {
+            addressCartTime.forEach((key) => {
+                key.removeEventListener('click', this.listenChangeTime);
+            })
         }
     }
 
