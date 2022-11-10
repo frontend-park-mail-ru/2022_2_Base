@@ -311,8 +311,8 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.name, outD.username);
             this._storage.set(this._storeNames.email, outD.email);
             this._storage.set(this._storeNames.phone, outD.phone);
-            this._storage.set(this._storeNames.avatar, ".." + outD.avatar);
-            console.log(".." + outD.avatar)
+            this._storage.set(this._storeNames.avatar, '..' + outD.avatar);
+            console.log('..' + outD.avatar);
             this._storage.set(this._storeNames.paymentMethods, outD.paymentMethods ?? {});
             this._storage.set(this._storeNames.address, outD.address ?? {});
         } else {
@@ -373,7 +373,7 @@ class UserStore extends BaseStore {
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAva(config.api.uploadAvatar, avatar)
             .catch((err) => console.log(err));
-        console.log(avatar)
+        console.log(avatar);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
             this._storage.set(this._storeNames.avatar,

@@ -1,15 +1,15 @@
-import { config } from "../config.js";
+import {config} from '../config.js';
 
 /**
  * Класс, реализующий работу с запросами.
  */
- class Request {
+class Request {
     baseURL = config.basePath;
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
         'Origin': 'https://www.reazon.ru',
-        //'Origin': 'http://localhost:8081',
+        // 'Origin': 'http://localhost:8081',
     };
 
     /**
@@ -62,16 +62,16 @@ import { config } from "../config.js";
      * @param {object} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-     makePostRequestSendAva = async (url, data) => {
+    makePostRequestSendAva = async (url, data) => {
         const headers = this.#headers;
-        //headers['Content-Type'] = 'multipart/form-data';
-        //let formData = new FormData(data); 
-        //const fdata = new URLSearchParams();
-        let formData = new FormData();
-     
-        formData.append("file", data);
-        //fdata.append("file", data);
-        //console.log(formData)
+        // headers['Content-Type'] = 'multipart/form-data';
+        // let formData = new FormData(data);
+        // const fdata = new URLSearchParams();
+        const formData = new FormData();
+        
+        formData.append('file"', data);
+        // fdata.append("file", data);
+        // console.log(formData)
         const options = {
             method: 'post',
             mode: 'cors',

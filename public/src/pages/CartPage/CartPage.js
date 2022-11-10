@@ -291,16 +291,15 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             case 'summary_cart__create-order-button':
                 const orderData = {
                     itemsCart: {
-        
                     },
                 };
-        
                 let index = 1;
                 const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
                 if (itemsInCart) {
                     itemsInCart.forEach((item) => {
                         const itemInCartId = item.getAttribute('id');
-                        const itemInCartAmount = parseInt(document.getElementById(`amount-product/${itemInCartId}`).textContent);
+                        const itemInCartAmount = parseInt(document.getElementById(
+                            `amount-product/${itemInCartId}`).textContent);
                         orderData.itemsCart[index] = {
                             id: itemInCartId,
                             amount: itemInCartAmount,
@@ -310,14 +309,14 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 } else {
                     console.log('element not found', itemsInCart);
                 }
-        
-                const addressID = parseInt(document.querySelector('.addressID').getAttribute('id').split('/',2)[1]);
+                const addressID = parseInt(document.querySelector('.addressID').getAttribute(
+                    'id').split('/', 2)[1]);
                 orderData.addressID = addressID;
                 orderData.dateDelivery = document.getElementById('date-delivery').textContent;
                 orderData.timeDelivery = document.getElementById('time-delivery').textContent;
-                orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart').getAttribute('id').split('/',2)[1]);
+                orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart')
+                    .getAttribute('id').split('/', 2)[1]);
                 // нужно передавать данные из orderData на сервер для оформления заказа
-                
                 break;
             default:
                 console.log(elementId);
@@ -339,7 +338,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * Функция, обрабатывающая выбор времени доставки
      * @param {Event} event контекст события для обработки
      */
-     listenChangeTime(event) {
+    listenChangeTime(event) {
         const tagInputTime = document.getElementById(event.target.getAttribute('for'));
         tagInputTime.checked = true;
         document.getElementById('time-delivery').textContent = event.target.textContent;
@@ -358,14 +357,14 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         if (addressCartDate) {
             addressCartDate.forEach((key) => {
                 key.addEventListener('click', this.listenChangeDate);
-            })
+            });
         }
 
         const addressCartTime = document.querySelectorAll('.option_select__time');
         if (addressCartTime) {
             addressCartTime.forEach((key) => {
                 key.addEventListener('click', this.listenChangeTime);
-            })
+            });
         }
     }
 
@@ -382,14 +381,14 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         if (addressCartDate) {
             addressCartDate.forEach((key) => {
                 key.removeEventListener('click', this.listenChangeDate);
-            })
+            });
         }
 
         const addressCartTime = document.querySelectorAll('.option_select__time');
         if (addressCartTime) {
             addressCartTime.forEach((key) => {
                 key.removeEventListener('click', this.listenChangeTime);
-            })
+            });
         }
     }
 

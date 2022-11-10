@@ -30,10 +30,10 @@ const changePage = async (event) => {
         //     goToPath = path;
         // }
 
-        //let path = href.slice(0, path.lastIndexOf('/'));
-        //path = path ? path : href;
-        //console.log('lol kek', path);
-        //path = path ? path : href;
+        // let path = href.slice(0, path.lastIndexOf('/'));
+        // path = path ? path : href;
+        // console.log('lol kek', path);
+        // path = path ? path : href;
         if (config.header[page].href === href) {
             event.preventDefault();
             router.openPage(href, config);
