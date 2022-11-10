@@ -5,6 +5,7 @@ import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './MainPage.scss';
 import itemsStore from '../../stores/ItemsStore.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
+import {config} from '../../config.js';
 
 /**
  * Класс, реализующий главную страницу
@@ -193,7 +194,7 @@ export default class MainPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    async render(config) {
+    async render() {
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));

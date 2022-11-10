@@ -1,15 +1,14 @@
-import { config } from "../config.js";
+import {config} from '../config.js';
 
 /**
  * Класс, реализующий работу с запросами.
  */
- class Request {
-    baseURL = config.basePath;
+class Request {
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
-        'Origin': 'https://www.reazon.ru',
-        //'Origin': 'http://localhost:8081',
+        // 'Origin': 'https://www.reazon.ru',
+        'Origin': 'http://localhost:8081',
     };
 
     /**
@@ -36,7 +35,7 @@ import { config } from "../config.js";
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 
     /**
@@ -53,7 +52,7 @@ import { config } from "../config.js";
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 
     /**
@@ -62,29 +61,16 @@ import { config } from "../config.js";
      * @param {object} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-     makePostRequestSendAva = async (url, data) => {
-        const headers = this.#headers;
-        //headers['Content-Type'] = 'multipart/form-data';
-        //let formData = new FormData(data); 
-        //const fdata = new URLSearchParams();
-        let formData = new FormData();
-     
-        formData.append("file", data);
-        //fdata.append("file", data);
-        //console.log(formData)
+    makePostRequestSendAva = async (url, data) => {
+        const formData = new FormData();
+        formData.append('file', data);
         const options = {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            // headers: {
-            //     'Content-Type': 'multipart/form-data',
-            //     'accept': 'application/json',
-            //     //'Origin': 'https://www.reazon.ru',
-            //     'Origin': 'http://localhost:8081',
-            // },
             body: formData,
         };
-        return this.makeRequest(`${this.baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 
     /**
@@ -99,7 +85,7 @@ import { config } from "../config.js";
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 }
 

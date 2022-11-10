@@ -95,12 +95,12 @@
 
 .catalog-item-card-properties-block__rating-block {
   display: flex;
-  align-items: center;
+  gap: 4px;
 }
 
 .catalog-item-card__description-block__properties-block__rating-block__star-icon {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
 }
 
 .catalog-item-card-properties-block__rating-block__rating-num {

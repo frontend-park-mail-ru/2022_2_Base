@@ -1,6 +1,7 @@
 import BaseStore from './BaseStore.js';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
+import {config} from '../config.js';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -10,10 +11,12 @@ class ItemsStore extends BaseStore {
         Smartphone: {
             nameCategory: 'Телефоны',
             img: './img/Smartphone.png',
+            href: config.href.category + '/phones',
         },
         Computer: {
             nameCategory: 'Компьютеры',
             img: './img/Computer.png',
+            href: config.href.category + '/computers',
         },
         Headphones: {
             nameCategory: 'Наушники',
@@ -30,6 +33,7 @@ class ItemsStore extends BaseStore {
         Tablet: {
             nameCategory: 'Планшеты',
             img: './img/Tablet.png',
+            href: config.href.category + '/tablets',
         },
         Accessories: {
             nameCategory: 'Аксессуары',
@@ -42,6 +46,7 @@ class ItemsStore extends BaseStore {
         topCategory: 'topCategory',
         responseCode: 'responseCode',
         cardsHome: 'cardsHome',
+        cardsCategory: 'cardsCategory',
     };
 
     /**
@@ -53,6 +58,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.topCategory, this.#topCategory);
         this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.cardsHome, null);
+        this._storage.set(this._storeNames.cardsCategory, null);
     }
 
 
@@ -63,6 +69,7 @@ class ItemsStore extends BaseStore {
     async _onDispatch(payload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
+
             await this._getItemCardsHome(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_HOME]);
             break;
@@ -102,12 +109,18 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек по категориям.
-     * @param {String} category - категория
      */
-    async _getItemCardsByCategory(category) {
-        // const [status, outD] = await request.makeGetRequest(`productsByCategory${category}`)
-        //    .catch((err) => console.log(err));
-        // this._storage.set(this._storeNames.responseCode, status);
+    async _getItemCardsByCategory() {
+        console.log(document.location.pathname);
+        const [status, response] = await request.makeGetRequest(config.api.category +
+            document.location.pathname.slice(document.location.pathname.lastIndexOf('/'),
+                document.location.pathname.length))
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+
+        if (status === 200) {
+            this._storage.set(this._storeNames.cardsCategory, response.body);
+        }
     }
 
     /**

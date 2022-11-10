@@ -37,7 +37,7 @@ export default class LoginPage extends BasePage {
         switch (status) {
         case 201:
             refresh.onAuth();
-            router.openPage(config.header.main.href, config); // fix change to prev
+            router.openPage(config.href.main); // fix change to prev
             break;
         case 400:
             !document.getElementById('Error400Message') ?

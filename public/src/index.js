@@ -23,24 +23,14 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    Object.keys(config.header).forEach((page) => {
-        // let goToPath = path.slice(0, path.lastIndexOf('/'));
-        // console.log(goToPath);
-        // if (goToPath === '') {
-        //     goToPath = path;
-        // }
+    console.log(href);
 
-        //let path = href.slice(0, path.lastIndexOf('/'));
-        //path = path ? path : href;
-        //console.log('lol kek', path);
-        //path = path ? path : href;
-        if (config.header[page].href === href) {
-            event.preventDefault();
-            router.openPage(href, config);
-        }
-    });
+    if (href !== null && href !== undefined) {
+        event.preventDefault();
+        router.openPage(href);
+    }
 
-    if (href === config.header.logout.href) {
+    if (href === config.href.logout) {
         event.preventDefault();
         userActions.logout();
     }
@@ -49,7 +39,7 @@ const changePage = async (event) => {
 window.addEventListener('click', changePage);
 
 userStore.addListener(() => {
-    router.openPage(document.location.pathname, config);
+    router.openPage(document.location.pathname);
     if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
     } else {
@@ -65,7 +55,7 @@ userStore.addListener(() => {
 },
 UserActionTypes.USER_LOGOUT);
 
-window.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
+document.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
 
 // Регистрация Service Worker
 const registerServiceWorker = () => {

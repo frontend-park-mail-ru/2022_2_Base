@@ -37,7 +37,7 @@ export default class RegisterPage extends BasePage {
         switch (status) {
         case 201:
             refresh.onAuth();
-            router.openPage(config.header.main.href, config); // fix change to prev
+            router.openPage(config.href.main); // fix change to prev
             break;
         case 400:
             !document.getElementById('Error400Message') ?
@@ -110,7 +110,7 @@ export default class RegisterPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
+    render() {
         this.context = userStore.getContext(userStore._storeNames.context);
         super.render(this.context);
 

@@ -64,9 +64,9 @@ class RefreshEl {
      * Метод, вызываемый при авторизации
      */
     onAuth() {
-        router.remove(config.header.login.href);
-        router.remove(config.header.signup.href);
-        router.register(config.header.user.href, UserPage);
+        router.remove(config.href.login);
+        router.remove(config.href.signup);
+        router.register(config.href.user, UserPage);
         console.log('isAuth', userStore.getContext(userStore._storeNames.isAuth));
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
@@ -75,9 +75,9 @@ class RefreshEl {
      * Метод, вызываемый при авторизации
      */
     onLogOut() {
-        router.register(config.header.login.href, LoginPage);
-        router.register(config.header.signup.href, RegisterPage);
-        router.remove(config.header.user.href);
+        router.register(config.href.login, LoginPage);
+        router.register(config.href.signup, RegisterPage);
+        router.remove(config.href.user);
         router.refresh(config);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }

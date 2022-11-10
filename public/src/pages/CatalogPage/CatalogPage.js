@@ -5,14 +5,14 @@ import CatalogPageTemplate from './CatalogPage.hbs';
 import cartStore from '../../stores/CartStore.js';
 import {basketAction, BasketActionTypes} from '../../actions/basket';
 import {config} from '../../config.js';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import itemsStore from '../../stores/ItemsStore';
+import router from '../../modules/Router';
 
 /**
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
-    context = {};
-    loadedCardsCount = 0;
-
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -30,94 +30,24 @@ export default class CatalogPage extends BasePage {
         cartStore.addListener(this.defaultButton.bind(this, this.buttonMinus),
             BasketActionTypes.DECREASE_NUMBER,
         );
+
+        itemsStore.addListener(this.loadCatalogItemCards,
+            ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
     }
 
     /**
      * Функция, подгружающая и отрисовывающая карточки товаров
      */
     async loadCatalogItemCards() {
-        /*
-        В зависимости от this.loadedCardsCount добавлять цифры
-         */
-        const CatalogItemCardsInfo = []; // cюда нужно пушнуть все карточки
-
-
-        const catalogItemCard1 = {
-            itemName: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый', // имя товара
-            exPrice: 26990,
-            price: 25990,
-            propertyName1: 'экран', // название первой характеристики
-            property1: '10.2\' (2160x1620), IPS', // первая характеристика
-            propertyName2: 'процессор', // название второй характеристики
-            property2: 'Apple A13 Bionic', // вторая характеристика
-            propertyName3: 'версия ОС', // название третьей характеристики
-            property3: 'iPadOS', // третья характеристика
-            propertyName4: 'цвет', // название четвертой характеристики
-            property4: 'серебристый', // четвертая характеристика
-            id: 'some_ref1', // id товара
-            favourite: true, // добавлен ли он в избранное (disabled)
-            img: './../../../img/ipad.png', // фотка
-            amount: 1, // количество в корзине (может быть 0)
-            rating: 0, // пока disabled
-        };
-
-        CatalogItemCardsInfo.push(catalogItemCard1);
-
-        const catalogItemCard2 = {
-            itemName: 'Планшет Apple iPad Pro 11 2021, 128 ГБ, Wi-Fi, серебристый',
-            exPrice: 26990,
-            price: 25990,
-            propertyName1: 'экран',
-            property1: '10.2\' (2160x1620), IPS',
-            propertyName2: 'процессор',
-            property2: 'Apple A13 Bionic',
-            propertyName3: 'версия ОС',
-            property3: 'iPadOS',
-            propertyName4: 'цвет',
-            property4: 'серебристый',
-            id: 'some_ref2',
-            favourite: true,
-            img: './../../../img/ipad.png',
-            inCart: false,
-            amount: 5,
-        };
-
-        CatalogItemCardsInfo.push(catalogItemCard2);
-
-        const catalogItemCard3 = {
-            itemName: 'Планшет Apple iPad Pro 12.9 2021, 128 ГБ, Wi-Fi, серебристый',
-            exPrice: 26990,
-            price: 25990,
-            propertyName1: 'экран',
-            property1: '10.2\' (2160x1620), IPS',
-            propertyName2: 'процессор',
-            property2: 'Apple A13 Bionic',
-            propertyName3: 'версия ОС',
-            property3: 'iPadOS',
-            propertyName4: 'цвет',
-            property4: 'серебристый',
-            id: 'some_ref3',
-            favourite: true,
-            img: './../../../img/ipad.png',
-            inCart: false,
-            amount: 5,
-        };
-
-
-        CatalogItemCardsInfo.push(catalogItemCard3);
-
-        this.loadedCardsCount = 3;
-
-        this.renderCards(CatalogItemCardsInfo);
-    }
-
-    /**
-     * Функция, отрисовывающая карточки товаров
-     * @param {Array} CatalogItemCardsInfo массив карточек для отрисовки
-     */
-    renderCards(CatalogItemCardsInfo) {
-        const Card = new CatalogItemCard(document.getElementById('items-block'));
-        Card.render(CatalogItemCardsInfo);
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            const Card = new CatalogItemCard(document.getElementById('items-block'));
+            const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+            data.length ? Card.render(data) : router.openPage(config.href.notFound);
+            break;
+        default:
+            break;
+        }
     }
 
     /**
@@ -299,9 +229,9 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    async render(config) {
+    render() {
         super.render(config);
-        await this.loadCatalogItemCards();
+        itemCardsAction.getItemCardsByCategory();
         this.startEventListener();
     }
 }
