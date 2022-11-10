@@ -27,6 +27,9 @@ export const config = {
         catalog: {
             href: '/category',
         },
+        cart: {
+            href: '/cart',
+        },
     },
     api: {
         login: basePathApi + 'login',

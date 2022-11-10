@@ -4,6 +4,7 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
 import UserPage from '../pages/UserPage/UserPage.js';
 import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
+import CartPage from '../pages/CartPage/CartPage.js';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -82,6 +83,7 @@ class Router {
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.signup.href, RegisterPage);
+        this.register(config.header.cart.href, CartPage);
         this.register(config.header.user.href, UserPage); // remove!
         this.register(config.header.catalog.href, CatalogPage);
 
