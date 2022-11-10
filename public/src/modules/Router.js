@@ -82,8 +82,8 @@ class Router {
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.signup.href, RegisterPage);
-        this.register(config.header.user.href, UserPage);
-        this.register(config.header.catalogPage.href, CatalogPage);
+        this.register(config.header.user.href, UserPage); // remove!
+        this.register(config.header.catalog.href, CatalogPage);
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

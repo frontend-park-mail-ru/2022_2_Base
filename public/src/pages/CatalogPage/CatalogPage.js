@@ -4,6 +4,7 @@ import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
 import cartStore from '../../stores/CartStore.js';
 import {basketAction, BasketActionTypes} from '../../actions/basket';
+import {config} from '../../config.js';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -19,14 +20,14 @@ export default class CatalogPage extends BasePage {
     constructor(parent) {
         super(parent, CatalogPageTemplate);
 
-        cartStore.addListener(this.buttonAdd,
+        cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
             BasketActionTypes.ADD_TO_CART);
 
-        cartStore.addListener(this.buttonAdd,
+        cartStore.addListener(this.defaultButton.bind(this, this.buttonAdd),
             BasketActionTypes.INCREASE_NUMBER,
         );
 
-        cartStore.addListener(this.buttonMinus,
+        cartStore.addListener(this.defaultButton.bind(this, this.buttonMinus),
             BasketActionTypes.DECREASE_NUMBER,
         );
     }
@@ -119,72 +120,86 @@ export default class CatalogPage extends BasePage {
         Card.render(CatalogItemCardsInfo);
     }
 
-
     /**
-     * Функция, увеличение количество
+     * Оберточная функция для кнопок в корзину
+     * @param {function} toDo - функция для выполнения на коде 200
      */
-    buttonCrete() {
-        if (cartStore.getContext(cartStore._storeNames.responseCode)) {
-            const addToCartButton = document.getElementById(
-                `catalog_button-add-to-cart/${cartStore._storeNames.currID}`);
-            const amountSelector = document.getElementById(
-                `catalog_amount-selector/${cartStore._storeNames.currID}`);
-            if (!!addToCartButton && !!amountSelector) {
-                amountSelector.style.display = 'grid';
-                addToCartButton.style.display = 'none';
-
-                const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
-                if (itemAmount) {
-                    if (parseInt(itemAmount.textContent) === 0) {
-                        // Можно получать количество элементов из HTML, а можно по запросу,
-                        // так данные будут более актуальны
-                        itemAmount.textContent = '1';
-                    }
-                }
-            } else {
-                console.warn('Элементы не найдены: addToCartButton, addToCartButton');
-            }
+    defaultButton(toDo) {
+        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            toDo();
+            break;
+        default:
+            toDo();
+            break;
         }
     }
 
     /**
      * Функция, увеличение количество
+     */
+    buttonCreate() {
+        const addToCartButton = document.getElementById(
+            `catalog_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
+        const amountSelector = document.getElementById(
+            `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
+        if (!!addToCartButton && !!amountSelector) {
+            amountSelector.style.display = 'grid';
+            addToCartButton.style.display = 'none';
+
+            const itemAmount = document.getElementById(
+                `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+            if (itemAmount) {
+                if (parseInt(itemAmount.textContent) === 0) {
+                    // Можно получать количество элементов из HTML, а можно по запросу,
+                    // так данные будут более актуальны
+                    itemAmount.textContent = '1';
+                }
+            }
+        } else {
+            console.warn('Элементы не найдены');
+        }
+    }
+
+    /**
+     * Функция для увеличения количества товара в корзине
      */
     buttonAdd() {
-        if (cartStore.getContext(cartStore._storeNames.responseCode)) { // FIX!!! если запрос успешный
-            const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
-            if (itemAmount) {
-                const amount = parseInt(itemAmount.textContent);
-                // Можно получать количество элементов из HTML, а можно по запросу,
-                // так данные будут более актуальны
-                itemAmount.textContent = (amount + 1).toString();
-            }
+        const itemAmount = document.getElementById(
+            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+        if (itemAmount) {
+            const amount = parseInt(itemAmount.textContent);
+            // Можно получать количество элементов из HTML, а можно по запросу,
+            // так данные будут более актуальны
+            itemAmount.textContent = (amount + 1).toString();
         }
     }
 
+    /**
+     * Функция для уменьшения количества товара в корзине
+     */
     buttonMinus() {
-        if (cartStore.getContext(cartStore._storeNames.responseCode)) { // FIX!!! если запрос успешный
-            const itemAmount = document.getElementById(`catalog_item-amount/${cartStore._storeNames.currID}`);
-            if (itemAmount) {
-                const amount = parseInt(itemAmount.textContent);
-                // Можно получать количество элементов из HTML, а можно по запросу,
-                // так данные будут более актуальны
+        const itemAmount = document.getElementById(
+            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+        if (itemAmount) {
+            const amount = parseInt(itemAmount.textContent);
+            // Можно получать количество элементов из HTML, а можно по запросу,
+            // так данные будут более актуальны
 
-                if (amount === 1) {
-                    const amountSelector = document.getElementById(
-                        `catalog_amount-selector/${cartStore._storeNames.currID}`);
-                    const addToCartButton = document.getElementById(
-                        `catalog_button-add-to-cart/${cartStore._storeNames.currID}`);
-                    if (!!addToCartButton && !!amountSelector) {
-                        amountSelector.style.display = 'none';
-                        addToCartButton.style.display = 'flex';
-                    } else {
-                        console.warn(
-                            'Элементы не найдены: addToCartButton, addToCartButton');
-                    }
+            if (amount === 1) {
+                const amountSelector = document.getElementById(
+                    `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
+                const addToCartButton = document.getElementById(
+                    `catalog_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
+                if (!!addToCartButton && !!amountSelector) {
+                    amountSelector.style.display = 'none';
+                    addToCartButton.style.display = 'flex';
                 } else {
-                    itemAmount.textContent = (amount - 1).toString();
+                    console.warn(
+                        'Элементы не найдены: addToCartButton, addToCartButton');
                 }
+            } else {
+                itemAmount.textContent = (amount - 1).toString();
             }
         }
     }
@@ -245,7 +260,6 @@ export default class CatalogPage extends BasePage {
      */
     bottomOfPageHandlerPrototype(event) {
         if ((scrollY + innerHeight > (0.95 * document.body.scrollHeight))) {
-
             this.loadCatalogItemCards();
         }
     }
@@ -276,6 +290,8 @@ export default class CatalogPage extends BasePage {
         if (catalogContent) {
             catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
+
+        // remove scroll!
     }
 
 

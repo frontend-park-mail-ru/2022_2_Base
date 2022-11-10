@@ -24,6 +24,16 @@ const changePage = async (event) => {
     }
 
     Object.keys(config.header).forEach((page) => {
+        // let goToPath = path.slice(0, path.lastIndexOf('/'));
+        // console.log(goToPath);
+        // if (goToPath === '') {
+        //     goToPath = path;
+        // }
+
+        //let path = href.slice(0, path.lastIndexOf('/'));
+        //path = path ? path : href;
+        //console.log('lol kek', path);
+        //path = path ? path : href;
         if (config.header[page].href === href) {
             event.preventDefault();
             router.openPage(href, config);
