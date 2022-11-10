@@ -3,6 +3,8 @@
 const basePathApi = 'api/v1/';
 
 export const config = {
+    // basePath: 'https://www.reazon.ru',
+    basePath: 'http://127.0.0.1:8080',
     header: {
         main: {
             href: '/',
@@ -34,6 +36,7 @@ export const config = {
         products: basePathApi + 'products',
         profile: basePathApi + 'profile',
         uploadAvatar: basePathApi + 'avatar',
+        avatarsdir: basePathApi + 'img/avatars/',
         insertIntoCart: basePathApi + 'insertintocart',
         deletefromcart: basePathApi + 'deletefromcart',
         productsByCategory: basePathApi + 'products/',
