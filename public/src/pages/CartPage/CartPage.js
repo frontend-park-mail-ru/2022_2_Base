@@ -77,39 +77,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     }
 
     /**
-     * Функция для передачи в слушателе click на значок создания заказа
-     */
-    async listenClickCreateOrder() {
-        const orderData = {
-            itemsCart: {
-
-            },
-        };
-
-        let index = 1;
-        const itemsInCart = document.querySelectorAll('.cart-item_cart');
-        if (itemsInCart) {
-            itemsInCart.forEach((item) => {
-                const itemInCartId = item.querySelector('.cart-item_cart__id').getAttribute('id');
-                const itemInCartAmount = item.querySelector('.amount-product').getAttribute('id');
-                orderData.itemsCart[index] = {
-                    id: itemInCartId,
-                    amount: itemInCartAmount,
-                };
-                index++;
-            });
-        } else {
-            console.log('element not found', itemsInCart);
-        }
-
-        const addressID = document.querySelector('.addressID').getAttribute('id');
-        orderData.addressID = addressID;
-        orderData.dateDelivery = document.getElementById('date-delivery').innerHTML;
-        orderData.timeDelivery = document.getElementById('time-delivery').innerHTML;
-        orderData.paymentCardId = document.querySelector('.card-id').getAttribute('id');
-    }
-
-    /**
      * Функция, обрабатывающая клики на данной странице
      * @param {Event} event контекст события для обработки
      */
@@ -325,6 +292,38 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 selectOpt.forEach((opt) => {
                 });
                 break;
+            case 'summary_cart__create-order-button':
+                const orderData = {
+                    itemsCart: {
+        
+                    },
+                };
+        
+                let index = 1;
+                const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
+                if (itemsInCart) {
+                    itemsInCart.forEach((item) => {
+                        const itemInCartId = item.getAttribute('id');
+                        const itemInCartAmount = parseInt(document.getElementById(`amount-product/${itemInCartId}`).textContent);
+                        orderData.itemsCart[index] = {
+                            id: itemInCartId,
+                            amount: itemInCartAmount,
+                        };
+                        index++;
+                    });
+                } else {
+                    console.log('element not found', itemsInCart);
+                }
+        
+                const addressID = parseInt(document.querySelector('.addressID').getAttribute('id').split('/',2)[1]);
+                orderData.addressID = addressID;
+                orderData.dateDelivery = document.getElementById('date-delivery').textContent;
+                orderData.timeDelivery = document.getElementById('time-delivery').textContent;
+                orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart').getAttribute('id').split('/',2)[1]);
+                
+                // нужно передавать данные из orderData на сервер для оформления заказа
+                
+                break;
             default:
                 console.log(elementId);
             }
@@ -346,13 +345,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const cartContent = document.getElementById('cart');
         if (cartContent) {
             cartContent.addEventListener('click', this.listenClickHandler);
-        }
-
-        const createOrder = document.getElementById('summary_cart__create-order-button');
-        if (createOrder) {
-            createOrder.addEventListener('click', this.listenClickCreateOrder);
-        } else {
-            console.log('element not found', createOrder);
         }
     }
 
