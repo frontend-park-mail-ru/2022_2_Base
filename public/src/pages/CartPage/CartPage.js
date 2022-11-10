@@ -259,7 +259,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 if (amountItem) {
                     const amount = parseInt(amountItem.textContent);
                     if (amount === 1) {
-                        /* action: удалить элемент из корзины по itemId и перерисовать итого 
+                        /* action: удалить элемент из корзины по itemId и перерисовать итого
                         в корзине */
                     } else {
                         amountItem.textContent = (amount - 1).toString();
@@ -274,8 +274,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         }
                         // Изменение итоговых сумм
                         const totalPrice = document.getElementById('total-price');
-                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice
-                            .textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
+                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
+                            totalPrice.textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
                         const productsNumber = document.getElementById('products-number');
                         productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
                             .split(' ', 2)[1]) - 1).toString() + ' шт.';
@@ -313,7 +313,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                         .split(' ', 2)[1]) + 1).toString() + ' шт.';
                     const priceWithoutDiscount = document.getElementById('price-without-discount');
                     priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                        priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice)).toString() + ' ₽';
+                        priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice))
+                        .toString() + ' ₽';
                     const discount = document.getElementById('discount');
                     discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount
                         .textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
@@ -390,8 +391,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
             Object.keys(this.#item).reduce((sumVal, key, it) => {
                 // sumPrice
-                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price)
-                * this.#item[key].amount;
+                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price) *
+                this.#item[key].amount;
                 // noSalePrice
                 sumVal[1] += this.#item[key].price * this.#item[key].amount;
                 // priceDiff
