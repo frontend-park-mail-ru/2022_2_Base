@@ -38,4 +38,8 @@ export const config = {
         deletefromcart: basePathApi + 'deletefromcart',
         productsByCategory: basePathApi + 'products/',
     },
+    responseCodes: {
+        code200: 200,
+        code201: 201,
+    },
 };
