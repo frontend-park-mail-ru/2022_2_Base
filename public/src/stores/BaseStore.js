@@ -1,4 +1,5 @@
 import Dispatcher from '../modules/dispatcher.js';
+
 /**
  * Класс, реализующий базовое хранилище.
  */

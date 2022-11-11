@@ -5,6 +5,7 @@ import UserPage from '../pages/UserPage/UserPage.js';
 import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 import {config} from '../config.js';
+import CartPage from '../pages/CartPage/CartPage.js';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -83,12 +84,14 @@ class Router {
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.user, UserPage); // remove!
         this.register(config.href.category, CatalogPage);
+        this.register(config.href.cart, CartPage);
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
         this.#titles.set(config.href.signup, 'Регистрация - Reazon');
         this.#titles.set(config.href.user, 'Ваши данные - Reazon');
         this.#titles.set(config.href.category, '- Reazon');
+        this.#titles.set(config.href.cart, 'Корзина - Reazon');
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

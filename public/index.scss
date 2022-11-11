@@ -94,6 +94,12 @@ input[type=number] {
   text-align: center;
 }
 
+.button-default-no-box {
+    @extend .button-default;
+    border-radius: 0;
+    background-color: inherit;
+}
+
 .link {
   text-decoration: none;
   color: var(--default_purple);
@@ -101,6 +107,12 @@ input[type=number] {
 
 .link:hover {
   color: var(--hover_purple);
+}
+
+.link-no-color {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .page {

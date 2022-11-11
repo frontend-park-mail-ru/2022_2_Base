@@ -25,6 +25,8 @@ export const config = {
         uploadAvatar: basePathApi + 'avatar',
         avatarsDir: basePathApi + 'img/avatars/',
         insertIntoCart: basePathApi + 'insertintocart',
+        productsByCategory: basePathApi + 'products/',
+        cart: basePathApi + 'cart',
         deleteFromCart: basePathApi + 'deletefromcart',
     },
     responseCodes: {

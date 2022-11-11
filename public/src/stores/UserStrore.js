@@ -307,6 +307,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
+
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.name, response.username);
             this._storage.set(this._storeNames.email, response.email);

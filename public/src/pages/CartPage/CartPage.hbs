@@ -1,0 +1,199 @@
+<div class="paint-background"></div>
+<div id="cart">
+    <div class="popUp-fade" id="popUp-fade"></div>
+    <div class="popUp" id="popUp"></div>
+    <div class="content_cart" id="content_cart">
+        <div class="content_cart__left">
+            <div class="items_cart">
+                <div class="items_cart__upper">
+                    <span class="text-normal-very-large">Корзина</span>
+                    <button class="button-default-no-box" id="button-default_cart__delete">
+                        <span class="items_cart__upper-button" id="empty-cart">Очистить</span>
+                    </button>
+                </div>
+                <div class="text-normal-default">
+                    <label class="item_cart__selection">
+                        <input type="checkbox" class="checkbox-opt" id="item_cart__select-all" checked>
+                        <span>Выбрать все</span>
+                    </label>
+                    <div class="horizontal-line"></div>
+                    <div id="checkboxes_cart" class="checkboxes_cart">
+
+                    </div>
+                </div>
+            </div>
+            <div id="delivery-info_cart" class="address_cart">
+                <div class="items_cart__upper">
+                    <span class="text-normal-very-large">Доставка</span>
+                    <button class="button-default-no-box" id="button-default_cart__delete">
+                        <span class="items_cart__upper-button" id="edit-address">Изменить</span>
+                    </button>
+                </div>
+                <div class="address_cart__main text-normal-default">
+                    <span class="address_cart__title">
+                        Адрес
+                    </span>
+                    <span class="text-normal-default addressID" id="address/{{this.addressID}}">
+                        г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}
+                    </span>
+                    <span class="address_cart__title">
+                        Стоимость доставки
+                    </span>
+                    <span class="text-normal-default">
+                        {{this.deliveryPrice}}
+                    </span>
+                    <label class="address_cart__title" for="address_cart__date">
+                        Дата доставки
+
+                    </label>
+                    <span class="select text-normal-default" id="address_cart__date" tabindex="0">
+                        {{#each this.deliveryDate}}
+                            <input class="select-opt" type="radio" name="delivery-date" id="delivery-date-{{@index}}"
+                                {{#if @first}} checked {{/if}}>
+                            <label for="delivery-date-{{@index}}" class="option_select__date">{{this}}</label>
+                        {{/each}}
+                    </span>
+                    <label class="address_cart__title" for="date-select_cart__address">
+                        Время доставки
+                    </label>
+                    <div class="select text-normal-default" tabindex="1">
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-1" checked>
+                        <label for="delivery-time-1" class="option_select__time">8:00 - 12:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-2">
+                        <label for="delivery-time-2" class="option_select__time">12:00 - 18:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-3">
+                        <label for="delivery-time-3" class="option_select__time">18:00 - 23:00</label>
+                    </div>
+
+                </div>
+            </div>
+            <div id="payment-method_cart" class="payment_cart">
+                <div class="items_cart__upper">
+                    <span class="text-normal-very-large">Способ оплаты</span>
+                    <button class="button-default-no-box" id="button-default_cart__delete">
+                        <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
+                    </button>
+                </div> / {{#if this.year}} {{this.year}} {{/if}}
+                <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}">
+                    {{#if this.auth}}
+                        {{#if cardNumber}}
+                            <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
+                                class="payment-method-provider">
+                            <span class="text-normal-default card-number" id="cardNumber">{{this.cardNumber}}</span>
+                            <span class="payment-method_cart__expiry text-normal-default" id="cardExpiryDate">{{this.cardExpiryDate}}</span>
+                        {{else}}
+                            <span class="text-normal-default">Картой или наличными при получении</span>
+                        {{/if}}
+                    {{else}}
+                        <span class="text-normal-default">
+                            <a href="/login" class="link">Войти</a> или
+                            <a href="/signup" class="link">зарегистрироваться</a>, чтобы оформить заказ
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="user-data_cart">
+                <div class="items_cart__upper">
+                    <span class="text-normal-very-large">Ваши данные</span>
+                    <button class="button-default-no-box" id="button-default_cart__delete">
+                        <a href ="/" class="items_cart__upper-button">Изменить</a>
+                    </button>
+                </div>
+                <div class="user-data_cart__bottom">
+                    {{#if this.auth}}
+                        <img src="{{this.avatar}}" alt="user avatar" class="user-data_cart__avatar">
+                        <span class="text-normal-default">{{this.username}}</span>
+                        <span class="text-normal-default">{{this.phone}}</span>
+                    {{else}}
+                        <span class="text-normal-default">
+                            <a href="/login" class="link">Войти</a> или
+                            <a href="/signup" class="link">зарегистрироваться</a>, чтобы оформить заказ
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="content_cart__right">
+            <div class="summary_cart">
+                <div class="summary_cart__item-price">
+                    <span class="text-normal-very-large">Итого</span>
+                    <span class="text-normal-very-large" id="total-price">{{this.sumPrice}} ₽</span>
+                </div>
+                <div class="summary_cart__price">
+                    <div class="summary_cart__item-price">
+                        <span class="text-normal-default" id="products-number">Товары, {{this.amount}} шт.</span>
+                        <span class="text-normal-default" id="price-without-discount">{{this.noSalePrice}} ₽</span>
+                    </div>
+                    <div class="summary_cart__item-price">
+                        <span class="text-normal-default">Скидка</span>
+                        <span class="text-normal-default" id="discount">{{this.priceDiff}} ₽</span>
+                    </div>
+                    <div class="summary_cart__item-price">
+                        <span class="text-normal-default">Доставка</span>
+                        <span class="text-normal-default">{{this.deliveryPrice}}</span>
+                    </div>
+                </div>
+                <div class="summary_cart__delivery">
+                    <div class="summary_cart__delivery-info">
+                        <span class="text-normal-default">Доставка: </span>
+                        <a href="#delivery-info_cart" class="text-normal-default link">Курьером</a>
+                    </div>
+                    <div class="summary_cart__delivery-info">
+                        <span class="text-normal-default">Дата: </span>
+                        <a href="#delivery-info_cart" class="text-normal-default link" id="date-delivery">
+                            {{#each this.deliveryDate}}
+                                {{#if @first}}
+                                    {{this}}
+                                {{/if}}
+                            {{/each}}
+                        </a>
+                    </div>
+                    <div class="summary_cart__delivery-info">
+                        <span class="text-normal-default">Время: </span>
+                        <a href="#delivery-info_cart" class="text-normal-default link" id="time-delivery">
+                            {{#if this.deliveryTime}}
+                                {{this.deliveryTime}}
+                            {{else}}
+                                8:00 - 12:00
+                            {{/if}}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="summary_cart__payment-method">
+                    <div class="summary_cart__payment-info" id="summary_cart__payment-info">
+                        <span class="text-normal-default">Оплата: </span>
+                        <a href="#payment-method_cart" class="text-normal-default link">
+                            {{#if cardNumber}}
+                                Картой
+                            {{else}}
+                                При получении
+                            {{/if}}
+                        </a>
+                    </div>
+                    {{#if cardNumber}}
+                        <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}>
+                            {{#if this.auth}}
+
+                                <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
+                                    class="payment-method-provider">
+                                <span class="text-normal-default card-number" id="{{this.cardId}}">{{this.cardNumber}}</span>
+                                <span class="payment-method_cart__expiry text-normal-default">{{this.cardExpiryDate}}</span>
+                            {{else}}
+                                <span class="text-normal-default">
+                            <a href="/login" class="link">Войти</a> или
+                            <a href="/signup" class="link">зарегистрироваться</a>, чтобы оформить заказ
+                        </span>data.split(' ').slice(1).join(' ').trim();
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                </div>
+                <button type="button" class="button-default summary_cart__create-order-button"
+                        id="summary_cart__create-order-button">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="paint-background"></div>
