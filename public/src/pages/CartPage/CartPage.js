@@ -344,23 +344,20 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
-     * Функция, обрабатывающая выбор даты доставки
+     * Функция, обрабатывающая выбор даты и времени доставки
      * @param {Event} event контекст события для обработки
      */
-    listenChangeDate(event) {
-        const tagInputDate = document.getElementById(event.target.getAttribute('for'));
-        tagInputDate.checked = true;
-        document.getElementById('date-delivery').textContent = event.target.textContent;
-    }
-
-    /**
-     * Функция, обрабатывающая выбор времени доставки
-     * @param {Event} event контекст события для обработки
-     */
-    listenChangeTime(event) {
-        const tagInputTime = document.getElementById(event.target.getAttribute('for'));
-        tagInputTime.checked = true;
-        document.getElementById('time-delivery').textContent = event.target.textContent;
+     listenChangeDateAndTime(event) {
+        const tagInput = document.getElementById(event.target.getAttribute('for'));
+        tagInput.checked = true;
+        switch (event.target.getAttribute('class')) {
+            case 'option_select__date':
+                document.getElementById('date-delivery').textContent = event.target.textContent;
+                break;
+            case 'option_select__time':
+                document.getElementById('time-delivery').textContent = event.target.textContent;
+                break;
+        }
     }
 
     /**
@@ -375,14 +372,14 @@ export default class CartOrderPage extends BasePage {
         const addressCartDate = document.querySelectorAll('.option_select__date');
         if (addressCartDate) {
             addressCartDate.forEach((key) => {
-                key.addEventListener('click', this.listenChangeDate);
+                key.addEventListener('click', this.listenChangeDateAndTime);
             });
         }
 
         const addressCartTime = document.querySelectorAll('.option_select__time');
         if (addressCartTime) {
             addressCartTime.forEach((key) => {
-                key.addEventListener('click', this.listenChangeTime);
+                key.addEventListener('click', this.listenChangeDateAndTime);
             });
         }
     }

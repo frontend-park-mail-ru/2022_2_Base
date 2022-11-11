@@ -45,7 +45,7 @@ export const config = {
         deletefromcart: basePathApi + 'deletefromcart',
         productsByCategory: basePathApi + 'products/',
         cart: basePathApi + 'cart',
-        deletefromcart: basePathApi + 'deletefromcart',
+        deleteFromCart: basePathApi + 'deletefromcart',
     },
     responseCodes: {
         code200: 200,

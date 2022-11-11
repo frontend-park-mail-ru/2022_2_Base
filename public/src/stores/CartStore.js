@@ -79,21 +79,10 @@ class CartStore extends BaseStore {
             await this._deleteAll(payload.data);
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
-        case CartActionTypes.INCREASE_NUMBER:
-            await this._increaseNumber(payload.data);
-            this._emitChange([CartActionTypes.INCREASE_NUMBER]);
-            break;
-
         case CartActionTypes.ADD_TO_CART:
             await this._addToCart(payload.data);
             this._emitChange([CartActionTypes.ADD_TO_CART]);
             break;
-
-        case CartActionTypes.DECREASE_NUMBER:
-            await this._decreaseNumber(payload.data);
-            this._emitChange([CartActionTypes.DECREASE_NUMBER]);
-            break;
-
         case CartActionTypes.BUY:
             await this._buy(payload.data);
             this._emitChange([CartActionTypes.BUY]);
@@ -142,7 +131,7 @@ class CartStore extends BaseStore {
                 payload.itemid = id
             }
         });
-        const [status] = await request.makePostRequest(config.api.deletefromcart, payload)
+        const [status] = await request.makePostRequest(config.api.deleteFromCart, payload)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
@@ -156,59 +145,27 @@ class CartStore extends BaseStore {
      * Действие: удалить все товары из корзины.
      */
     async _deleteAll() {
-        const payload = {};
-        const flag = true;
-        const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        for (const item of itemsCart) {
-            payload.itemid = item.item.id;
-            const [status] = await request.makePostRequest(config.api.deletefromcart, payload)
-                .catch((err) => console.log(err));
-            if (status === 200 || true) {
-            } else {
-                flag = false;
-                console.log('error', status);
-            }
+        const payload = {
+            items: []
         };
-        if (flag === true) {
-            this._storage.set(this._storeNames.responseCode, 200);
-            this._storage.set(this._storeNames.itemsCart, []);
+        const [status] = await request.makePostRequest(config.api.cart, payload)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, payload.items);
         } else {
-            console.log('error when emptying cart');
+            console.log('error', status);
         }
     }
 
     /**
-     * Действие: увеличить количество товара.
-     * @param {number} id
-     */
-    async _increaseNumber(id) {
-        // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-        //    .catch((err) => console.log(err));
-        this._storage.set(id, 1);
-        this._storage.set(this._storeNames.currID, id);
-        this._storage.set(this._storeNames.responseCode, status);
-    }
-
-    /**
-     * Действие: увеличить количество товара.
+     * Действие: добавить товар в корзину.
      * @param {number} id
      */
     async _addToCart(id) {
         // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
         //    .catch((err) => console.log(err));
         this._storage.set(id, this._storage.get('item' + id) + 1);
-        this._storage.set(this._storeNames.currID, id);
-        this._storage.set(this._storeNames.responseCode, status);
-    }
-
-    /**
-     * Действие: уменьшить количество товара.
-     * @param {number} id
-     */
-    async _decreaseNumber(id) {
-        // const [status] = await request.makePostRequest(config.api.deletefromcart, id)
-        //    .catch((err) => console.log(err));
-        this._storage.set(id, this._storage.get('item' + id) - 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
     }
