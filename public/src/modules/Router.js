@@ -13,12 +13,14 @@ class Router {
     #pathToPage;
     #mainElement;
     #currentPage;
+    #titles;
 
     /**
      * Конструктор роутера.
      */
     constructor() {
         this.#pathToPage = new Map();
+        this.#titles = new Map();
     }
 
     /**
@@ -76,12 +78,17 @@ class Router {
         this.#mainElement = document.getElementById('main');
 
         this.register(config.href.main, MainPage);
-        this.register(config.href.notFound, ErrorPage);
+        // this.register(config.href.notFound, ErrorPage);
         this.register(config.href.login, LoginPage);
-        this.register(config.href.signup, RegisterPage);
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.user, UserPage); // remove!
         this.register(config.href.category, CatalogPage);
+
+        this.#titles.set(config.href.main, 'Главная - Reazon');
+        this.#titles.set(config.href.login, 'Вход - Reazon');
+        this.#titles.set(config.href.signup, 'Регистрация - Reazon');
+        this.#titles.set(config.href.user, 'Ваши данные - Reazon');
+        this.#titles.set(config.href.category, '- Reazon');
 
         this.#currentPage = new MainPage(this.#mainElement);
     }
@@ -94,14 +101,16 @@ class Router {
     openPage(path) {
         let goToPath = path?.slice(0, path.lastIndexOf('/'));
         goToPath = goToPath ? goToPath : path;
+        this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
-            this.#currentPage.removeEventListener();
-            window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
+            document.title = this.#titles.get(goToPath);
+            window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
             window.onpopstate = (event) => this.onPopState(event);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }
-        this.openPage(config.href.notFound);
+        this.#currentPage = this.renderPage(ErrorPage)(config);
+        // this.openPage(config.href.notFound);
         return false;
     }
 }

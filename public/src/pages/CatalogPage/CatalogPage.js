@@ -43,7 +43,15 @@ export default class CatalogPage extends BasePage {
         case config.responseCodes.code200:
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
-            data.length ? Card.render(data) : router.openPage(config.href.notFound);
+            if (data.length) {
+                Card.render(data);
+            } else {
+                console.log(document.location.pathname);
+                window.history.replaceState(
+                    {page: document.location.pathname + (window.history.length).toString()},
+                    '', document.location.pathname);
+                router.openPage(config.href.notFound);
+            }
             break;
         default:
             break;
@@ -227,10 +235,18 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
     render() {
-        super.render(config);
+        const category = new Map();
+        category.set(config.href.category + '/phones', 'Телефоны');
+        category.set(config.href.category + '/phones', 'Телефоны');
+        category.set(config.href.category + '/phones', 'Телефоны');
+        category.set(config.href.category + '/phones', 'Телефоны');
+        category.set(config.href.category + '/phones', 'Телефоны');
+        category.set(config.href.category + '/phones', 'Телефоны');
+        document.title = category.get(window.location.pathname) + ' ' + document.title;
+
+        super.render({category: category.get(window.location.pathname)});
         itemCardsAction.getItemCardsByCategory();
         this.startEventListener();
     }
