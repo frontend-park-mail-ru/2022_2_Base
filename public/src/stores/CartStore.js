@@ -1,9 +1,5 @@
 import BaseStore from './BaseStore.js';
-import {ItemCardsActionTypes} from '../actions/itemCards';
-import Dispatcher from '../modules/dispatcher';
-import {basketAction, BasketActionTypes} from '../actions/basket';
-import request from '../modules/ajax';
-import {config} from '../config.js';
+import {BasketActionTypes} from '../actions/basket';
 
 /**
  * Класс, реализующий базовое хранилище.

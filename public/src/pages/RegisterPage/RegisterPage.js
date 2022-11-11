@@ -46,8 +46,9 @@ export default class RegisterPage extends BasePage {
                 console.log('bad request: ', status);
             break;
         case 401:
-            errorMessage.getErrorMessage(document.getElementById(this.context.fields.email.name),
-                'emailError', ERROR_401_MESSAGE);
+            errorMessage.getErrorMessage(document.getElementById(
+                userStore.getContext(userStore._storeNames.context).fields.email.name),
+            'emailError', ERROR_401_MESSAGE);
             console.log('no auth: ', status);
             break;
         default:
