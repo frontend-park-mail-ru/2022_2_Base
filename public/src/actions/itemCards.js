@@ -34,8 +34,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getItemCardsByCategory() {
+    getItemCardsByCategory(isFirstRequest) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
         });

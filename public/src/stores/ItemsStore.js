@@ -111,10 +111,9 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек по категориям.
      */
     async _getItemCardsByCategory() {
-        console.log(document.location.pathname);
         const [status, response] = await request.makeGetRequest(config.api.category +
             document.location.pathname.slice(document.location.pathname.lastIndexOf('/'),
-                document.location.pathname.length))
+                document.location.pathname.length) + `?first=${0}&count=${5}`)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 

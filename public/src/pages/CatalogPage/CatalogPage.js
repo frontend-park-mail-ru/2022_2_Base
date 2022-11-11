@@ -13,12 +13,21 @@ import router from '../../modules/Router';
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
+    #category;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
     constructor(parent) {
         super(parent, CatalogPageTemplate);
+
+        this.#category = new Map();
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
 
         cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
             BasketActionTypes.ADD_TO_CART);
@@ -237,16 +246,9 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        const category = new Map();
-        category.set(config.href.category + '/phones', 'Телефоны');
-        category.set(config.href.category + '/phones', 'Телефоны');
-        category.set(config.href.category + '/phones', 'Телефоны');
-        category.set(config.href.category + '/phones', 'Телефоны');
-        category.set(config.href.category + '/phones', 'Телефоны');
-        category.set(config.href.category + '/phones', 'Телефоны');
-        document.title = category.get(window.location.pathname) + ' ' + document.title;
+        document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
-        super.render({category: category.get(window.location.pathname)});
+        super.render({category: this.#category.get(window.location.pathname)});
         itemCardsAction.getItemCardsByCategory();
         this.startEventListener();
     }

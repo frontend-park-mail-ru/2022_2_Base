@@ -303,18 +303,17 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение данных пользователя.
      */
     async _getData() {
-        const [status, outD] = await request.makeGetRequest(config.api.profile)
+        const [status, response] = await request.makeGetRequest(config.api.profile)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
-            this._storage.set(this._storeNames.name, outD.username);
-            this._storage.set(this._storeNames.email, outD.email);
-            this._storage.set(this._storeNames.phone, outD.phone);
-            this._storage.set(this._storeNames.avatar, '..' + outD.avatar);
-            console.log('..' + outD.avatar);
-            this._storage.set(this._storeNames.paymentMethods, outD.paymentMethods ?? {});
-            this._storage.set(this._storeNames.address, outD.address ?? {});
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.name, response.username);
+            this._storage.set(this._storeNames.email, response.email);
+            this._storage.set(this._storeNames.phone, response.phone);
+            this._storage.set(this._storeNames.avatar, response.avatar);
+            this._storage.set(this._storeNames.paymentMethods, response.paymentMethods ?? {});
+            this._storage.set(this._storeNames.address, response.address ?? {});
         } else {
             console.log('error', status);
         }
@@ -358,7 +357,7 @@ class UserStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.temp, data);
-        if (status === 200 || true) {
+        if (status === 200) {
             this._storage.has(data.id) ?
                 this._storage.set(data.id, data.value) : console.log('wrong id');
         } else {
@@ -375,7 +374,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
         console.log(avatar);
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             this._storage.set(this._storeNames.avatar,
                 URL.createObjectURL(avatar ?? 'img/UserPhoto.png'));
         } else {
@@ -400,7 +399,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             const paymentMethods = this._storage.get(this._storeNames.paymentMethods);
             data.id = `paymentCard/${String(Object.keys(paymentMethods).length)}`;
             Object.values(paymentMethods).forEach((item) => item.priority = false);
@@ -426,7 +425,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, paymentMethods)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             this._storage.set(this._storeNames.paymentMethods, paymentMethods);
         } else {
             console.log('error', status);
@@ -450,7 +449,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             const addresses = this._storage.get(this._storeNames.address);
             data.id = `addressCard/${String(Object.keys(addresses).length)}`;
             Object.values(addresses).forEach((item) => item.priority = false);
@@ -478,7 +477,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, addresses)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             this._storage.set(this._storeNames.address, addresses);
         } else {
             console.log('error', status);
@@ -500,7 +499,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, addresses)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === 200) {
             this._storage.set(this._storeNames.address, addresses);
         } else {
             console.log('error', status);
