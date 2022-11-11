@@ -68,7 +68,6 @@ class Request {
         // let formData = new FormData(data);
         // const fdata = new URLSearchParams();
         const formData = new FormData();
-        
         formData.append('file"', data);
         // fdata.append("file", data);
         // console.log(formData)

@@ -48,7 +48,10 @@ export default class CartOrderPage extends BasePage {
             СartPageTemplate,
         );
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
-        cartStore.addListener(this.deleteItem.bind(this, cartStore.getContext(cartStore._storeNames.itemsCart)),CartActionTypes.DELETE_BY_ID);
+        cartStore.addListener(this.deleteItem.bind(
+            this, cartStore.getContext(cartStore._storeNames.itemsCart)),
+            CartActionTypes.DELETE_BY_ID
+        );
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
     }
 
@@ -275,7 +278,7 @@ export default class CartOrderPage extends BasePage {
                         const discount = document.getElementById('discount');
                         discount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
                             discount.textContent) - (salePrice - price)))
-                            .toString() + ' ₽';
+                            .toString() + ' ₽';trim
                     }
                 }
                 break;
@@ -309,21 +312,20 @@ export default class CartOrderPage extends BasePage {
                 break;
             case 'summary_cart__create-order-button':
                 const orderData = {
-                    itemsCart: {
-                    },
+                    items: [
+
+                    ],
                 };
-                let index = 1;
                 const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
                 if (itemsInCart) {
                     itemsInCart.forEach((item) => {
                         const itemInCartId = item.getAttribute('id');
-                        const itemInCartAmount = parseInt(document.getElementById(
+                        const itemInCartCount = parseInt(document.getElementById(
                             `amount-product/${itemInCartId}`).textContent);
-                        orderData.itemsCart[index] = {
+                        orderData.items.push({
                             id: itemInCartId,
-                            amount: itemInCartAmount,
-                        };
-                        index++;
+                            amount: itemInCartCount,
+                        });
                     });
                 } else {
                     console.log('element not found', itemsInCart);
@@ -347,7 +349,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая выбор даты и времени доставки
      * @param {Event} event контекст события для обработки
      */
-     listenChangeDateAndTime(event) {
+    listenChangeDateAndTime(event) {
         const tagInput = document.getElementById(event.target.getAttribute('for'));
         tagInput.checked = true;
         switch (event.target.getAttribute('class')) {
@@ -396,14 +398,14 @@ export default class CartOrderPage extends BasePage {
         const addressCartDate = document.querySelectorAll('.option_select__date');
         if (addressCartDate) {
             addressCartDate.forEach((key) => {
-                key.removeEventListener('click', this.listenChangeDate);
+                key.removeEventListener('click', this.listenChangeDateAndTime);
             });
         }
 
         const addressCartTime = document.querySelectorAll('.option_select__time');
         if (addressCartTime) {
             addressCartTime.forEach((key) => {
-                key.removeEventListener('click', this.listenChangeTime);
+                key.removeEventListener('click', this.listenChangeDateAndTime);
             });
         }
     }

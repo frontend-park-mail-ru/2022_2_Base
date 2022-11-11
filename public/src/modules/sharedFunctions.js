@@ -16,9 +16,8 @@ class SharedFunctions {
      * @param {string} stringNumber число, разделённое пробелами
      * @return {number} число
      */
-     _parseInt(stringNumber) {
+    _parseInt(stringNumber) {
         return parseInt(stringNumber.replace(/\s/g, ''));
-
     }
 }
 
