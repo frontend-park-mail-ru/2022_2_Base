@@ -5,8 +5,8 @@ import Dispatcher from '../modules/dispatcher.js';
 /**
  * Константа, содержащая в себе типы действий в корзине.
  */
-export const BasketActionTypes = {
-    GET_BASKET: 'GET_BASKET',
+export const CartActionTypes = {
+    GET_CART: 'GET_CART',
     SELECT_ALL: 'SELECT_ALL',
     SELECT_BY_ID: 'SELECT_BY_ID',
     DELETE_BY_ID: 'DELETE_BY_ID',
@@ -21,13 +21,13 @@ export const BasketActionTypes = {
 /**
  * Класс, содержащий в себе действия в корзине.
  */
-export const basketAction = {
+export const cartAction = {
     /**
      * Действие: выбрать все товары в корзине.
      */
-    selectAllBasket() {
+    getCart() {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.SELECT_ALL,
+            actionName: CartActionTypes.GET_CART,
         });
     },
 
@@ -37,7 +37,7 @@ export const basketAction = {
      */
     selectById(id) {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.SELECT_BY_ID,
+            actionName: CartActionTypes.SELECT_BY_ID,
             data: id,
         });
     },
@@ -48,7 +48,7 @@ export const basketAction = {
      */
     deleteById(id) {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.DELETE_BY_ID,
+            actionName: CartActionTypes.DELETE_BY_ID,
             data: id,
         });
     },
@@ -58,7 +58,7 @@ export const basketAction = {
      */
     deleteAll() {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.DELETE_ALL,
+            actionName: CartActionTypes.DELETE_ALL,
         });
     },
 
@@ -68,7 +68,7 @@ export const basketAction = {
          */
     increaseNumber(id) {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.INCREASE_NUMBER,
+            actionName: CartActionTypes.INCREASE_NUMBER,
             data: id,
         });
     },
@@ -79,7 +79,7 @@ export const basketAction = {
      */
     addToCart(id) {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.ADD_TO_CART,
+            actionName: CartActionTypes.ADD_TO_CART,
             data: id,
         });
     },
@@ -90,7 +90,7 @@ export const basketAction = {
          */
     decreaseNumber(id) {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.DECREASE_NUMBER,
+            actionName: CartActionTypes.DECREASE_NUMBER,
             data: id,
         });
     },
@@ -100,7 +100,7 @@ export const basketAction = {
      */
     buy() {
         Dispatcher.dispatch({
-            actionName: BasketActionTypes.BUY,
+            actionName: CartActionTypes.BUY,
         });
     },
 };

@@ -10,41 +10,13 @@ import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
+import cartStore from '../../stores/CartStore.js';
+import {cartAction, CartActionTypes} from '../../actions/cart.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
-    #item = {
-        item1: {
-            title: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            img: './img/Smartphone.png',
-            vendor: 'OOO-iPhones-RUS',
-            favourite: true,
-            amount: 1,
-            price: 100000,
-            salePrice: null,
-            id: 1,
-            vendorID: 1,
-        },
-        item2: {
-            title: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            img: './img/Smartphone.png',
-            vendor: 'OOO-iPhones-RUS',
-            favourite: true,
-            amount: 2,
-            price: 100000,
-            salePrice: 80000,
-            checked: true,
-            id: '12asdaf231231',
-            vendorID: '282374asdas823',
-        },
-    };
-
     #data = {
         addressID: 1111,
         city: 'Москва',
@@ -53,7 +25,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         flat: 4,
         address: `Республика , ул. Территория, изъятая из земель подсобного хозяйства Всесоюзного
          центрального совета профессиональных союзов для организации крестьянского хозяйства`,
-        deliveryPrice: null,
+        deliveryPrice: 'Бесплатно',
         date: new Date('2022-11-25'),
         paymentMethodProvider: mirIcon,
         avatar: './img/Smartphone.png',
@@ -75,6 +47,57 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             parent,
             СartPageTemplate,
         );
+        cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
+        cartStore.addListener(this.deleteItem.bind(this, cartStore.getContext(cartStore._storeNames.itemsCart)),CartActionTypes.DELETE_BY_ID);
+        cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
+    }
+
+    /**
+     * Функция, вызывающая функцию отрисовки при удалении товара
+     * @param {object} data - данные для заполнения
+     */
+    deleteItem(data) {
+        data.forEach((key) => {
+            key.count = parseInt(document.getElementById(`amount-product/${key.item.id}`).textContent);
+        });
+        this.renderCart(data);
+    }
+
+    /**
+     * Функция, делающая запрос за товарами корзины, адресами и картами и загружающая их
+     */
+    getCart() {
+        this.renderCart(cartStore.getContext(cartStore._storeNames.itemsCart));
+    }
+
+    /**
+     * Функция, отрисовывающая карзину
+     * @param {object} data - данные для заполнения
+     */
+    renderCart(data) {
+        this.#data.auth = true; // config.auth.authorised;
+
+        // Подсчет итоговой стоимости товаров в корзине для отрисовки
+        [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
+            data.reduce((sumVal, key, it) => {
+                // sumPrice
+                sumVal[0] += (key.item.lowprice ?? key.item.price) *
+                key.count;
+                // noSalePrice
+                sumVal[1] += key.item.price * key.count;
+                // priceDiff
+                sumVal[2] = sumVal[1] - sumVal[0];
+                // amount
+                sumVal[3] += key.count;
+                return sumVal;
+            }, [0, 0, 0, 0]).map((val) => {
+                return sharedFunctions._truncate(val);
+            });
+        super.render(this.#data);
+        const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
+        cartItem.render(data);
+        this.startEventListener();
+        return;
     }
 
     /**
@@ -173,10 +196,11 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 }
                 break;
             case 'empty-cart':
+                cartAction.deleteAll();
                 // вызов action для очищения корзины  и перерисовать итого в корзине
                 break;
             case 'delete-cart-item':
-                // action: удалить элемент из корзины по elementId  и перерисовать итого в корзине
+                cartAction.deleteById(parseInt(itemId));
                 break;
             case 'cart-popup-form__apply':
                 const choice = document.querySelector('.choice');
@@ -227,33 +251,30 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 if (amountItem) {
                     const amount = parseInt(amountItem.textContent);
                     if (amount === 1) {
-                        /* action: удалить элемент из корзины по itemId и перерисовать итого
-                        в корзине */
+                        cartAction.deleteById(parseInt(itemId)); // удаление элемента из корзины
                     } else {
                         amountItem.textContent = (amount - 1).toString();
 
                         // Получение стоимости товара со скидкой и без
-                        const price = parseInt(document.getElementById(`price/${itemId}`).textContent
-                            .replace(/\s/g, ''));
-                        let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`)
-                            .textContent.replace(/\s/g, ''));
+                        const price = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
+                        let salePrice = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
                         if (isNaN(salePrice)) {
                             salePrice = price;
                         }
                         // Изменение итоговых сумм
                         const totalPrice = document.getElementById('total-price');
-                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                            totalPrice.textContent.replace(/\s/g, '')) - price)).toString() + ' ₽';
+                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
+                            totalPrice.textContent) - price)).toString() + ' ₽';
                         const productsNumber = document.getElementById('products-number');
                         productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
                             .split(' ', 2)[1]) - 1).toString() + ' шт.';
                         const priceWithoutDiscount = document.getElementById('price-without-discount');
                         priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(
-                            parseInt(priceWithoutDiscount.textContent.replace(/\s/g, '')) - salePrice))
+                            sharedFunctions._parseInt(priceWithoutDiscount.textContent) - salePrice))
                             .toString() + ' ₽';
                         const discount = document.getElementById('discount');
-                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                            discount.textContent.replace(/\s/g, '')) - (salePrice - price)))
+                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
+                            discount.textContent) - (salePrice - price)))
                             .toString() + ' ₽';
                     }
                 }
@@ -265,27 +286,25 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                     itemAmount.textContent = (amount + 1).toString();
 
                     // Получение стоимости товара со скидкой и без
-                    const price = parseInt(document.getElementById(`price/${itemId}`).textContent
-                        .replace(/\s/g, ''));
-                    let salePrice = parseInt(document.getElementById(`sale-price/${itemId}`)
-                        .textContent.replace(/\s/g, ''));
+                    const price = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
+                    let salePrice = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
                     if (isNaN(salePrice)) {
                         salePrice = price;
                     }
                     // Изменение итоговых сумм
                     const totalPrice = document.getElementById('total-price');
-                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(totalPrice
-                        .textContent.replace(/\s/g, '')) + price)).toString() + ' ₽';
+                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(totalPrice
+                        .textContent) + price)).toString() + ' ₽';
                     const productsNumber = document.getElementById('products-number');
                     productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
                         .split(' ', 2)[1]) + 1).toString() + ' шт.';
                     const priceWithoutDiscount = document.getElementById('price-without-discount');
-                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(
-                        priceWithoutDiscount.textContent.replace(/\s/g, '')) + salePrice))
+                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
+                        priceWithoutDiscount.textContent) + salePrice))
                         .toString() + ' ₽';
                     const discount = document.getElementById('discount');
-                    discount.textContent = (new Intl.NumberFormat('ru-RU').format(parseInt(discount
-                        .textContent.replace(/\s/g, '')) + (salePrice - price))).toString() + ' ₽';
+                    discount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(discount
+                        .textContent) + (salePrice - price))).toString() + ' ₽';
                 }
                 break;
             case 'summary_cart__create-order-button':
@@ -410,29 +429,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
-        this.#data.deliveryPrice = this.#data.deliveryPrice ?
-            this.#data.deliveryPrice + ' ₽' : 'Бесплатно';
-        this.#data.auth = true; // config.auth.authorised;
-
-        [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
-            Object.keys(this.#item).reduce((sumVal, key, it) => {
-                // sumPrice
-                sumVal[0] += (this.#item[key].salePrice ?? this.#item[key].price) *
-                this.#item[key].amount;
-                // noSalePrice
-                sumVal[1] += this.#item[key].price * this.#item[key].amount;
-                // priceDiff
-                sumVal[2] = sumVal[1] - sumVal[0];
-                // amount
-                sumVal[3] = it + this.#item[key].amount;
-                return sumVal;
-            }, [0, 0, 0, 0]).map((val) => {
-                return sharedFunctions._truncate(val);
-            });
-        super.render(this.#data);
-
-        this.CartItem = new CartItem(document.getElementById('checkboxes_cart'));
-        this.CartItem.render(this.#item);
-        this.startEventListener();
+        cartAction.getCart();
     }
 }

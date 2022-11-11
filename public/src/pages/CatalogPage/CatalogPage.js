@@ -3,7 +3,7 @@ import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js
 import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
 import cartStore from '../../stores/CartStore.js';
-import {basketAction, BasketActionTypes} from '../../actions/basket';
+import {cartAction, CartActionTypes} from '../../actions/cart.js';
 import {config} from '../../config.js';
 
 /**
@@ -21,14 +21,14 @@ export default class CatalogPage extends BasePage {
         super(parent, CatalogPageTemplate);
 
         cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
-            BasketActionTypes.ADD_TO_CART);
+            CartActionTypes.ADD_TO_CART);
 
         cartStore.addListener(this.defaultButton.bind(this, this.buttonAdd),
-            BasketActionTypes.INCREASE_NUMBER,
+            CartActionTypes.INCREASE_NUMBER,
         );
 
         cartStore.addListener(this.defaultButton.bind(this, this.buttonMinus),
-            BasketActionTypes.DECREASE_NUMBER,
+            CartActionTypes.DECREASE_NUMBER,
         );
     }
 
@@ -219,15 +219,15 @@ export default class CatalogPage extends BasePage {
                 switch (elementId) {
                 case 'catalog_button-add-to-cart':
                     /* запрос на добавление товара в корзину */
-                    basketAction.addToCart(itemId);
+                    cartAction.addToCart(itemId);
                     break;
                 case 'catalog_button-minus_cart':
                     /* Запрос на уменьшение количества единиц товара в корзине */
-                    basketAction.decreaseNumber(itemId);
+                    cartAction.decreaseNumber(itemId);
                     break;
                 case 'catalog_button-plus_cart':
                     /* Запрос на увеличение количества единиц товара в корзине */
-                    basketAction.increaseNumber(itemId);
+                    cartAction.increaseNumber(itemId);
                     break;
                 case 'catalog_like-button':
                     /* Запрос на добавление товара в избраннное */

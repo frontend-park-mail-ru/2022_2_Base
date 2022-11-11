@@ -343,7 +343,35 @@ export default class UserPage extends BasePage {
                 key.removeEventListener('click', this.userInfoArr[index]);
             });
         }
-    }
+    }#item = {
+        item1: {
+            title: `Apple iPhone 13 64 ГБ \\r
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            img: './img/Smartphone.png',
+            vendor: 'OOO-iPhones-RUS',
+            favourite: true,
+            amount: 1,
+            price: 100000,
+            salePrice: null,
+            id: 1,
+            vendorID: 1,
+        },
+        item2: {
+            title: `Apple iPhone 13 64 ГБ \\r
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            img: './img/Smartphone.png',
+            vendor: 'OOO-iPhones-RUS',
+            favourite: true,
+            amount: 2,
+            price: 100000,
+            salePrice: 80000,
+            checked: true,
+            id: '12asdaf231231',
+            vendorID: '282374asdas823',
+        },
+    };
 
     /**
      * Метод, отрисовывающий страницу.

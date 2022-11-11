@@ -2,53 +2,53 @@
     <div class="cart-item_cart">
         <div class="cart-item_cart__checkbox">
             <label class="item_cart__selection">
-                <input type="checkbox" class="checkbox-opt" {{#if this.checked}} checked {{/if}}>
+                <input type="checkbox" class="checkbox-opt" checked>
             </label>
         </div>
 
 
-        <a href="/item/{{this.id}}" class="cart-item_cart__img">
-            <img src="{{this.img}}" alt="{{this.title}} photo" class="cart-item_cart__img-src">
+        <a href="/item/{{this.item.id}}" class="cart-item_cart__img">
+            <img src="{{this.item.imgsrc}}" alt="{{this.item.name}} photo" class="cart-item_cart__img-src">
         </a>
 
         <div class="cart-item_cart__main">
-            <a href="/item/{{this.id}}" id="{{this.id}}" class="link-no-color cart-item_cart__id">
-                <span>{{this.title}}</span>
+            <a href="/item/{{this.item.id}}" id="{{this.item.id}}" class="link-no-color cart-item_cart__id">
+                <span>{{this.item.name}}</span>
             </a>
-            <a href="/vendor/{{this.vendorID}}" class="link-no-color">
-                <span class="vendor_cart__text">{{this.vendor}}</span>
+            <a href="" class="link-no-color">
+                <span class="vendor_cart__text">{{#if this.item.vendor}}{{this.item.vendor}}{{else}}Reazon{{/if}}</span>
             </a>
             <div class="cart-item_cart__bottom">
                 <label class="item_cart__selection">
-                    <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
-                    <span id="favourite-opt_cart__text">{{#if this.favourite}}
+                    <input type="checkbox" class="favourite-opt" {{#if this.item.favourite}} checked {{/if}}>
+                    <span id="favourite-opt_cart__text">{{#if this.item.favourite}}
                         В избранном {{else}} В избранное {{/if}}</span>
                 </label>
                 <button class="button-default-no-box delete-cart-item__down" id="button-default_cart__delete">
                     <img src="img/Bin.svg" alt="delete picture" class="button-delete_cart__img">
-                    <span class="delete-cart-item" id="delete-cart-item">Удалить</span>
+                    <span class="delete-cart-item" id="delete-cart-item/{{this.item.id}}">Удалить</span>
                 </button>
             </div>
         </div>
 
         <div class="amount-selector">
             <button class="button-notext">
-                <span class="link-no-color" id="button-minus_cart/{{this.id}}">−</span>
+                <span class="link-no-color" id="button-minus_cart/{{this.item.id}}">−</span>
             </button>
             <div class="amount-selector__amount">
-            <span class="text-normal-default-bold amount-product" id="amount-product/{{this.id}}">
-                {{this.amount}}
+            <span class="text-normal-default-bold amount-product" id="amount-product/{{this.item.id}}">
+                {{this.count}}
             </span>
             </div>
             <button class="button-notext">
-                <span class="link-no-color" id="button-plus_cart/{{this.id}}">+</span>
+                <span class="link-no-color" id="button-plus_cart/{{this.item.id}}">+</span>
             </button>
         </div>
 
         <div class="cart-item_cart__price">
-            <span class="text-normal-very-large" id="price/{{this.id}}">{{#if this.salePrice}}{{this.salePrice}}{{else}}{{this.price}}
+            <span class="text-normal-very-large" id="price/{{this.item.id}}">{{#if this.item.lowprice}}{{this.item.lowprice}} ₽{{else}}{{this.item.price}}
                 ₽{{/if}}</span>
-            <span class="text-normal-large__strikethrough item_cart__salePrice" id="sale-price/{{this.id}}">{{#if this.salePrice}}{{this.price}}
+            <span class="text-normal-large__strikethrough item_cart__salePrice" id="sale-price/{{this.item.id}}">{{#if this.item.lowprice}}{{this.item.price}}
                 ₽{{/if}}</span>
         </div>
     </div>

@@ -30,10 +30,10 @@ export default class CartItem extends BaseComponent {
      * @return {Object} значение контекста с ценой доставки готовой для отрисовки
      */
     _getPrice(context) {
-        Object.keys(context).forEach((key) => {
-            context[key].price = sharedFunctions._truncate(context[key].price);
-            context[key].salePrice = context[key].salePrice ?
-                sharedFunctions._truncate(context[key].salePrice) : null;
+        context.forEach((key) => {
+            key.item.price = sharedFunctions._truncate(key.item.price);
+            key.item.lowprice = key.item.lowprice ?
+                sharedFunctions._truncate(key.item.lowprice) : null;
         });
         return context;
     }
