@@ -40,20 +40,11 @@ export default class PopUpEditUserInfo extends BaseComponent {
      */
     async listenClickApply(event) {
         event.preventDefault();
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
 
         profileAction.saveEditData({
             value: document.getElementById(this.context.id + '__popUp').value,
             id: this.context.id,
         });
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
-        }
     }
 
 
@@ -75,8 +66,14 @@ export default class PopUpEditUserInfo extends BaseComponent {
         };
 
         switch (context.id) {
+        case 'name':
+            data.title = 'имя';
+            break;
         case 'email':
             data.title = 'почту';
+            break;
+        case 'phone':
+            data.title = 'телефон';
             break;
         case 'password':
             data.fields.field1.name = 'Новый пароль';
@@ -86,6 +83,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
             data.fields.field2.name = 'Повторить пароль';
             data.fields.field2.value = '';
             data.fields.field2.type = context.id;
+            data.fields.field2.id = context.id + '__2__popUp';
         }
         return data;
     }

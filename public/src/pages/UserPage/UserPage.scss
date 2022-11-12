@@ -19,7 +19,8 @@
 .edit-button_user-page {
   height: 16px;
   width: 16px;
-  margin-left: 4px;
+  align-self: center;
+  margin-top: 4px;
 }
 
 .edit-button_user-page:hover {
@@ -72,7 +73,10 @@
   //filter: blur(1px);
 }
 
-.user-name_user-page {
+.user-name_user-page-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: 8px;
   //align-self: center;
 }
 
@@ -102,7 +106,7 @@
 
 .change-user-photo_user-page {
   width: 84px;
-  margin-top: -90px;
+  //margin-top: 10px;
   margin-left: 20px;
   align-content: center;
   align-items: center;

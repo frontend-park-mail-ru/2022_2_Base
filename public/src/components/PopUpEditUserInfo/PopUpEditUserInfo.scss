@@ -36,6 +36,7 @@
     height: 40px;
     width: 100px;
     /* padding: 8px 24px 10px; */
+    cursor: pointer;
 }
 
 .popup-form_user-info__cancel {
@@ -45,4 +46,10 @@
 .popup-form_user-info__apply {
     background-color: var(--purple_disabled);
     color: var(--pure_white);
+}
+
+.userpage__popUp__error {
+    margin-left: 340px;
+    margin-top: 20px;
+    width: 128px;
 }

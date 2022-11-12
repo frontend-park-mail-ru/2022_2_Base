@@ -22,6 +22,23 @@ class Validation {
     };
 
     /**
+     * Метод, валидирующий номер телефона.
+     * @param {string} data - номер для валидации
+     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
+     * и полем сообщением ошибки message
+     */
+    validatePhone(data) {
+        const checkEmpty = this.checkEmptyField(data);
+        if (!checkEmpty.status) {
+            return checkEmpty;
+        }
+        if (!(data.length === 11)) {
+            return {status: false, message: 'Телефон должен иметь формат: 8 XXX XXX XX XX'};
+        }
+        return {status: true, message: ''};
+    };
+
+    /**
      * Метод, валидирующий пароль.
      * @param {string} data - пароль для валидации
      * @return {{status: boolean, message: String}} - объект со полем статуса проверки status

@@ -33,12 +33,12 @@ export default class UserPage extends BasePage {
     }
 
     /**
-     * Функция, делающая изменяющая данные пользователя
+     * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
         if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
             const data = userStore.getContext(userStore._storeNames.temp);
-            document.getElementById(data.id).innerText = data.value;
+            document.getElementById(`${data.id}-text`).innerText = data.value;
         }
     }
 
