@@ -12,10 +12,10 @@
         </a>
 
         <div class="cart-item_cart__main">
-            <a href="/item/{{this.item.id}}" id="{{this.item.id}}" class="link-no-color cart-item_cart__id">
+            <a href="/item/{{this.item.id}}" id="{{this.item.id}}" class="link__no-color cart-item_cart__id">
                 <span>{{this.item.name}}</span>
             </a>
-            <a href="" class="link-no-color">
+            <a href="" class="link__no-color">
                 <span class="vendor_cart__text">{{#if this.item.vendor}}{{this.item.vendor}}{{else}}Reazon{{/if}}</span>
             </a>
             <div class="cart-item_cart__bottom">
@@ -24,7 +24,7 @@
                     <span id="favourite-opt_cart__text">{{#if this.item.favourite}}
                         В избранном {{else}} В избранное {{/if}}</span>
                 </label>
-                <button class="button-default-no-box delete-cart-item__down" id="button-default_cart__delete">
+                <button class="button-default-no-box delete-cart-item__down item_cart__selection link__no-color" id="button-default_cart__delete">
                     <img src="img/Bin.svg" alt="delete picture" class="button-delete_cart__img">
                     <span class="delete-cart-item" id="delete-cart-item/{{this.item.id}}">Удалить</span>
                 </button>
@@ -33,15 +33,15 @@
 
         <div class="amount-selector">
             <button class="button-notext">
-                <span class="link-no-color" id="button-minus_cart/{{this.item.id}}">−</span>
+                <span class="link__no-color" id="button-minus_cart/{{this.item.id}}">−</span>
             </button>
             <div class="amount-selector__amount">
-            <span class="text-normal-default-bold amount-product" id="amount-product/{{this.item.id}}">
+            <span class="text-normal-default__bold amount-product" id="amount-product/{{this.item.id}}">
                 {{this.count}}
             </span>
             </div>
             <button class="button-notext">
-                <span class="link-no-color" id="button-plus_cart/{{this.item.id}}">+</span>
+                <span class="link__no-color" id="button-plus_cart/{{this.item.id}}">+</span>
             </button>
         </div>
 

@@ -47,7 +47,7 @@ export default class CatalogPage extends BasePage {
     /**
      * Функция, подгружающая и отрисовывающая карточки товаров
      */
-    async loadCatalogItemCards() {
+    loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             const Card = new CatalogItemCard(document.getElementById('items-block'));

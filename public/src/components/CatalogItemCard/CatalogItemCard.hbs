@@ -58,7 +58,7 @@
         </div>
     <div class="catalog-item-card__sale-block">
         <div class="catalog-item-card__sale-block__ex-price-and-like-block">
-            <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large-strikethrough ">
+            <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large__strikethrough ">
                 {{#if this.price}} {{this.price}} ₽ {{/if}}
             </div>
 
@@ -68,7 +68,7 @@
             </label>
         </div>
 
-    <div class="text-normal-very-big catalog-item-card__sale-block__catalog-price">
+    <div class="text-normal-very-large__bold catalog-item-card__sale-block__catalog-price">
     {{#if this.lowprice}} {{this.lowprice}} {{else}} {{this.price}} {{/if}}₽</div>
 
         <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">
@@ -79,7 +79,7 @@
             <div class="catalog_amount-selector" id="catalog_amount-selector/{{this.id}}"
                  data-amount="{{this.amount}}">
                 <button class="button-notext">
-                    <span class="link-no-color text-normal-large" id="catalog_button-minus_cart/{{this.id}}">−</span>
+                    <span class="link__no-color text-normal-large" id="catalog_button-minus_cart/{{this.id}}">−</span>
                 </button>
                 <div class="catalog_amount-selector__amount">
             <span class="text-normal-large" id="catalog_item-amount/{{this.id}}">
@@ -87,7 +87,7 @@
             </span>
                 </div>
                 <button class="button-notext">
-                    <span class="link-no-color text-normal-large" id="catalog_button-plus_cart/{{this.id}}">+</span>
+                    <span class="link__no-color text-normal-large" id="catalog_button-plus_cart/{{this.id}}">+</span>
                 </button>
             </div>
         </div>

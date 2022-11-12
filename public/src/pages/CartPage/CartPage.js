@@ -1,10 +1,6 @@
-import СartPageTemplate from './CartPage.hbs';
+import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage.js';
 import CartItem from '../../components/CartItem/CartItem.js';
-import request from '../../modules/ajax.js';
-import validation from '../../modules/validation.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
 import './CartPage.scss';
 import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
@@ -45,13 +41,12 @@ export default class CartOrderPage extends BasePage {
     constructor(parent) {
         super(
             parent,
-            СartPageTemplate,
+            CartPageTemplate,
         );
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.deleteItem.bind(
             this, cartStore.getContext(cartStore._storeNames.itemsCart)),
-            CartActionTypes.DELETE_BY_ID
-        );
+        CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
     }
 
@@ -100,7 +95,6 @@ export default class CartOrderPage extends BasePage {
         const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
         cartItem.render(data);
         this.startEventListener();
-        return;
     }
 
     /**
@@ -108,7 +102,7 @@ export default class CartOrderPage extends BasePage {
      * @param {Event} event контекст события для обработки
      */
     listenClickHandler(event) {
-        event.preventDefault();
+        // event.preventDefault();
         const target = event.target;
         let elementId = target.id;
         let itemId;

@@ -54,7 +54,7 @@
   align-self: center;
   justify-self: center;
   gap: 4px;
-  border: 1px solid var(--background-dark-gray);
+  border: 1px solid var(--dark-grey);
   border-radius: 10px;
   flex: 28px 20px
 }
@@ -78,10 +78,7 @@
 }
 
 .delete-cart-item {
-  cursor: pointer;
 }
 
 .delete-cart-item__down {
-  display: flex;
-  align-items: flex-end;
 }

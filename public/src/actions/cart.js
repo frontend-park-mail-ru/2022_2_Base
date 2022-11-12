@@ -11,6 +11,8 @@ export const CartActionTypes = {
     DELETE_ALL: 'DELETE_ALL',
     BUY: 'BUY',
     ADD_TO_CART: 'ADD_TO_CART',
+    INCREASE_NUMBER: 'INCREASE_NUMBER',
+    DECREASE_NUMBER: 'DECREASE_NUMBER',
 };
 
 /**
@@ -43,6 +45,28 @@ export const cartAction = {
     deleteAll() {
         Dispatcher.dispatch({
             actionName: CartActionTypes.DELETE_ALL,
+        });
+    },
+
+    /**
+     * Действие: увеличить количество товара.
+     * @param {number} id
+     */
+    increaseNumber(id) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.INCREASE_NUMBER,
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: уменьшить количество товара.
+     * @param {number} id
+     */
+    decreaseNumber(id) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.DECREASE_NUMBER,
+            data: id,
         });
     },
 

@@ -1,8 +1,5 @@
 import BaseStore from './BaseStore.js';
-import {BasketActionTypes} from '../actions/basket';
-import {ItemCardsActionTypes} from '../actions/itemCards.js';
-import Dispatcher from '../modules/dispatcher.js';
-import {cartAction, CartActionTypes} from '../actions/cart.js';
+import {CartActionTypes} from '../actions/cart.js';
 import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import sharedFunctions from '../modules/sharedFunctions.js';
@@ -68,10 +65,6 @@ class CartStore extends BaseStore {
             await this._getCart();
             this._emitChange([CartActionTypes.GET_CART]);
             break;
-        case CartActionTypes.SELECT_BY_ID:
-            await this._selectById(payload.data);
-            this._emitChange([CartActionTypes.SELECT_BY_ID]);
-            break;
         case CartActionTypes.DELETE_BY_ID:
             await this._deleteById(payload.data);
             this._emitChange([CartActionTypes.DELETE_BY_ID]);
@@ -80,10 +73,22 @@ class CartStore extends BaseStore {
             await this._deleteAll(payload.data);
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
+
+        case CartActionTypes.INCREASE_NUMBER:
+            await this._increaseNumber(payload.data);
+            this._emitChange([CartActionTypes.INCREASE_NUMBER]);
+            break;
+
         case CartActionTypes.ADD_TO_CART:
             await this._addToCart(payload.data);
             this._emitChange([CartActionTypes.ADD_TO_CART]);
             break;
+
+        case CartActionTypes.DECREASE_NUMBER:
+            await this._decreaseNumber(payload.data);
+            this._emitChange([CartActionTypes.DECREASE_NUMBER]);
+            break;
+
         case CartActionTypes.BUY:
             await this._buy(payload.data);
             this._emitChange([CartActionTypes.BUY]);
@@ -108,14 +113,6 @@ class CartStore extends BaseStore {
     }
 
     /**
-     * Действие: выбрать товар по ID.
-     * @param {number} id
-     */
-    async _selectById(id) {
-
-    }
-
-    /**
      * Действие: удалить товар по ID.
      * @param {number} id
      */
@@ -129,7 +126,7 @@ class CartStore extends BaseStore {
             }
             if (item.item.id === id) {
                 delete itemsCart[key];
-                payload.itemid = id
+                payload.itemid = id;
             }
         });
         const [status] = await request.makePostRequest(config.api.deleteFromCart, payload)
@@ -147,7 +144,7 @@ class CartStore extends BaseStore {
      */
     async _deleteAll() {
         const payload = {
-            items: []
+            items: [],
         };
         const [status] = await request.makePostRequest(config.api.cart, payload)
             .catch((err) => console.log(err));
@@ -160,12 +157,24 @@ class CartStore extends BaseStore {
     }
 
     /**
+     * Действие: увеличить количество товара.
+     * @param {number} id
+     */
+    async _increaseNumber(id) {
+        // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
+        //    .catch((err) => console.log(err));
+        this._storage.set(id, 1);
+        this._storage.set(this._storeNames.currID, id);
+        this._storage.set(this._storeNames.responseCode, status);
+    }
+
+    /**
      * Действие: добавить товар в корзину.
      * @param {number} id
      */
     async _addToCart(id) {
-        // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-        //    .catch((err) => console.log(err));
+        const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
+           .catch((err) => console.log(err));
         this._storage.set(id, this._storage.get('item' + id) + 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
@@ -176,8 +185,8 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _decreaseNumber(id) {
-        // const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
-        //    .catch((err) => console.log(err));
+        const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
+           .catch((err) => console.log(err));
         this._storage.set(id, this._storage.get('item' + id) - 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);

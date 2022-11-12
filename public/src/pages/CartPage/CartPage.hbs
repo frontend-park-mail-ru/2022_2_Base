@@ -73,7 +73,7 @@
                     <button class="button-default-no-box" id="button-default_cart__delete">
                         <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
                     </button>
-                </div> / {{#if this.year}} {{this.year}} {{/if}}
+                </div> {{#if this.year}} {{this.year}} {{/if}}
                 <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}">
                     {{#if this.auth}}
                         {{#if cardNumber}}
@@ -96,7 +96,7 @@
                 <div class="items_cart__upper">
                     <span class="text-normal-very-large">Ваши данные</span>
                     <button class="button-default-no-box" id="button-default_cart__delete">
-                        <a href ="/" class="items_cart__upper-button">Изменить</a>
+                        <a href ="/user" class="items_cart__upper-button link">Изменить</a>
                     </button>
                 </div>
                 <div class="user-data_cart__bottom">
@@ -183,7 +183,7 @@
                                 <span class="text-normal-default">
                             <a href="/login" class="link">Войти</a> или
                             <a href="/signup" class="link">зарегистрироваться</a>, чтобы оформить заказ
-                        </span>data.split(' ').slice(1).join(' ').trim();
+                        </span>
                             {{/if}}
                         </div>
                     {{/if}}

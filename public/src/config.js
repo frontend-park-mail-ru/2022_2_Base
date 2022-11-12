@@ -13,6 +13,7 @@ export const config = {
         logout: '/logout',
         user: '/user',
         category: '/category',
+        cart: '/cart',
     },
     api: {
         login: basePathApi + 'login',
