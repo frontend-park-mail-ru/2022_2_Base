@@ -101,8 +101,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая клики на данной странице
      * @param {Event} event контекст события для обработки
      */
-    listenClickHandler(event) {
-        // event.preventDefault();
+    async listenClickAddressAndPaymentCardBlock(event) {
         const target = event.target;
         let elementId = target.id;
         let itemId;
@@ -116,7 +115,7 @@ export default class CartOrderPage extends BasePage {
                 let context;
                 let choiseItemId;
                 if (elementId === 'edit-address') {
-                    const choice = document.querySelector('.addressID');
+                    const choice = Array.from(document.getElementsByClassName('addressID'))[0];
                     choiseItemId = choice.getAttribute('id');
 
                     // Загрузить адреса
@@ -147,7 +146,7 @@ export default class CartOrderPage extends BasePage {
                     };
                 } else {
                     if (elementId === 'edit-payment-card') {
-                        const choice = document.querySelector('.payment-method_cart');
+                        const choice = Array.from(document.getElementsByClassName('payment-method_cart'))[0];
                         choiseItemId = choice.getAttribute('id');
 
                         // Загрузить банковские карты
@@ -192,14 +191,9 @@ export default class CartOrderPage extends BasePage {
                     chooseAddress.classList.add('choice');
                 }
                 break;
-            case 'empty-cart':
-                cartAction.deleteAll();
-                // вызов action для очищения корзины  и перерисовать итого в корзине
-                break;
-            case 'delete-cart-item':
-                cartAction.deleteById(parseInt(itemId));
-                break;
             case 'cart-popup-form__apply':
+                console.log(event)
+                event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
                 const choiseIdWithType = choice.getAttribute('id');
@@ -243,96 +237,6 @@ export default class CartOrderPage extends BasePage {
                     popUpFade.style.display = 'none';
                 }
                 break;
-            case 'button-minus_cart':
-                const amountItem = document.getElementById(`amount-product/${itemId}`);
-                if (amountItem) {
-                    const amount = parseInt(amountItem.textContent);
-                    if (amount === 1) {
-                        cartAction.deleteById(parseInt(itemId)); // удаление элемента из корзины
-                    } else {
-                        amountItem.textContent = (amount - 1).toString();
-
-                        // Получение стоимости товара со скидкой и без
-                        const price = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
-                        let salePrice = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
-                        if (isNaN(salePrice)) {
-                            salePrice = price;
-                        }
-                        // Изменение итоговых сумм
-                        const totalPrice = document.getElementById('total-price');
-                        totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
-                            totalPrice.textContent) - price)).toString() + ' ₽';
-                        const productsNumber = document.getElementById('products-number');
-                        productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
-                            .split(' ', 2)[1]) - 1).toString() + ' шт.';
-                        const priceWithoutDiscount = document.getElementById('price-without-discount');
-                        priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(
-                            sharedFunctions._parseInt(priceWithoutDiscount.textContent) - salePrice))
-                            .toString() + ' ₽';
-                        const discount = document.getElementById('discount');
-                        discount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
-                            discount.textContent) - (salePrice - price)))
-                            .toString() + ' ₽';trim
-                    }
-                }
-                break;
-            case 'button-plus_cart':
-                const itemAmount = document.getElementById(`amount-product/${itemId}`);
-                if (itemAmount) {
-                    const amount = parseInt(itemAmount.textContent);
-                    itemAmount.textContent = (amount + 1).toString();
-
-                    // Получение стоимости товара со скидкой и без
-                    const price = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
-                    let salePrice = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
-                    if (isNaN(salePrice)) {
-                        salePrice = price;
-                    }
-                    // Изменение итоговых сумм
-                    const totalPrice = document.getElementById('total-price');
-                    totalPrice.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(totalPrice
-                        .textContent) + price)).toString() + ' ₽';
-                    const productsNumber = document.getElementById('products-number');
-                    productsNumber.textContent = 'Товары, ' + (parseInt(productsNumber.textContent
-                        .split(' ', 2)[1]) + 1).toString() + ' шт.';
-                    const priceWithoutDiscount = document.getElementById('price-without-discount');
-                    priceWithoutDiscount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(
-                        priceWithoutDiscount.textContent) + salePrice))
-                        .toString() + ' ₽';
-                    const discount = document.getElementById('discount');
-                    discount.textContent = (new Intl.NumberFormat('ru-RU').format(sharedFunctions._parseInt(discount
-                        .textContent) + (salePrice - price))).toString() + ' ₽';
-                }
-                break;
-            case 'summary_cart__create-order-button':
-                const orderData = {
-                    items: [
-
-                    ],
-                };
-                const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
-                if (itemsInCart) {
-                    itemsInCart.forEach((item) => {
-                        const itemInCartId = item.getAttribute('id');
-                        const itemInCartCount = parseInt(document.getElementById(
-                            `amount-product/${itemInCartId}`).textContent);
-                        orderData.items.push({
-                            id: itemInCartId,
-                            amount: itemInCartCount,
-                        });
-                    });
-                } else {
-                    console.log('element not found', itemsInCart);
-                }
-                const addressID = parseInt(document.querySelector('.addressID').getAttribute(
-                    'id').split('/', 2)[1]);
-                orderData.addressID = addressID;
-                orderData.dateDelivery = document.getElementById('date-delivery').textContent;
-                orderData.timeDelivery = document.getElementById('time-delivery').textContent;
-                orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart')
-                    .getAttribute('id').split('/', 2)[1]);
-                // нужно передавать данные из orderData на сервер для оформления заказа
-                break;
             default:
                 console.log(elementId);
             }
@@ -343,40 +247,223 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая выбор даты и времени доставки
      * @param {Event} event контекст события для обработки
      */
-    listenChangeDateAndTime(event) {
-        const tagInput = document.getElementById(event.target.getAttribute('for'));
-        tagInput.checked = true;
-        switch (event.target.getAttribute('class')) {
-            case 'option_select__date':
-                document.getElementById('date-delivery').textContent = event.target.textContent;
-                break;
-            case 'option_select__time':
-                document.getElementById('time-delivery').textContent = event.target.textContent;
-                break;
+    async listenChangeDateAndTime(event) {
+        const target = event.target;
+        console.log(target)
+        let elementId = target.id;
+        let itemId;
+        if (elementId) {
+            if (elementId.includes('/')) {
+                [elementId, itemId] = elementId.split('/');
+            }
+            switch (elementId) {
+                case 'delivery-date':
+                    console.log('hi')
+                    document.getElementById('date-delivery').textContent = document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                    break;
+                case 'delivery-time':
+                    document.getElementById('time-delivery').textContent = document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                    break;
+            }
         }
+    }
+
+    /**
+     * Функция, обрабатывающая клики в блоке товаров
+     * @param {Event} event контекст события для обработки
+     */
+    async listenClickProductsBlock(event) {
+        const target = event.target;
+        let elementId = target.id;
+        let itemId;
+        if (elementId) {
+            if (elementId.includes('/')) {
+                [elementId, itemId] = elementId.split('/');
+            }
+            switch (elementId) {
+                case 'empty-cart':
+                    cartAction.deleteAll();
+                    // вызов action для очищения корзины  и перерисовать итого в корзине
+                    break;
+                case 'delete-cart-item':
+                    cartAction.deleteById(parseInt(itemId));
+                    break;
+                case 'button-minus_cart':
+                    const amountItem = document.getElementById(`amount-product/${itemId}`);
+                    if (amountItem) {
+                        const amount = parseInt(amountItem.textContent);
+                        if (amount === 1) {
+                            cartAction.deleteById(parseInt(itemId)); // удаление элемента из корзины
+                        } else {
+                            amountItem.textContent = (amount - 1).toString();
+                            this.renderTotalCost();
+                        }
+                    }
+                    break;
+                case 'button-plus_cart':
+                    const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                    if (itemAmount) {
+                        const amount = parseInt(itemAmount.textContent);
+                        itemAmount.textContent = (amount + 1).toString();
+                        this.renderTotalCost();
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Функция, перерисовывающая итоговую стоимость
+     */
+    renderTotalCost() {
+        const data = [];
+        const itemsCart = document.getElementsByClassName('cart-item_cart');
+        if (itemsCart) {
+            Array.from(itemsCart).forEach((child) => {
+                const check = child.getElementsByClassName('checkbox-opt')[0];
+                const itemId = check.getAttribute('id').split('/')[1];
+                if (check.checked) {
+                    const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
+                    let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
+                    const count = sharedFunctions._parseInt(document.getElementById(`amount-product/${itemId}`).textContent);
+                    if (isNaN(price)) {
+                        price = lowprice;
+                    }
+                    data.push({
+                        lowprice: lowprice,
+                        price: price,
+                        count: count,
+                    });
+                }
+            });
+        }
+        console.log(data)
+        // Подсчет итоговой стоимости товаров в корзине для отрисовки
+        let [sumPrice, noSalePrice, priceDiff, count] =
+            data.reduce((sumVal, key, it) => {
+                // sumPrice
+                sumVal[0] += (key.lowprice ?? key.price) *
+                key.count;
+                // noSalePrice
+                sumVal[1] += key.price * key.count;
+                // priceDiff
+                sumVal[2] = sumVal[1] - sumVal[0];
+                // coount
+                sumVal[3] += key.count;
+                return sumVal;
+            }, [0, 0, 0, 0]).map((val) => {
+                return sharedFunctions._truncate(val);
+            });
+        // Изменение итоговых сумм
+        const totalPrice = document.getElementById('total-price');
+        totalPrice.textContent = sumPrice + ' ₽';
+        const productsNumber = document.getElementById('products-number');
+        productsNumber.textContent = 'Товары, ' + count  + ' шт.';
+        const priceWithoutDiscount = document.getElementById('price-without-discount');
+        priceWithoutDiscount.textContent = noSalePrice + ' ₽';
+        const discount = document.getElementById('discount');
+        discount.textContent = priceDiff + ' ₽';
+    }
+
+    /**
+     * Функция, обрабатывающая событие change в блоке товаров
+     * @param {Event} event контекст события для обработки
+     */
+    async listenChangeCheckbox(event) {
+        const target = event.target;
+        let elementId = target.id;
+        let itemId;
+        if (elementId) {
+            if (elementId.includes('/')) {
+                [elementId, itemId] = elementId.split('/');
+            }
+            switch (elementId) {
+                case 'item_cart__select-all':
+                    // Установка и снятие галочек у товаров
+                    const chackedItems = document.getElementsByName('itemCart');
+                    chackedItems.forEach((key) => {
+                        key.checked = target.checked;
+                    });
+                    this.renderTotalCost();
+                    break;
+                case 'item_cart__select':
+                    const selectAll = document.getElementById('item_cart__select-all')
+                    if (!target.checked) {
+                        // Снятие галочки выбрать все
+                        selectAll.checked = false;
+                    } else {
+                        // Установление галочки выбрать все
+                        const selectItems = document.getElementsByName('itemCart');
+                        if ([...selectItems].every((key) => {
+                            return key.checked;
+                        })) {
+                            selectAll.checked = true;
+                        }
+                    }
+                    this.renderTotalCost();
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая клик на кнопку создания заказа
+     */
+    async listenClickCreateOrder() {
+        const orderData = {
+            items: [
+
+            ],
+        };
+        const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
+        if (itemsInCart) {
+            itemsInCart.forEach((item) => {
+                const itemInCartId = item.getAttribute('id');
+                const itemInCartCount = parseInt(document.getElementById(
+                    `amount-product/${itemInCartId}`).textContent);
+                orderData.items.push({
+                    id: itemInCartId,
+                    amount: itemInCartCount,
+                });
+            });
+        } else {
+            console.log('element not found', itemsInCart);
+        }
+        const addressID = parseInt(document.querySelector('.addressID').getAttribute(
+            'id').split('/', 2)[1]);
+        orderData.addressID = addressID;
+        orderData.dateDelivery = document.getElementById('date-delivery').textContent;
+        orderData.timeDelivery = document.getElementById('time-delivery').textContent;
+        orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart')
+            .getAttribute('id').split('/', 2)[1]);
+        // нужно передавать данные из orderData на сервер для оформления заказа
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cartContent = document.getElementById('cart');
+        // Обработчик блока товаров
+        const productsContent = document.getElementById('block-products');
+        if (productsContent) {
+            productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
+            productsContent.addEventListener('change',this.listenChangeCheckbox.bind(this));
+        }
+
+        // Обработчик создания заказа
+        const createOrder = document.getElementById('summary_cart__create-order-button');
+        if (createOrder) {
+            createOrder.addEventListener('click', this.listenClickCreateOrder);
+        }
+
+        const cartContent = document.getElementById('content_cart');
         if (cartContent) {
-            cartContent.addEventListener('click', this.listenClickHandler);
+            cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCartDate = document.querySelectorAll('.option_select__date');
-        if (addressCartDate) {
-            addressCartDate.forEach((key) => {
-                key.addEventListener('click', this.listenChangeDateAndTime);
-            });
-        }
-
-        const addressCartTime = document.querySelectorAll('.option_select__time');
-        if (addressCartTime) {
-            addressCartTime.forEach((key) => {
-                key.addEventListener('click', this.listenChangeDateAndTime);
-            });
+        const addressCart = document.getElementById('address-cart');
+        if (addressCart) {
+            addressCart.addEventListener('change', this.listenChangeDateAndTime);
         }
     }
 
@@ -384,23 +471,25 @@ export default class CartOrderPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
+        const productsContent = document.getElementById('block-products');
+        if (productsContent) {
+            productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
+            productsContent.removeEventListener('change',this.listenChangeCheckbox.bind(this));
+        }
+
+        const createOrder = document.getElementById('summary_cart__create-order-button');
+        if (createOrder) {
+            createOrder.removeEventListener('click', this.listenClickCreateOrder);
+        }
+
         const cartContent = document.getElementById('content_cart');
         if (cartContent) {
-            cartContent.removeEventListener('click', this.listenClickHandler);
+            cartContent.removeEventListener('click', this.listenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCartDate = document.querySelectorAll('.option_select__date');
-        if (addressCartDate) {
-            addressCartDate.forEach((key) => {
-                key.removeEventListener('click', this.listenChangeDateAndTime);
-            });
-        }
-
-        const addressCartTime = document.querySelectorAll('.option_select__time');
-        if (addressCartTime) {
-            addressCartTime.forEach((key) => {
-                key.removeEventListener('click', this.listenChangeDateAndTime);
-            });
+        const addressCart = document.getElementById('address-cart');
+        if (addressCart) {
+            addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
     }
 

@@ -4,7 +4,7 @@
     <div class="popUp" id="popUp"></div>
     <div class="content_cart" id="content_cart">
         <div class="content_cart__left">
-            <div class="items_cart">
+            <div class="items_cart" id="block-products">
                 <div class="items_cart__upper">
                     <span class="text-normal-very-large">Корзина</span>
                     <button class="button-default-no-box" id="button-default_cart__delete">
@@ -29,7 +29,7 @@
                         <span class="items_cart__upper-button" id="edit-address">Изменить</span>
                     </button>
                 </div>
-                <div class="address_cart__main text-normal-default">
+                <div class="address_cart__main text-normal-default" id="address-cart">
                     <span class="address_cart__title">
                         Адрес
                     </span>
@@ -48,21 +48,21 @@
                     </label>
                     <span class="select text-normal-default" id="address_cart__date" tabindex="0">
                         {{#each this.deliveryDate}}
-                            <input class="select-opt" type="radio" name="delivery-date" id="delivery-date-{{@index}}"
+                            <input class="select-opt" type="radio" name="delivery-date" id="delivery-date/{{@index}}"
                                 {{#if @first}} checked {{/if}}>
-                            <label for="delivery-date-{{@index}}" class="option_select__date">{{this}}</label>
+                            <label for="delivery-date/{{@index}}" class="option_select__date" id="delivery-date-value/{{@index}}">{{this}}</label>
                         {{/each}}
                     </span>
                     <label class="address_cart__title" for="date-select_cart__address">
                         Время доставки
                     </label>
                     <div class="select text-normal-default" tabindex="1">
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-1" checked>
-                        <label for="delivery-time-1" class="option_select__time">8:00 - 12:00</label>
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-2">
-                        <label for="delivery-time-2" class="option_select__time">12:00 - 18:00</label>
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-3">
-                        <label for="delivery-time-3" class="option_select__time">18:00 - 23:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/1" checked>
+                        <label for="delivery-time/1" class="option_select__time" id="delivery-time-value/1">8:00 - 12:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/2">
+                        <label for="delivery-time/2" class="option_select__time" id="delivery-time-value/2">12:00 - 18:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/3">
+                        <label for="delivery-time/3" class="option_select__time" id="delivery-time-value/3">18:00 - 23:00</label>
                     </div>
 
                 </div>
