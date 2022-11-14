@@ -8,6 +8,7 @@ import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
 import cartStore from '../../stores/CartStore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -44,21 +45,19 @@ export default class CartOrderPage extends BasePage {
             CartPageTemplate,
         );
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
-        cartStore.addListener(this.deleteItem.bind(
-            this, cartStore.getContext(cartStore._storeNames.itemsCart)),
-        CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
+        cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
     }
 
     /**
-     * Функция, вызывающая функцию отрисовки при удалении товара
-     * @param {object} data - данные для заполнения
+     * Функция, вызывающая action функцию отрисовки при удалении товара
+     * @param {number} id - id удаленного товара
      */
-    deleteItem(data) {
-        data.forEach((key) => {
-            key.count = parseInt(document.getElementById(`amount-product/${key.item.id}`).textContent);
-        });
-        this.renderCart(data);
+    deleteItem(id) {
+        cartAction.deleteById(id);
+        const deleteElement = document.getElementById(`cart-item_cart/${id}`);
+        deleteElement.remove();
+        this.renderTotalCost();
     }
 
     /**
@@ -283,18 +282,18 @@ export default class CartOrderPage extends BasePage {
             switch (elementId) {
                 case 'empty-cart':
                     cartAction.deleteAll();
-                    // вызов action для очищения корзины  и перерисовать итого в корзине
                     break;
                 case 'delete-cart-item':
-                    cartAction.deleteById(parseInt(itemId));
+                    this.deleteItem(parseInt(itemId));
                     break;
                 case 'button-minus_cart':
                     const amountItem = document.getElementById(`amount-product/${itemId}`);
                     if (amountItem) {
                         const amount = parseInt(amountItem.textContent);
                         if (amount === 1) {
-                            cartAction.deleteById(parseInt(itemId)); // удаление элемента из корзины
+                            this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                         } else {
+                            cartAction.decreaseNumber(parseInt(itemId));
                             amountItem.textContent = (amount - 1).toString();
                             this.renderTotalCost();
                         }
@@ -303,6 +302,7 @@ export default class CartOrderPage extends BasePage {
                 case 'button-plus_cart':
                     const itemAmount = document.getElementById(`amount-product/${itemId}`);
                     if (itemAmount) {
+                        cartAction.increaseNumber(parseInt(itemId));
                         const amount = parseInt(itemAmount.textContent);
                         itemAmount.textContent = (amount + 1).toString();
                         this.renderTotalCost();
@@ -337,7 +337,6 @@ export default class CartOrderPage extends BasePage {
                 }
             });
         }
-        console.log(data)
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
         let [sumPrice, noSalePrice, priceDiff, count] =
             data.reduce((sumVal, key, it) => {
@@ -437,6 +436,7 @@ export default class CartOrderPage extends BasePage {
         orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart')
             .getAttribute('id').split('/', 2)[1]);
         // нужно передавать данные из orderData на сервер для оформления заказа
+        console.log(orderData)
     }
 
     /**
@@ -456,7 +456,7 @@ export default class CartOrderPage extends BasePage {
             createOrder.addEventListener('click', this.listenClickCreateOrder);
         }
 
-        const cartContent = document.getElementById('content_cart');
+        const cartContent = document.getElementById('cart');
         if (cartContent) {
             cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
         }
@@ -511,6 +511,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     render(config) {
+        // profileAction.getData();
         cartAction.getCart();
     }
 }

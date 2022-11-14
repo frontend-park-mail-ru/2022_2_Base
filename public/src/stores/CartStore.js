@@ -41,7 +41,7 @@ class CartStore extends BaseStore {
 
     _storeNames = {
         responseCode: 'responseCode',
-        currID: 'currID',
+        // currID: 'currID',
         itemsCart: 'itemsCart',
     };
 
@@ -117,19 +117,18 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _deleteById(id) {
-        const payload = {};
+        const payload = {
+            items: [],
+        };
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
-            item.item.price = sharedFunctions._parseInt(item.item.price);
-            if (item.item.lowprice) {
-                item.item.lowprice = sharedFunctions._parseInt(item.item.lowprice);
-            }
             if (item.item.id === id) {
                 delete itemsCart[key];
-                payload.itemid = id;
+            } else {
+                payload.items.push(item.item.id);
             }
         });
-        const [status] = await request.makePostRequest(config.api.deleteFromCart, payload)
+        const [status] = await request.makePostRequest(config.api.cart, payload)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
@@ -161,11 +160,22 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _increaseNumber(id) {
-        // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-        //    .catch((err) => console.log(err));
-        this._storage.set(id, 1);
-        this._storage.set(this._storeNames.currID, id);
+        let itemsCart = this._storage.get(this._storeNames.itemsCart);
+        itemsCart.forEach((item, key) => {
+            if (item.item.id === id) {
+                itemsCart[key].count = itemsCart[key].count + 1;
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.insertIntoCart, {
+            itemid: id
+        })
+           .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
@@ -175,9 +185,12 @@ class CartStore extends BaseStore {
     async _addToCart(id) {
         const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
            .catch((err) => console.log(err));
-        this._storage.set(id, this._storage.get('item' + id) + 1);
-        this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            console.log('Adding to the cart was successful');
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
@@ -185,11 +198,22 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _decreaseNumber(id) {
-        const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
+        let itemsCart = this._storage.get(this._storeNames.itemsCart);
+        itemsCart.forEach((item, key) => {
+            if (item.item.id === id) {
+                itemsCart[key].count = itemsCart[key].count - 1;
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.deleteFromCart, {
+            itemid: id
+        })
            .catch((err) => console.log(err));
-        this._storage.set(id, this._storage.get('item' + id) - 1);
-        this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
