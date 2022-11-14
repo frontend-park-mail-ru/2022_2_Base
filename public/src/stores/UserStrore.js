@@ -82,31 +82,31 @@ class UserStore extends BaseStore {
                 priority: true,
                 number: '123456******1234',
                 type: 'MIR',
-                expiryDate: '00/00',
-                id: `paymentCard/${String(1)}`,
+                expiryDate: '12/24',
+                id: 1,
             },
             item2: {
-                number: '123456******1234',
+                number: '123456******5678',
                 type: 'MIR',
-                expiryDate: '00/00',
-                id: `paymentCard/${String(2)}`,
+                expiryDate: '02/25',
+                id: 2,
             },
         });
         this._storage.set(this._storeNames.address, {
             item1: {
                 priority: true,
                 city: 'г. Москва',
-                street: 'улица Бассейная',
+                street: 'улица Бауманская',
                 house: '228',
                 flat: '420',
-                id: `addressCard/${String(1)}`,
+                id: 1,
             },
             item2: {
                 city: 'г. Москва',
                 street: 'улица Бассейная',
-                house: '228',
-                flat: '420',
-                id: `addressCard/${String(2)}`,
+                house: '12',
+                flat: '12',
+                id: 2,
             },
         });
         this._storage.set(this._storeNames.context, this.#context);

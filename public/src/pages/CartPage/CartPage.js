@@ -7,6 +7,7 @@ import sharedFunctions from '../../modules/sharedFunctions.js';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
 import cartStore from '../../stores/CartStore.js';
+import userStore from '../../stores/UserStrore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 
@@ -20,16 +21,18 @@ export default class CartOrderPage extends BasePage {
         street: 'Мира',
         house: 15,
         flat: 4,
-        address: `Республика , ул. Территория, изъятая из земель подсобного хозяйства Всесоюзного
-         центрального совета профессиональных союзов для организации крестьянского хозяйства`,
         deliveryPrice: 'Бесплатно',
+
         date: new Date('2022-11-25'),
+
         paymentMethodProvider: mirIcon,
+
         avatar: './img/Smartphone.png',
         username: 'Джахар',
         phone: '+7 (872) 234-23-65',
+
         deliveryDate: this.#getDate(1),
-        deliveryTime: '18:00 - 23:00',
+        // deliveryTime: '18:00 - 23:00',
         cardNumber: '8765432143212546',
         cardExpiryDate: '05 / 24',
         paymentCardId: 1,
@@ -66,6 +69,30 @@ export default class CartOrderPage extends BasePage {
      */
     getCart() {
         this.renderCart(cartStore.getContext(cartStore._storeNames.itemsCart));
+        
+        const context = {};
+        const address = userStore.getContext(userStore._storeNames.address);
+        if (address) {
+            address.forEach((key) => {
+                if (key.priority) {
+                    context.address = key;
+                }
+            });
+        }
+        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
+        if (paymentCards) {
+            paymentCards.forEach((key) => {
+                if (key.priority) {
+                    context.paymentCard = key;
+                }
+            });
+        }
+        context.avatar = userStore.getContext(userStore._storeNames.avatar);
+        context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
+        context.phone = userStore.getContext(userStore._storeNames.phone);
+        context.deliveryPrice = 'Бесплатно';
+        context.deliveryDate = this.#getDate(1);
+        console.log(context)
     }
 
     /**
@@ -74,6 +101,13 @@ export default class CartOrderPage extends BasePage {
      */
     renderCart(data) {
         this.#data.auth = true; // config.auth.authorised;
+        // const address = userStore.getContext(userStore._storeNames.address);
+        // console.log(userStore.getContext(userStore._storeNames.address))
+        // address.forEach((key) => {
+        //     if (key.priority) {
+        //         context.address = key;
+        //     }
+        // });
 
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
         [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
@@ -117,61 +151,17 @@ export default class CartOrderPage extends BasePage {
                 if (elementId === 'edit-address') {
                     const choice = Array.from(document.getElementsByClassName('addressID'))[0];
                     choiseItemId = choice.getAttribute('id');
-
-                    // Загрузить адреса
                     context = {
-                        address: {
-                            address1: {
-                                id: 1111,
-                                city: 'Москва',
-                                street: 'Мира',
-                                house: 15,
-                                flat: 4,
-                            },
-                            address2: {
-                                id: 222222,
-                                city: 'Москва',
-                                street: 'Ленина',
-                                house: 5,
-                                flat: 34,
-                            },
-                            // address3: {
-                            //     id: 3,
-                            //     city: 'Москва',
-                            //     street: 'Ленина',
-                            //     house: 5,
-                            //     flat: 34,
-                            // },
-                        },
-                    };
+                        address: userStore.getContext(userStore._storeNames.address),
+                    }
                 } else {
                     if (elementId === 'edit-payment-card') {
                         const choice = Array.from(document.getElementsByClassName('payment-method_cart'))[0];
                         choiseItemId = choice.getAttribute('id');
 
-                        // Загрузить банковские карты
                         context = {
-                            paymentCard: {
-                                paymentCard1: {
-                                    id: 1,
-                                    cardNumber: '8765432143212546',
-                                    code: 910,
-                                    cardExpiryDate: '05 / 24',
-                                },
-                                paymentCard2: {
-                                    id: 2,
-                                    cardNumber: '1234567812345678',
-                                    code: 910,
-                                    cardExpiryDate: '06 / 23',
-                                },
-                                paymentCard3: {
-                                    id: 3,
-                                    cardNumber: '1694257931658879',
-                                    code: 910,
-                                    cardExpiryDate: '12 / 25',
-                                },
-                            },
-                        };
+                            paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
+                        }
                     }
                 }
 

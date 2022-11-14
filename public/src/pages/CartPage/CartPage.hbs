@@ -34,7 +34,7 @@
                         Адрес
                     </span>
                     <span class="text-normal-default addressID" id="address/{{this.addressID}}">
-                        г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}
+                        {{#if this.city}}{{this.city}}{{/if}}, {{#if this.street}}{{this.street}}{{/if}}, д. {{#if this.house}}{{this.house}}{{/if}}, кв. {{#if this.flat}}{{this.flat}}{{/if}}
                     </span>
                     <span class="address_cart__title">
                         Стоимость доставки

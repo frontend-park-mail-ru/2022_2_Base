@@ -39,10 +39,31 @@ class CartStore extends BaseStore {
         },
     ];
 
+    #data = {
+        addressID: 1111,//
+        city: 'Москва',//
+        street: 'Мира',//
+        house: 15,//
+        flat: 4,//
+        deliveryPrice: 'Бесплатно',
+        date: new Date('2022-11-25'),//
+        // paymentMethodProvider: mirIcon,//
+        avatar: './img/Smartphone.png',
+        username: 'Джахар',
+        phone: '+7 (872) 234-23-65',
+        deliveryDate: this.#getDate(1),
+        deliveryTime: '18:00 - 23:00',//
+        cardNumber: '8765432143212546',//
+        cardExpiryDate: '05 / 24',//
+        paymentCardId: 1,//
+        auth: true,
+    };
+
     _storeNames = {
         responseCode: 'responseCode',
-        // currID: 'currID',
         itemsCart: 'itemsCart',
+        address: 'address',
+        userid: 'userid',
     };
 
     /**
@@ -53,6 +74,9 @@ class CartStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.itemsCart, this.#items);
+        this._storage.set(this._storeNames.address, null);
+        this._storage.set(this._storeNames.userid, null);
+        // this._storage.set(this._storeNames.dataOrder, this.#data);
     }
 
     /**
@@ -106,7 +130,8 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200) {
             this._storage.set(this._storeNames.itemsCart, outD.items);
-            console.log(outD.items);
+            this._storage.set(this._storeNames.address, outD.adress);
+            this._storage.set(this._storeNames.userid, outD.userid);
         } else {
             console.log('error', status);
         }
@@ -238,6 +263,19 @@ class CartStore extends BaseStore {
         } else {
             console.log('error', status);
         }
+    }
+
+    /**
+     * Функция, возвращающая завтрашнюю дату.
+     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @return {object} завтрашняя дата
+     */
+    #getDate(firstDayIn) {
+        const getDate = (next) => {
+            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
+        };
+        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 
