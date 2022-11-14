@@ -89,9 +89,9 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
 
-        case CartActionTypes.BUY:
-            await this._buy(payload.data);
-            this._emitChange([CartActionTypes.BUY]);
+        case CartActionTypes.MAKEORDER:
+            await this._makeOrder(payload.data);
+            this._emitChange([CartActionTypes.MAKEORDER]);
             break;
         }
     }
@@ -218,9 +218,26 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: оформить заказ
+     * @param {object} data - данные для оформления заказа
      */
-    _buy() {
-
+    async _makeOrder(date) {
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
+        date.items.forEach((id) => {
+            itemsCart.forEach((item, key) => {
+                if (item.item.id === id) {
+                    delete itemsCart[key];
+                }
+            });
+        })
+        const [status] = await request.makePostRequest(config.api.makeOrder, date)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            console.log('Order created');
+        } else {
+            console.log('error', status);
+        }
     }
 }
 

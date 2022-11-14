@@ -47,6 +47,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
+        cartStore.addListener(this.getCart.bind(this), CartActionTypes.MAKEORDER);
     }
 
     /**
@@ -191,7 +192,6 @@ export default class CartOrderPage extends BasePage {
                 }
                 break;
             case 'cart-popup-form__apply':
-                console.log(event)
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
@@ -236,8 +236,6 @@ export default class CartOrderPage extends BasePage {
                     popUpFade.style.display = 'none';
                 }
                 break;
-            default:
-                console.log(elementId);
             }
         }
     }
@@ -248,7 +246,6 @@ export default class CartOrderPage extends BasePage {
      */
     async listenChangeDateAndTime(event) {
         const target = event.target;
-        console.log(target)
         let elementId = target.id;
         let itemId;
         if (elementId) {
@@ -257,7 +254,6 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
                 case 'delivery-date':
-                    console.log('hi')
                     document.getElementById('date-delivery').textContent = document.getElementById(`delivery-date-value/${itemId}`).textContent;
                     break;
                 case 'delivery-time':
@@ -414,29 +410,31 @@ export default class CartOrderPage extends BasePage {
 
             ],
         };
-        const itemsInCart = document.querySelectorAll('.cart-item_cart__id');
-        if (itemsInCart) {
-            itemsInCart.forEach((item) => {
-                const itemInCartId = item.getAttribute('id');
-                const itemInCartCount = parseInt(document.getElementById(
-                    `amount-product/${itemInCartId}`).textContent);
-                orderData.items.push({
-                    id: itemInCartId,
-                    amount: itemInCartCount,
-                });
+        const chackedItems = document.getElementsByName('itemCart');
+        if (chackedItems) {
+            chackedItems.forEach((key) => {
+                const itemId = key.getAttribute('id').split('/')[1];
+                if (key.checked) {
+                    orderData.items.push(
+                       parseInt(itemId));
+                }
             });
         } else {
-            console.log('element not found', itemsInCart);
+            console.log('elements not found', chackedItems);
         }
-        const addressID = parseInt(document.querySelector('.addressID').getAttribute(
-            'id').split('/', 2)[1]);
-        orderData.addressID = addressID;
-        orderData.dateDelivery = document.getElementById('date-delivery').textContent;
-        orderData.timeDelivery = document.getElementById('time-delivery').textContent;
-        orderData.paymentCardId = parseInt(document.querySelector('.payment-method_cart')
-            .getAttribute('id').split('/', 2)[1]);
-        // нужно передавать данные из orderData на сервер для оформления заказа
-        console.log(orderData)
+        if (orderData.items.length === 0) {
+            console.log("Выберите товары для заказа") 
+            // Выводить попап
+        } else {
+            const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
+                'id').split('/', 2)[1]);
+            orderData.addressid = addressID;
+            orderData.datedelivery = document.getElementById('date-delivery').textContent.trim();
+            orderData.timedelivery = document.getElementById('time-delivery').textContent.trim();
+            orderData.paymentcardid = parseInt(document.getElementsByClassName('payment-method_cart')[0]
+                .getAttribute('id').split('/', 2)[1]);
+            cartAction.makeOrder(orderData);
+        }
     }
 
     /**

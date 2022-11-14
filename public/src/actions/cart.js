@@ -9,7 +9,7 @@ export const CartActionTypes = {
     GET_CART: 'GET_CART',
     DELETE_BY_ID: 'DELETE_BY_ID',
     DELETE_ALL: 'DELETE_ALL',
-    BUY: 'BUY',
+    MAKEORDER: 'MAKEORDER',
     ADD_TO_CART: 'ADD_TO_CART',
     INCREASE_NUMBER: 'INCREASE_NUMBER',
     DECREASE_NUMBER: 'DECREASE_NUMBER',
@@ -83,10 +83,12 @@ export const cartAction = {
 
     /**
      * Действие: оформить заказ
+     * @param {object} data - данные для обработки
      */
-    buy() {
+    makeOrder(data) {
         Dispatcher.dispatch({
-            actionName: CartActionTypes.BUY,
+            actionName: CartActionTypes.MAKEORDER,
+            data: data,
         });
     },
 };
