@@ -15,28 +15,28 @@ import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
-    #data = {
-        addressID: 1111,
-        city: 'Москва',
-        street: 'Мира',
-        house: 15,
-        flat: 4,
-        deliveryPrice: 'Бесплатно',
+    // #data = {
+    //     addressID: 1111,
+    //     city: 'Москва',
+    //     street: 'Мира',
+    //     house: 15,
+    //     flat: 4,
+    //     deliveryPrice: 'Бесплатно',
 
-        date: new Date('2022-11-25'),
+    //     date: new Date('2022-11-25'),
 
-        paymentMethodProvider: mirIcon,
+    //     paymentMethodProvider: mirIcon,
 
-        avatar: './img/Smartphone.png',
-        username: 'Джахар',
-        phone: '+7 (872) 234-23-65',
+    //     avatar: './img/Smartphone.png',
+    //     username: 'Джахар',
+    //     phone: '+7 (872) 234-23-65',
 
-        deliveryDate: this.#getDate(1),
-        // deliveryTime: '18:00 - 23:00',
-        cardNumber: '8765432143212546',
-        cardExpiryDate: '05 / 24',
-        paymentCardId: 1,
-    };
+    //     deliveryDate: this.#getDate(1),
+    //     // deliveryTime: '18:00 - 23:00',
+    //     cardNumber: '8765432143212546',
+    //     cardExpiryDate: '05 / 24',
+    //     paymentCardId: 1,
+    // };
 
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
@@ -69,30 +69,6 @@ export default class CartOrderPage extends BasePage {
      */
     getCart() {
         this.renderCart(cartStore.getContext(cartStore._storeNames.itemsCart));
-        
-        const context = {};
-        const address = userStore.getContext(userStore._storeNames.address);
-        if (address) {
-            address.forEach((key) => {
-                if (key.priority) {
-                    context.address = key;
-                }
-            });
-        }
-        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
-        if (paymentCards) {
-            paymentCards.forEach((key) => {
-                if (key.priority) {
-                    context.paymentCard = key;
-                }
-            });
-        }
-        context.avatar = userStore.getContext(userStore._storeNames.avatar);
-        context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
-        context.phone = userStore.getContext(userStore._storeNames.phone);
-        context.deliveryPrice = 'Бесплатно';
-        context.deliveryDate = this.#getDate(1);
-        console.log(context)
     }
 
     /**
@@ -100,17 +76,38 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        this.#data.auth = true; // config.auth.authorised;
-        // const address = userStore.getContext(userStore._storeNames.address);
-        // console.log(userStore.getContext(userStore._storeNames.address))
-        // address.forEach((key) => {
-        //     if (key.priority) {
-        //         context.address = key;
-        //     }
-        // });
+        let context = {};
+        const address = userStore.getContext(userStore._storeNames.address);
+        if (address) {
+            Object.values(address).forEach((key) => {
+                if (key.priority) {
+                    context.address = key;
+                }
+            });
+        }
+        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
+        if (paymentCards) {
+            Object.values(paymentCards).forEach((key) => {
+                if (key.priority) {
+                    context.paymentCard = key;
+                }
+            });
+            if (context.paymentCard.type === 'MIR') {
+                context.paymentCard.type = mirIcon;
+            }
+        }
+        context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
+        context.isAuth = true // FIX
+        if (context.isAuth) {
+            context.avatar = userStore.getContext(userStore._storeNames.avatar);
+            context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
+            context.phone = userStore.getContext(userStore._storeNames.phone);
+        }
+        context.deliveryPrice = 'Бесплатно';
+        context.deliveryDate = this.#getDate(1);
 
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        [this.#data.sumPrice, this.#data.noSalePrice, this.#data.priceDiff, this.#data.amount] =
+        let [sumPrice, noSalePrice, priceDiff, amount] =
             data.reduce((sumVal, key, it) => {
                 // sumPrice
                 sumVal[0] += (key.item.lowprice ?? key.item.price) *
@@ -125,7 +122,11 @@ export default class CartOrderPage extends BasePage {
             }, [0, 0, 0, 0]).map((val) => {
                 return sharedFunctions._truncate(val);
             });
-        super.render(this.#data);
+        context.sumPrice = sumPrice;
+        context.noSalePrice = noSalePrice;
+        context.priceDiff = priceDiff;
+        context.amount = amount;
+        super.render(context);
         const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
         cartItem.render(data);
         this.startEventListener();
@@ -175,10 +176,10 @@ export default class CartOrderPage extends BasePage {
                 }
                 this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
                 this.PopUpChooseAddressAndPaymentCard.render(context);
-                const chooseAddress = document.getElementById(choiseItemId);
-                if (chooseAddress) {
-                    chooseAddress.style.border = '1px solid #6369D1';
-                    chooseAddress.classList.add('choice');
+                const choose = document.getElementById(choiseItemId);
+                if (choose) {
+                    choose.style.border = '1px solid #6369D1';
+                    choose.classList.add('choice');
                 }
                 break;
             case 'cart-popup-form__apply':
