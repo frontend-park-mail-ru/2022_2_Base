@@ -1,6 +1,9 @@
 <form method="post" class="cart-popup-form" novalidate>
     <div class="cart-popup-form__header text-normal-large">
         {{#if address}} Мои адреса {{else}} Мои карты {{/if}}
+        <button class="button-default-no-box" id="popup-item-create">
+            <a href ="/user" class="items_cart__upper-button link">Добавить</a>
+        </button>
     </div>
     <div class="cart-popup-form__fields">
         {{#if address}}

@@ -5,6 +5,9 @@
 }
 
 .cart-popup-form__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 32px;
     color: var(--jet-black);
 }
@@ -49,4 +52,9 @@
 .cart-payment-method-provider {
     width: 46px;
     height: 12px;
-  }
+}
+
+.items_cart__upper-button {
+    color: var(--default_purple);
+    cursor: pointer;
+}
