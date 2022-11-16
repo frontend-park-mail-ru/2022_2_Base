@@ -29,6 +29,9 @@ const config = {
         logout: {
             href: '/logout',
         },
+        orders: {
+            href: '/orders',
+        },
     },
     auth: {
         authorised: false,

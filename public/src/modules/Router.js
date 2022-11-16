@@ -2,6 +2,8 @@ import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
+import OrdersPage from '../pages/OrdersPage/OrdersPage.js';
+
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -79,6 +81,8 @@ class Router {
         this.register(config.header.notFound.href, ErrorPage);
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
+        this.register(config.header.orders.href, OrdersPage);
+
 
         this.#currentPage = new MainPage(this.#mainElement);
     }
