@@ -99,14 +99,14 @@ class UserStore extends BaseStore {
                 street: 'улица Бассейная',
                 house: '228',
                 flat: '420',
-                id: `addressCard/${String(1)}`,
+                id: `${String(1)}`, // addressCard/
             },
             item2: {
                 city: 'г. Москва',
                 street: 'улица Бассейная',
                 house: '228',
                 flat: '420',
-                id: `addressCard/${String(2)}`,
+                id: `${String(2)}`,
             },
         });
         this._storage.set(this._storeNames.context, this.#context);
