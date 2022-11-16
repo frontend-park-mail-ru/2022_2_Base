@@ -5,6 +5,7 @@ import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import errorMessage from '../modules/ErrorMessage.js';
 import validation from '../modules/validation.js';
+// import {re} from '@babel/core/lib/vendor/import-meta-resolve';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -16,14 +17,31 @@ class UserStore extends BaseStore {
                 title: 'Имя',
                 type: 'text',
                 name: 'username',
+                popUpName: 'name__popUp__div',
+                /**
+                 * поле popUpName было добавлено для корректной работы с поп-апами уже реализованного
+                 * класса валидации. По значению поля проводится getElementById поля в поп-апе,
+                 * после чего в случае некорректности введенного к полю прикрепляется сообщение
+                 * об ошибке.
+                 */
                 placeholder: 'Введите имя',
                 maxLength: '30',
                 errorID: 'nameError',
+            },
+            phone: {
+                title: 'Телефон',
+                type: 'number',
+                name: 'phone',
+                popUpName: 'phone__popUp__div',
+                placeholder: 'Введите телефон',
+                maxLength: '11',
+                errorID: 'phoneError',
             },
             email: {
                 title: 'Почта',
                 type: 'email',
                 name: 'email',
+                popUpName: 'email__popUp__div',
                 placeholder: 'mail@website.com',
                 maxLength: '30',
                 errorID: 'emailError',
@@ -32,6 +50,7 @@ class UserStore extends BaseStore {
                 title: 'Пароль',
                 type: 'password',
                 name: 'password',
+                popUpName: 'password__popUp__div',
                 placeholder: 'Придумайте пароль',
                 maxLength: '16',
                 errorID: 'passwordError',
@@ -40,6 +59,8 @@ class UserStore extends BaseStore {
                 title: 'Повторить пароль',
                 type: 'password',
                 name: 'repeatPassword',
+                popUpName: 'password__2__popUp__div',
+                fieldName: 'password__2__popUp',
                 placeholder: 'Повторите пароль',
                 maxLength: '16',
                 errorID: 'repeatPasswordError',
@@ -274,25 +295,59 @@ class UserStore extends BaseStore {
      * @return {boolean} статус валидации
      */
     #validate(data) {
-        let isValid = true;
+        let isValid = true; // ?
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
             case this.#context.fields.name.name:
-                isValid &= errorMessage.validateFiled(validation.checkEmptyField(value),
+                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
+                    this.#context.fields.name);
+                break;
+            case this.#context.fields.phone.name:
+                isValid &= errorMessage.validateField(validation.validatePhone(value),
                     this.#context.fields.name);
                 break;
             case this.#context.fields.email.name:
-                isValid &= errorMessage.validateFiled(validation.validateEMail(value),
-                    this.#context.fields.email);
+                isValid &= errorMessage.validateField(validation.validateEMail(value),
+                    this.#context.fields.email, 'login__form__error');
                 break;
             case this.#context.fields.password.name:
-                isValid &= errorMessage.validateFiled(validation.validatePassword(value),
+                isValid &= errorMessage.validateField(validation.validatePassword(value),
                     this.#context.fields.password);
                 break;
             case this.#context.fields.repeatPassword.name:
-                isValid &= errorMessage.validateFiled(validation
+                isValid &= errorMessage.validateField(validation
                     .validateRepeatPassword(data.password === data.repeatPassword),
                 this.#context.fields.repeatPassword);
+                break;
+            case this.#context.fields.name.popUpName:
+                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
+                    {name: this.#context.fields.name.popUpName,
+                        errorID: this.#context.fields.name.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.email.popUpName:
+                isValid &= errorMessage.validateField(validation.validateEMail(value),
+                    {name: this.#context.fields.email.popUpName,
+                        errorID: this.#context.fields.email.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.phone.popUpName:
+                isValid &= errorMessage.validateField(validation.validatePhone(value),
+                    {name: this.#context.fields.phone.popUpName,
+                        errorID: this.#context.fields.phone.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.password.popUpName:
+                isValid &= errorMessage.validateField(validation.validatePassword(value),
+                    {name: this.#context.fields.password.popUpName,
+                        errorID: this.#context.fields.password.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.repeatPassword.popUpName:
+                isValid &= errorMessage.validateField(validation.validateRepeatPassword(value),
+                    {name: this.#context.fields.repeatPassword.popUpName,
+                        errorID: this.#context.fields.repeatPassword.errorID,
+                    }, 'userpage__popUp__error');
                 break;
             }
         });
@@ -326,37 +381,65 @@ class UserStore extends BaseStore {
      */
     async _saveEditData(data) {
         let sendData = {};
+        const dataForVal = {};
         switch (data.id) {
         case 'name':
-            sendData = {
-                username: data.value,
-            };
+            dataForVal[this.#context.fields.name.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    username: data.value,
+                };
+            } else {
+                return;
+            }
+
             break;
         case 'email':
-            sendData = {
-                email: data.value,
-            };
+            dataForVal[this.#context.fields.email.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    email: data.value,
+                };
+            } else {
+                return;
+            }
+
             break;
         case 'phone':
-            sendData = {
-                phone: data.value,
-            };
+            dataForVal[this.#context.fields.phone.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    phone: data.value,
+                };
+            } else {
+                return;
+            }
+
             break;
         case 'password':
-            sendData = {
-                password: data.value,
-            };
-            const [status] = await request.makePostRequest(config.api.password, sendData)
-                .catch((err) => console.log(err));
-            if (status === 200) {
-                console.log(data.id, status);
+            const repeatPasswordField = document.getElementById(
+                this.#context.fields.repeatPassword.fieldName);
+            if (repeatPasswordField) {
+                dataForVal[this.#context.fields.repeatPassword.popUpName] =
+                    repeatPasswordField.value === data.value;
+            } else {
+                console.log('Элемент не найден: ', repeatPasswordField);
+                return;
+            }
+
+            dataForVal[this.#context.fields.password.popUpName] = data.value;
+            const isValid = this.#validate(dataForVal);
+            if (isValid) {
+                const [status] = await request.makePostRequest(config.api.password, {
+                    password: data.value,
+                }).catch((err) => console.log(err));
             }
             return;
         }
         const [status] = await request.makePostRequest(config.api.profile, sendData)
             .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, status);
+        this._storage.set(this._storeNames.responseCode, 200); // fix
         this._storage.set(this._storeNames.temp, data);
         if (status === 200) {
             this._storage.has(data.id) ?

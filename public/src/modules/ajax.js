@@ -58,7 +58,7 @@ class Request {
     /**
      * Метод, реализующий запрос POST.
      * @param {string} url - путь URL
-     * @param {object} data - полезная нагрузка запроса
+     * @param {Blob} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
     makePostRequestSendAva = async (url, data) => {

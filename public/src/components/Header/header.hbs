@@ -4,12 +4,23 @@
             <img src="img/Logo.png" alt="LOGO" class="logo-reazon">
         </a>
     </div>
-    <div class="header__catalog">
-        <a href="/category/dsf" class="button-default header__button-catalog paint-purple">
-            <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
-            Каталог
-        </a>
+
+
+    <div class="dropdown">
+        <input type="checkbox" id="checkbox-toggle">
+        <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
+               for="checkbox-toggle">
+            Каталог</label>
+        <ul class="dropdown-content">
+            {{#each this.categories}}
+                <a href="{{this.href}}" class="text-normal-default"
+                   id="catalog__popUp-category">{{this.nameCategory}}</a>
+            {{/each}}
+
+        </ul>
     </div>
+
+
     <div class="header__search-line header__disabled">
         <input type="search" class="header__form-search" name="search-line"
                placeholder="Что Вас интересует?" maxlength="75">

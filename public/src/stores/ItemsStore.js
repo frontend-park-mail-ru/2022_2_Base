@@ -18,17 +18,20 @@ class ItemsStore extends BaseStore {
             img: './img/Computer.png',
             href: config.href.category + '/computers',
         },
-        Headphones: {
-            nameCategory: 'Наушники',
-            img: './img/Headphones.png',
+        Monitors: {
+            nameCategory: 'Мониторы',
+            img: './img/Monitors.png',
+            href: '/category/monitors',
         },
         TV: {
             nameCategory: 'Телевизоры',
             img: './img/TV.png',
+            href: '/category/televisors',
         },
         Watch: {
             nameCategory: 'Часы',
             img: './img/Watch.png',
+            href: '/category/watches',
         },
         Tablet: {
             nameCategory: 'Планшеты',
@@ -38,9 +41,9 @@ class ItemsStore extends BaseStore {
         Accessories: {
             nameCategory: 'Аксессуары',
             img: './img/Accessories.png',
+            href: '/category/accessories',
         },
     };
-
 
     _storeNames = {
         topCategory: 'topCategory',
@@ -60,7 +63,6 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.cardsHome, null);
         this._storage.set(this._storeNames.cardsCategory, null);
     }
-
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.

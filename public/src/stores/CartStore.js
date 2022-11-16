@@ -174,7 +174,7 @@ class CartStore extends BaseStore {
      */
     async _addToCart(id) {
         const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-           .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
         this._storage.set(id, this._storage.get('item' + id) + 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
@@ -186,7 +186,7 @@ class CartStore extends BaseStore {
      */
     async _decreaseNumber(id) {
         const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
-           .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
         this._storage.set(id, this._storage.get('item' + id) - 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
