@@ -4,7 +4,7 @@
     <div class="popUp" id="popUp"></div>
     <div class="content_cart" id="content_cart">
         <div class="content_cart__left">
-            <div class="items_cart">
+            <div class="items_cart" id="block-products">
                 <div class="items_cart__upper">
                     <span class="text-normal-very-large">Корзина</span>
                     <button class="button-default-no-box" id="button-default_cart__delete">
@@ -29,13 +29,20 @@
                         <span class="items_cart__upper-button" id="edit-address">Изменить</span>
                     </button>
                 </div>
-                <div class="address_cart__main text-normal-default">
+                <div class="address_cart__main text-normal-default" id="address-cart">
                     <span class="address_cart__title">
                         Адрес
                     </span>
-                    <span class="text-normal-default addressID" id="address/{{this.addressID}}">
-                        г. {{#if this.city}} {{this.city}} {{/if}}, ул. {{#if this.street}} {{this.street}} {{/if}}, д. {{#if this.house}} {{this.house}} {{/if}}, кв. {{#if this.flat}} {{this.flat}} {{/if}}
-                    </span>
+                    {{#if address}}
+                        <span class="text-normal-default addressID" id="address/{{this.address.id}}">
+                            {{#if this.address.city}}{{this.address.city}}{{/if}}, {{#if this.address.street}}{{this.address.street}}{{/if}}, д. {{#if this.address.house}}{{this.address.house}}{{/if}}, кв. {{#if this.address.flat}}{{this.address.flat}}{{/if}}
+                        </span>
+                    {{else}}
+                        <span class="text-normal-default">
+                            Адрес доставки не выбран
+                        </span>
+                    {{/if}}
+
                     <span class="address_cart__title">
                         Стоимость доставки
                     </span>
@@ -48,21 +55,21 @@
                     </label>
                     <span class="select text-normal-default" id="address_cart__date" tabindex="0">
                         {{#each this.deliveryDate}}
-                            <input class="select-opt" type="radio" name="delivery-date" id="delivery-date-{{@index}}"
+                            <input class="select-opt" type="radio" name="delivery-date" id="delivery-date/{{@index}}"
                                 {{#if @first}} checked {{/if}}>
-                            <label for="delivery-date-{{@index}}" class="option_select__date">{{this}}</label>
+                            <label for="delivery-date/{{@index}}" class="option_select__date" id="delivery-date-value/{{@index}}">{{this}}</label>
                         {{/each}}
                     </span>
                     <label class="address_cart__title" for="date-select_cart__address">
                         Время доставки
                     </label>
                     <div class="select text-normal-default" tabindex="1">
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-1" checked>
-                        <label for="delivery-time-1" class="option_select__time">8:00 - 12:00</label>
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-2">
-                        <label for="delivery-time-2" class="option_select__time">12:00 - 18:00</label>
-                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time-3">
-                        <label for="delivery-time-3" class="option_select__time">18:00 - 23:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/1" checked>
+                        <label for="delivery-time/1" class="option_select__time" id="delivery-time-value/1">8:00 - 12:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/2">
+                        <label for="delivery-time/2" class="option_select__time" id="delivery-time-value/2">12:00 - 18:00</label>
+                        <input class="select-opt" type="radio" name="delivery-time" id="delivery-time/3">
+                        <label for="delivery-time/3" class="option_select__time" id="delivery-time-value/3">18:00 - 23:00</label>
                     </div>
 
                 </div>
@@ -70,17 +77,19 @@
             <div id="payment-method_cart" class="payment_cart">
                 <div class="items_cart__upper">
                     <span class="text-normal-very-large">Способ оплаты</span>
-                    <button class="button-default-no-box" id="button-default_cart__delete">
-                        <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
-                    </button>
-                </div> {{#if this.year}} {{this.year}} {{/if}}
-                <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}">
-                    {{#if this.auth}}
-                        {{#if cardNumber}}
-                            <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
+                    {{#if this.isAuth}}
+                        <button class="button-default-no-box" id="button-default_cart__delete">
+                            <span class="items_cart__upper-button" id="edit-payment-card">Изменить</span>
+                        </button>
+                    {{/if}}
+                </div>
+                <div class="payment-method_cart" id="paymentCard/{{this.paymentCard.id}}">
+                    {{#if this.isAuth}}
+                        {{#if this.paymentCard}}
+                            <img src="{{this.paymentCard.type}}" alt="payment-method provider"
                                 class="payment-method-provider">
-                            <span class="text-normal-default card-number" id="cardNumber">{{this.cardNumber}}</span>
-                            <span class="payment-method_cart__expiry text-normal-default" id="cardExpiryDate">{{this.cardExpiryDate}}</span>
+                            <span class="text-normal-default card-number" id="cardNumber">{{this.paymentCard.number}}</span>
+                            <span class="payment-method_cart__expiry text-normal-default" id="cardExpiryDate">{{this.paymentCard.expiryDate}}</span>
                         {{else}}
                             <span class="text-normal-default">Картой или наличными при получении</span>
                         {{/if}}
@@ -95,12 +104,14 @@
             <div class="user-data_cart">
                 <div class="items_cart__upper">
                     <span class="text-normal-very-large">Ваши данные</span>
-                    <button class="button-default-no-box" id="button-default_cart__delete">
-                        <a href ="/user" class="items_cart__upper-button link">Изменить</a>
-                    </button>
+                    {{#if this.isAuth}}
+                        <button class="button-default-no-box" id="button-default_cart__delete">
+                            <a href ="/user" class="items_cart__upper-button link">Изменить</a>
+                        </button>
+                    {{/if}}
                 </div>
                 <div class="user-data_cart__bottom">
-                    {{#if this.auth}}
+                    {{#if this.isAuth}}
                         <img src="{{this.avatar}}" alt="user avatar" class="user-data_cart__avatar">
                         <span class="text-normal-default">{{this.username}}</span>
                         <span class="text-normal-default">{{this.phone}}</span>
@@ -164,21 +175,21 @@
                     <div class="summary_cart__payment-info" id="summary_cart__payment-info">
                         <span class="text-normal-default">Оплата: </span>
                         <a href="#payment-method_cart" class="text-normal-default link">
-                            {{#if cardNumber}}
+                            {{#if this.paymentCard}}
                                 Картой
                             {{else}}
                                 При получении
                             {{/if}}
                         </a>
                     </div>
-                    {{#if cardNumber}}
-                        <div class="payment-method_cart" id="paymentCard/{{this.paymentCardId}}>
-                            {{#if this.auth}}
+                    {{#if this.paymentCard.number}}
+                        <div class="payment-method_cart" id="paymentCard/{{this.paymentCard.id}}>
+                            {{#if this.isAuth}}
 
-                                <img src="{{this.paymentMethodProvider}}" alt="payment-method provider"
+                                <img src="{{this.paymentCard.type}}" alt="payment-method provider"
                                     class="payment-method-provider">
-                                <span class="text-normal-default card-number" id="{{this.cardId}}">{{this.cardNumber}}</span>
-                                <span class="payment-method_cart__expiry text-normal-default">{{this.cardExpiryDate}}</span>
+                                <span class="text-normal-default card-number" id="{{this.paymentCard.id}}">{{this.paymentCard.number}}</span>
+                                <span class="payment-method_cart__expiry text-normal-default">{{this.paymentCard.expiryDate}}</span>
                             {{else}}
                                 <span class="text-normal-default">
                             <a href="/login" class="link">Войти</a> или
@@ -197,3 +208,4 @@
     </div>
 </div>
 <div class="paint-background"></div>
+

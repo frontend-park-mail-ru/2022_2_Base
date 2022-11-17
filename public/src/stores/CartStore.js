@@ -39,10 +39,31 @@ class CartStore extends BaseStore {
         },
     ];
 
+    #data = {
+        addressID: 1111,
+        city: 'Москва',
+        street: 'Мира',
+        house: 15,
+        flat: 4,
+        deliveryPrice: 'Бесплатно',
+        date: new Date('2022-11-25'),
+        // paymentMethodProvider: mirIcon,
+        avatar: './img/Smartphone.png',
+        username: 'Джахар',
+        phone: '+7 (872) 234-23-65',
+        deliveryDate: this.#getDate(1),
+        deliveryTime: '18:00 - 23:00',
+        cardNumber: '8765432143212546',
+        cardExpiryDate: '05 / 24',
+        paymentCardId: 1,
+        auth: true,
+    };
+
     _storeNames = {
         responseCode: 'responseCode',
-        currID: 'currID',
         itemsCart: 'itemsCart',
+        address: 'address',
+        userid: 'userid',
     };
 
     /**
@@ -53,6 +74,9 @@ class CartStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.itemsCart, this.#items);
+        this._storage.set(this._storeNames.address, null);
+        this._storage.set(this._storeNames.userid, null);
+        // this._storage.set(this._storeNames.dataOrder, this.#data);
     }
 
     /**
@@ -89,9 +113,9 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
 
-        case CartActionTypes.BUY:
-            await this._buy(payload.data);
-            this._emitChange([CartActionTypes.BUY]);
+        case CartActionTypes.MAKEORDER:
+            await this._makeOrder(payload.data);
+            this._emitChange([CartActionTypes.MAKEORDER]);
             break;
         }
     }
@@ -106,7 +130,8 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200) {
             this._storage.set(this._storeNames.itemsCart, outD.items);
-            console.log(outD.items);
+            this._storage.set(this._storeNames.address, outD.adress);
+            this._storage.set(this._storeNames.userid, outD.userid);
         } else {
             console.log('error', status);
         }
@@ -117,19 +142,18 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _deleteById(id) {
-        const payload = {};
+        const payload = {
+            items: [],
+        };
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
-            item.item.price = sharedFunctions._parseInt(item.item.price);
-            if (item.item.lowprice) {
-                item.item.lowprice = sharedFunctions._parseInt(item.item.lowprice);
-            }
             if (item.item.id === id) {
                 delete itemsCart[key];
-                payload.itemid = id;
+            } else {
+                payload.items.push(item.item.id);
             }
         });
-        const [status] = await request.makePostRequest(config.api.deleteFromCart, payload)
+        const [status] = await request.makePostRequest(config.api.cart, payload)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
@@ -161,11 +185,22 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _increaseNumber(id) {
-        // const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-        //    .catch((err) => console.log(err));
-        this._storage.set(id, 1);
-        this._storage.set(this._storeNames.currID, id);
+        let itemsCart = this._storage.get(this._storeNames.itemsCart);
+        itemsCart.forEach((item, key) => {
+            if (item.item.id === id) {
+                itemsCart[key].count = itemsCart[key].count + 1;
+            }
+        });
+        const [status] = await request.makePostRequest(config.api.insertIntoCart, {
+            itemid: id,
+        })
+            .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
@@ -178,6 +213,11 @@ class CartStore extends BaseStore {
         this._storage.set(id, this._storage.get('item' + id) + 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            console.log('Adding to the cart was successful');
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
@@ -190,13 +230,48 @@ class CartStore extends BaseStore {
         this._storage.set(id, this._storage.get('item' + id) - 1);
         this._storage.set(this._storeNames.currID, id);
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+        } else {
+            console.log('error', status);
+        }
     }
 
     /**
      * Действие: оформить заказ
+     * @param {object} data - данные для оформления заказа
      */
-    _buy() {
+    async _makeOrder(data) {
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
+        data.items.forEach((id) => {
+            itemsCart.forEach((item, key) => {
+                if (item.item.id === id) {
+                    delete itemsCart[key];
+                }
+            });
+        });
+        const [status] = await request.makePostRequest(config.api.makeOrder, data)
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === 200 || true) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            console.log('Order created');
+        } else {
+            console.log('error', status);
+        }
+    }
 
+    /**
+     * Функция, возвращающая завтрашнюю дату.
+     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @return {object} завтрашняя дата
+     */
+    #getDate(firstDayIn) {
+        const getDate = (next) => {
+            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
+        };
+        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 

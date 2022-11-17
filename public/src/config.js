@@ -29,6 +29,8 @@ export const config = {
         productsByCategory: basePathApi + 'products/',
         cart: basePathApi + 'cart',
         deleteFromCart: basePathApi + 'deletefromcart',
+        makeOrder: basePathApi + 'makeorder',
+
     },
     responseCodes: {
         code200: 200,
