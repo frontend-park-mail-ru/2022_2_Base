@@ -18,6 +18,7 @@
                     <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}}  value="{{#if this.number}}{{this.number}}{{/if}}    {{#if this.expiryDate}} {{this.expiryDate}} {{/if}}" readonly="">
                 </label>
             {{/each}}
+            <input type="text" class="cart-popup-form__input text-normal-default" id="payment-upon-receipt" value="Картой или наличными при получении" readonly="">
         {{/if}}
     </div>
     <div class="cart-popup-form__buttons">

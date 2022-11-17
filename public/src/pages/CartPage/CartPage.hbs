@@ -83,7 +83,7 @@
                         </button>
                     {{/if}}
                 </div>
-                <div class="payment-method_cart" id="paymentCard/{{this.paymentCard.id}}">
+                <div class="payment-method_cart" {{#if this.paymentCard}}id="paymentCard/{{this.paymentCard.id}}"{{/if}}>
                     {{#if this.isAuth}}
                         {{#if this.paymentCard}}
                             <img src="{{this.paymentCard.type}}" alt="payment-method provider"
@@ -174,7 +174,7 @@
                 <div class="summary_cart__payment-method">
                     <div class="summary_cart__payment-info" id="summary_cart__payment-info">
                         <span class="text-normal-default">Оплата: </span>
-                        <a href="#payment-method_cart" class="text-normal-default link">
+                        <a href="#payment-method_cart" class="text-normal-default link" id="final-paymentmethod">
                             {{#if this.paymentCard}}
                                 Картой
                             {{else}}
