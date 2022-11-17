@@ -8,6 +8,7 @@ import {config} from '../../config.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -23,11 +24,7 @@ export default class CatalogPage extends BasePage {
 
         this.#category = new Map();
         this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/monitors', 'Мониторы');
 
         cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
             CartActionTypes.ADD_TO_CART);
@@ -63,6 +60,7 @@ export default class CatalogPage extends BasePage {
             }
             break;
         default:
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }

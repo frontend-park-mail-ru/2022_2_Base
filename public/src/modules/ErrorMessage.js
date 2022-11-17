@@ -50,8 +50,19 @@ class ErrorMessage {
         div.appendChild(span);
         div.classList.add('server-error');
         span.classList.add('server-error__text');
-        span.innerHTML = message;
+        span.innerText = message;
         target.before(div);
+    }
+
+    /**
+     * Метод, показывающий ошибку
+     */
+    getAbsoluteErrorMessage() {
+        const errorElement = document.getElementById('header_error-message').style.display = 'flex';
+        // setTimeout(((errorElement) => {
+        //     return () => errorElement.style.display = 'none';
+        // })(errorElement), 600);
+        setTimeout(() => document.getElementById('header_error-message').style.display = 'none', 1e4);
     }
 
     /**

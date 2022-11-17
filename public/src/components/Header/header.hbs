@@ -10,13 +10,14 @@
         <input type="checkbox" id="checkbox-toggle">
         <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
                for="checkbox-toggle">
-            Каталог</label>
+            <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
+            <span>Каталог</span>
+        </label>
         <ul class="dropdown-content">
             {{#each this.categories}}
-                <a href="{{this.href}}" class="text-normal-default"
+                <a href="{{this.href}}" class="header__button-catalog_element text-normal-default"
                    id="catalog__popUp-category">{{this.nameCategory}}</a>
             {{/each}}
-
         </ul>
     </div>
 
@@ -62,4 +63,10 @@
             </a>
         {{/if}}
     </div>
+</div>
+
+<div class="server-error header_error-message" style="display: none;" id="header_error-message">
+    <span class="server-error__text">
+        Возникла ошибка. Попробуйте позже
+    </span>
 </div>
