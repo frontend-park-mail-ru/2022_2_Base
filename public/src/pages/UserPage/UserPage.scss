@@ -16,6 +16,10 @@
   background-color: var(--pure_white);
 }
 
+.user-photo-block {
+  margin-left: 32px;
+}
+
 .edit-button_user-page {
   height: 16px;
   width: 16px;
@@ -33,7 +37,6 @@
   display: grid;
   grid-template-columns: 2fr 3fr 3fr 3fr 3fr;
   align-items: center;
-  justify-items: center;
 }
 
 .payment-cards-block_user-page {

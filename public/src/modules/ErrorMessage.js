@@ -58,8 +58,23 @@ class ErrorMessage {
      * Метод, показывающий ошибку
      */
     getAbsoluteErrorMessage() {
-        const errorElement = document.getElementById('header_error-message').style.display = 'flex'; // fix
-        setTimeout(() => document.getElementById('header_error-message').style.display = 'none', 5e3);
+        this.errorElement = document.getElementById('header_error-message');
+        if (!this.errorElement) {
+            document.getElementById('main').insertAdjacentHTML(
+                'afterbegin',
+                `<div class="server-error header_error-message" style="display: flex;"
+                        id="header_error-message">
+                    <span class="server-error__text">
+                        Возникла ошибка. Попробуйте позже
+                    </span>
+                        </div>`);
+            this.timeoutFunc = () => document.getElementById('header_error-message')
+                .style.display = 'none';
+        } else {
+            this.errorElement.style.display = 'flex';
+            this.timeoutFunc = () => this.errorElement.style.display = 'none';
+        }
+        setTimeout(this.timeoutFunc, 5e3);
     }
 
     /**

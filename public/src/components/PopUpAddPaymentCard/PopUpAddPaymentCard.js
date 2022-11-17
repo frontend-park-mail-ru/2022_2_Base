@@ -41,10 +41,10 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     async listenClickApply(event) {
         event.preventDefault();
         profileAction.saveAddCard({
-            city: document.getElementById('month').value,
-            street: document.getElementById('year').value,
-            house: document.getElementById('cvc').value,
-            flat: document.getElementById('cardNumber').value,
+            number: document.getElementById('cardNumber').value,
+            expiryDate: document.getElementById('month').value + '/' +
+                document.getElementById('year').value,
+            cvc: document.getElementById('cvc').value,
         });
 
         const PopUp = document.getElementById('popUp_user-page');

@@ -7,6 +7,7 @@ import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 import userStore from '../../stores/UserStrore.js';
 import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -31,27 +32,49 @@ export default class UserPage extends BasePage {
         userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
         userStore.addListener(this.onUploadAvatar,
             ProfileActionTypes.DELETE_AVATAR);
-        userStore.addListener(this.editUserInfo, ProfileActionTypes.SAVE_EDIT_DATA);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_ADD_ADDRESS);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_EDIT_ADDRESS);
-        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.SAVE_ADD_CARD);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.DELETE_ADDRESS);
-        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.DELETE_CARD);
+
+        userStore.addListener(this.templateFunction(this.editUserInfo.bind(this)),
+            ProfileActionTypes.SAVE_EDIT_DATA);
+
+        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+            ProfileActionTypes.SAVE_ADD_ADDRESS);
+
+        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+            ProfileActionTypes.SAVE_EDIT_ADDRESS);
+
+        userStore.addListener(this.templateFunction(this.renderPaymentCards.bind(this)),
+            ProfileActionTypes.SAVE_ADD_CARD);
+
+        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+            ProfileActionTypes.DELETE_ADDRESS);
+
+        userStore.addListener(this.templateFunction(this.renderPaymentCards.bind(this)),
+            ProfileActionTypes.DELETE_CARD);
+    }
+
+    /**
+     * Функция, для передачи в листнер стора
+     * @param {function} toDo - обработчик события
+     * @return {function} toDo - обработчик события
+     */
+    templateFunction(toDo) {
+        switch (userStore.getContext(userStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            return toDo;
+        default:
+            return toDo;
+            //errorMessage.getAbsoluteErrorMessage();
+        }
     }
 
     /**
      * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
-        switch (userStore.getContext(userStore._storeNames.responseCode)) {
-            case config.responseCodes.code200:
-                this.removePopUp();
-                const data = userStore.getContext(userStore._storeNames.temp);
-                document.getElementById(`${data.id}-text`).innerText = data.value;
-                break;
-            default:
-                console.log('error');
-        }
+        this.removePopUp();
+        document.getElementById(
+            `${userStore.getContext(userStore._storeNames.temp).id}-text`).innerText =
+            userStore.getContext(userStore._storeNames.temp);
     }
 
     /**
@@ -139,7 +162,7 @@ export default class UserPage extends BasePage {
     /**
      * Метод, убирающий поп-ап.
      */
-    removePopUp() { // возможно, следует вынести в другое место
+    removePopUp() {
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
@@ -375,6 +398,9 @@ export default class UserPage extends BasePage {
                 key.removeEventListener('click', this.userInfoArr[index]);
             });
         }
+
+        this.removeListenerPaymentCard();
+        this.removeListenerAddressCard();
     }
 
     /**

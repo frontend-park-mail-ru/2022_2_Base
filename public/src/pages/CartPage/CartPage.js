@@ -10,9 +10,9 @@ import cartStore from '../../stores/CartStore.js';
 import userStore from '../../stores/UserStrore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
-import itemsStore from "../../stores/ItemsStore";
-import {config} from "../../config";
-import errorMessage from "../../modules/ErrorMessage";
+import itemsStore from '../../stores/ItemsStore';
+import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -85,16 +85,16 @@ export default class CartOrderPage extends BasePage {
                 }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            context.isAuth = true // FIX
+            // context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
-                context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
+                context.username = userStore.getContext(userStore._storeNames.name) +
+                    userStore.getContext(userStore._storeNames.surname);
                 context.phone = userStore.getContext(userStore._storeNames.phone);
             }
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = this.#getDate(1);
 
-            console.log(data);
             // Подсчет итоговой стоимости товаров в корзине для отрисовки
             const [sumPrice, noSalePrice, priceDiff, count] =
                 data.reduce((sumVal, key, it) => {
@@ -138,12 +138,12 @@ export default class CartOrderPage extends BasePage {
      */
     getUserData() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-            case config.responseCodes.code200:
+        case config.responseCodes.code200:
             break;
-            case  config.responseCodes.code401:
-                break;
-            default:
-                errorMessage.getAbsoluteErrorMessage();
+        case config.responseCodes.code401:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }
@@ -155,10 +155,9 @@ export default class CartOrderPage extends BasePage {
     async listenClickAddressAndPaymentCardBlock(event) {
         const target = event.target;
         let elementId = target.id;
-        let itemId;
         if (elementId) {
             if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
+                [elementId] = elementId.split('/');
             }
             switch (elementId) {
             case 'edit-address':
@@ -170,15 +169,16 @@ export default class CartOrderPage extends BasePage {
                     choiseItemId = choice.getAttribute('id');
                     context = {
                         address: userStore.getContext(userStore._storeNames.address),
-                    }
+                    };
                 } else {
                     if (elementId === 'edit-payment-card') {
-                        const choice = Array.from(document.getElementsByClassName('payment-method_cart'))[0];
+                        const choice = Array.from(
+                            document.getElementsByClassName('payment-method_cart'))[0];
                         choiseItemId = choice.getAttribute('id');
 
                         context = {
                             paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
-                        }
+                        };
                     }
                 }
 
@@ -260,12 +260,14 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'delivery-date':
-                    document.getElementById('date-delivery').textContent = document.getElementById(`delivery-date-value/${itemId}`).textContent;
-                    break;
-                case 'delivery-time':
-                    document.getElementById('time-delivery').textContent = document.getElementById(`delivery-time-value/${itemId}`).textContent;
-                    break;
+            case 'delivery-date':
+                document.getElementById('date-delivery').textContent =
+                    document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                break;
+            case 'delivery-time':
+                document.getElementById('time-delivery').textContent =
+                    document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                break;
             }
         }
     }
@@ -283,34 +285,34 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'empty-cart':
-                    cartAction.deleteAll();
-                    break;
-                case 'delete-cart-item':
-                    this.deleteItem(parseInt(itemId));
-                    break;
-                case 'button-minus_cart':
-                    const amountItem = document.getElementById(`count-product/${itemId}`);
-                    if (amountItem) {
-                        const count = parseInt(amountItem.textContent);
-                        if (count === 1) {
-                            this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
-                        } else {
-                            cartAction.decreaseNumber(parseInt(itemId));
-                            amountItem.textContent = (count - 1).toString();
-                            this.renderTotalCost();
-                        }
-                    }
-                    break;
-                case 'button-plus_cart':
-                    const itemAmount = document.getElementById(`count-product/${itemId}`);
-                    if (itemAmount) {
-                        cartAction.increaseNumber(parseInt(itemId));
-                        const count = parseInt(itemAmount.textContent);
-                        itemAmount.textContent = (count + 1).toString();
+            case 'empty-cart':
+                cartAction.deleteAll();
+                break;
+            case 'delete-cart-item':
+                this.deleteItem(parseInt(itemId));
+                break;
+            case 'button-minus_cart':
+                const amountItem = document.getElementById(`count-product/${itemId}`);
+                if (amountItem) {
+                    const count = parseInt(amountItem.textContent);
+                    if (count === 1) {
+                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
+                    } else {
+                        cartAction.decreaseNumber(parseInt(itemId));
+                        amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
-                    break;
+                }
+                break;
+            case 'button-plus_cart':
+                const itemAmount = document.getElementById(`count-product/${itemId}`);
+                if (itemAmount) {
+                    cartAction.increaseNumber(parseInt(itemId));
+                    const count = parseInt(itemAmount.textContent);
+                    itemAmount.textContent = (count + 1).toString();
+                    this.renderTotalCost();
+                }
+                break;
             }
         }
     }
@@ -326,9 +328,12 @@ export default class CartOrderPage extends BasePage {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
                 const itemId = check.getAttribute('id').split('/')[1];
                 if (check.checked) {
-                    const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
-                    let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
-                    const count = sharedFunctions._parseInt(document.getElementById(`count-product/${itemId}`).textContent);
+                    const lowprice = sharedFunctions._parseInt(
+                        document.getElementById(`price/${itemId}`).textContent);
+                    let price = sharedFunctions._parseInt(
+                        document.getElementById(`sale-price/${itemId}`).textContent);
+                    const count = sharedFunctions._parseInt(
+                        document.getElementById(`count-product/${itemId}`).textContent);
                     if (isNaN(price)) {
                         price = lowprice;
                     }
@@ -341,7 +346,7 @@ export default class CartOrderPage extends BasePage {
             });
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        let [sumPrice, noSalePrice, priceDiff, count] =
+        const [sumPrice, noSalePrice, priceDiff, count] =
             data.reduce((sumVal, key, it) => {
                 // sumPrice
                 sumVal[0] += (key.lowprice ?? key.price) *
@@ -360,7 +365,7 @@ export default class CartOrderPage extends BasePage {
         const totalPrice = document.getElementById('total-price');
         totalPrice.textContent = sumPrice + ' ₽';
         const productsNumber = document.getElementById('products-number');
-        productsNumber.textContent = 'Товары, ' + count  + ' шт.';
+        productsNumber.textContent = 'Товары, ' + count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
         priceWithoutDiscount.textContent = noSalePrice + ' ₽';
         const discount = document.getElementById('discount');
@@ -380,30 +385,30 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'item_cart__select-all':
-                    // Установка и снятие галочек у товаров
-                    const chackedItems = document.getElementsByName('itemCart');
-                    chackedItems.forEach((key) => {
-                        key.checked = target.checked;
-                    });
-                    this.renderTotalCost();
-                    break;
-                case 'item_cart__select':
-                    const selectAll = document.getElementById('item_cart__select-all')
-                    if (!target.checked) {
-                        // Снятие галочки выбрать все
-                        selectAll.checked = false;
-                    } else {
-                        // Установление галочки выбрать все
-                        const selectItems = document.getElementsByName('itemCart');
-                        if ([...selectItems].every((key) => {
-                            return key.checked;
-                        })) {
-                            selectAll.checked = true;
-                        }
+            case 'item_cart__select-all':
+                // Установка и снятие галочек у товаров
+                const checkedItems = document.getElementsByName('itemCart');
+                checkedItems.forEach((key) => {
+                    key.checked = target.checked;
+                });
+                this.renderTotalCost();
+                break;
+            case 'item_cart__select':
+                const selectAll = document.getElementById('item_cart__select-all');
+                if (!target.checked) {
+                    // Снятие галочки выбрать все
+                    selectAll.checked = false;
+                } else {
+                    // Установление галочки выбрать все
+                    const selectItems = document.getElementsByName('itemCart');
+                    if ([...selectItems].every((key) => {
+                        return key.checked;
+                    })) {
+                        selectAll.checked = true;
                     }
-                    this.renderTotalCost();
-                    break;
+                }
+                this.renderTotalCost();
+                break;
             }
         }
     }
@@ -414,23 +419,22 @@ export default class CartOrderPage extends BasePage {
     async listenClickCreateOrder() {
         const orderData = {
             items: [
-
             ],
         };
-        const chackedItems = document.getElementsByName('itemCart');
-        if (chackedItems) {
-            chackedItems.forEach((key) => {
+        const checkedItems = document.getElementsByName('itemCart');
+        if (checkedItems) {
+            checkedItems.forEach((key) => {
                 const itemId = key.getAttribute('id').split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
-                       parseInt(itemId));
+                        parseInt(itemId));
                 }
             });
         } else {
-            console.log('elements not found', chackedItems);
+            console.log('elements not found', checkedItems);
         }
-        if (orderData.items.length === 0) {
-            console.log("Выберите товары для заказа")
+        if (!!orderData.items.length) {
+            console.log('Выберите товары для заказа');
             // Выводить попап
         } else {
             const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
@@ -452,7 +456,7 @@ export default class CartOrderPage extends BasePage {
         const productsContent = document.getElementById('block-products');
         if (productsContent) {
             productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.addEventListener('change',this.listenChangeCheckbox.bind(this));
+            productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
         // Обработчик создания заказа
@@ -479,7 +483,7 @@ export default class CartOrderPage extends BasePage {
         const productsContent = document.getElementById('block-products');
         if (productsContent) {
             productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.removeEventListener('change',this.listenChangeCheckbox.bind(this));
+            productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
         const createOrder = document.getElementById('summary_cart__create-order-button');

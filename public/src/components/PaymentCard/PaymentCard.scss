@@ -8,16 +8,12 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .payment-card {
     filter: none;
-    cursor: pointer;
 }
-
-//.payment-card:hover {
-//    filter: blur(1px);
-//}
 
 .primary-payment-card {
     height: 120px;
