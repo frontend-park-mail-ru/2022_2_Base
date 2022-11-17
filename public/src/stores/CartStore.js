@@ -2,7 +2,8 @@ import BaseStore from './BaseStore.js';
 import {CartActionTypes} from '../actions/cart.js';
 import request from '../modules/ajax.js';
 import {config} from '../config.js';
-import sharedFunctions from '../modules/sharedFunctions.js';
+import userStore from './UserStrore';
+import itemsStore from './ItemsStore';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -11,31 +12,27 @@ class CartStore extends BaseStore {
     #items = [
         {
             count: 1,
-            item: {
-                name: `Apple iPhone 13 64 ГБ \\r
-                gladwehaveanunderstanding, fuck out the way
-    yeah, all your shit lame, I feel no pain, we" "\\eof`,
-                imgsrc: './img/Smartphone.png',
-                category: '',
-                price: 100000,
-                lowprice: null,
-                id: 1,
-                rating: 5,
-            },
+            name: `Apple iPhone 13 64 ГБ \\r
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            imgsrc: './img/Smartphone.png',
+            category: '',
+            price: 100000,
+            lowprice: null,
+            id: 1,
+            rating: 5,
         },
         {
             count: 2,
-            item: {
-                name: `Apple iPhone 13 64 ГБ \\r
-                gladwehaveanunderstanding, fuck out the way
-    yeah, all your shit lame, I feel no pain, we" "\\eof`,
-                imgsrc: './img/Smartphone.png',
-                category: '',
-                price: 100000,
-                lowprice: 80000,
-                id: 12,
-                rating: 10,
-            },
+            name: `Apple iPhone 13 64 ГБ \\r
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            imgsrc: './img/Smartphone.png',
+            category: '',
+            price: 100000,
+            lowprice: 80000,
+            id: 12,
+            rating: 10,
         },
     ];
 
@@ -62,8 +59,9 @@ class CartStore extends BaseStore {
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
-        address: 'address',
-        userid: 'userid',
+        cartID: 'cartID',
+        userID: 'userID',
+        currID: 'currID',
     };
 
     /**
@@ -73,9 +71,10 @@ class CartStore extends BaseStore {
         super();
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.itemsCart, this.#items);
-        this._storage.set(this._storeNames.address, null);
-        this._storage.set(this._storeNames.userid, null);
+        this._storage.set(this._storeNames.itemsCart, []); // this.#items
+        this._storage.set(this._storeNames.cartID, null);
+        this._storage.set(this._storeNames.userID, null);
+        this._storage.set(this._storeNames.currID, null);
         // this._storage.set(this._storeNames.dataOrder, this.#data);
     }
 
@@ -124,14 +123,15 @@ class CartStore extends BaseStore {
      * Действие: получить данные корзины.
      */
     async _getCart() {
-        const [status, outD] = await request.makeGetRequest(config.api.cart)
+        const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200) {
-            this._storage.set(this._storeNames.itemsCart, outD.items);
-            this._storage.set(this._storeNames.address, outD.adress);
-            this._storage.set(this._storeNames.userid, outD.userid);
+        if (status === config.responseCodes.code200) {
+            console.log(response);
+            this._storage.set(this._storeNames.itemsCart, response.items);
+            this._storage.set(this._storeNames.cartID, response.id);
+            this._storage.set(this._storeNames.userID, response.userid);
         } else {
             console.log('error', status);
         }
@@ -147,10 +147,10 @@ class CartStore extends BaseStore {
         };
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
-            if (item.item.id === id) {
+            if (item.id === id) {
                 delete itemsCart[key];
             } else {
-                payload.items.push(item.item.id);
+                payload.items.push(item.id);
             }
         });
         const [status] = await request.makePostRequest(config.api.cart, payload)
@@ -181,26 +181,28 @@ class CartStore extends BaseStore {
     }
 
     /**
-     * Действие: увеличить количество товара.
-     * @param {number} id
+     * Действие: добавить товар в корзину.
+     * @param {int} status
+     * @param {int} countChange
+     * @param {int} id
      */
-    async _increaseNumber(id) {
-        let itemsCart = this._storage.get(this._storeNames.itemsCart);
-        itemsCart.forEach((item, key) => {
-            if (item.item.id === id) {
-                itemsCart[key].count = itemsCart[key].count + 1;
+    #editCountOfItem(status, countChange, id) {
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                console.log('Adding to the cart was successful');
+            } else {
+                console.log('error', status);
             }
-        });
-        const [status] = await request.makePostRequest(config.api.insertIntoCart, {
-            itemid: id,
-        })
-            .catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
-        } else {
-            console.log('error', status);
         }
+        this._storage.set(this._storeNames.currID, id);
+        const itemToAdd = itemsStore.getContext(itemsStore._storeNames.allCardsInCategory).find(
+            (item) => item.id === Number(id));
+        const currCartItems = this._storage.get(this._storeNames.itemsCart);
+        itemToAdd.count = countChange + (itemToAdd.count ?? 0);
+        console.log(itemToAdd);
+        currCartItems.push(itemToAdd);
+        this._storage.set(this._storeNames.itemsCart, currCartItems);
     }
 
     /**
@@ -208,16 +210,20 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _addToCart(id) {
-        const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-            .catch((err) => console.log(err));
-        this._storage.set(id, this._storage.get('item' + id) + 1);
-        this._storage.set(this._storeNames.currID, id);
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
-            console.log('Adding to the cart was successful');
-        } else {
-            console.log('error', status);
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
+                .catch((err) => console.log(err));
         }
+        this.#editCountOfItem(status,
+            1, id);
+    }
+
+    /**
+     * Действие: увеличить количество товара.
+     * @param {number} id
+     */
+    async _increaseNumber(id) {
+        await this._addToCart(id);
     }
 
     /**
@@ -225,16 +231,12 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _decreaseNumber(id) {
-        const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
-            .catch((err) => console.log(err));
-        this._storage.set(id, this._storage.get('item' + id) - 1);
-        this._storage.set(this._storeNames.currID, id);
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
-        } else {
-            console.log('error', status);
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
+                .catch((err) => console.log(err));
         }
+        await this.#editCountOfItem(status,
+            -1, id);
     }
 
     /**
@@ -245,7 +247,7 @@ class CartStore extends BaseStore {
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         data.items.forEach((id) => {
             itemsCart.forEach((item, key) => {
-                if (item.item.id === id) {
+                if (item.id === id) {
                     delete itemsCart[key];
                 }
             });

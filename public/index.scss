@@ -152,6 +152,12 @@ main {
   line-height: 20px;
 }
 
+.text-normal-default__strikethrough {
+  @extend .text-normal-default;
+  text-decoration-line: line-through;
+  color: var(--secondary-purple);
+}
+
 .text-normal-small {
   font-family: var(--font-main);
   font-weight: 500;

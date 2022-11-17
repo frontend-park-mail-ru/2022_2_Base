@@ -31,9 +31,9 @@ export default class CartItem extends BaseComponent {
      */
     _getPrice(context) {
         context.forEach((key) => {
-            key.item.price = sharedFunctions._truncate(key.item.price);
-            key.item.lowprice = key.item.lowprice ?
-                sharedFunctions._truncate(key.item.lowprice) : null;
+            key.price = sharedFunctions._truncate(key.price);
+            key.lowprice = key.lowprice ?
+                sharedFunctions._truncate(key.lowprice) : null;
         });
         return context;
     }

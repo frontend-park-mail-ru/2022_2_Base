@@ -20,6 +20,6 @@ export default class ErrorPage extends BasePage {
      * @param {object} config контекст отрисовки страницы
      */
     render() {
-        super.render(this.context);
+        super.render();
     }
 }

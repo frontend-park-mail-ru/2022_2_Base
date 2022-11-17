@@ -35,5 +35,6 @@ export const config = {
     responseCodes: {
         code200: 200,
         code201: 201,
+        code401: 401,
     },
 };

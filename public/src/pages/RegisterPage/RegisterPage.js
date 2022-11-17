@@ -26,6 +26,12 @@ export default class RegisterPage extends BasePage {
             parent,
             registerPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_REGISTER);
     }
 

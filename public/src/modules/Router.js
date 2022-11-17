@@ -79,7 +79,6 @@ class Router {
         this.#mainElement = document.getElementById('main');
 
         this.register(config.href.main, MainPage);
-        // this.register(config.href.notFound, ErrorPage);
         this.register(config.href.login, LoginPage);
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.user, UserPage); // remove!
@@ -115,6 +114,16 @@ class Router {
         this.#currentPage = this.renderPage(ErrorPage)(config);
         // this.openPage(config.href.notFound);
         return false;
+    }
+
+    /**
+     * Открывает страницу 404 при динамическом URL.
+     */
+    openNotFoundPage() {
+        window.history.replaceState(
+            {page: document.location.pathname + (window.history.length).toString()},
+            '', document.location.pathname);
+        this.openPage(config.href.notFound);
     }
 }
 

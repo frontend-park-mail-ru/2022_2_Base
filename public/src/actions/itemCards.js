@@ -39,6 +39,7 @@ export const itemCardsAction = {
     getItemCardsByCategory(isFirstRequest) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
         });
     },
 

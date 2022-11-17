@@ -20,6 +20,12 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
@@ -93,7 +99,7 @@ export default class MainPage extends BasePage {
                             amountSelector.style.display = 'grid';
                             addToCartButton.style.display = 'none';
 
-                            const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                            const itemAmount = document.getElementById(`itemcard_item-count/${itemId}`);
                             if (itemAmount) {
                                 if (parseInt(itemAmount.textContent) === 0) {
                                     // Можно получать количество элементов из HTML, а можно по запросу,
@@ -109,13 +115,13 @@ export default class MainPage extends BasePage {
                 case 'itemcard_button-minus_cart':
                     /* Запрос на уменьшение количества единиц товара в корзине */
                     if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                        const itemAmount = document.getElementById(`itemcard_item-count/${itemId}`);
                         if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
+                            const count = parseInt(itemAmount.textContent);
                             // Можно получать количество элементов из HTML, а можно по запросу,
                             // так данные будут более актуальны
 
-                            if (amount === 1) {
+                            if (count === 1) {
                                 const amountSelector = document.getElementById(
                                     `itemcard_amount-selector/${itemId}`);
                                 const addToCartButton = document.getElementById(
@@ -129,7 +135,7 @@ export default class MainPage extends BasePage {
                                         'Элементы не найдены: addToCartButton, addToCartButton');
                                 }
                             } else {
-                                itemAmount.textContent = (amount - 1).toString();
+                                itemAmount.textContent = (count - 1).toString();
                             }
                         }
                     }
@@ -138,12 +144,12 @@ export default class MainPage extends BasePage {
                 case 'itemcard_button-plus_cart':
                     /* Запрос на увеличение количества единиц товара в корзине */
                     if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
+                        const itemAmount = document.getElementById(`itemcard_item-count/${itemId}`);
                         if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
+                            const count = parseInt(itemAmount.textContent);
                             // Можно получать количество элементов из HTML, а можно по запросу,
                             // так данные будут более актуальны
-                            itemAmount.textContent = (amount + 1).toString();
+                            itemAmount.textContent = (count + 1).toString();
                         }
                     }
                     break;

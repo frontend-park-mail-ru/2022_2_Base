@@ -21,6 +21,12 @@ export default class UserPage extends BasePage {
             parent,
             UserPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.getCards.bind(this), ProfileActionTypes.GET_DATA);
         userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
         userStore.addListener(this.onUploadAvatar,
@@ -85,7 +91,6 @@ export default class UserPage extends BasePage {
         });
         this.renderPaymentCards();
         this.renderAddresses();
-
         this.startEventListener();
     }
 
@@ -376,6 +381,7 @@ export default class UserPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     async render() {
+        super.render();
         profileAction.getData();
     }
 }

@@ -11,9 +11,9 @@ app.use(express.static(publicFolder));
 
 const port = process.env.PORT || 3000;
 
-app.get('/sw.js', (req, res) => {
-    res.sendFile(path.resolve(`${publicFolder}/src/sw.js`));
-});
+// app.get('/sw.js', (req, res) => {
+//     res.sendFile(path.resolve(`${publicFolder}/sw.js`));
+// });
 
 app.all('*', (req, res) => {
     res.sendFile(path.resolve(`${publicFolder}/index.html`));

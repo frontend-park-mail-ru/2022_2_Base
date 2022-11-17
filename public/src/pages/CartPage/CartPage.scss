@@ -322,8 +322,8 @@
 }
 
 .summary_cart__price {
-  display: grid;
-  gap: 16px;
+  @extend .summary_cart__delivery;
+  color: var(--secondary-purple);
 }
 
 .summary_cart__item-price {
@@ -334,7 +334,8 @@
 }
 
 .summary_cart__delivery {
-  @extend .summary_cart__price;
+  display: grid;
+  gap: 16px;
 }
 
 .summary_cart__delivery-info {
@@ -343,7 +344,7 @@
 }
 
 .summary_cart__payment-method {
-  @extend .summary_cart__price;
+  @extend .summary_cart__delivery;
 }
 
 .summary_cart__payment-info {

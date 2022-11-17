@@ -2,6 +2,8 @@ import BaseStore from './BaseStore.js';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config.js';
+import cartStore from "./CartStore";
+import userStore from "./UserStrore";
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -50,6 +52,8 @@ class ItemsStore extends BaseStore {
         responseCode: 'responseCode',
         cardsHome: 'cardsHome',
         cardsCategory: 'cardsCategory',
+        cardLoadCount: 'cardLoadCount',
+        allCardsInCategory: 'allCardsInCategory',
     };
 
     /**
@@ -62,6 +66,8 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.cardsHome, null);
         this._storage.set(this._storeNames.cardsCategory, null);
+        this._storage.set(this._storeNames.cardLoadCount, null);
+        this._storage.set(this._storeNames.allCardsInCategory, []);
     }
 
     /**
@@ -77,7 +83,7 @@ class ItemsStore extends BaseStore {
             break;
 
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getItemCardsByCategory();
+            await this._getItemCardsByCategory(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY]);
             break;
 
@@ -97,31 +103,63 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка популярных карточек.
      */
     async _getItemCardsHome({path, popularCard}) {
-        const [status, outD] = await request.makeGetRequest(
+        const [status, response] = await request.makeGetRequest(
             path + `?lastitemid=${0}&count=${6}`)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
+            this.#syncWithCart(response.body);
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
-                body: outD.body,
+                body: response.body,
+            });
+            this._storage.set(this._storeNames.allCardsInCategory,
+                this._storage.get(this._storeNames.allCardsInCategory).concat(response.body));
+        }
+    }
+
+    /**
+     * Синхранизируем количество товаров в корзине
+     * @param {object} items - полученные товары
+     */
+    #syncWithCart(items) {
+        const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
+        if (cartItems) {
+            items.forEach((item) => {
+                cartItems.forEach((cartItem) => {
+                    if (cartItem.id === item.id) {
+                        item.count = cartItem.count;
+                    }
+                });
             });
         }
     }
 
     /**
      * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
      */
-    async _getItemCardsByCategory() {
+    async _getItemCardsByCategory(isFirstRequest) {
+        if (isFirstRequest) {
+            this._storage.set(this._storeNames.cardLoadCount, 0);
+            this._storage.set(this._storeNames.allCardsInCategory, []);
+        }
+
         const [status, response] = await request.makeGetRequest(config.api.category +
             document.location.pathname.slice(document.location.pathname.lastIndexOf('/'),
-                document.location.pathname.length) + `?lastitemid=${0}&count=${5}`)
+                document.location.pathname.length) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}&count=${5}`)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === 200) {
+        if (status === config.responseCodes.code200) {
+            this.#syncWithCart(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
+            this._storage.set(this._storeNames.allCardsInCategory,
+                this._storage.get(this._storeNames.allCardsInCategory).concat(response.body));
+            this._storage.set(this._storeNames.cardLoadCount,
+                this._storage.get(this._storeNames.cardLoadCount) + 5); // fix?
         }
     }
 

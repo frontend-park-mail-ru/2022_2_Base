@@ -1,54 +1,54 @@
 {{#each item}}
-    <div class="cart-item_cart" id="cart-item_cart/{{this.item.id}}">
+    <div class="cart-item_cart" id="cart-item_cart/{{this.id}}">
         <div class="cart-item_cart__checkbox">
             <label class="item_cart__selection">
-                <input type="checkbox" class="checkbox-opt" id="item_cart__select/{{this.item.id}}" name="itemCart" checked>
+                <input type="checkbox" class="checkbox-opt" id="item_cart__select/{{this.id}}" name="itemCart" checked>
             </label>
         </div>
 
 
-        <a href="/item/{{this.item.id}}" class="cart-item_cart__img">
-            <img src="{{this.item.imgsrc}}" alt="{{this.item.name}} photo" class="cart-item_cart__img-src">
+        <a href="/item/{{this.id}}" class="cart-item_cart__img">
+            <img src="{{this.imgsrc}}" alt="{{this.name}} photo" class="cart-item_cart__img-src">
         </a>
 
         <div class="cart-item_cart__main">
-            <a href="/item/{{this.item.id}}" id="{{this.item.id}}" class="link__no-color cart-item_cart__id">
-                <span>{{this.item.name}}</span>
+            <a href="/item/{{this.id}}" id="{{this.id}}" class="link__no-color cart-item_cart__id">
+                <span>{{this.name}}</span>
             </a>
             <a href="" class="link__no-color">
-                <span class="vendor_cart__text">{{#if this.item.vendor}}{{this.item.vendor}}{{else}}Reazon{{/if}}</span>
+                <span class="vendor_cart__text">{{#if this.vendor}}{{this.vendor}}{{else}}Reazon{{/if}}</span>
             </a>
             <div class="cart-item_cart__bottom">
                 <label class="item_cart__selection">
-                    <input type="checkbox" class="favourite-opt" {{#if this.item.favourite}} checked {{/if}}>
-                    <span id="favourite-opt_cart__text">{{#if this.item.favourite}}
+                    <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
+                    <span id="favourite-opt_cart__text">{{#if this.favourite}}
                         В избранном {{else}} В избранное {{/if}}</span>
                 </label>
                 <button class="button-default-no-box delete-cart-item__down item_cart__selection link__no-color" id="button-default_cart__delete">
                     <img src="img/Bin.svg" alt="delete picture" class="button-delete_cart__img">
-                    <span class="delete-cart-item" id="delete-cart-item/{{this.item.id}}">Удалить</span>
+                    <span class="delete-cart-item" id="delete-cart-item/{{this.id}}">Удалить</span>
                 </button>
             </div>
         </div>
 
-        <div class="amount-selector">
+        <div class="count-selector">
             <button class="button-notext">
-                <span class="link__no-color" id="button-minus_cart/{{this.item.id}}">−</span>
+                <span class="link__no-color" id="button-minus_cart/{{this.id}}">−</span>
             </button>
-            <div class="amount-selector__amount">
-            <span class="text-normal-default__bold amount-product" id="amount-product/{{this.item.id}}">
+            <div class="count-selector__amount">
+            <span class="text-normal-default__bold count-product" id="count-product/{{this.id}}">
                 {{this.count}}
             </span>
             </div>
             <button class="button-notext">
-                <span class="link__no-color" id="button-plus_cart/{{this.item.id}}">+</span>
+                <span class="link__no-color" id="button-plus_cart/{{this.id}}">+</span>
             </button>
         </div>
 
         <div class="cart-item_cart__price">
-            <span class="text-normal-very-large" id="price/{{this.item.id}}">{{#if this.item.lowprice}}{{this.item.lowprice}} ₽{{else}}{{this.item.price}}
+            <span class="text-normal-very-large" id="price/{{this.id}}">{{#if this.lowprice}}{{this.lowprice}} ₽{{else}}{{this.price}}
                 ₽{{/if}}</span>
-            <span class="text-normal-large__strikethrough item_cart__salePrice" id="sale-price/{{this.item.id}}">{{#if this.item.lowprice}}{{this.item.price}}
+            <span class="text-normal-large__strikethrough item_cart__salePrice" id="sale-price/{{this.id}}">{{#if this.lowprice}}{{this.price}}
                 ₽{{/if}}</span>
         </div>
     </div>

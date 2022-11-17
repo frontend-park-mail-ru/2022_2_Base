@@ -26,6 +26,12 @@ export default class LoginPage extends BasePage {
             parent,
             loginPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_LOGIN);
     }
 

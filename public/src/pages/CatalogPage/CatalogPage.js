@@ -15,6 +15,7 @@ import errorMessage from '../../modules/ErrorMessage';
  */
 export default class CatalogPage extends BasePage {
     #category;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -25,7 +26,12 @@ export default class CatalogPage extends BasePage {
         this.#category = new Map();
         this.#category.set(config.href.category + '/phones', 'Телефоны');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
+    }
 
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
             CartActionTypes.ADD_TO_CART);
 
@@ -37,8 +43,23 @@ export default class CatalogPage extends BasePage {
             CartActionTypes.DECREASE_NUMBER,
         );
 
-        itemsStore.addListener(this.loadCatalogItemCards,
+        itemsStore.addListener(this.loadCatalogItemCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
+
+        cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
+    }
+
+    /**
+     * Функция, реагирующая на получение товаров из корзины
+     */
+    getCart() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+            case config.responseCodes.code200:
+                break;
+            default:
+                errorMessage.getAbsoluteErrorMessage();
+                break;
+        }
     }
 
     /**
@@ -46,22 +67,21 @@ export default class CatalogPage extends BasePage {
      */
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            const Card = new CatalogItemCard(document.getElementById('items-block'));
-            const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
-            if (data.length) {
-                Card.render(data);
-            } else {
-                console.log(document.location.pathname);
-                window.history.replaceState(
-                    {page: document.location.pathname + (window.history.length).toString()},
-                    '', document.location.pathname);
-                router.openPage(config.href.notFound);
-            }
-            break;
-        default:
-            errorMessage.getAbsoluteErrorMessage();
-            break;
+            case config.responseCodes.code200:
+                const Card = new CatalogItemCard(document.getElementById('items-block'));
+                const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+                if (data.length) {
+                    Card.render(data);
+                } else if (itemsStore.getContext(itemsStore._storeNames.cardLoadCount)) {
+                    this.removeScrollListener();
+                    return;
+                } else {
+                    router.openNotFoundPage();
+                }
+                break;
+            default:
+                errorMessage.getAbsoluteErrorMessage();
+                break;
         }
     }
 
@@ -71,12 +91,12 @@ export default class CatalogPage extends BasePage {
      */
     defaultButton(toDo) {
         switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            toDo();
-            break;
-        default:
-            toDo();
-            break;
+            case config.responseCodes.code200:
+                toDo();
+                break;
+            default:
+                toDo();
+                break;
         }
     }
 
@@ -93,13 +113,9 @@ export default class CatalogPage extends BasePage {
             addToCartButton.style.display = 'none';
 
             const itemAmount = document.getElementById(
-                `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+                `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
             if (itemAmount) {
-                if (parseInt(itemAmount.textContent) === 0) {
-                    // Можно получать количество элементов из HTML, а можно по запросу,
-                    // так данные будут более актуальны
-                    itemAmount.textContent = '1';
-                }
+                itemAmount.textContent = '1';
             }
         } else {
             console.warn('Элементы не найдены');
@@ -111,12 +127,10 @@ export default class CatalogPage extends BasePage {
      */
     buttonAdd() {
         const itemAmount = document.getElementById(
-            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+            `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const amount = parseInt(itemAmount.textContent);
-            // Можно получать количество элементов из HTML, а можно по запросу,
-            // так данные будут более актуальны
-            itemAmount.textContent = (amount + 1).toString();
+            const count = parseInt(itemAmount.textContent);
+            itemAmount.textContent = (count + 1).toString();
         }
     }
 
@@ -125,13 +139,11 @@ export default class CatalogPage extends BasePage {
      */
     buttonMinus() {
         const itemAmount = document.getElementById(
-            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+            `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const amount = parseInt(itemAmount.textContent);
-            // Можно получать количество элементов из HTML, а можно по запросу,
-            // так данные будут более актуальны
+            const count = parseInt(itemAmount.textContent);
 
-            if (amount === 1) {
+            if (count === 1) {
                 const amountSelector = document.getElementById(
                     `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
                 const addToCartButton = document.getElementById(
@@ -144,7 +156,7 @@ export default class CatalogPage extends BasePage {
                         'Элементы не найдены: addToCartButton, addToCartButton');
                 }
             } else {
-                itemAmount.textContent = (amount - 1).toString();
+                itemAmount.textContent = (count - 1).toString();
             }
         }
     }
@@ -162,38 +174,38 @@ export default class CatalogPage extends BasePage {
             if (elementId.includes('/')) {
                 [elementId, itemId] = elementId.split('/');
                 switch (elementId) {
-                case 'catalog_button-add-to-cart':
-                    /* запрос на добавление товара в корзину */
-                    cartAction.addToCart(itemId);
-                    break;
-                case 'catalog_button-minus_cart':
-                    /* Запрос на уменьшение количества единиц товара в корзине */
-                    cartAction.decreaseNumber(itemId);
-                    break;
-                case 'catalog_button-plus_cart':
-                    /* Запрос на увеличение количества единиц товара в корзине */
-                    cartAction.increaseNumber(itemId);
-                    break;
-                case 'catalog_like-button':
-                    /* Запрос на добавление товара в избраннное */
-                    // console.log(target)
-                    // const likeButton = document.getElementById(`catalog_like-button/${itemId}`);
-                    // console.log(target.hasAttribute('checked'));
-                    // target.setAttribute('checked','');
+                    case 'catalog_button-add-to-cart':
+                        /* запрос на добавление товара в корзину */
+                        cartAction.addToCart(itemId);
+                        break;
+                    case 'catalog_button-minus_cart':
+                        /* Запрос на уменьшение количества единиц товара в корзине */
+                        cartAction.decreaseNumber(itemId);
+                        break;
+                    case 'catalog_button-plus_cart':
+                        /* Запрос на увеличение количества единиц товара в корзине */
+                        cartAction.increaseNumber(itemId);
+                        break;
+                    case 'catalog_like-button':
+                        /* Запрос на добавление товара в избраннное */
+                        // console.log(target)
+                        // const likeButton = document.getElementById(`catalog_like-button/${itemId}`);
+                        // console.log(target.hasAttribute('checked'));
+                        // target.setAttribute('checked','');
 
-                    break;
+                        break;
                 }
             } else {
                 switch (elementId) {
-                case 'catalog-item-pic':
-                    // target.dataset.href;
-                    /* Переход на страницу товара по ссылке в комменте выше */
+                    case 'catalog-item-pic':
+                        // target.dataset.href;
+                        /* Переход на страницу товара по ссылке в комменте выше */
 
-                    break;
-                case 'catalog_item-title':
-                    // target.getAttribute('href'));
-                    /* Переход на страницу товара по ссылке в комменте выше */
-                    break;
+                        break;
+                    case 'catalog_item-title':
+                        // target.getAttribute('href'));
+                        /* Переход на страницу товара по ссылке в комменте выше */
+                        break;
                 }
             }
         }
@@ -201,42 +213,48 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
-     * @param {Event} event контекст события для обработки
      */
-    bottomOfPageHandlerPrototype(event) {
-        if ((scrollY + innerHeight > (0.95 * document.body.scrollHeight))) {
-            this.loadCatalogItemCards();
+    bottomOfPageHandlerPrototype() {
+        if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {
+            if (!this.waitThrottleScroll) {
+                this.waitThrottleScroll = true;
+                itemCardsAction.getItemCardsByCategory(false);
+                setTimeout(() => {
+                    this.waitThrottleScroll = false;
+                }, 300);
+            }
         }
     }
-
-
-    /**
-     * Метод, обрабатывающий скролл, в котором есть this класса
-     */
-    bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
 
     /**
      * Метод, добавляющий слушатели
      */
     startEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.addEventListener('click', this.localEventListenersHandler);
+        this.catalogContent = document.getElementById('catalog_content');
+        if (this.catalogContent) {
+            this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
+        this.waitThrottleScroll = false;
+        this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
+        window.addEventListener('scroll', this.bottomOfPageHandler, {passive: true});
+    }
 
-        window.addEventListener('scroll', this.bottomOfPageHandler);
+    /**
+     * Метод, удаляющий слушатель на скролл.
+     */
+    removeScrollListener() {
+        window.removeEventListener('scroll', this.bottomOfPageHandler);
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.removeEventListener('click', this.localEventListenersHandler);
+        if (this.catalogContent) {
+            this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
 
-        // remove scroll!
+        this.removeScrollListener();
     }
 
 
@@ -244,10 +262,12 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
+        super.render();
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});
-        itemCardsAction.getItemCardsByCategory();
+        cartAction.getCart();
+        itemCardsAction.getItemCardsByCategory(true);
         this.startEventListener();
     }
 }

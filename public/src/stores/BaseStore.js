@@ -29,15 +29,10 @@ export default class BaseStore {
      * @param {String?} changeEvent наименование события
      */
     addListener(callback, changeEvent) {
-        if (this._events.has(changeEvent)) {
-            this._events.get(changeEvent).callbacks.add(callback);
-        } else {
-            const callbacks = new Set();
             this._events.set(changeEvent, {
-                callbacks: callbacks.add(callback),
+                callbacks: callback,
                 promise: null,
             });
-        }
     }
 
     /**
@@ -73,7 +68,7 @@ export default class BaseStore {
             this._events.forEach((value, key) => {
                 value.promise?.then(
                     (changeEvent) => {
-                        value.callbacks.forEach((callback) => callback());
+                        value.callbacks();
                         this._events.get(key).promise = null;
                     })
                     .catch((error) => console.log('_invokeOnDispatch:', error));

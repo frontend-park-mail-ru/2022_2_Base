@@ -10,34 +10,14 @@ import cartStore from '../../stores/CartStore.js';
 import userStore from '../../stores/UserStrore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
+import itemsStore from "../../stores/ItemsStore";
+import {config} from "../../config";
+import errorMessage from "../../modules/ErrorMessage";
 
 /**
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
-    // #data = {
-    //     addressID: 1111,
-    //     city: 'Москва',
-    //     street: 'Мира',
-    //     house: 15,
-    //     flat: 4,
-    //     deliveryPrice: 'Бесплатно',
-
-    //     date: new Date('2022-11-25'),
-
-    //     paymentMethodProvider: mirIcon,
-
-    //     avatar: './img/Smartphone.png',
-    //     username: 'Джахар',
-    //     phone: '+7 (872) 234-23-65',
-
-    //     deliveryDate: this.#getDate(1),
-    //     // deliveryTime: '18:00 - 23:00',
-    //     cardNumber: '8765432143212546',
-    //     cardExpiryDate: '05 / 24',
-    //     paymentCardId: 1,
-    // };
-
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -47,10 +27,17 @@ export default class CartOrderPage extends BasePage {
             parent,
             CartPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.MAKEORDER);
+        userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
     /**
@@ -72,64 +59,93 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
-     * Функция, отрисовывающая карзину
+     * Функция, отрисовывающая корзину
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        let context = {};
-        const address = userStore.getContext(userStore._storeNames.address);
-        if (address) {
-            Object.values(address).forEach((key) => {
-                if (key.priority) {
-                    context.address = key;
-                }
-            });
-        }
-        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
-        if (paymentCards) {
-            Object.values(paymentCards).forEach((key) => {
-                if (key.priority) {
-                    context.paymentCard = key;
-                }
-            });
-            if (context.paymentCard.type === 'MIR') {
-                context.paymentCard.type = mirIcon;
+        if (data) {
+            const context = {};
+            const address = userStore.getContext(userStore._storeNames.address);
+            if (address) {
+                Object.values(address).forEach((key) => {
+                    if (key.priority) {
+                        context.address = key;
+                    }
+                });
             }
-        }
-        context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-        context.isAuth = true // FIX
-        if (context.isAuth) {
-            context.avatar = userStore.getContext(userStore._storeNames.avatar);
-            context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
-            context.phone = userStore.getContext(userStore._storeNames.phone);
-        }
-        context.deliveryPrice = 'Бесплатно';
-        context.deliveryDate = this.#getDate(1);
+            const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
+            if (paymentCards) {
+                Object.values(paymentCards).forEach((key) => {
+                    if (key.priority) {
+                        context.paymentCard = key;
+                    }
+                });
+                if (context.paymentCard.type === 'MIR') {
+                    context.paymentCard.type = mirIcon;
+                }
+            }
+            context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
+            context.isAuth = true // FIX
+            if (context.isAuth) {
+                context.avatar = userStore.getContext(userStore._storeNames.avatar);
+                context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
+                context.phone = userStore.getContext(userStore._storeNames.phone);
+            }
+            context.deliveryPrice = 'Бесплатно';
+            context.deliveryDate = this.#getDate(1);
 
-        // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        let [sumPrice, noSalePrice, priceDiff, amount] =
-            data.reduce((sumVal, key, it) => {
-                // sumPrice
-                sumVal[0] += (key.item.lowprice ?? key.item.price) *
-                key.count;
-                // noSalePrice
-                sumVal[1] += key.item.price * key.count;
-                // priceDiff
-                sumVal[2] = sumVal[1] - sumVal[0];
-                // amount
-                sumVal[3] += key.count;
-                return sumVal;
-            }, [0, 0, 0, 0]).map((val) => {
-                return sharedFunctions._truncate(val);
-            });
-        context.sumPrice = sumPrice;
-        context.noSalePrice = noSalePrice;
-        context.priceDiff = priceDiff;
-        context.amount = amount;
-        super.render(context);
-        const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
-        cartItem.render(data);
-        this.startEventListener();
+            console.log(data);
+            // Подсчет итоговой стоимости товаров в корзине для отрисовки
+            const [sumPrice, noSalePrice, priceDiff, count] =
+                data.reduce((sumVal, key, it) => {
+                    // sumPrice
+                    sumVal[0] += (Number(key.lowprice) ?? Number(key.price)) *
+                        key.count;
+                    // noSalePrice
+                    sumVal[1] += Number(key.price) * Number(key.count);
+                    // priceDiff
+                    sumVal[2] = sumVal[1] - sumVal[0];
+                    // count
+                    sumVal[3] += key.count;
+                    return sumVal;
+                }, [0, 0, 0, 0]).map((val) => {
+                    return sharedFunctions._truncate(val);
+                });
+            context.sumPrice = sumPrice;
+            context.noSalePrice = noSalePrice;
+            context.priceDiff = priceDiff;
+            context.count = count;
+            super.render(context);
+            const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
+            cartItem.render(data);
+            this.startEventListener();
+        } else {
+            document.getElementById('main').innerHTML = `
+            <div class="paint-background"></div>
+            <div id="content-cart"
+                <span class="text-normal-large-normal" 
+                style="display:flex; justify-content: center;  align-items: center; height: 80px">
+                Корзина пуста
+                </span>
+            </div>
+            <div class="paint-background"></div>`;
+        }
+    }
+
+
+    /**
+     * Функция, обрабатывающая клики на данной странице
+     */
+    getUserData() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+            case config.responseCodes.code200:
+            break;
+            case  config.responseCodes.code401:
+                break;
+            default:
+                errorMessage.getAbsoluteErrorMessage();
+            break;
+        }
     }
 
     /**
@@ -274,24 +290,24 @@ export default class CartOrderPage extends BasePage {
                     this.deleteItem(parseInt(itemId));
                     break;
                 case 'button-minus_cart':
-                    const amountItem = document.getElementById(`amount-product/${itemId}`);
+                    const amountItem = document.getElementById(`count-product/${itemId}`);
                     if (amountItem) {
-                        const amount = parseInt(amountItem.textContent);
-                        if (amount === 1) {
+                        const count = parseInt(amountItem.textContent);
+                        if (count === 1) {
                             this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                         } else {
                             cartAction.decreaseNumber(parseInt(itemId));
-                            amountItem.textContent = (amount - 1).toString();
+                            amountItem.textContent = (count - 1).toString();
                             this.renderTotalCost();
                         }
                     }
                     break;
                 case 'button-plus_cart':
-                    const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                    const itemAmount = document.getElementById(`count-product/${itemId}`);
                     if (itemAmount) {
                         cartAction.increaseNumber(parseInt(itemId));
-                        const amount = parseInt(itemAmount.textContent);
-                        itemAmount.textContent = (amount + 1).toString();
+                        const count = parseInt(itemAmount.textContent);
+                        itemAmount.textContent = (count + 1).toString();
                         this.renderTotalCost();
                     }
                     break;
@@ -312,7 +328,7 @@ export default class CartOrderPage extends BasePage {
                 if (check.checked) {
                     const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
                     let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
-                    const count = sharedFunctions._parseInt(document.getElementById(`amount-product/${itemId}`).textContent);
+                    const count = sharedFunctions._parseInt(document.getElementById(`count-product/${itemId}`).textContent);
                     if (isNaN(price)) {
                         price = lowprice;
                     }
@@ -414,7 +430,7 @@ export default class CartOrderPage extends BasePage {
             console.log('elements not found', chackedItems);
         }
         if (orderData.items.length === 0) {
-            console.log("Выберите товары для заказа") 
+            console.log("Выберите товары для заказа")
             // Выводить попап
         } else {
             const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
@@ -497,10 +513,10 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
-        // profileAction.getData();
+    render() {
+        super.render();
         cartAction.getCart();
+        profileAction.getData();
     }
 }

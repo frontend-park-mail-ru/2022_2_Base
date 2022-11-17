@@ -6,7 +6,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const config = {
-    entry: './public/src/index.js',
+    entry: {
+        'app': './public/src/index.js',
+        'service-worker': './public/src/sw.js',
+    },
     module: {
         rules: [
             {test: /\.(js)$/, use: 'babel-loader'},

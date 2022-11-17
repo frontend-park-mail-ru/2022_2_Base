@@ -14,7 +14,7 @@
                     {{price}}₽
                 </span>
     {{#if salePrice}}
-        <span class="text-normal-default item-card__text-strikethrough">
+        <span class="text-normal-default__strikethrough item-card__text-strikethrough">
                     {{salePrice}}₽
                 </span>
     {{/if}}
@@ -30,8 +30,8 @@
             В корзину
         </div>
         <div class="catalog_amount-selector" id="itemcard_amount-selector/{{this.id}}"
-             data-amount="
-             {{#if this.amount}} {{this.amount}}
+             data-count="
+             {{#if this.count}} {{this.count}}
 
              {{else}} 1
              {{/if}}">
@@ -39,8 +39,8 @@
                 <span class="link__no-color text-normal-large" id="itemcard_button-minus_cart/{{this.id}}">−</span>
             </button>
             <div class="catalog_amount-selector__amount">
-            <span class="text-normal-large" id="itemcard_item-amount/{{this.id}}">
-                {{this.amount}}
+            <span class="text-normal-large" id="itemcard_item-count/{{this.id}}">
+                {{this.count}}
             </span>
             </div>
             <button class="button-notext">

@@ -73,17 +73,17 @@
 
         <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">
             <div class="button-default button_add-to-card catalog-item-card_button-add-to-cart  paint-purple"
-                 id="catalog_button-add-to-cart/{{this.id}}">
+                 id="catalog_button-add-to-cart/{{this.id}}" {{#if this.count}} style="display: none;" {{/if}}>
                 В корзину
             </div>
             <div class="catalog_amount-selector" id="catalog_amount-selector/{{this.id}}"
-                 data-amount="{{this.amount}}">
+                 data-count="{{this.count}}" {{#if this.count}} style="display: grid;" {{/if}}>
                 <button class="button-notext">
                     <span class="link__no-color text-normal-large" id="catalog_button-minus_cart/{{this.id}}">−</span>
                 </button>
                 <div class="catalog_amount-selector__amount">
-            <span class="text-normal-large" id="catalog_item-amount/{{this.id}}">
-                {{this.amount}}
+            <span class="text-normal-large" id="catalog_item-count/{{this.id}}">
+                {{this.count}}
             </span>
                 </div>
                 <button class="button-notext">

@@ -58,11 +58,8 @@ class ErrorMessage {
      * Метод, показывающий ошибку
      */
     getAbsoluteErrorMessage() {
-        const errorElement = document.getElementById('header_error-message').style.display = 'flex';
-        // setTimeout(((errorElement) => {
-        //     return () => errorElement.style.display = 'none';
-        // })(errorElement), 600);
-        setTimeout(() => document.getElementById('header_error-message').style.display = 'none', 1e4);
+        const errorElement = document.getElementById('header_error-message').style.display = 'flex'; // fix
+        setTimeout(() => document.getElementById('header_error-message').style.display = 'none', 5e3);
     }
 
     /**
