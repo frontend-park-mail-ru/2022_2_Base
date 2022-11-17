@@ -97,11 +97,12 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка популярных карточек.
      */
     async _getItemCardsHome({path, popularCard}) {
-        const [status, outD] = await request.makeGetRequest(path)
+        const [status, outD] = await request.makeGetRequest(
+            path + `?lastitemid=${0}&count=${6}`)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === 200) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: outD.body,
@@ -115,7 +116,7 @@ class ItemsStore extends BaseStore {
     async _getItemCardsByCategory() {
         const [status, response] = await request.makeGetRequest(config.api.category +
             document.location.pathname.slice(document.location.pathname.lastIndexOf('/'),
-                document.location.pathname.length) + `?first=${0}&count=${5}`)
+                document.location.pathname.length) + `?lastitemid=${0}&count=${5}`)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 

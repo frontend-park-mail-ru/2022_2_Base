@@ -173,9 +173,9 @@ export default class MainPage extends BasePage {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const catalogContent = document.getElementById('content_main');
-        if (catalogContent) {
-            catalogContent.addEventListener('click', this.localEventListenersHandler);
+        this.catalogContent = document.getElementById('content_main');
+        if (this.catalogContent) {
+            this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
     }
 
@@ -183,16 +183,14 @@ export default class MainPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.removeEventListener('click', this.localEventListenersHandler);
+        if (this.catalogContent) {
+            this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
     }
 
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
     async render() {
         super.render(config);
