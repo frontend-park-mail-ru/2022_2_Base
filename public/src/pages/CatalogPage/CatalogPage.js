@@ -32,14 +32,14 @@ export default class CatalogPage extends BasePage {
      * Функция, регистрирующая листенеры сторов
      */
     addListener() {
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
+        cartStore.addListener(this.buttonCreate,
             CartActionTypes.ADD_TO_CART);
 
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonAdd),
+        cartStore.addListener(this.buttonAdd,
             CartActionTypes.INCREASE_NUMBER,
         );
 
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonMinus),
+        cartStore.addListener(this.buttonMinus,
             CartActionTypes.DECREASE_NUMBER,
         );
 
@@ -81,21 +81,6 @@ export default class CatalogPage extends BasePage {
                 break;
             default:
                 errorMessage.getAbsoluteErrorMessage();
-                break;
-        }
-    }
-
-    /**
-     * Оберточная функция для кнопок в корзину
-     * @param {function} toDo - функция для выполнения на коде 200
-     */
-    defaultButton(toDo) {
-        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
-            case config.responseCodes.code200:
-                toDo();
-                break;
-            default:
-                toDo();
                 break;
         }
     }
@@ -175,15 +160,12 @@ export default class CatalogPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
                 switch (elementId) {
                     case 'catalog_button-add-to-cart':
-                        /* запрос на добавление товара в корзину */
                         cartAction.addToCart(itemId);
                         break;
                     case 'catalog_button-minus_cart':
-                        /* Запрос на уменьшение количества единиц товара в корзине */
                         cartAction.decreaseNumber(itemId);
                         break;
                     case 'catalog_button-plus_cart':
-                        /* Запрос на увеличение количества единиц товара в корзине */
                         cartAction.increaseNumber(itemId);
                         break;
                     case 'catalog_like-button':

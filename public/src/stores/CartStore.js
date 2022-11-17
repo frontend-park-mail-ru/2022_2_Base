@@ -200,8 +200,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             (item) => item.id === Number(id));
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
         itemToAdd.count = countChange + (itemToAdd.count ?? 0);
-        console.log(itemToAdd);
-        currCartItems.push(itemToAdd);
+        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
+        if (editItemIndex === -1) {
+            currCartItems.push(itemToAdd);
+        } else {
+            currCartItems[editItemIndex] = itemToAdd;
+        }
         this._storage.set(this._storeNames.itemsCart, currCartItems);
     }
 
