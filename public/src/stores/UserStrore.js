@@ -513,6 +513,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
+        console.log(userData);
         console.log(userData.paymentmethods);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {

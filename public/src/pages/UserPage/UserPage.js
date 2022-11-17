@@ -60,7 +60,7 @@ export default class UserPage extends BasePage {
     templateFunction(toDo) {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            return toDo;
+            return toDo();
         case 4000:
             return () => {};
         default:
