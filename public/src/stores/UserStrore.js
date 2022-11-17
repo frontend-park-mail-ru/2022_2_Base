@@ -273,7 +273,7 @@ class UserStore extends BaseStore {
         }).catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === 201) {
+        if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
         }
     }
@@ -290,9 +290,8 @@ class UserStore extends BaseStore {
         }).catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === 201) {
+        if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
-            console.log('set', this._storage);
         }
     }
 
@@ -380,8 +379,8 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.email, response.email);
             this._storage.set(this._storeNames.phone, response.phone);
             this._storage.set(this._storeNames.avatar, response.avatar);
-            this._storage.set(this._storeNames.paymentMethods, response.paymentMethods ?? {});
-            this._storage.set(this._storeNames.address, response.address ?? {});
+            this._storage.set(this._storeNames.paymentMethods, response.paymentMethods ?? []);
+            this._storage.set(this._storeNames.address, response.address ?? []);
         } else {
             console.log('error', status);
         }
@@ -448,6 +447,7 @@ class UserStore extends BaseStore {
             }
             return;
         }
+        console.log(userData);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
@@ -467,9 +467,10 @@ class UserStore extends BaseStore {
             if (avatar) {
                 this._storage.set(this._storeNames.avatar,
                     URL.createObjectURL(avatar));
+            } else {
+                this._storage.set(this._storeNames.avatar,
+                    'img/UserPhoto.png');
             }
-            this._storage.set(this._storeNames.avatar,
-                'img/UserPhoto.png');
         } else {
             console.log('error', status);
         }
