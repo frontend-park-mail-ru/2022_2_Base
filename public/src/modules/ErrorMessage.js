@@ -56,7 +56,7 @@ class ErrorMessage {
 
     /**
      * Метод, показывающий ошибку
-     * @param errorText - текст ошибки
+     * @param {string} errorText - текст ошибки
      */
     getAbsoluteErrorMessage(errorText = 'Возникла ошибка. Попробуйте позже') {
         this.errorElement = document.getElementById('header_error-message');

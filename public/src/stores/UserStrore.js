@@ -392,16 +392,15 @@ class UserStore extends BaseStore {
      * @param {object} data данные для изменения
      */
     async _saveEditData(data) {
-        let sendData = {};
+        const userData = this.#collectUserData();
         const dataForVal = {};
         switch (data.id) {
         case 'name':
             dataForVal[this.#context.fields.name.popUpName] = data.value;
             if (this.#validate(dataForVal)) {
-                sendData = {
-                    username: data.value,
-                };
+                userData.username = data.value;
             } else {
+                this._storage.set(this._storeNames.responseCode, 4000);
                 return;
             }
 
@@ -409,10 +408,9 @@ class UserStore extends BaseStore {
         case 'email':
             dataForVal[this.#context.fields.email.popUpName] = data.value;
             if (this.#validate(dataForVal)) {
-                sendData = {
-                    email: data.value,
-                };
+                userData.email = data.value;
             } else {
+                this._storage.set(this._storeNames.responseCode, 4000);
                 return;
             }
 
@@ -420,10 +418,9 @@ class UserStore extends BaseStore {
         case 'phone':
             dataForVal[this.#context.fields.phone.popUpName] = data.value;
             if (this.#validate(dataForVal)) {
-                sendData = {
-                    phone: data.value,
-                };
+                userData.phone = data.value;
             } else {
+                this._storage.set(this._storeNames.responseCode, 4000);
                 return;
             }
 
@@ -442,24 +439,20 @@ class UserStore extends BaseStore {
             dataForVal[this.#context.fields.password.popUpName] = data.value;
             const isValid = this.#validate(dataForVal);
             if (isValid) {
-                const [status] = await request.makePostRequest(config.api.password, {
-                    password: data.value,
-                }).catch((err) => console.log(err));
+                userData.password = data.value;
+                const [status] = await request.makePostRequest(config.api.password, userData)
+                    .catch((err) => console.log(err));
                 this._storage.set(this._storeNames.responseCode, status);
+            } else {
+                this._storage.set(this._storeNames.responseCode, 4000);
             }
             return;
         }
-        const [status] = await request.makePostRequest(config.api.profile, sendData)
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.temp, data);
-        if (status === config.responseCodes.code200) {
-            this._storage.has(data.id) ?
-                this._storage.set(data.id, data.value) : console.log('wrong id');
-        } else {
-            console.log(data.id, status);
-        }
+        this._storage.set(this._storeNames.responseCode, status);
     }
 
     /**
@@ -471,8 +464,12 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            if (avatar) {
+                this._storage.set(this._storeNames.avatar,
+                    URL.createObjectURL(avatar));
+            }
             this._storage.set(this._storeNames.avatar,
-                URL.createObjectURL(avatar ?? 'img/UserPhoto.png'));
+                'img/UserPhoto.png');
         } else {
             console.log('error', status);
         }
@@ -517,7 +514,7 @@ class UserStore extends BaseStore {
 
         console.log(userData.paymentmethods);
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 || true) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
         } else {
             console.log('error', status);
@@ -538,7 +535,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 || true) {
+        if (status === config.responseCodes.code200 ) {
             this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
         } else {
             console.log('error', status);
@@ -567,7 +564,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 || true) {
+        if (status === config.responseCodes.code200 ) {
             this._storage.set(this._storeNames.address, userData.adress);
         } else {
             console.log('error', status);
@@ -592,7 +589,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 || true) {
+        if (status === config.responseCodes.code200 ) {
             this._storage.set(this._storeNames.address, userData.adress);
         } else {
             console.log('error', status);
@@ -615,7 +612,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 || true) {
+        if (status === config.responseCodes.code200 ) {
             this._storage.set(this._storeNames.address, userData.adress);
         } else {
             console.log('error', status);

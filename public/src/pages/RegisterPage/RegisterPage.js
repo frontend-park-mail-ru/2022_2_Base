@@ -119,6 +119,7 @@ export default class RegisterPage extends BasePage {
      */
     render() {
         this.context = userStore.getContext(userStore._storeNames.context);
+        delete this.context.fields.phone;
         super.render(this.context);
 
         /* Создание и отрисовка компонента Form */

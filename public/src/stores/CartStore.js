@@ -156,7 +156,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const [status] = await request.makePostRequest(config.api.cart, payload)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
         } else {
             console.log('error', status);
@@ -173,7 +173,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const [status] = await request.makePostRequest(config.api.cart, payload)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, payload.items);
         } else {
             console.log('error', status);

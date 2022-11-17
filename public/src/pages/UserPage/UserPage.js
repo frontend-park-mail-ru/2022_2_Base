@@ -7,6 +7,7 @@ import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 import userStore from '../../stores/UserStrore.js';
 import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -32,22 +33,22 @@ export default class UserPage extends BasePage {
         userStore.addListener(this.onUploadAvatar,
             ProfileActionTypes.DELETE_AVATAR);
 
-        userStore.addListener(this.templateFunction(this.editUserInfo.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.editUserInfo.bind(this)),
             ProfileActionTypes.SAVE_EDIT_DATA);
 
-        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
             ProfileActionTypes.SAVE_ADD_ADDRESS);
 
-        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
             ProfileActionTypes.SAVE_EDIT_ADDRESS);
 
-        userStore.addListener(this.templateFunction(this.renderPaymentCards.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.renderPaymentCards.bind(this)),
             ProfileActionTypes.SAVE_ADD_CARD);
 
-        userStore.addListener(this.templateFunction(this.renderAddresses.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
             ProfileActionTypes.DELETE_ADDRESS);
 
-        userStore.addListener(this.templateFunction(this.renderPaymentCards.bind(this)),
+        userStore.addListener(this.templateFunction.bind(this, this.renderPaymentCards.bind(this)),
             ProfileActionTypes.DELETE_CARD);
     }
 
@@ -60,9 +61,10 @@ export default class UserPage extends BasePage {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             return toDo;
+        case 4000:
+            return () => {};
         default:
-            return toDo;
-            // errorMessage.getAbsoluteErrorMessage();
+            return () => errorMessage.getAbsoluteErrorMessage();
         }
     }
 
@@ -71,9 +73,9 @@ export default class UserPage extends BasePage {
      */
     editUserInfo() {
         this.removePopUp();
+        const data = userStore.getContext(userStore._storeNames.temp);
         document.getElementById(
-            `${userStore.getContext(userStore._storeNames.temp).id}-text`).innerText =
-            userStore.getContext(userStore._storeNames.temp);
+            `${data.id}-text`).innerText = data.value;
     }
 
     /**

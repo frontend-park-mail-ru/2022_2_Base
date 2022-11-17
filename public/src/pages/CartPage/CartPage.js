@@ -81,11 +81,11 @@ export default class CartOrderPage extends BasePage {
                     }
                 });
                 switch (context.paymentCard?.type) {
-                    case 'MIR':
-                        context.paymentCard.type = mirIcon;
-                        break;
-                    default:
-                        break;
+                case 'MIR':
+                    context.paymentCard.type = mirIcon;
+                    break;
+                default:
+                    break;
                 }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
@@ -147,7 +147,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            //errorMessage.getAbsoluteErrorMessage();
+            // errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }
