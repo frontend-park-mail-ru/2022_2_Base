@@ -2,8 +2,7 @@ import BaseStore from './BaseStore.js';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config.js';
-import cartStore from "./CartStore";
-import userStore from "./UserStrore";
+import cartStore from './CartStore';
 
 /**
  * Класс, реализующий базовое хранилище.

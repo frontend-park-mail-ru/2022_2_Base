@@ -80,8 +80,12 @@ export default class CartOrderPage extends BasePage {
                         context.paymentCard = key;
                     }
                 });
-                if (context.paymentCard.type === 'MIR') {
-                    context.paymentCard.type = mirIcon;
+                switch (context.paymentCard?.type) {
+                    case 'MIR':
+                        context.paymentCard.type = mirIcon;
+                        break;
+                    default:
+                        break;
                 }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
@@ -143,7 +147,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            //errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }
@@ -379,10 +383,9 @@ export default class CartOrderPage extends BasePage {
     async listenChangeCheckbox(event) {
         const target = event.target;
         let elementId = target.id;
-        let itemId;
         if (elementId) {
             if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
+                [elementId] = elementId.split('/');
             }
             switch (elementId) {
             case 'item_cart__select-all':
@@ -433,18 +436,28 @@ export default class CartOrderPage extends BasePage {
         } else {
             console.log('elements not found', checkedItems);
         }
-        if (!!orderData.items.length) {
-            console.log('Выберите товары для заказа');
-            // Выводить попап
-        } else {
-            const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
-                'id').split('/', 2)[1]);
-            orderData.addressid = addressID;
-            orderData.datedelivery = document.getElementById('date-delivery').textContent.trim();
-            orderData.timedelivery = document.getElementById('time-delivery').textContent.trim();
-            orderData.paymentcardid = parseInt(document.getElementsByClassName('payment-method_cart')[0]
+        if (orderData.items.length) {
+            const address = document.getElementsByClassName('addressID')[0];
+            if (address) {
+                orderData.address = parseInt(address.getAttribute('id')
+                    .split('/', 2)[1]);
+            } else {
+                errorMessage.getAbsoluteErrorMessage('Выберите адрес');
+            }
+            let date = document.getElementById('date-delivery').textContent.trim();
+            let time = document.getElementById('time-delivery').textContent.trim();
+            date = date.split(' / ');
+            time = time.split(' - ');
+            orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
+                (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
+                0)).toJSON();
+
+            orderData.card = parseInt(document.getElementsByClassName('payment-method_cart')[0]
                 .getAttribute('id').split('/', 2)[1]);
+            orderData.card = orderData.card ? orderData.card : null;
             cartAction.makeOrder(orderData);
+        } else {
+            errorMessage.getAbsoluteErrorMessage('Корзина пуста');
         }
     }
 

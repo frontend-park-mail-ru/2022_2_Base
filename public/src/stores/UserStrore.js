@@ -146,89 +146,89 @@ class UserStore extends BaseStore {
      */
     async _onDispatch(payload) {
         switch (payload.actionName) {
-            case UserActionTypes.USER_FETCH:
-                await this._fetchUser();
-                this._emitChange([UserActionTypes.USER_FETCH]);
-                break;
+        case UserActionTypes.USER_FETCH:
+            await this._fetchUser();
+            this._emitChange([UserActionTypes.USER_FETCH]);
+            break;
 
-            case UserActionTypes.USER_REGISTER:
-                if (this.#validate(payload.data)) {
-                    await this._signup(payload.data);
-                    this._emitChange([UserActionTypes.USER_REGISTER]);
-                }
-                break;
+        case UserActionTypes.USER_REGISTER:
+            if (this.#validate(payload.data)) {
+                await this._signup(payload.data);
+                this._emitChange([UserActionTypes.USER_REGISTER]);
+            }
+            break;
 
-            case UserActionTypes.USER_LOGIN:
-                if (this.#validate(payload.data)) {
-                    await this._login(payload.data);
-                    this._emitChange([UserActionTypes.USER_LOGIN]);
-                }
-                break;
+        case UserActionTypes.USER_LOGIN:
+            if (this.#validate(payload.data)) {
+                await this._login(payload.data);
+                this._emitChange([UserActionTypes.USER_LOGIN]);
+            }
+            break;
 
-            case UserActionTypes.USER_LOGOUT:
-                await this._logout();
-                this._emitChange([UserActionTypes.USER_LOGOUT]);
-                break;
+        case UserActionTypes.USER_LOGOUT:
+            await this._logout();
+            this._emitChange([UserActionTypes.USER_LOGOUT]);
+            break;
 
-            case ProfileActionTypes.GET_DATA:
-                await this._getData();
-                this._emitChange([ProfileActionTypes.GET_DATA]);
-                break;
+        case ProfileActionTypes.GET_DATA:
+            await this._getData();
+            this._emitChange([ProfileActionTypes.GET_DATA]);
+            break;
 
-            case ProfileActionTypes.SAVE_EDIT_DATA:
-                await this._saveEditData(payload.data);
-                this._emitChange([ProfileActionTypes.SAVE_EDIT_DATA]);
-                break;
+        case ProfileActionTypes.SAVE_EDIT_DATA:
+            await this._saveEditData(payload.data);
+            this._emitChange([ProfileActionTypes.SAVE_EDIT_DATA]);
+            break;
 
-            case ProfileActionTypes.UPLOAD_AVATAR:
-                await this._uploadAvatar(payload.data);
-                this._emitChange([ProfileActionTypes.UPLOAD_AVATAR]);
-                break;
+        case ProfileActionTypes.UPLOAD_AVATAR:
+            await this._uploadAvatar(payload.data);
+            this._emitChange([ProfileActionTypes.UPLOAD_AVATAR]);
+            break;
 
-            case ProfileActionTypes.DELETE_AVATAR:
-                await this._uploadAvatar(null);
-                this._emitChange([ProfileActionTypes.DELETE_AVATAR]);
-                break;
+        case ProfileActionTypes.DELETE_AVATAR:
+            await this._uploadAvatar(null);
+            this._emitChange([ProfileActionTypes.DELETE_AVATAR]);
+            break;
 
-            case ProfileActionTypes.GET_CARDS:
-                await this._getCards();
-                this._emitChange([ProfileActionTypes.GET_CARDS]);
-                break;
+        case ProfileActionTypes.GET_CARDS:
+            await this._getCards();
+            this._emitChange([ProfileActionTypes.GET_CARDS]);
+            break;
 
-            case ProfileActionTypes.SAVE_ADD_CARD:
-                await this._saveAddCard(payload.data);
-                this._emitChange([ProfileActionTypes.SAVE_ADD_CARD]);
-                break;
+        case ProfileActionTypes.SAVE_ADD_CARD:
+            await this._saveAddCard(payload.data);
+            this._emitChange([ProfileActionTypes.SAVE_ADD_CARD]);
+            break;
 
-            case ProfileActionTypes.DELETE_CARD:
-                await this._saveDeleteCard(payload.data);
-                this._emitChange([ProfileActionTypes.DELETE_CARD]);
-                break;
+        case ProfileActionTypes.DELETE_CARD:
+            await this._saveDeleteCard(payload.data);
+            this._emitChange([ProfileActionTypes.DELETE_CARD]);
+            break;
 
-            case ProfileActionTypes.GET_ADDRESS:
-                await this._getAddress();
-                this._emitChange([ProfileActionTypes.GET_ADDRESS]);
-                break;
+        case ProfileActionTypes.GET_ADDRESS:
+            await this._getAddress();
+            this._emitChange([ProfileActionTypes.GET_ADDRESS]);
+            break;
 
-            case ProfileActionTypes.SAVE_ADD_ADDRESS:
-                await this._saveAddAddress(payload.data);
-                this._emitChange([ProfileActionTypes.SAVE_ADD_ADDRESS]);
-                break;
+        case ProfileActionTypes.SAVE_ADD_ADDRESS:
+            await this._saveAddAddress(payload.data);
+            this._emitChange([ProfileActionTypes.SAVE_ADD_ADDRESS]);
+            break;
 
-            case ProfileActionTypes.SAVE_EDIT_ADDRESS:
-                await this._saveEditAddress(payload.data);
-                this._emitChange([ProfileActionTypes.SAVE_EDIT_ADDRESS]);
-                break;
+        case ProfileActionTypes.SAVE_EDIT_ADDRESS:
+            await this._saveEditAddress(payload.data);
+            this._emitChange([ProfileActionTypes.SAVE_EDIT_ADDRESS]);
+            break;
 
-            case ProfileActionTypes.DELETE_ADDRESS:
-                await this._deleteAddress(payload.data);
-                this._emitChange([ProfileActionTypes.DELETE_ADDRESS]);
-                break;
+        case ProfileActionTypes.DELETE_ADDRESS:
+            await this._deleteAddress(payload.data);
+            this._emitChange([ProfileActionTypes.DELETE_ADDRESS]);
+            break;
 
-            case ProfileActionTypes.GET_BASKET:
-                await this._getBasket();
-                this._emitChange([ProfileActionTypes.GET_BASKET]);
-                break;
+        case ProfileActionTypes.GET_BASKET:
+            await this._getBasket();
+            this._emitChange([ProfileActionTypes.GET_BASKET]);
+            break;
         }
     }
 
@@ -305,62 +305,62 @@ class UserStore extends BaseStore {
         let isValid = true; // ?
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
-                case this.#context.fields.name.name:
-                    isValid &= errorMessage.validateField(validation.checkEmptyField(value),
-                        this.#context.fields.name);
-                    break;
-                case this.#context.fields.phone.name:
-                    isValid &= errorMessage.validateField(validation.validatePhone(value),
-                        this.#context.fields.name);
-                    break;
-                case this.#context.fields.email.name:
-                    isValid &= errorMessage.validateField(validation.validateEMail(value),
-                        this.#context.fields.email, 'login__form__error');
-                    break;
-                case this.#context.fields.password.name:
-                    isValid &= errorMessage.validateField(validation.validatePassword(value),
-                        this.#context.fields.password);
-                    break;
-                case this.#context.fields.repeatPassword.name:
-                    isValid &= errorMessage.validateField(validation
-                            .validateRepeatPassword(data.password === data.repeatPassword),
-                        this.#context.fields.repeatPassword);
-                    break;
-                case this.#context.fields.name.popUpName:
-                    isValid &= errorMessage.validateField(validation.checkEmptyField(value),
-                        {
-                            name: this.#context.fields.name.popUpName,
-                            errorID: this.#context.fields.name.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case this.#context.fields.email.popUpName:
-                    isValid &= errorMessage.validateField(validation.validateEMail(value),
-                        {
-                            name: this.#context.fields.email.popUpName,
-                            errorID: this.#context.fields.email.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case this.#context.fields.phone.popUpName:
-                    isValid &= errorMessage.validateField(validation.validatePhone(value),
-                        {
-                            name: this.#context.fields.phone.popUpName,
-                            errorID: this.#context.fields.phone.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case this.#context.fields.password.popUpName:
-                    isValid &= errorMessage.validateField(validation.validatePassword(value),
-                        {
-                            name: this.#context.fields.password.popUpName,
-                            errorID: this.#context.fields.password.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case this.#context.fields.repeatPassword.popUpName:
-                    isValid &= errorMessage.validateField(validation.validateRepeatPassword(value),
-                        {
-                            name: this.#context.fields.repeatPassword.popUpName,
-                            errorID: this.#context.fields.repeatPassword.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
+            case this.#context.fields.name.name:
+                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
+                    this.#context.fields.name);
+                break;
+            case this.#context.fields.phone.name:
+                isValid &= errorMessage.validateField(validation.validatePhone(value),
+                    this.#context.fields.name);
+                break;
+            case this.#context.fields.email.name:
+                isValid &= errorMessage.validateField(validation.validateEMail(value),
+                    this.#context.fields.email, 'login__form__error');
+                break;
+            case this.#context.fields.password.name:
+                isValid &= errorMessage.validateField(validation.validatePassword(value),
+                    this.#context.fields.password);
+                break;
+            case this.#context.fields.repeatPassword.name:
+                isValid &= errorMessage.validateField(validation
+                    .validateRepeatPassword(data.password === data.repeatPassword),
+                this.#context.fields.repeatPassword);
+                break;
+            case this.#context.fields.name.popUpName:
+                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
+                    {
+                        name: this.#context.fields.name.popUpName,
+                        errorID: this.#context.fields.name.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.email.popUpName:
+                isValid &= errorMessage.validateField(validation.validateEMail(value),
+                    {
+                        name: this.#context.fields.email.popUpName,
+                        errorID: this.#context.fields.email.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.phone.popUpName:
+                isValid &= errorMessage.validateField(validation.validatePhone(value),
+                    {
+                        name: this.#context.fields.phone.popUpName,
+                        errorID: this.#context.fields.phone.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.password.popUpName:
+                isValid &= errorMessage.validateField(validation.validatePassword(value),
+                    {
+                        name: this.#context.fields.password.popUpName,
+                        errorID: this.#context.fields.password.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields.repeatPassword.popUpName:
+                isValid &= errorMessage.validateField(validation.validateRepeatPassword(value),
+                    {
+                        name: this.#context.fields.repeatPassword.popUpName,
+                        errorID: this.#context.fields.repeatPassword.errorID,
+                    }, 'userpage__popUp__error');
+                break;
             }
         });
         return isValid;
@@ -395,63 +395,64 @@ class UserStore extends BaseStore {
         let sendData = {};
         const dataForVal = {};
         switch (data.id) {
-            case 'name':
-                dataForVal[this.#context.fields.name.popUpName] = data.value;
-                if (this.#validate(dataForVal)) {
-                    sendData = {
-                        username: data.value,
-                    };
-                } else {
-                    return;
-                }
-
-                break;
-            case 'email':
-                dataForVal[this.#context.fields.email.popUpName] = data.value;
-                if (this.#validate(dataForVal)) {
-                    sendData = {
-                        email: data.value,
-                    };
-                } else {
-                    return;
-                }
-
-                break;
-            case 'phone':
-                dataForVal[this.#context.fields.phone.popUpName] = data.value;
-                if (this.#validate(dataForVal)) {
-                    sendData = {
-                        phone: data.value,
-                    };
-                } else {
-                    return;
-                }
-
-                break;
-            case 'password':
-                const repeatPasswordField = document.getElementById(
-                    this.#context.fields.repeatPassword.fieldName);
-                if (repeatPasswordField) {
-                    dataForVal[this.#context.fields.repeatPassword.popUpName] =
-                        repeatPasswordField.value === data.value;
-                } else {
-                    console.log('Элемент не найден: ', repeatPasswordField);
-                    return;
-                }
-
-                dataForVal[this.#context.fields.password.popUpName] = data.value;
-                const isValid = this.#validate(dataForVal);
-                if (isValid) {
-                    const [status] = await request.makePostRequest(config.api.password, {
-                        password: data.value,
-                    }).catch((err) => console.log(err));
-                }
+        case 'name':
+            dataForVal[this.#context.fields.name.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    username: data.value,
+                };
+            } else {
                 return;
+            }
+
+            break;
+        case 'email':
+            dataForVal[this.#context.fields.email.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    email: data.value,
+                };
+            } else {
+                return;
+            }
+
+            break;
+        case 'phone':
+            dataForVal[this.#context.fields.phone.popUpName] = data.value;
+            if (this.#validate(dataForVal)) {
+                sendData = {
+                    phone: data.value,
+                };
+            } else {
+                return;
+            }
+
+            break;
+        case 'password':
+            const repeatPasswordField = document.getElementById(
+                this.#context.fields.repeatPassword.fieldName);
+            if (repeatPasswordField) {
+                dataForVal[this.#context.fields.repeatPassword.popUpName] =
+                        repeatPasswordField.value === data.value;
+            } else {
+                console.log('Элемент не найден: ', repeatPasswordField);
+                return;
+            }
+
+            dataForVal[this.#context.fields.password.popUpName] = data.value;
+            const isValid = this.#validate(dataForVal);
+            if (isValid) {
+                const [status] = await request.makePostRequest(config.api.password, {
+                    password: data.value,
+                }).catch((err) => console.log(err));
+                this._storage.set(this._storeNames.responseCode, status);
+            }
+            return;
         }
         const [status] = await request.makePostRequest(config.api.profile, sendData)
             .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, config.responseCodes.code200); // fix
+        this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.temp, data);
         if (status === config.responseCodes.code200) {
             this._storage.has(data.id) ?

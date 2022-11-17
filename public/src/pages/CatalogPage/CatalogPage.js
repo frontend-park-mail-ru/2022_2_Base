@@ -54,11 +54,11 @@ export default class CatalogPage extends BasePage {
      */
     getCart() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-            case config.responseCodes.code200:
-                break;
-            default:
-                errorMessage.getAbsoluteErrorMessage();
-                break;
+        case config.responseCodes.code200:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage();
+            break;
         }
     }
 
@@ -67,21 +67,21 @@ export default class CatalogPage extends BasePage {
      */
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-            case config.responseCodes.code200:
-                const Card = new CatalogItemCard(document.getElementById('items-block'));
-                const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
-                if (data.length) {
-                    Card.render(data);
-                } else if (itemsStore.getContext(itemsStore._storeNames.cardLoadCount)) {
-                    this.removeScrollListener();
-                    return;
-                } else {
-                    router.openNotFoundPage();
-                }
-                break;
-            default:
-                errorMessage.getAbsoluteErrorMessage();
-                break;
+        case config.responseCodes.code200:
+            const Card = new CatalogItemCard(document.getElementById('items-block'));
+            const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+            if (data.length) {
+                Card.render(data);
+            } else if (itemsStore.getContext(itemsStore._storeNames.cardLoadCount)) {
+                this.removeScrollListener();
+                return;
+            } else {
+                router.openNotFoundPage();
+            }
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage();
+            break;
         }
     }
 
@@ -159,35 +159,35 @@ export default class CatalogPage extends BasePage {
             if (elementId.includes('/')) {
                 [elementId, itemId] = elementId.split('/');
                 switch (elementId) {
-                    case 'catalog_button-add-to-cart':
-                        cartAction.addToCart(itemId);
-                        break;
-                    case 'catalog_button-minus_cart':
-                        cartAction.decreaseNumber(itemId);
-                        break;
-                    case 'catalog_button-plus_cart':
-                        cartAction.increaseNumber(itemId);
-                        break;
-                    case 'catalog_like-button':
-                        /* Запрос на добавление товара в избраннное */
-                        // console.log(target)
-                        // const likeButton = document.getElementById(`catalog_like-button/${itemId}`);
-                        // console.log(target.hasAttribute('checked'));
-                        // target.setAttribute('checked','');
+                case 'catalog_button-add-to-cart':
+                    cartAction.addToCart(itemId);
+                    break;
+                case 'catalog_button-minus_cart':
+                    cartAction.decreaseNumber(itemId);
+                    break;
+                case 'catalog_button-plus_cart':
+                    cartAction.increaseNumber(itemId);
+                    break;
+                case 'catalog_like-button':
+                    /* Запрос на добавление товара в избраннное */
+                    // console.log(target)
+                    // const likeButton = document.getElementById(`catalog_like-button/${itemId}`);
+                    // console.log(target.hasAttribute('checked'));
+                    // target.setAttribute('checked','');
 
-                        break;
+                    break;
                 }
             } else {
                 switch (elementId) {
-                    case 'catalog-item-pic':
-                        // target.dataset.href;
-                        /* Переход на страницу товара по ссылке в комменте выше */
+                case 'catalog-item-pic':
+                    // target.dataset.href;
+                    /* Переход на страницу товара по ссылке в комменте выше */
 
-                        break;
-                    case 'catalog_item-title':
-                        // target.getAttribute('href'));
-                        /* Переход на страницу товара по ссылке в комменте выше */
-                        break;
+                    break;
+                case 'catalog_item-title':
+                    // target.getAttribute('href'));
+                    /* Переход на страницу товара по ссылке в комменте выше */
+                    break;
                 }
             }
         }

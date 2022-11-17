@@ -7,7 +7,6 @@ import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 import userStore from '../../stores/UserStrore.js';
 import {config} from '../../config';
-import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -63,7 +62,7 @@ export default class UserPage extends BasePage {
             return toDo;
         default:
             return toDo;
-            //errorMessage.getAbsoluteErrorMessage();
+            // errorMessage.getAbsoluteErrorMessage();
         }
     }
 

@@ -29,10 +29,10 @@ export default class BaseStore {
      * @param {String?} changeEvent наименование события
      */
     addListener(callback, changeEvent) {
-            this._events.set(changeEvent, {
-                callbacks: callback,
-                promise: null,
-            });
+        this._events.set(changeEvent, {
+            callbacks: callback,
+            promise: null,
+        });
     }
 
     /**

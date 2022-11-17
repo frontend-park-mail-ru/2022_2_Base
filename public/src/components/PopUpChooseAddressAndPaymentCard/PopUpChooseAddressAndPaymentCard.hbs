@@ -9,13 +9,13 @@
         {{#if address}}
             {{#each address}}
             <label for="address/{{this.id}}">
-                <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="address/{{this.id}}" {{/if}} value="{{#if this.city}}{{this.city}}{{/if}}, {{#if this.street}}{{this.street}}{{/if}}, д. {{#if this.house}}{{this.house}}{{/if}}, кв. {{#if this.flat}}{{this.flat}}{{/if}}" readonly="">
+                <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="address/{{this.id}}" {{/if}} value="{{#if this.city}}{{this.city}}{{/if}}, {{#if this.street}}{{this.street}}{{/if}}, д. {{#if this.house}}{{this.house}}{{/if}}, кв. {{#if this.flat}}{{this.flat}}{{/if}}" readonly="">
             </label>
             {{/each}}
         {{else}}
             {{#each paymentCard}}
                 <label for="paymentCard/{{this.id}}">
-                    <input type="text" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}}  value="{{#if this.number}}{{this.number}}{{/if}}    {{#if this.expiryDate}} {{this.expiryDate}} {{/if}}" readonly="">
+                    <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}}  value="{{#if this.number}}{{this.number}}{{/if}}    {{#if this.expiryDate}} {{this.expiryDate}} {{/if}}" readonly="">
                 </label>
             {{/each}}
         {{/if}}

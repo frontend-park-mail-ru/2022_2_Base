@@ -9,23 +9,23 @@
                     Действует до
                 </div>
                 <div class="popup-form_add-card__date popup-form_add-card__month-year">
-                    </label><input type="number" min="2" max="2" class="popup-form_add-card__input text-normal-default" id="month" placeholder="MM">
+                    <input type="text" inputmode="numeric" pattern="\d*" maxlength="2" class="popup-form_add-card__input text-normal-default" id="month" placeholder="MM">
                     <div class="separation-line-date_add-card text-normal-default">/</div>
-                    </label><input type="number" min="2" max="2" class="popup-form_add-card__input text-normal-default" id="year" placeholder="YY">
+                    <input type="text" inputmode="numeric" pattern="\d*" maxlength="2" class="popup-form_add-card__input text-normal-default" id="year" placeholder="YY">
                 </div>
             </div>
             <div class="popup-form__field popup-form_add-card__code">
                 <div class="field-name_add-card text-normal-default">
                     Код
                 </div>
-                <input type="number" min="3" max="3" class="popup-form_add-card__input text-normal-default" id="cvc" placeholder="CVC">
+                <input type="password" inputmode="numeric" pattern="\d*" maxlength="3" class="popup-form_add-card__input text-normal-default" id="cvc" placeholder="CVC">
             </div>
         </div>
         <div class="popup-form__field">
             <div class="field-name_add-card text-normal-default">
                 Номер карты
             </div>
-            </label><input type="number" min="16" max="16" class="popup-form_add-card__input text-normal-default" id="cardNumber"
+            <input type="text" inputmode="numeric" pattern="\d*" maxlength="16" class="popup-form_add-card__input text-normal-default" id="cardNumber"
                                                    placeholder="0000 0000 0000 0000">
         </div>
     </div>

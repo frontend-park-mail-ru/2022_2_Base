@@ -214,8 +214,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _addToCart(id) {
+        let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-            const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
+            [status] = await request.makePostRequest(config.api.insertIntoCart, id)
                 .catch((err) => console.log(err));
         }
         this.#editCountOfItem(status,
@@ -235,8 +236,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _decreaseNumber(id) {
+        let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-            const [status] = await request.makePostRequest(config.api.deleteFromCart, id)
+            [status] = await request.makePostRequest(config.api.deleteFromCart, id)
                 .catch((err) => console.log(err));
         }
         await this.#editCountOfItem(status,
@@ -256,10 +258,11 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 }
             });
         });
+        console.log(data);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === 200 || true) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
             console.log('Order created');
         } else {
