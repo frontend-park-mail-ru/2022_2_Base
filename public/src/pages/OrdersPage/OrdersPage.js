@@ -2,6 +2,7 @@ import ordersPageTemplate from './OrdersPage.hbs';
 import BasePage from '../BasePage.js';
 // import request from '../../modules/ajax.js';
 import './OrdersPage.scss';
+import OrderBlock from '../../components/OrderBlock/OrderBlock.js';
 
 /**
  * Класс, реализующий главную страницу
@@ -24,7 +25,16 @@ export default class OrdersPage extends BasePage {
      * @param {string} reqPath путь для api запроса к беку
      */
     async loadCards(classToGet, reqPath) {
+        const rootElement = document.getElementById('orders-page__block');
 
+        const blockElement = document.createElement('div');
+        blockElement.id = `${classToGet}${String(1)}`;
+        blockElement.classList.add('order-block');
+        rootElement.before(blockElement);
+        /* rendering card itself */
+        this.orderBlock = new OrderBlock(blockElement);
+
+        this.orderBlock.render();
     }
 
     /**
@@ -33,5 +43,6 @@ export default class OrdersPage extends BasePage {
      */
     async render(config) {
         super.render(config);
+        await this.loadCards('orderBlock');
     }
 }

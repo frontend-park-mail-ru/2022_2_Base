@@ -1,0 +1,36 @@
+.order-block__itemcard {
+  width: 872px;
+  height: 128px;
+  border-radius: 10px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: 128px auto 88px 200px;
+}
+
+.order-block__itemcard:last-child {
+  margin-bottom: 0;
+}
+
+.order-block__itemcard__title {
+  align-self: center;
+}
+
+.order-block__itemcard__photo {
+  object-fit: cover;
+  align-self: center;
+  justify-self: center;
+  width: 64px;
+  height: 64px;
+}
+
+.order-block__itemcard__counter {
+  align-self: center;
+  justify-self: center;
+}
+
+.text-normal-very-big {
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 42px;
+}
