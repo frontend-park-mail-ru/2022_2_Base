@@ -15,7 +15,7 @@
         {{else}}
             {{#each paymentCard}}
                 <label for="paymentCard/{{this.id}}">
-                    <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}}  value="{{#if this.number}}{{this.number}}{{/if}}    {{#if this.expiryDate}} {{this.expiryDate}} {{/if}}" readonly="">
+                    <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}} id="paymentCard/{{this.id}}" {{/if}}  value="{{#if this.number}}{{this.number}}{{/if}}    {{#if this.expirydate}} {{this.expirydate}} {{/if}}" readonly="">
                 </label>
             {{/each}}
         {{/if}}
