@@ -1,4 +1,3 @@
-// import { K } from 'handlebars';
 import BaseComponent from '../BaseComponent.js';
 import PopUpChooseAddressAndPaymentCard from './PopUpChooseAddressAndPaymentCard.hbs';
 import './PopUpChooseAddressAndPaymentCard.scss';
@@ -94,7 +93,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        console.log(context);
         super.render(context, PopUpChooseAddressAndPaymentCard);
         this.startEventListener();
     }
