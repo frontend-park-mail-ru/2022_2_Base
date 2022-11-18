@@ -91,8 +91,9 @@ export default class UserPage extends BasePage {
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         bankCard.innerHTML = '';
+        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
         this.loadCards(new PaymentCard(bankCard),
-            'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
+            'paymentCard', paymentCards);
         this.startListenerPaymentCard();
     }
 
@@ -104,9 +105,10 @@ export default class UserPage extends BasePage {
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         addressCard.innerHTML = '';
+        const address = userStore.getContext(userStore._storeNames.address);
         this.loadCards(new AddressCard(
             addressCard),
-        'addressCard', userStore.getContext(userStore._storeNames.address));
+        'addressCard', address);
         this.startListenerAddressCard();
     }
 
@@ -114,11 +116,15 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     getCards() {
+        const nameField = userStore.getContext(userStore._storeNames.name);
+        const emailField = userStore.getContext(userStore._storeNames.email);
+        const phoneField = userStore.getContext(userStore._storeNames.phone);
+        const avatarField = userStore.getContext(userStore._storeNames.avatar);
         this.loadCards(null, 'userDataCard', {
-            name: userStore.getContext(userStore._storeNames.name),
-            email: userStore.getContext(userStore._storeNames.email),
-            phone: userStore.getContext(userStore._storeNames.phone),
-            avatar: userStore.getContext(userStore._storeNames.avatar),
+            name: nameField,
+            email: emailField,
+            phone: phoneField,
+            avatar: avatarField,
         });
         this.renderPaymentCards();
         this.renderAddresses();
@@ -145,14 +151,14 @@ export default class UserPage extends BasePage {
             super.render(data);
             return;
         case 'paymentCard':
-            // Object.values(data).forEach((address) => {
-            //     address.id = 'paymentCard/' + address.id;
-            // });
+            Object.values(data).forEach((address) => {
+                address.id = 'paymentCard/' + address.id;
+            });
             break;
         case 'addressCard':
-            // Object.values(data).forEach((address) => {
-            //     address.id = 'addressCard/' + address.id;
-            // });
+            Object.values(data).forEach((address) => {
+                address.id = 'addressCard/' + address.id;
+            });
             break;
         default:
             console.log('unknown command', nameOfCard);
