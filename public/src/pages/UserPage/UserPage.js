@@ -145,15 +145,22 @@ export default class UserPage extends BasePage {
             super.render(data);
             return;
         case 'paymentCard':
-            data.forEach((address) => {
-                address.id = 'paymentCard/' + address.id;
-            });
+            if (data instanceof Array) {
+                data.forEach((address) => {
+                    address.id = 'paymentCard/' + address.id;
+                });
+            } else {
+                data.id = 'addressCard/' + data.id;
+            }
             break;
         case 'addressCard':
-            console.log(data);
-            data.forEach((address) => {
-                address.id = 'addressCard/' + address.id;
-            });
+            if (data instanceof Array) {
+                data.forEach((address) => {
+                    address.id = 'addressCard/' + address.id;
+                });
+            } else {
+                data.id = 'addressCard/' + data.id;
+            }
             break;
         default:
             console.log('unknown command', nameOfCard);
