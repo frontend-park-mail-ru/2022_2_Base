@@ -217,6 +217,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
 
+            console.log({
+                itemid: id,
+            });
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
                 itemid: id,
             })
