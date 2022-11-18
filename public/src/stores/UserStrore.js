@@ -510,10 +510,10 @@ class UserStore extends BaseStore {
         data.priority = true;
         userData.paymentmethods.push(data);
 
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        console.log(JSON.stringify(userData));
+        console.log(userData);
         console.log(userData.paymentmethods);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -534,7 +534,7 @@ class UserStore extends BaseStore {
                 delete userData.paymentmethods[key];
             }
         });
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
@@ -562,10 +562,10 @@ class UserStore extends BaseStore {
         data.priority = true;
         userData.adress.push(data);
 
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        console.log(JSON.stringify(userData));
+        console.log(userData);
         console.log(userData.adress);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
@@ -589,7 +589,7 @@ class UserStore extends BaseStore {
             }
         });
 
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
@@ -612,7 +612,7 @@ class UserStore extends BaseStore {
             }
         });
 
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
