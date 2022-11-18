@@ -32,6 +32,9 @@ const config = {
         orders: {
             href: '/orders',
         },
+        addComment: {
+            href: '/newcomment',
+        },
     },
     auth: {
         authorised: false,

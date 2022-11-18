@@ -9,7 +9,7 @@ import './OrderBlock.scss';
  */
 export default class OrderBlock extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента Header
+     * Конструктор, создающий класс компонента OrderBlock
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -52,7 +52,7 @@ export default class OrderBlock extends BaseComponent {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Object} context контекст отрисовки шаблона, содержащий информацию об авторизации
+     * @param {Object} context контекст отрисовки шаблона
      */
     async render(context) {
         super.render(this.prepareRenderData(context), orderBlockTemplate);

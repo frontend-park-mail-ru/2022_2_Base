@@ -3,7 +3,7 @@ import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 import OrdersPage from '../pages/OrdersPage/OrdersPage.js';
-
+import AddCommentPage from '../pages/AddCommentPage/AddCommentPage.js';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -82,8 +82,7 @@ class Router {
         this.register(config.header.login.href, LoginPage);
         this.register(config.header.signup.href, RegisterPage);
         this.register(config.header.orders.href, OrdersPage);
-
-
+        this.register(config.header.addComment.href, AddCommentPage);
         this.#currentPage = new MainPage(this.#mainElement);
     }
 

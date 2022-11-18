@@ -7,7 +7,7 @@ import './OrderItem.scss';
  */
 export default class OrderItem extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента Header
+     * Конструктор, создающий класс компонента OrderItem
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -32,7 +32,7 @@ export default class OrderItem extends BaseComponent {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Object} context контекст отрисовки шаблона, содержащий информацию об авторизации
+     * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
         super.render(this.prepareRenderData(context), orderItemTemplate);
