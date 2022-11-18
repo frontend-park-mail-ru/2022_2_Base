@@ -542,14 +542,9 @@ class UserStore extends BaseStore {
         } else {
             delete data.cvc;
             userData.paymentmethods.forEach((item) => delete item.priority);
-            // data.id = userData.paymentmethods.length;
-            // console.log('data', data);
-            // console.log(userData);
+            data.id = userData.paymentmethods.length;
             data.priority = true;
             userData.paymentmethods.push(data);
-            // console.log('data', data);
-            console.log(userData);
-            // console.log(userData.paymentmethods);
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
             console.log(userData);
@@ -622,7 +617,7 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
-            // data.id = userData.adress.length;
+            data.id = userData.adress.length;
             userData.adress.forEach((item) => delete item.priority);
             data.priority = true;
             userData.adress.push(data);
