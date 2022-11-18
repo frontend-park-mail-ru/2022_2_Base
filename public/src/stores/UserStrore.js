@@ -439,7 +439,7 @@ class UserStore extends BaseStore {
             const isValid = this.#validate(dataForVal);
             if (isValid) {
                 userData.password = data.value;
-                const [status] = await request.makePostRequest(config.api.password, JSON.stringify(userData))
+                const [status] = await request.makePostRequest(config.api.password, userData)
                     .catch((err) => console.log(err));
                 this._storage.set(this._storeNames.responseCode, status);
             } else {
@@ -448,7 +448,7 @@ class UserStore extends BaseStore {
             return;
         }
         console.log(userData);
-        const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
+        const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.temp, data);
