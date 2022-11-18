@@ -63,7 +63,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        if (data && data.items) {
+        if (data) {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {

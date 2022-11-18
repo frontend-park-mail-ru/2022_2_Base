@@ -69,8 +69,12 @@ class ErrorMessage {
                         ${errorText}
                     </span>
                         </div>`);
-            this.timeoutFunc = () => document.getElementById('header_error-message')
-                .style.display = 'none';
+            this.timeoutFunc = () => {
+                const errElement = document.getElementById('header_error-message');
+                if (errElement) {
+                    errElement.style.display = 'none';
+                }
+            };
         } else {
             document.getElementById('server-error__text_').textContent = errorText;
             this.errorElement.style.display = 'flex';

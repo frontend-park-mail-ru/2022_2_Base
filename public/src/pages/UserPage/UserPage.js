@@ -150,6 +150,7 @@ export default class UserPage extends BasePage {
             });
             break;
         case 'addressCard':
+            console.log(data);
             data.forEach((address) => {
                 address.id = 'addressCard/' + address.id;
             });
