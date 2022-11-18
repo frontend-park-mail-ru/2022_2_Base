@@ -506,15 +506,17 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         delete data.cvc;
         userData.paymentmethods.forEach((item) => delete item.priority);
-        data.id = userData.paymentmethods.length;
-        console.log('data', data);
-        data.priority = true;
-        userData.paymentmethods.push(data);
+        // data.id = userData.paymentmethods.length;
         console.log('data', data);
         console.log(userData);
-        console.log(userData.paymentmethods);
+        data.priority = true;
+        userData.paymentmethods.push(data);
+        // console.log('data', data);
+        console.log(userData);
+        //console.log(userData.paymentmethods);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
+        console.log(userData);
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
