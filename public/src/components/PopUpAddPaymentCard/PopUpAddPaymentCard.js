@@ -39,7 +39,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickApply(event) {
-        expiryDate
         event.preventDefault();
         profileAction.saveAddCard({
             number: document.getElementById('cardNumber').value,

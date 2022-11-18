@@ -506,7 +506,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         delete data.cvc;
         data.id = String(Object.keys(userData.paymentmethods).length);
-        Object.values(userData.paymentmethods).forEach((item) => item.priority = false);
+        Object.values(userData.paymentmethods).forEach((item) => delete item.priority);
         data.priority = true;
         userData.paymentmethods.push(data);
 
@@ -558,14 +558,14 @@ class UserStore extends BaseStore {
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
         data.id = String(Object.keys(userData.adress).length);
-        Object.values(userData.adress).forEach((item) => item.priority = false);
-        data.priority = true;
+        Object.values(userData.adress).forEach((item) => delete item.priority);
+        //data.priority = true;
         userData.adress.push(data);
 
         const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
             .catch((err) => console.log(err));
 
-        console.log(userData);
+        console.log(JSON.stringify(userData));
         console.log(userData.adress);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
