@@ -57,6 +57,7 @@ export default class UserPage extends BasePage {
      * @param {function} toDo - обработчик события
      */
     templateFunction(toDo) {
+        console.log(userStore.getContext(userStore._storeNames.errorMessage));
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             toDo();

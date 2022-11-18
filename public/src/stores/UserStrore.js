@@ -507,14 +507,24 @@ class UserStore extends BaseStore {
      * @return {string} errorMessage - сообщение об ошибке
      */
     #validateCard(data) {
-        if (data.number.length !== 16|| /^\d+$/.test(data.number)) {
-            return 'Номер карты состоит из 16 цифр';
-        }
-        if (data.expirydate.length === 5 || /^\d+$/.test(data.expirydate)) {
+        if (data.expirydate.length !== 5 ||
+            !/^\d+$/.test(data.expirydate.slice(0, 2)) ||
+            !/^\d+$/.test(data.expirydate.slice(-2))) {
             return 'Срок действия карты формата 09/25';
         }
-        if (data.cvc.length === 3 || /^\d+$/.test(data.cvc)) {
-            return 'cvc код содержит 3 цифры';
+        if (Number(data.expirydate.slice(0, 2)) > 12) {
+            return 'Месяц не может быть больше 12';
+        }
+        if (Number(data.expirydate.slice(-2)) < new Date().getFullYear() ||
+            (Number(data.expirydate.slice(-2)) === new Date().getFullYear() &&
+                Number(data.expirydate.slice(0, 2)) > new Date().getMonth())) {
+            return 'Срок действия карты истек';
+        }
+        if (data.cvc.length !== 3 || !/^\d+$/.test(data.cvc)) {
+            return 'CVC код содержит 3 цифры';
+        }
+        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
+            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
         }
         return '';
     }
@@ -529,28 +539,28 @@ class UserStore extends BaseStore {
         if (errorMessage) {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-            return;
-        }
-        delete data.cvc;
-        userData.paymentmethods.forEach((item) => delete item.priority);
-        // data.id = userData.paymentmethods.length;
-        // console.log('data', data);
-        // console.log(userData);
-        data.priority = true;
-        userData.paymentmethods.push(data);
-        // console.log('data', data);
-        console.log(userData);
-        // console.log(userData.paymentmethods);
-        const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
-        console.log(userData);
-        console.log(data);
-
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.paymentMethods, data);
         } else {
-            console.log('error', status);
+            delete data.cvc;
+            userData.paymentmethods.forEach((item) => delete item.priority);
+            // data.id = userData.paymentmethods.length;
+            // console.log('data', data);
+            // console.log(userData);
+            data.priority = true;
+            userData.paymentmethods.push(data);
+            // console.log('data', data);
+            console.log(userData);
+            // console.log(userData.paymentmethods);
+            const [status] = await request.makePostRequest(config.api.profile, userData)
+                .catch((err) => console.log(err));
+            console.log(userData);
+            console.log(data);
+
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                this._storage.set(this._storeNames.paymentMethods, data);
+            } else {
+                console.log('error', status);
+            }
         }
     }
 
@@ -589,9 +599,6 @@ class UserStore extends BaseStore {
      * @return {string} errorMessage - сообщение об ошибке
      */
     #validateAddress(data) {
-        console.log(data.city.length);
-        console.log(data.street.length);
-        console.log(data.house.length);
         if (!data.city.length) {
             return 'Введите ваш город';
         }
@@ -614,23 +621,23 @@ class UserStore extends BaseStore {
         if (errorMessage !== '') {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-            return;
-        }
-        // data.id = userData.adress.length;
-        userData.adress.forEach((item) => delete item.priority);
-        data.priority = true;
-        userData.adress.push(data);
-
-        const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
-
-        console.log(userData);
-        console.log(userData.adress);
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 ) {
-            this._storage.set(this._storeNames.address, data);
         } else {
-            console.log('error', status);
+            // data.id = userData.adress.length;
+            userData.adress.forEach((item) => delete item.priority);
+            data.priority = true;
+            userData.adress.push(data);
+
+            const [status] = await request.makePostRequest(config.api.profile, userData)
+                .catch((err) => console.log(err));
+
+            console.log(userData);
+            console.log(userData.adress);
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200 ) {
+                this._storage.set(this._storeNames.address, data);
+            } else {
+                console.log('error', status);
+            }
         }
     }
 
@@ -644,22 +651,22 @@ class UserStore extends BaseStore {
         if (errorMessage !== '') {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-            return;
-        }
-        userData.adress.forEach((item, key) => {
-            if (item.id === data.id) {
-                data.priority = item.priority;
-                userData.adress[key] = data;
-            }
-        });
-        const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
-
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 ) {
-            this._storage.set(this._storeNames.address, data);
         } else {
-            console.log('error', status);
+            userData.adress.forEach((item, key) => {
+                if (item.id === data.id) {
+                    data.priority = item.priority;
+                    userData.adress[key] = data;
+                }
+            });
+            const [status] = await request.makePostRequest(config.api.profile, userData)
+                .catch((err) => console.log(err));
+
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200 ) {
+                this._storage.set(this._storeNames.address, data);
+            } else {
+                console.log('error', status);
+            }
         }
     }
 
