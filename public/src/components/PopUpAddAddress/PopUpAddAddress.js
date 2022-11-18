@@ -45,7 +45,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             street: document.getElementById('street').value,
             house: document.getElementById('house').value,
             flat: document.getElementById('flat').value,
-            id: this.context.id,
+            // id: this.context.id,
         };
 
         if (this.context.add) {
@@ -53,15 +53,15 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         } else {
             profileAction.saveEditAddress(inputData);
         }
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
-        }
+        // const PopUp = document.getElementById('popUp_user-page');
+        // const PopUpFade = document.getElementById('popUp-fade_user-page');
+        // if (PopUp) {
+        //     PopUp.style.display = 'none';
+        //     PopUp.replaceChildren();
+        // }
+        // if (PopUpFade) {
+        //     PopUpFade.style.display = 'none';
+        // }
     }
 
     /**

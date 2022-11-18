@@ -63,7 +63,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        if (data) {
+        if (data && data.items) {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
@@ -128,8 +128,10 @@ export default class CartOrderPage extends BasePage {
             <div class="paint-background"></div>
             <div id="content-cart"
                 <span class="text-normal-large-normal" 
-                style="display:flex; justify-content: center;  align-items: center; height: 80px">
-                Корзина пуста
+                style="display:flex; justify-content: center;  align-items: center; height: 60vh">
+                Корзина пуста. Случайно не нужен&nbsp
+                <a href="${config.href.category}/phones" class="link">телефон</a>
+                ?
                 </span>
             </div>
             <div class="paint-background"></div>`;
@@ -147,7 +149,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            // errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }

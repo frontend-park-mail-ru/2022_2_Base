@@ -58,20 +58,21 @@ class ErrorMessage {
      * Метод, показывающий ошибку
      * @param {string} errorText - текст ошибки
      */
-    getAbsoluteErrorMessage(errorText = 'Возникла ошибка. Попробуйте позже') {
+    getAbsoluteErrorMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
         this.errorElement = document.getElementById('header_error-message');
         if (!this.errorElement) {
             document.getElementById('main').insertAdjacentHTML(
                 'afterbegin',
                 `<div class="server-error header_error-message" style="display: flex;"
                         id="header_error-message">
-                    <span class="server-error__text">
+                    <span class="server-error__text" id="server-error__text_">
                         ${errorText}
                     </span>
                         </div>`);
             this.timeoutFunc = () => document.getElementById('header_error-message')
                 .style.display = 'none';
         } else {
+            document.getElementById('server-error__text_').textContent = errorText;
             this.errorElement.style.display = 'flex';
             this.timeoutFunc = () => this.errorElement.style.display = 'none';
         }

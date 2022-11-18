@@ -55,16 +55,20 @@ export default class UserPage extends BasePage {
     /**
      * Функция, для передачи в листнер стора
      * @param {function} toDo - обработчик события
-     * @return {function} toDo - обработчик события
      */
     templateFunction(toDo) {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            return toDo();
-        case 4000:
-            return () => {};
+            toDo();
+            break;
+        case config.states.invalidUserData:
+            break;
+        case config.states.invalidData:
+            errorMessage.getAbsoluteErrorMessage(
+                userStore.getContext(userStore._storeNames.errorMessage));
+            break;
         default:
-            return () => errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteErrorMessage();
         }
     }
 
@@ -82,6 +86,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные о способах оплаты
      */
     renderPaymentCards() {
+        this.removePopUp();
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         bankCard.innerHTML = '';
@@ -94,6 +99,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
+        this.removePopUp();
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         addressCard.innerHTML = '';

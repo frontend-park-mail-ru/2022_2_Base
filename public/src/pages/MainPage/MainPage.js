@@ -213,6 +213,9 @@ export default class MainPage extends BasePage {
         }
     }
 
+    /**
+     * Функция, запускающая таймер скидки
+     */
     startTimer() {
         const display = document.getElementById('main-page-sale-timer');
         const start = new Date;

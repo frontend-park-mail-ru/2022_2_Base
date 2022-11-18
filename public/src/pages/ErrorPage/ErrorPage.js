@@ -1,5 +1,6 @@
 import errorPageTemplate from './errorPage.hbs';
 import BasePage from '../BasePage.js';
+import './ErrorPage.scss';
 
 /**
  * Класс, реализующий страницу входа.

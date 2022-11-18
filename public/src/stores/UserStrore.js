@@ -119,6 +119,7 @@ class UserStore extends BaseStore {
         address: 'address',
         temp: 'temp',
         isValid: 'isValid',
+        errorMessage: 'ErrorMessage',
     };
 
     /**
@@ -138,6 +139,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.address, []); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
+        this._storage.set(this._storeNames.errorMessage, '');
     }
 
     /**
@@ -399,7 +401,7 @@ class UserStore extends BaseStore {
             if (this.#validate(dataForVal)) {
                 userData.username = data.value;
             } else {
-                this._storage.set(this._storeNames.responseCode, 4000);
+                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
                 return;
             }
 
@@ -409,7 +411,7 @@ class UserStore extends BaseStore {
             if (this.#validate(dataForVal)) {
                 userData.email = data.value;
             } else {
-                this._storage.set(this._storeNames.responseCode, 4000);
+                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
                 return;
             }
 
@@ -419,7 +421,7 @@ class UserStore extends BaseStore {
             if (this.#validate(dataForVal)) {
                 userData.phone = data.value;
             } else {
-                this._storage.set(this._storeNames.responseCode, 4000);
+                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
                 return;
             }
 
@@ -443,7 +445,7 @@ class UserStore extends BaseStore {
                     .catch((err) => console.log(err));
                 this._storage.set(this._storeNames.responseCode, status);
             } else {
-                this._storage.set(this._storeNames.responseCode, 4000);
+                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
             }
             return;
         }
@@ -460,7 +462,8 @@ class UserStore extends BaseStore {
      * @param {Blob} avatar
      */
     async _uploadAvatar(avatar) {
-        const [status] = await request.makePostRequestSendAva(config.api.uploadAvatar, avatar)
+        const [status] = await request.makePostRequestSendAva(
+            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.png')
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -499,11 +502,35 @@ class UserStore extends BaseStore {
     }
 
     /**
+     * Функция, реализующая валидацию полей карты.
+     * @param {object} data - данные для обработки
+     * @return {string} errorMessage - сообщение об ошибке
+     */
+    #validateCard(data) {
+        if (data.number.length !== 16|| /^\d+$/.test(data.number)) {
+            return 'Номер карты состоит из 16 цифр';
+        }
+        if (data.expirydate.length === 5 || /^\d+$/.test(data.expirydate)) {
+            return 'Срок действия карты формата 09/25';
+        }
+        if (data.cvc.length === 3 || /^\d+$/.test(data.cvc)) {
+            return 'cvc код содержит 3 цифры';
+        }
+        return '';
+    }
+
+    /**
      * Метод, реализующий сохранение карты.
      * @param {object} data - данные для обработки
      */
     async _saveAddCard(data) {
         const userData = this.#collectUserData();
+        const errorMessage = this.#validateCard(data);
+        if (errorMessage) {
+            this._storage.set(this._storeNames.errorMessage, errorMessage);
+            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
+            return;
+        }
         delete data.cvc;
         userData.paymentmethods.forEach((item) => delete item.priority);
         // data.id = userData.paymentmethods.length;
@@ -517,10 +544,11 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
         console.log(userData);
+        console.log(data);
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
+            this._storage.set(this._storeNames.paymentMethods, data);
         } else {
             console.log('error', status);
         }
@@ -554,12 +582,40 @@ class UserStore extends BaseStore {
 
     }
 
+
+    /**
+     * Функция, реализующая валидацию полей карты.
+     * @param {object} data - данные для обработки
+     * @return {string} errorMessage - сообщение об ошибке
+     */
+    #validateAddress(data) {
+        console.log(data.city.length);
+        console.log(data.street.length);
+        console.log(data.house.length);
+        if (!data.city.length) {
+            return 'Введите ваш город';
+        }
+        if (!data.street.length) {
+            return 'Введите вашу улицу';
+        }
+        if (!data.house.length) {
+            return 'Введите ваш дом';
+        }
+        return '';
+    }
+
     /**
      * Метод, реализующий добавление карты адреса.
      * @param {object} data - данные для обработки
      */
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
+        const errorMessage = this.#validateAddress(data);
+        if (errorMessage !== '') {
+            this._storage.set(this._storeNames.errorMessage, errorMessage);
+            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
+            return;
+        }
         // data.id = userData.adress.length;
         userData.adress.forEach((item) => delete item.priority);
         data.priority = true;
@@ -568,11 +624,11 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        // console.log(userData);
+        console.log(userData);
         console.log(userData.adress);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
-            this._storage.set(this._storeNames.address, userData.adress);
+            this._storage.set(this._storeNames.address, data);
         } else {
             console.log('error', status);
         }
@@ -584,20 +640,24 @@ class UserStore extends BaseStore {
      */
     async _saveEditAddress(data) {
         const userData = this.#collectUserData();
-
+        const errorMessage = this.#validateAddress(data);
+        if (errorMessage !== '') {
+            this._storage.set(this._storeNames.errorMessage, errorMessage);
+            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
+            return;
+        }
         userData.adress.forEach((item, key) => {
             if (item.id === data.id) {
                 data.priority = item.priority;
                 userData.adress[key] = data;
             }
         });
-
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
-            this._storage.set(this._storeNames.address, userData.adress);
+            this._storage.set(this._storeNames.address, data);
         } else {
             console.log('error', status);
         }

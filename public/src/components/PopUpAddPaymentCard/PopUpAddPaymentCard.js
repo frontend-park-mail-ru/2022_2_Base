@@ -22,7 +22,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     async listenClickCancel(event) {
         event.preventDefault();
-
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
@@ -46,16 +45,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 document.getElementById('year').value,
             cvc: document.getElementById('cvc').value,
         });
-
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
-        }
     }
 
     /**

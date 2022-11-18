@@ -218,7 +218,7 @@ header, footer {
   width: 320px;
   height: 32px;
   animation: animation_fade-out 5s;
-  z-index: 1;
+  z-index: 999999;
 }
 
 @keyframes animation_fade-out {

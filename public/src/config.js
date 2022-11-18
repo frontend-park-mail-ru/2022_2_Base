@@ -34,6 +34,8 @@ export const config = {
     },
     states: {
         endOf: -1,
+        invalidUserData: 4000,
+        invalidData: 4040,
     },
     responseCodes: {
         code200: 200,
