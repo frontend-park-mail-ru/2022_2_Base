@@ -493,9 +493,9 @@ class UserStore extends BaseStore {
     #collectUserData() {
         const paymentmethodsField = this._storage.get(this._storeNames.paymentMethods);
         paymentmethodsField.forEach(
-            (paymentmethod) => paymentmethod.id = paymentmethod.id.split('/')[1]);
+            (paymentmethod) => paymentmethod.id = Number(paymentmethod.id.split('/')[1]));
         const addressField = this._storage.get(this._storeNames.address);
-        addressField.forEach((address) => address.id = address.id.split('/')[1]);
+        addressField.forEach((address) => address.id = Number(address.id.split('/')[1]));
         return {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
