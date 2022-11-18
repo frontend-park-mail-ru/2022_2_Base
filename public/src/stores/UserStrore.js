@@ -505,7 +505,9 @@ class UserStore extends BaseStore {
     async _saveAddCard(data) {
         const userData = this.#collectUserData();
         delete data.cvc;
+        console.log('id len', userData.paymentmethods.length);
         data.id = userData.paymentmethods.length;
+        console.log('id', data.id);
         userData.paymentmethods.forEach((item) => delete item.priority);
         data.priority = true;
         userData.paymentmethods.push(data);
