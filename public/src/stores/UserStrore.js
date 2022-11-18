@@ -513,6 +513,7 @@ class UserStore extends BaseStore {
         userData.paymentmethods.push(data);
         // console.log('data', data);
         console.log(userData);
+        paymentCard/
         //console.log(userData.paymentmethods);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
