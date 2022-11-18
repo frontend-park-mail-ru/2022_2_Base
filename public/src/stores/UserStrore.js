@@ -308,10 +308,6 @@ class UserStore extends BaseStore {
                 isValid &= errorMessage.validateField(validation.checkEmptyField(value),
                     this.#context.fields.name);
                 break;
-            case this.#context.fields.phone.name:
-                isValid &= errorMessage.validateField(validation.validatePhone(value),
-                    this.#context.fields.name);
-                break;
             case this.#context.fields.email.name:
                 isValid &= errorMessage.validateField(validation.validateEMail(value),
                     this.#context.fields.email, 'login__form__error');
@@ -359,6 +355,10 @@ class UserStore extends BaseStore {
                         name: this.#context.fields.repeatPassword.popUpName,
                         errorID: this.#context.fields.repeatPassword.errorID,
                     }, 'userpage__popUp__error');
+                break;
+            case this.#context.fields?.phone?.name:
+                isValid &= errorMessage.validateField(validation.validatePhone(value),
+                    this.#context.fields.name);
                 break;
             }
         });
@@ -506,9 +506,9 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         delete data.cvc;
         userData.paymentmethods.forEach((item) => delete item.priority);
-        data.id = userData.paymentmethods.length;
-        console.log('data', data);
-        console.log(userData);
+        //data.id = userData.paymentmethods.length;
+        //console.log('data', data);
+        //console.log(userData);
         data.priority = true;
         userData.paymentmethods.push(data);
         // console.log('data', data);
@@ -560,7 +560,7 @@ class UserStore extends BaseStore {
      */
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
-        data.id = userData.adress.length;
+        //data.id = userData.adress.length;
         userData.adress.forEach((item) => delete item.priority);
         data.priority = true;
         userData.adress.push(data);
@@ -568,7 +568,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        console.log(userData);
+        //console.log(userData);
         console.log(userData.adress);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
