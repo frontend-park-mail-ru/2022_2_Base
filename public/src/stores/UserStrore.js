@@ -506,7 +506,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         delete data.cvc;
         userData.paymentmethods.forEach((item) => delete item.priority);
-        // data.id = userData.paymentmethods.length;
+        data.id = userData.paymentmethods.length;
         console.log('data', data);
         console.log(userData);
         data.priority = true;

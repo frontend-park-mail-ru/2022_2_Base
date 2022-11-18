@@ -216,7 +216,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _addToCart(id) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-            [status] = await request.makePostRequest(config.api.insertIntoCart, id)
+
+            [status] = await request.makePostRequest(config.api.insertIntoCart, {
+                itemid: id,
+            })
                 .catch((err) => console.log(err));
         }
         this.#editCountOfItem(status,
@@ -238,7 +241,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _decreaseNumber(id) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-            [status] = await request.makePostRequest(config.api.deleteFromCart, id)
+            [status] = await request.makePostRequest(config.api.deleteFromCart, {
+                itemid: id,
+            })
                 .catch((err) => console.log(err));
         }
         await this.#editCountOfItem(status,
