@@ -375,13 +375,13 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-
+        console.log(response);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.name, response.username);
             this._storage.set(this._storeNames.email, response.email);
             this._storage.set(this._storeNames.phone, response.phone);
             this._storage.set(this._storeNames.avatar, response.avatar);
-            this._storage.set(this._storeNames.paymentMethods, response.paymentMethods ?? []);
+            this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
         } else {
             console.log('error', status);
