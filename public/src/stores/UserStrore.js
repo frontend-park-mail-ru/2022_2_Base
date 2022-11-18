@@ -497,7 +497,7 @@ class UserStore extends BaseStore {
             phone: this._storage.get(this._storeNames.phone),
             avatar: this._storage.get(this._storeNames.avatar),
             paymentmethods: this._storage.get(this._storeNames.paymentMethods),
-            adress: this._storage.get(this._storeNames.address),
+            address: this._storage.get(this._storeNames.address),
         };
     }
 
@@ -605,7 +605,6 @@ class UserStore extends BaseStore {
         }
         return '';
     }
-
     /**
      * Метод, реализующий добавление карты адреса.
      * @param {object} data - данные для обработки
@@ -617,16 +616,16 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
-            data.id = userData.adress.length;
-            userData.adress.forEach((item) => delete item.priority);
+            data.id = userData.address.length;
+            userData.address.forEach((item) => delete item.priority);
             data.priority = true;
-            userData.adress.push(data);
+            userData.address.push(data);
 
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
 
             console.log(userData);
-            console.log(userData.adress);
+            console.log(userData.address);
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200 ) {
                 this._storage.set(this._storeNames.address, data);
@@ -647,10 +646,10 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
-            userData.adress.forEach((item, key) => {
+            userData.address.forEach((item, key) => {
                 if (item.id === data.id) {
                     data.priority = item.priority;
-                    userData.adress[key] = data;
+                    userData.address[key] = data;
                 }
             });
             const [status] = await request.makePostRequest(config.api.profile, userData)
@@ -671,9 +670,9 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        userData.adress.forEach((item, key) => {
+        userData.address.forEach((item, key) => {
             if (item.id === id) {
-                delete userData.adress[key];
+                delete userData.address[key];
             }
         });
 
@@ -682,7 +681,7 @@ class UserStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 ) {
-            this._storage.set(this._storeNames.address, userData.adress);
+            this._storage.set(this._storeNames.address, userData.address);
         } else {
             console.log('error', status);
         }
