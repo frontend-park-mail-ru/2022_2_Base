@@ -515,9 +515,9 @@ class UserStore extends BaseStore {
         if (Number(data.expirydate.slice(0, 2)) > 12) {
             return 'Месяц не может быть больше 12';
         }
-        if (Number(data.expirydate.slice(-2)) < new Date().getFullYear() ||
-            (Number(data.expirydate.slice(-2)) === new Date().getFullYear() &&
-                Number(data.expirydate.slice(0, 2)) > new Date().getMonth())) {
+        if (Number(data.expirydate.slice(-2)) < new Date().getFullYear() % 100 ||
+            (Number(data.expirydate.slice(-2)) === new Date().getFullYear() % 100 &&
+                Number(data.expirydate.slice(0, 2)) < new Date().getMonth())) {
             return 'Срок действия карты истек';
         }
         if (data.cvc.length !== 3 || !/^\d+$/.test(data.cvc)) {
