@@ -213,6 +213,29 @@ export default class MainPage extends BasePage {
         }
     }
 
+    startTimer() {
+        const display = document.getElementById('main-page-sale-timer');
+        const start = new Date;
+        start.setHours(3, 0, 0); // 3am
+
+        const pad = (num) => {
+            return ('0' + parseInt(num)).substr(-2);
+        };
+        const tick = () => {
+            const now = new Date;
+            if (now > start) { // too late, go to tomorrow
+                start.setDate(start.getDate() + 1);
+            }
+            const remain = ((start - now) / 1000);
+            display.textContent =
+                pad((remain / 60 / 60) % 60) + ':' +
+                pad((remain / 60) % 60) + ':' +
+                pad(remain % 60);
+            setTimeout(tick, 1000);
+        };
+        tick();
+    }
+
     /**
      * Метод, добавляющий слушатели.
      */
@@ -235,7 +258,7 @@ export default class MainPage extends BasePage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    async render() {
+    render() {
         cartAction.getCart();
         super.render(config);
 
@@ -245,5 +268,6 @@ export default class MainPage extends BasePage {
         itemCardsAction.getHomeItemCards(config.api.products, true);
         itemCardsAction.getHomeItemCards(config.api.products, false);
         this.startEventListener();
+        this.startTimer();
     }
 }
