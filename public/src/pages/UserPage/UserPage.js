@@ -137,7 +137,7 @@ export default class UserPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карты пользователя
      * @param {object} componentEntity - экземпляр класса компонента
      * @param {string} nameOfCard - название карты
-     * @param {object} data - данные для заполнения карт
+     * @param {array} data - данные для заполнения карт
      */
     loadCards(componentEntity, nameOfCard, data) {
         switch (nameOfCard) {
@@ -145,19 +145,19 @@ export default class UserPage extends BasePage {
             super.render(data);
             return;
         case 'paymentCard':
-            Object.values(data).forEach((address) => {
+            data.forEach((address) => {
                 address.id = 'paymentCard/' + address.id;
             });
             break;
         case 'addressCard':
-            Object.values(data).forEach((address) => {
+            data.forEach((address) => {
                 address.id = 'addressCard/' + address.id;
             });
             break;
         default:
             console.log('unknown command', nameOfCard);
         }
-        if (Object.keys(data).length < 4) {
+        if (data.length < 4) {
             data.addCard = {
                 addCard: true,
                 id: `${nameOfCard}/${String(Object.keys(data).length)}`,
