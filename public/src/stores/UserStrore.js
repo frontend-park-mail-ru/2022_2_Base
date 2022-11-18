@@ -505,19 +505,17 @@ class UserStore extends BaseStore {
     async _saveAddCard(data) {
         const userData = this.#collectUserData();
         delete data.cvc;
-        console.log('id len', userData.paymentmethods.length);
-        data.id = userData.paymentmethods.length;
-        console.log('id', data.id);
-        console.log('data', data);
         userData.paymentmethods.forEach((item) => delete item.priority);
+        data.id = userData.paymentmethods.length;
+        console.log('data', data);
         data.priority = true;
         userData.paymentmethods.push(data);
-
+        console.log('data', data);
+        console.log(userData);
+        console.log(userData.paymentmethods);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
-        console.log(userData);
-        console.log(userData.paymentmethods);
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
