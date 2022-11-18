@@ -491,13 +491,18 @@ class UserStore extends BaseStore {
      * @return {object} данные
      */
     #collectUserData() {
+        const paymentmethodsField = this._storage.get(this._storeNames.paymentMethods);
+        paymentmethodsField.forEach(
+            (paymentmethod) => paymentmethod.id = paymentmethod.id.split('/')[1]);
+        const addressField = this._storage.get(this._storeNames.address);
+        addressField.forEach((address) => address.id = address.id.split('/')[1]);
         return {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
             avatar: this._storage.get(this._storeNames.avatar),
-            paymentmethods: this._storage.get(this._storeNames.paymentMethods),
-            address: this._storage.get(this._storeNames.address),
+            paymentmethods: paymentmethodsField,
+            address: addressField,
         };
     }
 
