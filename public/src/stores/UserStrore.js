@@ -505,8 +505,8 @@ class UserStore extends BaseStore {
     async _saveAddCard(data) {
         const userData = this.#collectUserData();
         delete data.cvc;
-        data.id = String(Object.keys(userData.paymentmethods).length);
-        Object.values(userData.paymentmethods).forEach((item) => delete item.priority);
+        data.id = userData.paymentmethods.length;
+        userData.paymentmethods.forEach((item) => delete item.priority);
         data.priority = true;
         userData.paymentmethods.push(data);
 
@@ -529,7 +529,7 @@ class UserStore extends BaseStore {
      */
     async _saveDeleteCard(id) {
         const userData = this.#collectUserData();
-        Object.entries(userData.paymentmethods).forEach(([key, item]) => {
+        userData.paymentmethods.forEach((item, key) => {
             if (item.id === id) {
                 delete userData.paymentmethods[key];
             }
@@ -557,9 +557,9 @@ class UserStore extends BaseStore {
      */
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
-        data.id = String(Object.keys(userData.adress).length);
-        Object.values(userData.adress).forEach((item) => delete item.priority);
-        //data.priority = true;
+        data.id = userData.adress.length;
+        userData.adress.forEach((item) => delete item.priority);
+        data.priority = true;
         userData.adress.push(data);
 
         const [status] = await request.makePostRequest(config.api.profile, JSON.stringify(userData))
@@ -606,7 +606,7 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        Object.entries(userData.adress).forEach(([key, item]) => {
+        userData.adress.forEach((item, key) => {
             if (item.id === id) {
                 delete userData.adress[key];
             }
