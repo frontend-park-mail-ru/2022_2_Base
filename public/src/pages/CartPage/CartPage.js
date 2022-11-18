@@ -215,67 +215,67 @@ export default class CartOrderPage extends BasePage {
                         [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
                     }
                     switch (choiseIdWithType) {
-                        case 'address':
-                            const addressField = document.querySelector('.addressID');
-                            addressField.textContent = data;
-                            addressField.setAttribute('id', `address/${choiceId}`);
-                            break;
-                        case 'paymentCard':
-                            const cardType = document.querySelectorAll('.payment-method-provider');
-                            if (cardType) {
-                                cardType.forEach((key) => {
-                                    key.style.display = 'block';
-                                });
-                            }
-                            const cardNumber = document.querySelectorAll('.card-number');
-                            if (cardNumber) {
-                                cardNumber.forEach((key) => {
-                                    key.textContent = data.split(' ', 1);
-                                });
-                            }
-                            const cardExpiryDate = document.querySelectorAll(
-                                '.payment-method_cart__expiry');
-                            if (cardExpiryDate) {
-                                cardExpiryDate.forEach((key) => {
-                                    key.style.display = 'block';
-                                    key.textContent = data.split(' ').slice(1).join(' ').trim();
-                                });
-                            }
-                            const choice = document.querySelectorAll('.payment-method_cart');
-                            if (choice) {
-                                choice.forEach((key) => {
-                                    key.setAttribute('id', `paymentCard/${choiceId}`);
-                                });
-                            }
-                            document.getElementById('final-paymentmethod').textContent = 'Картой'
-                            break;
-                        case 'payment-upon-receipt':
-                            const paymentReceipt = document.querySelectorAll('.card-number');
-                            if (paymentReceipt) {
-                                paymentReceipt.forEach((key) => {
-                                    key.textContent = data;
-                                });
-                            }
-                            const expiryDate = document.querySelectorAll(
-                                '.payment-method_cart__expiry');
-                            if (expiryDate) {
-                                expiryDate.forEach((key) => {
-                                    key.style.display = 'none';
-                                });
-                            }
-                            const typeCard = document.querySelectorAll('.payment-method-provider');
-                            if (typeCard) {
-                                typeCard.forEach((key) => {
-                                    key.style.display = 'none';
-                                });
-                            }
-                            const choiceMethtod = document.querySelectorAll('.payment-method_cart');
-                            if (choiceMethtod) {
-                                choiceMethtod.forEach((key) => {
-                                    key.setAttribute('id', 'payment-upon-receipt');
-                                });
-                            }
-                            document.getElementById('final-paymentmethod').textContent = 'При получении'
+                    case 'address':
+                        const addressField = document.querySelector('.addressID');
+                        addressField.textContent = data;
+                        addressField.setAttribute('id', `address/${choiceId}`);
+                        break;
+                    case 'paymentCard':
+                        const cardType = document.querySelectorAll('.payment-method-provider');
+                        if (cardType) {
+                            cardType.forEach((key) => {
+                                key.style.display = 'block';
+                            });
+                        }
+                        const cardNumber = document.querySelectorAll('.card-number');
+                        if (cardNumber) {
+                            cardNumber.forEach((key) => {
+                                key.textContent = data.split(' ', 1);
+                            });
+                        }
+                        const cardExpiryDate = document.querySelectorAll(
+                            '.payment-method_cart__expiry');
+                        if (cardExpiryDate) {
+                            cardExpiryDate.forEach((key) => {
+                                key.style.display = 'block';
+                                key.textContent = data.split(' ').slice(1).join(' ').trim();
+                            });
+                        }
+                        const choice = document.querySelectorAll('.payment-method_cart');
+                        if (choice) {
+                            choice.forEach((key) => {
+                                key.setAttribute('id', `paymentCard/${choiceId}`);
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'Картой';
+                        break;
+                    case 'payment-upon-receipt':
+                        const paymentReceipt = document.querySelectorAll('.card-number');
+                        if (paymentReceipt) {
+                            paymentReceipt.forEach((key) => {
+                                key.textContent = data;
+                            });
+                        }
+                        const expiryDate = document.querySelectorAll(
+                            '.payment-method_cart__expiry');
+                        if (expiryDate) {
+                            expiryDate.forEach((key) => {
+                                key.style.display = 'none';
+                            });
+                        }
+                        const typeCard = document.querySelectorAll('.payment-method-provider');
+                        if (typeCard) {
+                            typeCard.forEach((key) => {
+                                key.style.display = 'none';
+                            });
+                        }
+                        const choiceMethtod = document.querySelectorAll('.payment-method_cart');
+                        if (choiceMethtod) {
+                            choiceMethtod.forEach((key) => {
+                                key.setAttribute('id', 'payment-upon-receipt');
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'При получении';
                     }
                 }
                 const popUp = document.getElementById('popUp');

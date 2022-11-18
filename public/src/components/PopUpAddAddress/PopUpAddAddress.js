@@ -40,13 +40,16 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     async listenClickApply(event) {
         event.preventDefault();
+        console.log(this.context.id);
         const inputData = {
             city: document.getElementById('city').value,
             street: document.getElementById('street').value,
             house: document.getElementById('house').value,
             flat: document.getElementById('flat').value,
-            // id: this.context.id,
+            id: Number(this.context.id?.replace('addressCard/', '')),
         };
+
+        console.log(inputData);
 
         if (this.context.add) {
             profileAction.saveAddAddress(inputData);

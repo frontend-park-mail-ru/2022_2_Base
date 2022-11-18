@@ -44,7 +44,8 @@ export default class PaymentCard extends BaseComponent {
      */
     async listenClickDeletePaymentCard(event) {
         event.preventDefault();
-        profileAction.deleteCard(event.target.id.replace('delete-img-', ''));
+        console.log(event.target.id.replace('delete-img-paymentCard', ''));
+        profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
     }
 
     /**

@@ -24,10 +24,9 @@ export default class AddressCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickEditeAddress(event) {
-        event.preventDefault();
-        const cardId = event.target.id.replace('edit-img-', '');
-        Object.values(userStore.getContext(userStore._storeNames.address)).forEach((addres) => {
-            if (addres.id === cardId) {
+        const cardID = event.target.id.replace('edit-img-', '');
+        userStore.getContext(userStore._storeNames.address).forEach((address) => {
+            if (address.id === cardID) {
                 const PopUp = document.getElementById('popUp_user-page');
                 const PopUpFade = document.getElementById('popUp-fade_user-page');
                 if (PopUp) {
@@ -37,7 +36,7 @@ export default class AddressCard extends BaseComponent {
                     PopUpFade.style.display = 'block';
                 }
                 this.PopUpAddAddress = new PopUpAddAddress(PopUp);
-                this.PopUpAddAddress.render(addres);
+                this.PopUpAddAddress.render(address);
             }
         });
     }
@@ -48,8 +47,6 @@ export default class AddressCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickAddAddress(event) {
-        event.preventDefault();
-
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
@@ -70,8 +67,7 @@ export default class AddressCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickDeleteAddress(event) {
-        event.preventDefault();
-        profileAction.deleteAddress(event.target.id.replace('delete-img-', ''));
+        profileAction.deleteAddress(Number(event.target.id.replace('delete-img-addressCard/', '')));
     }
 
     /**

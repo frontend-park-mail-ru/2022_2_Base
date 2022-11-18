@@ -95,14 +95,14 @@ class UserStore extends BaseStore {
             street: 'улица Бауманская',
             house: '228',
             flat: '420',
-            id: `${String(1)}`, // addressCard/
+            id: 1, // addressCard/addressCard/
         },
         {
             city: 'г. Москва',
             street: 'улица Бассейная',
             house: '228',
             flat: '420',
-            id: `${String(2)}`,
+            id: 2,
         },
     ];
 
@@ -380,7 +380,7 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.name, response.username);
             this._storage.set(this._storeNames.email, response.email);
             this._storage.set(this._storeNames.phone, response.phone);
-            this._storage.set(this._storeNames.avatar, response.avatar);
+            this._storage.set(this._storeNames.avatar, response.avatar ?? 'img/UserPhoto.png');
             this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
         } else {
@@ -493,9 +493,14 @@ class UserStore extends BaseStore {
     #collectUserData() {
         const paymentmethodsField = this._storage.get(this._storeNames.paymentMethods);
         paymentmethodsField.forEach(
-            (paymentmethod) => paymentmethod.id = Number(paymentmethod.id.split('/')[1]));
+            (paymentmethod, key) =>
+                paymentmethodsField[key].id = Number((paymentmethod.id).toString().split('/')[1]));
+
         const addressField = this._storage.get(this._storeNames.address);
-        addressField.forEach((address) => address.id = Number(address.id.split('/')[1]));
+        addressField.forEach(
+            (address, key) =>
+                addressField[key].id = Number((address.id).toString().replace('addressCard/', '')),
+        );
         return {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
@@ -550,14 +555,13 @@ class UserStore extends BaseStore {
             data.id = userData.paymentmethods.length;
             data.priority = true;
             userData.paymentmethods.push(data);
+
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
-            console.log(userData);
-            console.log(data);
 
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
-                this._storage.set(this._storeNames.paymentMethods, data);
+                this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
             } else {
                 console.log('error', status);
             }
@@ -570,6 +574,7 @@ class UserStore extends BaseStore {
      */
     async _saveDeleteCard(id) {
         const userData = this.#collectUserData();
+        console.log(id);
         userData.paymentmethods.forEach((item, key) => {
             if (item.id === id) {
                 delete userData.paymentmethods[key];
@@ -578,7 +583,7 @@ class UserStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 ) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
         } else {
             console.log('error', status);
@@ -629,11 +634,9 @@ class UserStore extends BaseStore {
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
 
-            console.log(userData);
-            console.log(userData.address);
-            this._storage.set(this._storeNames.responseCode, 200);
-            if (status === config.responseCodes.code200 || true) {
-                this._storage.set(this._storeNames.address, data);
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                this._storage.set(this._storeNames.address, userData.address);
             } else {
                 console.log('error', status);
             }
@@ -651,18 +654,22 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
+            console.log('data', data);
+            console.log('address', userData.address);
             userData.address.forEach((item, key) => {
                 if (item.id === data.id) {
+                    console.log(item);
                     data.priority = item.priority;
                     userData.address[key] = data;
                 }
             });
+            // const status = 200;
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
 
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200 ) {
-                this._storage.set(this._storeNames.address, data);
+                this._storage.set(this._storeNames.address, userData.address);
             } else {
                 console.log('error', status);
             }
@@ -685,7 +692,7 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 ) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.address, userData.address);
         } else {
             console.log('error', status);
