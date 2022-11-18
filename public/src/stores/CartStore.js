@@ -216,7 +216,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _addToCart(id) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-
             console.log({
                 itemid: Number(id),
             });

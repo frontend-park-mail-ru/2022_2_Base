@@ -8,6 +8,7 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js'
 import {config} from '../../config.js';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий главную страницу
@@ -45,6 +46,9 @@ export default class MainPage extends BasePage {
         cartStore.addListener(this.buttonMinus,
             CartActionTypes.DECREASE_NUMBER,
         );
+
+        cartStore.addListener(this.getCart.bind(this),
+            CartActionTypes.GET_CART);
     }
 
     /**
@@ -195,6 +199,21 @@ export default class MainPage extends BasePage {
     }
 
     /**
+     * Функция, реагирующая на получение товаров из корзины
+     */
+    getCart() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            break;
+        case config.responseCodes.code401:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage();
+            break;
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -213,11 +232,11 @@ export default class MainPage extends BasePage {
         }
     }
 
-
     /**
      * Метод, отрисовывающий страницу.
      */
     async render() {
+        cartAction.getCart();
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));

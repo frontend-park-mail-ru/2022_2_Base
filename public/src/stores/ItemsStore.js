@@ -157,8 +157,13 @@ class ItemsStore extends BaseStore {
             this._storage.set(this._storeNames.cardsCategory, response.body);
             this._storage.set(this._storeNames.allCardsInCategory,
                 this._storage.get(this._storeNames.allCardsInCategory).concat(response.body));
-            this._storage.set(this._storeNames.cardLoadCount,
-                this._storage.get(this._storeNames.cardLoadCount) + 5); // fix?
+
+            if (response.body[response.body.length - 1]) {
+                this._storage.set(this._storeNames.cardLoadCount,
+                    response.body[response.body.length - 1].id);
+            } else if (this._storage.get(this._storeNames.cardLoadCount)) {
+                this._storage.set(this._storeNames.cardLoadCount, config.states.endOf);
+            }
         }
     }
 

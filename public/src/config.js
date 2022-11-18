@@ -32,6 +32,9 @@ export const config = {
         cart: basePathApi + 'cart',
 
     },
+    states: {
+        endOf: -1,
+    },
     responseCodes: {
         code200: 200,
         code201: 201,

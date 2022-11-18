@@ -408,7 +408,7 @@ export default class UserPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     async render() {
-        super.render();
+        this.addListener();
         profileAction.getData();
     }
 }

@@ -56,6 +56,8 @@ export default class CatalogPage extends BasePage {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             break;
+        case config.responseCodes.code401:
+            break;
         default:
             errorMessage.getAbsoluteErrorMessage();
             break;
@@ -72,15 +74,15 @@ export default class CatalogPage extends BasePage {
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
             if (data.length) {
                 Card.render(data);
-            } else if (itemsStore.getContext(itemsStore._storeNames.cardLoadCount)) {
+            } else if (
+                itemsStore.getContext(itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
                 this.removeScrollListener();
-                return;
             } else {
                 router.openNotFoundPage();
             }
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            router.openNotFoundPage();
             break;
         }
     }
@@ -244,7 +246,7 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        super.render();
+        this.addListener();
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});
