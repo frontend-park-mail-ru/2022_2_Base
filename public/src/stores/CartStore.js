@@ -218,10 +218,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         if (userStore.getContext(userStore._storeNames.isAuth)) {
 
             console.log({
-                itemid: id,
+                itemid: Number(id),
             });
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
-                itemid: id,
+                itemid: Number(id),
             })
                 .catch((err) => console.log(err));
         }
@@ -245,7 +245,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.deleteFromCart, {
-                itemid: id,
+                itemid: Number(id),
             })
                 .catch((err) => console.log(err));
         }
