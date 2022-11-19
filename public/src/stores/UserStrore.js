@@ -79,13 +79,13 @@ class UserStore extends BaseStore {
             priority: true,
             number: '123456******1234',
             type: 'MIR',
-            expiry: '12/24',
+            expiry: '1975-08-19T23:15:30.000Z',
             id: 1,
         },
         {
             number: '123456******5678',
             type: 'MIR',
-            expiry: '02/25',
+            expiry: '1987-08-19T23:15:30.000Z',
             id: 2,
         },
     ];
@@ -363,7 +363,6 @@ class UserStore extends BaseStore {
     async _getData() {
         const [status, response] = await request.makeGetRequest(config.api.profile)
             .catch((err) => console.log(err));
-
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.name, response.username);
@@ -374,8 +373,9 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
-            response.paymentmethods.forEach((mehtod, key) => {
-                const date = new Date(mehtod);
+            response.paymentmethods = this.#testPaymentCards;
+            response.paymentmethods?.forEach((mehtod, key) => {
+                const date = new Date(mehtod.expiryDate);
                 response.paymentmethods[key].expiry =
                     (date.getUTCMonth() / 10).toString()
                         .replace('.', '') +
