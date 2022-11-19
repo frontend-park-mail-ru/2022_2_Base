@@ -79,13 +79,13 @@ class UserStore extends BaseStore {
             priority: true,
             number: '123456******1234',
             type: 'MIR',
-            expiryDate: '12/24',
+            expiry: '12/24',
             id: 1,
         },
         {
             number: '123456******5678',
             type: 'MIR',
-            expiryDate: '02/25',
+            expiry: '02/25',
             id: 2,
         },
     ];
@@ -374,6 +374,14 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
+            response.paymentmethods.forEach((mehtod, key) => {
+                const date = new Date(mehtod);
+                response.paymentmethods[key].expiry =
+                    (date.getUTCMonth() / 10).toString()
+                        .replace('.', '') +
+                    '/' + date.getUTCFullYear() % 100;
+            });
+
             this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
         }
@@ -498,17 +506,17 @@ class UserStore extends BaseStore {
      * @return {string} errorMessage - сообщение об ошибке
      */
     #validateCard(data) {
-        if (data.expirydate.length !== 5 ||
-            !/^\d+$/.test(data.expirydate.slice(0, 2)) ||
-            !/^\d+$/.test(data.expirydate.slice(-2))) {
+        if (data.expiry.length !== 5 ||
+            !/^\d+$/.test(data.expiry.slice(0, 2)) ||
+            !/^\d+$/.test(data.expiry.slice(-2))) {
             return 'Срок действия карты формата 09/25';
         }
-        if (Number(data.expirydate.slice(0, 2)) > 12) {
+        if (Number(data.expiry.slice(0, 2)) > 12) {
             return 'Месяц не может быть больше 12';
         }
-        if (Number(data.expirydate.slice(-2)) < new Date().getFullYear() % 100 ||
-            (Number(data.expirydate.slice(-2)) === new Date().getFullYear() % 100 &&
-                Number(data.expirydate.slice(0, 2)) < new Date().getMonth())) {
+        if (Number(data.expiry.slice(-2)) < new Date().getFullYear() % 100 ||
+            (Number(data.expiry.slice(-2)) === new Date().getFullYear() % 100 &&
+                Number(data.expiry.slice(0, 2)) < new Date().getMonth())) {
             return 'Срок действия карты истек';
         }
         if (data.cvc.length !== 3 || !/^\d+$/.test(data.cvc)) {
@@ -535,6 +543,8 @@ class UserStore extends BaseStore {
             userData.paymentmethods.forEach((item) => delete item.priority);
             data.id = userData.paymentmethods.length;
             data.priority = true;
+            data.expiryDate = data.expiry.split('/');
+            data.expiryDate = new Date(20 + data.expiryDate[1], data.expiryDate[0] + 1);
             userData.paymentmethods.push(data);
 
             const [status] = await request.makePostRequest(config.api.profile, userData)

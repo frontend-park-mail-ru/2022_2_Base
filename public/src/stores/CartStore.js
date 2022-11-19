@@ -51,7 +51,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         deliveryDate: this.#getDate(1),
         deliveryTime: '18:00 - 23:00',
         cardNumber: '8765432143212546',
-        cardExpiryDate: '05 / 24',
+        expiry: '05 / 24',
         paymentCardId: 1,
         auth: true,
     };

@@ -41,7 +41,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         event.preventDefault();
         profileAction.saveAddCard({
             number: document.getElementById('cardNumber').value,
-            expirydate: document.getElementById('month').value + '/' +
+            expiry: document.getElementById('month').value + '/' +
                 document.getElementById('year').value,
             cvc: document.getElementById('cvc').value,
         });

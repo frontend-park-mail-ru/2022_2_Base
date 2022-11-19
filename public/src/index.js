@@ -41,7 +41,7 @@ userStore.addListener(() => {
     if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
     } else {
-        refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
+        refresh.onLogOut();
     }
 },
 UserActionTypes.USER_FETCH);
