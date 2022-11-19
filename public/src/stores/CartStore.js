@@ -75,7 +75,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
-        // this._storage.set(this._storeNames.dataOrder, this.#data);
     }
 
     /**
@@ -246,12 +245,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {object} data - данные для оформления заказа
      */
     async _makeOrder(data) {
-        const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        data.userid = itemsCart.userid;
+        data.userid = this._storage.get(this._storeNames.userID);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            const itemsCart = this._storage.get(this._storeNames.itemsCart);
             data.items.forEach((id) => {
                 itemsCart.forEach((item, key) => {
                     if (item.id === id) {
