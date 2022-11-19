@@ -545,7 +545,7 @@ export default class CartOrderPage extends BasePage {
      */
     render() {
         this.addListener();
-        cartAction.getCart();
         profileAction.getData();
+        cartAction.getCart();
     }
 }
