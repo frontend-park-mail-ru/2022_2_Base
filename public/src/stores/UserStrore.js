@@ -375,6 +375,7 @@ class UserStore extends BaseStore {
             }
             response.paymentmethods = this.#testPaymentCards;
             response.paymentmethods?.forEach((mehtod, key) => {
+                console.log(mehtod);
                 const date = new Date(mehtod.expiryDate);
                 response.paymentmethods[key].expiry =
                     (date.getUTCMonth() / 10).toString()

@@ -40,8 +40,9 @@ userStore.addListener(() => {
     router.openPage(document.location.pathname);
     if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
+        router.refresh(config);
     } else {
-        refresh.onLogOut();
+        refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 },
 UserActionTypes.USER_FETCH);

@@ -83,7 +83,7 @@ class Router {
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CatalogPage);
         this.register(config.href.cart, CartPage);
-        this.register(config.href.user, UserPage);
+        //this.register(config.href.user, UserPage);
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
