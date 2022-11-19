@@ -20,15 +20,15 @@
   margin-left: 32px;
 }
 
+.user-photo_user-page{
+  object-fit: cover;
+}
+
 .edit-button_user-page {
   height: 16px;
   width: 16px;
   align-self: center;
   margin-top: 4px;
-}
-
-.edit-button_user-page:hover {
-  /*    сделать изменение цвета   */
 }
 
 .user-card_user-page {

@@ -139,18 +139,15 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _deleteById(id) {
-        const payload = {
-            items: [],
-        };
+        const items = [];
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
-            if (item.id === id) {
-                delete itemsCart[key];
-            } else {
-                payload.items.push(item.id);
+            if (item.id !== id) {
+                items.push(item.id);
             }
         });
-        const [status] = await request.makePostRequest(config.api.cart, payload)
+        itemsCart.items = items;
+        const [status] = await request.makePostRequest(config.api.cart, itemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -162,11 +159,13 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * Действие: удалить все товары из корзины.
      */
     async _deleteAll() {
-        const [status] = await request.makePostRequest(config.api.cart, {})
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
+        itemsCart.items = [];
+        const [status] = await request.makePostRequest(config.api.cart, itemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, []);
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
         }
     }
 
@@ -248,18 +247,18 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      */
     async _makeOrder(data) {
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        data.items.forEach((id) => {
-            itemsCart.forEach((item, key) => {
-                if (item.id === id) {
-                    delete itemsCart[key];
-                }
-            });
-        });
         data.userid = itemsCart.userid;
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            data.items.forEach((id) => {
+                itemsCart.forEach((item, key) => {
+                    if (item.id === id) {
+                        delete itemsCart[key];
+                    }
+                });
+            });
             this._storage.set(this._storeNames.itemsCart, itemsCart);
         }
     }
