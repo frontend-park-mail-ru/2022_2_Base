@@ -139,7 +139,7 @@ export default class CartOrderPage extends BasePage {
 
 
     /**
-     * Функция, обрабатывающая клики на данной странице
+     * Функция, загружающая данные пользователя
      */
     getUserData() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
