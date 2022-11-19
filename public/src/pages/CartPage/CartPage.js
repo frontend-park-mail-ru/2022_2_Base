@@ -76,7 +76,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        let context = {};
+        const context = {};
         const address = userStore.getContext(userStore._storeNames.address);
         if (address) {
             Object.values(address).forEach((key) => {
@@ -97,17 +97,18 @@ export default class CartOrderPage extends BasePage {
             }
         }
         context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-        context.isAuth = true // FIX
+        context.isAuth = true; // FIX
         if (context.isAuth) {
             context.avatar = userStore.getContext(userStore._storeNames.avatar);
-            context.username = userStore.getContext(userStore._storeNames.name) + userStore.getContext(userStore._storeNames.surname);
+            context.username = userStore.getContext(userStore._storeNames.name)
+                + userStore.getContext(userStore._storeNames.surname);
             context.phone = userStore.getContext(userStore._storeNames.phone);
         }
         context.deliveryPrice = 'Бесплатно';
         context.deliveryDate = this.#getDate(1);
 
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        let [sumPrice, noSalePrice, priceDiff, amount] =
+        const [sumPrice, noSalePrice, priceDiff, amount] =
             data.reduce((sumVal, key, it) => {
                 // sumPrice
                 sumVal[0] += (key.item.lowprice ?? key.item.price) *
@@ -154,15 +155,16 @@ export default class CartOrderPage extends BasePage {
                     choiseItemId = choice.getAttribute('id');
                     context = {
                         address: userStore.getContext(userStore._storeNames.address),
-                    }
+                    };
                 } else {
                     if (elementId === 'edit-payment-card') {
-                        const choice = Array.from(document.getElementsByClassName('payment-method_cart'))[0];
+                        const choice = Array.from(
+                            document.getElementsByClassName('payment-method_cart'))[0];
                         choiseItemId = choice.getAttribute('id');
 
                         context = {
                             paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
-                        }
+                        };
                     }
                 }
 
@@ -193,67 +195,67 @@ export default class CartOrderPage extends BasePage {
                         [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
                     }
                     switch (choiseIdWithType) {
-                        case 'address':
-                            const addressField = document.querySelector('.addressID');
-                            addressField.textContent = data;
-                            addressField.setAttribute('id', `address/${choiceId}`);
-                            break;
-                        case 'paymentCard':
-                            const cardType = document.querySelectorAll('.payment-method-provider');
-                            if (cardType) {
-                                cardType.forEach((key) => {
-                                    key.style.display = 'block';
-                                });
-                            }
-                            const cardNumber = document.querySelectorAll('.card-number');
-                            if (cardNumber) {
-                                cardNumber.forEach((key) => {
-                                    key.textContent = data.split(' ', 1);
-                                });
-                            }
-                            const cardExpiryDate = document.querySelectorAll(
-                                '.payment-method_cart__expiry');
-                            if (cardExpiryDate) {
-                                cardExpiryDate.forEach((key) => {
-                                    key.style.display = 'block';
-                                    key.textContent = data.split(' ').slice(1).join(' ').trim();
-                                });
-                            }
-                            const choice = document.querySelectorAll('.payment-method_cart');
-                            if (choice) {
-                                choice.forEach((key) => {
-                                    key.setAttribute('id', `paymentCard/${choiceId}`);
-                                });
-                            }
-                            document.getElementById('final-paymentmethod').textContent = 'Картой'
-                            break;
-                        case 'payment-upon-receipt':
-                            const paymentReceipt = document.querySelectorAll('.card-number');
-                            if (paymentReceipt) {
-                                paymentReceipt.forEach((key) => {
-                                    key.textContent = data;
-                                });
-                            }
-                            const expiryDate = document.querySelectorAll(
-                                '.payment-method_cart__expiry');
-                            if (expiryDate) {
-                                expiryDate.forEach((key) => {
-                                    key.style.display = 'none';
-                                });
-                            }
-                            const typeCard = document.querySelectorAll('.payment-method-provider');
-                            if (typeCard) {
-                                typeCard.forEach((key) => {
-                                    key.style.display = 'none';
-                                });
-                            }
-                            const choiceMethtod = document.querySelectorAll('.payment-method_cart');
-                            if (choiceMethtod) {
-                                choiceMethtod.forEach((key) => {
-                                    key.setAttribute('id', 'payment-upon-receipt');
-                                });
-                            }
-                            document.getElementById('final-paymentmethod').textContent = 'При получении'
+                    case 'address':
+                        const addressField = document.querySelector('.addressID');
+                        addressField.textContent = data;
+                        addressField.setAttribute('id', `address/${choiceId}`);
+                        break;
+                    case 'paymentCard':
+                        const cardType = document.querySelectorAll('.payment-method-provider');
+                        if (cardType) {
+                            cardType.forEach((key) => {
+                                key.style.display = 'block';
+                            });
+                        }
+                        const cardNumber = document.querySelectorAll('.card-number');
+                        if (cardNumber) {
+                            cardNumber.forEach((key) => {
+                                key.textContent = data.split(' ', 1);
+                            });
+                        }
+                        const cardExpiryDate = document.querySelectorAll(
+                            '.payment-method_cart__expiry');
+                        if (cardExpiryDate) {
+                            cardExpiryDate.forEach((key) => {
+                                key.style.display = 'block';
+                                key.textContent = data.split(' ').slice(1).join(' ').trim();
+                            });
+                        }
+                        const choice = document.querySelectorAll('.payment-method_cart');
+                        if (choice) {
+                            choice.forEach((key) => {
+                                key.setAttribute('id', `paymentCard/${choiceId}`);
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'Картой';
+                        break;
+                    case 'payment-upon-receipt':
+                        const paymentReceipt = document.querySelectorAll('.card-number');
+                        if (paymentReceipt) {
+                            paymentReceipt.forEach((key) => {
+                                key.textContent = data;
+                            });
+                        }
+                        const expiryDate = document.querySelectorAll(
+                            '.payment-method_cart__expiry');
+                        if (expiryDate) {
+                            expiryDate.forEach((key) => {
+                                key.style.display = 'none';
+                            });
+                        }
+                        const typeCard = document.querySelectorAll('.payment-method-provider');
+                        if (typeCard) {
+                            typeCard.forEach((key) => {
+                                key.style.display = 'none';
+                            });
+                        }
+                        const choiceMethtod = document.querySelectorAll('.payment-method_cart');
+                        if (choiceMethtod) {
+                            choiceMethtod.forEach((key) => {
+                                key.setAttribute('id', 'payment-upon-receipt');
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'При получении';
                     }
                 }
                 const popUp = document.getElementById('popUp');
@@ -283,12 +285,14 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'delivery-date':
-                    document.getElementById('date-delivery').textContent = document.getElementById(`delivery-date-value/${itemId}`).textContent;
-                    break;
-                case 'delivery-time':
-                    document.getElementById('time-delivery').textContent = document.getElementById(`delivery-time-value/${itemId}`).textContent;
-                    break;
+            case 'delivery-date':
+                document.getElementById('date-delivery').textContent =
+                    document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                break;
+            case 'delivery-time':
+                document.getElementById('time-delivery').textContent =
+                    document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                break;
             }
         }
     }
@@ -306,34 +310,34 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'empty-cart':
-                    cartAction.deleteAll();
-                    break;
-                case 'delete-cart-item':
-                    this.deleteItem(parseInt(itemId));
-                    break;
-                case 'button-minus_cart':
-                    const amountItem = document.getElementById(`amount-product/${itemId}`);
-                    if (amountItem) {
-                        const amount = parseInt(amountItem.textContent);
-                        if (amount === 1) {
-                            this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
-                        } else {
-                            cartAction.decreaseNumber(parseInt(itemId));
-                            amountItem.textContent = (amount - 1).toString();
-                            this.renderTotalCost();
-                        }
-                    }
-                    break;
-                case 'button-plus_cart':
-                    const itemAmount = document.getElementById(`amount-product/${itemId}`);
-                    if (itemAmount) {
-                        cartAction.increaseNumber(parseInt(itemId));
-                        const amount = parseInt(itemAmount.textContent);
-                        itemAmount.textContent = (amount + 1).toString();
+            case 'empty-cart':
+                cartAction.deleteAll();
+                break;
+            case 'delete-cart-item':
+                this.deleteItem(parseInt(itemId));
+                break;
+            case 'button-minus_cart':
+                const amountItem = document.getElementById(`amount-product/${itemId}`);
+                if (amountItem) {
+                    const amount = parseInt(amountItem.textContent);
+                    if (amount === 1) {
+                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
+                    } else {
+                        cartAction.decreaseNumber(parseInt(itemId));
+                        amountItem.textContent = (amount - 1).toString();
                         this.renderTotalCost();
                     }
-                    break;
+                }
+                break;
+            case 'button-plus_cart':
+                const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                if (itemAmount) {
+                    cartAction.increaseNumber(parseInt(itemId));
+                    const amount = parseInt(itemAmount.textContent);
+                    itemAmount.textContent = (amount + 1).toString();
+                    this.renderTotalCost();
+                }
+                break;
             }
         }
     }
@@ -349,9 +353,12 @@ export default class CartOrderPage extends BasePage {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
                 const itemId = check.getAttribute('id').split('/')[1];
                 if (check.checked) {
-                    const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`).textContent);
-                    let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`).textContent);
-                    const count = sharedFunctions._parseInt(document.getElementById(`amount-product/${itemId}`).textContent);
+                    const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`)
+                        .textContent);
+                    let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`)
+                        .textContent);
+                    const count = sharedFunctions._parseInt(document.getElementById(
+                        `amount-product/${itemId}`).textContent);
                     if (isNaN(price)) {
                         price = lowprice;
                     }
@@ -364,7 +371,7 @@ export default class CartOrderPage extends BasePage {
             });
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        let [sumPrice, noSalePrice, priceDiff, count] =
+        const [sumPrice, noSalePrice, priceDiff, count] =
             data.reduce((sumVal, key, it) => {
                 // sumPrice
                 sumVal[0] += (key.lowprice ?? key.price) *
@@ -383,7 +390,7 @@ export default class CartOrderPage extends BasePage {
         const totalPrice = document.getElementById('total-price');
         totalPrice.textContent = sumPrice + ' ₽';
         const productsNumber = document.getElementById('products-number');
-        productsNumber.textContent = 'Товары, ' + count  + ' шт.';
+        productsNumber.textContent = 'Товары, ' + count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
         priceWithoutDiscount.textContent = noSalePrice + ' ₽';
         const discount = document.getElementById('discount');
@@ -403,30 +410,30 @@ export default class CartOrderPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
             }
             switch (elementId) {
-                case 'item_cart__select-all':
-                    // Установка и снятие галочек у товаров
-                    const chackedItems = document.getElementsByName('itemCart');
-                    chackedItems.forEach((key) => {
-                        key.checked = target.checked;
-                    });
-                    this.renderTotalCost();
-                    break;
-                case 'item_cart__select':
-                    const selectAll = document.getElementById('item_cart__select-all')
-                    if (!target.checked) {
-                        // Снятие галочки выбрать все
-                        selectAll.checked = false;
-                    } else {
-                        // Установление галочки выбрать все
-                        const selectItems = document.getElementsByName('itemCart');
-                        if ([...selectItems].every((key) => {
-                            return key.checked;
-                        })) {
-                            selectAll.checked = true;
-                        }
+            case 'item_cart__select-all':
+                // Установка и снятие галочек у товаров
+                const chackedItems = document.getElementsByName('itemCart');
+                chackedItems.forEach((key) => {
+                    key.checked = target.checked;
+                });
+                this.renderTotalCost();
+                break;
+            case 'item_cart__select':
+                const selectAll = document.getElementById('item_cart__select-all');
+                if (!target.checked) {
+                    // Снятие галочки выбрать все
+                    selectAll.checked = false;
+                } else {
+                    // Установление галочки выбрать все
+                    const selectItems = document.getElementsByName('itemCart');
+                    if ([...selectItems].every((key) => {
+                        return key.checked;
+                    })) {
+                        selectAll.checked = true;
                     }
-                    this.renderTotalCost();
-                    break;
+                }
+                this.renderTotalCost();
+                break;
             }
         }
     }
@@ -453,7 +460,7 @@ export default class CartOrderPage extends BasePage {
             console.log('elements not found', chackedItems);
         }
         if (orderData.items.length === 0) {
-            console.log("Выберите товары для заказа") 
+            console.log('Выберите товары для заказа');
             // Выводить попап
         } else {
             const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
@@ -475,7 +482,7 @@ export default class CartOrderPage extends BasePage {
         const productsContent = document.getElementById('block-products');
         if (productsContent) {
             productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.addEventListener('change',this.listenChangeCheckbox.bind(this));
+            productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
         // Обработчик создания заказа
@@ -502,7 +509,7 @@ export default class CartOrderPage extends BasePage {
         const productsContent = document.getElementById('block-products');
         if (productsContent) {
             productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.removeEventListener('change',this.listenChangeCheckbox.bind(this));
+            productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
         const createOrder = document.getElementById('summary_cart__create-order-button');

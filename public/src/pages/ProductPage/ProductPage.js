@@ -10,7 +10,7 @@ export default class ProductPage extends BasePage {
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-     constructor(parent) {
+    constructor(parent) {
         super(
             parent,
             ProductPagePageTemplate,
@@ -19,30 +19,28 @@ export default class ProductPage extends BasePage {
     /**
      * Метод, добавляющий слушатели.
      */
-     startEventListener() {
-        
+    startEventListener() {
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        
     }
     /**
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-     render(config) {
+    render(config) {
         const data = {
             path: [
                 {
                     name: 'Планшеты',
-                    href: ''
+                    href: '',
                 },
                 {
                     name: 'Apple',
-                    href: ''
+                    href: '',
                 },
             ],
             name: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
@@ -53,38 +51,41 @@ export default class ProductPage extends BasePage {
             },
             favourite: false,
             photo: './img/ipad.png',
-            description: 'Для работы. Для отдыха. Для творчества. Это iPad - универсальный и доступный планшет, прекрасно проявляющий себя во всех сферах: от создания музыки и видео до общения с друзьями и близкими. С iPad всегда все очень просто.',
+            description: `Для работы. Для отдыха. Для творчества. Это iPad - 
+                универсальный и доступный планшет, прекрасно проявляющий себя 
+                во всех сферах: от создания музыки и видео до общения с друзьями 
+                и близкими. С iPad всегда все очень просто.`,
             characteristics: [
                 {
                     name: 'Цвет',
-                    data: 'Серый'
+                    data: 'Серый',
                 },
                 {
                     name: 'Память',
-                    data: '64 ГБ'
+                    data: '64 ГБ',
                 },
                 {
                     name: 'Экран',
-                    data: '10.2" (2160x1620), IPS'
+                    data: '10.2" (2160x1620), IPS',
                 },
                 {
                     name: 'Процессор',
-                    data: 'Apple A13 Bionic'
+                    data: 'Apple A13 Bionic',
                 },
                 {
                     name: 'Версия ОС',
-                    data: 'iPadOS'
+                    data: 'iPadOS',
                 },
                 {
                     name: 'Камеры',
-                    data: '3 камеры, основная  8 МП, фронтальная 12 МП'
+                    data: '3 камеры, основная  8 МП, фронтальная 12 МП',
                 },
             ],
             price: '35 890',
             salePrice: '31 580',
             discount: 12,
             date: ' 01 / 12 / 2022',
-        }
-        super.render(data)
+        };
+        super.render(data);
     }
 }

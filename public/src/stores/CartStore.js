@@ -2,7 +2,6 @@ import BaseStore from './BaseStore.js';
 import {CartActionTypes} from '../actions/cart.js';
 import request from '../modules/ajax.js';
 import {config} from '../config.js';
-import sharedFunctions from '../modules/sharedFunctions.js';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -38,27 +37,7 @@ class CartStore extends BaseStore {
             },
         },
     ];
-
-    #data = {
-        addressID: 1111,//
-        city: 'Москва',//
-        street: 'Мира',//
-        house: 15,//
-        flat: 4,//
-        deliveryPrice: 'Бесплатно',
-        date: new Date('2022-11-25'),//
-        // paymentMethodProvider: mirIcon,//
-        avatar: './img/Smartphone.png',
-        username: 'Джахар',
-        phone: '+7 (872) 234-23-65',
-        deliveryDate: this.#getDate(1),
-        deliveryTime: '18:00 - 23:00',//
-        cardNumber: '8765432143212546',//
-        cardExpiryDate: '05 / 24',//
-        paymentCardId: 1,//
-        auth: true,
-    };
-
+    
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -76,7 +55,6 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.itemsCart, this.#items);
         this._storage.set(this._storeNames.address, null);
         this._storage.set(this._storeNames.userid, null);
-        // this._storage.set(this._storeNames.dataOrder, this.#data);
     }
 
     /**
@@ -185,16 +163,16 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _increaseNumber(id) {
-        let itemsCart = this._storage.get(this._storeNames.itemsCart);
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
             if (item.item.id === id) {
                 itemsCart[key].count = itemsCart[key].count + 1;
             }
         });
         const [status] = await request.makePostRequest(config.api.insertIntoCart, {
-            itemid: id
+            itemid: idlet,
         })
-           .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
@@ -209,7 +187,7 @@ class CartStore extends BaseStore {
      */
     async _addToCart(id) {
         const [status] = await request.makePostRequest(config.api.insertIntoCart, id)
-           .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
             console.log('Adding to the cart was successful');
@@ -223,16 +201,16 @@ class CartStore extends BaseStore {
      * @param {number} id
      */
     async _decreaseNumber(id) {
-        let itemsCart = this._storage.get(this._storeNames.itemsCart);
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
             if (item.item.id === id) {
                 itemsCart[key].count = itemsCart[key].count - 1;
             }
         });
         const [status] = await request.makePostRequest(config.api.deleteFromCart, {
-            itemid: id
+            itemid: id,
         })
-           .catch((err) => console.log(err));
+            .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === 200 || true) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
@@ -243,7 +221,7 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: оформить заказ
-     * @param {object} data - данные для оформления заказа
+     * @param {object} date - данные для оформления заказа
      */
     async _makeOrder(date) {
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
@@ -253,7 +231,7 @@ class CartStore extends BaseStore {
                     delete itemsCart[key];
                 }
             });
-        })
+        });
         const [status] = await request.makePostRequest(config.api.makeOrder, date)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
