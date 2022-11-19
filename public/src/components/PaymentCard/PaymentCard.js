@@ -23,8 +23,6 @@ export default class PaymentCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickAddPaymentCard(event) {
-        event.preventDefault();
-
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp) {
@@ -43,8 +41,6 @@ export default class PaymentCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickDeletePaymentCard(event) {
-        event.preventDefault();
-        console.log(event.target.id.replace('delete-img-paymentCard', ''));
         profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
     }
 

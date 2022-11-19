@@ -375,7 +375,6 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
-        console.log(response);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.name, response.username);
             this._storage.set(this._storeNames.email, response.email);
@@ -453,7 +452,6 @@ class UserStore extends BaseStore {
             }
             return;
         }
-        console.log(userData);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 
@@ -578,7 +576,6 @@ class UserStore extends BaseStore {
      */
     async _saveDeleteCard(id) {
         const userData = this.#collectUserData();
-        console.log(id);
         userData.paymentmethods.forEach((item, key) => {
             if (item.id === id) {
                 delete userData.paymentmethods[key];
@@ -658,16 +655,12 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.errorMessage, errorMessage);
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
-            console.log('data', data);
-            console.log('address', userData.address);
             userData.address.forEach((item, key) => {
                 if (item.id === data.id) {
-                    console.log(item);
                     data.priority = item.priority;
                     userData.address[key] = data;
                 }
             });
-            // const status = 200;
             const [status] = await request.makePostRequest(config.api.profile, userData)
                 .catch((err) => console.log(err));
 

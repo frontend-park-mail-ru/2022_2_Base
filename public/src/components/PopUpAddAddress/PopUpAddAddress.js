@@ -40,7 +40,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     async listenClickApply(event) {
         event.preventDefault();
-        console.log(this.context.id);
         const inputData = {
             city: document.getElementById('city').value,
             street: document.getElementById('street').value,
@@ -49,22 +48,11 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             id: Number(this.context.id?.replace('addressCard/', '')),
         };
 
-        console.log(inputData);
-
         if (this.context.add) {
             profileAction.saveAddAddress(inputData);
         } else {
             profileAction.saveEditAddress(inputData);
         }
-        // const PopUp = document.getElementById('popUp_user-page');
-        // const PopUpFade = document.getElementById('popUp-fade_user-page');
-        // if (PopUp) {
-        //     PopUp.style.display = 'none';
-        //     PopUp.replaceChildren();
-        // }
-        // if (PopUpFade) {
-        //     PopUpFade.style.display = 'none';
-        // }
     }
 
     /**

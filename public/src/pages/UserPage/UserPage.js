@@ -91,7 +91,6 @@ export default class UserPage extends BasePage {
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         bankCard.innerHTML = '';
-        console.log(userStore.getContext(userStore._storeNames.paymentMethods));
         this.loadCards(new PaymentCard(bankCard),
             'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
         this.startListenerPaymentCard();
@@ -146,22 +145,14 @@ export default class UserPage extends BasePage {
             super.render(data);
             return;
         case 'paymentCard':
-            // if (data instanceof Array) {
             data.forEach((paymentCard) => {
                 paymentCard.id = 'paymentCard/' + paymentCard.id;
             });
-            // } else {
-            //     data.id = 'addressCard/' + data.id;
-            // }
             break;
         case 'addressCard':
-            // if (data instanceof Array) {
             data.forEach((address) => {
                 address.id = 'addressCard/' + address.id;
             });
-            // } else {
-            //    data.id = 'addressCard/' + data.id;
-            // }
             break;
         default:
             console.log('unknown command', nameOfCard);
