@@ -136,7 +136,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
         this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
-        this._storage.set(this._storeNames.address, []); // this.#testAddressCards
+        this._storage.set(this._storeNames.address, this.#testAddressCards); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
@@ -380,7 +380,11 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.name, response.username);
             this._storage.set(this._storeNames.email, response.email);
             this._storage.set(this._storeNames.phone, response.phone);
-            this._storage.set(this._storeNames.avatar, response.avatar ?? 'img/UserPhoto.png');
+            if (!!response.avatar && response.avatar !== '') {
+                this._storage.set(this._storeNames.avatar, response.avatar);
+            } else {
+                this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
+            }
             this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
         } else {
@@ -688,6 +692,7 @@ class UserStore extends BaseStore {
             }
         });
 
+        console.log(userData);
         const [status] = await request.makePostRequest(config.api.profile, userData)
             .catch((err) => console.log(err));
 

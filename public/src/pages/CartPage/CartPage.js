@@ -89,12 +89,11 @@ export default class CartOrderPage extends BasePage {
                 }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            // context.isAuth = true; // FIX
+            context.isAuth = true; // FIX
             if (context.isAuth) {
-                context.avatar = userStore.getContext(userStore._storeNames.avatar);
-                context.username = userStore.getContext(userStore._storeNames.name) +
-                    userStore.getContext(userStore._storeNames.surname);
-                context.phone = userStore.getContext(userStore._storeNames.phone);
+                context.avatar = userStore.getContext(userStore._storeNames.avatar) ?? null;
+                context.username = userStore.getContext(userStore._storeNames.name) ?? null;
+                context.phone = userStore.getContext(userStore._storeNames.phone) ?? null;
             }
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = this.#getDate(1);
@@ -171,17 +170,15 @@ export default class CartOrderPage extends BasePage {
                 let context;
                 let choiseItemId;
                 if (elementId === 'edit-address') {
-                    const choice = Array.from(document.getElementsByClassName('addressID'))[0];
-                    choiseItemId = choice.getAttribute('id');
+                    const choice = document.querySelector('.address_cart__main');
+                    choiseItemId = choice.id;
                     context = {
                         address: userStore.getContext(userStore._storeNames.address),
                     };
                 } else {
                     if (elementId === 'edit-payment-card') {
-                        const choice = Array.from(
-                            document.getElementsByClassName('payment-method_cart'))[0];
-                        choiseItemId = choice.getAttribute('id');
-
+                        const choice = document.querySelector('.payment-method_cart');
+                        choiseItemId = choice.id;
                         context = {
                             paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
                         };
@@ -200,15 +197,13 @@ export default class CartOrderPage extends BasePage {
                 this.PopUpChooseAddressAndPaymentCard.render(context);
                 const choose = document.getElementById(choiseItemId);
                 if (choose) {
-                    choose.style.border = '1px solid #6369D1';
                     choose.classList.add('choice');
                 }
                 break;
             case 'cart-popup-form__apply':
-                event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                let choiseIdWithType = choice.getAttribute('id');
+                let choiseIdWithType = choice.id;
                 let choiceId;
                 if (choiseIdWithType) {
                     if (choiseIdWithType.includes('/')) {
@@ -218,7 +213,7 @@ export default class CartOrderPage extends BasePage {
                     case 'address':
                         const addressField = document.querySelector('.addressID');
                         addressField.textContent = data;
-                        addressField.setAttribute('id', `address/${choiceId}`);
+                        addressField.id = `address/${choiceId}`;
                         break;
                     case 'paymentCard':
                         const cardType = document.querySelectorAll('.payment-method-provider');

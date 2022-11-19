@@ -199,7 +199,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const itemToAdd = itemsStore.getContext(itemsStore._storeNames.allCardsInCategory).find(
             (item) => item.id === Number(id));
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        itemToAdd.count = countChange + (itemToAdd.count ?? 0);
+        itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
