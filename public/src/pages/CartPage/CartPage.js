@@ -224,13 +224,6 @@ export default class CartOrderPage extends BasePage {
                                 key.textContent = data;
                             });
                         }
-                        // const cardExpiryDate = document.querySelectorAll(
-                        //     '.payment-method_cart__expiry');
-                        // if (cardExpiryDate) {
-                        //     cardExpiryDate.forEach((key) => {
-                        //         key.textContent = data.split(' ').slice(1).join(' ').trim();
-                        //     });
-                        // }
                         const choice = document.querySelectorAll('.payment-method_cart');
                         if (choice) {
                             choice.forEach((key) => {

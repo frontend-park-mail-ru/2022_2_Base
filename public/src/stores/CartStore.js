@@ -157,11 +157,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         });
 
         if (status === config.responseCodes.code200) {
+            console.log(response);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items);
             console.log(itemsCart.map(({id}) => id));
-            const [postStatus, response] = await request.makePostRequest(config.api.cart,
+            const [postStatus] = await request.makePostRequest(config.api.cart,
                 itemsCart.map(({id}) => id))
                 .catch((err) => console.log(err));
             this._storage.set(this._storeNames.responseCode, postStatus);
@@ -215,9 +216,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, {
-                items: [],
-            });
+            this._storage.set(this._storeNames.itemsCart, []);
         }
     }
 

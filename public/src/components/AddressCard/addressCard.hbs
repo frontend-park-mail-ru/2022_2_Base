@@ -25,7 +25,7 @@
                     {{this.street}}
                 </div>
 
-                <div class="address-card-city text-normal-default"> д. {{this.house}}, кв. {{this.flat}} </div>
+                <div class="address-card-city text-normal-default"> д. {{this.house}}, {{#if this.falt}}кв. {{this.flat}}{{/if}}</div>
             </a>
 
             <div class="change-address-card change-pop-up_user-page" id="change-address-card-{{this.id}}">
