@@ -93,17 +93,19 @@
                 <div class="payment-method_cart" {{#if this.paymentCard}}id="paymentCard/{{this.paymentCard.id}}"{{/if}}>
                     {{#if this.isAuth}}
                         {{#if this.paymentCard}}
-                            <img src="{{this.paymentCard.type}}" alt="payment-method provider"
+                            <img src="img/walletIcon.svg" alt="payment-method provider"
                                  class="payment-method-provider">
                             <span class="text-normal-default card-number"
                                   id="cardNumber">{{this.paymentCard.number}}</span>
-                            <span class="payment-method_cart__expiry text-normal-default"
-                                  id="cardExpiryDate">{{this.paymentCard.expirydate}}</span>
+<!--                            <span class="payment-method_cart__expiry text-normal-default"-->
+<!--                                  id="cardExpiryDate">{{this.paymentCard.expirydate}}</span>-->
                         {{else}}
+                            <img src="img/walletIcon.svg" alt="payment-method provider"
+                                 class="payment-method-provider">
                             <span class="text-normal-default card-number"
                                   id="cardNumber">Картой или наличными при получении</span>
-                            <span class="payment-method_cart__expiry text-normal-default"
-                                  id="cardExpiryDate">{{this.paymentCard.expirydate}}</span>
+<!--                            <span class="payment-method_cart__expiry text-normal-default"-->
+<!--                                  id="cardExpiryDate">{{this.paymentCard.expirydate}}</span>-->
                         {{/if}}
                     {{else}}
                         <span class="text-normal-default">

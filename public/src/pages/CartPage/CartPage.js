@@ -89,7 +89,7 @@ export default class CartOrderPage extends BasePage {
                 }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            //context.isAuth = true; // FIX
+            context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar) ?? null;
                 context.username = userStore.getContext(userStore._storeNames.name) ?? null;
@@ -217,26 +217,20 @@ export default class CartOrderPage extends BasePage {
                         addressField.id = `address/${choiceId}`;
                         break;
                     case 'paymentCard':
-                        const cardType = document.querySelectorAll('.payment-method-provider');
-                        if (cardType) {
-                            cardType.forEach((key) => {
-                                key.style.display = 'block';
-                            });
-                        }
+                        console.log(data);
                         const cardNumber = document.querySelectorAll('.card-number');
                         if (cardNumber) {
                             cardNumber.forEach((key) => {
-                                key.textContent = data.split(' ')[1];
+                                key.textContent = data;
                             });
                         }
-                        const cardExpiryDate = document.querySelectorAll(
-                            '.payment-method_cart__expiry');
-                        if (cardExpiryDate) {
-                            cardExpiryDate.forEach((key) => {
-                                key.style.display = 'block';
-                                key.textContent = data.split(' ').slice(1).join(' ').trim();
-                            });
-                        }
+                        // const cardExpiryDate = document.querySelectorAll(
+                        //     '.payment-method_cart__expiry');
+                        // if (cardExpiryDate) {
+                        //     cardExpiryDate.forEach((key) => {
+                        //         key.textContent = data.split(' ').slice(1).join(' ').trim();
+                        //     });
+                        // }
                         const choice = document.querySelectorAll('.payment-method_cart');
                         if (choice) {
                             choice.forEach((key) => {
@@ -250,25 +244,6 @@ export default class CartOrderPage extends BasePage {
                         if (paymentReceipt) {
                             paymentReceipt.forEach((key) => {
                                 key.textContent = data;
-                            });
-                        }
-                        const expiryDate = document.querySelectorAll(
-                            '.payment-method_cart__expiry');
-                        if (expiryDate) {
-                            expiryDate.forEach((key) => {
-                                key.style.display = 'none';
-                            });
-                        }
-                        const typeCard = document.querySelectorAll('.payment-method-provider');
-                        if (typeCard) {
-                            typeCard.forEach((key) => {
-                                key.style.display = 'none';
-                            });
-                        }
-                        const choiceMethtod = document.querySelectorAll('.payment-method_cart');
-                        if (choiceMethtod) {
-                            choiceMethtod.forEach((key) => {
-                                key.setAttribute('id', 'payment-upon-receipt');
                             });
                         }
                         document.getElementById('final-paymentmethod').textContent = 'При получении';
