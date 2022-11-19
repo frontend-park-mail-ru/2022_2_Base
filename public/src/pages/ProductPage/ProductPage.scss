@@ -57,6 +57,7 @@
 .product-page-header__rating {
     display: grid;
     grid-template-columns: 24px 30px;
+    grid-gap: 4px;
     align-items: center;
     justify-items: center;
     background: transparent;
@@ -71,7 +72,7 @@
 .product-page-header__selection {
     display: grid;
     grid-template-columns: 24px 124px;
-    grid-gap: 8px;
+    grid-gap: 4px;
 }
 
 .favourite-opt {
