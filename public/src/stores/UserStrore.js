@@ -192,11 +192,6 @@ class UserStore extends BaseStore {
             this._emitChange([ProfileActionTypes.DELETE_AVATAR]);
             break;
 
-        case ProfileActionTypes.GET_CARDS:
-            await this._getCards();
-            this._emitChange([ProfileActionTypes.GET_CARDS]);
-            break;
-
         case ProfileActionTypes.SAVE_ADD_CARD:
             await this._saveAddCard(payload.data);
             this._emitChange([ProfileActionTypes.SAVE_ADD_CARD]);
@@ -205,11 +200,6 @@ class UserStore extends BaseStore {
         case ProfileActionTypes.DELETE_CARD:
             await this._saveDeleteCard(payload.data);
             this._emitChange([ProfileActionTypes.DELETE_CARD]);
-            break;
-
-        case ProfileActionTypes.GET_ADDRESS:
-            await this._getAddress();
-            this._emitChange([ProfileActionTypes.GET_ADDRESS]);
             break;
 
         case ProfileActionTypes.SAVE_ADD_ADDRESS:
@@ -225,11 +215,6 @@ class UserStore extends BaseStore {
         case ProfileActionTypes.DELETE_ADDRESS:
             await this._deleteAddress(payload.data);
             this._emitChange([ProfileActionTypes.DELETE_ADDRESS]);
-            break;
-
-        case ProfileActionTypes.GET_BASKET:
-            await this._getBasket();
-            this._emitChange([ProfileActionTypes.GET_BASKET]);
             break;
         }
     }
@@ -386,8 +371,6 @@ class UserStore extends BaseStore {
             }
             this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
-        } else {
-            console.log('error', status);
         }
     }
 
@@ -476,16 +459,7 @@ class UserStore extends BaseStore {
                 this._storage.set(this._storeNames.avatar,
                     'img/UserPhoto.png');
             }
-        } else {
-            console.log('error', status);
         }
-    }
-
-    /**
-     * Метод, реализующий выход из сессии.
-     */
-    async _getCards() {
-
     }
 
     /**
@@ -564,8 +538,6 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
-            } else {
-                console.log('error', status);
             }
         }
     }
@@ -578,7 +550,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         userData.paymentmethods.forEach((item, key) => {
             if (item.id === id) {
-                delete userData.paymentmethods[key];
+                userData.paymentmethods[key] = {};
             }
         });
         const [status] = await request.makePostRequest(config.api.profile, userData)
@@ -586,8 +558,6 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
-        } else {
-            console.log('error', status);
         }
     }
 
@@ -681,7 +651,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         userData.address.forEach((item, key) => {
             if (item.id === id) {
-                delete userData.address[key];
+                userData.address[key] = {};
             }
         });
 
@@ -695,13 +665,6 @@ class UserStore extends BaseStore {
         } else {
             console.log('error', status);
         }
-    }
-
-    /**
-     * Метод, реализующий запрос корзины.
-     */
-    async _getBasket() {
-
     }
 }
 

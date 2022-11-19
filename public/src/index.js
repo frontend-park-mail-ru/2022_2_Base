@@ -23,7 +23,7 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    if (href !== null && href !== undefined) {
+    if (!!href && !href.includes('#')) {
         event.preventDefault();
         router.openPage(href);
     }
