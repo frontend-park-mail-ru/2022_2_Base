@@ -246,7 +246,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      */
     async _makeOrder(data) {
         data.userid = this._storage.get(this._storeNames.userID);
-        data.card = this._storage.get(this._storeNames.id);
+        data.card = this._storage.get(this._storeNames.cartID);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
