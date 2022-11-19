@@ -115,6 +115,52 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             await this._makeOrder(payload.data);
             this._emitChange([CartActionTypes.MAKEORDER]);
             break;
+
+        case CartActionTypes.RESET_CART:
+            await this._resetCart();
+            break;
+
+        case CartActionTypes.MERGE_CART:
+            await this._mergeCart();
+            break;
+        }
+    }
+
+    /**
+     * Действие: сбросить корзину.
+     */
+    async _resetCart() {
+        this._storage.set(this._storeNames.itemsCart, []);
+        this._storage.set(this._storeNames.cartID, null);
+        this._storage.set(this._storeNames.userID, null);
+    }
+
+    /**
+     * Действие: соединить локальную корзину с корзиной в БД.
+     */
+    async _mergeCart() {
+        const [status, response] = await request.makeGetRequest(config.api.cart)
+            .catch((err) => console.log(err));
+
+        const itemsCart = this._storage.get(this._storeNames.itemsCart);
+        response.items.forEach((globalItem) => {
+            let hasItem = false;
+            itemsCart.forEach((localItem, key) => {
+                if (globalItem.id === localItem.id) {
+                    itemsCart[key].count += globalItem.count;
+                    hasItem = true;
+                }
+            });
+            if (!hasItem) {
+                itemsCart.push(globalItem);
+            }
+        });
+
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.cartID, response.id);
+            this._storage.set(this._storeNames.userID, response.userid);
         }
     }
 
@@ -138,14 +184,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _deleteById(id) {
-        const items = [];
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         itemsCart.forEach((item, key) => {
-            if (item.id !== id) {
-                items.push(item.id);
+            if (item.id === id) {
+                delete itemsCart[key];
             }
         });
-        itemsCart.items = items;
         const [status] = await request.makePostRequest(config.api.cart, itemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
@@ -177,18 +221,15 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     #editCountOfItem(status, countChange, id) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             this._storage.set(this._storeNames.responseCode, status);
-            if (status === config.responseCodes.code200) {
-                console.log('Adding to the cart was successful');
-            } else {
-                console.log('error', status);
-            }
         }
         this._storage.set(this._storeNames.currID, id);
         const itemToAdd = itemsStore.getContext(itemsStore._storeNames.allCardsInCategory).find(
             (item) => item.id === Number(id));
+        if (itemToAdd) {
+            itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
+        }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
-        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
@@ -204,13 +245,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _addToCart(id) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
-            console.log({
-                itemid: Number(id),
-            });
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
                 itemid: Number(id),
-            })
-                .catch((err) => console.log(err));
+            }).catch((err) => console.log(err));
         }
         this.#editCountOfItem(status,
             1, id);

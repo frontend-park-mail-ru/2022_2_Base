@@ -5,6 +5,8 @@ import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import errorMessage from '../modules/ErrorMessage.js';
 import validation from '../modules/validation.js';
+import cartStore from './CartStore';
+import {cartAction} from "../actions/cart";
 
 // import {re} from '@babel/core/lib/vendor/import-meta-resolve';
 
@@ -244,6 +246,7 @@ class UserStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, false);
+            cartAction.resetCart();
         }
     }
 
@@ -262,6 +265,7 @@ class UserStore extends BaseStore {
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
+            cartAction.mergeCart();
         }
     }
 
@@ -279,6 +283,7 @@ class UserStore extends BaseStore {
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
+            cartAction.mergeCart();
         }
     }
 

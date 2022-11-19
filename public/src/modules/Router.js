@@ -81,7 +81,6 @@ class Router {
         this.register(config.href.main, MainPage);
         this.register(config.href.login, LoginPage);
         this.register(config.href.signup, RegisterPage);
-        this.register(config.href.user, UserPage); // remove!
         this.register(config.href.category, CatalogPage);
         this.register(config.href.cart, CartPage);
 
@@ -112,7 +111,6 @@ class Router {
             return true;
         }
         this.#currentPage = this.renderPage(ErrorPage)(config);
-        // this.openPage(config.href.notFound);
         return false;
     }
 
