@@ -160,6 +160,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items);
+            console.log(itemsCart.map(({id}) => id));
             const [postStatus, response] = await request.makePostRequest(config.api.cart,
                 itemsCart.map(({id}) => id))
                 .catch((err) => console.log(err));
@@ -208,13 +209,15 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * Действие: удалить все товары из корзины.
      */
     async _deleteAll() {
-        const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        itemsCart.items = [];
-        const [status] = await request.makePostRequest(config.api.cart, itemsCart)
+        const [status] = await request.makePostRequest(config.api.cart, {
+            items: [],
+        })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.itemsCart, {
+                items: [],
+            });
         }
     }
 
