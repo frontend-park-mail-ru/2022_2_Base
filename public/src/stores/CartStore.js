@@ -162,9 +162,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items);
             console.log(itemsCart.map(({id}) => id));
-            const [postStatus] = await request.makePostRequest(config.api.cart,
-                itemsCart.map(({id}) => id))
-                .catch((err) => console.log(err));
+            const [postStatus] = await request.makePostRequest(config.api.cart, {
+                items: itemsCart.map(({id}) => id),
+            }).catch((err) => console.log(err));
             this._storage.set(this._storeNames.responseCode, postStatus);
             if (status === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.itemsCart, itemsCart);
