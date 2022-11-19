@@ -37,7 +37,6 @@ class CartStore extends BaseStore {
             },
         },
     ];
-    
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',

@@ -9,7 +9,6 @@ import PopUpChooseAddressAndPaymentCard
 import cartStore from '../../stores/CartStore.js';
 import userStore from '../../stores/UserStrore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -100,8 +99,8 @@ export default class CartOrderPage extends BasePage {
         context.isAuth = true; // FIX
         if (context.isAuth) {
             context.avatar = userStore.getContext(userStore._storeNames.avatar);
-            context.username = userStore.getContext(userStore._storeNames.name)
-                + userStore.getContext(userStore._storeNames.surname);
+            context.username = userStore.getContext(userStore._storeNames.name) +
+                userStore.getContext(userStore._storeNames.surname);
             context.phone = userStore.getContext(userStore._storeNames.phone);
         }
         context.deliveryPrice = 'Бесплатно';
