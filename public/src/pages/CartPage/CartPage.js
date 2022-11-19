@@ -201,6 +201,7 @@ export default class CartOrderPage extends BasePage {
                 }
                 break;
             case 'cart-popup-form__apply':
+                event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
                 let choiseIdWithType = choice.id;
