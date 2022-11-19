@@ -226,7 +226,7 @@ export default class CartOrderPage extends BasePage {
                         const cardNumber = document.querySelectorAll('.card-number');
                         if (cardNumber) {
                             cardNumber.forEach((key) => {
-                                key.textContent = data.split(' ', 1);
+                                key.textContent = data.split(' ')[1];
                             });
                         }
                         const cardExpiryDate = document.querySelectorAll(
