@@ -131,8 +131,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             this._storage.set(this._storeNames.itemsCart, response.items);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
-        } else {
-            console.log('error', status);
         }
     }
 
@@ -157,8 +155,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
-        } else {
-            console.log('error', status);
         }
     }
 
@@ -171,8 +167,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, []);
-        } else {
-            console.log('error', status);
         }
     }
 
@@ -261,15 +255,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 }
             });
         });
-        console.log('_makeOrder', data);
+        data.userid = itemsCart.userid;
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, itemsCart);
-            console.log('Order created');
-        } else {
-            console.log('error', status);
         }
     }
 

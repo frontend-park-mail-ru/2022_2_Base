@@ -135,7 +135,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
-        this._storage.set(this._storeNames.paymentMethods, this.#testPaymentCards); // this.#testPaymentCards
+        this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
         this._storage.set(this._storeNames.address, []); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
@@ -550,7 +550,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         userData.paymentmethods.forEach((item, key) => {
             if (item.id === id) {
-                userData.paymentmethods[key] = {};
+                delete userData.paymentmethods[key];
             }
         });
         const [status] = await request.makePostRequest(config.api.profile, userData)
@@ -651,7 +651,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         userData.address.forEach((item, key) => {
             if (item.id === id) {
-                userData.address[key] = {};
+                delete userData.address[key];
             }
         });
 

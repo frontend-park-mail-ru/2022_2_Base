@@ -439,7 +439,7 @@ export default class CartOrderPage extends BasePage {
         const checkedItems = document.getElementsByName('itemCart');
         if (checkedItems) {
             checkedItems.forEach((key) => {
-                const itemId = key.getAttribute('id').split('/')[1];
+                const itemId = key.id.split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
                         parseInt(itemId));
@@ -449,7 +449,7 @@ export default class CartOrderPage extends BasePage {
             console.log('elements not found', checkedItems);
         }
         if (orderData.items.length) {
-            const address = document.getElementsByClassName('addressID')[0];
+            const address = document.querySelector('.addressID');
             if (address) {
                 orderData.address = parseInt(address.getAttribute('id')
                     .split('/', 2)[1]);
@@ -464,8 +464,8 @@ export default class CartOrderPage extends BasePage {
                 (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                 0)).toJSON();
 
-            orderData.card = parseInt(document.getElementsByClassName('payment-method_cart')[0]
-                .getAttribute('id').split('/', 2)[1]);
+            orderData.card = parseInt(document.querySelector('.payment-method_cart')
+                .id.split('/', 2)[1]);
             orderData.card = orderData.card ? orderData.card : null;
             cartAction.makeOrder(orderData);
         } else {

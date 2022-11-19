@@ -107,7 +107,7 @@
 .checkboxes_cart {
   display: grid;
   gap: 16px;
-  margin-bottom: 16px;
+  margin: 16px 0 16px 0;
 }
 
 /* Basic styling of checkbox-opt */
@@ -292,12 +292,12 @@
 
 .payment-method_cart {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center
 }
 
 .payment-method-provider {
-  width: 46px;
+  width: 28px;
   height: 24px;
 }
 
