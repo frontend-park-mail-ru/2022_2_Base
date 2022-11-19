@@ -1,31 +1,73 @@
 <div class="paint-background"></div>
 <div class="content-product-page content-product-page_margin">
-    <div class="poduct-page-header poduct-page-header_padding">
+    <div class="product-page-header content-product-page-block-background product-page-header-main_padding">
         <ol>
             {{#each path}}
-                <li class="poduct-page-header__path">
-                    <a class="text-normal-default poduct-page-header__path-color" href="{{this.href}}">{{this.name}}</a>
+                <li class="product-page-header__path">
+                    <a class="text-normal-default product-page-header__path-color" href="{{this.href}}">{{this.name}}</a>
                 </li>
             {{/each}}
         </ol>
-        <div class="poduct-page-header__name text-normal-very-large">
+        <div class="product-page-color-jet-black text-normal-very-large">
             {{name}}
         </div>
-        <div class="poduct-page-header__data">
-            <button type="button" class="poduct-page-header__rating">
-                <img src="img/Star.svg" alt="S" class="poduct-page-header__rating-img">
+        <div class="product-page-header__data">
+            <button type="button" class="product-page-header__rating">
+                <img src="img/Star.svg" alt="S" class="product-page-header__rating-img">
                 <span class="text-normal-large-normal">
                     {{rating}}
                 </span>
             </button>
             <a href="{{href.href}}" class="text-normal-large-normal link">{{comments.count}} отзывов</a>
-            <label class="poduct-page-header__selection">
+            <label class="product-page-header__selection">
                 <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
-                <span class="poduct-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if this.favourite}}
+                <span class="product-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if this.favourite}}
                     В избранном {{else}} В избранное {{/if}}</span>
             </label>
         </div>
     </div>
-    <div class="poduct-page-main"></div>
+    <div class="product-page-main">
+        <div class="product-page-main__information content-product-page-block-background product-page-header-main_padding">
+            <img src="{{photo}}" alt="product photo" class="product-page-main__photo">
+            <div class="product-page-main__information-text product-page-main__information-text_margin">
+                <div class="product-page-main__description">
+                    <span class="product-page-information__header text-normal-default__bold">Описание</span>
+                    <span class="product-page-color-jet-black text-normal-default">
+                        {{#if description}}
+                            {{description}}
+                        {{else}}
+                            Нет описания
+                        {{/if}}
+                    </span>
+                </div>
+                <div class="product-page-main__characteristics">
+                    <span class="product-page-information__header text-normal-default__bold">Коротко о товаре</span>
+                    {{#each characteristics}}
+                        <div class="product-page-characteristics__field">
+                            <div class="product-page-characteristics__name-dotted">
+                                <span class="product-page-characteristics__name text-normal-default">{{this.name}}</span>
+                            </div>
+                            <span class="product-page-color-jet-black text-normal-default">{{this.data}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="product-page-main__add-cart content-product-page-block-background">
+            <div class="product-page-main__price">
+                <span class="text-normal-default product-page-main__price-strikethrough">{{price}} ₽</span>
+                {{#if salePrice}}
+                    <div class="product-page-main__sales-value text-normal-small">
+                        -{{discount}}%
+                    </div>
+                {{/if}}
+            </div>
+            <span class="product-page-color-jet-black text-normal-very-large">{{salePrice}} ₽</span>
+            <span class="product-page-color-jet-black text-normal-default">Доставка: {{date}}</span>
+            <button type="button" class="button-default product-page__add-cart-button">
+                Добавить в корзину
+            </button>
+        </div>
+    </div>
 </div>
 <div class="paint-background"></div>
