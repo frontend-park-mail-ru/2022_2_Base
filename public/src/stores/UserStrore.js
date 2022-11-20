@@ -73,11 +73,11 @@ class UserStore extends BaseStore {
 
     #testPaymentCards = [
         {
-            priority: true,
-            number: '123456******1234',
-            type: 'MIR',
-            expiry: '1975-08-19T23:15:30.000Z',
-            id: 1,
+            id: 60,
+            type: '',
+            number: '1232131232131231',
+            expiryDate: '2053-01-31T00:00:00Z',
+            priority: false,
         },
         {
             number: '123456******5678',
@@ -373,8 +373,9 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
-            response.paymentMethods?.forEach((mehtod, key) => {
-                const date = new Date(mehtod.expiryDate);
+            console.log(response.paymentMethods);
+            response.paymentMethods.forEach((mehtod, key) => {
+                const date = new Date(mehtod.expirydate);
                 response.paymentMethods[key].expiry =
                     (date.getUTCMonth() / 10).toString()
                         .replace('.', '') +
