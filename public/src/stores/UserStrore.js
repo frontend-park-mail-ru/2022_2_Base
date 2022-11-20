@@ -378,8 +378,8 @@ class UserStore extends BaseStore {
                 response.paymentmethods.forEach((mehtod, key) => {
                     const date = new Date(mehtod.expirydate);
                     response.paymentmethods[key].expiry =
-                        (date.getUTCMonth() / 10).toString()
-                            .replace('.', '') +
+                        (date.getUTCMonth() + 1) / 10 === 0 ?
+                            '0' + date.getUTCMonth() + 1 : date.getUTCMonth() + 1 +
                         '/' + date.getUTCFullYear() % 100;
                 });
             } else {
@@ -530,7 +530,7 @@ class UserStore extends BaseStore {
             data.id = userData.paymentMethods.length;
             data.priority = true;
             data.expiryDate = data.expiry.split('/');
-            data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0] - 1);
+            data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0]);
             userData.paymentMethods.push(data);
 
             await this.#makePostRequestCard(userData, 'paymentMethods');
