@@ -5,10 +5,7 @@ import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import errorMessage from '../modules/ErrorMessage.js';
 import validation from '../modules/validation.js';
-import cartStore from './CartStore';
-import {cartAction} from "../actions/cart";
-
-// import {re} from '@babel/core/lib/vendor/import-meta-resolve';
+import {cartAction} from '../actions/cart';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -97,7 +94,7 @@ class UserStore extends BaseStore {
             street: 'улица Бауманская',
             house: '228',
             flat: '420',
-            id: 1, // addressCard/addressCard/
+            id: 1, // addressCard/
         },
         {
             city: 'г. Москва',
@@ -112,7 +109,6 @@ class UserStore extends BaseStore {
         isAuth: 'isAuth',
         responseCode: 'responseCode',
         name: 'name',
-        surname: 'surname',
         email: 'email',
         phone: 'phone',
         context: 'context',
@@ -133,7 +129,6 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.isAuth, false);
         this._storage.set(this._storeNames.responseCode, null);
         this._storage.set(this._storeNames.name, null);
-        this._storage.set(this._storeNames.surname, null);
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
@@ -251,16 +246,14 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, реализующий регистрацию.
-     * @param {object} data - данные для входа
+     * Метод, реализующий авторизацию.
+     * @param {string} path - путь запроса
+     * @param {object} data - данные для авторизации
      */
-    async _signup(data) {
-        const {username, email, password} = data;
-        const [status] = await request.makePostRequest(config.api.signup, {
-            password,
-            email,
-            username,
-        }).catch((err) => console.log(err));
+    async #auth(path, data) {
+        const [status] = await request.makePostRequest(path, data)
+            .catch((err) => console.log(err));
+
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code201) {
@@ -270,21 +263,28 @@ class UserStore extends BaseStore {
     }
 
     /**
+     * Метод, реализующий регистрацию.
+     * @param {object} data - данные для входа
+     */
+    async _signup(data) {
+        const {username, email, password} = data;
+        await this.#auth(config.api.signup, {
+            password,
+            email,
+            username,
+        });
+    }
+
+    /**
      * Метод, реализующий вход в сессию.
      * @param {object} data - данные для входа
      */
     async _login(data) {
         const {email, password} = data;
-        const [status] = await request.makePostRequest(config.api.login, {
+        await this.#auth(config.api.signup, {
             password,
             email,
-        }).catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, status);
-
-        if (status === config.responseCodes.code201) {
-            this._storage.set(this._storeNames.isAuth, true);
-            cartAction.mergeCart();
-        }
+        });
     }
 
     /**
@@ -373,17 +373,17 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
-            response.paymentmethods = this.#testPaymentCards;
-            response.paymentmethods?.forEach((mehtod, key) => {
+            response.paymentMethods = this.#testPaymentCards;
+            response.paymentMethods?.forEach((mehtod, key) => {
                 console.log(mehtod);
                 const date = new Date(mehtod.expiryDate);
-                response.paymentmethods[key].expiry =
+                response.paymentMethods[key].expiry =
                     (date.getUTCMonth() / 10).toString()
                         .replace('.', '') +
                     '/' + date.getUTCFullYear() % 100;
             });
 
-            this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
+            this._storage.set(this._storeNames.paymentMethods, response.paymentMethods ?? []);
             this._storage.set(this._storeNames.address, response.address ?? []);
         }
     }
@@ -395,58 +395,26 @@ class UserStore extends BaseStore {
     async _saveEditData(data) {
         const userData = this.#collectUserData();
         const dataForVal = {};
+        dataForVal[this.#context.fields[data.id].popUpName] = data.value;
+        if (!this.#validate(dataForVal)) {
+            this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
+            return;
+        }
         switch (data.id) {
         case 'name':
-            dataForVal[this.#context.fields.name.popUpName] = data.value;
-            if (this.#validate(dataForVal)) {
-                userData.username = data.value;
-            } else {
-                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
-                return;
-            }
-
+            userData.username = data.value;
             break;
         case 'email':
-            dataForVal[this.#context.fields.email.popUpName] = data.value;
-            if (this.#validate(dataForVal)) {
-                userData.email = data.value;
-            } else {
-                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
-                return;
-            }
-
+            userData.email = data.value;
             break;
         case 'phone':
-            dataForVal[this.#context.fields.phone.popUpName] = data.value;
-            if (this.#validate(dataForVal)) {
-                userData.phone = data.value;
-            } else {
-                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
-                return;
-            }
-
+            userData.phone = data.value;
             break;
         case 'password':
-            const repeatPasswordField = document.getElementById(
-                this.#context.fields.repeatPassword.fieldName);
-            if (repeatPasswordField) {
-                dataForVal[this.#context.fields.repeatPassword.popUpName] =
-                        repeatPasswordField.value === data.value;
-            } else {
-                console.log('Элемент не найден: ', repeatPasswordField);
-                return;
-            }
-
-            dataForVal[this.#context.fields.password.popUpName] = data.value;
-            const isValid = this.#validate(dataForVal);
-            if (isValid) {
-                userData.password = data.value;
-                const [status] = await request.makePostRequest(config.api.password, userData)
-                    .catch((err) => console.log(err));
-                this._storage.set(this._storeNames.responseCode, status);
-            } else {
-                this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
-            }
+            userData.password = data.value;
+            const [status] = await request.makePostRequest(config.api.password, userData)
+                .catch((err) => console.log(err));
+            this._storage.set(this._storeNames.responseCode, status);
             return;
         }
         const [status] = await request.makePostRequest(config.api.profile, userData)
@@ -481,10 +449,10 @@ class UserStore extends BaseStore {
      * @return {object} данные
      */
     #collectUserData() {
-        const paymentmethodsField = this._storage.get(this._storeNames.paymentMethods);
-        paymentmethodsField.forEach(
-            (paymentmethod, key) =>
-                paymentmethodsField[key].id = Number((paymentmethod.id).toString().split('/')[1]));
+        const paymentMethodsField = this._storage.get(this._storeNames.paymentMethods);
+        paymentMethodsField.forEach(
+            (paymentMethod, key) =>
+                paymentMethodsField[key].id = Number((paymentMethod.id).toString().split('/')[1]));
 
         const addressField = this._storage.get(this._storeNames.address);
         addressField.forEach(
@@ -496,9 +464,24 @@ class UserStore extends BaseStore {
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
             avatar: this._storage.get(this._storeNames.avatar),
-            paymentmethods: paymentmethodsField,
+            paymentMethods: paymentMethodsField,
             address: addressField,
         };
+    }
+
+    /**
+     * Метод, реализующий отправку данных для карт профиля.
+     * @param {object} data - данные для обработки
+     * @param {object} field - название поля
+     */
+    async #makePostRequestCard(data, field) {
+        const [status] = await request.makePostRequest(config.api.profile, data)
+            .catch((err) => console.log(err));
+
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames[field], data[field]);
+        }
     }
 
     /**
@@ -541,20 +524,14 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.responseCode, config.states.invalidData);
         } else {
             delete data.cvc;
-            userData.paymentmethods.forEach((item) => delete item.priority);
-            data.id = userData.paymentmethods.length;
+            userData.paymentMethods.forEach((item) => delete item.priority);
+            data.id = userData.paymentMethods.length;
             data.priority = true;
             data.expiryDate = data.expiry.split('/');
             data.expiryDate = new Date(20 + data.expiryDate[1], data.expiryDate[0] + 1);
-            userData.paymentmethods.push(data);
+            userData.paymentMethods.push(data);
 
-            const [status] = await request.makePostRequest(config.api.profile, userData)
-                .catch((err) => console.log(err));
-
-            this._storage.set(this._storeNames.responseCode, status);
-            if (status === config.responseCodes.code200) {
-                this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
-            }
+            await this.#makePostRequestCard(userData, 'paymentMethods');
         }
     }
 
@@ -564,26 +541,13 @@ class UserStore extends BaseStore {
      */
     async _saveDeleteCard(id) {
         const userData = this.#collectUserData();
-        userData.paymentmethods.forEach((item, key) => {
+        userData.paymentMethods.forEach((item, key) => {
             if (item.id === id) {
-                delete userData.paymentmethods[key];
+                delete userData.paymentMethods[key];
             }
         });
-        const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.paymentMethods, userData.paymentmethods);
-        }
+        await this.#makePostRequestCard(userData, 'paymentMethods');
     }
-
-    /**
-     * Метод, реализующий выход из сессии.
-     */
-    async _getAddress() {
-
-    }
-
 
     /**
      * Функция, реализующая валидацию полей карты.
@@ -618,15 +582,7 @@ class UserStore extends BaseStore {
             data.priority = true;
             userData.address.push(data);
 
-            const [status] = await request.makePostRequest(config.api.profile, userData)
-                .catch((err) => console.log(err));
-
-            this._storage.set(this._storeNames.responseCode, status);
-            if (status === config.responseCodes.code200) {
-                this._storage.set(this._storeNames.address, userData.address);
-            } else {
-                console.log('error', status);
-            }
+            await this.#makePostRequestCard(userData, 'address');
         }
     }
 
@@ -647,15 +603,7 @@ class UserStore extends BaseStore {
                     userData.address[key] = data;
                 }
             });
-            const [status] = await request.makePostRequest(config.api.profile, userData)
-                .catch((err) => console.log(err));
-
-            this._storage.set(this._storeNames.responseCode, status);
-            if (status === config.responseCodes.code200 ) {
-                this._storage.set(this._storeNames.address, userData.address);
-            } else {
-                console.log('error', status);
-            }
+            await this.#makePostRequestCard(userData, 'address');
         }
     }
 
@@ -670,17 +618,7 @@ class UserStore extends BaseStore {
                 delete userData.address[key];
             }
         });
-
-        console.log(userData);
-        const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
-
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.address, userData.address);
-        } else {
-            console.log('error', status);
-        }
+        await this.#makePostRequestCard(userData, 'address');
     }
 }
 
