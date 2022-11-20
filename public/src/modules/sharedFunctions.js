@@ -16,7 +16,7 @@ class SharedFunctions {
      * @param {array} data - данные карты
      */
     addSpacesToPrice(data) {
-        data.forEach((item) => {
+        data?.forEach((item) => {
             item.discount = null;
             item.price === item.lowprice ? item.price = item.discount :
                 item.discount = 100 - Math.round(item.lowprice / item.price * 100);

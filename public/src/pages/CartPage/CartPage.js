@@ -356,7 +356,6 @@ export default class CartOrderPage extends BasePage {
         // Изменение итоговых сумм
         const totalPrice = document.getElementById('total-price');
         totalPrice.textContent = summary.sumPrice + ' ₽';
-        console.log(summary.sumPrice);
         const productsNumber = document.getElementById('products-number');
         productsNumber.textContent = 'Товары, ' + summary.count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
@@ -406,20 +405,6 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
-     * Функция, возвращает дату доставки
-     * @return {string} дата доставки
-     */
-    #getDeliverDate() {
-        let date = document.getElementById('date-delivery').textContent.trim();
-        let time = document.getElementById('time-delivery').textContent.trim();
-        date = date.split(' / ');
-        time = time.split(' - ');
-        return new Date(Date.UTC(date[2], date[1], date[0],
-            (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
-            0)).toJSON();
-    }
-
-    /**
      * Функция, обрабатывающая клик на кнопку создания заказа
      */
     async listenClickCreateOrder() {
@@ -447,7 +432,15 @@ export default class CartOrderPage extends BasePage {
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
             }
-            orderData.deliveryDate = this.#getDeliverDate();
+
+            let date = document.getElementById('date-delivery').textContent.trim();
+            let time = document.getElementById('time-delivery').textContent.trim();
+            date = date.split(' / ');
+            time = time.split(' - ');
+            orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
+                (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
+                0)).toJSON();
+
             orderData.card = parseInt(document.querySelector('.payment-method_cart')
                 .id.split('/', 2)[1]);
             orderData.card = orderData.card ? orderData.card : null;

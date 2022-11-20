@@ -37,13 +37,12 @@ const changePage = async (event) => {
 window.addEventListener('click', changePage);
 
 userStore.addListener(() => {
-    router.openPage(document.location.pathname);
     if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
-        router.refresh(config);
     } else {
         refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
+    router.openPage(document.location.pathname);
 },
 UserActionTypes.USER_FETCH);
 

@@ -373,9 +373,7 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
-            response.paymentMethods = this.#testPaymentCards;
             response.paymentMethods?.forEach((mehtod, key) => {
-                console.log(mehtod);
                 const date = new Date(mehtod.expiryDate);
                 response.paymentMethods[key].expiry =
                     (date.getUTCMonth() / 10).toString()
