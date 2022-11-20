@@ -530,7 +530,7 @@ class UserStore extends BaseStore {
             data.id = userData.paymentMethods.length;
             data.priority = true;
             data.expiryDate = data.expiry.split('/');
-            data.expiryDate = new Date(2000 + data.expiryDate[1], data.expiryDate[0] - 1);
+            data.expiryDate = new Date(2000 + data.expiry[1], data.expiry[0] - 1);
             userData.paymentMethods.push(data);
 
             await this.#makePostRequestCard(userData, 'paymentMethods');
