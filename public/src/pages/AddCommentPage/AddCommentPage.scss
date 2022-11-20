@@ -28,7 +28,7 @@
     &:before {
       content: "\2605";
       font-size: 40px + 2px;
-      color: var(--secondary-purple);
+      color: var(--background-grey);
       line-height: 1;
     }
   }
@@ -48,7 +48,7 @@
 
 .add-comment-page__block {
   width: 1338px;
-  height: 536px;
+  height: 548px;
   display: grid;
   grid-template-rows: 1fr 9fr 2fr;
   grid-template-columns: 1fr 4fr;
@@ -70,7 +70,7 @@
   border-radius: 10px;
   width: 824px;
   height: 96px;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .add-comment-page__block__input-fields__block__field__input {

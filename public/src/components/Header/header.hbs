@@ -4,12 +4,39 @@
             <img src="img/Logo.png" alt="LOGO">
         </a>
     </div>
-    <div class="header__catalog">
-        <a href="" class="button-default header__button-catalog paint-purple-disabled">
-            <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
-            Каталог
-        </a>
-    </div>
+
+
+    <details class="dropdown">
+        <summary role="button">
+            <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default">
+                <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
+                Каталог </a>
+        </summary>
+        <ul class="dropdown-content">
+            {{#each this.categories}}
+
+                <a href="{{this.href}}" class="text-normal-default dropdown-content__item"
+                   id="catalog__popUp-category">{{this.nameCategory}}</a>
+            {{/each}}
+        </ul>
+    </details>
+
+
+    <!--    <div class="dropdown">-->
+    <!--        <input type="checkbox" id="checkbox-toggle">-->
+    <!--        <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"-->
+    <!--               for="checkbox-toggle">-->
+    <!--            Каталог</label>-->
+    <!--        <ul class="dropdown-content">-->
+        <!--            {{#each this.categories}}-->
+    <!--                <a href="{{this.href}}" class="text-normal-default"-->
+    <!--                   id="catalog__popUp-category">{{this.nameCategory}}</a>-->
+        <!--            {{/each}}-->
+
+    <!--        </ul>-->
+    <!--    </div>-->
+
+
     <div class="header__search-line disabled">
         <input type="search" class="header__form-search" name="search-line"
                placeholder="Что Вас интересует?" maxlength="75">
