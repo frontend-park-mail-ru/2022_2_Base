@@ -22,7 +22,7 @@ class ErrorMessage {
             div.classList.add('input-field-error');
             span.classList.add('input-field-error__text');
             span.id = 'error-text';
-            span.innerHTML = message;
+            span.textContent = message;
             target.after(div);
         }
     };
@@ -39,19 +39,20 @@ class ErrorMessage {
 
     /**
      * Метод, который отрисовывает сообщение об ошибке сервера.
-     * @param {object} target - HTML-элемент, после которого будет осуществлена отрисовка
+     * @param {object} target - HTML-элемент, после (до) которого будет осуществлена отрисовка
      * @param {string} nameId - id HTML-элемента, который будет отрисован
      * @param {string} message - сообщение для отрисовки
+     * @param {boolean} after - вставить после или до target
      */
-    getServerMessage(target, nameId, message) {
+    getServerMessage(target, nameId, message, after = false) {
         const div = document.createElement('div');
         div.id = nameId;
         const span = document.createElement('span');
         div.appendChild(span);
         div.classList.add('server-error');
         span.classList.add('server-error__text');
-        span.innerText = message;
-        target.before(div);
+        span.textContent = message;
+        after ? target.after(div) : target.before(div);
     }
 
     /**

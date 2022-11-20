@@ -59,6 +59,28 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
+     * Функция, считающая итоговую стоимость товаров в корине
+     * @param {array} data
+     * @param {object} context
+     */
+    #calcSummaryPrice(data, context) {
+        [context.sumPrice, context.noSalePrice, context.priceDiff, context.count] =
+            data.reduce((sumVal, key) => {
+                // sumPrice
+                sumVal[0] += key.lowprice * key.count ?? key.price * key.count;
+                // noSalePrice
+                sumVal[1] += key.price * key.count;
+                // priceDiff
+                sumVal[2] = sumVal[1] - sumVal[0];
+                // count
+                sumVal[3] += key.count;
+                return sumVal;
+            }, [0, 0, 0, 0]).map((val) => {
+                return sharedFunctions._truncate(val);
+            });
+    }
+
+    /**
      * Функция, отрисовывающая корзину
      * @param {object} data - данные для заполнения
      */
@@ -67,7 +89,7 @@ export default class CartOrderPage extends BasePage {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
-                Object.values(address).forEach((key) => {
+                address.forEach((key) => {
                     if (key.priority) {
                         context.address = key;
                     }
@@ -75,18 +97,11 @@ export default class CartOrderPage extends BasePage {
             }
             const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
             if (paymentCards) {
-                Object.values(paymentCards).forEach((key) => {
+                paymentCards.forEach((key) => {
                     if (key.priority) {
                         context.paymentCard = key;
                     }
                 });
-                switch (context.paymentCard?.type) {
-                case 'MIR':
-                    context.paymentCard.type = mirIcon;
-                    break;
-                default:
-                    break;
-                }
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
             context.isAuth = true; // FIX
@@ -98,26 +113,7 @@ export default class CartOrderPage extends BasePage {
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = this.#getDate(1);
 
-            // Подсчет итоговой стоимости товаров в корзине для отрисовки
-            const [sumPrice, noSalePrice, priceDiff, count] =
-                data.reduce((sumVal, key, it) => {
-                    // sumPrice
-                    sumVal[0] += (Number(key.lowprice) ?? Number(key.price)) *
-                        key.count;
-                    // noSalePrice
-                    sumVal[1] += Number(key.price) * Number(key.count);
-                    // priceDiff
-                    sumVal[2] = sumVal[1] - sumVal[0];
-                    // count
-                    sumVal[3] += key.count;
-                    return sumVal;
-                }, [0, 0, 0, 0]).map((val) => {
-                    return sharedFunctions._truncate(val);
-                });
-            context.sumPrice = sumPrice;
-            context.noSalePrice = noSalePrice;
-            context.priceDiff = priceDiff;
-            context.count = count;
+            this.#calcSummaryPrice(data, context);
             super.render(context);
             const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
             cartItem.render(data);
@@ -355,30 +351,18 @@ export default class CartOrderPage extends BasePage {
             });
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        const [sumPrice, noSalePrice, priceDiff, count] =
-            data.reduce((sumVal, key, it) => {
-                // sumPrice
-                sumVal[0] += (key.lowprice ?? key.price) *
-                key.count;
-                // noSalePrice
-                sumVal[1] += key.price * key.count;
-                // priceDiff
-                sumVal[2] = sumVal[1] - sumVal[0];
-                // coount
-                sumVal[3] += key.count;
-                return sumVal;
-            }, [0, 0, 0, 0]).map((val) => {
-                return sharedFunctions._truncate(val);
-            });
+        const summary = {};
+        this.#calcSummaryPrice(data, summary);
         // Изменение итоговых сумм
         const totalPrice = document.getElementById('total-price');
-        totalPrice.textContent = sumPrice + ' ₽';
+        totalPrice.textContent = summary.sumPrice + ' ₽';
+        console.log(summary.sumPrice);
         const productsNumber = document.getElementById('products-number');
-        productsNumber.textContent = 'Товары, ' + count + ' шт.';
+        productsNumber.textContent = 'Товары, ' + summary.count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
-        priceWithoutDiscount.textContent = noSalePrice + ' ₽';
+        priceWithoutDiscount.textContent = summary.noSalePrice + ' ₽';
         const discount = document.getElementById('discount');
-        discount.textContent = priceDiff + ' ₽';
+        discount.textContent = summary.priceDiff + ' ₽';
     }
 
     /**
@@ -422,6 +406,20 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
+     * Функция, возвращает дату доставки
+     * @return {string} дата доставки
+     */
+    #getDeliverDate() {
+        let date = document.getElementById('date-delivery').textContent.trim();
+        let time = document.getElementById('time-delivery').textContent.trim();
+        date = date.split(' / ');
+        time = time.split(' - ');
+        return new Date(Date.UTC(date[2], date[1], date[0],
+            (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
+            0)).toJSON();
+    }
+
+    /**
      * Функция, обрабатывающая клик на кнопку создания заказа
      */
     async listenClickCreateOrder() {
@@ -449,14 +447,7 @@ export default class CartOrderPage extends BasePage {
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
             }
-            let date = document.getElementById('date-delivery').textContent.trim();
-            let time = document.getElementById('time-delivery').textContent.trim();
-            date = date.split(' / ');
-            time = time.split(' - ');
-            orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
-                (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
-                0)).toJSON();
-
+            orderData.deliveryDate = this.#getDeliverDate();
             orderData.card = parseInt(document.querySelector('.payment-method_cart')
                 .id.split('/', 2)[1]);
             orderData.card = orderData.card ? orderData.card : null;
@@ -471,26 +462,26 @@ export default class CartOrderPage extends BasePage {
      */
     startEventListener() {
         // Обработчик блока товаров
-        const productsContent = document.getElementById('block-products');
-        if (productsContent) {
-            productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
+        this.productsContent = document.getElementById('block-products');
+        if (this.productsContent) {
+            this.productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
+            this.productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
         // Обработчик создания заказа
-        const createOrder = document.getElementById('summary_cart__create-order-button');
-        if (createOrder) {
-            createOrder.addEventListener('click', this.listenClickCreateOrder);
+        this.createOrder = document.getElementById('summary_cart__create-order-button');
+        if (this.createOrder) {
+            this.createOrder.addEventListener('click', this.listenClickCreateOrder);
         }
 
-        const cartContent = document.getElementById('cart');
-        if (cartContent) {
-            cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+        this.cartContent = document.getElementById('cart');
+        if (this.cartContent) {
+            this.cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCart = document.getElementById('address-cart');
-        if (addressCart) {
-            addressCart.addEventListener('change', this.listenChangeDateAndTime);
+        this.addressCart = document.getElementById('address-cart');
+        if (this.addressCart) {
+            this.addressCart.addEventListener('change', this.listenChangeDateAndTime);
         }
     }
 
@@ -498,25 +489,25 @@ export default class CartOrderPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const productsContent = document.getElementById('block-products');
-        if (productsContent) {
-            productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
+        this.productsContent = document.getElementById('block-products');
+        if (this.productsContent) {
+            this.productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
+            this.productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
         }
 
-        const createOrder = document.getElementById('summary_cart__create-order-button');
-        if (createOrder) {
-            createOrder.removeEventListener('click', this.listenClickCreateOrder);
+        this.createOrder = document.getElementById('summary_cart__create-order-button');
+        if (this.createOrder) {
+            this.createOrder.removeEventListener('click', this.listenClickCreateOrder);
         }
 
-        const cartContent = document.getElementById('content_cart');
-        if (cartContent) {
-            cartContent.removeEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+        this.cartContent = document.getElementById('content_cart');
+        if (this.cartContent) {
+            this.cartContent.removeEventListener('click', this.listenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCart = document.getElementById('address-cart');
-        if (addressCart) {
-            addressCart.removeEventListener('change', this.listenChangeDateAndTime);
+        this.addressCart = document.getElementById('address-cart');
+        if (this.addressCart) {
+            this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
     }
 

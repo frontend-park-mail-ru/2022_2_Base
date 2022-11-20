@@ -59,37 +59,16 @@ export default class MainPage extends BasePage {
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             const rootElement = document.getElementById(response.classToGet + '__right-arrow');
             response.body.forEach((card, num) => {
-                let discount = null;
-                card.price === card.lowprice ? card.price = discount :
-                    discount = 100 - Math.round(card.lowprice / card.price * 100);
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: discount,
-                    price: card.lowprice,
-                    salePrice: card.price,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                    id: card.id,
-                    count: card.count,
-                };
-                /* creating div to add */
                 const cardElement = document.createElement('div');
                 cardElement.id = `${response.classToGet}${String(num)}`;
                 cardElement.classList.add('item-card');
                 rootElement.before(cardElement);
-                /* rendering card itself */
                 const itemCard = new ItemCard(cardElement);
-                itemCard.render(newCard);
+                itemCard.render(card);
             });
         } else if (!document.getElementById('ServerLoadError')) {
-            const div = document.createElement('div');
-            div.id = 'ServerLoadError';
-            const span = document.createElement('span');
-            div.appendChild(span);
-            div.classList.add('server-error');
-            span.classList.add('server-error__text');
-            span.innerHTML = 'Возникла ошибка при загрузке товаров. Попробуйте позже';
-            document.getElementById('catalog').after(div);
+            errorMessage.getServerMessage(document.getElementById('catalog'), 'ServerLoadError',
+                'Возникла ошибка при загрузке товаров. Попробуйте позже', true);
         }
     }
 
@@ -99,40 +78,18 @@ export default class MainPage extends BasePage {
      */
     localEventListenersHandler(event) {
         event.preventDefault();
-        const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-                switch (elementId) {
-                case 'itemcard_button-add-to-cart':
-                    cartAction.addToCart(itemId);
-                    break;
-                case 'itemcard_button-minus_cart':
-                    cartAction.decreaseNumber(itemId);
-                    break;
-                case 'itemcard_button-plus_cart':
-                    cartAction.increaseNumber(itemId);
-                    break;
-                case 'itemcard_item-title':
-                    // 'item/'+itemId
-                    /* Переход на страницу товара по ссылке в комменте выше */
-                    break;
-                case 'itemcard_item-pic':
-                    // 'item/' + itemId
-                    /* Переход на страницу товара по ссылке в комменте выше */
-
-                    break;
-                }
-            } else {
-                switch (elementId) {
-                case 'mainpage_top-category':
-                    // 'item/'+ target.dataset.href
-                    /* Переход на страницу категории по ссылке в комменте выше */
-
-                    break;
-                }
+        if (event.target.getAttribute('ind')) {
+            const [elementId, itemId] = event.target.getAttribute('ind').split('/');
+            switch (elementId) {
+            case 'itemcard_button-add-to-cart':
+                cartAction.addToCart(itemId);
+                break;
+            case 'itemcard_button-minus_cart':
+                cartAction.decreaseNumber(itemId);
+                break;
+            case 'itemcard_button-plus_cart':
+                cartAction.increaseNumber(itemId);
+                break;
             }
         }
     }
@@ -141,18 +98,21 @@ export default class MainPage extends BasePage {
      * Функция, увеличение количество
      */
     buttonCreate() {
-        const addToCartButton = document.getElementById(
-            `itemcard_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        const amountSelector = document.getElementById(
-            `itemcard_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (!!addToCartButton && !!amountSelector) {
-            amountSelector.style.display = 'grid';
-            addToCartButton.style.display = 'none';
+        const countSelector = document.querySelectorAll(
+            '[ind=\'itemcard_amount-selector\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        const addToCartButton = document.querySelectorAll(
+            '[ind=\'itemcard_button-add-to-cart\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (!!addToCartButton && !!countSelector) {
+            countSelector.forEach((selector) => selector.style.display = 'grid');
+            addToCartButton.forEach((button) => button.style.display = 'none');
 
-            const itemAmount = document.getElementById(
-                `itemcard_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            if (itemAmount) {
-                itemAmount.textContent = '1';
+            const itemCount = document.querySelectorAll(
+                '[ind=\'itemcard_item-count\/' +
+                cartStore.getContext(cartStore._storeNames.currID) + '\']');
+            if (itemCount) {
+                itemCount.forEach((item) => item.textContent = '1');
             }
         } else {
             console.warn('Элементы не найдены');
@@ -163,11 +123,12 @@ export default class MainPage extends BasePage {
      * Функция для увеличения количества товара в корзине
      */
     buttonAdd() {
-        const itemAmount = document.getElementById(
-            `itemcard_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
-            itemAmount.textContent = (count + 1).toString();
+        const itemCount = document.querySelectorAll(
+            '[ind=\'itemcard_item-count\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (itemCount.length) {
+            const count = parseInt(itemCount[0].textContent);
+            itemCount.forEach((item) => item.textContent = (count + 1).toString());
         }
     }
 
@@ -175,25 +136,28 @@ export default class MainPage extends BasePage {
      * Функция для уменьшения количества товара в корзине
      */
     buttonMinus() {
-        const itemAmount = document.getElementById(
-            `itemcard_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+        const itemCount = document.querySelectorAll(
+            '[ind=\'itemcard_item-count\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (itemCount.length) {
+            const count = parseInt(itemCount[0].textContent);
 
             if (count === 1) {
-                const amountSelector = document.getElementById(
-                    `itemcard_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                const addToCartButton = document.getElementById(
-                    `itemcard_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                if (!!addToCartButton && !!amountSelector) {
-                    amountSelector.style.display = 'none';
-                    addToCartButton.style.display = 'flex';
+                const countSelector = document.querySelectorAll(
+                    '[ind=\'itemcard_amount-selector\/' +
+                    cartStore.getContext(cartStore._storeNames.currID) + '\']');
+                const addToCartButton = document.querySelectorAll(
+                    '[ind=\'itemcard_button-add-to-cart\/' +
+                    cartStore.getContext(cartStore._storeNames.currID) + '\']');
+                if (!!addToCartButton && !!countSelector) {
+                    countSelector.forEach((selector) => selector.style.display = 'none');
+                    addToCartButton.forEach((button) => button.style.display = 'flex');
                 } else {
                     console.warn(
                         'Элементы не найдены: addToCartButton, addToCartButton');
                 }
             } else {
-                itemAmount.textContent = (count - 1).toString();
+                itemCount.forEach((item) => item.textContent = (count - 1).toString());
             }
         }
     }
@@ -208,7 +172,7 @@ export default class MainPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
             break;
         }
     }
@@ -262,12 +226,12 @@ export default class MainPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        cartAction.getCart();
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
+        cartAction.getCart();
         itemCardsAction.getHomeItemCards(config.api.products, true);
         itemCardsAction.getHomeItemCards(config.api.products, false);
         this.startEventListener();

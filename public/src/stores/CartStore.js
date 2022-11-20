@@ -4,6 +4,7 @@ import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
+import sharedFunctions from "../modules/sharedFunctions";
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -181,6 +182,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            sharedFunctions.addSpacesToPrice(response.items);
             this._storage.set(this._storeNames.itemsCart, response.items);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);

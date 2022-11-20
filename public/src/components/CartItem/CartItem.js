@@ -25,25 +25,11 @@ export default class CartItem extends BaseComponent {
     }
 
     /**
-     * Метод, подготавливающий цену доставки для отрисовки
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} значение контекста с ценой доставки готовой для отрисовки
-     */
-    _getPrice(context) {
-        context.forEach((key) => {
-            key.price = sharedFunctions._truncate(key.price);
-            key.lowprice = key.lowprice ?
-                sharedFunctions._truncate(key.lowprice) : null;
-        });
-        return context;
-    }
-
-    /**
      * Метод, подготавливающий наполнение для формы, исходя из контекста
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} значение категории из контекста отрисовки
      */
     prepareCategory(context) {
-        return {item: {...this._getPrice(context)}};
+        return {item: {...context}};
     }
 }
