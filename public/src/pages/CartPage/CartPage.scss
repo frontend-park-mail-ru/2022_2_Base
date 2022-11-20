@@ -365,3 +365,10 @@
 .summary_cart__create-order-button:hover {
   background: var(--hover_purple);
 }
+
+.cart-main_empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}

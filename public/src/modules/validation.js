@@ -23,17 +23,18 @@ class Validation {
 
     /**
      * Метод, валидирующий номер телефона.
-     * @param {string} data - номер для валидации
+     * @param {string} phone - номер для валидации
      * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    validatePhone(data) {
-        const checkEmpty = this.checkEmptyField(data);
+    validatePhone(phone) {
+        const checkEmpty = this.checkEmptyField(phone);
         if (!checkEmpty.status) {
             return checkEmpty;
         }
-        if (!(data.length === 11)) {
-            return {status: false, message: 'Телефон должен иметь формат: 8 XXX XXX XX XX'};
+        if (phone.length !== 11 || !/^\d+$/.test(phone)) {
+            return {status: false,
+                message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`};
         }
         return {status: true, message: ''};
     };

@@ -106,9 +106,9 @@ export default class CartOrderPage extends BasePage {
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
             context.isAuth = true; // FIX
             if (context.isAuth) {
-                context.avatar = userStore.getContext(userStore._storeNames.avatar) ?? null;
-                context.username = userStore.getContext(userStore._storeNames.name) ?? null;
-                context.phone = userStore.getContext(userStore._storeNames.phone) ?? null;
+                context.avatar = userStore.getContext(userStore._storeNames.avatar);
+                context.username = userStore.getContext(userStore._storeNames.name);
+                context.phone = userStore.getContext(userStore._storeNames.phone);
             }
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = this.#getDate(1);
@@ -122,8 +122,7 @@ export default class CartOrderPage extends BasePage {
             document.getElementById('main').innerHTML = `
             <div class="paint-background"></div>
             <div id="content-cart"
-                <span class="text-normal-large-normal" 
-                style="display:flex; justify-content: center;  align-items: center; height: 60vh">
+                <span class="text-normal-large-normal cart-main_empty">
                 Корзина пуста. Случайно не нужен&nbsp
                 <a href="${config.href.category}/phones" class="link">телефон</a>
                 ?
@@ -151,50 +150,49 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики на данной странице
+     * @param {string} elementToEditID - id поля, которе надо будет изменить в попапе
+     * @param {object} context - данные для передачи в попап
+     */
+    #handleEditPopup(elementToEditID, context) {
+        const PopUp = document.getElementById('popUp');
+        const PopUpFade = document.getElementById('popUp-fade');
+        if (PopUp) {
+            PopUp.style.display = 'grid';
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'grid';
+        }
+        this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+        this.PopUpChooseAddressAndPaymentCard.render(context);
+        const choose = document.getElementById(elementToEditID);
+        if (choose) {
+            choose.classList.add('choice');
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая клики на данной странице
      * @param {Event} event контекст события для обработки
      */
     async listenClickAddressAndPaymentCardBlock(event) {
-        const target = event.target;
-        let elementId = target.id;
+        let elementId = event.target.id;
         if (elementId) {
             if (elementId.includes('/')) {
                 [elementId] = elementId.split('/');
             }
             switch (elementId) {
             case 'edit-address':
-            case 'edit-payment-card':
-                let context;
-                let choiseItemId;
-                if (elementId === 'edit-address') {
-                    const choice = document.querySelector('.address_cart__main');
-                    choiseItemId = choice.id;
-                    context = {
+                this.#handleEditPopup(document.querySelector('.address_cart__main').id,
+                    {
                         address: userStore.getContext(userStore._storeNames.address),
-                    };
-                } else {
-                    if (elementId === 'edit-payment-card') {
-                        const choice = document.querySelector('.payment-method_cart');
-                        choiseItemId = choice.id;
-                        context = {
-                            paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
-                        };
-                    }
-                }
-
-                const PopUp = document.getElementById('popUp');
-                const PopUpFade = document.getElementById('popUp-fade');
-                if (PopUp) {
-                    PopUp.style.display = 'block';
-                }
-                if (PopUpFade) {
-                    PopUpFade.style.display = 'block';
-                }
-                this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
-                this.PopUpChooseAddressAndPaymentCard.render(context);
-                const choose = document.getElementById(choiseItemId);
-                if (choose) {
-                    choose.classList.add('choice');
-                }
+                        isAddress: true,
+                    });
+                break;
+            case 'edit-payment-card':
+                this.#handleEditPopup(document.querySelector('.payment-method_cart').id,
+                    {
+                        paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
+                    });
                 break;
             case 'cart-popup-form__apply':
                 event.preventDefault();
@@ -213,7 +211,6 @@ export default class CartOrderPage extends BasePage {
                         addressField.id = `address/${choiceId}`;
                         break;
                     case 'paymentCard':
-                        console.log(data);
                         const cardNumber = document.querySelectorAll('.card-number');
                         if (cardNumber) {
                             cardNumber.forEach((key) => {
@@ -223,7 +220,7 @@ export default class CartOrderPage extends BasePage {
                         const choice = document.querySelectorAll('.payment-method_cart');
                         if (choice) {
                             choice.forEach((key) => {
-                                key.setAttribute('id', `paymentCard/${choiceId}`);
+                                key.id = `paymentCard/${choiceId}`;
                             });
                         }
                         document.getElementById('final-paymentmethod').textContent = 'Картой';
@@ -457,8 +454,10 @@ export default class CartOrderPage extends BasePage {
         // Обработчик блока товаров
         this.productsContent = document.getElementById('block-products');
         if (this.productsContent) {
-            this.productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
-            this.productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
+            this.bindListenClickProductsBlock = this.listenClickProductsBlock.bind(this);
+            this.bindListenChangeCheckbox = this.listenChangeCheckbox.bind(this);
+            this.productsContent.addEventListener('click', this.bindListenClickProductsBlock);
+            this.productsContent.addEventListener('change', this.bindListenChangeCheckbox);
         }
 
         // Обработчик создания заказа
@@ -469,7 +468,9 @@ export default class CartOrderPage extends BasePage {
 
         this.cartContent = document.getElementById('cart');
         if (this.cartContent) {
-            this.cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+            this.bindListenClickAddressAndPaymentCardBlock =
+                this.listenClickAddressAndPaymentCardBlock.bind(this);
+            this.cartContent.addEventListener('click', this.bindListenClickAddressAndPaymentCardBlock);
         }
 
         this.addressCart = document.getElementById('address-cart');
@@ -484,8 +485,8 @@ export default class CartOrderPage extends BasePage {
     removeEventListener() {
         this.productsContent = document.getElementById('block-products');
         if (this.productsContent) {
-            this.productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
-            this.productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
+            this.productsContent.removeEventListener('click', this.bindListenClickProductsBlock);
+            this.productsContent.removeEventListener('change', this.bindListenChangeCheckbox);
         }
 
         this.createOrder = document.getElementById('summary_cart__create-order-button');
@@ -495,7 +496,8 @@ export default class CartOrderPage extends BasePage {
 
         this.cartContent = document.getElementById('content_cart');
         if (this.cartContent) {
-            this.cartContent.removeEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+            this.cartContent.removeEventListener('click',
+                this.bindListenClickAddressAndPaymentCardBlock);
         }
 
         this.addressCart = document.getElementById('address-cart');

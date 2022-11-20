@@ -218,6 +218,8 @@ export default class CatalogPage extends BasePage {
         if (this.catalogContent) {
             this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
+
+
         this.waitThrottleScroll = false;
         this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
         window.addEventListener('scroll', this.bottomOfPageHandler, {passive: true});

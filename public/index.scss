@@ -84,6 +84,7 @@ input[type=number] {
   border-radius: 10px;
   border: none;
   text-align: center;
+  cursor: pointer;
 }
 
 .button-default-no-box {
@@ -137,19 +138,18 @@ main {
 
 /* fonts */
 
-.text-normal-huge {
-  font-family: var(--font-main);
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 52px;
-  color: var(--jet-black);
-}
-
 .text-normal-default {
   font-family: var(--font-main);
   font-weight: 500;
   font-size: 15px;
   line-height: 20px;
+}
+
+.text-normal-huge {
+  @extend .text-normal-default;
+  font-size: 40px;
+  line-height: 52px;
+  color: var(--jet-black);
 }
 
 .text-normal-default__strikethrough {
@@ -159,8 +159,7 @@ main {
 }
 
 .text-normal-small {
-  font-family: var(--font-main);
-  font-weight: 500;
+  @extend .text-normal-default;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: -0.05em;
@@ -172,7 +171,7 @@ main {
 }
 
 .text-normal-large {
-  font-family: var(--font-main);
+  @extend .text-normal-default;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;

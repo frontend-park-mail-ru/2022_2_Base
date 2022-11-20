@@ -373,16 +373,19 @@ class UserStore extends BaseStore {
             } else {
                 this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
             }
-            console.log(response.paymentmethods);
-            response.paymentmethods.forEach((mehtod, key) => {
-                const date = new Date(mehtod.expirydate);
-                response.paymentmethods[key].expiry =
-                    (date.getUTCMonth() / 10).toString()
-                        .replace('.', '') +
-                    '/' + date.getUTCFullYear() % 100;
-            });
 
-            this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
+            if (response.paymentmethods) {
+                response.paymentmethods.forEach((mehtod, key) => {
+                    const date = new Date(mehtod.expirydate);
+                    response.paymentmethods[key].expiry =
+                        (date.getUTCMonth() / 10).toString()
+                            .replace('.', '') +
+                        '/' + date.getUTCFullYear() % 100;
+                });
+            } else {
+                response.paymentmethods = [];
+            }
+            this._storage.set(this._storeNames.paymentMethods, response.paymentmethods);
             this._storage.set(this._storeNames.address, response.address ?? []);
         }
     }
