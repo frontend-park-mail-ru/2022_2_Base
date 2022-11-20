@@ -215,8 +215,7 @@ header, footer {
   position: fixed;
   left: 1080px;
   top: 80px;
-  width: 320px;
-  height: 32px;
+  padding: 16px;
   animation: animation_fade-out 5s;
   z-index: 999999;
 }

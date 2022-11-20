@@ -37,6 +37,14 @@ export const config = {
         invalidUserData: 4000,
         invalidData: 4040,
     },
+    queryParams: {
+        sort: {
+            base: '?sort=',
+            price: 'price',
+            rating: 'rating',
+            popular: 'popular',
+        },
+    },
     responseCodes: {
         code200: 200,
         code201: 201,

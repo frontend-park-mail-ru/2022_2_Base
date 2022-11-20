@@ -73,6 +73,15 @@ class Router {
     }
 
     /**
+     * Добавляет в историю браузера.
+     * @param {string} path - путь к странице
+     */
+    addToHistory(path) {
+        window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
+        window.onpopstate = (event) => this.onPopState(event);
+    }
+
+    /**
      * Запускает роутер.
      */
     start() {
@@ -83,7 +92,7 @@ class Router {
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CatalogPage);
         this.register(config.href.cart, CartPage);
-        //this.register(config.href.user, UserPage); //fix
+        // this.register(config.href.user, UserPage); //fix
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
@@ -106,8 +115,7 @@ class Router {
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath);
-            window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
-            window.onpopstate = (event) => this.onPopState(event);
+            this.addToHistory(path);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }

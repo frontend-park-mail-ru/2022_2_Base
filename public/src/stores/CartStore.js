@@ -144,6 +144,8 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
+        console.log('itemsCart', itemsCart);
+        console.log('response', response);
         response.items.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
@@ -156,18 +158,18 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 itemsCart.push(globalItem);
             }
         });
+        console.log('merge', itemsCart);
 
         if (status === config.responseCodes.code200) {
             console.log(response);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items);
-            console.log(itemsCart.map(({id}) => id));
             const [postStatus] = await request.makePostRequest(config.api.cart, {
                 items: itemsCart.map(({id}) => id),
             }).catch((err) => console.log(err));
             this._storage.set(this._storeNames.responseCode, postStatus);
-            if (status === config.responseCodes.code200) {
+            if (postStatus === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.itemsCart, itemsCart);
             }
         }
@@ -200,6 +202,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 delete itemsCart[key];
             }
         });
+        itemsCart.filter((item) => item);
         const [status] = await request.makePostRequest(config.api.cart, itemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);

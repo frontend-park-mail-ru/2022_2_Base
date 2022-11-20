@@ -47,6 +47,12 @@ export default class CatalogPage extends BasePage {
             ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
 
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
+
+        itemsStore.addListener(this.loadSortedItemCards.bind(this),
+            ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY);
+
+        itemsStore.addListener(this.loadSortedItemCards.bind(this),
+            ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY);
     }
 
     /**
@@ -59,7 +65,7 @@ export default class CatalogPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
     }
@@ -85,6 +91,17 @@ export default class CatalogPage extends BasePage {
             router.openNotFoundPage();
             break;
         }
+    }
+
+    /**
+     * Функция, подгружающая и отрисовывающая карточки дешевых товаров
+     */
+    loadSortedItemCards() {
+        router.addToHistory(itemsStore.getContext(itemsStore._storeNames.sortURL));
+        this.itemsBlock.innerHTML = '';
+        itemCardsAction.getItemCardsByCategory(true);
+        this.removeScrollListener();
+        this.startScrollListener();
     }
 
     /**
@@ -211,6 +228,21 @@ export default class CatalogPage extends BasePage {
     }
 
     /**
+     * Функция, реагирующая на кнопки сортировки.
+     *  @param {HTMLElement} event - событие, вызвавшее клик.
+     */
+    lisitenSortCatalog(event) {
+        switch (event.target.id) {
+        case 'catalog_sort-rating':
+            itemCardsAction.getHighRatingItemCardsByCategory(true);
+            break;
+        case 'catalog_sort-price':
+            itemCardsAction.getCheapItemCardsByCategory(true);
+            break;
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели
      */
     startEventListener() {
@@ -222,6 +254,18 @@ export default class CatalogPage extends BasePage {
 
         this.waitThrottleScroll = false;
         this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
+        this.startScrollListener();
+
+        this.catalogSort = document.getElementById('catalog_sort-buttons');
+        if (this.catalogSort) {
+            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+        }
+    }
+
+    /**
+     * Метод, добавляющий слушатель на скролл.
+     */
+    startScrollListener() {
         window.addEventListener('scroll', this.bottomOfPageHandler, {passive: true});
     }
 
@@ -241,6 +285,10 @@ export default class CatalogPage extends BasePage {
         }
 
         this.removeScrollListener();
+
+        if (this.catalogSort) {
+            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+        }
     }
 
 
@@ -255,6 +303,7 @@ export default class CatalogPage extends BasePage {
         cartAction.getCart();
         itemCardsAction.getItemCardsByCategory(true);
         this.startEventListener();
+        this.itemsBlock = document.getElementById('items-block');
     }
 }
 

@@ -143,7 +143,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
             break;
         }
     }
@@ -172,7 +172,7 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {Event} event контекст события для обработки
+     * @param {HTMLElement} event контекст события для обработки
      */
     async listenClickAddressAndPaymentCardBlock(event) {
         let elementId = event.target.id;
@@ -483,24 +483,20 @@ export default class CartOrderPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        this.productsContent = document.getElementById('block-products');
         if (this.productsContent) {
             this.productsContent.removeEventListener('click', this.bindListenClickProductsBlock);
             this.productsContent.removeEventListener('change', this.bindListenChangeCheckbox);
         }
 
-        this.createOrder = document.getElementById('summary_cart__create-order-button');
         if (this.createOrder) {
             this.createOrder.removeEventListener('click', this.listenClickCreateOrder);
         }
 
-        this.cartContent = document.getElementById('content_cart');
         if (this.cartContent) {
             this.cartContent.removeEventListener('click',
                 this.bindListenClickAddressAndPaymentCardBlock);
         }
 
-        this.addressCart = document.getElementById('address-cart');
         if (this.addressCart) {
             this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
