@@ -378,7 +378,7 @@ class UserStore extends BaseStore {
                 response.paymentmethods.forEach((mehtod, key) => {
                     const date = new Date(mehtod.expirydate);
                     response.paymentmethods[key].expiry =
-                        (date.getUTCMonth() + 1) / 10 === 0 ?
+                        Math.floor((date.getUTCMonth() + 1) / 10) === 0 ?
                             '0' + date.getUTCMonth() + 1 : date.getUTCMonth() + 1 +
                         '/' + date.getUTCFullYear() % 100;
                 });
