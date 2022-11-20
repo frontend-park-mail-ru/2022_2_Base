@@ -281,7 +281,7 @@ class UserStore extends BaseStore {
      */
     async _login(data) {
         const {email, password} = data;
-        await this.#auth(config.api.signup, {
+        await this.#auth(config.api.login, {
             password,
             email,
         });
