@@ -153,12 +153,10 @@ export default class ProductPage extends BasePage {
      */
     render(config) {
         const data = {
-            path: [
-                {
-                    name: 'Планшеты',
-                    href: '',
-                },
-            ],
+            path: {
+                name: 'Планшеты',
+                href: '',
+            },
             id: 1,
             name: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             rating: '5.0',

@@ -1,12 +1,6 @@
 <div class="product-page-header">
     {{#if path}}
-        <ol>
-            {{#each path}}
-                <li class="product-page-header__path">
-                    <a class="text-normal-default product-page-header__path-color" href="{{this.href}}">{{this.name}}</a>
-                </li>
-            {{/each}}
-        </ol>
+        <a class="text-normal-default product-page-header__path-color" href="{{path.href}}">{{path.name}}</a>
     {{else}}
         <a href="" class="comment-page-header__back link">
             <img src="img/ReturnArrow.png" alt="return-arrow">

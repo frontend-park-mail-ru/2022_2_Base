@@ -4,16 +4,6 @@
     grid-gap: 16px;
 }
 
-.product-page-header__path {
-    list-style-type: none;
-    display: inline;
-    color: var(--secondary-purple);
-}
-
-.product-page-header__path:before {
-    content: '/'
-}
-
 .product-page-header__path-color {
     color: var(--secondary-purple);
     text-decoration: none;

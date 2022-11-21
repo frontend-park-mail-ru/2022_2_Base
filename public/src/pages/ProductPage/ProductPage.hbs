@@ -13,20 +13,24 @@
                         {{#if description}}
                             {{description}}
                         {{else}}
-                            Нет описания
+                        <span class="text-normal-default">Нет описания</span>
                         {{/if}}
                     </span>
                 </div>
                 <div class="product-page-main__characteristics">
                     <span class="product-page-information__header text-normal-default__bold">Коротко о товаре</span>
-                    {{#each characteristics}}
-                        <div class="product-page-characteristics__field">
-                            <div class="product-page-characteristics__name-dotted">
-                                <span class="product-page-characteristics__name text-normal-default">{{this.name}}</span>
+                    {{#if characteristics}}
+                        {{#each characteristics}}
+                            <div class="product-page-characteristics__field">
+                                <div class="product-page-characteristics__name-dotted">
+                                    <span class="product-page-characteristics__name text-normal-default">{{this.name}}</span>
+                                </div>
+                                <span class="product-page-color-jet-black text-normal-default">{{this.data}}</span>
                             </div>
-                            <span class="product-page-color-jet-black text-normal-default">{{this.data}}</span>
-                        </div>
-                    {{/each}}
+                        {{/each}}
+                    {{else}}
+                        <span class="text-normal-default">Нет информации о товаре</span>
+                    {{/if}}
                 </div>
             </div>
         </div>
