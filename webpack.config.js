@@ -96,13 +96,9 @@ const config = {
                     from: path.resolve(__dirname, 'public/img'),
                     to: path.resolve(__dirname, 'dist/img'),
                 },
-                // {
-                //     from: path.resolve(__dirname, 'public/index.hbs'),
-                //     to: path.resolve(__dirname, 'dist/index.html'),
-                // },
             ],
         }),
-        new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.png')),
+        new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.webp')),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',

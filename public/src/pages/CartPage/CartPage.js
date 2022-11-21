@@ -2,7 +2,6 @@ import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage.js';
 import CartItem from '../../components/CartItem/CartItem.js';
 import './CartPage.scss';
-import mirIcon from '../../../img/mir-pay.png';
 import sharedFunctions from '../../modules/sharedFunctions.js';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';

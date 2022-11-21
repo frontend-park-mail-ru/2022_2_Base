@@ -1,7 +1,6 @@
 import CartItemTemplate from './CartItem.hbs';
 import BaseComponent from '../BaseComponent.js';
 import './CartItem.scss';
-import sharedFunctions from '../../modules/sharedFunctions.js';
 
 /**
  * Класс для реализации компонента ItemCard

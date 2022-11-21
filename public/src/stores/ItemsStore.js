@@ -12,37 +12,37 @@ class ItemsStore extends BaseStore {
     #topCategory = {
         Smartphone: {
             nameCategory: 'Телефоны',
-            img: './img/Smartphone.png',
+            img: './img/Smartphone.webp',
             href: config.href.category + '/phones',
         },
         Computer: {
             nameCategory: 'Компьютеры',
-            img: './img/Computer.png',
+            img: './img/Computer.webp',
             href: config.href.category + '/computers',
         },
         Monitors: {
             nameCategory: 'Мониторы',
-            img: './img/Monitors.png',
+            img: './img/Monitors.webp',
             href: '/category/monitors',
         },
         TV: {
             nameCategory: 'Телевизоры',
-            img: './img/TV.png',
+            img: './img/TV.webp',
             href: '/category/televisors',
         },
         Watch: {
             nameCategory: 'Часы',
-            img: './img/Watch.png',
+            img: './img/Watch.webp',
             href: '/category/watches',
         },
         Tablet: {
             nameCategory: 'Планшеты',
-            img: './img/Tablet.png',
+            img: './img/Tablet.webp',
             href: config.href.category + '/tablets',
         },
         Accessories: {
             nameCategory: 'Аксессуары',
-            img: './img/Accessories.png',
+            img: './img/Accessories.webp',
             href: '/category/accessories',
         },
     };
@@ -209,8 +209,6 @@ class ItemsStore extends BaseStore {
             )
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-
-        console.log(`${window.location.search}`);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);

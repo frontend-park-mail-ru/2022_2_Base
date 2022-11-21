@@ -4,7 +4,7 @@ import request from '../modules/ajax.js';
 import {config} from '../config.js';
 import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
-import sharedFunctions from "../modules/sharedFunctions";
+import sharedFunctions from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -16,7 +16,7 @@ class CartStore extends BaseStore {
             name: `Apple iPhone 13 64 ГБ \\r
             gladwehaveanunderstanding, fuck out the way
 yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.png',
+            imgsrc: './img/Smartphone.webp',
             category: '',
             price: 100000,
             lowprice: null,
@@ -28,7 +28,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             name: `Apple iPhone 13 64 ГБ \\r
             gladwehaveanunderstanding, fuck out the way
 yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.png',
+            imgsrc: './img/Smartphone.webp',
             category: '',
             price: 100000,
             lowprice: 80000,
@@ -46,7 +46,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         deliveryPrice: 'Бесплатно',
         date: new Date('2022-11-25'),
         // paymentMethodProvider: mirIcon,
-        avatar: './img/Smartphone.png',
+        avatar: './img/Smartphone.webp',
         username: 'Джахар',
         phone: '+7 (872) 234-23-65',
         deliveryDate: this.#getDate(1),

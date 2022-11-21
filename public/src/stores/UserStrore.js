@@ -131,7 +131,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.name, null);
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
-        this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
+        this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
         this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
         this._storage.set(this._storeNames.address, []); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
@@ -371,7 +371,7 @@ class UserStore extends BaseStore {
             if (!!response.avatar && response.avatar !== '') {
                 this._storage.set(this._storeNames.avatar, response.avatar);
             } else {
-                this._storage.set(this._storeNames.avatar, 'img/UserPhoto.png');
+                this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
             }
 
             if (response.paymentmethods) {
@@ -431,7 +431,7 @@ class UserStore extends BaseStore {
      */
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAva(
-            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.png')
+            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.webp')
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -440,7 +440,7 @@ class UserStore extends BaseStore {
                     URL.createObjectURL(avatar));
             } else {
                 this._storage.set(this._storeNames.avatar,
-                    'img/UserPhoto.png');
+                    'img/UserPhoto.webp');
             }
         }
     }
