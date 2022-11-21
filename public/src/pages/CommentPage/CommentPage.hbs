@@ -1,0 +1,75 @@
+<div class="paint-background"></div>
+<div class="content-comment-page content-comment-page_margin">
+    <div class="comment-page-header content-comment-page-block-background comment-page-header-main_padding">
+        <div class="comment-page-header__product">
+            <a href="" class="comment-page-header__back link">
+                <img src="img/ReturnArrow.png" alt="return-arrow">
+                <span class="text-normal-default">К описанию товара</span>
+            </a>
+            <div class="comment-page-header__product-data">
+                <img src="{{photo}}" alt="comment photo" class="comment-page-header__photo">
+                <div class="comment-page-header__product-text">
+                    <div class="comment-page-color-jet-black text-normal-large-normal">
+                        {{name}}
+                    </div>
+                    <div class="comment-page-header__data">
+                        <button type="button" class="comment-page-header__rating">
+                            <img src="img/Star.svg" alt="S" class="comment-page-header__rating-img">
+                            <span class="text-normal-default">
+                                {{rating}}
+                            </span>
+                        </button>
+                        <a href="{{comments.href}}" class="text-normal-default link">{{comments.count}} отзывов</a>
+                        <label class="comment-page-header__selection">
+                            <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
+                            <span class="comment-page-header__selection-text text-normal-default" id="favourite-opt_cart__text">{{#if this.favourite}}
+                                В избранном {{else}} В избранное {{/if}}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment-page-header__add-cart">
+            <div class="comment-page-header__price">
+                <div class="comment-page-header__price-discount">
+                    <span class="text-normal-default comment-page-header__price-strikethrough">{{price}} ₽</span>
+                    {{#if salePrice}}
+                        <div class="comment-page-header__sales-value text-normal-small">
+                            -{{discount}}%
+                        </div>
+                    {{/if}}
+                </div>
+                <span class="comment-page-color-jet-black text-normal-large-normal">{{salePrice}} ₽</span>
+            </div>
+            <button type="button" class="button-default comment-page-header__button">
+                В корзину
+            </button>
+        </div>
+    </div>
+    <div class="comment-page-main content-comment-page-block-background comment-page-header-main_padding">
+        <div class="comment-page-main__header">
+            <div class="comment-page-main__header-name-button">
+                <span class="text-normal-very-large comment-page-color-jet-black">Отзывы</span>
+                <button type="button" class="button-default comment-page-header__button comment-page-main__button">
+                    Оставить отзыв
+                </button>
+            </div>
+            <div class="comment-page__horizontal-line"></div>
+        </div>
+        <div class="comment-page-main__sort">
+            <span class="text-normal-default">Сортировать:</span>
+            <div class="comment-page-main__sort-condition">
+                <span>по дате</span>
+                <img src="./../../../img/sort-order.svg" class="comment-page-sort-icon">
+            </div>
+            <div>
+                <span class="comment-page-main__sort-condition">по рейтингу</span>
+                <img src="./../../../img/sort-order.svg" class="comment-page-sort-icon">
+            </div>
+        </div>
+        <div class="comment-page-main__comments" id="comments">
+            
+        </div>
+    </div>
+</div>
+<div class="paint-background"></div>
