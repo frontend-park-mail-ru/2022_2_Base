@@ -6,15 +6,15 @@
     </div>
 
 
-    <details class="dropdown">
+    <details class="header__dropdown">
         <summary role="button">
             <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default">
                 <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
                 Каталог </a>
         </summary>
-        <ul class="dropdown-content">
+        <ul class="header__dropdown__content">
             {{#each this.categories}}
-                <a href="{{this.href}}" class="text-normal-default header__button-catalog_element"
+                <a href="{{this.href}}" class="text-normal-default header__dropdown__content__element"
                    id="catalog__popUp-category">{{this.nameCategory}}</a>
             {{/each}}
         </ul>
