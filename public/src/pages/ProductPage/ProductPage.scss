@@ -129,3 +129,21 @@
 .product-page__add-cart-button:hover {
     background: var(--hover_purple);
 }
+
+.product_amount-selector {
+    margin-top: 16px;
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    border: 1px solid var(--jet-black);
+    border-radius: 10px;
+    height: 38px;
+    // width: 104px;
+}
+  
+.product_amount-selector__amount {
+    min-width: 28px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}

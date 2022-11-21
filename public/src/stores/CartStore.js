@@ -42,6 +42,7 @@ class CartStore extends BaseStore {
         itemsCart: 'itemsCart',
         address: 'address',
         userid: 'userid',
+        currID: 'currID',
     };
 
     /**
@@ -54,6 +55,7 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.itemsCart, this.#items);
         this._storage.set(this._storeNames.address, null);
         this._storage.set(this._storeNames.userid, null);
+        this._storage.set(this._storeNames.currID, null);
     }
 
     /**

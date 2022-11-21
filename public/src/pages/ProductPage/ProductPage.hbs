@@ -1,7 +1,7 @@
 <div class="paint-background"></div>
 <div class="content-product-page content-product-page_margin">
     <div class="content-product-page-block-background product-page-header-main_padding" id="product-page-header">
-        
+
     </div>
     <div class="product-page-main">
         <div class="product-page-main__information content-product-page-block-background product-page-header-main_padding">
@@ -41,9 +41,26 @@
             </div>
             <span class="product-page-color-jet-black text-normal-very-large">{{salePrice}} ₽</span>
             <span class="product-page-color-jet-black text-normal-default">Доставка: {{date}}</span>
-            <button type="button" class="button-default product-page__add-cart-button">
-                Добавить в корзину
-            </button>
+            <div id="product-block-button-add-to-cart" data-id="{{this.id}}">
+                <div class="button-default product-page__add-cart-button"
+                    id="product_button-add-to-cart/{{this.id}}">
+                    Добавить в корзину
+                </div>
+                <div class="product_amount-selector" id="product_amount-selector/{{this.id}}"
+                    data-amount="{{this.amount}}">
+                    <button class="button-notext">
+                        <span class="link__no-color text-normal-large" id="product_button-minus_cart/{{this.id}}">−</span>
+                    </button>
+                    <div class="product_amount-selector__amount">
+                <span class="text-normal-large" id="product-amount/{{this.id}}">
+                    {{this.amount}}
+                </span>
+                    </div>
+                    <button class="button-notext">
+                        <span class="link__no-color text-normal-large" id="product_button-plus_cart/{{this.id}}">+</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
