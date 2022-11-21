@@ -1,6 +1,7 @@
 import ProductPagePageTemplate from './ProductPage.hbs';
 import BasePage from '../BasePage.js';
 import './ProductPage.scss';
+import ProductHeader from '../../components/ProductHeader/ProductHeader.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -38,17 +39,11 @@ export default class ProductPage extends BasePage {
                     name: 'Планшеты',
                     href: '',
                 },
-                {
-                    name: 'Apple',
-                    href: '',
-                },
             ],
             name: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             rating: '5.0',
-            comments: {
-                href: '',
-                count: 466,
-            },
+            commentsHref: '',
+            commentCount: 466,
             favourite: false,
             photo: './img/ipad.png',
             description: `Для работы. Для отдыха. Для творчества. Это iPad - 
@@ -87,5 +82,7 @@ export default class ProductPage extends BasePage {
             date: ' 01 / 12 / 2022',
         };
         super.render(data);
+        const pageHeader = new ProductHeader(document.getElementById('product-page-header'));
+        pageHeader.render(data)
     }
 }

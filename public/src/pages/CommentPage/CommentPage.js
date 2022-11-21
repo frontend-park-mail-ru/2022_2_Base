@@ -2,6 +2,7 @@ import CommentPagePageTemplate from './CommentPage.hbs';
 import BasePage from '../BasePage.js';
 import './CommentPage.scss';
 import Comment from '../../components/Comment/Comment.js';
+import ProductHeader from '../../components/ProductHeader/ProductHeader';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -36,10 +37,8 @@ export default class CommentPage extends BasePage {
         const data = {
             name: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             rating: '5.0',
-            comments: {
-                href: '',
-                count: 466,
-            },
+            commentsHref: '',
+            commentCount: 466,
             favourite: false,
             photo: './img/ipad.png',
             price: '35 890',
@@ -93,6 +92,7 @@ export default class CommentPage extends BasePage {
         super.render(data);
         const comments = new Comment(document.getElementById('comments'));
         comments.render(data.comments);
-
+        const pageProduct = new ProductHeader(document.getElementById('comment-page__header-product'));
+        pageProduct.render(data);
     }
 }

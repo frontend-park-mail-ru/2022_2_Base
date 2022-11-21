@@ -1,30 +1,7 @@
 <div class="paint-background"></div>
 <div class="content-product-page content-product-page_margin">
-    <div class="product-page-header content-product-page-block-background product-page-header-main_padding">
-        <ol>
-            {{#each path}}
-                <li class="product-page-header__path">
-                    <a class="text-normal-default product-page-header__path-color" href="{{this.href}}">{{this.name}}</a>
-                </li>
-            {{/each}}
-        </ol>
-        <div class="product-page-color-jet-black text-normal-very-large">
-            {{name}}
-        </div>
-        <div class="product-page-header__data">
-            <button type="button" class="product-page-header__rating">
-                <img src="img/Star.svg" alt="S" class="product-page-header__rating-img">
-                <span class="text-normal-large-normal">
-                    {{rating}}
-                </span>
-            </button>
-            <a href="{{comments.href}}" class="text-normal-large-normal link">{{comments.count}} отзывов</a>
-            <label class="product-page-header__selection">
-                <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
-                <span class="product-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if this.favourite}}
-                    В избранном {{else}} В избранное {{/if}}</span>
-            </label>
-        </div>
+    <div class="content-product-page-block-background product-page-header-main_padding" id="product-page-header">
+        
     </div>
     <div class="product-page-main">
         <div class="product-page-main__information content-product-page-block-background product-page-header-main_padding">

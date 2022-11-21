@@ -1,33 +1,9 @@
 <div class="paint-background"></div>
 <div class="content-comment-page content-comment-page_margin">
     <div class="comment-page-header content-comment-page-block-background comment-page-header-main_padding">
-        <div class="comment-page-header__product">
-            <a href="" class="comment-page-header__back link">
-                <img src="img/ReturnArrow.png" alt="return-arrow">
-                <span class="text-normal-default">К описанию товара</span>
-            </a>
-            <div class="comment-page-header__product-data">
-                <img src="{{photo}}" alt="comment photo" class="comment-page-header__photo">
-                <div class="comment-page-header__product-text">
-                    <div class="comment-page-color-jet-black text-normal-large-normal">
-                        {{name}}
-                    </div>
-                    <div class="comment-page-header__data">
-                        <button type="button" class="comment-page-header__rating">
-                            <img src="img/Star.svg" alt="S" class="comment-page-header__rating-img">
-                            <span class="text-normal-default">
-                                {{rating}}
-                            </span>
-                        </button>
-                        <a href="{{comments.href}}" class="text-normal-default link">{{comments.count}} отзывов</a>
-                        <label class="comment-page-header__selection">
-                            <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
-                            <span class="comment-page-header__selection-text text-normal-default" id="favourite-opt_cart__text">{{#if this.favourite}}
-                                В избранном {{else}} В избранное {{/if}}</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+        <img src="{{photo}}" alt="comment photo" class="comment-page-header__photo">
+        <div id="comment-page__header-product">
+            
         </div>
         <div class="comment-page-header__add-cart">
             <div class="comment-page-header__price">
