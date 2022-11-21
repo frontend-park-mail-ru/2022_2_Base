@@ -25,7 +25,18 @@
 
 .order-block__itemcards-block {
   margin: 32px 0 0 32px;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.order-block__itemcards-block::-webkit-scrollbar {
+  background-color: var(--background-dark-grey);
+  border-radius: 4px;
+  width: 6px;
+}
+
+.order-block__itemcards-block::-webkit-scrollbar-thumb {
+  background-color: var(--default_purple);
+  border-radius: 4px;
 
 }
 

@@ -23,15 +23,66 @@ export default class OrderBlock extends BaseComponent {
      * @param {string} reqPath путь для api запроса к беку
      */
     async loadCards(classToGet, reqPath) {
-        const rootElement = document.getElementById('order-block__itemcards-block');
+        let rootElement = document.getElementById('order-block__itemcards-block');
 
-        const itemElement = document.createElement('div');
+        let itemElement = document.createElement('div');
         itemElement.id = `${classToGet}`;
         itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('beforeend', itemElement);
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
         /* rendering card itself */
         this.orderItem = new OrderItem(itemElement);
+        this.orderItem.render();
 
+
+        rootElement = document.getElementById('order-block__itemcards-block');
+
+        itemElement = document.createElement('div');
+        itemElement.id = `${classToGet}`;
+        itemElement.classList.add('order-block__itemcard');
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
+        /* rendering card itself */
+        this.orderItem = new OrderItem(itemElement);
+        this.orderItem.render();
+
+
+        rootElement = document.getElementById('order-block__itemcards-block');
+
+        itemElement = document.createElement('div');
+        itemElement.id = `${classToGet}`;
+        itemElement.classList.add('order-block__itemcard');
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
+        /* rendering card itself */
+        this.orderItem = new OrderItem(itemElement);
+        this.orderItem.render();
+
+        rootElement = document.getElementById('order-block__itemcards-block');
+
+        itemElement = document.createElement('div');
+        itemElement.id = `${classToGet}`;
+        itemElement.classList.add('order-block__itemcard');
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
+        /* rendering card itself */
+        this.orderItem = new OrderItem(itemElement);
+        this.orderItem.render();
+
+        rootElement = document.getElementById('order-block__itemcards-block');
+
+        itemElement = document.createElement('div');
+        itemElement.id = `${classToGet}`;
+        itemElement.classList.add('order-block__itemcard');
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
+        /* rendering card itself */
+        this.orderItem = new OrderItem(itemElement);
+        this.orderItem.render();
+
+        rootElement = document.getElementById('order-block__itemcards-block');
+
+        itemElement = document.createElement('div');
+        itemElement.id = `${classToGet}`;
+        itemElement.classList.add('order-block__itemcard');
+        rootElement.insertAdjacentElement('afterbegin', itemElement);
+        /* rendering card itself */
+        this.orderItem = new OrderItem(itemElement);
         this.orderItem.render();
     }
 
