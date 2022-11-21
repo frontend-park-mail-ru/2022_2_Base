@@ -5,7 +5,13 @@
             <span class="comment__color-pure-black text-normal-large-normal">{{this.userName}}</span>
             <div class="comment__date-range">
                 <span class="comment_date text-normal-default">{{this.date}}</span>
-                <div>Звездочки скоро</div>
+                <div class="comment-page__rating-stars">
+                    <input class="rating-start" type="radio" id="star5/{{this.id}}" name="rating/{{this.id}}" value="5"/> <label for="star5/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star4/{{this.id}}" name="rating/{{this.id}}" value="4"/> <label for="star4/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star3/{{this.id}}" name="rating/{{this.id}}" value="3"/> <label for="star3/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star2/{{this.id}}" name="rating/{{this.id}}" value="2"/> <label for="star2/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star1/{{this.id}}" name="rating/{{this.id}}" value="1"/> <label for="star1/{{this.id}}"></label>
+                </div>
             </div>
         </div>
         <div class="comment__content">

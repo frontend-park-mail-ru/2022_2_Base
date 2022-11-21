@@ -46,6 +46,7 @@ export default class CommentPage extends BasePage {
             discount: 12,
             comments: [
                 {
+                    id: 1,
                     userName: 'Имя Пользователя',
                     userPhoto: './img/UserPhoto.png',
                     dignity: 'Цена',
@@ -60,6 +61,7 @@ export default class CommentPage extends BasePage {
                     rating: 5,
                 },
                 {
+                    id: 2,
                     userName: 'Имя Пользователя',
                     userPhoto: './img/UserPhoto.png',
                     dignity: 'Цена',
