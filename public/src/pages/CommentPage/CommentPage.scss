@@ -145,3 +145,20 @@
     display: grid;
     gap: 32px;
 }
+
+.comment_amount-selector {
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    border: 1px solid var(--jet-black);
+    border-radius: 10px;
+    height: 38px;
+    // width: 104px;
+}
+  
+.comment_amount-selector__amount {
+    min-width: 28px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
