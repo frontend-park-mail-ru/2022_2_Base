@@ -104,7 +104,7 @@ export default class CartOrderPage extends BasePage {
             context.phone = userStore.getContext(userStore._storeNames.phone);
         }
         context.deliveryPrice = 'Бесплатно';
-        context.deliveryDate = this.#getDate(1);
+        context.deliveryDate = sharedFunctions._getDate(1);
 
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
         const [sumPrice, noSalePrice, priceDiff, amount] =
@@ -527,18 +527,18 @@ export default class CartOrderPage extends BasePage {
         }
     }
 
-    /**
-     * Функция, возвращающая завтрашнюю дату.
-     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
-     * @return {object} завтрашняя дата
-     */
-    #getDate(firstDayIn) {
-        const getDate = (next) => {
-            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-        };
-        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
-    }
+    // /**
+    //  * Функция, возвращающая завтрашнюю дату.
+    //  * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+    //  * @return {object} завтрашняя дата
+    //  */
+    // #getDate(firstDayIn) {
+    //     const getDate = (next) => {
+    //         const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+    //         return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
+    //     };
+    //     return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
+    // }
 
     /**
      * Метод, отрисовывающий страницу.

@@ -4,6 +4,7 @@ import './ProductPage.scss';
 import ProductHeader from '../../components/ProductHeader/ProductHeader.js';
 import cartStore from '../../stores/CartStore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import sharedFunctions from '../../modules/sharedFunctions.js';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -197,9 +198,8 @@ export default class ProductPage extends BasePage {
             price: '35 890',
             salePrice: '31 580',
             discount: 12,
-            date: ' 01 / 12 / 2022',
         };
-
+        data.date = sharedFunctions._getDate(1)[0];
         this.addListener();
         super.render(data);
         const pageHeader = new ProductHeader(document.getElementById('product-page-header'));
