@@ -24,63 +24,11 @@ export default class OrderBlock extends BaseComponent {
      */
     async loadCards(classToGet, reqPath) {
         let rootElement = document.getElementById('order-block__itemcards-block');
-
         let itemElement = document.createElement('div');
         itemElement.id = `${classToGet}`;
         itemElement.classList.add('order-block__itemcard');
         rootElement.insertAdjacentElement('afterbegin', itemElement);
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
 
-
-        rootElement = document.getElementById('order-block__itemcards-block');
-
-        itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
-
-
-        rootElement = document.getElementById('order-block__itemcards-block');
-
-        itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
-
-        rootElement = document.getElementById('order-block__itemcards-block');
-
-        itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
-
-        rootElement = document.getElementById('order-block__itemcards-block');
-
-        itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
-
-        rootElement = document.getElementById('order-block__itemcards-block');
-
-        itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
         /* rendering card itself */
         this.orderItem = new OrderItem(itemElement);
         this.orderItem.render();
