@@ -12,6 +12,7 @@ import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -35,7 +36,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
-        cartStore.addListener(this.getCart.bind(this), CartActionTypes.MAKEORDER);
+        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKEORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
@@ -48,6 +49,14 @@ export default class CartOrderPage extends BasePage {
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
         deleteElement.remove();
         this.renderTotalCost();
+    }
+
+    /**
+     * Функция, реагирующая на успешное создание заказа
+     */
+    onMakeOrder() {
+        this.getCart();
+        router.refresh();
     }
 
     /**
@@ -103,7 +112,7 @@ export default class CartOrderPage extends BasePage {
                 });
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            context.isAuth = true; // FIX
+            // context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
                 context.username = userStore.getContext(userStore._storeNames.name);
@@ -422,25 +431,25 @@ export default class CartOrderPage extends BasePage {
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            if (address) {
-                orderData.address = parseInt(address.getAttribute('id')
-                    .split('/', 2)[1]);
+            console.log('address.id', address.id);
+            orderData.address = parseInt(address.getAttribute('id')
+                .split('/', 2)[1]);
+            if (orderData.address !== -1) {
+                let date = document.getElementById('date-delivery').textContent.trim();
+                let time = document.getElementById('time-delivery').textContent.trim();
+                date = date.split(' / ');
+                time = time.split(' - ');
+                orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
+                    (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
+                    0)).toJSON();
+
+                orderData.card = parseInt(document.querySelector('.payment-method_cart')
+                    .id.split('/', 2)[1]);
+                orderData.card = orderData.card ? orderData.card : null;
+                cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
             }
-
-            let date = document.getElementById('date-delivery').textContent.trim();
-            let time = document.getElementById('time-delivery').textContent.trim();
-            date = date.split(' / ');
-            time = time.split(' - ');
-            orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
-                (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
-                0)).toJSON();
-
-            orderData.card = parseInt(document.querySelector('.payment-method_cart')
-                .id.split('/', 2)[1]);
-            orderData.card = orderData.card ? orderData.card : null;
-            cartAction.makeOrder(orderData);
         } else {
             errorMessage.getAbsoluteErrorMessage('Корзина пуста');
         }

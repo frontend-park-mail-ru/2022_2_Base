@@ -202,12 +202,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 delete itemsCart[key];
             }
         });
-        itemsCart.filter((item) => item);
-        const [status] = await request.makePostRequest(config.api.cart, itemsCart)
+        const noNullItemsCart = itemsCart.filter((item) => item);
+        const [status] = await request.makePostRequest(config.api.cart, noNullItemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.itemsCart, noNullItemsCart);
         }
     }
 
@@ -242,6 +242,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
+        console.log('currCartItems', currCartItems);
         const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
