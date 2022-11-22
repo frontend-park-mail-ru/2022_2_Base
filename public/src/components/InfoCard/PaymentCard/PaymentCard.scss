@@ -1,0 +1,92 @@
+.payment-card-template {
+  justify-self: center;
+  align-self: center;
+  height: 118px;
+  width: 198px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 40px 40px 40px;
+  color: var(--jet-black);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.payment-card {
+  filter: none;
+}
+
+.primary-payment-card {
+  height: 120px;
+  width: 200px;
+  background-color: var(--default_purple);
+
+  --text-color: var(--pure_white);
+}
+
+.other-payment-card {
+  border: 1px solid var(--jet-black);
+
+  --text-color: var(--jet-black);
+}
+
+.add-payment-card {
+  @extend .other-payment-card;
+}
+
+.change-payment-card {
+  margin-top: -80px;
+  margin-left: 78px;
+  width: 40px;
+  align-items: center;
+
+  //grid-template-columns: 1fr;
+  //display:grid;
+}
+
+.payment-card-title {
+  margin-left: 16px;
+  align-self: center;
+  color: var(--text-color);
+}
+
+.card-title-main {
+  color: var(--text-color);
+}
+
+.payment-card-number {
+  margin-left: 16px;
+  align-self: center;
+  color: var(--text-color);
+}
+
+.card-date-type_payment-card {
+  @extend .payment-card-number;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.payment-system-logo {
+  width: 46px;
+  height: 46px;
+  color: var(--text-color);
+}
+
+.expiry-date_payment-card {
+  align-self: center;
+}
+
+.add-card-pic__payment-card {
+  margin-left: 84px;
+  width: 32px;
+  height: 32px;
+  align-self: center;
+  justify-self: center;
+  margin-top: -4px;
+}
+
+.text-add-card_payment-card {
+  color: var(--jet-black);
+  justify-self: center;
+  margin-left: 44px;
+}

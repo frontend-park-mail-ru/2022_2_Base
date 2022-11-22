@@ -1,6 +1,6 @@
 import BasePage from '../BasePage.js';
-import PaymentCard from '../../components/PaymentCard/PaymentCard.js';
-import AddressCard from '../../components/AddressCard/AddressCard.js';
+import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard.js';
+import AddressCard from '../../components/InfoCard/AddressCard/AddressCard.js';
 import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';

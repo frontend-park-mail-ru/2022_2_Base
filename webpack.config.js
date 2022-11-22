@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const config = {
     entry: {
@@ -104,6 +105,14 @@ const config = {
             chunkFilename: '[id].css',
             ignoreOrder: false,
         }),
+        // new StylelintPlugin({
+        //     configFile: 'stylelint.config.json',
+        //     extensions: ['scss'],
+        //     // files: './public/*',
+        //     exclude: ['node_modules', 'dist'],
+        //     fix: true,
+        //     failOnWarning: true,
+        // }),
     ],
 };
 

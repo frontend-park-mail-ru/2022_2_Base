@@ -198,7 +198,7 @@ class ItemsStore extends BaseStore {
 
         const [status, response] = await request
             .makeGetRequest(
-                config.api.category +
+                config.api.products +
           document.location.pathname.slice(
               document.location.pathname.lastIndexOf('/'),
               document.location.pathname.length,
