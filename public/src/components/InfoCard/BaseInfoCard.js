@@ -1,5 +1,4 @@
 import BaseComponent from '../BaseComponent.js';
-import {profileAction} from '../../actions/profile';
 import userStore from '../../stores/UserStrore';
 
 /**

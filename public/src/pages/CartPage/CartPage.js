@@ -431,7 +431,6 @@ export default class CartOrderPage extends BasePage {
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            console.log('address.id', address.id);
             orderData.address = parseInt(address.getAttribute('id')
                 .split('/', 2)[1]);
             if (orderData.address !== -1) {

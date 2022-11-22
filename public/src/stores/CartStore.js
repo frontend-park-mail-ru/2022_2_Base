@@ -196,13 +196,12 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _deleteById(id) {
-        const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        itemsCart.forEach((item, key) => {
-            if (item.id === id) {
-                delete itemsCart[key];
-            }
-        });
-        const noNullItemsCart = itemsCart.filter((item) => item);
+        const noNullItemsCart =
+            this._storage.get(this._storeNames.itemsCart).filter((item, key) => {
+                if (item.id !== id) {
+                    return item.id;
+                }
+            });
         const [status] = await request.makePostRequest(config.api.cart, noNullItemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);

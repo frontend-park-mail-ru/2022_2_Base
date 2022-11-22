@@ -61,8 +61,8 @@ export default class CatalogPage extends BasePage {
     getCart() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
+        case null:
             break;
         default:
             console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
