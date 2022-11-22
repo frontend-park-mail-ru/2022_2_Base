@@ -59,12 +59,10 @@ export default class CatalogPage extends BasePage {
      * Функция, реагирующая на получение товаров из корзины
      */
     getCart() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        switch (cartStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
             itemCardsAction.getItemCardsByCategory(true);
-            break;
-        case null:
             break;
         default:
             console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
