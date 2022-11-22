@@ -62,6 +62,8 @@ export default class CatalogPage extends BasePage {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
+            itemCardsAction.getItemCardsByCategory(true);
+            break;
         case null:
             break;
         default:
@@ -302,7 +304,6 @@ export default class CatalogPage extends BasePage {
 
         super.render({category: this.#category.get(window.location.pathname)});
         cartAction.getCart();
-        itemCardsAction.getItemCardsByCategory(true);
         this.startEventListener();
         this.itemsBlock = document.getElementById('items-block');
     }

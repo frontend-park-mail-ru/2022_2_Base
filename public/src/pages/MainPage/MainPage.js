@@ -169,6 +169,9 @@ export default class MainPage extends BasePage {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
+            itemCardsAction.getHomeItemCards(config.api.products, true);
+            itemCardsAction.getHomeItemCards(config.api.products, false);
+            break;
         case null:
             break;
         default:
@@ -232,8 +235,6 @@ export default class MainPage extends BasePage {
         this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
         cartAction.getCart();
-        itemCardsAction.getHomeItemCards(config.api.products, true);
-        itemCardsAction.getHomeItemCards(config.api.products, false);
         this.startEventListener();
         this.startTimer();
     }

@@ -123,6 +123,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
+            this._emitChange([CartActionTypes.MERGE_CART]);
             break;
         }
     }
@@ -195,11 +196,11 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             this._storage.get(this._storeNames.itemsCart)
                 .filter((item) => item.id !== id)
                 .map((item) => item.id);
-        const [status] = await request.makePostRequest(config.api.cart, noNullItemsCart)
+        const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, noNullItemsCart);
+            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
         }
     }
 
