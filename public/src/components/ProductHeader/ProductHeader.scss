@@ -19,7 +19,7 @@
 
 .product-page-header__data {
     display: grid;
-    grid-template-columns: 54px 121px 156px;
+    grid-template-columns: 54px max-content 156px;
     grid-gap: 16px;
 }
 
@@ -34,6 +34,17 @@
 }
 
 .product-page-header__rating-img {
+    width: 24px;
+    height: 24px;
+}
+
+.product-page-header__comment {
+    display: grid;
+    grid-template-columns: 24px auto;
+    gap: 4px; 
+}
+
+.product-page-header__comment-img {
     width: 24px;
     height: 24px;
 }

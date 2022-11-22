@@ -17,10 +17,18 @@
                 {{rating}}
             </span>
         </button>
-        <a href="{{commentsHref}}" class="text-normal-large-normal link">{{commentCount}} отзывов</a>
+        <a href="{{commentsHref}}" class="product-page-header__comment text-normal-large-normal link">
+            <img src="img/Comment.svg" alt="comment" class="product-page-header__comment-img">
+            {{#if commentsCount}}
+                {{commentsCount}}
+            {{else}}
+                нет
+            {{/if}}
+             {{commentsCountText}}
+        </a>
         <label class="product-page-header__selection">
-            <input type="checkbox" class="favourite-opt" {{#if this.favourite}} checked {{/if}}>
-            <span class="product-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if this.favourite}}
+            <input type="checkbox" class="favourite-opt" {{#if favourite}} checked {{/if}}>
+            <span class="product-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if favourite}}
                 В избранном {{else}} В избранное {{/if}}</span>
         </label>
     </div>

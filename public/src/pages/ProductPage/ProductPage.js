@@ -162,7 +162,7 @@ export default class ProductPage extends BasePage {
             name: 'Планшет Apple iPad 10.2 2021, 64 ГБ, Wi-Fi, серебристый',
             rating: '5.0',
             commentsHref: '',
-            commentCount: 466,
+            commentsCount: 10,
             favourite: false,
             photo: './img/ipad.png',
             description: `Для работы. Для отдыха. Для творчества. Это iPad - 

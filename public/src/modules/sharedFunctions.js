@@ -32,6 +32,17 @@ class SharedFunctions {
         };
         return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
+
+    /**
+     * Функция, выполняющая склонение окончаний в словах.
+     * @param {int} number число для которого нужно выполнить склонение окончания у существительного
+     * @param {Array} txt массив строк с выриантами склонений
+     * @return {string} подходящая строка
+     */
+    _sklonenie(number, txt) {
+        const cases = [2, 0, 1, 1, 1, 2];
+        return txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+    }
 }
 
 export default new SharedFunctions();
