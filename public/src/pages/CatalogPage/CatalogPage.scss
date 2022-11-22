@@ -30,16 +30,12 @@
     gap: 32px;
 }
 
-.catalog_filter-block__title {
+%catalog_filter-block__title {
     color: var(--jet-black);
 }
 
-.catalog_filter-block__body {
-
-}
-
-.catalog_items-block {
-
+.catalog_filter-block__title {
+    @extend %catalog_filter-block__title;
 }
 
 .catalog_path-and-sort-block__sort-block {
@@ -50,7 +46,7 @@
 }
 
 .catalog-item-card__sale-block__catalog-price {
-    @extend .catalog_filter-block__title;
+    @extend %catalog_filter-block__title;
 }
 
 .catalog_sort-type {

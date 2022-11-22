@@ -20,10 +20,6 @@
     margin-left: 32px;
 }
 
-.user-photo_user-page {
-    object-fit: cover;
-}
-
 .edit-button_user-page {
     height: 16px;
     width: 16px;
@@ -39,18 +35,22 @@
     align-items: center;
 }
 
-.payment-cards-block_user-page {
+%payment-cards-block_user-page {
     height: 200px;
     display: grid;
     grid-template-rows: 1fr 4fr;
     align-items: center;
 }
 
-.address-cards_user-page-block {
-    @extend .payment-cards-block_user-page;
+.payment-cards-block_user-page {
+    @extend %payment-cards-block_user-page;
 }
 
-.payment-cards-items_user-page {
+.address-cards_user-page-block {
+    @extend %payment-cards-block_user-page;
+}
+
+%payment-cards-items_user-page {
     margin-left: 36px;
     align-self: center;
     display: grid;
@@ -59,8 +59,12 @@
     justify-items: start;
 }
 
+.payment-cards-items_user-page {
+    @extend %payment-cards-items_user-page;
+}
+
 .address-cards_user-page-items {
-    @extend .payment-cards-items_user-page;
+    @extend %payment-cards-items_user-page;
 }
 
 .user-photo_user-page {
@@ -70,6 +74,7 @@
     filter: none;
     cursor: pointer;
     border-radius: 50px;
+    object-fit: cover;
 }
 
 .user-photo_user-page:hover {

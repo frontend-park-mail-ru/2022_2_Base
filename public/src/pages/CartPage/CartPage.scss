@@ -47,7 +47,7 @@
     gap: 32px;
 }
 
-.box_cart {
+%box_cart {
     display: grid;
     background: var(--90_white);
     border-radius: 10px;
@@ -55,6 +55,10 @@
     color: var(--jet-black);
     text-decoration: none;
     padding: 16px 32px;
+}
+
+.box_cart {
+    @extend %box_cart;
 }
 
 .items_cart__upper {
@@ -69,30 +73,30 @@
 }
 
 .items_cart {
-    @extend .box_cart;
+    @extend %box_cart;
     grid-area: items_cart;
 }
 
 .address_cart {
-    @extend .box_cart;
+    @extend %box_cart;
     grid-area: address_cart;
     gap: 16px;
 }
 
 .payment_cart {
-    @extend .box_cart;
+    @extend %box_cart;
     grid-area: payment_cart;
     align-items: start;
 }
 
 .user-data_cart {
-    @extend .box_cart;
+    @extend %box_cart;
     grid-area: user-data_cart;
     align-items: start;
 }
 
 .content_cart__right {
-    @extend .box_cart;
+    @extend %box_cart;
 }
 
 .horizontal-line {
@@ -112,7 +116,7 @@
 
 /* Basic styling of checkbox-opt */
 
-.checkbox-opt {
+%checkbox-opt {
     width: 3ex;
     height: 3ex;
     color: var(--default_purple);
@@ -125,6 +129,10 @@
     background: var(--90_white) none;
     transition: background 300ms;
     cursor: pointer;
+}
+
+.checkbox-opt {
+    @extend %checkbox-opt;
 }
 
 /* Pseudo element for check styling */
@@ -162,7 +170,7 @@
 }
 
 .favourite-opt {
-    @extend .checkbox-opt;
+    @extend %checkbox-opt;
     color: var(--90_white);
     height: 20px;
     width: 20px;
@@ -210,7 +218,7 @@
     height: 40px;
 }
 
-.option_select {
+%option_select {
     padding: 0 8px;
     min-height: 40px;
     display: flex;
@@ -231,6 +239,10 @@
     cursor: pointer;
 }
 
+.option_select {
+    @extend %option_select;
+}
+
 .option_select:hover {
     background: var(--shadow-default);
     cursor: pointer;
@@ -239,16 +251,14 @@
 .select:focus .option_select {
     position: relative;
     pointer-events: all;
+    opacity: 1;
+    border-radius: 0;
 }
 
 .select-opt {
     opacity: 0;
     position: absolute;
     left: -40000px;
-}
-
-.select:focus .option_select {
-    border-radius: 0;
 }
 
 .select-opt:checked + .option_select {
@@ -264,10 +274,6 @@
     border-radius: 10px 10px 0 0;
 }
 
-.select:focus .option_select {
-    opacity: 1;
-}
-
 .select-opt:checked + .option_select::after {
     content: "";
     width: 12px;
@@ -278,19 +284,23 @@
 }
 
 .option_select__date {
-    @extend .option_select;
+    @extend %option_select;
     z-index: 2;
 }
 
 .option_select__time {
-    @extend .option_select;
+    @extend %option_select;
     z-index: 1;
 }
 
-.payment-method_cart {
+%payment-method_cart {
     display: flex;
     gap: 12px;
     align-items: center;
+}
+
+.payment-method_cart {
+    @extend %payment-method_cart;
 }
 
 .payment-method-provider {
@@ -303,7 +313,7 @@
 }
 
 .user-data_cart__bottom {
-    @extend .payment-method_cart;
+    @extend %payment-method_cart;
 }
 
 .user-data_cart__avatar {
@@ -320,33 +330,45 @@
 }
 
 .summary_cart__price {
-    @extend .summary_cart__delivery;
+    @extend %summary_cart__delivery;
     color: var(--secondary-purple);
 }
 
-.summary_cart__item-price {
+%summary_cart__item-price {
     display: flex;
     gap: 4px;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.summary_cart__delivery {
+.summary_cart__item-price {
+    @extend %summary_cart__item-price;
+}
+
+%summary_cart__delivery {
     display: grid;
     gap: 16px;
 }
 
-.summary_cart__delivery-info {
-    @extend .summary_cart__item-price;
+.summary_cart__delivery {
+    @extend %summary_cart__delivery;
+}
+
+%summary_cart__delivery-info {
+    @extend %summary_cart__item-price;
     justify-content: flex-start;
 }
 
+.summary_cart__delivery-info {
+    @extend %summary_cart__delivery-info;
+}
+
 .summary_cart__payment-method {
-    @extend .summary_cart__delivery;
+    @extend %summary_cart__delivery;
 }
 
 .summary_cart__payment-info {
-    @extend .summary_cart__delivery-info;
+    @extend %summary_cart__delivery-info;
 }
 
 .summary_cart__create-order-button {

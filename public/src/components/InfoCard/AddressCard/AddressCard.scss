@@ -33,14 +33,18 @@
     --text-color: var(--pure_white);
 }
 
-.other-address-card {
+%other-address-card {
     border: 1px solid var(--jet-black);
 
     --text-color: var(--jet-black);
 }
 
+.other-address-card {
+    @extend %other-address-card;
+}
+
 .add-address-card {
-    @extend .other-address-card;
+    @extend %other-address-card;
 }
 
 .address-card-city {

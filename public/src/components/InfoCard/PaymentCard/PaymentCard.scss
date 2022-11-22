@@ -23,14 +23,18 @@
     --text-color: var(--pure_white);
 }
 
-.other-payment-card {
+%other-payment-card {
     border: 1px solid var(--jet-black);
 
     --text-color: var(--jet-black);
 }
 
+.other-payment-card {
+    @extend %other-payment-card;
+}
+
 .add-payment-card {
-    @extend .other-payment-card;
+    @extend %other-payment-card;
 }
 
 .change-payment-card {
@@ -53,14 +57,18 @@
     color: var(--text-color);
 }
 
-.payment-card-number {
+%payment-card-number {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
 }
 
+.payment-card-number {
+    @extend %payment-card-number;
+}
+
 .card-date-type_payment-card {
-    @extend .payment-card-number;
+    @extend %payment-card-number;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }

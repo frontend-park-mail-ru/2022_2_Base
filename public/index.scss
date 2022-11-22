@@ -50,7 +50,7 @@ input[type="number"] {
 }
 
 .input-field-error__text {
-    @extend .text-normal-small;
+    @extend %text-normal-small;
     display: inline-block;
 }
 
@@ -78,22 +78,26 @@ input[type="number"] {
     background-color: var(--default_purple);
 }
 
-.button-default {
-    @extend .text-normal-default;
+%button-default {
+    @extend %text-normal-default;
     border-radius: 10px;
     border: none;
     text-align: center;
     cursor: pointer;
 }
 
+.button-default {
+    @extend %button-default;
+}
+
 .button-default-no-box {
-    @extend .button-default;
+    @extend %button-default;
     border-radius: 0;
     background-color: inherit;
 }
 
 .button-notext {
-    @extend .button-default;
+    @extend %button-default;
     padding: 0 8px;
     color: inherit;
     background-color: inherit;
@@ -137,65 +141,81 @@ main {
 
 /* fonts */
 
-.text-normal-default {
+%text-normal-default {
     font-family: var(--font-main);
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
 }
 
+.text-normal-default {
+    @extend %text-normal-default;
+}
+
 .text-normal-huge {
-    @extend .text-normal-default;
+    @extend %text-normal-default;
     font-size: 40px;
     line-height: 52px;
     color: var(--jet-black);
 }
 
 .text-normal-default__strikethrough {
-    @extend .text-normal-default;
+    @extend %text-normal-default;
     text-decoration-line: line-through;
     color: var(--secondary-purple);
 }
 
-.text-normal-small {
-    @extend .text-normal-default;
+%text-normal-small {
+    @extend %text-normal-default;
     font-size: 12px;
     line-height: 16px;
     letter-spacing: -.05em;
 }
 
+.text-normal-small {
+    @extend %text-normal-small;
+}
+
 .text-normal-default__bold {
-    @extend .text-normal-default;
+    @extend %text-normal-default;
     font-weight: 600;
 }
 
-.text-normal-large {
-    @extend .text-normal-default;
+%text-normal-large {
+    @extend %text-normal-default;
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
 }
 
+.text-normal-large {
+    @extend %text-normal-large;
+}
+
 .text-normal-large__strikethrough {
-    @extend .text-normal-large;
+    @extend %text-normal-large;
     text-decoration-line: line-through;
     font-weight: 500;
     color: var(--secondary-purple);
 }
 
-.text-normal-very-large__bold {
-    @extend .text-normal-large;
+%text-normal-very-large__bold {
+    @extend %text-normal-large;
     font-size: 32px;
     line-height: 42px;
 }
 
+.text-normal-very-large__bold {
+    @extend %text-normal-very-large__bold;
+}
+
 .text-normal-very-large {
-    @extend .text-normal-very-large__bold;
+    @extend %text-normal-very-large__bold;
     font-weight: 500;
 }
 
 .text-normal-large-normal {
-    @extend .text-normal-large;
+    @extend %text-normal-large;
     font-weight: 500;
 }
 

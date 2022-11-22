@@ -6,15 +6,13 @@
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     cursor: pointer;
+    height: 160px;
+    width: 160px;
 }
 
 .a-inherit {
     all: inherit;
     text-decoration: none;
-}
-
-.item-card__rating {
-
 }
 
 .item-card__rating {
@@ -74,11 +72,6 @@
     grid-template-columns: 1fr 0;
     justify-items: center;
     align-items: end;
-}
-
-.item-card__image {
-    height: 160px;
-    width: 160px;
 }
 
 .content__sales-value {

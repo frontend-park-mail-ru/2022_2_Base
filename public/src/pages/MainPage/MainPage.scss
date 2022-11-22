@@ -34,13 +34,17 @@
     padding: 4px 8px;
 }
 
-.left-arrow {
+%left-arrow {
     display: flex;
     align-items: center;
 }
 
+.left-arrow {
+    @extend %left-arrow;
+}
+
 .right-arrow {
-    @extend .left-arrow;
+    @extend %left-arrow;
 }
 
 .arrow:disabled {
@@ -64,14 +68,18 @@
     filter: var(--apple-dim-shadow);
 }
 
-.content__sales {
+%content__sales {
     margin-top: 8px;
     display: grid;
     grid-template-columns: 60px repeat(6, 1fr) 60px;
 }
 
+.content__sales {
+    @extend %content__sales;
+}
+
 .content__popular {
-    @extend .content__sales;
+    @extend %content__sales;
 }
 
 .content__popular-title {
