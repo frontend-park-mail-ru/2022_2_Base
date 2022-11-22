@@ -20,7 +20,7 @@ export const config = {
         signup: basePathApi + 'signup',
         logout: basePathApi + 'logout',
         session: basePathApi + 'session',
-        products: basePathApi + 'products',
+        products: basePathApi + 'category',
         profile: basePathApi + 'user/profile',
         uploadAvatar: basePathApi + 'user/avatar',
         avatarsDir: basePathApi + 'img/avatars/',
