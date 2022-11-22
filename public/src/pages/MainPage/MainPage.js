@@ -168,8 +168,8 @@ export default class MainPage extends BasePage {
     getCart() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
+        case null:
             break;
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');

@@ -176,15 +176,13 @@ class ItemsStore extends BaseStore {
     #syncWithCart(items) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (items && cartItems && items.length && cartItems.length) {
-            if (cartItems) {
-                items.forEach((item) => {
-                    cartItems.forEach((cartItem) => {
-                        if (cartItem.id === item.id) {
-                            item.count = cartItem.count;
-                        }
-                    });
+            items.forEach((item) => {
+                cartItems.forEach((cartItem) => {
+                    if (cartItem.id === item.id) {
+                        item.count = cartItem.count;
+                    }
                 });
-            }
+            });
         }
     }
 

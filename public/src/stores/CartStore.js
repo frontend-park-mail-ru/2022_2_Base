@@ -144,8 +144,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        console.log('itemsCart', itemsCart);
-        console.log('response', response);
         response.items.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
@@ -158,13 +156,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 itemsCart.push(globalItem);
             }
         });
-        console.log('merge', itemsCart);
-
         if (status === config.responseCodes.code200) {
-            console.log(response);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
-            this._storage.set(this._storeNames.itemsCart, response.items);
+            this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             const [postStatus] = await request.makePostRequest(config.api.cart, {
                 items: itemsCart.map(({id}) => id),
             }).catch((err) => console.log(err));
@@ -185,7 +180,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             sharedFunctions.addSpacesToPrice(response.items);
-            this._storage.set(this._storeNames.itemsCart, response.items);
+            this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
         }
@@ -197,11 +192,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      */
     async _deleteById(id) {
         const noNullItemsCart =
-            this._storage.get(this._storeNames.itemsCart).filter((item, key) => {
-                if (item.id !== id) {
-                    return item.id;
-                }
-            });
+            this._storage.get(this._storeNames.itemsCart)
+                .filter((item) => item.id !== id)
+                .map((item) => item.id);
         const [status] = await request.makePostRequest(config.api.cart, noNullItemsCart)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
