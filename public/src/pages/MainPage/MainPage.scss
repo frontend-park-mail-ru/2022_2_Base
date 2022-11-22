@@ -1,79 +1,79 @@
 .content_main {
-    max-width: 1400px;
-    min-width: 1400px;
-    padding-bottom: 16px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: var(--background-white);
-    display: grid;
-    grid-template-rows: 160px 60px 1fr 60px 1fr;
+  max-width: 1400px;
+  min-width: 1400px;
+  padding-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--background-white);
+  display: grid;
+  grid-template-rows: 160px 60px 1fr 60px 1fr;
 }
 
 .content__catalog {
-    margin-top: 32px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 16px;
-    height: 40px;
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 16px;
+  height: 40px;
 }
 
 .content__sales-title {
-    margin-left: 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .content__popular-title__timer {
-    display: flex;
-    border-radius: 16px;
-    color: var(--text_white);
-    background-color: var(--pink-accent);
-    justify-content: center;
-    align-items: center;
-    padding: 4px 8px 4px 8px;
+  display: flex;
+  border-radius: 16px;
+  color: var(--text_white);
+  background-color: var(--pink-accent);
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
 }
 
 .left-arrow {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .right-arrow {
-    @extend .left-arrow;
+  @extend .left-arrow;
 }
 
 .arrow:disabled {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .arrow-button {
-    margin-left: 10px;
-    display: flex;
-    border: none;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    opacity: 40%;
+  margin-left: 10px;
+  display: flex;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  opacity: 0.4;
 }
 
 .arrow-button:hover {
-    filter: var(--apple-dim-shadow);
+  filter: var(--apple-dim-shadow);
 }
 
 .content__sales {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: 60px repeat(6, 1fr) 60px;
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 60px repeat(6, 1fr) 60px;
 }
 
 .content__popular {
-    @extend .content__sales;
+  @extend .content__sales;
 }
 
 .content__popular-title {
-    margin-left: 20px;
+  margin-left: 20px;
 }

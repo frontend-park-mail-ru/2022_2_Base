@@ -1,67 +1,67 @@
 .popup-form_add-card {
-    display: grid;
-    grid-template-rows: 32px 3fr 1fr;
-    grid-gap: 6px;
+  display: grid;
+  grid-template-rows: 32px 3fr 1fr;
+  grid-gap: 6px;
 }
 
 .popup-form_add-card__header {
-    height: 32px;
-    color: var(--jet-black);
+  height: 32px;
+  color: var(--jet-black);
 }
 
 .popup-form_add-card__fields {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
 
 .popup-form_add-card__date-and-code {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
 }
 
 .popup-form_add-card__date {
-    display: grid;
-    grid-template-columns: 1fr 20px 1fr;
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
 }
 
 .popup-form_add-card__month-year {
-    width: 90%;
+  width: 90%;
 }
 
 .popup-form_add-card__code {
-    width: 45%;
+  width: 45%;
 }
 
 .separation-line-date_add-card {
-    height: 100%;
-    text-align: center;
-    padding-top: 10px;
+  height: 100%;
+  text-align: center;
+  padding-top: 10px;
 }
 
 .field-name_add-card {
-    color: var(--secondary-purple);
+  color: var(--secondary-purple);
 }
 
 .popup-form_add-card__input {
-    height: 44px;
-    width: 100%;
-    padding: 10px 14px 11px;
-    border: 1px solid #d5d5d5;
-    border-radius: 8px;
-    box-sizing: border-box;
-    color: var(--jet-black);
+  height: 44px;
+  width: 100%;
+  padding: 10px 14px 11px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: var(--jet-black);
 }
 
 .popup-form_add-card__buttons {
-    text-align: right;
+  text-align: right;
 }
 
 .popup-form_add-card__button {
-    height: 40px;
-    width: 100px;
-    /* padding: 8px 24px 10px; */
+  height: 40px;
+  width: 100px;
+
+  /* padding: 8px 24px 10px; */
 }
 
 .popup-form_add-card__cancel {
@@ -69,6 +69,6 @@
 }
 
 .popup-form_add-card__apply {
-    background-color: var(--purple_disabled);
-    color: var(--pure_white);
+  background-color: var(--purple_disabled);
+  color: var(--pure_white);
 }

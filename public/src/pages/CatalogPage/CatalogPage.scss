@@ -29,6 +29,7 @@
   top: 32px;
   gap: 32px;
 }
+
 .catalog_filter-block__title {
   color: var(--jet-black);
 }
@@ -48,13 +49,12 @@
   gap: 16px;
 }
 
-.catalog-item-card__sale-block__catalog-price{
+.catalog-item-card__sale-block__catalog-price {
   @extend .catalog_filter-block__title;
 }
 
 .catalog_sort-type {
   color: var(--jet-black);
-
 }
 
 .catalog-sort-order-icon {

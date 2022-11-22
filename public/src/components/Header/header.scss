@@ -5,7 +5,8 @@ header {
   margin-top: 5px;
 }
 
-header, footer {
+header,
+footer {
   max-width: 1400px;
   min-width: 1400px;
   margin-left: auto;
@@ -39,7 +40,7 @@ header, footer {
   background-color: var(--background-white);
   border-radius: 10px;
   border: solid 2px;
-  border-color: var(--pure_white)
+  border-color: var(--pure_white);
 }
 
 .header__search-line:hover {
@@ -48,7 +49,7 @@ header, footer {
 
 .header__form-search {
   border-left-width: 10px;
-  border-color: rgba(0, 0, 0, 0);
+  border-color: rgb(0 0 0 / 0%);
   width: 550px;
   height: 40px;
   background: var(--background-white);
@@ -63,25 +64,25 @@ header, footer {
   width: 90px;
   height: 60px;
   margin-left: 48px;
-  padding: 4px 0 4px 0;
+  padding: 4px 0;
 }
 
 .header__favourites {
   width: 90px;
   height: 60px;
-  padding: 4px 0 4px 0;
+  padding: 4px 0;
 }
 
 .header__card {
   width: 90px;
   height: 60px;
-  padding: 4px 0 4px 0;
+  padding: 4px 0;
 }
 
 .header__profile {
   width: 90px;
   height: 60px;
-  padding: 4px 0 4px 0;
+  padding: 4px 0;
 }
 
 .header__button-catalog {
@@ -118,10 +119,10 @@ header, footer {
 
 .paint-purple-disabled {
   background-color: var(--purple_disabled);
-  /*pointer-events: none;*/
+
+  /* pointer-events: none; */
   cursor: default;
   opacity: 0.4;
-
 }
 
 .profile__pop-up {
@@ -131,19 +132,19 @@ header, footer {
   width: 90px;
   margin-top: 14px;
   border-radius: 15%;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgb(255 255 255 / 100%);
   text-align: center;
   vertical-align: middle;
   z-index: 1;
 }
 
 .profile__pop-up::after {
-  content: '';
+  content: "";
   position: absolute; /* Абсолютное позиционирование */
   left: 34px;
   bottom: 100%; /* Положение треугольника */
   border: 12px solid transparent; /* Прозрачные границы */
-  border-bottom: 10px solid rgba(255, 255, 255, 1);
+  border-bottom: 10px solid rgb(255 255 255 / 100%);
 }
 
 .profile__logout {

@@ -50,13 +50,13 @@
 
 .count-selector {
   display: flex;
-  padding: 4px 0 4px 0;
+  padding: 4px 0;
   align-self: center;
   justify-self: center;
   gap: 4px;
   border: 1px solid var(--dark-grey);
   border-radius: 10px;
-  flex: 28px 20px
+  flex: 28px 20px;
 }
 
 .count-selector__amount {

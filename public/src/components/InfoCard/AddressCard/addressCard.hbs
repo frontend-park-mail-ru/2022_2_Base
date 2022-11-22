@@ -1,6 +1,6 @@
 {{#each item}}
     {{#if this.addCard}}
-        <a class="address-card-template add-address-card" id="add-address-card">
+        <a class="address-card-template add-address-card" id="add-address">
             <div class="text-normal-default"></div>
 
             <div class="text-normal-small">
@@ -33,9 +33,9 @@
                     <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
                 </a>
                 <div class="separation-line_user-page"></div>
-                <a id="delete-{{this.id}}" class="pop-up-button_user-page delete-address">
+                <div id="delete-{{this.id}}" class="pop-up-button_user-page">
                     <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
-                </a>
+                </div>
             </div>
         </div>
     {{/if}}

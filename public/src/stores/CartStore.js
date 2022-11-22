@@ -13,7 +13,7 @@ class CartStore extends BaseStore {
     #items = [
         {
             count: 1,
-            name: `Apple iPhone 13 64 ГБ \\r
+            name: `Apple iPhone 13 64 ГБ \\
             gladwehaveanunderstanding, fuck out the way
 yeah, all your shit lame, I feel no pain, we" "\\eof`,
             imgsrc: './img/Smartphone.webp',

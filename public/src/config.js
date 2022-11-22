@@ -21,7 +21,6 @@ export const config = {
         logout: basePathApi + 'logout',
         session: basePathApi + 'session',
         products: basePathApi + 'products',
-        category: basePathApi + 'products/',
         profile: basePathApi + 'user/profile',
         uploadAvatar: basePathApi + 'user/avatar',
         avatarsDir: basePathApi + 'img/avatars/',
