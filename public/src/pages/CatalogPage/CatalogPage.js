@@ -65,7 +65,7 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            // itemCardsAction.getItemCardsByCategory(true);
+            itemCardsAction.getItemCardsByCategory(true);
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }

@@ -28,7 +28,7 @@ class ItemsStore extends BaseStore {
         TV: {
             nameCategory: 'Телевизоры',
             img: './img/TV.webp',
-            href: '/category/televisors',
+            href: '/category/tvs',
         },
         Watch: {
             nameCategory: 'Часы',
