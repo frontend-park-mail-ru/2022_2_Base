@@ -14,6 +14,7 @@ export const config = {
         user: '/user',
         category: '/category',
         cart: '/cart',
+        orders: '/orders',
     },
     api: {
         login: basePathApi + 'login',

@@ -26,6 +26,7 @@
 .order-block__itemcards-block {
   margin: 32px 0 0 32px;
   overflow-y: auto;
+  color: var(--jet-black);
 }
 
 .order-block__itemcards-block::-webkit-scrollbar {
@@ -47,6 +48,7 @@
   grid-template-rows: 144px 32px 160px 40px;
   grid-row-gap: 16px;
   align-items: center;
+  color: var(--jet-black);
 }
 
 .order-block__info-block__split-line {

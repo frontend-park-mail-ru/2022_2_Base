@@ -6,6 +6,7 @@ import UserPage from '../pages/UserPage/UserPage.js';
 import userStore from '../stores/UserStrore.js';
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import OrdersPage from '../pages/OrdersPage/OrdersPage';
 
 /**
  * Класс, реализующий перерендеринг элементов
@@ -67,6 +68,7 @@ class RefreshEl {
         router.remove(config.href.login);
         router.remove(config.href.signup);
         router.register(config.href.user, UserPage);
+        router.register(config.href.orders, OrdersPage);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 
@@ -77,6 +79,7 @@ class RefreshEl {
         router.register(config.href.login, LoginPage);
         router.register(config.href.signup, RegisterPage);
         router.remove(config.href.user);
+        router.remove(config.href.orders);
         router.refresh(config);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
