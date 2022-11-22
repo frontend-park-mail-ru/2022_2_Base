@@ -59,12 +59,13 @@ export default class CatalogPage extends BasePage {
      * Функция, реагирующая на получение товаров из корзины
      */
     getCart() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        switch (cartStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
+            itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
+            console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -301,7 +302,6 @@ export default class CatalogPage extends BasePage {
 
         super.render({category: this.#category.get(window.location.pathname)});
         cartAction.getCart();
-        itemCardsAction.getItemCardsByCategory(true);
         this.startEventListener();
         this.itemsBlock = document.getElementById('items-block');
     }

@@ -123,6 +123,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
+            this._emitChange([CartActionTypes.MERGE_CART]);
             break;
         }
     }
@@ -144,8 +145,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        console.log('itemsCart', itemsCart);
-        console.log('response', response);
         response.items.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
@@ -158,13 +157,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
                 itemsCart.push(globalItem);
             }
         });
-        console.log('merge', itemsCart);
-
         if (status === config.responseCodes.code200) {
-            console.log(response);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
-            this._storage.set(this._storeNames.itemsCart, response.items);
+            this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             const [postStatus] = await request.makePostRequest(config.api.cart, {
                 items: itemsCart.map(({id}) => id),
             }).catch((err) => console.log(err));
@@ -185,7 +181,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             sharedFunctions.addSpacesToPrice(response.items);
-            this._storage.set(this._storeNames.itemsCart, response.items);
+            this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
         }
@@ -196,18 +192,15 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
      * @param {number} id
      */
     async _deleteById(id) {
-        const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        itemsCart.forEach((item, key) => {
-            if (item.id === id) {
-                delete itemsCart[key];
-            }
-        });
-        itemsCart.filter((item) => item);
-        const [status] = await request.makePostRequest(config.api.cart, itemsCart)
+        const noNullItemsCart =
+            this._storage.get(this._storeNames.itemsCart)
+                .filter((item) => item.id !== id)
+                .map((item) => item.id);
+        const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
         }
     }
 

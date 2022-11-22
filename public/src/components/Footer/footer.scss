@@ -1,44 +1,44 @@
 .footer__grid {
-  margin: 40px 152px;
-  display: grid;
-  grid-template-rows: 56px 70px;
-  grid-row-gap: 28px;
-  justify-items: center;
+    margin: 40px 152px;
+    display: grid;
+    grid-template-rows: 56px 70px;
+    grid-row-gap: 28px;
+    justify-items: center;
 }
 
 .footer__members {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 64px;
 }
 
 .footer__team-member {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-row-gap: 12px;
-  justify-content: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-row-gap: 12px;
+    justify-content: center;
 }
 
 .footer__member-name {
-  display: flex;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
 .footer__member-contact {
-  text-align: center;
+    text-align: center;
 }
 
 .footer__contact-logo {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 .footer__margin-contact-logo {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .logo-img {
-  width: 100px;
-  height: 38px;
+    width: 100px;
+    height: 38px;
 }

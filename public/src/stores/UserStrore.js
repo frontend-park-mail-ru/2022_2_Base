@@ -258,7 +258,6 @@ class UserStore extends BaseStore {
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
-            cartAction.mergeCart();
         }
     }
 

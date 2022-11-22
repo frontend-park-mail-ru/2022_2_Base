@@ -166,10 +166,11 @@ export default class MainPage extends BasePage {
      * Функция, реагирующая на получение товаров из корзины
      */
     getCart() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
+            itemCardsAction.getHomeItemCards(config.api.products, true);
+            itemCardsAction.getHomeItemCards(config.api.products, false);
             break;
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
@@ -232,8 +233,6 @@ export default class MainPage extends BasePage {
         this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
         cartAction.getCart();
-        itemCardsAction.getHomeItemCards(config.api.products, true);
-        itemCardsAction.getHomeItemCards(config.api.products, false);
         this.startEventListener();
         this.startTimer();
     }

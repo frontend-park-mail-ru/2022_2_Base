@@ -8,6 +8,8 @@ import {userActions, UserActionTypes} from '../../actions/user.js';
 import userStore from '../../stores/UserStrore.js';
 import {config} from '../../config.js';
 import refresh from '../../modules/refreshElements.js';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import cartStore from '../../stores/CartStore';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -33,6 +35,7 @@ export default class LoginPage extends BasePage {
      */
     addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_LOGIN);
+        cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
     }
 
     /**
@@ -43,7 +46,7 @@ export default class LoginPage extends BasePage {
         switch (status) {
         case 201:
             refresh.onAuth();
-            router.openPage(config.href.main); // fix change to prev
+            cartAction.mergeCart();
             break;
         case 400:
             !document.getElementById('Error400Message') ?

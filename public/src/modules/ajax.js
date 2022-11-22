@@ -7,8 +7,7 @@ class Request {
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
-        // 'Origin': 'https://www.reazon.ru',
-        // 'Origin': 'http://localhost:8081',
+        'Origin': 'https://www.reazon.ru',
     };
 
     /**
