@@ -1,10 +1,16 @@
 import HeaderComponent from '../components/Header/Header.js';
 import FooterComponent from '../components/Footer/Footer.js';
+import router from './Router.js';
+import {config} from '../config.js';
+import UserPage from '../pages/UserPage/UserPage.js';
+import userStore from '../stores/UserStrore.js';
+import LoginPage from '../pages/LoginPage/LoginPage.js';
+import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
 
 /**
  * Класс, реализующий перерендеринг элементов
  */
-export default class RefreshEl {
+class RefreshEl {
     /**
      * Метод, реализующий создание тега с id
      * @param {string} tag - тег элемента для создания
@@ -19,9 +25,9 @@ export default class RefreshEl {
 
     /**
      * Создает каркас страницы
-     * @param {HTMLElement} root - корневой элемент
      */
-    constructor(root) {
+    constructor() {
+        const root = document.getElementById('root');
         const page = document.createElement('div');
         page.classList.add('page');
         page.appendChild(this.createElementWithId('header'));
@@ -33,14 +39,14 @@ export default class RefreshEl {
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {object} config - контекст отрисовки компонента
+     * @param {boolean} auth - контекст отрисовки компонента
      */
-    refreshHeader(config) {
+    refreshHeader(auth) {
         const header = document.getElementById('header');
         header.innerHTML = '';
         const headerComponent = new HeaderComponent(header);
-        headerComponent.render(config.auth.authorised);
-        config.auth.authorised ? headerComponent.startEventListener() :
+        headerComponent.render(auth);
+        auth ? headerComponent.startEventListener() :
             headerComponent.removeEventListener();
     };
 
@@ -53,4 +59,27 @@ export default class RefreshEl {
         const footerComponent = new FooterComponent(footer);
         footerComponent.render();
     };
+
+    /**
+     * Метод, вызываемый при авторизации
+     */
+    onAuth() {
+        router.remove(config.href.login);
+        router.remove(config.href.signup);
+        router.register(config.href.user, UserPage);
+        this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
+    }
+
+    /**
+     * Метод, вызываемый при авторизации
+     */
+    onLogOut() {
+        router.register(config.href.login, LoginPage);
+        router.register(config.href.signup, RegisterPage);
+        router.remove(config.href.user);
+        router.refresh(config);
+        this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
+    }
 }
+
+export default new RefreshEl();

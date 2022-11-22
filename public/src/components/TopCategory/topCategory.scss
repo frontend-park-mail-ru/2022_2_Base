@@ -1,7 +1,3 @@
-:root {
-    --jet-black: #333333;
-}
-
 .item-top-cards {
     display: inline-block;
     margin: 0 auto;
@@ -9,4 +5,9 @@
     text-align: center;
     color: var(--jet-black);
     text-decoration: none;
+}
+
+.item-top-cards__image {
+    width: 120px;
+    height: 78px;
 }

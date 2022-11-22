@@ -1,49 +1,81 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий с карточками товаров.
  */
 export const ItemCardsActionTypes = {
-    ITEM_CARDS_GET_BY_SALES: 'ITEM_CARDS_GET_BY_SALES',
-    ITEM_CARDS_GET_POPULAR: 'ITEM_CARDS_GET_POPULAR',
+    ITEM_CARDS_GET_HOME: 'ITEM_CARDS_GET_HOME',
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
-    ITEM_CARD_CLICKED_BUY: 'ITEM_CARD_CLICKED_BUY',
+    POPULAR_ITEM_CARDS_GET_BY_CATEGORY: 'POPULAR_ITEM_CARDS_GET_BY_CATEGORY',
+    CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
+    HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
 };
 
 /**
  * Класс, содержащий в себе действия с карточками товаров.
  */
-export const ItemCardsAction = {
-    /**
-     * Действие: запрос списка карточек по скидке.
-     */
-    getSalesItemCards() {
-        Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_SALES,
-        });
-    },
+export const itemCardsAction = {
 
     /**
-     * Действие: запрос списка популярных карточек.
+     * Действие: запрос списка карточек.
+     * @param {string} path - путь запроса
+     * @param {boolean} selector
      */
-    getPopularItemCards() {
+    getHomeItemCards(path, selector) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
+            data: {
+                path: path,
+                popularCard: selector,
+            },
         });
     },
 
     /**
      * Действие: запрос списка карточек по категориям.
-     * @param {String} category - категория
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getItemCardsByCategory() {
+    getItemCardsByCategory(isFirstRequest) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
-            data: {category},
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает популярные карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getPopularItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает дешевые карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getCheapItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает популярные карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getHighRatingItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
         });
     },
 
@@ -65,17 +97,6 @@ export const ItemCardsAction = {
     getItemCard(id) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
-            data: {id},
-        });
-    },
-
-    /**
-     * Действие: Добавление карточки с определенным id в корзину.
-     * @param {number} id
-     */
-    clickedByItemCard(id) {
-        Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARD_CLICKED_BUY,
             data: {id},
         });
     },

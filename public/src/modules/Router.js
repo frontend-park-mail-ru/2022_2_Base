@@ -1,9 +1,11 @@
 import LoginPage from '../pages/LoginPage/LoginPage.js';
 import MainPage from '../pages/MainPage/MainPage.js';
 import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
-import OrdersPage from '../pages/OrdersPage/OrdersPage.js';
-import AddCommentPage from '../pages/AddCommentPage/AddCommentPage.js';
+import {config} from '../config.js';
+import CartPage from '../pages/CartPage/CartPage.js';
+import UserPage from '../pages/UserPage/UserPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -12,12 +14,14 @@ class Router {
     #pathToPage;
     #mainElement;
     #currentPage;
+    #titles;
 
     /**
      * Конструктор роутера.
      */
     constructor() {
         this.#pathToPage = new Map();
+        this.#titles = new Map();
     }
 
     /**
@@ -55,63 +59,78 @@ class Router {
 
     /**
      * Обновляет страницу.
-     * @param {object} config - данные для отображения страницы
      */
-    refresh(config) {
-        this.go(document.location.pathname, config);
+    refresh() {
+        this.openPage(document.location.pathname);
     }
 
     /**
      * Функция для рендера страницы при переходе по истории браузера.
-     * @param {object} config - данные для отображения страницы
      * @param {object} event - событие на которое запустилась функция
      */
-    onPopState(config, event) {
-        this.go(document.location.pathname, config);
+    onPopState(event) {
+        this.openPage(document.location.pathname);
+    }
+
+    /**
+     * Добавляет в историю браузера.
+     * @param {string} path - путь к странице
+     */
+    addToHistory(path) {
+        window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
+        window.onpopstate = (event) => this.onPopState(event);
     }
 
     /**
      * Запускает роутер.
-     * @param {object} config - данные для отображения страницы
      */
-    start(config) {
+    start() {
         this.#mainElement = document.getElementById('main');
 
-        this.register(config.header.main.href, MainPage);
-        this.register(config.header.notFound.href, ErrorPage);
-        this.register(config.header.login.href, LoginPage);
-        this.register(config.header.signup.href, RegisterPage);
-        this.register(config.header.orders.href, OrdersPage);
-        this.register(config.header.addComment.href, AddCommentPage);
+        this.register(config.href.main, MainPage);
+        this.register(config.href.login, LoginPage);
+        this.register(config.href.signup, RegisterPage);
+        this.register(config.href.category, CatalogPage);
+        this.register(config.href.cart, CartPage);
+        this.register(config.href.user, UserPage); // fix
+
+        this.#titles.set(config.href.main, 'Главная - Reazon');
+        this.#titles.set(config.href.login, 'Вход - Reazon');
+        this.#titles.set(config.href.signup, 'Регистрация - Reazon');
+        this.#titles.set(config.href.user, 'Ваши данные - Reazon');
+        this.#titles.set(config.href.category, '- Reazon');
+        this.#titles.set(config.href.cart, 'Корзина - Reazon');
+
         this.#currentPage = new MainPage(this.#mainElement);
     }
 
     /**
      * Переходит на страницу.
      * @param {string} path - путь к странице
-     * @param {object} config - данные для отображения страницы
      * @return {boolean} - зарегистрирована ли такая страница
      */
-    go(path, config) {
-        if (this.#pathToPage.has(path)) {
-            this.#currentPage.removeEventListener();
-            this.#currentPage = this.#pathToPage.get(path)(config);
+    openPage(path) {
+        let goToPath = path?.slice(0, path.lastIndexOf('/'));
+        goToPath = goToPath ? goToPath : path;
+        this.#currentPage.removeEventListener();
+        if (this.#pathToPage.has(goToPath)) {
+            document.title = this.#titles.get(goToPath);
+            this.addToHistory(path);
+            this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }
-        this.go(config.header.notFound.href, config);
+        this.#currentPage = this.renderPage(ErrorPage)(config);
         return false;
     }
 
     /**
-     * Переходит на страницу и добавляет в историю браузера.
-     * @param {string} path - путь к странице
-     * @param {object} config - данные для отображения страницы
+     * Открывает страницу 404 при динамическом URL.
      */
-    openPage(path, config) {
-        if (this.go(path, config)) {
-            window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
-            window.onpopstate = (event) => this.onPopState(config, event);
-        }
+    openNotFoundPage() {
+        window.history.replaceState(
+            {page: document.location.pathname + (window.history.length).toString()},
+            '', document.location.pathname);
+        this.openPage(config.href.notFound);
     }
 }
 

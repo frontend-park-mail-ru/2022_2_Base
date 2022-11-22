@@ -14,7 +14,7 @@ export const LikesActionTypes = {
 /**
  * Класс, содержащий в себе действия с лайками.
  */
-export const LikesAction = {
+export const likesAction = {
     /**
      * Действие: лайкнуть карточку.
      * @param {number} id

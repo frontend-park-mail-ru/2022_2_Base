@@ -29,7 +29,7 @@
 }
 
 .order-block__itemcards-block::-webkit-scrollbar {
-  background-color: var(--background-dark-grey);
+  background-color: var(--dark-grey);
   border-radius: 4px;
   width: 6px;
 }
@@ -85,7 +85,7 @@
 }
 
 .button-cancel-order {
-  background: var(--background-dark-grey);
+  background: var(--dark-grey);
   color: var(--jet-black);
   justify-self: end;
 }

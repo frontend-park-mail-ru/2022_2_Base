@@ -1,34 +1,56 @@
-<a href="" class="item-card__top disabled">
+<div class="item-card__top">
     <div class="text-normal-small content__sales-image">
-        <img src={{imgsrc}} class="item-card__image" alt="iPhone 13">
-        {{#if salePrice}}
+        <img src={{imgsrc}} class="item-card__image" ind="itemcard_item-pic/{{this.id}}" alt="Item_Photo">
+        {{#if price}}
             <div class="content__sales-value">
-               -{{discount}}%
+                -{{discount}}%
             </div>
         {{/if}}
     </div>
-</a>
+</div>
 
- <div class="item-card__textbox">
+<div class="item-card__textbox">
+    <div class="item-card__price">
                 <span class="text-normal-large">
-                    {{price}}₽
+                    {{lowprice}} ₽
                 </span>
-        {{#if salePrice}}
-            <span class="text-normal-default item-card__text-strikethrough">
-                    {{salePrice}}₽
+        {{#if price}}
+            <span class="text-normal-default__strikethrough item-card__text-strikethrough">
+                    {{price}} ₽
                 </span>
         {{/if}}
-        <span class="text-normal-default item-card__title">
-            {{cardTitle}}
-        </span>
     </div>
+    <span class="text-normal-default item-card__title" ind="itemcard_item-title/{{this.id}}">
+        {{name}}
+    </span>
+</div>
 
 <div class="item-card__bottom">
-    <button type="button" class="button-default button_add-to-card paint-purple-disabled" >В корзину
-    </button>
-    <button type="button" class="item-card__rating" disabled>
-        <img src="img/Star.svg" alt="S" class="rating-icon">
-        <span class="text-normal-default-bold">
+    <div class="itemcard_block-button-add-to-cart">
+        <div class="itemcard_button_add-to-card button-default button_add-to-card paint-purple"
+             ind="itemcard_button-add-to-cart/{{this.id}}"  {{#if this.count}} style="display: none;" {{/if}}>
+            В корзину
+        </div>
+        <div class="catalog_amount-selector" ind="itemcard_amount-selector/{{this.id}}"
+             data-count="{{this.count}}"
+            {{#if this.count}} style="display: grid;" {{/if}}>
+            <button class="button-notext">
+                <span class="link__no-color text-normal-large" ind="itemcard_button-minus_cart/{{this.id}}">−</span>
+            </button>
+            <div class="catalog_amount-selector__amount">
+            <span class="text-normal-large" ind="itemcard_item-count/{{this.id}}">
+                {{this.count}}
+            </span>
+            </div>
+            <button class="button-notext">
+                <span class="link__no-color text-normal-large" ind="itemcard_button-plus_cart/{{this.id}}">+</span>
+            </button>
+        </div>
+    </div>
+
+    <button type="button" class="item-card__rating">
+        <img src="/img/Star.svg" alt="S" class="rating-icon">
+        <span class="text-normal-default__bold">
             {{rating}}
         </span>
     </button>

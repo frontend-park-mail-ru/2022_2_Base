@@ -1,8 +1,9 @@
+import {config} from '../config.js';
+
 /**
  * Класс, реализующий работу с запросами.
  */
 class Request {
-    #baseURL = 'https://www.reazon.ru';
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -33,7 +34,7 @@ class Request {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 
     /**
@@ -50,7 +51,25 @@ class Request {
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
+    };
+
+    /**
+     * Метод, реализующий запрос POST.
+     * @param {string} url - путь URL
+     * @param {Blob} data - полезная нагрузка запроса
+     * @return {Promise<Response>} промис запроса
+     */
+    makePostRequestSendAva = async (url, data) => {
+        const formData = new FormData();
+        formData.append('file', data);
+        const options = {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'include',
+            body: formData,
+        };
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 
     /**
@@ -65,7 +84,7 @@ class Request {
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURL}/${url}`, options);
+        return this.makeRequest(`${config.basePath}/${url}`, options);
     };
 }
 

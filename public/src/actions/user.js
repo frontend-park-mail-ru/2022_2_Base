@@ -27,35 +27,23 @@ export const userActions = {
 
     /**
      * Действие: регистрация пользователя.
-     * @param {String} name
-     * @param {String} email
-     * @param {String} password
-     * @param {String} repeatPassword
+     * @param {object} data
      */
-    register(name, email, password, repeatPassword) {
+    signup(data) {
         Dispatcher.dispatch({
             actionName: UserActionTypes.USER_REGISTER,
-            data: {
-                name,
-                email,
-                password,
-                repeatPassword,
-            },
+            data,
         });
     },
 
     /**
      * Действие: вход пользователя.
-     * @param {String} email
-     * @param {String} password
+     * @param {object} data
      */
-    login(email, password) {
+    login(data) {
         Dispatcher.dispatch({
             actionName: UserActionTypes.USER_LOGIN,
-            data: {
-                email,
-                password,
-            },
+            data,
         });
     },
 

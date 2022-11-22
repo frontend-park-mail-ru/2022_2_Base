@@ -1,0 +1,40 @@
+<form method="post" class="popup-form_add-card" novalidate>
+    <div class="popup-form_add-card__header text-normal-large-normal">
+        Добавить банковскую карту
+    </div>
+    <div class="popup-form_add-card__fields">
+        <div class="popup-form_add-card__date-and-code">
+            <div class="popup-form__field">
+                <div class="field-name_add-card text-normal-default">
+                    Действует до
+                </div>
+                <div class="popup-form_add-card__date popup-form_add-card__month-year">
+                    <input type="text" inputmode="numeric" pattern="\d*" maxlength="2" class="popup-form_add-card__input text-normal-default" id="month" placeholder="MM">
+                    <div class="separation-line-date_add-card text-normal-default">/</div>
+                    <input type="text" inputmode="numeric" pattern="\d*" maxlength="2" class="popup-form_add-card__input text-normal-default" id="year" placeholder="YY">
+                </div>
+            </div>
+            <div class="popup-form__field popup-form_add-card__code">
+                <div class="field-name_add-card text-normal-default">
+                    Код
+                </div>
+                <input type="text" inputmode="numeric" pattern="\d*" maxlength="3" class="popup-form_add-card__input text-normal-default" id="cvc" placeholder="CVC">
+            </div>
+        </div>
+        <div class="popup-form__field">
+            <div class="field-name_add-card text-normal-default">
+                Номер карты
+            </div>
+            <input type="text" inputmode="numeric" pattern="\d*" maxlength="16" class="popup-form_add-card__input text-normal-default" id="cardNumber"
+                                                   placeholder="0000 0000 0000 0000">
+        </div>
+    </div>
+    <div class="popup-form_add-card__buttons">
+        <button class="button-default popup-form_add-card__button popup-form_add-card__cancel"
+                id="popup-form_add-card__cancel">Отменить
+        </button>
+        <button class="button-default popup-form_add-card__button popup-form_add-card__apply"
+                id="popup-form_add-card__apply">Применить
+        </button>
+    </div>
+</form>

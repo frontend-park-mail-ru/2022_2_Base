@@ -1,4 +1,4 @@
 .idea
 node_modules
-public/src/*/templates.js
 dist
+#public/index.hbs
