@@ -3,8 +3,7 @@ import BasePage from '../BasePage.js';
 import './CommentPage.scss';
 import Comment from '../../components/Comment/Comment.js';
 import ProductHeader from '../../components/ProductHeader/ProductHeader';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -21,132 +20,23 @@ export default class CommentPage extends BasePage {
         );
     }
 
-        /**
+    /**
      * Функция, регистрирующая листенеры сторов
      */
-         addListener() {
-            cartStore.addListener(this.buttonCreate,
-                CartActionTypes.ADD_TO_CART);
-    
-            cartStore.addListener(this.buttonAdd,
-                CartActionTypes.INCREASE_NUMBER,
-            );
-    
-            cartStore.addListener(this.buttonMinus,
-                CartActionTypes.DECREASE_NUMBER,
-            );
-        }
-    
-        /**
-         * Функция, увеличение количество
-         */
-        buttonCreate() {
-            const addToCartButton = document.getElementById(
-                `comment_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            const amountSelector = document.getElementById(
-                `comment_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            if (!!addToCartButton && !!amountSelector) {
-                amountSelector.style.display = 'grid';
-                addToCartButton.style.display = 'none';
-    
-                const amount = document.getElementById(
-                    `comment-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                if (amount) {
-                    amount.textContent = '1';
-                }
-            } else {
-                console.warn('Элементы не найдены');
-            }
-        }
-    
-        /**
-         * Функция для увеличения количества товара в корзине
-         */
-        buttonAdd() {
-            const amount = document.getElementById(
-                `comment-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            if (amount) {
-                const count = parseInt(amount.textContent);
-                amount.textContent = (count + 1).toString();
-            }
-        }
-    
-        /**
-         * Функция для уменьшения количества товара в корзине
-         */
-        buttonMinus() {
-            const amount = document.getElementById(
-                `comment-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            if (amount) {
-                const count = parseInt(amount.textContent);
-    
-                if (count === 1) {
-                    const amountSelector = document.getElementById(
-                        `comment_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                    const addToCartButton = document.getElementById(
-                        `comment_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                    if (!!addToCartButton && !!amountSelector) {
-                        amountSelector.style.display = 'none';
-                        addToCartButton.style.display = 'flex';
-                    } else {
-                        console.warn(
-                            'Элементы не найдены: addToCartButton, addToCartButton');
-                    }
-                } else {
-                    amount.textContent = (count - 1).toString();
-                }
-            }
-        }
-    
-    
-        /**
-         * Функция, обрабатывающая клики на кнопку добавить в корзину
-         * @param {Event} event контекст события для обработки
-         */
-        listenClickButtonAddIntoCart(event) {
-            event.preventDefault();
-            const target = event.target;
-            let elementId = target.id;
-            let itemId;
-            if (elementId) {
-                if (elementId.includes('/')) {
-                    [elementId, itemId] = elementId.split('/');
-                    switch (elementId) {
-                    case 'comment_button-add-to-cart':
-                        this.buttonCreate(); // убрать
-                        cartAction.addToCart(itemId);
-                        break;
-                    case 'comment_button-minus_cart':
-                        this.buttonMinus(); // убрать
-                        cartAction.decreaseNumber(itemId);
-                        break;
-                    case 'comment_button-plus_cart':
-                        this.buttonAdd(); // убрать
-                        cartAction.increaseNumber(itemId);
-                        break;
-                    }
-                }
-            }
-        }
+    addListener() {
+
+    }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const buttonAddIntoCart = document.getElementById('comment-block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.addEventListener('click', this.listenClickButtonAddIntoCart.bind(this));
-        }
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const buttonAddIntoCart = document.getElementById('comment-block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.removeEventListener('click', this.listenClickButtonAddIntoCart);
-        }
     }
     /**
      * Метод, отрисовывающий страницу.
@@ -164,6 +54,7 @@ export default class CommentPage extends BasePage {
             price: '35 890',
             salePrice: '31 580',
             discount: 12,
+            amount: 2,
             comments: [
                 {
                     id: 1,
@@ -216,6 +107,7 @@ export default class CommentPage extends BasePage {
         comments.render(data.comments);
         const pageProduct = new ProductHeader(document.getElementById('comment-page__header-product'));
         pageProduct.render(data);
-        this.startEventListener();
+        const addToCartButton = new AddToCartButton(document.getElementById('comment-block-button-add-to-cart'));
+        addToCartButton.render(data);
     }
 }

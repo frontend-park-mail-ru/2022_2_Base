@@ -2,9 +2,8 @@ import ProductPagePageTemplate from './ProductPage.hbs';
 import BasePage from '../BasePage.js';
 import './ProductPage.scss';
 import ProductHeader from '../../components/ProductHeader/ProductHeader.js';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
 import sharedFunctions from '../../modules/sharedFunctions.js';
+import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -22,131 +21,15 @@ export default class ProductPage extends BasePage {
     }
 
     /**
-     * Функция, регистрирующая листенеры сторов
-     */
-     addListener() {
-        cartStore.addListener(this.buttonCreate,
-            CartActionTypes.ADD_TO_CART);
-
-        cartStore.addListener(this.buttonAdd,
-            CartActionTypes.INCREASE_NUMBER,
-        );
-
-        cartStore.addListener(this.buttonMinus,
-            CartActionTypes.DECREASE_NUMBER,
-        );
-    }
-
-    /**
-     * Функция, увеличение количество
-     */
-    buttonCreate() {
-        const addToCartButton = document.getElementById(
-            `product_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        const amountSelector = document.getElementById(
-            `product_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (!!addToCartButton && !!amountSelector) {
-            amountSelector.style.display = 'grid';
-            addToCartButton.style.display = 'none';
-
-            const amount = document.getElementById(
-                `product-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-            if (amount) {
-                amount.textContent = '1';
-            }
-        } else {
-            console.warn('Элементы не найдены');
-        }
-    }
-
-    /**
-     * Функция для увеличения количества товара в корзине
-     */
-    buttonAdd() {
-        const amount = document.getElementById(
-            `product-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (amount) {
-            const count = parseInt(amount.textContent);
-            amount.textContent = (count + 1).toString();
-        }
-    }
-
-    /**
-     * Функция для уменьшения количества товара в корзине
-     */
-    buttonMinus() {
-        const amount = document.getElementById(
-            `product-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
-        if (amount) {
-            const count = parseInt(amount.textContent);
-
-            if (count === 1) {
-                const amountSelector = document.getElementById(
-                    `product_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                const addToCartButton = document.getElementById(
-                    `product_button-add-to-cart/${cartStore.getContext(cartStore._storeNames.currID)}`);
-                if (!!addToCartButton && !!amountSelector) {
-                    amountSelector.style.display = 'none';
-                    addToCartButton.style.display = 'flex';
-                } else {
-                    console.warn(
-                        'Элементы не найдены: addToCartButton, addToCartButton');
-                }
-            } else {
-                amount.textContent = (count - 1).toString();
-            }
-        }
-    }
-
-
-    /**
-     * Функция, обрабатывающая клики на кнопку добавить в корзину
-     * @param {Event} event контекст события для обработки
-     */
-    listenClickButtonAddIntoCart(event) {
-        event.preventDefault();
-        const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-                switch (elementId) {
-                case 'product_button-add-to-cart':
-                    this.buttonCreate(); // убрать
-                    cartAction.addToCart(itemId);
-                    break;
-                case 'product_button-minus_cart':
-                    this.buttonMinus(); // убрать
-                    cartAction.decreaseNumber(itemId);
-                    break;
-                case 'product_button-plus_cart':
-                    this.buttonAdd(); // убрать
-                    cartAction.increaseNumber(itemId);
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const buttonAddIntoCart = document.getElementById('product-block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.addEventListener('click', this.listenClickButtonAddIntoCart.bind(this));
-        }
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const buttonAddIntoCart = document.getElementById('product-block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.removeEventListener('click', this.listenClickButtonAddIntoCart);
-        }
     }
     /**
      * Метод, отрисовывающий страницу.
@@ -200,10 +83,10 @@ export default class ProductPage extends BasePage {
             discount: 12,
         };
         data.date = sharedFunctions._getDate(1)[0];
-        this.addListener();
         super.render(data);
         const pageHeader = new ProductHeader(document.getElementById('product-page-header'));
         pageHeader.render(data)
-        this.startEventListener();
+        const addToCartButton = new AddToCartButton(document.getElementById('product-block-button-add-to-cart'));
+        addToCartButton.render(data);
     }
 }

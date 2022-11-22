@@ -4,7 +4,7 @@ import './ProductHeader.scss';
 import sharedFunctions from '../../modules/sharedFunctions.js';
 
 /**
- * Класс для реализации компонента ItemCard
+ * Класс для реализации компонента ProductHeader
  */
 export default class ProductHeader extends BaseComponent {
     /**

@@ -171,7 +171,7 @@ class CartStore extends BaseStore {
             }
         });
         const [status] = await request.makePostRequest(config.api.insertIntoCart, {
-            itemid: idlet,
+            itemid: id,
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
