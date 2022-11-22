@@ -25,8 +25,9 @@ export default class CatalogPage extends BasePage {
 
         this.#category = new Map();
         // const categories = itemsStore.getContext(itemsStore._storeNames.topCategory);
+        this.#category.set(config.href.category + '/phones', 'Телефоны');
         this.#category.set(config.href.category + '/monitors', 'Телефоны');
-        this.#category.set(config.href.category + '/computer', 'Компьютеры');
+        this.#category.set(config.href.category + '/computers', 'Компьютеры');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
         this.#category.set(config.href.category + '/tvs', 'Телевизоры');
         this.#category.set(config.href.category + '/watches', 'Часы');
