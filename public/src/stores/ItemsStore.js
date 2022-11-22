@@ -23,17 +23,17 @@ class ItemsStore extends BaseStore {
         Monitors: {
             nameCategory: 'Мониторы',
             img: './img/Monitors.webp',
-            href: '/category/monitors',
+            href: config.href.category + '/monitors',
         },
         TV: {
             nameCategory: 'Телевизоры',
             img: './img/TV.webp',
-            href: '/category/tvs',
+            href: config.href.category + '/tvs',
         },
         Watch: {
             nameCategory: 'Часы',
             img: './img/Watch.webp',
-            href: '/category/watches',
+            href: config.href.category + '/watches',
         },
         Tablet: {
             nameCategory: 'Планшеты',
@@ -43,7 +43,7 @@ class ItemsStore extends BaseStore {
         Accessories: {
             nameCategory: 'Аксессуары',
             img: './img/Accessories.webp',
-            href: '/category/accessories',
+            href: config.href.category + '/accessories',
         },
     };
 

@@ -24,8 +24,14 @@ export default class CatalogPage extends BasePage {
         super(parent, CatalogPageTemplate);
 
         this.#category = new Map();
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        // const categories = itemsStore.getContext(itemsStore._storeNames.topCategory);
+        this.#category.set(config.href.category + '/monitors', 'Телефоны');
+        this.#category.set(config.href.category + '/computer', 'Компьютеры');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
+        this.#category.set(config.href.category + '/tvs', 'Телевизоры');
+        this.#category.set(config.href.category + '/watches', 'Часы');
+        this.#category.set(config.href.category + '/tablets', 'Планшеты');
+        this.#category.set(config.href.category + '/accessories', 'Аксессуары');
     }
 
     /**
@@ -65,7 +71,7 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            itemCardsAction.getItemCardsByCategory(true);
+            // itemCardsAction.getItemCardsByCategory(true);
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
