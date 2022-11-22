@@ -145,7 +145,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response.items.forEach((globalItem) => {
+        response?.items.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
                 if (globalItem.id === localItem.id) {
