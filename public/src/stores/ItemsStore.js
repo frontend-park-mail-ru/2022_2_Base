@@ -104,14 +104,14 @@ class ItemsStore extends BaseStore {
             break;
 
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getCheapItemCard(payload.data);
+            await this._getByPriceItemCard(payload.data);
             this._emitChange([
                 ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
             break;
 
         case ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getHighRatingItemCard(payload.data);
+            await this._getByRatingItemCard(payload.data);
             this._emitChange([
                 ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
@@ -153,20 +153,24 @@ class ItemsStore extends BaseStore {
 
     /**
    * Действие: запрос списка дешевых карточек.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+   * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
    */
-    _getCheapItemCard(isFirstRequest) {
+    _getByPriceItemCard(isLowToHighPrice) {
         this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base + config.queryParams.sort.price);
+            config.queryParams.sort.base +
+            (isLowToHighPrice ?
+                config.queryParams.sort.priceUp : config.queryParams.sort.priceDown));
     }
 
     /**
    * Действие: запрос списка карточек с высоким рейтингом.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+   * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
    */
-    _getHighRatingItemCard(isFirstRequest) {
+    _getByRatingItemCard(isLowToHighRating) {
         this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base + config.queryParams.sort.rating);
+            config.queryParams.sort.base +
+            (isLowToHighRating ?
+                config.queryParams.sort.ratingUp : config.queryParams.sort.ratingDown));
     }
 
     /**
@@ -198,7 +202,7 @@ class ItemsStore extends BaseStore {
 
         const [status, response] = await request
             .makeGetRequest(
-                config.api.products +
+                config.api.category +
           document.location.pathname.slice(
               document.location.pathname.lastIndexOf('/'),
               document.location.pathname.length,

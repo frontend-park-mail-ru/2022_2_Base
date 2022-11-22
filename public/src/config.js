@@ -20,7 +20,8 @@ export const config = {
         signup: basePathApi + 'signup',
         logout: basePathApi + 'logout',
         session: basePathApi + 'session',
-        products: basePathApi + 'category',
+        products: basePathApi + 'products',
+        category: basePathApi + 'category',
         profile: basePathApi + 'user/profile',
         uploadAvatar: basePathApi + 'user/avatar',
         avatarsDir: basePathApi + 'img/avatars/',
@@ -39,9 +40,12 @@ export const config = {
     queryParams: {
         sort: {
             base: '?sort=',
-            price: 'price',
-            rating: 'rating',
-            popular: 'popular',
+            priceUp: 'priceup',
+            priceDown: 'pricedown',
+            ratingUp: 'ratingup',
+            ratingDown: 'ratingdown',
+            popularUp: 'popularup',
+            popularDown: 'populardown',
         },
     },
     responseCodes: {
