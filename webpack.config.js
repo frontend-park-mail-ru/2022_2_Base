@@ -106,7 +106,7 @@ const config = {
             ignoreOrder: false,
         }),
         // new StylelintPlugin({
-        //     configFile: 'stylelint.config.json',
+        //     configFile: 'stylelint.config.js',
         //     extensions: ['scss'],
         //     // files: './public/*',
         //     exclude: ['node_modules', 'dist'],

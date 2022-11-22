@@ -235,7 +235,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        console.log('currCartItems', currCartItems);
         const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
