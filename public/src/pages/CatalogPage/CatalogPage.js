@@ -65,6 +65,7 @@ export default class CatalogPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
+            console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
