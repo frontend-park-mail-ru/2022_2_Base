@@ -200,9 +200,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
-        }
+        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
     }
 
     /**
@@ -214,9 +212,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, []);
-        }
+        this._storage.set(this._storeNames.itemsCart, []);
     }
 
     /**

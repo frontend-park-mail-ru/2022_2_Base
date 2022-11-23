@@ -430,7 +430,8 @@ class UserStore extends BaseStore {
      */
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAva(
-            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.webp')
+            config.api.uploadAvatar, avatar ??
+            await fetch('img/UserPhoto.webp').then((r) => r.blob()))
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -463,7 +464,6 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
-            avatar: this._storage.get(this._storeNames.avatar),
             paymentMethods: paymentMethodsField,
             address: addressField,
         };
