@@ -1,8 +1,9 @@
 import ordersPageTemplate from './OrdersPage.hbs';
 import BasePage from '../BasePage.js';
-// import request from '../../modules/ajax.js';
 import './OrdersPage.scss';
 import OrderBlock from '../../components/OrderBlock/OrderBlock.js';
+import {orderAction, OrderActionTypes} from '../../actions/order';
+import ordersStore from '../../stores/OrdersStore';
 
 /**
  * Класс, реализующий главную страницу
@@ -20,11 +21,21 @@ export default class OrdersPage extends BasePage {
     }
 
     /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
+        ordersStore.addListener(this.loadCards.bind(this), OrderActionTypes.GET_ORDERS);
+    }
+
+    /**
      * Метод, загружающий карты.
      * @param {string} classToGet имя класса, в который надо вставить карту
      * @param {string} reqPath путь для api запроса к беку
      */
-    async loadCards(classToGet, reqPath) {
+    loadCards(classToGet, reqPath) {
+        ordersStore.getContext(ordersStore._storeNames.orders); // <- request data
+
+
         const rootElement = document.getElementById('orders-page__block');
 
         const blockElement = document.createElement('div');
@@ -32,7 +43,7 @@ export default class OrdersPage extends BasePage {
         blockElement.classList.add('order-block');
         rootElement.before(blockElement);
         /* rendering card itself */
-        this.orderBlock = new OrderBlock(blockElement);
+        torderStorehis.orderBlock = new OrderBlock(blockElement);
 
         this.orderBlock.render();
     }
@@ -41,8 +52,12 @@ export default class OrdersPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    async render(config) {
+    render(config) {
         super.render(config);
-        await this.loadCards('orderBlock');
+        orderAction.getOrders();
+
+        // this.loadCards('orderBlock'); // ???
+        // зачем тебе что-то передавать в функцию?
+        // проще через this в конструкторе прокинуть, если сильно надо, но тут вообще смысла не вижу, честно говоря. Поясни
     }
 }
