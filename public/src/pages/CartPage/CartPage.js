@@ -112,7 +112,7 @@ export default class CartOrderPage extends BasePage {
                 });
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            context.isAuth = true; // FIX
+            // context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
                 context.username = userStore.getContext(userStore._storeNames.name);
