@@ -42,3 +42,66 @@
     width: 100px;
     height: 38px;
 }
+
+@media (max-width: 991.98px) {
+    .footer__grid {
+        margin: 20px 60px;
+        grid-template-rows: max-content 70px;
+        grid-row-gap: 18px;
+    }
+    
+    .footer__members {
+        grid-column-gap: 24px;
+    }
+
+    .footer__margin-contact-logo {
+        margin-left: 8px;
+    }
+
+    .footer__contact-logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .logo-reazon{
+        width: 60px;
+        height: 22px;
+    }
+
+    .footer__member-name.text-normal-large-normal {
+        font-family: var(--font-main);
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .footer__grid {
+        margin: 2px 6px;
+        grid-template-rows: max-content 70px;
+        grid-row-gap: 8px;
+    }
+    
+    .footer__members {
+        grid-column-gap: 14px;
+    }
+
+    .footer__contact-logo {
+        width: 16px;
+        height: 16px;
+    }
+
+    .logo-reazon{
+        width: 60px;
+        height: 22px;
+    }
+
+    .footer__member-name.text-normal-large-normal {
+        font-family: var(--font-main);
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: -0.05em;
+    }
+}
