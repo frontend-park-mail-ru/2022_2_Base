@@ -145,7 +145,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response.items.forEach((globalItem) => {
+        response?.items?.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
                 if (globalItem.id === localItem.id) {
@@ -177,6 +177,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _getCart() {
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
+        console.log('itemsCart', this._storage.get(this._storeNames.itemsCart));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -199,9 +200,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
-        }
+        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
     }
 
     /**
@@ -213,9 +212,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, []);
-        }
+        this._storage.set(this._storeNames.itemsCart, []);
     }
 
     /**
@@ -235,7 +232,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {

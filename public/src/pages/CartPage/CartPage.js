@@ -442,9 +442,16 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseInt(document.querySelector('.payment-method_cart')
-                    .id.split('/', 2)[1]);
-                orderData.card = orderData.card ? orderData.card : null;
+                console.log('element card', document.querySelector('.payment-method_cart')
+                    .id.split('/')[1]);
+                console.log('element card id', parseInt(document.querySelector('.payment-method_cart')
+                    .id.split('/')[1]));
+
+
+                orderData.card = document.querySelector('.payment-method_cart')
+                    .id.split('/')[1] ?? config.states.noPayCardId;
+                orderData.card = parseInt(orderData.card);
+
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');

@@ -22,6 +22,7 @@ export const config = {
         logout: basePathApi + 'logout',
         session: basePathApi + 'session',
         products: basePathApi + 'products',
+        category: basePathApi + 'category',
         profile: basePathApi + 'user/profile',
         uploadAvatar: basePathApi + 'user/avatar',
         avatarsDir: basePathApi + 'img/avatars/',
@@ -36,13 +37,17 @@ export const config = {
         endOf: -1,
         invalidUserData: 4000,
         invalidData: 4040,
+        noPayCardId: 1,
     },
     queryParams: {
         sort: {
             base: '?sort=',
-            price: 'price',
-            rating: 'rating',
-            popular: 'popular',
+            priceUp: 'priceup',
+            priceDown: 'pricedown',
+            ratingUp: 'ratingup',
+            ratingDown: 'ratingdown',
+            popularUp: 'popularup',
+            popularDown: 'populardown',
         },
     },
     responseCodes: {

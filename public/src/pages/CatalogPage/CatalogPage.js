@@ -24,8 +24,15 @@ export default class CatalogPage extends BasePage {
         super(parent, CatalogPageTemplate);
 
         this.#category = new Map();
+        // const categories = itemsStore.getContext(itemsStore._storeNames.topCategory);
         this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/monitors', 'Телефоны');
+        this.#category.set(config.href.category + '/computers', 'Компьютеры');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
+        this.#category.set(config.href.category + '/tvs', 'Телевизоры');
+        this.#category.set(config.href.category + '/watches', 'Часы');
+        this.#category.set(config.href.category + '/tablets', 'Планшеты');
+        this.#category.set(config.href.category + '/accessories', 'Аксессуары');
     }
 
     /**
@@ -65,7 +72,7 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
+            // itemCardsAction.getItemCardsByCategory(true);
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -98,7 +105,10 @@ export default class CatalogPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карточки дешевых товаров
      */
     loadSortedItemCards() {
-        router.addToHistory(itemsStore.getContext(itemsStore._storeNames.sortURL));
+        // console.log(window.location.pathname +
+        //     itemsStore.getContext(itemsStore._storeNames.sortURL));
+        router.addToHistory(window.location.pathname +
+            itemsStore.getContext(itemsStore._storeNames.sortURL));
         this.itemsBlock.innerHTML = '';
         itemCardsAction.getItemCardsByCategory(true);
         this.removeScrollListener();
@@ -235,10 +245,12 @@ export default class CatalogPage extends BasePage {
     lisitenSortCatalog(event) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
-            itemCardsAction.getHighRatingItemCardsByCategory(true);
+            itemCardsAction.getHighRatingItemCardsByCategory(
+                window.location.search.includes(config.queryParams.sort.ratingDown));
             break;
         case 'catalog_sort-price':
-            itemCardsAction.getCheapItemCardsByCategory(true);
+            itemCardsAction.getCheapItemCardsByCategory(
+                window.location.search.includes(config.queryParams.sort.priceDown));
             break;
         }
     }

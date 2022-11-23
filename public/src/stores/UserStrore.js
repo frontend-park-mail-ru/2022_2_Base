@@ -133,7 +133,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
         this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
-        this._storage.set(this._storeNames.address, []); // this.#testAddressCards
+        this._storage.set(this._storeNames.address, this.#testAddressCards); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
@@ -430,7 +430,8 @@ class UserStore extends BaseStore {
      */
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAva(
-            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.webp')
+            config.api.uploadAvatar, avatar ??
+            await fetch('img/UserPhoto.webp').then((r) => r.blob()))
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -463,7 +464,6 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
-            avatar: this._storage.get(this._storeNames.avatar),
             paymentMethods: paymentMethodsField,
             address: addressField,
         };

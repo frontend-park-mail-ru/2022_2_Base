@@ -21,7 +21,7 @@ class SharedFunctions {
             item.price === item.lowprice ? item.price = item.discount :
                 item.discount = 100 - Math.round(item.lowprice / item.price * 100);
             item.strPrice = this._truncate(item.price);
-            item.strLowprice = this._truncate(item.lowprice);
+            item.strLowprice = (item.strLowprice ? this._truncate(item.lowprice) : null);
         });
     }
 
