@@ -36,6 +36,7 @@ export const config = {
         endOf: -1,
         invalidUserData: 4000,
         invalidData: 4040,
+        noPayCardId: 1,
     },
     queryParams: {
         sort: {

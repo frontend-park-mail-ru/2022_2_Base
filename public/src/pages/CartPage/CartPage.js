@@ -112,7 +112,7 @@ export default class CartOrderPage extends BasePage {
                 });
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            // context.isAuth = true; // FIX
+            context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
                 context.username = userStore.getContext(userStore._storeNames.name);
@@ -443,8 +443,8 @@ export default class CartOrderPage extends BasePage {
                     0)).toJSON();
 
                 orderData.card = parseInt(document.querySelector('.payment-method_cart')
-                    .id.split('/', 2)[1]);
-                orderData.card = orderData.card ? orderData.card : null;
+                    .id.split('/')[1]) ?? config.states.noPayCardId;
+
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');

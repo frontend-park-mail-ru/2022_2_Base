@@ -198,10 +198,19 @@
                         </a>
                     </div>
             </div>
+    {{#if this.isAuth}}
             <button type="button" class="button-default summary_cart__create-order-button"
                     id="summary_cart__create-order-button">
                 Оформить заказ
             </button>
+    {{else}}
+        <div class="text-normal-large-normal">
+        <span>Чтобы оформить заказ</span>
+        <a href="/login" class="link">
+            авторизуйтесь
+        </a>
+        </div>
+    {{/if}}
         </div>
     </div>
 </div>

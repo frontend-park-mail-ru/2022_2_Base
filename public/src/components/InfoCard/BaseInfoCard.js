@@ -76,8 +76,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.delete.forEach((key) => {
                 key.addEventListener('click', this.bindListenClickDelete);
             });
-        } else {
-            console.log('element not found', this.delete, '.delete-' + this.pageName);
         }
 
         if (addCard) {
@@ -85,8 +83,6 @@ export default class BaseInfoCard extends BaseComponent {
             if (this.new) {
                 this.bindListenClickAdd = this.listenClickAdd.bind(this);
                 this.new.addEventListener('click', this.bindListenClickAdd);
-            } else {
-                console.log('element not found', this.new, `add-${this.pageName}`);
             }
         }
     }
@@ -101,8 +97,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.edit.forEach((key) => {
                 key.addEventListener('click', this.bindListenClickEdite);
             });
-        } else {
-            console.log('element not found', this.edit, `.edit-${this.pageName}`);
         }
     }
     /**
@@ -113,8 +107,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.edit.forEach((key) => {
                 key.removeEventListener('click', this.bindListenClickEdite);
             });
-        } else {
-            console.log('element not found', this.edit);
         }
     }
 
@@ -126,14 +118,10 @@ export default class BaseInfoCard extends BaseComponent {
             this.delete.forEach((key) => {
                 this.delete.removeEventListener('click', this.bindListenClickDelete);
             });
-        } else {
-            console.log('element not found', this.delete);
         }
 
         if (this.new) {
             this.new.addEventListener('click', this.bindListenClickAdd);
-        } else {
-            console.log('element not found', this.new);
         }
     }
 
