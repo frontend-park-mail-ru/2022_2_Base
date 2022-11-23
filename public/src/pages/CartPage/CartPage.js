@@ -112,7 +112,7 @@ export default class CartOrderPage extends BasePage {
                 });
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            // context.isAuth = true; // FIX
+            context.isAuth = true; // FIX
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
                 context.username = userStore.getContext(userStore._storeNames.name);
@@ -442,8 +442,15 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseInt(document.querySelector('.payment-method_cart')
-                    .id.split('/')[1]) ?? config.states.noPayCardId;
+                console.log('element card', document.querySelector('.payment-method_cart')
+                    .id.split('/')[1]);
+                console.log('element card id', parseInt(document.querySelector('.payment-method_cart')
+                    .id.split('/')[1]));
+
+
+                orderData.card = document.querySelector('.payment-method_cart')
+                    .id.split('/')[1] ?? config.states.noPayCardId;
+                orderData.card = parseInt(orderData.card);
 
                 cartAction.makeOrder(orderData);
             } else {
