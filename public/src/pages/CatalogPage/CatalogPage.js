@@ -24,7 +24,6 @@ export default class CatalogPage extends BasePage {
         super(parent, CatalogPageTemplate);
 
         this.#category = new Map();
-        // const categories = itemsStore.getContext(itemsStore._storeNames.topCategory);
         this.#category.set(config.href.category + '/phones', 'Телефоны');
         this.#category.set(config.href.category + '/monitors', 'Телефоны');
         this.#category.set(config.href.category + '/computers', 'Компьютеры');
@@ -72,7 +71,7 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            // itemCardsAction.getItemCardsByCategory(true);
+            itemCardsAction.getItemCardsByCategory(true); // fix
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -105,8 +104,6 @@ export default class CatalogPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карточки дешевых товаров
      */
     loadSortedItemCards() {
-        // console.log(window.location.pathname +
-        //     itemsStore.getContext(itemsStore._storeNames.sortURL));
         router.addToHistory(window.location.pathname +
             itemsStore.getContext(itemsStore._storeNames.sortURL));
         this.itemsBlock.innerHTML = '';
@@ -245,12 +242,18 @@ export default class CatalogPage extends BasePage {
     lisitenSortCatalog(event) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
-            itemCardsAction.getHighRatingItemCardsByCategory(
-                window.location.search.includes(config.queryParams.sort.ratingDown));
+            const isLowToHighRating =window.location.search.includes(config.queryParams.sort.ratingDown);
+            isLowToHighRating ?
+                this.ratingSortImg.classList.remove('rotate-img-180') :
+                this.ratingSortImg.classList.add('rotate-img-180');
+            itemCardsAction.getHighRatingItemCardsByCategory(isLowToHighRating);
             break;
         case 'catalog_sort-price':
-            itemCardsAction.getCheapItemCardsByCategory(
-                window.location.search.includes(config.queryParams.sort.priceDown));
+            const isLowToHighPrice = window.location.search.includes(config.queryParams.sort.priceDown);
+            isLowToHighPrice ?
+                this.priceSortImg.classList.remove('rotate-img-180') :
+                this.priceSortImg.classList.add('rotate-img-180');
+            itemCardsAction.getCheapItemCardsByCategory(isLowToHighPrice);
             break;
         }
     }
@@ -264,14 +267,14 @@ export default class CatalogPage extends BasePage {
             this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
 
-
         this.waitThrottleScroll = false;
         this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
         this.startScrollListener();
 
         this.catalogSort = document.getElementById('catalog_sort-buttons');
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+            this.addLisitenSortCatalog = this.lisitenSortCatalog.bind(this);
+            this.catalogSort.addEventListener('click', this.addLisitenSortCatalog);
         }
     }
 
@@ -296,11 +299,9 @@ export default class CatalogPage extends BasePage {
         if (this.catalogContent) {
             this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
-
         this.removeScrollListener();
-
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+            this.catalogSort.addEventListener('click', this.addLisitenSortCatalog);
         }
     }
 
@@ -316,6 +317,10 @@ export default class CatalogPage extends BasePage {
         cartAction.getCart();
         this.startEventListener();
         this.itemsBlock = document.getElementById('items-block');
+        this.ratingSortImg = document.getElementById('catalog_sort-rating__img');
+        this.priceSortImg = document.getElementById('catalog_sort-price__img');
+        console.log(this.ratingSortImg);
+        console.log(this.priceSortImg);
     }
 }
 
