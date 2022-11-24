@@ -133,7 +133,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
         this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
-        this._storage.set(this._storeNames.address, this.#testAddressCards); // this.#testAddressCards
+        this._storage.set(this._storeNames.address, []); // this.#testAddressCards
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
