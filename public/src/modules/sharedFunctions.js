@@ -25,11 +25,12 @@ class SharedFunctions {
      * @param {Array|object} data - данные карты
      */
     addSpacesToPrice(data) {
+        console.log(data);
         if (Array.isArray(data)) {
-            data?.forEach((item) => {
+            data.forEach((item) => {
                 this.#addSpacesToItemPrice(item);
             });
-        } else if (typeof data === 'object') {
+        } else if (typeof data === 'object' && data) {
             this.#addSpacesToItemPrice(data);
         }
     }
