@@ -17,7 +17,7 @@
                 {{rating}}
             </span>
             <div class="product-page-header__comment text-normal-large-normal link">
-                <!--            <img src="/img/Comment.svg" alt="product comment" class="product-page-header__comment-img">-->
+                <img src="/img/Comment.svg" alt="product comment" class="product-page-header__comment-img">
                 {{#if commentsCount}}
                     {{commentsCount}}
                 {{else}}
@@ -28,7 +28,8 @@
         </a>
         <label class="product-page-header__selection">
             <input type="checkbox" class="favourite-opt" {{#if favourite}} checked {{/if}}>
-            <span class="product-page-header__selection-text text-normal-large-normal" id="favourite-opt_cart__text">{{#if favourite}}
+            <span class="product-page-header__selection-text text-normal-large-normal"
+                  id="favourite-opt_cart__text">{{#if favourite}}
                 В избранном {{else}} В избранное {{/if}}</span>
         </label>
     </div>
