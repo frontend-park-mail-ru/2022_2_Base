@@ -35,6 +35,7 @@
 
 .add-payment-card {
     @extend %other-payment-card;
+    grid-template-rows: 32px 48px 40px;
 }
 
 .change-payment-card {
@@ -42,9 +43,6 @@
     margin-left: 78px;
     width: 40px;
     align-items: center;
-
-    //grid-template-columns: 1fr;
-    //display:grid;
 }
 
 .payment-card-title {
@@ -89,7 +87,6 @@
     height: 32px;
     align-self: center;
     justify-self: center;
-    margin-top: -4px;
 }
 
 .text-add-card_payment-card {

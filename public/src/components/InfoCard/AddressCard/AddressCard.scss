@@ -45,6 +45,7 @@
 
 .add-address-card {
     @extend %other-address-card;
+    grid-template-rows: 32px 48px 40px;
 }
 
 .address-card-city {
@@ -80,7 +81,6 @@
 
 .add-address-card-pic {
     margin-left: 84px;
-    margin-top: -4px;
     width: 32px;
     height: 32px;
     align-self: center;

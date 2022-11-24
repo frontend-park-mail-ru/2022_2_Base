@@ -6,14 +6,10 @@ import router from '../../modules/Router';
 import './LoginPage.scss';
 import {userActions, UserActionTypes} from '../../actions/user';
 import userStore from '../../stores/UserStrore';
-import {config} from '../../config';
+import config from '../../config';
 import refresh from '../../modules/refreshElements';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
-
-const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
-const ERROR_401_MESSAGE = 'Неверная почта или пароль';
-const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
 
 /**
  * Класс, реализующий страницу входа.
@@ -51,19 +47,19 @@ export default class LoginPage extends BasePage {
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
+                    'Error400Message', config.errorMessages.ERROR_400_MESSAGE) :
                 console.log('bad request: ', status);
             break;
         case 401:
             errorMessage.getErrorMessage(document.getElementById(
                 userStore.getContext(userStore._storeNames.context).fields.email.name),
-            'emailError', ERROR_401_MESSAGE);
+            'emailError', config.errorMessages.ERROR_401_MESSAGE);
             console.log('no auth: ', status);
             break;
         default:
             !document.getElementById('serverErrorMessage') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                    'serverErrorMessage', config.errorMessages.SERVER_ERROR_MESSAGE) :
                 console.log('server error: ', status);
             break;
         }

@@ -49,4 +49,9 @@ export const config = {
         code400: 400,
         code401: 401,
     },
+    errorMessages: {
+        ERROR_400_MESSAGE: 'Ошибка. Попробуйте еще раз',
+        ERROR_401_MESSAGE: 'Неверная почта или пароль',
+        SERVER_ERROR_MESSAGE: 'Ошибка сервера. Попробуйте позже',
+    },
 };
