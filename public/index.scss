@@ -81,6 +81,10 @@ input[type="number"] {
   background-color: var(--default_purple);
 }
 
+.paint-jet-black {
+  color: var(--jet-black);
+}
+
 .button-default {
   @extend .text-normal-default;
   border-radius: 10px;
