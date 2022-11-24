@@ -1,6 +1,6 @@
 <div class="product-page-header">
-    {{#if path}}
-        <a class="text-normal-default product-page-header__path-color" href="{{path.href}}">{{path.name}}</a>
+    {{#if categoryPath}}
+        <a class="text-normal-default product-page-header__path-color" href="{{categoryPath}}">{{categoryName}}</a>
     {{else}}
         <a href="" class="comment-page-header__back link">
             <img src="img/ReturnArrow.png" alt="return-arrow">
@@ -17,7 +17,7 @@
                 {{rating}}
             </span>
         </button>
-        <a href="{{commentsHref}}" class="product-page-header__comment text-normal-large-normal link">
+        <a href="{{this.commentPath}}" class="product-page-header__comment text-normal-large-normal link">
             <img src="img/Comment.svg" alt="comment" class="product-page-header__comment-img">
             {{#if commentsCount}}
                 {{commentsCount}}

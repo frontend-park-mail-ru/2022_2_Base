@@ -5,8 +5,8 @@ import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
 import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
 import {config} from '../config.js';
 import CartPage from '../pages/CartPage/CartPage.js';
-import ProductPage from '../pages/ProductPage/ProductPage.js';
-import CommentPage from '../pages/CommentPage/CommentPage.js';
+import ProductPage from '../pages/ItemPage/ProductPage/ProductPage.js';
+import CommentPage from '../pages/ItemPage/CommentPage/CommentPage.js';
 import UserPage from '../pages/UserPage/UserPage';
 
 /**

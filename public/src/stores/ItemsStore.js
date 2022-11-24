@@ -55,6 +55,7 @@ class ItemsStore extends BaseStore {
         cardLoadCount: 'cardLoadCount',
         allCardsInCategory: 'allCardsInCategory',
         sortURL: 'sortURL',
+        itemData: 'itemData',
     };
 
     /**
@@ -70,6 +71,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.cardLoadCount, null);
         this._storage.set(this._storeNames.allCardsInCategory, []);
         this._storage.set(this._storeNames.sortURL, null);
+        this._storage.set(this._storeNames.itemData, {});
     }
 
     /**
@@ -135,12 +137,7 @@ class ItemsStore extends BaseStore {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
             });
-            this._storage.set(
-                this._storeNames.allCardsInCategory,
-                this._storage
-                    .get(this._storeNames.allCardsInCategory)
-                    .concat(response.body),
-            );
+            this.#syncCardsInCategory(response.body);
         }
     }
 
@@ -218,12 +215,7 @@ class ItemsStore extends BaseStore {
             this.#syncWithCart(response.body);
             sharedFunctions.addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
-            this._storage.set(
-                this._storeNames.allCardsInCategory,
-                this._storage
-                    .get(this._storeNames.allCardsInCategory)
-                    .concat(response.body),
-            );
+            this.#syncCardsInCategory(response.body);
 
             if (response.body[response.body.length - 1]) {
                 this._storage.set(
@@ -242,11 +234,41 @@ class ItemsStore extends BaseStore {
    */
     async _searchItemCards(searchString) {}
 
+
+    /**
+     * Функция, обновляющая информацию о загруженных картах
+     * @param {object} body - данные для добавления
+     */
+    #syncCardsInCategory(body) {
+        this._storage.set(
+            this._storeNames.allCardsInCategory,
+            this._storage
+                .get(this._storeNames.allCardsInCategory)
+                .concat(body),
+        );
+    }
+
     /**
    * Действие: запрос карточки с определенным id.
    * @param {number} id
    */
-    async _getItemCard(id) {}
+    async _getItemCard(id) {
+        const [status, response] = await request
+            .makeGetRequest(config.api.item +
+                document.location.pathname.slice(
+                    document.location.pathname.lastIndexOf('/'),
+                    document.location.pathname.length,
+                ))
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+
+        if (status === config.responseCodes.code200) {
+            this.#syncWithCart(response.body);
+            // sharedFunctions.addSpacesToPrice(response.body);
+            this._storage.set(this._storeNames.itemData, response.body);
+            this.#syncCardsInCategory(response.body);
+        }
+    }
 }
 
 export default new ItemsStore();

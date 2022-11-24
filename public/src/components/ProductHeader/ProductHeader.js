@@ -1,7 +1,8 @@
 import ProductHeaderTemplate from './ProductHeader.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import sharedFunctions from '../../modules/sharedFunctions';
+import {config} from '../../config';
 
 /**
  * Класс для реализации компонента ProductHeader
@@ -29,14 +30,17 @@ export default class ProductHeader extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-     prepareRenderData(context) {
+    prepareRenderData(context) {
         return {
-            path: context.path,
+            commentPath: config.href.comment + '/' + context.id,
+            categoryPath: config.href.category + '/' + context.category,
+            categoryName: 'Категория',
             name: context.name,
             rating: context.rating,
-            commentsHref: context.commentsHref,
+            // commentsHref: context.commentsHref,
             commentsCount: context.commentsCount,
-            commentsCountText: sharedFunctions._sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
+            commentsCountText: sharedFunctions.
+                _sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
     }

@@ -94,10 +94,9 @@ export const itemCardsAction = {
      * Действие: запрос карточки с определенным id.
      * @param {number} id
      */
-    getItemCard(id) {
+    getItemCard() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
-            data: {id},
         });
     },
 };

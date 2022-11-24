@@ -319,8 +319,6 @@ export default class CatalogPage extends BasePage {
         this.itemsBlock = document.getElementById('items-block');
         this.ratingSortImg = document.getElementById('catalog_sort-rating__img');
         this.priceSortImg = document.getElementById('catalog_sort-price__img');
-        console.log(this.ratingSortImg);
-        console.log(this.priceSortImg);
     }
 }
 

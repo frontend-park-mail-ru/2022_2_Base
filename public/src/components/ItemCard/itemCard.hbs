@@ -1,15 +1,15 @@
 <div class="item-card__top">
-    <div class="text-normal-small content__sales-image">
+    <a href="/product/{{this.id}}" class="text-normal-small content__sales-image link__no-color">
         <img src={{imgsrc}} class="item-card__image" ind="itemcard_item-pic/{{this.id}}" alt="Item_Photo">
         {{#if price}}
             <div class="content__sales-value">
                 -{{discount}}%
             </div>
         {{/if}}
-    </div>
+    </a>
 </div>
 
-<a href="product/{{this.id}}" class="item-card__textbox">
+<div class="item-card__textbox">
     <div class="item-card__price">
                 <span class="text-normal-large">
                     {{lowprice}} ₽
@@ -20,10 +20,11 @@
                 </span>
         {{/if}}
     </div>
-    <span class="text-normal-default item-card__title" ind="itemcard_item-title/{{this.id}}">
+    <a href="/product/{{this.id}}" class="text-normal-default item-card__title link__no-color"
+       ind="itemcard_item-title/{{this.id}}">
         {{name}}
-    </span>
-</a>
+    </a>
+</div>
 
 <div class="item-card__bottom">
     <div class="itemcard_block-button-add-to-cart">
