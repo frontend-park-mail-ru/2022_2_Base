@@ -4,18 +4,11 @@
     </div>
     <div class="popup-form_add-address__fields">
         <div class="popup-form_add-address__country-city">
-<!--            <div class="popup-form__field">-->
-<!--                <div class="field-name_add-address text-normal-default">-->
-<!--                    Страна-->
-<!--                </div>-->
-<!--                <input class="popup-form_add-address__input text-normal-default" id="country" {{#if country}}-->
-<!--                       value="{{country}}" {{/if}}>-->
-<!--            </div>-->
             <div class="popup-form__field">
                 <div class="field-name_add-address text-normal-default">
                     Город
                 </div>
-                <input class="popup-form_add-address__input text-normal-default" id="city" {{#if city}}
+                <input type="text" maxlength="30" class="popup-form_add-address__input text-normal-default" id="city" {{#if city}}
                        value="{{city}}" {{/if}}>
             </div>
         </div>
@@ -24,7 +17,7 @@
                 <div class="field-name_add-address text-normal-default">
                     Улица
                 </div>
-                <input class="popup-form_add-address__input text-normal-default" id="street" {{#if street}}
+                <input type="text" maxlength="30" class="popup-form_add-address__input text-normal-default" id="street" {{#if street}}
                        value="{{street}}" {{/if}}>
             </div>
             <div class="popup-form_add-address__house">
@@ -32,14 +25,14 @@
                     <div class="field-name_add-address text-normal-default">
                         Дом
                     </div>
-                    <input class="popup-form_add-address__input text-normal-default" id="house" {{#if house}}
+                    <input type="text" maxlength="6" class="popup-form_add-address__input text-normal-default" id="house" {{#if house}}
                            value="{{house}}" {{/if}}>
                 </div>
                 <div class="popup-form__field">
                     <div class="field-name_add-address text-normal-default">
                         Квартира
                     </div>
-                    <input class="popup-form_add-address__input text-normal-default" id="flat" {{#if flat}}
+                    <input type="text" maxlength="6" class="popup-form_add-address__input text-normal-default" id="flat" {{#if flat}}
                            value="{{flat}}" {{/if}}>
                 </div>
             </div>

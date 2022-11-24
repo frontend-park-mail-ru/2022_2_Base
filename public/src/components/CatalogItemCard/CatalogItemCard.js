@@ -35,7 +35,6 @@ export default class CatalogItemCard extends BaseComponent {
      * @param {Array} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        console.log(context);
         this._parent.insertAdjacentHTML('beforeend',
             catalogItemCardTemplate(this.prepareRenderData(context)));
     }

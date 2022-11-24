@@ -13,6 +13,8 @@ export const CartActionTypes = {
     ADD_TO_CART: 'ADD_TO_CART',
     INCREASE_NUMBER: 'INCREASE_NUMBER',
     DECREASE_NUMBER: 'DECREASE_NUMBER',
+    RESET_CART: 'RESET_CART',
+    MERGE_CART: 'MERGE_CART',
 };
 
 /**
@@ -89,6 +91,24 @@ export const cartAction = {
         Dispatcher.dispatch({
             actionName: CartActionTypes.MAKEORDER,
             data: data,
+        });
+    },
+
+    /**
+     * Действие: сбросить корзину
+     */
+    resetCart() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.RESET_CART,
+        });
+    },
+
+    /**
+     * Действие: сбросить корзину
+     */
+    mergeCart() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.MERGE_CART,
         });
     },
 };

@@ -1,10 +1,10 @@
 {{#each item}}
     {{#if this.addCard}}
-        <a class="address-card-template add-address-card" id="add-address-card">
+        <a class="address-card-template add-address-card" id="add-address">
             <div class="text-normal-default"></div>
 
             <div class="text-normal-small">
-                <img class="add-address-card-pic" src="img/Add_card.svg" alt="add address card">
+                <img class="add-address-card-pic" src="/img/Add_card.svg" alt="add address card">
                 <div class="text-add-address-card text-normal-default"> Добавить адрес</div>
             </div>
         </a>
@@ -25,17 +25,17 @@
                     {{this.street}}
                 </div>
 
-                <div class="address-card-city text-normal-default"> д. {{this.house}}, кв. {{this.flat}} </div>
+                <div class="address-card-city text-normal-default"> д. {{this.house}}, {{#if this.falt}}кв. {{this.flat}}{{/if}}</div>
             </a>
 
             <div class="change-address-card change-pop-up_user-page" id="change-address-card-{{this.id}}">
                 <a id="edit-{{this.id}}" class="pop-up-button_user-page edit-address">
-                    <img id="edit-img-{{this.id}}" src="img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
+                    <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="pop-up-button-pic_user-page" alt="edit address card">
                 </a>
                 <div class="separation-line_user-page"></div>
-                <a id="delete-{{this.id}}" class="pop-up-button_user-page delete-address">
-                    <img id="delete-img-{{this.id}}" src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
-                </a>
+                <div id="delete-{{this.id}}" class="pop-up-button_user-page">
+                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
+                </div>
             </div>
         </div>
     {{/if}}

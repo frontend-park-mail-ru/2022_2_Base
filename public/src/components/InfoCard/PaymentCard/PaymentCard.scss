@@ -8,26 +8,24 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .payment-card {
     filter: none;
-    cursor: pointer;
 }
-
-//.payment-card:hover {
-//    filter: blur(1px);
-//}
 
 .primary-payment-card {
     height: 120px;
     width: 200px;
     background-color: var(--default_purple);
+
     --text-color: var(--pure_white);
 }
 
 .other-payment-card {
     border: 1px solid var(--jet-black);
+
     --text-color: var(--jet-black);
 }
 
@@ -40,6 +38,7 @@
     margin-left: 78px;
     width: 40px;
     align-items: center;
+
     //grid-template-columns: 1fr;
     //display:grid;
 }

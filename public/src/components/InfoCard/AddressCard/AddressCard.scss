@@ -29,11 +29,13 @@
     height: 120px;
     width: 200px;
     background-color: var(--default_purple);
+
     --text-color: var(--pure_white);
 }
 
 .other-address-card {
     border: 1px solid var(--jet-black);
+
     --text-color: var(--jet-black);
 }
 
@@ -86,4 +88,3 @@
     justify-self: center;
     margin-left: 44px;
 }
-

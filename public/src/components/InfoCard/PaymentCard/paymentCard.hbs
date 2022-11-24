@@ -1,16 +1,16 @@
 {{#each item}}
     {{#if this.addCard}}
 
-        <a href="" class="payment-card-template add-payment-card" id="add-payment-card">
+        <div class="payment-card-template add-payment-card" id="add-payment-card">
             <div class="text-normal-default"></div>
 
             <div class="text-normal-default">
-                <img class="add-card-pic__payment-card" src="img/Add_card.svg" alt="Add new card">
+                <img class="add-card-pic__payment-card" src="/img/Add_card.svg" alt="Add new card">
                 <div class="text-add-card_payment-card text-normal-default"> Добавить карту</div>
 
             </div>
 
-        </a>
+        </div>
 
     {{else}}
         <div class="payment-card-wrapper" id="wrapper-{{this.id}}">
@@ -36,9 +36,9 @@
 
 
                 <div class="card-date-type_payment-card">
-                    <div class="expiry-date_payment-card text-normal-default">{{this.expiryDate}}</div>
+                    <div class="expiry-date_payment-card text-normal-default">{{this.expiry}}</div>
 
-                    <img class="payment-system-logo" src="img/MIR.svg" alt="Payment system logo">
+                    <img class="payment-system-logo" src="/img/MIR.svg" alt="Payment system logo">
 
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
             <div class="change-payment-card change-pop-up_user-page" id="change-payment-card-{{this.id}}">
                 <a id="delete-{{this.id}}" class="pop-up-button_user-page">
-                    <img id="delete-img-{{this.id}}" src="img/deleteButton.svg" class="pop-up-button-pic_user-page delete-payment-card" alt="delete button">
+                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="pop-up-button-pic_user-page delete-payment-card" alt="delete button">
                 </a>
             </div>
         </div>

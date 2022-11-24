@@ -1,11 +1,13 @@
 import BasePage from '../BasePage.js';
-import PaymentCard from '../../components/PaymentCard/PaymentCard.js';
-import AddressCard from '../../components/AddressCard/AddressCard.js';
+import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard.js';
+import AddressCard from '../../components/InfoCard/AddressCard/AddressCard.js';
 import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
 import userStore from '../../stores/UserStrore.js';
+import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -20,32 +22,72 @@ export default class UserPage extends BasePage {
             parent,
             UserPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.getCards.bind(this), ProfileActionTypes.GET_DATA);
         userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
         userStore.addListener(this.onUploadAvatar,
             ProfileActionTypes.DELETE_AVATAR);
-        userStore.addListener(this.editUserInfo, ProfileActionTypes.SAVE_EDIT_DATA);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_ADD_ADDRESS);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.SAVE_EDIT_ADDRESS);
-        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.SAVE_ADD_CARD);
-        userStore.addListener(this.renderAddresses.bind(this), ProfileActionTypes.DELETE_ADDRESS);
-        userStore.addListener(this.renderPaymentCards.bind(this), ProfileActionTypes.DELETE_CARD);
+
+        userStore.addListener(this.templateFunction.bind(this, this.editUserInfo.bind(this)),
+            ProfileActionTypes.SAVE_EDIT_DATA);
+
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
+            ProfileActionTypes.SAVE_ADD_ADDRESS);
+
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
+            ProfileActionTypes.SAVE_EDIT_ADDRESS);
+
+        userStore.addListener(this.templateFunction.bind(this, this.renderPaymentCards.bind(this)),
+            ProfileActionTypes.SAVE_ADD_CARD);
+
+        userStore.addListener(this.templateFunction.bind(this, this.renderAddresses.bind(this)),
+            ProfileActionTypes.DELETE_ADDRESS);
+
+        userStore.addListener(this.templateFunction.bind(this, this.renderPaymentCards.bind(this)),
+            ProfileActionTypes.DELETE_CARD);
     }
 
     /**
-     * Функция, делающая изменяющая данные пользователя
+     * Функция, для передачи в листнер стора
+     * @param {function} toDo - обработчик события
+     */
+    templateFunction(toDo) {
+        switch (userStore.getContext(userStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            toDo();
+            break;
+        case config.states.invalidUserData:
+            break;
+        case config.states.invalidData:
+            errorMessage.getAbsoluteErrorMessage(
+                userStore.getContext(userStore._storeNames.errorMessage));
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage();
+            this.removePopUp();
+        }
+    }
+
+    /**
+     * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
-        if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
-            const data = userStore.getContext(userStore._storeNames.temp);
-            document.getElementById(data.id).innerText = data.value;
-        }
+        this.removePopUp();
+        const data = userStore.getContext(userStore._storeNames.temp);
+        document.getElementById(
+            `${data.id}-text`).innerText = data.value;
     }
 
     /**
      * Функция, делающая изменяющая данные о способах оплаты
      */
     renderPaymentCards() {
+        this.removePopUp();
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         bankCard.innerHTML = '';
@@ -58,6 +100,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
+        this.removePopUp();
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         addressCard.innerHTML = '';
@@ -79,7 +122,6 @@ export default class UserPage extends BasePage {
         });
         this.renderPaymentCards();
         this.renderAddresses();
-
         this.startEventListener();
     }
 
@@ -95,7 +137,7 @@ export default class UserPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карты пользователя
      * @param {object} componentEntity - экземпляр класса компонента
      * @param {string} nameOfCard - название карты
-     * @param {object} data - данные для заполнения карт
+     * @param {array} data - данные для заполнения карт
      */
     loadCards(componentEntity, nameOfCard, data) {
         switch (nameOfCard) {
@@ -103,13 +145,19 @@ export default class UserPage extends BasePage {
             super.render(data);
             return;
         case 'paymentCard':
+            data.forEach((paymentCard) => {
+                paymentCard.id = 'paymentCard/' + paymentCard.id;
+            });
             break;
         case 'addressCard':
+            data.forEach((address) => {
+                address.id = 'addressCard/' + address.id;
+            });
             break;
         default:
             console.log('unknown command', nameOfCard);
         }
-        if (Object.keys(data).length < 4) {
+        if (data.length < 4) {
             data.addCard = {
                 addCard: true,
                 id: `${nameOfCard}/${String(Object.keys(data).length)}`,
@@ -117,6 +165,21 @@ export default class UserPage extends BasePage {
         }
         componentEntity.render(data);
         delete data.addCard;
+    }
+
+    /**
+     * Метод, убирающий поп-ап.
+     */
+    removePopUp() {
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
+        if (PopUp) {
+            PopUp.style.display = 'none';
+            PopUp.replaceChildren();
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'none';
+        }
     }
 
     /**
@@ -343,40 +406,16 @@ export default class UserPage extends BasePage {
                 key.removeEventListener('click', this.userInfoArr[index]);
             });
         }
-    }#item = {
-        item1: {
-            title: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            img: './img/Smartphone.png',
-            vendor: 'OOO-iPhones-RUS',
-            favourite: true,
-            amount: 1,
-            price: 100000,
-            salePrice: null,
-            id: 1,
-            vendorID: 1,
-        },
-        item2: {
-            title: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            img: './img/Smartphone.png',
-            vendor: 'OOO-iPhones-RUS',
-            favourite: true,
-            amount: 2,
-            price: 100000,
-            salePrice: 80000,
-            checked: true,
-            id: '12asdaf231231',
-            vendorID: '282374asdas823',
-        },
-    };
+
+        this.removeListenerPaymentCard();
+        this.removeListenerAddressCard();
+    }
 
     /**
      * Метод, отрисовывающий страницу.
      */
     async render() {
+        this.addListener();
         profileAction.getData();
     }
 }

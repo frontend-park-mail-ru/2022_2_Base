@@ -27,7 +27,7 @@
 }
 
 .item-card__top:disabled {
-    opacity: 40%;
+    opacity: .4;
 }
 
 .item-card__top:visited {
@@ -35,13 +35,12 @@
 }
 
 .item-card__bottom {
-    justify-content: flex-end;
-    display: grid;
-    grid-template-columns: 2.8fr 1fr;
+    display: flex;
+    justify-content: space-between;
 }
 
 .item-card__bottom:disabled {
-    opacity: 40%;
+    opacity: .4;
 }
 
 .inactiveLink {
@@ -50,21 +49,25 @@
 }
 
 .item-card__textbox {
-    width: 100%;
     display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: [c0-start] 1fr [c0-end c1-strart] 1fr [c1-end];
+    height: 88px;
     margin-top: 8px;
+    gap: 8px;
+    align-items: baseline;
+    grid-auto-rows: min-content;
+}
+
+.item-card__price {
+    display: flex;
+    justify-content: space-between;
 }
 
 .item-card__title {
-    grid-column: c0-start / c1-end;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 40px;
+    max-height: 80px;
     cursor: pointer;
 }
-
 
 .content__sales-image {
     display: grid;
@@ -74,46 +77,46 @@
 }
 
 .item-card__image {
-    height: auto;
-    width: 100%;
+    height: 160px;
+    width: 160px;
 }
 
 .content__sales-value {
-    border-radius: 20px;
-    width: 40px;
+    display: flex;
+    border-radius: 16px;
+    width: 42px;
     height: 20px;
     color: var(--pure_white);
     background-color: var(--pink-accent);
-    margin-right: 10px;
+    margin-right: 16px;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-card {
     display: grid;
-    grid-template-rows: 165px 96px 40px;
-    grid-gap: 5px;
+    grid-gap: 4px;
     width: 160px;
     height: 312px;
-    padding: 16px 16px 16px 16px;
+    padding: 16px 20px;
     background: var(--90_white);
+    color: var(--jet-black);
     border-radius: 10px;
     border: none;
-    align-items: center;
-    text-align: center;
-    color: var(--jet-black);
     text-decoration: none;
+    align-content: space-between;
+    align-items: center;
 }
 
 .item-card:hover {
     filter: var(--apple-shadow);
 }
 
-
 .itemcard_button_add-to-card {
     width: 100px;
     height: 40px;
     justify-self: left;
     margin-right: 10px;
-
 }
 
 .itemcard_block-button-add-to-cart {

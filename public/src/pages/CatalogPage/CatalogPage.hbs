@@ -3,29 +3,32 @@
 
     <div class="catalog_category-name text-normal-huge">{{this.category}}</div>
 
-    <div class="catalog_path-and-sort-block">
-        <div class="text-normal-default__bold">Путь</div>
-        <div class="text-normal-default__bold"></div>
-        <div class="text-normal-default__bold catalog_path-and-sort-block__sort-block">
-            <div class="text-normal-default__bold catalog_sort-type__disabled"> По названию
-                <img src="./../../../img/sort-order.svg" class="catalog-sort-order-icon disabled">
-            </div>
-            <div class="text-normal-default__bold catalog_sort-type__disabled"> По рейтингу </div>
-            <div class="text-normal-default__bold catalog_sort-type__disabled"> По цене </div>
+    <div class="catalog_filters-items-block">
+        <div>
+
         </div>
 
+        <div class="text-normal-default__bold catalog_path-and-sort-block__sort-block" id="catalog_sort-buttons">
+            <button class="text-normal-default__bold catalog_sort-type button-default-no-box" id="catalog_sort-rating">
+                <img src="/img/sort-order.svg" class="catalog_sort-rating__img" id="catalog_sort-rating__img" alt="">
+                По рейтингу</button>
+            <button class="text-normal-default__bold catalog_sort-type button-default-no-box" id="catalog_sort-price">
+                <img src="/img/sort-order.svg" class="catalog_sort-price__img" id="catalog_sort-price__img" alt="">
+                По цене</button>
+        </div>
 
-    </div>
-
-    <div class="catalog_filters-items-block">
         <div class="catalog_filter-block" id="filter-block">
-            <div class="catalog_filter-title text-normal-large">
+            <span class="text-normal-large catalog_filter-block__title">
                 Фильтры
+            </span>
+            <div class="catalog_filter-block__body">
+                <span class="text-normal-default">
+                Скоро здесь будут фильтры
+                </span>
             </div>
         </div>
 
         <div class="catalog_items-block" id="items-block">
-
 
         </div>
     </div>
