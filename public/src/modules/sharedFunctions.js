@@ -26,7 +26,7 @@ class SharedFunctions {
      */
     addSpacesToPrice(data) {
         if (Array.isArray(data)) {
-            data.forEach((item) => {
+            data?.forEach((item) => {
                 this.#addSpacesToItemPrice(item);
             });
         } else if (typeof data === 'object') {
@@ -64,7 +64,8 @@ class SharedFunctions {
      */
     _sklonenie(number, txt) {
         const cases = [2, 0, 1, 1, 1, 2];
-        return txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+        return txt[(number % 100 > 4 && number % 100 < 20) ?
+            2 : cases[(number % 10 < 5) ? number % 10 : 5]];
     }
 }
 
