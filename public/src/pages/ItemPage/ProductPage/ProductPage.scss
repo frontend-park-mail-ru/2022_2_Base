@@ -37,7 +37,7 @@
 
 .product-page-main__photo {
     height: 450px;
-
+    width: 450px;
 }
 
 .product-page-main__information-text {
@@ -57,7 +57,7 @@
 }
 
 .product-page-information__header {
-    color: var(--pure-black);
+    color: var(--jet-black);
 }
 
 .product-page-color-jet-black {
@@ -89,7 +89,7 @@
     height: 250px;
     padding: 32px;
     display: grid;
-    grid-template-rows: 20px 42px 20px 40px;
+    //grid-template-rows: 20px 42px 20px 40px;
     grid-gap: 16px;
 }
 

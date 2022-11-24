@@ -2,6 +2,7 @@ import ProductPagePageTemplate from './ProductPage.hbs';
 import './ProductPage.scss';
 import BaseItemPage from '../BaseItemPage';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
+import sharedFunctions from '../../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -21,6 +22,15 @@ export default class ProductPage extends BaseItemPage {
     }
 
     /**
+     * Функция, загружающая дополнительные данные
+     * @param {object} data объект для добавления данных
+     */
+    loadMoreData(data) {
+        console.log(sharedFunctions._getDate(1)[0]);
+        data.delveryDate = sharedFunctions._getDate(1)[0];
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -31,6 +41,7 @@ export default class ProductPage extends BaseItemPage {
      */
     removeEventListener() {
     }
+
     // /**
     //  * Метод, отрисовывающий страницу.
     //  * @param {object} config контекст отрисовки страницы

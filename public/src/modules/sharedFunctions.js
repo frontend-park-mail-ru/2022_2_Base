@@ -11,18 +11,27 @@ class SharedFunctions {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
 
+
+    #addSpacesToItemPrice(item) {
+        item.discount = null;
+        item.price === item.lowprice ? item.price = item.discount :
+            item.discount = 100 - Math.round(item.lowprice / item.price * 100);
+        item.strPrice = this._truncate(item.price);
+        item.strLowprice = (item.strLowprice ? this._truncate(item.lowprice) : null);
+    }
+
     /**
      * Действие: запрос списка популярных карточек.
-     * @param {array} data - данные карты
+     * @param {Array|object} data - данные карты
      */
     addSpacesToPrice(data) {
-        data?.forEach((item) => {
-            item.discount = null;
-            item.price === item.lowprice ? item.price = item.discount :
-                item.discount = 100 - Math.round(item.lowprice / item.price * 100);
-            item.strPrice = this._truncate(item.price);
-            item.strLowprice = (item.strLowprice ? this._truncate(item.lowprice) : null);
-        });
+        if (Array.isArray(data)) {
+            data.forEach((item) => {
+                this.#addSpacesToItemPrice(item);
+            });
+        } else if (typeof data === 'object') {
+            this.#addSpacesToItemPrice(data);
+        }
     }
 
     /**

@@ -254,7 +254,7 @@ class ItemsStore extends BaseStore {
    */
     async _getItemCard(id) {
         const [status, response] = await request
-            .makeGetRequest(config.api.item +
+            .makeGetRequest(config.api.products +
                 document.location.pathname.slice(
                     document.location.pathname.lastIndexOf('/'),
                     document.location.pathname.length,
@@ -264,7 +264,7 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            // sharedFunctions.addSpacesToPrice(response.body);
+            sharedFunctions.addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.itemData, response.body);
             this.#syncCardsInCategory(response.body);
         }

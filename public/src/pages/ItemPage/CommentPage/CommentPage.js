@@ -22,9 +22,10 @@ export default class CommentPage extends BaseItemPage {
     }
 
     /**
-     * Функция, загружает отзывы
+     * Функция, загружающая дополнительные данные
+     * @param {object} data объект для добавления данных
      */
-    loadMoreData() {
+    loadMoreData(data) {
         const comments = new Comment(document.getElementById('comments'));
         comments.render(data.comments);
     }

@@ -1,6 +1,7 @@
 <div class="paint-background"></div>
 <div class="content-product-page content-product-page_margin">
-    <div class="content-product-page-block-background product-page-header-main_padding" id="product-page__header-product">
+    <div class="content-product-page-block-background product-page-header-main_padding"
+         id="product-page__header-product">
 
     </div>
     <div class="product-page-main">
@@ -13,7 +14,7 @@
                         {{#if description}}
                             {{description}}
                         {{else}}
-                        <span class="text-normal-default">Нет описания</span>
+                            <span class="text-normal-default">Нет описания</span>
                         {{/if}}
                     </span>
                 </div>
@@ -36,15 +37,15 @@
         </div>
         <div class="product-page-main__add-cart content-product-page-block-background">
             <div class="product-page-main__price">
-                <span class="text-normal-default product-page-main__price-strikethrough">{{price}} ₽</span>
-                {{#if salePrice}}
+                {{#if lowprice}}
+                    <span class="text-normal-default product-page-main__price-strikethrough">{{price}} ₽</span>
                     <div class="product-page-main__sales-value text-normal-small">
                         -{{discount}}%
                     </div>
                 {{/if}}
             </div>
-            <span class="product-page-color-jet-black text-normal-very-large">{{salePrice}} ₽</span>
-            <span class="product-page-color-jet-black text-normal-default">Доставка: {{date}}</span>
+            <span class="product-page-color-jet-black text-normal-very-large">{{lowprice}} ₽</span>
+            <span class="product-page-color-jet-black text-normal-default">Доставка: {{delveryDate}}</span>
             <div id="product-block-button-add-to-cart" data-id="{{this.id}}">
             </div>
         </div>

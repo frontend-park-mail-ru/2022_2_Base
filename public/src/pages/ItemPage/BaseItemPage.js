@@ -7,6 +7,7 @@ import errorMessage from '../../modules/ErrorMessage';
 import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 import ProductHeader from '../../components/ProductHeader/ProductHeader';
 import router from '../../modules/Router';
+import sharedFunctions from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -37,15 +38,15 @@ export default class BaseItemPage extends BasePage {
 
     /**
      * Функция, загружающая дополнительные данные
+     * @param {object} data объект для добавления данных
      */
-    loadMoreData() {
+    loadMoreData(data) {
     }
 
     /**
      * Функция, реагирующая на получение товаров из корзины
      */
     getCart() {
-        console.log('asdasda');
         switch (cartStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
@@ -66,8 +67,9 @@ export default class BaseItemPage extends BasePage {
         case config.responseCodes.code200:
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             if (data) {
+                data.delveryDate = sharedFunctions._getDate(1)[0];
                 super.render(data);
-                this.loadMoreData();
+                this.loadMoreData(data);
                 const pageProduct = new ProductHeader(
                     document.getElementById(`${this.pageName}-page__header-product`));
                 pageProduct.render(data);

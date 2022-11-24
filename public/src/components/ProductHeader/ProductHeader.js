@@ -32,6 +32,7 @@ export default class ProductHeader extends BaseComponent {
      */
     prepareRenderData(context) {
         return {
+            itemPath: config.href.product + '/' + context.id,
             commentPath: config.href.comment + '/' + context.id,
             categoryPath: config.href.category + '/' + context.category,
             categoryName: 'Категория',
