@@ -1,11 +1,11 @@
 import mainPageTemplate from './MainPage.hbs';
-import BasePage from '../BasePage.js';
-import TopCategory from '../../components/TopCategory/TopCategory.js';
-import ItemCard from '../../components/ItemCard/ItemCard.js';
+import BasePage from '../BasePage';
+import TopCategory from '../../components/TopCategory/TopCategory';
+import ItemCard from '../../components/ItemCard/ItemCard';
 import './MainPage.scss';
-import itemsStore from '../../stores/ItemsStore.js';
-import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
-import {config} from '../../config.js';
+import itemsStore from '../../stores/ItemsStore';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import {config} from '../../config';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
 import errorMessage from '../../modules/ErrorMessage';

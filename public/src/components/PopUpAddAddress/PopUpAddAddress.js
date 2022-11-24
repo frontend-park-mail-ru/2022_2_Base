@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
 import './PopUpAddAddress.scss';
 import {profileAction} from '../../actions/profile';

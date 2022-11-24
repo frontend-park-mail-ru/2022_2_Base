@@ -1,4 +1,4 @@
-import PopUpAddPaymentCard from '../../PopUpAddPaymentCard/PopUpAddPaymentCard.js';
+import PopUpAddPaymentCard from '../../PopUpAddPaymentCard/PopUpAddPaymentCard';
 import PaymentCardTemplate from './paymentCard.hbs';
 import './PaymentCard.scss';
 import userStore from '../../../stores/UserStrore';

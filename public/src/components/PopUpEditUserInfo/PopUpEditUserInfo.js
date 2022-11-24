@@ -1,7 +1,7 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
-import {profileAction} from '../../actions/profile.js';
+import {profileAction} from '../../actions/profile';
 
 /**
  * Класс для реализации компонента Footer

@@ -1,5 +1,5 @@
 import CartItemTemplate from './CartItem.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './CartItem.scss';
 
 /**
@@ -21,14 +21,5 @@ export default class CartItem extends BaseComponent {
      */
     render(context) {
         super.render(this.prepareCategory(context), CartItemTemplate);
-    }
-
-    /**
-     * Метод, подготавливающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} значение категории из контекста отрисовки
-     */
-    prepareCategory(context) {
-        return {item: {...context}};
     }
 }

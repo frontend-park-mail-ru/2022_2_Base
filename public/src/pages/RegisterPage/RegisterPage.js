@@ -1,13 +1,13 @@
 import registerPageTemplate from './RegisterPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './RegisterPage.scss';
-import userStore from '../../stores/UserStrore.js';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
+import userStore from '../../stores/UserStrore';
+import {userActions, UserActionTypes} from '../../actions/user';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 

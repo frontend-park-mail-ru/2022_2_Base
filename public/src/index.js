@@ -1,11 +1,11 @@
 'use strict';
 
-import refresh from './modules/refreshElements.js';
-import router from './modules/Router.js';
+import refresh from './modules/refreshElements';
+import router from './modules/Router';
 import '../index.scss';
-import {userActions, UserActionTypes} from './actions/user.js';
-import {config} from './config.js';
-import userStore from './stores/UserStrore.js';
+import {userActions, UserActionTypes} from './actions/user';
+import {config} from './config';
+import userStore from './stores/UserStrore';
 
 refresh.refreshFooter();
 router.start(config);

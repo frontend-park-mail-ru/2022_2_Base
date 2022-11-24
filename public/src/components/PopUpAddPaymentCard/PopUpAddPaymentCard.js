@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import PopUpAddPaymentCardTemplate from './PopUpAddPaymentCard.hbs';
 import './PopUpAddPaymentCard.scss';
 import {profileAction} from '../../actions/profile';

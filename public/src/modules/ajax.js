@@ -1,4 +1,4 @@
-import {config} from '../config.js';
+import {config} from '../config';
 
 /**
  * Класс, реализующий работу с запросами.
@@ -60,7 +60,7 @@ class Request {
      * @param {Blob} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-    makePostRequestSendAva = async (url, data) => {
+    makePostRequestSendAvatar = async (url, data) => {
         const formData = new FormData();
         formData.append('file', data);
         const options = {

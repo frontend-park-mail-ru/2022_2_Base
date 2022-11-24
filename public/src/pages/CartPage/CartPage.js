@@ -1,14 +1,14 @@
 import CartPageTemplate from './CartPage.hbs';
-import BasePage from '../BasePage.js';
-import CartItem from '../../components/CartItem/CartItem.js';
+import BasePage from '../BasePage';
+import CartItem from '../../components/CartItem/CartItem';
 import './CartPage.scss';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import sharedFunctions from '../../modules/sharedFunctions';
 import PopUpChooseAddressAndPaymentCard
-    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
-import cartStore from '../../stores/CartStore.js';
-import userStore from '../../stores/UserStrore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
+    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
+import cartStore from '../../stores/CartStore';
+import userStore from '../../stores/UserStrore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {profileAction, ProfileActionTypes} from '../../actions/profile';
 import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
@@ -47,7 +47,9 @@ export default class CartOrderPage extends BasePage {
     deleteItem(id) {
         cartAction.deleteById(id);
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
-        deleteElement.remove();
+        if (deleteElement) {
+            deleteElement.remove();
+        }
         this.renderTotalCost();
     }
 
