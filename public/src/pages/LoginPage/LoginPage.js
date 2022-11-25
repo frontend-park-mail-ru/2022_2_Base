@@ -6,7 +6,7 @@ import router from '../../modules/Router';
 import './LoginPage.scss';
 import {userActions, UserActionTypes} from '../../actions/user';
 import userStore from '../../stores/UserStrore';
-import config from '../../config';
+import {config} from '../../config';
 import refresh from '../../modules/refreshElements';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';

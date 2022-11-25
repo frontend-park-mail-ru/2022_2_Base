@@ -1,32 +1,32 @@
 <div class="paint-background"></div>
 
-<div class="content_user-page">
+<div class="content__user-page">
 
-    <div class=" global-card_user-page user-card_user-page">
+    <div class="user-page__global-card user-page__user-card">
 
         <div class="user-photo-block" id="user-photo-block">
             <img src={{#if this.avatar}}{{this.avatar}}{{else}}
-            "/img/UserPhoto.webp"{{/if}} class="user-photo_user-page" id="user-photo_user-page"
-            alt="user photo">
+            "/img/UserPhoto.webp"{{/if}} class="user-page__user-photo" id="user-photo_user-page"
+            alt="user avatar photo">
 
-            <div class="change-pop-up_user-page change-user-photo_user-page" id="change-user-photo_user-page">
+            <div class="user-page__change-pop-up user-page" id="change-user-photo_user-page">
                 <input type="file" style="display: none;" id="changeUserPhoto__upload"
-                       accept="image/jpeg, image/png, image/jpg">
-                <div class="pop-up-button_user-page">
+                       accept="image/jpeg, image/png, image/jpg, image/webp">
+                <div class="user-page__pop-up-button">
                     <img src="/img/editButton.svg" id="changeUserPhoto" class="pop-up-button_user-page-pic"
-                         alt="edit button">
+                         alt="edit user photo button">
                 </div>
-                <div class="separation-line_user-page"></div>
-                <div class="pop-up-button_user-page">
+                <div class="user-page__separation-line"></div>
+                <div class="user-page__pop-up-button">
                     <img src="/img/deleteButton.svg" id="deleteUserPhoto" class="pop-up-button_user-page-pic"
-                         alt="delete button">
+                         alt="delete user photo button">
                 </div>
             </div>
 
         </div>
 
         <div class="user-card_user-page-block">
-            <div class="user-card_user-page__block-title text-normal-large-normal"> Имя</div>
+            <div class="user-page__user-card__block-title text-normal-large-normal"> Имя</div>
 
 
             <div class="text-normal-large-normal user-name_user-page" name="Имя" id="name" type="text"
@@ -38,7 +38,7 @@
                     <span id="name-text">Нет информации</span>
                 {{/if}}
                 <a class="edit-profile-data">
-                    <img class="edit-button_user-page" src="/img/editButton.svg" alt="edit button">
+                    <img class="user-page__edit-button" src="/img/editButton.svg" alt="edit name button">
                 </a>
             </div>
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="user-card_user-page-block">
-            <div class="user-card_user-page__block-title text-normal-large-normal"> Почта</div>
+            <div class="user-page__user-card__block-title text-normal-large-normal"> Почта</div>
 
             <div class="user-name_user-page user-card_user-page-block-data text-normal-large-normal"
                  name="Почта" id="email"
@@ -54,13 +54,13 @@
                 {{#if this.email}}value="{{this.email}}"> <span id="email-text">{{this.email}}</span>{{else}}
                     value="Нет информации"> <span id="email-text">Нет информации </span>{{/if}}
                 <a class="edit-profile-data">
-                    <img class="edit-button_user-page" src="/img/editButton.svg" alt="edit button">
+                    <img class="user-page__edit-button" src="/img/editButton.svg" alt="edit email button">
                 </a>
             </div>
         </div>
 
         <div class="user-card_user-page-block">
-            <div class="user-card_user-page__block-title text-normal-large-normal">Телефон</div>
+            <div class="user-page__user-card__block-title text-normal-large-normal">Телефон</div>
 
             <div class="user-card_user-page-block-data user-name_user-page text-normal-large-normal" name="Телефон"
                  id="phone" type="tel"
@@ -71,7 +71,7 @@
                 {{/if}}
 
                 <a class="edit-profile-data">
-                    <img class="edit-button_user-page" src="/img/editButton.svg" alt="edit button">
+                    <img class="user-page__edit-button" src="/img/editButton.svg" alt="edit phone number button">
                 </a>
             </div>
 
@@ -83,18 +83,18 @@
 
     </div>
 
-    <div class="popUp-fade_user-page" id="popUp-fade_user-page"></div>
-    <div class="popUp_user-page" id="popUp_user-page"></div>
+    <div class="user-page__popUp-fade" id="popUp-fade_user-page"></div>
+    <div class="user-page__popUp" id="popUp_user-page"></div>
 
-    <div class="global-card_user-page payment-cards-block_user-page" id="bank-card_user-page__main">
-        <div class="card-block-title_user-page text-normal-large-normal"> Банковские карты</div>
+    <div class="user-page__global-card user-page__payment-cards-block" id="bank-card_user-page__main">
+        <div class="user-page__card-block-title text-normal-large-normal"> Банковские карты</div>
         <div class="payment-cards-items_user-page" id="payment-cards-items_user-page">
 
 
         </div>
     </div>
 
-    <div class="global-card_user-page address-cards_user-page-block" id="address-card_user-page__main">
+    <div class="user-page__global-card user-page__address-cards-block" id="address-card_user-page__main">
         <div class="card-block-title_user-page text-normal-large-normal"> Адреса доставки</div>
         <div class="address-cards_user-page-items" id="address-cards_user-page-items">
 

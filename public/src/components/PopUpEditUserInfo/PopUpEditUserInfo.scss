@@ -1,24 +1,24 @@
-.popup-form_user-info {
+.popup-form__user-info {
     display: grid;
     grid-template-rows: 32px 3fr 1fr;
     grid-gap: 6px;
 }
 
-.popup-form_user-info__header {
+.popup-form__user-info__header {
     height: 32px;
     color: var(--jet-black);
 }
 
-.popup-form_user-info__fields {
+.popup-form__user-info__fields {
     display: grid;
     grid-template-rows: 1fr 1fr;
 }
 
-.field-name_user-info {
+.field-name__user-info {
     color: var(--secondary-purple);
 }
 
-.popup-form_user-info__input {
+.popup-form__user-info__input {
     height: 44px;
     width: 100%;
     padding: 10px 14px 11px;
@@ -28,11 +28,11 @@
     color: var(--jet-black);
 }
 
-.popup-form_user-info__buttons {
+.popup-form__user-info__buttons {
     text-align: right;
 }
 
-.popup-form_user-info__button {
+.popup-form__user-info__button {
     height: 40px;
     width: 100px;
 
@@ -40,9 +40,9 @@
     cursor: pointer;
 }
 
-.popup-form_user-info__apply {
-    background-color: var(--purple_disabled);
-    color: var(--pure_white);
+.popup-form__user-info__apply {
+    background-color: var(--purple-disabled);
+    color: var(--pure-white);
 }
 
 .userpage__popUp__error {

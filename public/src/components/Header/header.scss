@@ -1,6 +1,6 @@
 header {
     display: grid;
-    background-color: var(--pure_white);
+    background-color: var(--pure-white);
     grid-template-columns: 2fr 1fr;
     margin-top: 4px;
 }
@@ -40,11 +40,11 @@ footer {
     background-color: var(--background-white);
     border-radius: 10px;
     border: solid 2px;
-    border-color: var(--pure_white);
+    border-color: var(--pure-white);
 }
 
 .header__search-line:hover {
-    border-color: var(--hover_purple);
+    border-color: var(--hover-purple);
 }
 
 .header__form-search {
@@ -96,7 +96,7 @@ footer {
 }
 
 .header__button-catalog:hover {
-    background-color: var(--hover_purple);
+    background-color: var(--hover-purple);
 }
 
 .header__catalog-img {
@@ -114,11 +114,11 @@ footer {
 }
 
 .header__button-search:hover {
-    background-color: var(--hover_purple);
+    background-color: var(--hover-purple);
 }
 
 .paint-purple-disabled {
-    background-color: var(--purple_disabled);
+    background-color: var(--purple-disabled);
 
     /* pointer-events: none; */
     cursor: default;
@@ -165,7 +165,7 @@ footer {
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
-    background-color: var(--pure_white);
+    background-color: var(--pure-white);
     min-width: 116px;
     filter: drop-shadow(0 0 8px var(--shadow-default));
     z-index: 1;
@@ -192,29 +192,29 @@ footer {
     display: none;
 }
 
-.header__button-catalog_element {
+.header__button-catalog__element {
     color: inherit;
     text-decoration: none;
 }
 
 #checkbox-toggle:checked ~ .header__button-catalog {
-    background-color: var(--hover_purple);
+    background-color: var(--hover-purple);
 }
 
 #checkbox-toggle:checked ~ .dropdown-content {
     display: block;
 }
 
-.header_error-message {
+.header__error-message {
     position: fixed;
     left: 1080px;
     top: 80px;
     padding: 16px;
-    animation: animation_fade-out 5s;
+    animation: animation__fade-out 5s;
     z-index: 999999;
 }
 
-@keyframes animation_fade-out {
+@keyframes animation__fade-out {
     0% {
         opacity: 0;
     }

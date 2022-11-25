@@ -3,7 +3,7 @@
     <div class="catalog-item-card">
         <div class="catalog-item-card__pic-block" id="catalog_item-pic-block">
             <a href="/item/{{this.id}}">
-                <img src="{{this.imgsrc}}" class="catalog-item-card__pic-block__pic" alt="catalog_item_photo"
+                <img src="{{this.imgsrc}}" class="catalog-item-card__pic-block__pic" alt="{{this.name}} photo"
                      id="catalog-item-pic"
                      data-href="/item/{{this.id}}">
             </a>
@@ -22,7 +22,7 @@
                 <div class="catalog-item-card-properties-block__rating-block">
                     <img src="/img/star-icon.svg"
                          class="catalog-item-card__description-block__properties-block__rating-block__star-icon"
-                         alt="star_icon">
+                         alt="rating star icon">
                     <span class="text-normal-default">Рейтинг</span>
                     <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num"> {{this.rating}}
                     </span>
@@ -62,7 +62,7 @@
                     {{#if this.price}} {{this.price}} ₽ {{/if}}
                 </div>
 
-                <label class="item_cart__selection disabled">
+                <label class="item-cart__selection disabled">
                     <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
                     <!--                        {{#if this.favourite}} checked {{/if}}>-->
                 </label>
@@ -73,17 +73,17 @@
             </div>
 
             <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">
-                <div class="button-default button_add-to-card catalog-item-card_button-add-to-cart  paint-purple"
+                <div class="button-default button__add-to-card catalog-item-card__button-add-to-cart  paint-purple"
                      id="catalog_button-add-to-cart/{{this.id}}" {{#if this.count}} style="display: none;" {{/if}}>
                     В корзину
                 </div>
-                <div class="catalog_amount-selector" id="catalog_amount-selector/{{this.id}}"
+                <div class="catalog__amount-selector" id="catalog_amount-selector/{{this.id}}"
                      data-count="{{this.count}}" {{#if this.count}} style="display: grid;" {{/if}}>
                     <button class="button-notext">
                         <span class="link__no-color text-normal-large"
                               id="catalog_button-minus_cart/{{this.id}}">−</span>
                     </button>
-                    <div class="catalog_amount-selector__amount">
+                    <div class="catalog__amount-selector__amount">
             <span class="text-normal-large" id="catalog_item-count/{{this.id}}">
                 {{this.count}}
             </span>

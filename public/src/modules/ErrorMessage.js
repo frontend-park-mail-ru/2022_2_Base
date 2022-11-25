@@ -64,7 +64,7 @@ class ErrorMessage {
         if (!this.errorElement) {
             document.getElementById('main').insertAdjacentHTML(
                 'afterbegin',
-                `<div class="server-error header_error-message" style="display: flex;"
+                `<div class="server-error header__error-message" style="display: flex;"
                         id="header_error-message">
                     <span class="server-error__text" id="server-error__text_">
                         ${errorText}

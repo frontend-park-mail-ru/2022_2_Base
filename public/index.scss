@@ -1,19 +1,19 @@
 :root {
-    --text_white: #eee;
+    --text-white: #eee;
     --background-red: #c54a4c;
     --font-main: "IBM Plex Sans", sans-serif;
-    --hover_purple: #3f47d0;
-    --pure_white: #fff;
+    --hover-purple: #3f47d0;
+    --pure-white: #fff;
     --background-white: #f8f8f8;
-    --purple_disabled: #6369d1;
-    --default_purple: #6369d1;
+    --purple-disabled: #6369d1;
+    --default-purple: #6369d1;
     --jet-black: #333;
     --secondary-purple: #999aad;
     --shadow-default: #d6d6d6;
     --pink-accent: #d14372;
     --gray-for-text: #989898;
     --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
-    --90_white: rgb(255 255 255 / 90%);
+    --90-white: rgb(255 255 255 / 90%);
     --green-shinny: #68b684;
     --green-correct: #32a416;
     --shadow-dim: #000f;
@@ -40,7 +40,7 @@ input[type="number"] {
 
 .input-field-error {
     position: absolute;
-    color: var(--text_white);
+    color: var(--text-white);
     background-color: var(--background-red);
     display: inline;
     border-radius: 4px;
@@ -58,7 +58,7 @@ input[type="number"] {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--text_white);
+    color: var(--text-white);
     background-color: var(--background-red);
     border-radius: 4px;
 }
@@ -75,7 +75,7 @@ input[type="number"] {
 }
 
 .paint-purple {
-    background-color: var(--default_purple);
+    background-color: var(--default-purple);
 }
 
 %button-default {
@@ -106,11 +106,11 @@ input[type="number"] {
 
 .link {
     text-decoration: none;
-    color: var(--default_purple);
+    color: var(--default-purple);
 }
 
 .link:hover {
-    color: var(--hover_purple);
+    color: var(--hover-purple);
 }
 
 .link__no-color {

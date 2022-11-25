@@ -28,9 +28,9 @@
 .primary-address-card {
     height: 120px;
     width: 200px;
-    background-color: var(--default_purple);
+    background-color: var(--default-purple);
 
-    --text-color: var(--pure_white);
+    --text-color: var(--pure-white);
 }
 
 %other-address-card {
@@ -48,7 +48,7 @@
     grid-template-rows: 32px 48px 40px;
 }
 
-.address-card-city {
+.address-card__city {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
@@ -61,7 +61,7 @@
     color: var(--text-color);
 }
 
-.address-card-street {
+.address-card__street {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
@@ -70,7 +70,7 @@
     text-overflow: ellipsis;
 }
 
-.address-card-house {
+.address-card__house {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
@@ -79,7 +79,7 @@
     text-overflow: ellipsis;
 }
 
-.add-address-card-pic {
+.add-address-card__pic {
     margin-left: 84px;
     width: 32px;
     height: 32px;
@@ -87,7 +87,7 @@
     justify-self: center;
 }
 
-.text-add-address-card {
+.add-address-card__text {
     color: var(--jet-black);
     justify-self: center;
     margin-left: 44px;

@@ -25,7 +25,7 @@
 }
 
 .form__input:focus {
-    outline-color: var(--hover_purple);
+    outline-color: var(--hover-purple);
 }
 
 .form__submit {
@@ -40,7 +40,7 @@
 }
 
 .form__submit:hover {
-    background: var(--hover_purple);
+    background: var(--hover-purple);
 }
 
 .login__form__error {

@@ -1,4 +1,4 @@
-.content_main {
+.content__main {
     max-width: 1400px;
     min-width: 1400px;
     padding-bottom: 16px;
@@ -27,7 +27,7 @@
 .content__popular-title__timer {
     display: flex;
     border-radius: 16px;
-    color: var(--text_white);
+    color: var(--text-white);
     background-color: var(--pink-accent);
     justify-content: center;
     align-items: center;

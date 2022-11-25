@@ -42,8 +42,8 @@
 }
 
 .cart-popup-form__apply {
-    background-color: var(--purple_disabled);
-    color: var(--pure_white);
+    background-color: var(--purple-disabled);
+    color: var(--pure-white);
 }
 
 .cart-payment-method-provider {
@@ -51,7 +51,7 @@
     height: 12px;
 }
 
-.items_cart__upper-button {
-    color: var(--default_purple);
+.items-cart__upper-button {
+    color: var(--default-purple);
     cursor: pointer;
 }
