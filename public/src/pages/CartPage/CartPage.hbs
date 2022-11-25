@@ -90,7 +90,8 @@
                         </button>
                     {{/if}}
                 </div>
-                <div class="payment-method__cart" {{#if this.paymentCard}}id="paymentCard/{{this.paymentCard.id}}"{{/if}}>
+                <div class="payment-method__cart"
+                     {{#if this.paymentCard}}id="paymentCard/{{this.paymentCard.id}}"{{/if}}>
                     {{#if this.isAuth}}
                         <img src="/img/walletIcon.svg" alt="payment-method provider logo"
                              class="payment-method-provider">
@@ -113,7 +114,7 @@
                 <div class="items-cart__upper">
                     <span class="text-normal-very-large">Ваши данные</span>
                     {{#if this.isAuth}}
-                        <button class="button-default-no-box" id="button-default__cart__delete">
+                        <button class="button-default-no-box" id="button-default_cart__delete">
                             <a href="/user" class="items-cart__upper-button link">Изменить</a>
                         </button>
                     {{/if}}
@@ -121,15 +122,15 @@
                 <div class="user-data-cart__bottom">
                     {{#if this.isAuth}}
                         {{#if this.avatar}}
-                        <img src="{{this.avatar}}" alt="user avatar" class="user-data-cart__avatar">
+                            <img src="{{this.avatar}}" alt="user avatar" class="user-data-cart__avatar">
                         {{else}}
-                        <img src="/img/UserPhoto.webp" alt="user avatar" class="user-data-cart__avatar">
+                            <img src="/img/UserPhoto.webp" alt="user avatar" class="user-data-cart__avatar">
                         {{/if}}
                         {{#if this.username}}
-                        <span class="text-normal-default">{{this.username}}</span>
+                            <span class="text-normal-default">{{this.username}}</span>
                         {{/if}}
                         {{#if this.email}}
-                        <span class="text-normal-default">{{this.email}}</span>
+                            <span class="text-normal-default">{{this.email}}</span>
                         {{/if}}
                     {{else}}
                         <span class="text-normal-default">
@@ -197,11 +198,12 @@
                             {{/if}}
                         </a>
                     </div>
+                </div>
+                <button type="button" class="button-default summary-cart__create-order-button"
+                        id="summary_cart__create-order-button">
+                    Оформить заказ
+                </button>
             </div>
-            <button type="button" class="button-default summary-cart__create-order-button"
-                    id="summary_cart__create-order-button">
-                Оформить заказ
-            </button>
         </div>
     </div>
 </div>

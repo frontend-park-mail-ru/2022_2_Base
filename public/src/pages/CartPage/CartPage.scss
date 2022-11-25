@@ -132,7 +132,7 @@
 
 /* Pseudo element for check styling */
 
-.checkbox-opt::before {
+%checkbox-opt::before {
     content: "";
     color: transparent;
     display: block;
@@ -147,18 +147,18 @@
 
 /* Checked */
 
-.checkbox-opt:checked {
+%checkbox-opt:checked {
     background-color: currentcolor;
 }
 
-.checkbox-opt:checked::before {
+%checkbox-opt:checked::before {
     box-shadow: none;
     background-image: url("../../../img/tick-icon.svg");
 }
 
 /* Disabled */
 
-.checkbox-opt:disabled {
+%checkbox-opt:disabled {
     background-color: var(--purple-disabled);
     opacity: .84;
     cursor: not-allowed;
@@ -234,16 +234,12 @@
     cursor: pointer;
 }
 
-.option__select {
-    @extend %option__select;
-}
-
-.option__select:hover {
+%option__select:hover {
     background: var(--shadow-default);
     cursor: pointer;
 }
 
-.select:focus .option__select {
+.select:focus %option__select {
     position: relative;
     pointer-events: all;
     opacity: 1;
@@ -256,7 +252,7 @@
     left: -40000px;
 }
 
-.select-opt:checked + .option__select {
+.select-opt:checked + %option__select {
     order: 1;
     background: var(--background-white);
     border-top: none;
@@ -265,11 +261,11 @@
     opacity: 1;
 }
 
-.select:focus .select-opt:checked + .option__select {
+.select:focus .select-opt:checked + %option__select {
     border-radius: 10px 10px 0 0;
 }
 
-.select-opt:checked + .option__select::after {
+.select-opt:checked + %option__select::after {
     content: "";
     width: 12px;
     height: 8px;
@@ -386,3 +382,4 @@
     align-items: center;
     height: 60vh;
 }
+

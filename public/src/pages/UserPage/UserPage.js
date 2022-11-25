@@ -129,7 +129,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        document.getElementById('user-photo_user-page').src =
+        document.getElementById('user-page__user-photo').src =
             userStore.getContext(userStore._storeNames.avatar);
     }
 

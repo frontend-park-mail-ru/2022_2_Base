@@ -88,7 +88,7 @@
 }
 
 .user-page__card-block-title {
-    margin-bottom: -6px;
+    margin-bottom: -18px;
     margin-left: 36px;
 }
 
@@ -120,7 +120,7 @@
     filter: none;
 }
 
-.separation-line_user-page {
+.user-page__separation-line {
     border-left: 2px solid var(--gray-for-text);
     height: 32px;
 }

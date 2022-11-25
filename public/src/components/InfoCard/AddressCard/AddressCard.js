@@ -41,7 +41,7 @@ export default class AddressCard extends BaseInfoCard {
      */
     startEventListener({addCard}) {
         super.startEventListener(addCard);
-        super.strartEdit();
+        super.startEdit();
     }
 
     /**
