@@ -91,9 +91,9 @@ export default class CommentPage extends BasePage {
                 //     userPhoto: './img/UserPhoto.png',
                 //     dignity: 'Цена',
                 //     limitations: 'нет',
-                //     comment: `Что сказать об iPad кроме того, что это лучший планшет? 
-                //         Ничего) Выбирайте только размеры. Никогда не брал с сим-картой их, 
-                //         потому что цепляется или к Wi-Fi или через подключение к iPhone в 
+                //     comment: `Что сказать об iPad кроме того, что это лучший планшет?
+                //         Ничего) Выбирайте только размеры. Никогда не брал с сим-картой их,
+                //         потому что цепляется или к Wi-Fi или через подключение к iPhone в
                 //         режиме модема.`,
                 //     likeCount: 30,
                 //     dislikeCount: 3,
@@ -107,7 +107,8 @@ export default class CommentPage extends BasePage {
         comments.render(data.comments);
         const pageProduct = new ProductHeader(document.getElementById('comment-page__header-product'));
         pageProduct.render(data);
-        const addToCartButton = new AddToCartButton(document.getElementById('comment-block-button-add-to-cart'));
+        const addToCartButton = new AddToCartButton(
+            document.getElementById('comment-block-button-add-to-cart'));
         addToCartButton.render(data);
     }
 }

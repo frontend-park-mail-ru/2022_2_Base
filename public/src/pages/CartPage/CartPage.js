@@ -452,7 +452,7 @@ export default class CartOrderPage extends BasePage {
                 const itemId = key.getAttribute('id').split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
-                       parseInt(itemId));
+                        parseInt(itemId));
                 }
             });
         } else {

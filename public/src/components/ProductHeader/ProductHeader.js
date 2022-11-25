@@ -29,14 +29,15 @@ export default class ProductHeader extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-     prepareRenderData(context) {
+    prepareRenderData(context) {
         return {
             path: context.path,
             name: context.name,
             rating: context.rating,
             commentsHref: context.commentsHref,
             commentsCount: context.commentsCount,
-            commentsCountText: sharedFunctions._sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
+            commentsCountText: sharedFunctions._sklonenie(context.commentsCount,
+                ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
     }

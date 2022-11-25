@@ -22,7 +22,6 @@ export default class AddToCartButton extends BaseComponent {
         // cartStore.addListener(this.buttonMinus, CartActionTypes.DECREASE_NUMBER);
     }
 
-    
     /**
      * Функция, увеличение количество
      */

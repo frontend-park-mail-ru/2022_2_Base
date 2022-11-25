@@ -85,8 +85,9 @@ export default class ProductPage extends BasePage {
         data.date = sharedFunctions._getDate(1)[0];
         super.render(data);
         const pageHeader = new ProductHeader(document.getElementById('product-page-header'));
-        pageHeader.render(data)
-        const addToCartButton = new AddToCartButton(document.getElementById('product-block-button-add-to-cart'));
+        pageHeader.render(data);
+        const addToCartButton = new AddToCartButton(
+            document.getElementById('product-block-button-add-to-cart'));
         addToCartButton.render(data);
     }
 }

@@ -28,7 +28,7 @@ export default class Comment extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      * @return {Object} наполнение для формы
      */
-     prepareRenderData(context) {
+    prepareRenderData(context) {
         return {
             comments: {...context},
         };
