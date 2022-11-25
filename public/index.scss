@@ -133,7 +133,7 @@ input[type=number] {
 main {
   background-color: var(--background-white);
   display: grid;
-  grid-template-columns: 1fr 1400px 1fr;
+  grid-template-columns: 1fr auto 1fr;
 }
 
 .disabled {
@@ -263,8 +263,12 @@ main {
 }
 
 @media (max-width: 991.98px) {
+  .page {
+    grid-template-rows: 70px auto 234px;
+  }
+
   main {
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 0px auto 0px;
   }
 }
 

@@ -7,7 +7,7 @@ header {
 
 header, footer {
     max-width: 1400px;
-    min-width: 1400px;
+    min-width: min(1400px, 100%);
     margin-left: auto;
     margin-right: auto;
 }
@@ -49,7 +49,7 @@ header, footer {
 .header__form-search {
     border-left-width: 10px;
     border-color: rgba(0, 0, 0, 0);
-    width: 550px;
+    width: 100%;
     height: 40px;
     background: var(--background-white);
     border-radius: 10px;
@@ -170,6 +170,10 @@ header, footer {
         grid-column-gap: 8px
     }
 
+    // .header__logotip {
+    //     width: max-content;
+    // }
+
     .header__right {
         grid-column-gap: 8px
     }
@@ -184,10 +188,6 @@ header, footer {
 
     .header__catalog-img {
         margin-right: 0px;
-    }
-
-    .header__form-search {
-        width: auto;
     }
 
     .header__order {
@@ -246,6 +246,10 @@ header, footer {
     .header__left {
         grid-template-columns: 70px 40px 1fr;
         margin-right: 4px;
+    }
+
+    .header__logotip {
+        margin-left: 10px;
     }
 
     .logo-reazon {

@@ -1,11 +1,11 @@
 .content-product-page {
     max-width: 1400px;
-    min-width: 1400px;
+    min-width: min(1400px, 100%);
     margin-left: auto;
     margin-right: auto;
     background-color: var(--background-white);
     display: grid;
-    grid-template-rows: 150px 1fr;
+    grid-template-rows: auto 1fr;
     grid-gap: 32px;
 }
 
@@ -67,7 +67,6 @@
 .product-page-main__characteristics {
     display: grid;
     grid-gap: 16px;
-    height: 20px;
 }
 
 .product-page-characteristics__field {
@@ -86,7 +85,7 @@
 
 .product-page-main__add-cart {
     box-sizing: border-box;
-    height: 250px;
+    height: 240px;
     padding: 32px;
     display: grid;
     grid-template-rows: 20px 42px 20px 40px;
@@ -115,14 +114,70 @@
     justify-content: center;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
     .content-product-page {
-        width: 100%;
+        min-width: 100%;
+    }
+
+    .product-page-main {
+        grid-template-columns: 1000fr 220px;
+        grid-gap: 16px
+    }
+
+    .product-page-main__information {
+        grid-template-columns: auto 47fr;
+    }
+
+    .product-page-color-jet-black {
+        align-self: center;
+    }
+
+    .product-page-color-jet-black.text-normal-very-large {
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 600;
+    }
+
+    .product-page-main__photo {
+        height: calc(450px - 25vw);
+    }
+
+    .product-page-characteristics__field {
+        grid-template-columns: 100px auto;
+    }
+
+    .product-page-main__add-cart {
+        padding: 16px;
     }
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
     .content-product-page {
         width: 100%;
+        gap: 16px;
+    }
+
+    .content-product-page_margin {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    .product-page-header-main_padding {
+        padding: 8px 8px 8px 8px;
+    }
+
+    .product-page-main__information {
+        grid-template-columns: none;
+        grid-template-rows: auto auto;
+    }
+
+    .product-page-main {
+        grid-template-columns: none;
+        grid-template-rows: 1fr auto;
+    }
+
+    .product-page-main__add-cart {
+        grid-row-start: 1;
+        height: auto;
     }
 }
