@@ -13,6 +13,7 @@ export const ItemCardsActionTypes = {
     POPULAR_ITEM_CARDS_GET_BY_CATEGORY: 'POPULAR_ITEM_CARDS_GET_BY_CATEGORY',
     CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
     HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
+    ADD_COMMENT: 'ADD_COMMENT',
 };
 
 /**
@@ -97,6 +98,17 @@ export const itemCardsAction = {
     getItemCard() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {object} comment - данные отзыва
+     */
+    addComment(comment) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ADD_COMMENT,
+            data: comment,
         });
     },
 };

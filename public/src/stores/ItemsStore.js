@@ -118,6 +118,11 @@ class ItemsStore extends BaseStore {
                 ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
             break;
+
+        case ItemCardsActionTypes.ADD_COMMENT:
+            await this._addComment(payload.data);
+            this._emitChange([ItemCardsActionTypes.ADD_COMMENT]);
+            break;
         }
     }
 
@@ -250,7 +255,7 @@ class ItemsStore extends BaseStore {
 
     /**
    * Действие: запрос карточки с определенным id.
-   * @param {number} id
+   * @param {number} id - идентификатор товара
    */
     async _getItemCard(id) {
         const [status, response] = await request
@@ -267,6 +272,19 @@ class ItemsStore extends BaseStore {
             sharedFunctions.addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.itemData, response.body);
             this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
+     * Действие: отправка отзыва.
+     * @param {object} comment - данные отзыва
+     */
+    async _addComment(comment) {
+        const [status] = await request
+            .makePostRequest(config.api.makeComment, comment);
+        this._storage.set(this._storeNames.responseCode, status);
+
+        if (status === config.responseCodes.code200) {
         }
     }
 }

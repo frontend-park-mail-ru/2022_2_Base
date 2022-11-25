@@ -8,6 +8,7 @@ import CartPage from '../pages/CartPage/CartPage.js';
 import ProductPage from '../pages/ItemPage/ProductPage/ProductPage.js';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage.js';
 import UserPage from '../pages/UserPage/UserPage';
+import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -96,6 +97,7 @@ class Router {
         this.register(config.href.cart, CartPage);
         this.register(config.href.product, ProductPage);
         this.register(config.href.comment, CommentPage);
+        this.register(config.href.addComment, AddCommentPage);
         this.register(config.href.user, UserPage); // fix
 
         this.#titles.set(config.href.main, 'Главная - Reazon');

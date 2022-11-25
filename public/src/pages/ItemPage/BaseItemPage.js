@@ -76,6 +76,7 @@ export default class BaseItemPage extends BasePage {
                 const addToCartButton = new AddToCartButton(
                     document.getElementById(`${this.pageName}-block-button-add-to-cart`));
                 addToCartButton.render(data);
+                this.startEventListener();
             } else {
                 router.openNotFoundPage();
             }

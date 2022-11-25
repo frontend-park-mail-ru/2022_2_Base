@@ -31,9 +31,8 @@ export const config = {
         insertIntoCart: basePathApi + 'cart/insertintocart',
         deleteFromCart: basePathApi + 'cart/deletefromcart',
         makeOrder: basePathApi + 'cart/makeorder',
-        // productsByCategory: basePathApi + 'products/',
         cart: basePathApi + 'cart',
-        // item: basePathApi + 'product',
+        makeComment: basePathApi + '/user/makecomment',
 
     },
     states: {

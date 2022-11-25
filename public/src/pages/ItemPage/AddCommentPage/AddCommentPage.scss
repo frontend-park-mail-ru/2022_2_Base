@@ -1,0 +1,121 @@
+.content_add-comment {
+  max-width: 1400px;
+  min-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add-comment-page__block {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: max-content 1fr 1fr;
+  align-items: start;
+  gap: 32px;
+  background-color: var(--pure_white);
+  border-radius: 10px;
+  margin-bottom: 32px;
+  padding: 32px;
+}
+
+.add-comment-page__block__title {
+  grid-column: 1;
+}
+
+.add-comment-page__block__title_average-score {
+  display: flex;
+  align-self: center;
+}
+
+/* rating stars */
+
+.add-comment-page__rating-stars {
+  justify-self: start;
+  grid-column: 2;
+
+  .rating-start__label {
+    float: right;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: font-size 2s;
+
+    &:not(:first-of-type) {
+      padding-right: 2px;
+    }
+
+    .rating-start:hover {
+      font-size: 40px;
+    }
+
+    &:before {
+      content: "\2605";
+      font-size: 42px;
+      color: var(--text_white);
+      line-height: 44px;
+    }
+  }
+
+  .rating-start {
+    display: none;
+  }
+
+  .rating-start:checked ~ .rating-start__label:before,
+  &:not(:checked) > .rating-start__label:hover:before,
+  &:not(:checked) > .rating-start__label:hover ~ .rating-start__label:before {
+    color: var(--yellow-star);
+  }
+}
+
+.rating-start:hover {
+
+}
+
+.add-comment-page__block__input-fields {
+  display: grid;
+  grid-row-gap: 16px;
+}
+
+.add-comment-page__block__input-fields__block__field {
+  background-color: var(--background-white);
+  border-radius: 10px;
+  width: 824px;
+  height: 96px;
+  margin-top: 8px;
+}
+
+.add-comment-page__block__input-fields__block__field__input {
+  border-color: rgba(0, 0, 0, 0);
+  background: var(--background-white);
+  border-radius: 10px;
+  width: 824px;
+  height: 88px;
+  resize: none;
+  border-left-width: 8px;
+  border-top-width: 8px;
+  border-right-width: 8px;
+}
+
+.add-comment-page__block__input-fields__block__field__input:focus {
+  outline: none;
+}
+
+.add-comment-page__block__input-fields__block__title {
+ color: var(--placeholder-color);
+}
+
+.add-comment-page__block__input-fields__submit {
+  grid-column: 2;
+  height: 40px;
+  width: 840px;
+  background-color: var(--default_purple);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--background-white);
+  display: flex;
+}
+
+.add-comment-page__block__input-fields__submit:hover {
+  background-color: var(--hover_purple);
+}
