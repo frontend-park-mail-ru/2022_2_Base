@@ -9,6 +9,7 @@ import {config} from '../../config';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
 import errorMessage from '../../modules/ErrorMessage';
+import {parseIntInPrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий главную страницу
@@ -127,7 +128,7 @@ export default class MainPage extends BasePage {
             '[ind=\'itemcard_item-count\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseInt(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent);
             itemCount.forEach((item) => item.textContent = (count + 1).toString());
         }
     }
@@ -140,7 +141,7 @@ export default class MainPage extends BasePage {
             '[ind=\'itemcard_item-count\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseInt(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent);
 
             if (count === 1) {
                 const countSelector = document.querySelectorAll(
@@ -173,6 +174,8 @@ export default class MainPage extends BasePage {
             itemCardsAction.getHomeItemCards(config.api.products, false);
             break;
         default:
+            itemCardsAction.getHomeItemCards(config.api.products, true); // fix
+            itemCardsAction.getHomeItemCards(config.api.products, false);
             errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
             break;
         }

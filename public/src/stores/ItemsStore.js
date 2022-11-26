@@ -3,7 +3,7 @@ import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -130,7 +130,7 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+            addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
@@ -218,7 +218,7 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+            addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
             this._storage.set(
                 this._storeNames.allCardsInCategory,

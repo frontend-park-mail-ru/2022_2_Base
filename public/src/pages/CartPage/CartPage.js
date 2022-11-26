@@ -2,7 +2,6 @@ import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage';
 import CartItem from '../../components/CartItem/CartItem';
 import './CartPage.scss';
-import sharedFunctions from '../../modules/sharedFunctions';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
 import cartStore from '../../stores/CartStore';
@@ -13,6 +12,7 @@ import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
+import {parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -86,7 +86,7 @@ export default class CartOrderPage extends BasePage {
                 sumVal[3] += key.count;
                 return sumVal;
             }, [0, 0, 0, 0]).map((val) => {
-                return sharedFunctions._truncate(val);
+                return truncatePrice(val);
             });
     }
 
@@ -301,16 +301,16 @@ export default class CartOrderPage extends BasePage {
                 cartAction.deleteAll();
                 break;
             case 'delete-cart-item':
-                this.deleteItem(parseInt(itemId));
+                this.deleteItem(parseIntInPrice(itemId));
                 break;
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
-                    const count = parseInt(amountItem.textContent);
+                    const count = parseIntInPrice(amountItem.textContent);
                     if (count === 1) {
-                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
+                        this.deleteItem(parseIntInPrice(itemId)); // удаление элемента из корзины
                     } else {
-                        cartAction.decreaseNumber(parseInt(itemId));
+                        cartAction.decreaseNumber(parseIntInPrice(itemId));
                         amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
@@ -319,8 +319,8 @@ export default class CartOrderPage extends BasePage {
             case 'button-plus_cart':
                 const itemAmount = document.getElementById(`count-product/${itemId}`);
                 if (itemAmount) {
-                    cartAction.increaseNumber(parseInt(itemId));
-                    const count = parseInt(itemAmount.textContent);
+                    cartAction.increaseNumber(parseIntInPrice(itemId));
+                    const count = parseIntInPrice(itemAmount.textContent);
                     itemAmount.textContent = (count + 1).toString();
                     this.renderTotalCost();
                 }
@@ -340,11 +340,11 @@ export default class CartOrderPage extends BasePage {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
                 const itemId = check.getAttribute('id').split('/')[1];
                 if (check.checked) {
-                    const lowprice = sharedFunctions._parseInt(
+                    const lowprice = parseIntInPrice(
                         document.getElementById(`price/${itemId}`).textContent);
-                    let price = sharedFunctions._parseInt(
+                    let price = parseIntInPrice(
                         document.getElementById(`sale-price/${itemId}`).textContent);
-                    const count = sharedFunctions._parseInt(
+                    const count = parseIntInPrice(
                         document.getElementById(`count-product/${itemId}`).textContent);
                     if (isNaN(price)) {
                         price = lowprice;
@@ -425,7 +425,7 @@ export default class CartOrderPage extends BasePage {
                 const itemId = key.id.split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
-                        parseInt(itemId));
+                        parseIntInPrice(itemId));
                 }
             });
         } else {
@@ -433,7 +433,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            orderData.address = parseInt(address.getAttribute('id')
+            orderData.address = parseIntInPrice(address.getAttribute('id')
                 .split('/', 2)[1]);
             if (orderData.address !== -1) {
                 let date = document.getElementById('date-delivery').textContent.trim();
@@ -444,7 +444,7 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseInt(document.querySelector('.payment-method__cart')
+                orderData.card = parseIntInPrice(document.querySelector('.payment-method__cart')
                     .id.split('/', 2)[1]);
                 orderData.card = orderData.card ? orderData.card : null;
                 cartAction.makeOrder(orderData);

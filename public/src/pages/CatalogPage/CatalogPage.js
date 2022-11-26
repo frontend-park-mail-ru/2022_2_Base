@@ -9,6 +9,7 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
 import errorMessage from '../../modules/ErrorMessage';
+import {parseIntInPrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -133,7 +134,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+            const count = parseIntInPrice(itemAmount.textContent);
             itemAmount.textContent = (count + 1).toString();
         }
     }
@@ -145,7 +146,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+            const count = parseIntInPrice(itemAmount.textContent);
 
             if (count === 1) {
                 const amountSelector = document.getElementById(

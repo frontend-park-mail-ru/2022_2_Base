@@ -4,7 +4,6 @@ import request from '../modules/ajax';
 import {config} from '../config';
 import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
-import sharedFunctions from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -133,7 +132,7 @@ class CartStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            sharedFunctions.addSpacesToPrice(response.items);
+            addSpacesToPrice(response.items);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
