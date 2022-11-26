@@ -33,7 +33,7 @@ export const config = {
         makeOrder: basePathApi + 'cart/makeorder',
         cart: basePathApi + 'cart',
         makeComment: basePathApi + '/user/makecomment',
-        getComments: basePathApi + '/user/comments',
+        getComments: basePathApi + '/products/comments',
 
     },
     states: {
