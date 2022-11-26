@@ -43,7 +43,10 @@ export default class CommentPage extends BaseItemPage {
      */
     listenCommentsLoad() {
         const comments = new Comment(document.getElementById('comments'));
-        comments.render(itemsStore.getContext(itemsStore._storeNames.comments));
+        comments.render(itemsStore.getContext(itemsStore._storeNames.comments).map((comment) => {
+            comment[`rating${comment.rating}`] = true;
+            return comment;
+        }));
     }
 
     /**
