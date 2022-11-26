@@ -98,11 +98,6 @@ class ItemsStore extends BaseStore {
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
 
-        case ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getPopularItemCard(payload.data);
-            this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
-            break;
-
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getCheapItemCard(payload.data);
             this._emitChange([
@@ -142,13 +137,6 @@ class ItemsStore extends BaseStore {
                     .concat(response.body),
             );
         }
-    }
-
-    /**
-   * Действие: запрос списка популярных карточек.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
-    _getPopularItemCard(isFirstRequest) {
     }
 
     /**

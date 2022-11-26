@@ -215,6 +215,8 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
+     * Когда скролл достигает 0.8 части страницы мы вызываем экшен на загрузку новых товаров.
+     * setTimeout для того, чтобы экшен вызывался не миллион раз в секунду, а лишь один раз в 300 мс
      */
     bottomOfPageHandlerPrototype() {
         if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {

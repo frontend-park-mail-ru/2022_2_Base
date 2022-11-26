@@ -29,3 +29,16 @@ export function addSpacesToPrice(data) {
 export function parseIntInPrice(stringNumber) {
     return parseIntInPrice(stringNumber.replace(/\s/g, ''));
 }
+
+/**
+ * Функция, возвращающая завтрашнюю дату.
+ * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
+ * @return {object} завтрашняя дата
+ */
+export function getDate(firstDayIn) {
+    const getDate = (next) => {
+        const currDate = new Date().setDate(next);
+        return currDate.toLocaleDateString('en-GB').split('/').join(' / ');
+    };
+    return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
+}

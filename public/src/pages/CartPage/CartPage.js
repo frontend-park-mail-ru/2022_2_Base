@@ -74,6 +74,12 @@ export default class CartOrderPage extends BasePage {
      * @param {object} context
      */
     #calcSummaryPrice(data, context) {
+        /*
+        * мы считаем сумму товаров в корзине (sumPrice), сумму скидок (noSalePrice),
+        * итоговую разницу цены со скидкой и без скидки (priceDiff), количество товаров (count).
+        * Делаем это не через массив, чтобы сразу добавить данные как атрибуты context
+        * и не создавать лишних переменных
+        * */
         [context.sumPrice, context.noSalePrice, context.priceDiff, context.count] =
             data.reduce((sumVal, key) => {
                 // sumPrice
@@ -121,7 +127,7 @@ export default class CartOrderPage extends BasePage {
                 context.phone = userStore.getContext(userStore._storeNames.phone);
             }
             context.deliveryPrice = 'Бесплатно';
-            context.deliveryDate = this.#getDate(1);
+            context.deliveryDate = this.getDate(1);
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
@@ -149,7 +155,6 @@ export default class CartOrderPage extends BasePage {
     getUserData() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
             break;
         default:
@@ -181,6 +186,46 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
+     * Функция, Выбирающая какие данные надо отобразить в корзине
+     * при выборе способа оплаты или адреса доставаки в попапе
+     * @param {string} choiceIdWithType название поля для изменения
+     * @param {string} choiceId id карты для отображения
+     * @param {string} data данные для отображения в корзине
+     */
+    #choiceIdType(choiceIdWithType, choiceId, data) {
+        switch (choiceIdWithType) {
+        case 'address':
+            const addressField = document.querySelector('.addressID');
+            addressField.textContent = data;
+            addressField.id = `address/${choiceId}`;
+            break;
+        case 'paymentCard':
+            const cardNumber = document.querySelectorAll('.card-number');
+            if (cardNumber) {
+                cardNumber.forEach((key) => {
+                    key.textContent = data;
+                });
+            }
+            const choice = document.querySelectorAll('.payment-method__cart');
+            if (choice) {
+                choice.forEach((key) => {
+                    key.id = `paymentCard/${choiceId}`;
+                });
+            }
+            document.getElementById('final-paymentmethod').textContent = 'Картой';
+            break;
+        case 'payment-upon-receipt':
+            const paymentReceipt = document.querySelectorAll('.card-number');
+            if (paymentReceipt) {
+                paymentReceipt.forEach((key) => {
+                    key.textContent = data;
+                });
+            }
+            document.getElementById('final-paymentmethod').textContent = 'При получении';
+        }
+    }
+
+    /**
      * Функция, обрабатывающая клики на данной странице
      * @param {HTMLElement} event контекст события для обработки
      */
@@ -208,42 +253,12 @@ export default class CartOrderPage extends BasePage {
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                let choiseIdWithType = choice.id;
-                let choiceId;
-                if (choiseIdWithType) {
-                    if (choiseIdWithType.includes('/')) {
-                        [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
+                let choiceIdWithType = choice.id;
+                if (choiceIdWithType) {
+                    if (choiceIdWithType.includes('/')) {
+                        [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
                     }
-                    switch (choiseIdWithType) {
-                    case 'address':
-                        const addressField = document.querySelector('.addressID');
-                        addressField.textContent = data;
-                        addressField.id = `address/${choiceId}`;
-                        break;
-                    case 'paymentCard':
-                        const cardNumber = document.querySelectorAll('.card-number');
-                        if (cardNumber) {
-                            cardNumber.forEach((key) => {
-                                key.textContent = data;
-                            });
-                        }
-                        const choice = document.querySelectorAll('.payment-method__cart');
-                        if (choice) {
-                            choice.forEach((key) => {
-                                key.id = `paymentCard/${choiceId}`;
-                            });
-                        }
-                        document.getElementById('final-paymentmethod').textContent = 'Картой';
-                        break;
-                    case 'payment-upon-receipt':
-                        const paymentReceipt = document.querySelectorAll('.card-number');
-                        if (paymentReceipt) {
-                            paymentReceipt.forEach((key) => {
-                                key.textContent = data;
-                            });
-                        }
-                        document.getElementById('final-paymentmethod').textContent = 'При получении';
-                    }
+                    this.#choiceIdType(choiceIdWithType, choiceId, data);
                 }
                 const popUp = document.getElementById('popUp');
                 const popUpFade = document.getElementById('popUp-fade');
@@ -274,11 +289,11 @@ export default class CartOrderPage extends BasePage {
             switch (elementId) {
             case 'delivery-date':
                 document.getElementById('date-delivery').textContent =
-                    document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                        document.getElementById(`delivery-date-value/${itemId}`).textContent;
                 break;
             case 'delivery-time':
                 document.getElementById('time-delivery').textContent =
-                    document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                        document.getElementById(`delivery-time-value/${itemId}`).textContent;
                 break;
             }
         }
@@ -346,7 +361,7 @@ export default class CartOrderPage extends BasePage {
                         document.getElementById(`sale-price/${itemId}`).textContent);
                     const count = parseIntInPrice(
                         document.getElementById(`count-product/${itemId}`).textContent);
-                    if (isNaN(price)) {
+                    if (Number.isNaN(price)) {
                         price = lowprice;
                     }
                     data.push({
@@ -416,8 +431,7 @@ export default class CartOrderPage extends BasePage {
      */
     async listenClickCreateOrder() {
         const orderData = {
-            items: [
-            ],
+            items: [],
         };
         const checkedItems = document.getElementsByName('itemCart');
         if (checkedItems) {
@@ -509,19 +523,6 @@ export default class CartOrderPage extends BasePage {
         if (this.addressCart) {
             this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
-    }
-
-    /**
-     * Функция, возвращающая завтрашнюю дату.
-     * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
-     * @return {object} завтрашняя дата
-     */
-    #getDate(firstDayIn) {
-        const getDate = (next) => {
-            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-        };
-        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 
     /**

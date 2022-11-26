@@ -4,6 +4,7 @@ import request from '../modules/ajax';
 import {config} from '../config';
 import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
+import {getDate} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -246,29 +247,11 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            const itemsCart = this._storage.get(this._storeNames.itemsCart);
-            data.items.forEach((id) => {
-                itemsCart.forEach((item, key) => {
-                    if (item.id === id) {
-                        delete itemsCart[key];
-                    }
-                });
-            });
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.itemsCart, data.items.reduce(
+                (newItemsCart, id) =>
+                    newItemsCart.filter((item) => item.id !== id),
+                this._storage.get(this._storeNames.itemsCart)));
         }
-    }
-
-    /**
-     * Функция, возвращающая завтрашнюю дату.
-     * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
-     * @return {object} завтрашняя дата
-     */
-    #getDate(firstDayIn) {
-        const getDate = (next) => {
-            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-        };
-        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 
