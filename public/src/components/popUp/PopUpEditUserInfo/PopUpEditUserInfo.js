@@ -2,8 +2,7 @@ import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
 import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
-import {config} from '../../../config';
-import userStrore from '../../../stores/UserStore';
+import userStore from '../../../stores/UserStore';
 import validation from '../../../modules/validation';
 
 /**
@@ -30,7 +29,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
             id: this.context.id,
         };
         const dataForVal = {};
-        dataForVal[userStrore.getContext(userStrore._storeNames.context)
+        dataForVal[userStore.getContext(userStore._storeNames.context)
             .fields[data.id].popUpName] = data.value;
         if (validation.validate(dataForVal)) {
             profileAction.saveEditData(data);

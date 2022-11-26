@@ -1,4 +1,5 @@
 import errorMessage from './ErrorMessage';
+import userStore from '../stores/UserStore';
 
 const emailRegex = /@/;
 
@@ -140,7 +141,7 @@ class Validation {
      * @return {boolean} статус валидации
      */
     validate(data) {
-        const context = userStrore.getContext(userStrore._storeNames.context);
+        const context = userStore.getContext(userStore._storeNames.context);
         let isValid= true;
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
