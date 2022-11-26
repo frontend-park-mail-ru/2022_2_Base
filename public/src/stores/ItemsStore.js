@@ -187,6 +187,21 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+     * Действие: запрос списка карточек по категориям.
+     * @return {string} путь запроса к серверу
+     */
+    #getRequestPathWithQueryParams() {
+        return config.api.products +
+        document.location.pathname.slice(
+            document.location.pathname.lastIndexOf('/'),
+            document.location.pathname.length,
+        ) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}
+            &count=${5}
+            &${window.location.search.substring(1)}`;
+    }
+
+    /**
    * Действие: запрос списка карточек по категориям.
    * @param {boolean} isFirstRequest - получали ли мы до этого карточки
    */
@@ -197,16 +212,7 @@ class ItemsStore extends BaseStore {
         }
 
         const [status, response] = await request
-            .makeGetRequest(
-                config.api.products +
-          document.location.pathname.slice(
-              document.location.pathname.lastIndexOf('/'),
-              document.location.pathname.length,
-          ) +
-          `?lastitemid=${this._storage.get(
-              this._storeNames.cardLoadCount,
-          )}&count=${5}&${window.location.search.substring(1)}`,
-            )
+            .makeGetRequest(this.#getRequestPathWithQueryParams())
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 

@@ -36,6 +36,10 @@ export const config = {
         invalidUserData: 4000,
         invalidData: 4040,
     },
+    errorMessages: {
+        error400auth: 'Ошибка. Попробуйте еще раз',
+        error401auth: 'Неверная почта или пароль',
+    },
     queryParams: {
         sort: {
             base: '?sort=',

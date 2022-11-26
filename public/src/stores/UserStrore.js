@@ -71,40 +71,6 @@ class UserStore extends BaseStore {
         },
     };
 
-    #testPaymentCards = [
-        {
-            id: 60,
-            type: '',
-            number: '1232131232131231',
-            expiryDate: '2053-01-31T00:00:00Z',
-            priority: false,
-        },
-        {
-            number: '123456******5678',
-            type: 'MIR',
-            expiry: '1987-08-19T23:15:30.000Z',
-            id: 2,
-        },
-    ];
-
-    #testAddressCards = [
-        {
-            priority: true,
-            city: 'г. Москва',
-            street: 'улица Бауманская',
-            house: '228',
-            flat: '420',
-            id: 1, // addressCard/
-        },
-        {
-            city: 'г. Москва',
-            street: 'улица Бассейная',
-            house: '228',
-            flat: '420',
-            id: 2,
-        },
-    ];
-
     _storeNames = {
         isAuth: 'isAuth',
         responseCode: 'responseCode',
@@ -132,8 +98,8 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
-        this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
-        this._storage.set(this._storeNames.address, []); // this.#testAddressCards
+        this._storage.set(this._storeNames.paymentMethods, []);
+        this._storage.set(this._storeNames.address, []);
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
@@ -537,7 +503,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий удаление способа оплаты.
-     * @param {int} id - идентификатор элемента
+     * @param {number} id - идентификатор элемента
      */
     async _saveDeleteCard(id) {
         const userData = this.#collectUserData();
@@ -609,7 +575,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий удаление карты адреса.
-     * @param {int} id - идентификатор элемента
+     * @param {number} id - идентификатор элемента
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();

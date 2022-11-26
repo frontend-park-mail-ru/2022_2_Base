@@ -1,4 +1,4 @@
-import PopUpAddAddress from '../../PopUpAddAddress/PopUpAddAddress.js';
+import PopUpAddAddress from '../../popUp/PopUpAddAddress/PopUpAddAddress.js';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
 import userStore from '../../../stores/UserStrore';

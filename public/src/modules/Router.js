@@ -82,6 +82,13 @@ class Router {
     }
 
     /**
+     * Переходит по истории назад. Если истории нет, то на главную.
+     */
+    back() {
+        History.length > 1 ? history.back() : this.openPage(config.href.main);
+    }
+
+    /**
      * Запускает роутер.
      */
     start() {
@@ -110,8 +117,7 @@ class Router {
      * @return {boolean} - зарегистрирована ли такая страница
      */
     openPage(path) {
-        let goToPath = path?.slice(0, path.lastIndexOf('/'));
-        goToPath = goToPath ? goToPath : path;
+        const goToPath = path?.slice(0, path.lastIndexOf('/')) ?? path;
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath);

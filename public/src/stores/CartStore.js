@@ -10,53 +10,6 @@ import sharedFunctions from '../modules/sharedFunctions';
  * Класс, реализующий базовое хранилище.
  */
 class CartStore extends BaseStore {
-    #items = [
-        {
-            count: 1,
-            name: `Apple iPhone 13 64 ГБ \\
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.webp',
-            category: '',
-            price: 100000,
-            lowprice: null,
-            id: 1,
-            rating: 5,
-        },
-        {
-            count: 2,
-            name: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.webp',
-            category: '',
-            price: 100000,
-            lowprice: 80000,
-            id: 12,
-            rating: 10,
-        },
-    ];
-
-    #data = {
-        addressID: 1111,
-        city: 'Москва',
-        street: 'Мира',
-        house: 15,
-        flat: 4,
-        deliveryPrice: 'Бесплатно',
-        date: new Date('2022-11-25'),
-        // paymentMethodProvider: mirIcon,
-        avatar: './img/Smartphone.webp',
-        username: 'Джахар',
-        phone: '+7 (872) 234-23-65',
-        deliveryDate: this.#getDate(1),
-        deliveryTime: '18:00 - 23:00',
-        cardNumber: '8765432143212546',
-        expiry: '05 / 24',
-        paymentCardId: 1,
-        auth: true,
-    };
-
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -72,7 +25,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         super();
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.itemsCart, []); // this.#items
+        this._storage.set(this._storeNames.itemsCart, []);
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
@@ -220,9 +173,9 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
     /**
      * Действие: добавить товар в корзину.
-     * @param {int} status
-     * @param {int} countChange
-     * @param {int} id
+     * @param {number} status
+     * @param {number} countChange
+     * @param {number} id
      */
     #editCountOfItem(status, countChange, id) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
@@ -308,7 +261,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
     /**
      * Функция, возвращающая завтрашнюю дату.
-     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
      * @return {object} завтрашняя дата
      */
     #getDate(firstDayIn) {

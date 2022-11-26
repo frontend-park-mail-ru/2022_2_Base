@@ -11,10 +11,6 @@ import refresh from '../../modules/refreshElements.js';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
 
-const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
-const ERROR_401_MESSAGE = 'Неверная почта или пароль';
-const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
-
 /**
  * Класс, реализующий страницу входа.
  */
@@ -35,7 +31,7 @@ export default class LoginPage extends BasePage {
      */
     addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_LOGIN);
-        cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
+        cartStore.addListener(() => router.back(), CartActionTypes.MERGE_CART);
     }
 
     /**
@@ -51,20 +47,17 @@ export default class LoginPage extends BasePage {
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
+                    'Error400Message', config.errorMessages.error400auth) :
                 console.log('bad request: ', status);
             break;
         case 401:
             errorMessage.getErrorMessage(document.getElementById(
                 userStore.getContext(userStore._storeNames.context).fields.email.name),
-            'emailError', ERROR_401_MESSAGE);
+            'emailError', config.errorMessages.error401auth);
             console.log('no auth: ', status);
             break;
         default:
-            !document.getElementById('serverErrorMessage') ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                console.log('server error: ', status);
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }

@@ -1,4 +1,4 @@
-{{#each catalogCardItem}}
+{{#each item}}
 
     <div class="catalog-item-card">
         <div class="catalog-item-card__pic-block" id="catalog_item-pic-block">
@@ -64,7 +64,7 @@
 
                 <label class="item_cart__selection disabled">
                     <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
-                    <!--                        {{#if this.favourite}} checked {{/if}}>-->
+                    {{#if this.favourite}} checked {{/if}}>
                 </label>
             </div>
 

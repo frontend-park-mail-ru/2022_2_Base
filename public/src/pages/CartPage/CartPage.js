@@ -511,7 +511,7 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, возвращающая завтрашнюю дату.
-     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
      * @return {object} завтрашняя дата
      */
     #getDate(firstDayIn) {

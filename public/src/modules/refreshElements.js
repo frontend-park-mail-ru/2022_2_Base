@@ -39,14 +39,14 @@ class RefreshEl {
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {boolean} auth - контекст отрисовки компонента
+     * @param {boolean} isAuth - есть ли авторизация
      */
-    refreshHeader(auth) {
+    refreshHeader(isAuth) {
         const header = document.getElementById('header');
         header.innerHTML = '';
         const headerComponent = new HeaderComponent(header);
-        headerComponent.render(auth);
-        auth ? headerComponent.startEventListener() :
+        headerComponent.render(isAuth);
+        isAuth ? headerComponent.startEventListener() :
             headerComponent.removeEventListener();
     };
 
