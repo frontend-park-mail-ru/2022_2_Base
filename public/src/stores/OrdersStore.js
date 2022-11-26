@@ -39,6 +39,64 @@ class OrdersStore extends BaseStore {
     }
 
     /**
+     * Метод, дополняющий информацию о заказах.
+     * @param {Array} orders полезная нагрузка запроса
+     */
+    #prepareOrdersData(orders) {
+        orders.forEach((element) => {
+            let price = 0;
+            let addressString;
+
+            element.items.forEach((itemcard) => {
+                price += itemcard.item.lowprice > 0 ? itemcard.item.lowprice : itemcard.item.price;
+            });
+
+            // для Димы
+            // const sumWithInitial = element.items.reduce(
+            //     (accumulator, currentItem) => {
+            //         if (!(parseInt(accumulator))) {
+            //             accumulator =
+            //                 accumulator.item.lowprice > 0 ?
+            //                     accumulator.item.lowprice : accumulator.item.price
+            //         }
+            //         return accumulator +
+            //             (currentItem.item.lowprice > 0
+            //             ? currentItem.item.lowprice : currentItem.item.price)
+            //     }
+            // );
+
+            element.totalPrice = price;
+
+            const address = userStore.getContext(userStore._storeNames.address);
+            if (address) {
+                address.forEach((key) => {
+                    if (key.id === element.address) {
+                        addressString = `${key.city}, ${key.street}, д. ${key.house}, кв. ${key.flat}`;
+                    }
+                });
+                element.addressString = addressString;
+            }
+
+            const [deliveryDate, deliveryTime] = element.deliveryDate.split('T');
+
+            const deliveryDateSpit = deliveryDate.split('-');
+            const deliveryDateString =
+                `${deliveryDateSpit[2]} / ${deliveryDateSpit[1]} / ${deliveryDateSpit[0]}`;
+
+            const deliveryTimeHour = parseInt(deliveryTime.split('.')[0].split(':')[0]);
+
+
+            element.deliveryDateString = deliveryDateString;
+            element.deliveryTimeString = `${deliveryTimeHour - 2}:00 - ${deliveryTimeHour + 2}:00`;
+
+            const creationDate = element.creationDate.split('T')[0];
+            const creationDateSpit = creationDate.split('-');
+            element.creationDateString =
+                `${creationDateSpit[2]} / ${creationDateSpit[1]} / ${creationDateSpit[0]}`;
+        });
+    }
+
+    /**
      * Действие: запрос списка карточек.
      */
     async _getOrders() {
@@ -47,17 +105,17 @@ class OrdersStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === config.responseCodes.code200) {
+        if (status === config.responseCodes.code200 || true) {
             let orders = response;
 
             // тестовые данные
             /*
-            let orders = [
+            orders = [
                 {
-                    address: 0,
+                    address: 1,
                     card: 0,
-                    creationDate: '00 / 00/ 0000',
-                    deliveryDate: '77 / 77 / 7777',
+                    creationDate: '2022-11-28T08:00:00.000Z',
+                    deliveryDate: '2022-11-28T10:00:00.000Z',
                     id: 1,
                     items: [
                         {
@@ -69,8 +127,8 @@ class OrdersStore extends BaseStore {
                                 lowprice: 0,
                                 name: 'iPhone 11 Pro 64Гб',
                                 price: 24990,
-                                rating: 0
-                            }
+                                rating: 0,
+                            },
                         },
                         {
                             count: 5,
@@ -81,8 +139,8 @@ class OrdersStore extends BaseStore {
                                 lowprice: 22990,
                                 name: 'iPhone 11 Pro 64Гб',
                                 price: 30990,
-                                rating: 0
-                            }
+                                rating: 0,
+                            },
                         },
                         {
                             count: 5,
@@ -93,8 +151,8 @@ class OrdersStore extends BaseStore {
                                 lowprice: 22990,
                                 name: 'iPhone 11 Pro 64Гб',
                                 price: 30990,
-                                rating: 0
-                            }
+                                rating: 0,
+                            },
                         },
                     ],
                     orderStatus: 'Статус?',
@@ -102,10 +160,10 @@ class OrdersStore extends BaseStore {
                     userId: 0,
                 },
                 {
-                    address: 0,
+                    address: 2,
                     card: 0,
-                    creationDate: '00 / 00/ 0000',
-                    deliveryDate: '77 / 77 / 7777',
+                    creationDate: '2022-11-28T08:00:00.000Z',
+                    deliveryDate: '2022-11-28T14:00:00.000Z',
                     id: 2,
                     items: [
                         {
@@ -117,8 +175,8 @@ class OrdersStore extends BaseStore {
                                 lowprice: 0,
                                 name: 'iPhone 11 Pro 64Гб',
                                 price: 24990,
-                                rating: 0
-                            }
+                                rating: 0,
+                            },
                         },
                         {
                             count: 5,
@@ -129,44 +187,19 @@ class OrdersStore extends BaseStore {
                                 lowprice: 22990,
                                 name: 'iPhone 11 Pro 64Гб',
                                 price: 30990,
-                                rating: 0
-                            }
+                                rating: 0,
+                            },
                         },
                     ],
                     orderStatus: 'Статус?',
                     paymentStatus: 'Статус оплаты?',
                     userId: 0,
-                }
-            ]
+                },
+            ];
             */
 
-            orders.forEach((element) => {
-                let price = 0;
-                let addressString;
-
-                element.items.forEach((itemcard) => {
-                    if (itemcard.item.lowprice > 0) {
-                        price += itemcard.item.lowprice;
-                    } else {
-                        price += itemcard.item.price;
-                    }
-                });
-                element.totalPrice = price;
-
-                const address = userStore.getContext(userStore._storeNames.address);
-                if (address) {
-                    address.forEach((key) => {
-                        if (key.id === element.address) {
-                            addressString = `${key.city}, ${key.street}, ${key.house}, ${key.flat}`;
-                        }
-                    });
-
-                    element.addressString = addressString;
-                }
-            });
-
+            this.#prepareOrdersData(orders);
             orders = orders.reverse();
-
             this._storage.set(this._storeNames.orders, orders);
         }
     }
