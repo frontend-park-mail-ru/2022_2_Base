@@ -1,7 +1,7 @@
 import BasePage from '../BasePage';
 import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard';
 import AddressCard from '../../components/InfoCard/AddressCard/AddressCard';
-import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo';
+import PopUpEditUserInfo from '../../components/popUp/PopUpEditUserInfo/PopUpEditUserInfo';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile';

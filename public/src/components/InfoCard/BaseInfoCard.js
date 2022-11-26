@@ -21,7 +21,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickEdit(event) {
+    listenClickEdit(event) {
         const cardID = event.target.id.replace('edit-img-', '');
         userStore.getContext(this.storeData).forEach((context) => {
             if (context.id === cardID) {
@@ -35,7 +35,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickAdd(event) {
+    listenClickAdd(event) {
         this._showPopUp({
             add: true,
         });
@@ -61,7 +61,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickDelete(event) {
+    listenClickDelete(event) {
         console.warn('must be overriden');
     }
 

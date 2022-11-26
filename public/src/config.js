@@ -28,7 +28,6 @@ export const config = {
         makeOrder: `${basePathApi}cart/makeorder`,
         productsByCategory: `${basePathApi}products/`,
         cart: `${basePathApi}cart`,
-
     },
     states: {
         endOf: -1,
@@ -52,10 +51,5 @@ export const config = {
         code201: 201,
         code400: 400,
         code401: 401,
-    },
-    errorMessages: {
-        ERROR_400_MESSAGE: 'Ошибка. Попробуйте еще раз',
-        ERROR_401_MESSAGE: 'Неверная почта или пароль',
-        SERVER_ERROR_MESSAGE: 'Ошибка сервера. Попробуйте позже',
     },
 };
