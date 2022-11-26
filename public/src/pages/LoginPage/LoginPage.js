@@ -5,7 +5,7 @@ import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
 import './LoginPage.scss';
 import {userActions, UserActionTypes} from '../../actions/user';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import refresh from '../../modules/refreshElements';
 import {cartAction, CartActionTypes} from '../../actions/cart';

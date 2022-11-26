@@ -3,7 +3,7 @@ import './PopUpEditUserInfo.scss';
 import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
 import {config} from '../../../config';
-import userStrore from '../../../stores/UserStrore';
+import userStrore from '../../../stores/UserStore';
 import validation from '../../../modules/validation';
 
 /**

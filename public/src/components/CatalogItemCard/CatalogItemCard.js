@@ -36,6 +36,6 @@ export default class CatalogItemCard extends BaseComponent {
      */
     render(context) {
         this._parent.insertAdjacentHTML('beforeend',
-            catalogItemCardTemplate(super.prepareRenderData(context)));
+            catalogItemCardTemplate(super.prepareCategory(context)));
     }
 }

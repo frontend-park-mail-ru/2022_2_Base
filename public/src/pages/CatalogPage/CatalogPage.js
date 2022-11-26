@@ -77,8 +77,10 @@ export default class CatalogPage extends BasePage {
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
+            console.log(document.getElementById('items-block'));
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+            console.log(Card, data);
             if (data.length) {
                 Card.render(data);
             } else if (

@@ -2,9 +2,9 @@ import BaseStore from './BaseStore';
 import {CartActionTypes} from '../actions/cart';
 import request from '../modules/ajax';
 import {config} from '../config';
-import userStore from './UserStrore';
+import userStore from './UserStore';
 import itemsStore from './ItemsStore';
-import {getDate} from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.

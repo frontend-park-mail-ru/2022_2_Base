@@ -5,10 +5,10 @@ import CatalogPage from '../pages/CatalogPage/CatalogPage';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import {config} from '../config';
 import CartPage from '../pages/CartPage/CartPage';
-import UserPage from '../pages/UserPage/UserPage';
 import {userActions, UserActionTypes} from '../actions/user';
-import userStore from '../stores/UserStrore';
+import userStore from '../stores/UserStore';
 import refresh from './refreshElements';
+import UserPage from '../pages/UserPage/UserPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -140,6 +140,7 @@ class Router {
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CatalogPage);
         this.register(config.href.cart, CartPage);
+        this.register(config.href.user, UserPage);
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
@@ -163,7 +164,7 @@ class Router {
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath);
-            addToHistory(goToPath);
+            addToHistory(path);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }

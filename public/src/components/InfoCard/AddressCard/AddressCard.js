@@ -1,7 +1,7 @@
 import PopUpAddAddress from '../../popUp/PopUpAddAddress/PopUpAddAddress';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
-import userStore from '../../../stores/UserStrore';
+import userStore from '../../../stores/UserStore';
 import BaseInfoCard from '../BaseInfoCard';
 import {profileAction} from '../../../actions/profile';
 

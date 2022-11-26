@@ -27,7 +27,7 @@ export function addSpacesToPrice(data) {
  * @return {number} число
  */
 export function parseIntInPrice(stringNumber) {
-    return parseIntInPrice(stringNumber.replace(/\s/g, ''));
+    return parseInt(stringNumber.replace(/\s/g, ''));
 }
 
 /**
@@ -37,7 +37,8 @@ export function parseIntInPrice(stringNumber) {
  */
 export function getDate(firstDayIn) {
     const getDate = (next) => {
-        const currDate = new Date().setDate(next);
+        const currDate = new Date();
+        currDate.setDate(next);
         return currDate.toLocaleDateString('en-GB').split('/').join(' / ');
     };
     return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));

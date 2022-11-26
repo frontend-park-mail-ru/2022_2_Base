@@ -58,8 +58,8 @@ class ItemsStore extends BaseStore {
     };
 
     /**
-   * @constructor
-   */
+     * @constructor
+     */
     constructor() {
         super();
         this._storage = new Map();
@@ -73,9 +73,9 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Метод, реализующий реакцию на рассылку Диспетчера.
-   * @param {Object} payload полезная нагрузка запроса
-   */
+     * Метод, реализующий реакцию на рассылку Диспетчера.
+     * @param {Object} payload полезная нагрузка запроса
+     */
     async _onDispatch(payload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
@@ -115,8 +115,8 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек.
-   */
+     * Действие: запрос списка карточек.
+     */
     async _getItemCardsHome({path, popularCard}) {
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
@@ -140,27 +140,27 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка дешевых карточек.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка дешевых карточек.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
     _getCheapItemCard(isFirstRequest) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base + config.queryParams.sort.price);
     }
 
     /**
-   * Действие: запрос списка карточек с высоким рейтингом.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка карточек с высоким рейтингом.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
     _getHighRatingItemCard(isFirstRequest) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base + config.queryParams.sort.rating);
     }
 
     /**
-   * Синхранизируем количество товаров в корзине
-   * @param {object} items - полученные товары
-   */
+     * Синхранизируем количество товаров в корзине
+     * @param {object} items - полученные товары
+     */
     #syncWithCart(items) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (items && cartItems && items.length && cartItems.length) {
@@ -179,20 +179,19 @@ class ItemsStore extends BaseStore {
      * @return {string} путь запроса к серверу
      */
     #getRequestPathWithQueryParams() {
-        return config.api.products +
-        document.location.pathname.slice(
-            document.location.pathname.lastIndexOf('/'),
-            document.location.pathname.length,
-        ) +
-            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}
-            &count=${5}
-            &${window.location.search.substring(1)}`;
+        return config.api.category +
+            document.location.pathname.slice(
+                document.location.pathname.lastIndexOf('/'),
+                document.location.pathname.length,
+            ) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}`+
+            `&count=${5}&${window.location.search.substring(1)}`;
     }
 
     /**
-   * Действие: запрос списка карточек по категориям.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
     async _getItemCardsByCategory(isFirstRequest) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
@@ -227,16 +226,18 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек на основании ввода пользователя.
-   * @param {String} searchString - строка для поиска
-   */
-    async _searchItemCards(searchString) {}
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     */
+    async _searchItemCards(searchString) {
+    }
 
     /**
-   * Действие: запрос карточки с определенным id.
-   * @param {number} id
-   */
-    async _getItemCard(id) {}
+     * Действие: запрос карточки с определенным id.
+     * @param {number} id
+     */
+    async _getItemCard(id) {
+    }
 }
 
 export default new ItemsStore();

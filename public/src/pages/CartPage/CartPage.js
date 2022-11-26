@@ -5,14 +5,14 @@ import './CartPage.scss';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
 import cartStore from '../../stores/CartStore';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import {profileAction, ProfileActionTypes} from '../../actions/profile';
 import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
-import {parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
+import {getDate, parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -126,7 +126,7 @@ export default class CartOrderPage extends BasePage {
                 context.phone = userStore.getContext(userStore._storeNames.phone);
             }
             context.deliveryPrice = 'Бесплатно';
-            context.deliveryDate = this.getDate(1);
+            context.deliveryDate = getDate(1);
 
             this.#calcSummaryPrice(data, context);
             super.render(context);

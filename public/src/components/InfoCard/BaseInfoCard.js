@@ -1,5 +1,5 @@
 import BaseComponent from '../BaseComponent';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс для реализации компонента Footer

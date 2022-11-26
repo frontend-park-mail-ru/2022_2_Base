@@ -108,7 +108,6 @@ const config = {
         new StylelintPlugin({
             configFile: 'stylelint.config.js',
             extensions: ['scss'],
-            // files: './public/*',
             exclude: ['node_modules', 'dist'],
             fix: true,
             failOnWarning: true,

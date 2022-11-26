@@ -4,7 +4,7 @@ import FormComponent from '../../components/Form/Form';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
 import './RegisterPage.scss';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 import {userActions, UserActionTypes} from '../../actions/user';
 import {config} from '../../config';
 import refresh from '../../modules/refreshElements';

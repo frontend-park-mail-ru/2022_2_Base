@@ -3,7 +3,7 @@ import FooterComponent from '../components/Footer/Footer';
 import router from './Router';
 import {config} from '../config';
 import UserPage from '../pages/UserPage/UserPage';
-import userStore from '../stores/UserStrore';
+import userStore from '../stores/UserStore';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 

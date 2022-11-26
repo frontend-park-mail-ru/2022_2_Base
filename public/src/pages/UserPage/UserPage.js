@@ -5,7 +5,7 @@ import PopUpEditUserInfo from '../../components/popUp/PopUpEditUserInfo/PopUpEdi
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
 import {profileAction, ProfileActionTypes} from '../../actions/profile';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 
@@ -62,12 +62,6 @@ export default class UserPage extends BasePage {
             if (typeof toDo === 'function') {
                 toDo();
             }
-            break;
-        case config.states.invalidUserData:
-            break;
-        case config.states.invalidData:
-            errorMessage.getAbsoluteErrorMessage(
-                userStore.getContext(userStore._storeNames.errorMessage));
             break;
         default:
             errorMessage.getAbsoluteErrorMessage();

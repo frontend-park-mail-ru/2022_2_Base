@@ -1,6 +1,6 @@
 <div class="item-card__top">
     <div class="text-normal-small content__sales-image">
-        <img src={{imgsrc}} class="item-card__image" ind="itemcard_item-pic/{{this.id}}" alt="{{this.name}} photo">
+        <img src={{imgsrc}} class="item-card__image" data-selection="itemcard_item-pic/{{this.id}}" alt="{{this.name}} photo">
         {{#if this.price}}
             <div class="content__sales-value">
                 -{{this.discount}}%
@@ -20,7 +20,7 @@
                 </span>
         {{/if}}
     </div>
-    <span class="text-normal-default item-card__title" ind="itemcard_item-title/{{this.id}}">
+    <span class="text-normal-default item-card__title" data-selection="itemcard_item-title/{{this.id}}">
         {{this.name}}
     </span>
 </div>
@@ -28,22 +28,22 @@
 <div class="item-card__bottom">
     <div class="item-card__block__button-add-to-cart">
         <div class="item-card__button-add-to-card button-default button__add-to-card paint-purple"
-             ind="itemcard_button-add-to-cart/{{this.id}}"  {{#if this.count}} style="display: none;" {{/if}}>
+             data-selection="itemcard_button-add-to-cart/{{this.id}}"  {{#if this.count}} style="display: none;" {{/if}}>
             В корзину
         </div>
-        <div class="catalog__amount-selector" ind="itemcard_amount-selector/{{this.id}}"
+        <div class="catalog__amount-selector" data-selection="itemcard_amount-selector/{{this.id}}"
              data-count="{{this.count}}"
             {{#if this.count}} style="display: grid;" {{/if}}>
             <button class="button-notext">
-                <span class="link__no-color text-normal-large" ind="itemcard_button-minus_cart/{{this.id}}">−</span>
+                <span class="link__no-color text-normal-large" data-selection="itemcard_button-minus_cart/{{this.id}}">−</span>
             </button>
             <div class="catalog__amount-selector__amount">
-            <span class="text-normal-large" ind="itemcard_item-count/{{this.id}}">
+            <span class="text-normal-large" data-selection="itemcard_item-count/{{this.id}}">
                 {{this.count}}
             </span>
             </div>
             <button class="button-notext">
-                <span class="link__no-color text-normal-large" ind="itemcard_button-plus_cart/{{this.id}}">+</span>
+                <span class="link__no-color text-normal-large" data-selection="itemcard_button-plus_cart/{{this.id}}">+</span>
             </button>
         </div>
     </div>
