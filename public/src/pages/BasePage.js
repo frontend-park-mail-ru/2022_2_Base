@@ -17,6 +17,13 @@ export default class BasePage {
     }
 
     /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
+
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      * @param {any} context контекст данных для страницы
      */
@@ -35,6 +42,7 @@ export default class BasePage {
      * @param {any} data контекст данных для страницы
      */
     render(data) {
+        this.addListener();
         this.#parent.innerHTML = this.#template(data);
     }
 }

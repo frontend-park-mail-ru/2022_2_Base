@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
 import './PopUpAddAddress.scss';
 import {profileAction} from '../../actions/profile';
@@ -45,22 +45,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             street: document.getElementById('street').value,
             house: document.getElementById('house').value,
             flat: document.getElementById('flat').value,
-            id: this.context.id,
+            id: Number(this.context.id?.replace('addressCard/', '')),
         };
 
         if (this.context.add) {
             profileAction.saveAddAddress(inputData);
         } else {
             profileAction.saveEditAddress(inputData);
-        }
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
         }
     }
 

@@ -1,4 +1,4 @@
-import {config} from '../config.js';
+import {config} from '../config';
 
 /**
  * Класс, реализующий работу с запросами.
@@ -7,8 +7,7 @@ class Request {
     #headers = {
         'Content-Type': 'application/json',
         'accept': 'application/json',
-        // 'Origin': 'https://www.reazon.ru',
-        // 'Origin': 'http://localhost:8081',
+        'Origin': 'https://www.reazon.ru',
     };
 
     /**
@@ -58,10 +57,10 @@ class Request {
     /**
      * Метод, реализующий запрос POST.
      * @param {string} url - путь URL
-     * @param {object} data - полезная нагрузка запроса
+     * @param {Blob} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-    makePostRequestSendAva = async (url, data) => {
+    makePostRequestSendAvatar = async (url, data) => {
         const formData = new FormData();
         formData.append('file', data);
         const options = {

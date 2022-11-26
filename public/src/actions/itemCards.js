@@ -10,6 +10,9 @@ export const ItemCardsActionTypes = {
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
+    POPULAR_ITEM_CARDS_GET_BY_CATEGORY: 'POPULAR_ITEM_CARDS_GET_BY_CATEGORY',
+    CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
+    HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
 };
 
 /**
@@ -39,6 +42,40 @@ export const itemCardsAction = {
     getItemCardsByCategory(isFirstRequest) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает популярные карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getPopularItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает дешевые карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getCheapItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
+        });
+    },
+
+    /**
+     * Действие: запрашивает популярные карты в конкретной категории
+     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     */
+    getHighRatingItemCardsByCategory(isFirstRequest) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
+            data: isFirstRequest,
         });
     },
 

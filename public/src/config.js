@@ -4,7 +4,6 @@ const basePathApi = 'api/v1/';
 
 export const config = {
     basePath: 'https://www.reazon.ru',
-    // basePath: 'http://127.0.0.1:8080',
     href: {
         main: '/',
         login: '/login',
@@ -18,24 +17,43 @@ export const config = {
         comment: '/comment',
     },
     api: {
-        login: basePathApi + 'login',
-        signup: basePathApi + 'signup',
-        logout: basePathApi + 'logout',
-        session: basePathApi + 'session',
-        products: basePathApi + 'products',
-        category: basePathApi + 'products/',
-        profile: basePathApi + 'profile',
-        uploadAvatar: basePathApi + 'avatar',
-        avatarsDir: basePathApi + 'img/avatars/',
-        insertIntoCart: basePathApi + 'insertintocart',
-        productsByCategory: basePathApi + 'products/',
-        cart: basePathApi + 'cart',
-        deleteFromCart: basePathApi + 'deletefromcart',
-        makeOrder: basePathApi + 'makeorder',
+        login: `${basePathApi}login`,
+        signup: `${basePathApi}signup`,
+        logout: `${basePathApi}logout`,
+        session: `${basePathApi}session`,
+        products: `${basePathApi}products`,
+        profile: `${basePathApi}user/profile`,
+        uploadAvatar: `${basePathApi}user/avatar`,
+        avatarsDir: `${basePathApi}img/avatars/`,
+        insertIntoCart: `${basePathApi}cart/insertintocart`,
+        deleteFromCart: `${basePathApi}cart/deletefromcart`,
+        makeOrder: `${basePathApi}cart/makeorder`,
+        productsByCategory: `${basePathApi}products/`,
+        cart: `${basePathApi}cart`,
 
+    },
+    states: {
+        endOf: -1,
+        invalidUserData: 4000,
+        invalidData: 4040,
+    },
+    queryParams: {
+        sort: {
+            base: '?sort=',
+            price: 'price',
+            rating: 'rating',
+            popular: 'popular',
+        },
     },
     responseCodes: {
         code200: 200,
         code201: 201,
+        code400: 400,
+        code401: 401,
+    },
+    errorMessages: {
+        ERROR_400_MESSAGE: 'Ошибка. Попробуйте еще раз',
+        ERROR_401_MESSAGE: 'Неверная почта или пароль',
+        SERVER_ERROR_MESSAGE: 'Ошибка сервера. Попробуйте позже',
     },
 };

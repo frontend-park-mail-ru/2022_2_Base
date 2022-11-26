@@ -1,11 +1,11 @@
-import LoginPage from '../pages/LoginPage/LoginPage.js';
-import MainPage from '../pages/MainPage/MainPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
-import UserPage from '../pages/UserPage/UserPage.js';
-import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
-import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
-import {config} from '../config.js';
-import CartPage from '../pages/CartPage/CartPage.js';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import MainPage from '../pages/MainPage/MainPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
+import CatalogPage from '../pages/CatalogPage/CatalogPage';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import {config} from '../config';
+import CartPage from '../pages/CartPage/CartPage';
+import UserPage from '../pages/UserPage/UserPage';
 import ProductPage from '../pages/ProductPage/ProductPage.js';
 import CommentPage from '../pages/CommentPage/CommentPage.js';
 
@@ -75,18 +75,26 @@ class Router {
     }
 
     /**
+     * Добавляет в историю браузера.
+     * @param {string} path - путь к странице
+     */
+    addToHistory(path) {
+        window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
+        window.onpopstate = (event) => this.onPopState(event);
+    }
+
+    /**
      * Запускает роутер.
      */
     start() {
         this.#mainElement = document.getElementById('main');
 
         this.register(config.href.main, MainPage);
-        // this.register(config.href.notFound, ErrorPage);
         this.register(config.href.login, LoginPage);
         this.register(config.href.signup, RegisterPage);
-        this.register(config.href.user, UserPage); // remove!
         this.register(config.href.category, CatalogPage);
         this.register(config.href.cart, CartPage);
+        this.register(config.href.user, UserPage); // fix
         this.register(config.href.product, ProductPage);
         this.register(config.href.comment, CommentPage);
 
@@ -96,6 +104,8 @@ class Router {
         this.#titles.set(config.href.user, 'Ваши данные - Reazon');
         this.#titles.set(config.href.category, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
+        this.#titles.set(config.href.product, 'О товаре - Reazon');
+        this.#titles.set(config.href.comment, 'Отзывы - Reazon');
         this.#titles.set(config.href.product, 'О товаре - Reazon');
         this.#titles.set(config.href.comment, 'Отзывы - Reazon');
 
@@ -113,14 +123,22 @@ class Router {
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath);
-            window.history.pushState({page: path + (window.history.length + 1).toString()}, '', path);
-            window.onpopstate = (event) => this.onPopState(event);
+            this.addToHistory(path);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }
         this.#currentPage = this.renderPage(ErrorPage)(config);
-        // this.openPage(config.href.notFound);
         return false;
+    }
+
+    /**
+     * Открывает страницу 404 при динамическом URL.
+     */
+    openNotFoundPage() {
+        window.history.replaceState(
+            {page: document.location.pathname + (window.history.length).toString()},
+            '', document.location.pathname);
+        this.openPage(config.href.notFound);
     }
 }
 

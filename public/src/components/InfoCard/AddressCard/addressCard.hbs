@@ -1,0 +1,42 @@
+{{#each item}}
+    {{#if this.addCard}}
+        <a class="address-card-template add-address-card" id="add-address">
+            <div class="text-normal-default"></div>
+
+            <div class="text-normal-small">
+                <img class="add-address-card__pic" src="/img/Add_card.svg" alt="add address card button">
+                <div class="add-address-card__text text-normal-default"> Добавить адрес</div>
+            </div>
+        </a>
+
+    {{else}}
+        <div class="address-card-wrapper" id="wrapper-{{this.id}}">
+            <a {{#if this.priority}}
+            class="address-card-template address-card primary-address-card"
+            {{else}}
+            class="address-card-template address-card other-address-card"
+            {{/if}} id="text-{{this.id}}">
+
+                <div class="address-card__city text-normal-default">
+                    {{this.city}}
+                </div>
+
+                <div class="address-card__city text-normal-default">
+                    {{this.street}}
+                </div>
+
+                <div class="address-card__city text-normal-default"> д. {{this.house}}, {{#if this.flat}}кв. {{this.flat}}{{/if}}</div>
+            </a>
+
+            <div class="change-address-card user-page__change-pop-up" id="change-address-card-{{this.id}}">
+                <a id="edit-{{this.id}}" class="user-page__pop-up-button edit-address">
+                    <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="user-page__pop-up-button-pic" alt="edit address card button">
+                </a>
+                <div class="user-page__separation-line"></div>
+                <div id="delete-{{this.id}}" class="user-page__pop-up-button">
+                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="user-page__pop-up-button-pic delete-address" alt="delete address card button">
+                </div>
+            </div>
+        </div>
+    {{/if}}
+{{/each}}

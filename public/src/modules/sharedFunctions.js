@@ -12,6 +12,20 @@ class SharedFunctions {
     }
 
     /**
+     * Действие: запрос списка популярных карточек.
+     * @param {array} data - данные карты
+     */
+    addSpacesToPrice(data) {
+        data?.forEach((item) => {
+            item.discount = null;
+            item.price === item.lowprice ? item.price = item.discount :
+                item.discount = 100 - Math.round(item.lowprice / item.price * 100);
+            item.strPrice = this._truncate(item.price);
+            item.strLowprice = this._truncate(item.lowprice);
+        });
+    }
+
+    /**
      * Метод, преобразующее число, разделенное пробелами по сотням к типу number
      * @param {string} stringNumber число, разделённое пробелами
      * @return {number} число

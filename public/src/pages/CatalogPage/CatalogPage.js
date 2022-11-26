@@ -1,19 +1,21 @@
-import BasePage from '../BasePage.js';
-import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
+import BasePage from '../BasePage';
+import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard';
 import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {config} from '../../config.js';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {config} from '../../config';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
     #category;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -23,25 +25,50 @@ export default class CatalogPage extends BasePage {
 
         this.#category = new Map();
         this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/monitors', 'Мониторы');
+    }
 
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonCreate),
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
+        cartStore.addListener(this.buttonCreate,
             CartActionTypes.ADD_TO_CART);
 
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonAdd),
+        cartStore.addListener(this.buttonAdd,
             CartActionTypes.INCREASE_NUMBER,
         );
 
-        cartStore.addListener(this.defaultButton.bind(this, this.buttonMinus),
+        cartStore.addListener(this.buttonMinus,
             CartActionTypes.DECREASE_NUMBER,
         );
 
-        itemsStore.addListener(this.loadCatalogItemCards,
+        itemsStore.addListener(this.loadCatalogItemCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
+
+        cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
+
+        itemsStore.addListener(this.loadSortedItemCards.bind(this),
+            ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY);
+
+        itemsStore.addListener(this.loadSortedItemCards.bind(this),
+            ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY);
+    }
+
+    /**
+     * Функция, реагирующая на получение товаров из корзины
+     */
+    getCart() {
+        switch (cartStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+        case config.responseCodes.code401:
+            itemCardsAction.getItemCardsByCategory(true);
+            break;
+        default:
+            console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
+            break;
+        }
     }
 
     /**
@@ -54,32 +81,28 @@ export default class CatalogPage extends BasePage {
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
             if (data.length) {
                 Card.render(data);
+            } else if (
+                itemsStore.getContext(itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
+                this.removeScrollListener();
             } else {
-                console.log(document.location.pathname);
-                window.history.replaceState(
-                    {page: document.location.pathname + (window.history.length).toString()},
-                    '', document.location.pathname);
-                router.openPage(config.href.notFound);
+                router.openNotFoundPage();
             }
             break;
         default:
+            router.openNotFoundPage();
             break;
         }
     }
 
     /**
-     * Оберточная функция для кнопок в корзину
-     * @param {function} toDo - функция для выполнения на коде 200
+     * Функция, подгружающая и отрисовывающая карточки дешевых товаров
      */
-    defaultButton(toDo) {
-        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            toDo();
-            break;
-        default:
-            toDo();
-            break;
-        }
+    loadSortedItemCards() {
+        router.addToHistory(itemsStore.getContext(itemsStore._storeNames.sortURL));
+        this.itemsBlock.innerHTML = '';
+        itemCardsAction.getItemCardsByCategory(true);
+        this.removeScrollListener();
+        this.startScrollListener();
     }
 
     /**
@@ -95,13 +118,9 @@ export default class CatalogPage extends BasePage {
             addToCartButton.style.display = 'none';
 
             const itemAmount = document.getElementById(
-                `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+                `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
             if (itemAmount) {
-                if (parseInt(itemAmount.textContent) === 0) {
-                    // Можно получать количество элементов из HTML, а можно по запросу,
-                    // так данные будут более актуальны
-                    itemAmount.textContent = '1';
-                }
+                itemAmount.textContent = '1';
             }
         } else {
             console.warn('Элементы не найдены');
@@ -113,12 +132,10 @@ export default class CatalogPage extends BasePage {
      */
     buttonAdd() {
         const itemAmount = document.getElementById(
-            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+            `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const amount = parseInt(itemAmount.textContent);
-            // Можно получать количество элементов из HTML, а можно по запросу,
-            // так данные будут более актуальны
-            itemAmount.textContent = (amount + 1).toString();
+            const count = parseInt(itemAmount.textContent);
+            itemAmount.textContent = (count + 1).toString();
         }
     }
 
@@ -127,13 +144,11 @@ export default class CatalogPage extends BasePage {
      */
     buttonMinus() {
         const itemAmount = document.getElementById(
-            `catalog_item-amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
+            `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const amount = parseInt(itemAmount.textContent);
-            // Можно получать количество элементов из HTML, а можно по запросу,
-            // так данные будут более актуальны
+            const count = parseInt(itemAmount.textContent);
 
-            if (amount === 1) {
+            if (count === 1) {
                 const amountSelector = document.getElementById(
                     `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
                 const addToCartButton = document.getElementById(
@@ -146,7 +161,7 @@ export default class CatalogPage extends BasePage {
                         'Элементы не найдены: addToCartButton, addToCartButton');
                 }
             } else {
-                itemAmount.textContent = (amount - 1).toString();
+                itemAmount.textContent = (count - 1).toString();
             }
         }
     }
@@ -165,15 +180,12 @@ export default class CatalogPage extends BasePage {
                 [elementId, itemId] = elementId.split('/');
                 switch (elementId) {
                 case 'catalog_button-add-to-cart':
-                    /* запрос на добавление товара в корзину */
                     cartAction.addToCart(itemId);
                     break;
                 case 'catalog_button-minus_cart':
-                    /* Запрос на уменьшение количества единиц товара в корзине */
                     cartAction.decreaseNumber(itemId);
                     break;
                 case 'catalog_button-plus_cart':
-                    /* Запрос на увеличение количества единиц товара в корзине */
                     cartAction.increaseNumber(itemId);
                     break;
                 case 'catalog_like-button':
@@ -203,42 +215,81 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
-     * @param {Event} event контекст события для обработки
      */
-    bottomOfPageHandlerPrototype(event) {
-        if ((scrollY + innerHeight > (0.95 * document.body.scrollHeight))) {
-            this.loadCatalogItemCards();
+    bottomOfPageHandlerPrototype() {
+        if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {
+            if (!this.waitThrottleScroll) {
+                this.waitThrottleScroll = true;
+                itemCardsAction.getItemCardsByCategory(false);
+                setTimeout(() => {
+                    this.waitThrottleScroll = false;
+                }, 300);
+            }
         }
     }
 
-
     /**
-     * Метод, обрабатывающий скролл, в котором есть this класса
+     * Функция, реагирующая на кнопки сортировки.
+     *  @param {Event} event - событие, вызвавшее клик.
      */
-    bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
+    listenSortCatalog(event) {
+        switch (event.target.id) {
+        case 'catalog_sort-rating':
+            itemCardsAction.getHighRatingItemCardsByCategory(true);
+            break;
+        case 'catalog_sort-price':
+            itemCardsAction.getCheapItemCardsByCategory(true);
+            break;
+        }
+    }
 
     /**
      * Метод, добавляющий слушатели
      */
     startEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.addEventListener('click', this.localEventListenersHandler);
+        this.catalogContent = document.getElementById('catalog_content');
+        if (this.catalogContent) {
+            this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
 
-        window.addEventListener('scroll', this.bottomOfPageHandler);
+
+        this.waitThrottleScroll = false;
+        this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
+        this.startScrollListener();
+
+        this.catalogSort = document.getElementById('catalog_sort-buttons');
+        if (this.catalogSort) {
+            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+        }
+    }
+
+    /**
+     * Метод, добавляющий слушатель на скролл.
+     */
+    startScrollListener() {
+        window.addEventListener('scroll', this.bottomOfPageHandler, {passive: true});
+    }
+
+    /**
+     * Метод, удаляющий слушатель на скролл.
+     */
+    removeScrollListener() {
+        window.removeEventListener('scroll', this.bottomOfPageHandler);
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.removeEventListener('click', this.localEventListenersHandler);
+        if (this.catalogContent) {
+            this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
 
-        // remove scroll!
+        this.removeScrollListener();
+
+        if (this.catalogSort) {
+            this.catalogSort.addEventListener('click', this.listenSortCatalog);
+        }
     }
 
 
@@ -246,11 +297,13 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
+        this.addListener();
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});
-        itemCardsAction.getItemCardsByCategory();
+        cartAction.getCart();
         this.startEventListener();
+        this.itemsBlock = document.getElementById('items-block');
     }
 }
 

@@ -14,7 +14,9 @@
     "lint": "npx eslint . --ext .js",
     "lint:fix": "npx eslint . --ext .js --fix",
     "watch": "webpack --watch",
-    "clean": "rd /s /q dist"
+    "clean": "rd /s /q dist",
+    "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",
+    "css:fix": "npx stylelint '**/*.{css,scss}' --fix --config stylelint.config.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,8 @@
   "dependencies": {
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "stylelint-selector-bem-pattern": "^2.1.1"
   },
   "contributors": [
     "Liza",
@@ -61,6 +64,10 @@
     "sass-loader": "^13.1.0",
     "sharp": "^0.31.1",
     "style-loader": "^3.3.1",
+    "stylelint": "^14.15.0",
+    "stylelint-config-recommended-scss": "^8.0.0",
+    "stylelint-scss": "^4.3.0",
+    "stylelint-webpack-plugin": "^3.3.0",
     "svgo": "^3.0.0",
     "typescript": "^4.8.4",
     "webpack": "^5.74.0",

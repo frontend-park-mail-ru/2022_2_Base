@@ -3,14 +3,14 @@
     <div class="catalog-item-card">
         <div class="catalog-item-card__pic-block" id="catalog_item-pic-block">
             <a href="/item/{{this.id}}">
-                <img src="{{this.imgsrc}}" class="catalog-item-card__pic-block__pic" alt="item_photo"
+                <img src="{{this.imgsrc}}" class="catalog-item-card__pic-block__pic" alt="{{this.name}} photo"
                      id="catalog-item-pic"
-                     data-href="/item/{{id}}">
+                     data-href="/item/{{this.id}}">
             </a>
         </div>
         <div class="catalog-item-card__description-block">
             <div class="catalog-item-card__description-block__description-title" id="catalog_item-title-block"
-                 data-href="/item/{{id}}">
+                 data-href="/item/{{this.id}}">
                 <a href="/item/{{this.id}}"
                    class="catalog-item-card__description-block__description-title text-normal-large"
                    id="catalog_item-title">
@@ -20,9 +20,9 @@
 
             <div class="catalog-item-card__properties-block">
                 <div class="catalog-item-card-properties-block__rating-block">
-                    <img src="./../../../img/star-icon.svg"
+                    <img src="/img/star-icon.svg"
                          class="catalog-item-card__description-block__properties-block__rating-block__star-icon"
-                         alt="star_icon">
+                         alt="rating star icon">
                     <span class="text-normal-default">Рейтинг</span>
                     <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num"> {{this.rating}}
                     </span>
@@ -56,43 +56,46 @@
             </div>
 
         </div>
-    <div class="catalog-item-card__sale-block">
-        <div class="catalog-item-card__sale-block__ex-price-and-like-block">
-            <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large__strikethrough ">
-                {{#if this.price}} {{this.price}} ₽ {{/if}}
-            </div>
-
-            <label class="item_cart__selection disabled">
-                <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
-                <!--                        {{#if this.favourite}} checked {{/if}}>-->
-            </label>
-        </div>
-
-    <div class="text-normal-very-large__bold catalog-item-card__sale-block__catalog-price">
-    {{#if this.lowprice}} {{this.lowprice}} {{else}} {{this.price}} {{/if}}₽</div>
-
-        <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">
-            <div class="button-default button_add-to-card catalog-item-card_button-add-to-cart  paint-purple"
-                 id="catalog_button-add-to-cart/{{this.id}}">
-                В корзину
-            </div>
-            <div class="catalog_amount-selector" id="catalog_amount-selector/{{this.id}}"
-                 data-amount="{{this.amount}}">
-                <button class="button-notext">
-                    <span class="link__no-color text-normal-large" id="catalog_button-minus_cart/{{this.id}}">−</span>
-                </button>
-                <div class="catalog_amount-selector__amount">
-            <span class="text-normal-large" id="catalog_item-amount/{{this.id}}">
-                {{this.amount}}
-            </span>
+        <div class="catalog-item-card__sale-block">
+            <div class="catalog-item-card__sale-block__ex-price-and-like-block">
+                <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large__strikethrough ">
+                    {{#if this.price}} {{this.price}} ₽ {{/if}}
                 </div>
-                <button class="button-notext">
-                    <span class="link__no-color text-normal-large" id="catalog_button-plus_cart/{{this.id}}">+</span>
-                </button>
+
+                <label class="item-cart__selection disabled">
+                    <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
+                    <!--                        {{#if this.favourite}} checked {{/if}}>-->
+                </label>
             </div>
+
+            <div class="text-normal-very-large__bold catalog-item-card__sale-block__catalog-price">
+                {{#if this.lowprice}} {{this.lowprice}} {{else}} {{this.price}} {{/if}}₽
+            </div>
+
+            <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">
+                <div class="button-default button__add-to-card catalog-item-card__button-add-to-cart  paint-purple"
+                     id="catalog_button-add-to-cart/{{this.id}}" {{#if this.count}} style="display: none;" {{/if}}>
+                    В корзину
+                </div>
+                <div class="catalog__amount-selector" id="catalog_amount-selector/{{this.id}}"
+                     data-count="{{this.count}}" {{#if this.count}} style="display: grid;" {{/if}}>
+                    <button class="button-notext">
+                        <span class="link__no-color text-normal-large"
+                              id="catalog_button-minus_cart/{{this.id}}">−</span>
+                    </button>
+                    <div class="catalog__amount-selector__amount">
+            <span class="text-normal-large" id="catalog_item-count/{{this.id}}">
+                {{this.count}}
+            </span>
+                    </div>
+                    <button class="button-notext">
+                        <span class="link__no-color text-normal-large"
+                              id="catalog_button-plus_cart/{{this.id}}">+</span>
+                    </button>
+                </div>
+            </div>
+
         </div>
 
     </div>
-
-    </div>
-    {{/each}}
+{{/each}}

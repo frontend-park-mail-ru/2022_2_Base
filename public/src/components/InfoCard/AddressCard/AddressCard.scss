@@ -1,4 +1,4 @@
-.payment-card-template {
+.address-card-template {
     justify-self: center;
     align-self: center;
     height: 118px;
@@ -8,84 +8,86 @@
     grid-template-rows: 40px 40px 40px;
     color: var(--jet-black);
     text-decoration: none;
-}
-
-.payment-card {
-    filter: none;
     cursor: pointer;
 }
 
-//.payment-card:hover {
+.address-card {
+    filter: none;
+}
+
+//.address-card:hover {
 //    filter: blur(1px);
 //}
 
-.primary-payment-card {
-    height: 120px;
-    width: 200px;
-    background-color: var(--default_purple);
-    --text-color: var(--pure_white);
+.change-address-card {
+    width: 84px;
+    margin-top: -80px;
+    margin-left: 58px;
 }
 
-.other-payment-card {
+.primary-address-card {
+    height: 120px;
+    width: 200px;
+    background-color: var(--default-purple);
+
+    --text-color: var(--pure-white);
+}
+
+%other-address-card {
     border: 1px solid var(--jet-black);
+
     --text-color: var(--jet-black);
 }
 
-.add-payment-card {
-    @extend .other-payment-card;
+.other-address-card {
+    @extend %other-address-card;
 }
 
-.change-payment-card {
-    margin-top: -80px;
-    margin-left: 78px;
-    width: 40px;
-    align-items: center;
-    //grid-template-columns: 1fr;
-    //display:grid;
+.add-address-card {
+    @extend %other-address-card;
+    grid-template-rows: 32px 48px 40px;
 }
 
-.payment-card-title {
+.address-card__city {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-title-main {
     color: var(--text-color);
 }
 
-.payment-card-number {
+.address-card__street {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card-date-type_payment-card {
-    @extend .payment-card-number;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.payment-system-logo {
-    width: 46px;
-    height: 46px;
-    color: var(--text-color);
-}
-
-.expiry-date_payment-card {
+.address-card__house {
+    margin-left: 16px;
     align-self: center;
+    color: var(--text-color);
+    width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.add-card-pic__payment-card {
+.add-address-card__pic {
     margin-left: 84px;
     width: 32px;
     height: 32px;
     align-self: center;
     justify-self: center;
-    margin-top: -4px;
 }
 
-.text-add-card_payment-card {
+.add-address-card__text {
     color: var(--jet-black);
     justify-self: center;
     margin-left: 44px;

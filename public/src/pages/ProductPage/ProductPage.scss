@@ -16,7 +16,7 @@
 
 .content-product-page-block-background {
     border-radius: 15px;
-    background-color: var(--pure_white);
+    background-color: var(--pure-white);
 }
 
 .product-page-header-main_padding {
@@ -37,6 +37,7 @@
 
 .product-page-main__photo {
     height: 450px;
+    justify-self: center;
 
 }
 
@@ -114,7 +115,7 @@
     justify-content: center;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 991px) {
     .content-product-page {
         min-width: 100%;
     }
@@ -151,7 +152,7 @@
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 767px) {
     .content-product-page {
         width: 100%;
         gap: 16px;

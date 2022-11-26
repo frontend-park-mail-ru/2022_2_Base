@@ -1,5 +1,5 @@
 import footerTemplate from './footer.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './footer.scss';
 
 /**

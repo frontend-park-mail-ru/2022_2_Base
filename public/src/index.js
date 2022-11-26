@@ -1,11 +1,11 @@
 'use strict';
 
-import refresh from './modules/refreshElements.js';
-import router from './modules/Router.js';
+import refresh from './modules/refreshElements';
+import router from './modules/Router';
 import '../index.scss';
-import {userActions, UserActionTypes} from './actions/user.js';
-import {config} from './config.js';
-import userStore from './stores/UserStrore.js';
+import {userActions, UserActionTypes} from './actions/user';
+import {config} from './config';
+import userStore from './stores/UserStrore';
 
 refresh.refreshFooter();
 router.start(config);
@@ -23,7 +23,7 @@ const changePage = async (event) => {
         href = target.parentElement.getAttribute('href');
     }
 
-    if (href !== null && href !== undefined) {
+    if (!!href && !href.includes('#')) {
         event.preventDefault();
         router.openPage(href);
     }
@@ -37,12 +37,12 @@ const changePage = async (event) => {
 window.addEventListener('click', changePage);
 
 userStore.addListener(() => {
-    router.openPage(document.location.pathname);
     if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
         refresh.onAuth();
     } else {
         refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
+    router.openPage(document.location.pathname);
 },
 UserActionTypes.USER_FETCH);
 

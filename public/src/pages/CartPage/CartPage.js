@@ -1,42 +1,23 @@
 import CartPageTemplate from './CartPage.hbs';
-import BasePage from '../BasePage.js';
-import CartItem from '../../components/CartItem/CartItem.js';
+import BasePage from '../BasePage';
+import CartItem from '../../components/CartItem/CartItem';
 import './CartPage.scss';
-import mirIcon from '../../../img/mir-pay.png';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import sharedFunctions from '../../modules/sharedFunctions';
 import PopUpChooseAddressAndPaymentCard
-    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
-import cartStore from '../../stores/CartStore.js';
-import userStore from '../../stores/UserStrore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
+    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
+import cartStore from '../../stores/CartStore';
+import userStore from '../../stores/UserStrore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {profileAction, ProfileActionTypes} from '../../actions/profile';
+import itemsStore from '../../stores/ItemsStore';
+import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 
 /**
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
-    // #data = {
-    //     addressID: 1111,
-    //     city: 'Москва',
-    //     street: 'Мира',
-    //     house: 15,
-    //     flat: 4,
-    //     deliveryPrice: 'Бесплатно',
-
-    //     date: new Date('2022-11-25'),
-
-    //     paymentMethodProvider: mirIcon,
-
-    //     avatar: './img/Smartphone.png',
-    //     username: 'Джахар',
-    //     phone: '+7 (872) 234-23-65',
-
-    //     deliveryDate: this.#getDate(1),
-    //     // deliveryTime: '18:00 - 23:00',
-    //     cardNumber: '8765432143212546',
-    //     cardExpiryDate: '05 / 24',
-    //     paymentCardId: 1,
-    // };
-
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
@@ -46,10 +27,17 @@ export default class CartOrderPage extends BasePage {
             parent,
             CartPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
-        cartStore.addListener(this.getCart.bind(this), CartActionTypes.MAKEORDER);
+        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKEORDER);
+        userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
     /**
@@ -59,8 +47,18 @@ export default class CartOrderPage extends BasePage {
     deleteItem(id) {
         cartAction.deleteById(id);
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
-        deleteElement.remove();
+        if (deleteElement) {
+            deleteElement.remove();
+        }
         this.renderTotalCost();
+    }
+
+    /**
+     * Функция, реагирующая на успешное создание заказа
+     */
+    onMakeOrder() {
+        this.getCart();
+        router.refresh();
     }
 
     /**
@@ -71,123 +69,146 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
-     * Функция, отрисовывающая карзину
-     * @param {object} data - данные для заполнения
+     * Функция, считающая итоговую стоимость товаров в корине
+     * @param {array} data
+     * @param {object} context
      */
-    renderCart(data) {
-        const context = {};
-        const address = userStore.getContext(userStore._storeNames.address);
-        if (address) {
-            Object.values(address).forEach((key) => {
-                if (key.priority) {
-                    context.address = key;
-                }
-            });
-        }
-        const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
-        if (paymentCards) {
-            Object.values(paymentCards).forEach((key) => {
-                if (key.priority) {
-                    context.paymentCard = key;
-                }
-            });
-            if (context.paymentCard.type === 'MIR') {
-                context.paymentCard.type = mirIcon;
-            }
-        }
-        context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-        context.isAuth = true; // FIX
-        if (context.isAuth) {
-            context.avatar = userStore.getContext(userStore._storeNames.avatar);
-            context.username = userStore.getContext(userStore._storeNames.name) +
-                userStore.getContext(userStore._storeNames.surname);
-            context.phone = userStore.getContext(userStore._storeNames.phone);
-        }
-        context.deliveryPrice = 'Бесплатно';
-        context.deliveryDate = sharedFunctions._getDate(1);
-
-        // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        const [sumPrice, noSalePrice, priceDiff, amount] =
-            data.reduce((sumVal, key, it) => {
+    #calcSummaryPrice(data, context) {
+        [context.sumPrice, context.noSalePrice, context.priceDiff, context.count] =
+            data.reduce((sumVal, key) => {
                 // sumPrice
-                sumVal[0] += (key.item.lowprice ?? key.item.price) *
-                key.count;
+                sumVal[0] += key.lowprice * key.count ?? key.price * key.count;
                 // noSalePrice
-                sumVal[1] += key.item.price * key.count;
+                sumVal[1] += key.price * key.count;
                 // priceDiff
                 sumVal[2] = sumVal[1] - sumVal[0];
-                // amount
+                // count
                 sumVal[3] += key.count;
                 return sumVal;
             }, [0, 0, 0, 0]).map((val) => {
                 return sharedFunctions._truncate(val);
             });
-        context.sumPrice = sumPrice;
-        context.noSalePrice = noSalePrice;
-        context.priceDiff = priceDiff;
-        context.amount = amount;
-        super.render(context);
-        const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
-        cartItem.render(data);
-        this.startEventListener();
+    }
+
+    /**
+     * Функция, отрисовывающая корзину
+     * @param {object} data - данные для заполнения
+     */
+    renderCart(data) {
+        if (data && data.length) {
+            const context = {};
+            const address = userStore.getContext(userStore._storeNames.address);
+            if (address) {
+                address.forEach((key) => {
+                    if (key.priority) {
+                        context.address = key;
+                    }
+                });
+            }
+            const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
+            if (paymentCards) {
+                paymentCards.forEach((key) => {
+                    if (key.priority) {
+                        context.paymentCard = key;
+                    }
+                });
+            }
+            context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
+            // context.isAuth = true; // FIX
+            if (context.isAuth) {
+                context.avatar = userStore.getContext(userStore._storeNames.avatar);
+                context.username = userStore.getContext(userStore._storeNames.name);
+                context.phone = userStore.getContext(userStore._storeNames.phone);
+            }
+            context.deliveryPrice = 'Бесплатно';
+            context.deliveryDate = this.#getDate(1);
+
+            this.#calcSummaryPrice(data, context);
+            super.render(context);
+            const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
+            cartItem.render(data);
+            this.startEventListener();
+        } else {
+            document.getElementById('main').innerHTML = `
+            <div class="paint-background"></div>
+            <div id="content-cart"
+                <span class="text-normal-large-normal cart-main__empty">
+                Корзина пуста. Случайно не нужен&nbsp
+                <a href="${config.href.category}/phones" class="link">телефон</a>
+                ?
+                </span>
+            </div>
+            <div class="paint-background"></div>`;
+        }
+    }
+
+
+    /**
+     * Функция, загружающая данные пользователя
+     */
+    getUserData() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            break;
+        case config.responseCodes.code401:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
+            break;
+        }
     }
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {Event} event контекст события для обработки
+     * @param {string} elementToEditID - id поля, которе надо будет изменить в попапе
+     * @param {object} context - данные для передачи в попап
+     */
+    #handleEditPopup(elementToEditID, context) {
+        const PopUp = document.getElementById('popUp');
+        const PopUpFade = document.getElementById('popUp-fade');
+        if (PopUp) {
+            PopUp.style.display = 'grid';
+        }
+        if (PopUpFade) {
+            PopUpFade.style.display = 'grid';
+        }
+        this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+        this.PopUpChooseAddressAndPaymentCard.render(context);
+        const choose = document.getElementById(elementToEditID);
+        if (choose) {
+            choose.classList.add('choice');
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая клики на данной странице
+     * @param {HTMLElement} event контекст события для обработки
      */
     async listenClickAddressAndPaymentCardBlock(event) {
-        const target = event.target;
-        let elementId = target.id;
-        let itemId;
+        let elementId = event.target.id;
         if (elementId) {
             if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
+                [elementId] = elementId.split('/');
             }
             switch (elementId) {
             case 'edit-address':
-            case 'edit-payment-card':
-                let context;
-                let choiseItemId;
-                if (elementId === 'edit-address') {
-                    const choice = Array.from(document.getElementsByClassName('addressID'))[0];
-                    choiseItemId = choice.getAttribute('id');
-                    context = {
+                this.#handleEditPopup(document.querySelector('.address-cart__main').id,
+                    {
                         address: userStore.getContext(userStore._storeNames.address),
-                    };
-                } else {
-                    if (elementId === 'edit-payment-card') {
-                        const choice = Array.from(
-                            document.getElementsByClassName('payment-method_cart'))[0];
-                        choiseItemId = choice.getAttribute('id');
-
-                        context = {
-                            paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
-                        };
-                    }
-                }
-
-                const PopUp = document.getElementById('popUp');
-                const PopUpFade = document.getElementById('popUp-fade');
-                if (PopUp) {
-                    PopUp.style.display = 'block';
-                }
-                if (PopUpFade) {
-                    PopUpFade.style.display = 'block';
-                }
-                this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
-                this.PopUpChooseAddressAndPaymentCard.render(context);
-                const choose = document.getElementById(choiseItemId);
-                if (choose) {
-                    choose.style.border = '1px solid #6369D1';
-                    choose.classList.add('choice');
-                }
+                        isAddress: true,
+                    });
+                break;
+            case 'edit-payment-card':
+                this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
+                    {
+                        paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
+                    });
                 break;
             case 'cart-popup-form__apply':
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                let choiseIdWithType = choice.getAttribute('id');
+                let choiseIdWithType = choice.id;
                 let choiceId;
                 if (choiseIdWithType) {
                     if (choiseIdWithType.includes('/')) {
@@ -197,33 +218,19 @@ export default class CartOrderPage extends BasePage {
                     case 'address':
                         const addressField = document.querySelector('.addressID');
                         addressField.textContent = data;
-                        addressField.setAttribute('id', `address/${choiceId}`);
+                        addressField.id = `address/${choiceId}`;
                         break;
                     case 'paymentCard':
-                        const cardType = document.querySelectorAll('.payment-method-provider');
-                        if (cardType) {
-                            cardType.forEach((key) => {
-                                key.style.display = 'block';
-                            });
-                        }
                         const cardNumber = document.querySelectorAll('.card-number');
                         if (cardNumber) {
                             cardNumber.forEach((key) => {
-                                key.textContent = data.split(' ', 1);
+                                key.textContent = data;
                             });
                         }
-                        const cardExpiryDate = document.querySelectorAll(
-                            '.payment-method_cart__expiry');
-                        if (cardExpiryDate) {
-                            cardExpiryDate.forEach((key) => {
-                                key.style.display = 'block';
-                                key.textContent = data.split(' ').slice(1).join(' ').trim();
-                            });
-                        }
-                        const choice = document.querySelectorAll('.payment-method_cart');
+                        const choice = document.querySelectorAll('.payment-method__cart');
                         if (choice) {
                             choice.forEach((key) => {
-                                key.setAttribute('id', `paymentCard/${choiceId}`);
+                                key.id = `paymentCard/${choiceId}`;
                             });
                         }
                         document.getElementById('final-paymentmethod').textContent = 'Картой';
@@ -233,25 +240,6 @@ export default class CartOrderPage extends BasePage {
                         if (paymentReceipt) {
                             paymentReceipt.forEach((key) => {
                                 key.textContent = data;
-                            });
-                        }
-                        const expiryDate = document.querySelectorAll(
-                            '.payment-method_cart__expiry');
-                        if (expiryDate) {
-                            expiryDate.forEach((key) => {
-                                key.style.display = 'none';
-                            });
-                        }
-                        const typeCard = document.querySelectorAll('.payment-method-provider');
-                        if (typeCard) {
-                            typeCard.forEach((key) => {
-                                key.style.display = 'none';
-                            });
-                        }
-                        const choiceMethtod = document.querySelectorAll('.payment-method_cart');
-                        if (choiceMethtod) {
-                            choiceMethtod.forEach((key) => {
-                                key.setAttribute('id', 'payment-upon-receipt');
                             });
                         }
                         document.getElementById('final-paymentmethod').textContent = 'При получении';
@@ -316,24 +304,24 @@ export default class CartOrderPage extends BasePage {
                 this.deleteItem(parseInt(itemId));
                 break;
             case 'button-minus_cart':
-                const amountItem = document.getElementById(`amount-product/${itemId}`);
+                const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
-                    const amount = parseInt(amountItem.textContent);
-                    if (amount === 1) {
+                    const count = parseInt(amountItem.textContent);
+                    if (count === 1) {
                         this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                     } else {
                         cartAction.decreaseNumber(parseInt(itemId));
-                        amountItem.textContent = (amount - 1).toString();
+                        amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
                 }
                 break;
             case 'button-plus_cart':
-                const itemAmount = document.getElementById(`amount-product/${itemId}`);
+                const itemAmount = document.getElementById(`count-product/${itemId}`);
                 if (itemAmount) {
                     cartAction.increaseNumber(parseInt(itemId));
-                    const amount = parseInt(itemAmount.textContent);
-                    itemAmount.textContent = (amount + 1).toString();
+                    const count = parseInt(itemAmount.textContent);
+                    itemAmount.textContent = (count + 1).toString();
                     this.renderTotalCost();
                 }
                 break;
@@ -346,18 +334,18 @@ export default class CartOrderPage extends BasePage {
      */
     renderTotalCost() {
         const data = [];
-        const itemsCart = document.getElementsByClassName('cart-item_cart');
+        const itemsCart = document.getElementsByClassName('cart-item__cart');
         if (itemsCart) {
             Array.from(itemsCart).forEach((child) => {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
                 const itemId = check.getAttribute('id').split('/')[1];
                 if (check.checked) {
-                    const lowprice = sharedFunctions._parseInt(document.getElementById(`price/${itemId}`)
-                        .textContent);
-                    let price = sharedFunctions._parseInt(document.getElementById(`sale-price/${itemId}`)
-                        .textContent);
-                    const count = sharedFunctions._parseInt(document.getElementById(
-                        `amount-product/${itemId}`).textContent);
+                    const lowprice = sharedFunctions._parseInt(
+                        document.getElementById(`price/${itemId}`).textContent);
+                    let price = sharedFunctions._parseInt(
+                        document.getElementById(`sale-price/${itemId}`).textContent);
+                    const count = sharedFunctions._parseInt(
+                        document.getElementById(`count-product/${itemId}`).textContent);
                     if (isNaN(price)) {
                         price = lowprice;
                     }
@@ -370,30 +358,17 @@ export default class CartOrderPage extends BasePage {
             });
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        const [sumPrice, noSalePrice, priceDiff, count] =
-            data.reduce((sumVal, key, it) => {
-                // sumPrice
-                sumVal[0] += (key.lowprice ?? key.price) *
-                key.count;
-                // noSalePrice
-                sumVal[1] += key.price * key.count;
-                // priceDiff
-                sumVal[2] = sumVal[1] - sumVal[0];
-                // coount
-                sumVal[3] += key.count;
-                return sumVal;
-            }, [0, 0, 0, 0]).map((val) => {
-                return sharedFunctions._truncate(val);
-            });
+        const summary = {};
+        this.#calcSummaryPrice(data, summary);
         // Изменение итоговых сумм
         const totalPrice = document.getElementById('total-price');
-        totalPrice.textContent = sumPrice + ' ₽';
+        totalPrice.textContent = summary.sumPrice + ' ₽';
         const productsNumber = document.getElementById('products-number');
-        productsNumber.textContent = 'Товары, ' + count + ' шт.';
+        productsNumber.textContent = 'Товары, ' + summary.count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
-        priceWithoutDiscount.textContent = noSalePrice + ' ₽';
+        priceWithoutDiscount.textContent = summary.noSalePrice + ' ₽';
         const discount = document.getElementById('discount');
-        discount.textContent = priceDiff + ' ₽';
+        discount.textContent = summary.priceDiff + ' ₽';
     }
 
     /**
@@ -403,16 +378,15 @@ export default class CartOrderPage extends BasePage {
     async listenChangeCheckbox(event) {
         const target = event.target;
         let elementId = target.id;
-        let itemId;
         if (elementId) {
             if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
+                [elementId] = elementId.split('/');
             }
             switch (elementId) {
             case 'item_cart__select-all':
                 // Установка и снятие галочек у товаров
-                const chackedItems = document.getElementsByName('itemCart');
-                chackedItems.forEach((key) => {
+                const checkedItems = document.getElementsByName('itemCart');
+                checkedItems.forEach((key) => {
                     key.checked = target.checked;
                 });
                 this.renderTotalCost();
@@ -443,33 +417,42 @@ export default class CartOrderPage extends BasePage {
     async listenClickCreateOrder() {
         const orderData = {
             items: [
-
             ],
         };
-        const chackedItems = document.getElementsByName('itemCart');
-        if (chackedItems) {
-            chackedItems.forEach((key) => {
-                const itemId = key.getAttribute('id').split('/')[1];
+        const checkedItems = document.getElementsByName('itemCart');
+        if (checkedItems) {
+            checkedItems.forEach((key) => {
+                const itemId = key.id.split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
                         parseInt(itemId));
                 }
             });
         } else {
-            console.log('elements not found', chackedItems);
+            console.log('elements not found', checkedItems);
         }
-        if (orderData.items.length === 0) {
-            console.log('Выберите товары для заказа');
-            // Выводить попап
+        if (orderData.items.length) {
+            const address = document.querySelector('.addressID');
+            orderData.address = parseInt(address.getAttribute('id')
+                .split('/', 2)[1]);
+            if (orderData.address !== -1) {
+                let date = document.getElementById('date-delivery').textContent.trim();
+                let time = document.getElementById('time-delivery').textContent.trim();
+                date = date.split(' / ');
+                time = time.split(' - ');
+                orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
+                    (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
+                    0)).toJSON();
+
+                orderData.card = parseInt(document.querySelector('.payment-method__cart')
+                    .id.split('/', 2)[1]);
+                orderData.card = orderData.card ? orderData.card : null;
+                cartAction.makeOrder(orderData);
+            } else {
+                errorMessage.getAbsoluteErrorMessage('Выберите адрес');
+            }
         } else {
-            const addressID = parseInt(document.getElementsByClassName('addressID')[0].getAttribute(
-                'id').split('/', 2)[1]);
-            orderData.addressid = addressID;
-            orderData.datedelivery = document.getElementById('date-delivery').textContent.trim();
-            orderData.timedelivery = document.getElementById('time-delivery').textContent.trim();
-            orderData.paymentcardid = parseInt(document.getElementsByClassName('payment-method_cart')[0]
-                .getAttribute('id').split('/', 2)[1]);
-            cartAction.makeOrder(orderData);
+            errorMessage.getAbsoluteErrorMessage('Корзина пуста');
         }
     }
 
@@ -478,26 +461,30 @@ export default class CartOrderPage extends BasePage {
      */
     startEventListener() {
         // Обработчик блока товаров
-        const productsContent = document.getElementById('block-products');
-        if (productsContent) {
-            productsContent.addEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.addEventListener('change', this.listenChangeCheckbox.bind(this));
+        this.productsContent = document.getElementById('block-products');
+        if (this.productsContent) {
+            this.bindListenClickProductsBlock = this.listenClickProductsBlock.bind(this);
+            this.bindListenChangeCheckbox = this.listenChangeCheckbox.bind(this);
+            this.productsContent.addEventListener('click', this.bindListenClickProductsBlock);
+            this.productsContent.addEventListener('change', this.bindListenChangeCheckbox);
         }
 
         // Обработчик создания заказа
-        const createOrder = document.getElementById('summary_cart__create-order-button');
-        if (createOrder) {
-            createOrder.addEventListener('click', this.listenClickCreateOrder);
+        this.createOrder = document.getElementById('summary_cart__create-order-button');
+        if (this.createOrder) {
+            this.createOrder.addEventListener('click', this.listenClickCreateOrder);
         }
 
-        const cartContent = document.getElementById('cart');
-        if (cartContent) {
-            cartContent.addEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+        this.cartContent = document.getElementById('cart');
+        if (this.cartContent) {
+            this.bindListenClickAddressAndPaymentCardBlock =
+                this.listenClickAddressAndPaymentCardBlock.bind(this);
+            this.cartContent.addEventListener('click', this.bindListenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCart = document.getElementById('address-cart');
-        if (addressCart) {
-            addressCart.addEventListener('change', this.listenChangeDateAndTime);
+        this.addressCart = document.getElementById('address-cart');
+        if (this.addressCart) {
+            this.addressCart.addEventListener('change', this.listenChangeDateAndTime);
         }
     }
 
@@ -505,47 +492,44 @@ export default class CartOrderPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const productsContent = document.getElementById('block-products');
-        if (productsContent) {
-            productsContent.removeEventListener('click', this.listenClickProductsBlock.bind(this));
-            productsContent.removeEventListener('change', this.listenChangeCheckbox.bind(this));
+        if (this.productsContent) {
+            this.productsContent.removeEventListener('click', this.bindListenClickProductsBlock);
+            this.productsContent.removeEventListener('change', this.bindListenChangeCheckbox);
         }
 
-        const createOrder = document.getElementById('summary_cart__create-order-button');
-        if (createOrder) {
-            createOrder.removeEventListener('click', this.listenClickCreateOrder);
+        if (this.createOrder) {
+            this.createOrder.removeEventListener('click', this.listenClickCreateOrder);
         }
 
-        const cartContent = document.getElementById('content_cart');
-        if (cartContent) {
-            cartContent.removeEventListener('click', this.listenClickAddressAndPaymentCardBlock);
+        if (this.cartContent) {
+            this.cartContent.removeEventListener('click',
+                this.bindListenClickAddressAndPaymentCardBlock);
         }
 
-        const addressCart = document.getElementById('address-cart');
-        if (addressCart) {
-            addressCart.removeEventListener('change', this.listenChangeDateAndTime);
+        if (this.addressCart) {
+            this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
     }
 
-    // /**
-    //  * Функция, возвращающая завтрашнюю дату.
-    //  * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
-    //  * @return {object} завтрашняя дата
-    //  */
-    // #getDate(firstDayIn) {
-    //     const getDate = (next) => {
-    //         const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-    //         return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-    //     };
-    //     return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
-    // }
+    /**
+     * Функция, возвращающая завтрашнюю дату.
+     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @return {object} завтрашняя дата
+     */
+    #getDate(firstDayIn) {
+        const getDate = (next) => {
+            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
+        };
+        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
+    }
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
-        // profileAction.getData();
+    render() {
+        this.addListener();
+        profileAction.getData();
         cartAction.getCart();
     }
 }

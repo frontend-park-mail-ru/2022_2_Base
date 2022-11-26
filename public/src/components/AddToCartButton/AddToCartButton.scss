@@ -1,6 +1,6 @@
 .add-to-cart-button {
     display: flex;
-    background: var(--default_purple);
+    background: var(--default-purple);
     color: var(--background-white);
     justify-content: center;
     align-items: center;
@@ -9,7 +9,7 @@
 }
   
 .add-to-cart-button:hover {
-    background: var(--hover_purple);
+    background: var(--hover-purple);
 }
 
 .add-to-cart-button_amount-selector {

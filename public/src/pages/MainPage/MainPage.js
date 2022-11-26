@@ -1,11 +1,14 @@
 import mainPageTemplate from './MainPage.hbs';
-import BasePage from '../BasePage.js';
-import TopCategory from '../../components/TopCategory/TopCategory.js';
-import ItemCard from '../../components/ItemCard/ItemCard.js';
+import BasePage from '../BasePage';
+import TopCategory from '../../components/TopCategory/TopCategory';
+import ItemCard from '../../components/ItemCard/ItemCard';
 import './MainPage.scss';
-import itemsStore from '../../stores/ItemsStore.js';
-import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards.js';
-import {config} from '../../config.js';
+import itemsStore from '../../stores/ItemsStore';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import {config} from '../../config';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import cartStore from '../../stores/CartStore';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий главную страницу
@@ -20,12 +23,32 @@ export default class MainPage extends BasePage {
             parent,
             mainPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
         itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
         );
+
+        cartStore.addListener(this.buttonCreate,
+            CartActionTypes.ADD_TO_CART);
+
+        cartStore.addListener(this.buttonAdd,
+            CartActionTypes.INCREASE_NUMBER,
+        );
+
+        cartStore.addListener(this.buttonMinus,
+            CartActionTypes.DECREASE_NUMBER,
+        );
+
+        cartStore.addListener(this.getCart.bind(this),
+            CartActionTypes.GET_CART);
     }
 
     /**
@@ -36,36 +59,16 @@ export default class MainPage extends BasePage {
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             const rootElement = document.getElementById(response.classToGet + '__right-arrow');
             response.body.forEach((card, num) => {
-                let discount = null;
-                card.price === card.lowprice ? card.price = discount :
-                    discount = 100 - Math.round(card.lowprice / card.price * 100);
-                const newCard = {
-                    imgsrc: card.imgsrc,
-                    discount: discount,
-                    price: card.lowprice,
-                    salePrice: card.price,
-                    cardTitle: card.name,
-                    rating: card.rating,
-                    id: card.id,
-                };
-                /* creating div to add */
                 const cardElement = document.createElement('div');
                 cardElement.id = `${response.classToGet}${String(num)}`;
                 cardElement.classList.add('item-card');
                 rootElement.before(cardElement);
-                /* rendering card itself */
                 const itemCard = new ItemCard(cardElement);
-                itemCard.render(newCard);
+                itemCard.render(card);
             });
         } else if (!document.getElementById('ServerLoadError')) {
-            const div = document.createElement('div');
-            div.id = 'ServerLoadError';
-            const span = document.createElement('span');
-            div.appendChild(span);
-            div.classList.add('server-error');
-            span.classList.add('server-error__text');
-            span.innerHTML = 'Возникла ошибка при загрузке товаров. Попробуйте позже';
-            document.getElementById('catalog').after(div);
+            errorMessage.getServerMessage(document.getElementById('catalog'), 'ServerLoadError',
+                'Возникла ошибка при загрузке товаров. Попробуйте позже', true);
         }
     }
 
@@ -75,107 +78,139 @@ export default class MainPage extends BasePage {
      */
     localEventListenersHandler(event) {
         event.preventDefault();
-        const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-                switch (elementId) {
-                case 'itemcard_button-add-to-cart':
-                    /* запрос на добавление товара в корзину */
-                    if (true) { // FIX!!! если запрос успешный
-                        const addToCartButton = document.getElementById(
-                            `itemcard_button-add-to-cart/${itemId}`);
-                        const amountSelector = document.getElementById(
-                            `itemcard_amount-selector/${itemId}`);
-                        if (!!addToCartButton && !!amountSelector) {
-                            amountSelector.style.display = 'grid';
-                            addToCartButton.style.display = 'none';
-
-                            const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
-                            if (itemAmount) {
-                                if (parseInt(itemAmount.textContent) === 0) {
-                                    // Можно получать количество элементов из HTML, а можно по запросу,
-                                    // так данные будут более актуальны
-                                    itemAmount.textContent = '1';
-                                }
-                            }
-                        } else {
-                            console.warn('Элементы не найдены: addToCartButton, addToCartButton');
-                        }
-                    }
-                    break;
-                case 'itemcard_button-minus_cart':
-                    /* Запрос на уменьшение количества единиц товара в корзине */
-                    if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
-                        if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
-                            // Можно получать количество элементов из HTML, а можно по запросу,
-                            // так данные будут более актуальны
-
-                            if (amount === 1) {
-                                const amountSelector = document.getElementById(
-                                    `itemcard_amount-selector/${itemId}`);
-                                const addToCartButton = document.getElementById(
-                                    `itemcard_button-add-to-cart/${itemId}`);
-                                if (!!addToCartButton && !!amountSelector) {
-                                    amountSelector.style.display = 'none';
-                                    addToCartButton.style.display = 'flex';
-                                    itemAmount.textContent = '0';
-                                } else {
-                                    console.warn(
-                                        'Элементы не найдены: addToCartButton, addToCartButton');
-                                }
-                            } else {
-                                itemAmount.textContent = (amount - 1).toString();
-                            }
-                        }
-                    }
-
-                    break;
-                case 'itemcard_button-plus_cart':
-                    /* Запрос на увеличение количества единиц товара в корзине */
-                    if (true) { // FIX!!! если запрос успешный
-                        const itemAmount = document.getElementById(`itemcard_item-amount/${itemId}`);
-                        if (itemAmount) {
-                            const amount = parseInt(itemAmount.textContent);
-                            // Можно получать количество элементов из HTML, а можно по запросу,
-                            // так данные будут более актуальны
-                            itemAmount.textContent = (amount + 1).toString();
-                        }
-                    }
-                    break;
-                case 'itemcard_item-title':
-                    // 'item/'+itemId
-                    /* Переход на страницу товара по ссылке в комменте выше */
-                    break;
-                case 'itemcard_item-pic':
-                    // 'item/' + itemId
-                    /* Переход на страницу товара по ссылке в комменте выше */
-
-                    break;
-                }
-            } else {
-                switch (elementId) {
-                case 'mainpage_top-category':
-                    // 'item/'+ target.dataset.href
-                    /* Переход на страницу категории по ссылке в комменте выше */
-
-                    break;
-                }
+        if (event.target.getAttribute('ind')) {
+            const [elementId, itemId] = event.target.getAttribute('ind').split('/');
+            switch (elementId) {
+            case 'itemcard_button-add-to-cart':
+                cartAction.addToCart(itemId);
+                break;
+            case 'itemcard_button-minus_cart':
+                cartAction.decreaseNumber(itemId);
+                break;
+            case 'itemcard_button-plus_cart':
+                cartAction.increaseNumber(itemId);
+                break;
             }
         }
+    }
+
+    /**
+     * Функция, увеличение количество
+     */
+    buttonCreate() {
+        const countSelector = document.querySelectorAll(
+            '[ind=\'itemcard_amount-selector\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        const addToCartButton = document.querySelectorAll(
+            '[ind=\'itemcard_button-add-to-cart\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (!!addToCartButton && !!countSelector) {
+            countSelector.forEach((selector) => selector.style.display = 'grid');
+            addToCartButton.forEach((button) => button.style.display = 'none');
+
+            const itemCount = document.querySelectorAll(
+                '[ind=\'itemcard_item-count\/' +
+                cartStore.getContext(cartStore._storeNames.currID) + '\']');
+            if (itemCount) {
+                itemCount.forEach((item) => item.textContent = '1');
+            }
+        } else {
+            console.warn('Элементы не найдены');
+        }
+    }
+
+    /**
+     * Функция для увеличения количества товара в корзине
+     */
+    buttonAdd() {
+        const itemCount = document.querySelectorAll(
+            '[ind=\'itemcard_item-count\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (itemCount.length) {
+            const count = parseInt(itemCount[0].textContent);
+            itemCount.forEach((item) => item.textContent = (count + 1).toString());
+        }
+    }
+
+    /**
+     * Функция для уменьшения количества товара в корзине
+     */
+    buttonMinus() {
+        const itemCount = document.querySelectorAll(
+            '[ind=\'itemcard_item-count\/' +
+            cartStore.getContext(cartStore._storeNames.currID) + '\']');
+        if (itemCount.length) {
+            const count = parseInt(itemCount[0].textContent);
+
+            if (count === 1) {
+                const countSelector = document.querySelectorAll(
+                    '[ind=\'itemcard_amount-selector\/' +
+                    cartStore.getContext(cartStore._storeNames.currID) + '\']');
+                const addToCartButton = document.querySelectorAll(
+                    '[ind=\'itemcard_button-add-to-cart\/' +
+                    cartStore.getContext(cartStore._storeNames.currID) + '\']');
+                if (!!addToCartButton && !!countSelector) {
+                    countSelector.forEach((selector) => selector.style.display = 'none');
+                    addToCartButton.forEach((button) => button.style.display = 'flex');
+                } else {
+                    console.warn(
+                        'Элементы не найдены: addToCartButton, addToCartButton');
+                }
+            } else {
+                itemCount.forEach((item) => item.textContent = (count - 1).toString());
+            }
+        }
+    }
+
+    /**
+     * Функция, реагирующая на получение товаров из корзины
+     */
+    getCart() {
+        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+        case config.responseCodes.code401:
+            itemCardsAction.getHomeItemCards(config.api.products, true);
+            itemCardsAction.getHomeItemCards(config.api.products, false);
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
+            break;
+        }
+    }
+
+    /**
+     * Функция, запускающая таймер скидки
+     */
+    startTimer() {
+        const display = document.getElementById('main-page-sale-timer');
+        const start = new Date;
+        start.setHours(3, 0, 0); // 3am
+
+        const pad = (num) => {
+            return ('0' + parseInt(num)).substr(-2);
+        };
+        const tick = () => {
+            const now = new Date;
+            if (now > start) { // too late, go to tomorrow
+                start.setDate(start.getDate() + 1);
+            }
+            const remain = ((start - now) / 1000);
+            display.textContent =
+                pad((remain / 60 / 60) % 60) + ':' +
+                pad((remain / 60) % 60) + ':' +
+                pad(remain % 60);
+            setTimeout(tick, 1000);
+        };
+        tick();
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const catalogContent = document.getElementById('content_main');
-        if (catalogContent) {
-            catalogContent.addEventListener('click', this.localEventListenersHandler);
+        this.catalogContent = document.getElementById('content_main');
+        if (this.catalogContent) {
+            this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
     }
 
@@ -183,25 +218,22 @@ export default class MainPage extends BasePage {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const catalogContent = document.getElementById('catalog_content');
-        if (catalogContent) {
-            catalogContent.removeEventListener('click', this.localEventListenersHandler);
+        if (this.catalogContent) {
+            this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
     }
 
-
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
-    async render() {
+    render() {
         super.render(config);
 
         this.topComponent = new TopCategory(document.getElementById('catalog'));
         this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
-        itemCardsAction.getHomeItemCards(config.api.products, true);
-        itemCardsAction.getHomeItemCards(config.api.products, false);
+        cartAction.getCart();
         this.startEventListener();
+        this.startTimer();
     }
 }

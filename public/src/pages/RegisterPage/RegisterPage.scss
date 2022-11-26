@@ -1,4 +1,4 @@
-.content_signup {
+.content__signup {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
@@ -7,20 +7,18 @@
     min-width: 1400px;
 }
 
-.left_signup {
+.left__signup {
     display: grid;
     justify-items: center;
     align-items: center;
-
 }
 
 .signup {
     display: grid;
     grid-row-gap: 16px;
-
 }
 
-.page-name_signup {
+.page-name__signup {
     width: 250px;
     height: 52px;
     text-align: center;
@@ -30,7 +28,7 @@
 
 .signup__form {
     margin-top: 14px;
-    background-color: var(--pure_white);
+    background-color: var(--pure-white);
     height: 440px;
     width: 400px;
     border-radius: 15px;
@@ -43,7 +41,7 @@
     text-align: center;
 }
 
-.LoginRightImg {
+.signup__right-img {
     display: block;
     width: 480px;
     height: 540px;

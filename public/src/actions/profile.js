@@ -1,6 +1,6 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий в профиле.
@@ -10,14 +10,11 @@ export const ProfileActionTypes = {
     SAVE_EDIT_DATA: 'SAVE_EDIT_DATA',
     UPLOAD_AVATAR: 'UPLOAD_AVATAR',
     DELETE_AVATAR: 'DELETE_AVATAR',
-    GET_CARDS: 'GET_CARDS',
     SAVE_ADD_CARD: 'SAVE_ADD_CARD',
     DELETE_CARD: 'DELETE_CARD',
-    GET_ADDRESS: 'GET_ADDRESS',
     SAVE_ADD_ADDRESS: 'SAVE_ADD_ADDRESS',
     SAVE_EDIT_ADDRESS: 'SAVE_EDIT_ADDRESS',
     DELETE_ADDRESS: 'DELETE_ADDRESS',
-    GET_BASKET: 'GET_BASKET',
 };
 
 /**
@@ -37,7 +34,7 @@ export const profileAction = {
      * Действие: редактировать данные.
      * @param {object} data - отредактированное поле
      */
-    saveEditData( data) {
+    saveEditData(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: data,
@@ -65,15 +62,6 @@ export const profileAction = {
     },
 
     /**
-     * Действие: запрос банковских карточек.
-     */
-    getCards() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.GET_CARDS,
-        });
-    },
-
-    /**
      * Действие: добавить новую банковскую карту.
      * @param {object} data - данные для обработки
      */
@@ -91,15 +79,6 @@ export const profileAction = {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_CARD,
             data: id,
-        });
-    },
-
-    /**
-     * Действие: запрос адресов.
-     */
-    getAddress() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.GET_ADDRESS,
         });
     },
 
@@ -132,15 +111,6 @@ export const profileAction = {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_ADDRESS,
             data: id,
-        });
-    },
-
-    /**
-     * Действие: запрос корзины.
-     */
-    getBasket() {
-        Dispatcher.dispatch({
-            actionName: ProfileActionTypes.GET_BASKET,
         });
     },
 };

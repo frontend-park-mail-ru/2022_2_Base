@@ -1,11 +1,11 @@
-import HeaderComponent from '../components/Header/Header.js';
-import FooterComponent from '../components/Footer/Footer.js';
-import router from './Router.js';
-import {config} from '../config.js';
-import UserPage from '../pages/UserPage/UserPage.js';
-import userStore from '../stores/UserStrore.js';
-import LoginPage from '../pages/LoginPage/LoginPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import HeaderComponent from '../components/Header/Header';
+import FooterComponent from '../components/Footer/Footer';
+import router from './Router';
+import {config} from '../config';
+import UserPage from '../pages/UserPage/UserPage';
+import userStore from '../stores/UserStrore';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
 /**
  * Класс, реализующий перерендеринг элементов
@@ -67,7 +67,6 @@ class RefreshEl {
         router.remove(config.href.login);
         router.remove(config.href.signup);
         router.register(config.href.user, UserPage);
-        console.log('isAuth', userStore.getContext(userStore._storeNames.isAuth));
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 

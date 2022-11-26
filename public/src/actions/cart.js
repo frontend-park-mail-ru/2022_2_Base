@@ -1,6 +1,6 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий в корзине.
@@ -9,10 +9,12 @@ export const CartActionTypes = {
     GET_CART: 'GET_CART',
     DELETE_BY_ID: 'DELETE_BY_ID',
     DELETE_ALL: 'DELETE_ALL',
-    MAKEORDER: 'MAKEORDER',
+    MAKE_ORDER: 'MAKE_ORDER',
     ADD_TO_CART: 'ADD_TO_CART',
     INCREASE_NUMBER: 'INCREASE_NUMBER',
     DECREASE_NUMBER: 'DECREASE_NUMBER',
+    RESET_CART: 'RESET_CART',
+    MERGE_CART: 'MERGE_CART',
 };
 
 /**
@@ -87,8 +89,26 @@ export const cartAction = {
      */
     makeOrder(data) {
         Dispatcher.dispatch({
-            actionName: CartActionTypes.MAKEORDER,
+            actionName: CartActionTypes.MAKE_ORDER,
             data: data,
+        });
+    },
+
+    /**
+     * Действие: сбросить корзину
+     */
+    resetCart() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.RESET_CART,
+        });
+    },
+
+    /**
+     * Действие: сбросить корзину
+     */
+    mergeCart() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.MERGE_CART,
         });
     },
 };

@@ -1,13 +1,15 @@
 import registerPageTemplate from './RegisterPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './RegisterPage.scss';
-import userStore from '../../stores/UserStrore.js';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
+import userStore from '../../stores/UserStrore';
+import {userActions, UserActionTypes} from '../../actions/user';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
 
 const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
 const ERROR_401_MESSAGE = 'Неверная почта или пароль';
@@ -26,7 +28,14 @@ export default class RegisterPage extends BasePage {
             parent,
             registerPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_REGISTER);
+        cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
     }
 
     /**
@@ -37,7 +46,7 @@ export default class RegisterPage extends BasePage {
         switch (status) {
         case 201:
             refresh.onAuth();
-            router.openPage(config.href.main); // fix change to prev
+            cartAction.mergeCart();
             break;
         case 400:
             !document.getElementById('Error400Message') ?
@@ -113,6 +122,7 @@ export default class RegisterPage extends BasePage {
      */
     render() {
         this.context = userStore.getContext(userStore._storeNames.context);
+        delete this.context.fields.phone;
         super.render(this.context);
 
         /* Создание и отрисовка компонента Form */

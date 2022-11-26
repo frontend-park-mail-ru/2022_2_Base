@@ -1,5 +1,4 @@
-// import { K } from 'handlebars';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import PopUpChooseAddressAndPaymentCard from './PopUpChooseAddressAndPaymentCard.hbs';
 import './PopUpChooseAddressAndPaymentCard.scss';
 

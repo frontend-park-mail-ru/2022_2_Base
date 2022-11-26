@@ -1,17 +1,15 @@
 import loginPageTemplate from './LoginPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './LoginPage.scss';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import userStore from '../../stores/UserStrore.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
-
-const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
-const ERROR_401_MESSAGE = 'Неверная почта или пароль';
-const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
+import {userActions, UserActionTypes} from '../../actions/user';
+import userStore from '../../stores/UserStrore';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import cartStore from '../../stores/CartStore';
 
 /**
  * Класс, реализующий страницу входа.
@@ -26,7 +24,14 @@ export default class LoginPage extends BasePage {
             parent,
             loginPageTemplate,
         );
+    }
+
+    /**
+     * Функция, регистрирующая листенеры сторов
+     */
+    addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_LOGIN);
+        cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
     }
 
     /**
@@ -37,24 +42,24 @@ export default class LoginPage extends BasePage {
         switch (status) {
         case 201:
             refresh.onAuth();
-            router.openPage(config.href.main); // fix change to prev
+            cartAction.mergeCart();
             break;
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
+                    'Error400Message', config.errorMessages.ERROR_400_MESSAGE) :
                 console.log('bad request: ', status);
             break;
         case 401:
             errorMessage.getErrorMessage(document.getElementById(
                 userStore.getContext(userStore._storeNames.context).fields.email.name),
-            'emailError', ERROR_401_MESSAGE);
+            'emailError', config.errorMessages.ERROR_401_MESSAGE);
             console.log('no auth: ', status);
             break;
         default:
             !document.getElementById('serverErrorMessage') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
+                    'serverErrorMessage', config.errorMessages.SERVER_ERROR_MESSAGE) :
                 console.log('server error: ', status);
             break;
         }

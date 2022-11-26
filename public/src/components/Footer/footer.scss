@@ -43,7 +43,7 @@
     height: 38px;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 991px) {
     .footer__grid {
         margin: 20px 60px;
         grid-template-rows: max-content 70px;
@@ -76,7 +76,7 @@
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 767px) {
     .footer__grid {
         margin: 2px 6px;
         grid-template-rows: max-content 70px;

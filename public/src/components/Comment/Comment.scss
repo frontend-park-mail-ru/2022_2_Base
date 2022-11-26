@@ -68,7 +68,11 @@
 
 .comment-page__rating-stars {
     justify-self: start;
-  
+
+    input {
+      display: none;
+    }
+
     label {
       float: right;
       position: relative;
@@ -93,10 +97,6 @@
       }
     }
   
-    input {
-      display: none;
-    }
-  
     & > label:hover:before {
       font-size: 28px;
       margin-top: 55px;
@@ -107,8 +107,4 @@
     &:not(:checked) > label:hover ~ label:before {
       color: var(--yellow-star);
     }
-}
-  
-.rating-start:hover {
-  
 }

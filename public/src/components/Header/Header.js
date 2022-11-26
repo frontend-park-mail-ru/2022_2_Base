@@ -1,11 +1,44 @@
 import headerTemplate from './header.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './header.scss';
 
 /**
  * Класс для реализации компонента Header
  */
 export default class Header extends BaseComponent {
+    context = {
+        categories: {
+            Smartphone: {
+                nameCategory: 'Телефоны',
+                href: '/category/phones',
+            },
+            Computer: {
+                nameCategory: 'Компьютеры',
+                href: '/category/computers',
+            },
+            Monitors: {
+                nameCategory: 'Мониторы',
+                href: '/category/monitors',
+            },
+            TV: {
+                nameCategory: 'Телевизоры',
+                href: '/category/televisors',
+            },
+            Watch: {
+                nameCategory: 'Часы',
+                href: '/category/watches',
+            },
+            Tablet: {
+                nameCategory: 'Планшеты',
+                href: '/category/tablets',
+            },
+            Accessories: {
+                nameCategory: 'Аксессуары',
+                href: '/category/accessories',
+            },
+        },
+    };
+
     /**
      * Конструктор, создающий класс компонента Header
      * @param {Element} parent HTML-элемент, в который будет
@@ -70,6 +103,9 @@ export default class Header extends BaseComponent {
      * @return {Object} значение категории из контекста отрисовки
      */
     prepareRenderData(context) {
-        return {session: context};
+        return {
+            session: context,
+            categories: this.context.categories,
+        };
     }
 }

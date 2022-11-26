@@ -1,53 +1,61 @@
 <div class="header__left">
     <div class="header__logotip">
         <a href="/">
-            <img src="img/Logo.png" alt="LOGO" class="logo-reazon">
+            <img src="/img/Logo.webp" alt="Reazon logo" class="logo-reazon">
         </a>
     </div>
-    <div class="header__catalog">
-        <a href="/category/dsf" class="button-default header__button-catalog paint-purple">
-            <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
+    <div class="dropdown">
+        <input type="checkbox" id="checkbox-toggle">
+        <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
+               for="checkbox-toggle">
+            <img type="image" src="/img/Catalog.svg" class="header__catalog-img" alt="Menu-Burger icon in button Catalog">
             <span>Каталог</span>
-        </a>
+        </label>
+        <ul class="dropdown-content">
+            {{#each this.categories}}
+                <a href="{{this.href}}" class="header__button-catalog__element text-normal-default"
+                   id="catalog__popUp-category">{{this.nameCategory}}</a>
+            {{/each}}
+        </ul>
     </div>
     <div class="header__search-line header__disabled">
         <input type="search" class="header__form-search" name="search-line"
                placeholder="Что Вас интересует?" maxlength="75">
         <a href="" class="header__button-search header__disabled paint-purple ">
-            <img type="image" src="./img/Search.svg" alt="Search">
+            <img type="image" src="/img/Search.svg" alt="Search button">
         </a>
     </div>
 </div>
 <div class="header__right">
     <div class="header__order">
         <a href="" class="header__disabled">
-            <img src="./img/Orders.svg" alt="Orders" class="header__order-img">
+            <img src="/img/Orders.svg" alt="Orders button" class="header__order-img">
         </a>
     </div>
     <div class="header__favourites">
         <a href="" class="header__disabled">
-            <img src="./img/Favourites.svg" alt="Favourites" class="header__disabled-img">
+            <img src="/img/Favourites.svg" alt="Favourite items button" class="header__disabled-img">
         </a>
     </div>
     <div class="header__card">
         <a href="/cart">
-            <img src="img/Cart.svg" alt="Cart" class="header__card-img">
+            <img src="/img/Cart.svg" alt="Cart button" class="header__card-img">
         </a>
     </div>
 
     <div class="header__profile">
         {{#if session}}
             <a href="/user">
-                <img src="./img/Profile.svg" alt="Profile" class="header__profile-img">
+                <img src="/img/Profile.svg" alt="Profile button" class="header__profile-img">
             </a>
             <div class="profile__pop-up">
                 <a href="/logout">
-                    <img src="./img/LogOut.svg" class="profile__logout" alt="LogOut">
+                    <img src="/img/LogOut.svg" class="profile__logout" alt="LogOut button">
                 </a>
             </div>
         {{else}}
             <a href="/login">
-                <img src="./img/ProfileLogIn.svg" alt="LogIn" class="header__profile-img">
+                <img src="/img/ProfileLogIn.svg" alt="LogIn button" class="header__profile-img">
             </a>
         {{/if}}
     </div>

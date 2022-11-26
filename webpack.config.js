@@ -4,9 +4,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const config = {
-    entry: './public/src/index.js',
+    entry: {
+        'app': './public/src/index.js',
+        'service-worker': './public/src/sw.js',
+    },
     module: {
         rules: [
             {test: /\.(js)$/, use: 'babel-loader'},
@@ -93,17 +97,21 @@ const config = {
                     from: path.resolve(__dirname, 'public/img'),
                     to: path.resolve(__dirname, 'dist/img'),
                 },
-                // {
-                //     from: path.resolve(__dirname, 'public/index.hbs'),
-                //     to: path.resolve(__dirname, 'dist/index.html'),
-                // },
             ],
         }),
-        new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.png')),
+        new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.webp')),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',
             ignoreOrder: false,
+        }),
+        new StylelintPlugin({
+            configFile: 'stylelint.config.js',
+            extensions: ['scss'],
+            // files: './public/*',
+            exclude: ['node_modules', 'dist'],
+            fix: true,
+            failOnWarning: true,
         }),
     ],
 };

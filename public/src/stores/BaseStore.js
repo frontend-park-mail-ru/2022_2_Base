@@ -1,4 +1,4 @@
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -17,7 +17,7 @@ export default class BaseStore {
     /**
      * Метод, возвращающий текущее состояние (контекст) хранилища.
      * @param {String?} field возвращаемое поле
-     * @return {string|number|boolean|int} контекст хранилища
+     * @return {any} контекст хранилища
      */
     getContext(field) {
         return (field ? this._storage.get(field) : this._storage);
@@ -29,15 +29,10 @@ export default class BaseStore {
      * @param {String?} changeEvent наименование события
      */
     addListener(callback, changeEvent) {
-        if (this._events.has(changeEvent)) {
-            this._events.get(changeEvent).callbacks.add(callback);
-        } else {
-            const callbacks = new Set();
-            this._events.set(changeEvent, {
-                callbacks: callbacks.add(callback),
-                promise: null,
-            });
-        }
+        this._events.set(changeEvent, {
+            callbacks: callback,
+            promise: null,
+        });
     }
 
     /**
@@ -73,7 +68,7 @@ export default class BaseStore {
             this._events.forEach((value, key) => {
                 value.promise?.then(
                     (changeEvent) => {
-                        value.callbacks.forEach((callback) => callback());
+                        value.callbacks();
                         this._events.get(key).promise = null;
                     })
                     .catch((error) => console.log('_invokeOnDispatch:', error));
