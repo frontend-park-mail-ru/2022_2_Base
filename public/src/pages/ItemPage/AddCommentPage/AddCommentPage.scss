@@ -26,6 +26,10 @@
   align-self: center;
 }
 
+.add-comment-page-main__header {
+  grid-column: 1 / 4;
+}
+
 /* rating stars */
 
 .add-comment-page__rating-stars {
@@ -101,7 +105,7 @@
 }
 
 .add-comment-page__block__input-fields__block__title {
- color: var(--placeholder-color);
+  color: var(--placeholder-color);
 }
 
 .add-comment-page__block__input-fields__submit {

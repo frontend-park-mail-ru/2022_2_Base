@@ -13,6 +13,7 @@ import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
+import refreshElements from '../../modules/refreshElements';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -127,16 +128,22 @@ export default class CartOrderPage extends BasePage {
             cartItem.render(data);
             this.startEventListener();
         } else {
-            document.getElementById('main').innerHTML = `
-            <div class="paint-background"></div>
-            <div id="content-cart"
-                <span class="text-normal-large-normal cart-main_empty">
-                Корзина пуста. Случайно не нужен&nbsp
-                <a href="${config.href.category}/phones" class="link">телефон</a>
-                ?
-                </span>
-            </div>
-            <div class="paint-background"></div>`;
+            refreshElements.showUnAuthPage({
+                text: 'Корзина пуста. Случайно не нужен',
+                linkToPage: config.href.category + '/phones',
+                linkText: 'телефон',
+                textAfterLink: '?',
+            });
+            // document.getElementById('main').innerHTML = `
+            // <div class="paint-background"></div>
+            // <div id="content-cart"
+            //     <span class="text-normal-large-normal cart-main_empty">
+            //     Корзина пуста. Случайно не нужен&nbsp
+            //     <a href="${config.href.category}/phones" class="link">телефон</a>
+            //     ?
+            //     </span>
+            // </div>
+            // <div class="paint-background"></div>`;
         }
     }
 

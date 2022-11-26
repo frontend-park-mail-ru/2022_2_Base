@@ -6,6 +6,8 @@ import errorMessage from '../../../modules/ErrorMessage';
 import router from '../../../modules/Router';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
+import userStrore from '../../../stores/UserStrore';
+import refreshElements from '../../../modules/refreshElements';
 
 /**
  * Класс, реализующий главную страницу
@@ -59,10 +61,14 @@ export default class AddCommentPage extends BaseItemPage {
         commentData.rating = Math.abs(Array.from(document.getElementsByName('rating'))
             .findIndex(({checked}) => checked === true) - 5);
 
-        commentData.worths = document.getElementById('textarea_pros-filed');
-        commentData.drawbacks = document.getElementById('textarea_cons-filed');
-        commentData.comment = document.getElementById('textarea_comment-filed');
-        itemsStore.addComment(commentData);
+        if (commentData.rating !== 6) {
+            commentData.worths = document.getElementById('textarea_pros-filed').value;
+            commentData.drawbacks = document.getElementById('textarea_cons-filed').value;
+            commentData.comment = document.getElementById('textarea_comment-filed').value;
+            itemCardsAction.addComment(commentData);
+        } else {
+            errorMessage.getAbsoluteErrorMessage('Укажите рейтинг товара');
+        }
     }
 
     /**
@@ -82,5 +88,19 @@ export default class AddCommentPage extends BaseItemPage {
         if (this.submitButton) {
             this.submitButton.removeEventListener('click', this.listenClickSubmitComment);
         }
+    }
+
+    /**
+     * Метод, отрисовывающий страницу.
+     */
+    render() {
+        super.render();
+        // userStrore.getContext(userStrore._storeNames.isAuth) ? super.render() :
+        //     refreshElements.showUnAuthPage({
+        //         text: 'Чтобы написать отзыв нужно',
+        //         linkToPage: config.href.login,
+        //         linkText: 'войти',
+        //         textAfterLink: '&nbspв свой профиль',
+        //     });
     }
 }

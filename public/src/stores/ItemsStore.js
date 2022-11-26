@@ -266,7 +266,7 @@ class ItemsStore extends BaseStore {
                 ))
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-
+        console.log(response.body);
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
             sharedFunctions.addSpacesToPrice(response.body);
@@ -280,6 +280,9 @@ class ItemsStore extends BaseStore {
      * @param {object} comment - данные отзыва
      */
     async _addComment(comment) {
+        comment.itemid = this._storage.get(this._storeNames.itemData).id;
+        comment.userid = cartStore.getContext(cartStore._storeNames.userID);
+        console.log(comment);
         const [status] = await request
             .makePostRequest(config.api.makeComment, comment);
         this._storage.set(this._storeNames.responseCode, status);

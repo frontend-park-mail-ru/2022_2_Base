@@ -135,6 +135,13 @@ main {
   grid-template-columns: 1fr 1400px 1fr;
 }
 
+.main_empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
 .disabled {
   pointer-events: none;
   cursor: default;
