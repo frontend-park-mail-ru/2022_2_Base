@@ -10,6 +10,7 @@ import {config} from '../../config';
 import refresh from '../../modules/refreshElements';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
+import validation from '../../modules/validation';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -106,7 +107,9 @@ export default class RegisterPage extends BasePage {
         }
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
-        userActions.signup(data);
+        if (validation.validate(data)) {
+            userActions.signup(data);
+        }
     };
 
     /**
@@ -117,7 +120,6 @@ export default class RegisterPage extends BasePage {
         delete this.context.fields.phone;
         super.render(this.context);
 
-        /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('signup__form'));
         this.formComponent.render(this.context);
 

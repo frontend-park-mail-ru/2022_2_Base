@@ -10,6 +10,7 @@ import {config} from '../../config';
 import refresh from '../../modules/refreshElements';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
+import validation from '../../modules/validation';
 
 /**
  * Класс, реализующий страницу входа.
@@ -105,7 +106,9 @@ export default class LoginPage extends BasePage {
             }
         }
         /* Проверка почты и пароля и отрисовка ошибок на странице */
-        userActions.login(data);
+        if (validation.validate(data)) {
+            userActions.login(data);
+        }
     };
 
     /**
@@ -125,7 +128,6 @@ export default class LoginPage extends BasePage {
         };
         super.render(this.context);
 
-        /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('login-form'));
         this.formComponent.render(this.context);
 

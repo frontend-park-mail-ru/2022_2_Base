@@ -2,6 +2,8 @@ import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
 import './PopUpAddAddress.scss';
 import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
+import validation from '../../../modules/validation';
+import errorMessage from '../../../modules/ErrorMessage';
 
 /**
  * Класс для реализации компонента Footer
@@ -30,7 +32,10 @@ export default class PopUpAddPaymentCard extends BasePopUp {
             id: Number(this.context.id?.replace('addressCard/', '')),
         };
 
-        if (this.context.add) {
+        const validateMessage = validation.validateAddress(inputData);
+        if (validateMessage) {
+            errorMessage.getAbsoluteErrorMessage(validateMessage);
+        } else if (this.context.add) {
             profileAction.saveAddAddress(inputData);
         } else {
             profileAction.saveEditAddress(inputData);

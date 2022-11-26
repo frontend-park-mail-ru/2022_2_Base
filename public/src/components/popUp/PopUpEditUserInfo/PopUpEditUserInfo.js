@@ -2,6 +2,9 @@ import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
 import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
+import {config} from '../../../config';
+import userStrore from '../../../stores/UserStrore';
+import validation from '../../../modules/validation';
 
 /**
  * Класс для реализации компонента Footer
@@ -22,11 +25,17 @@ export default class PopUpEditUserInfo extends BasePopUp {
      */
     async listenClickApply(event) {
         event.preventDefault();
-
-        profileAction.saveEditData({
+        const data = {
             value: document.getElementById(this.context.id + '__popUp').value,
             id: this.context.id,
-        });
+        };
+        const dataForVal = {};
+        dataForVal[userStrore.getContext(userStrore._storeNames.context)
+            .fields[data.id].popUpName] = data.value;
+        if (validation.validate(dataForVal)) {
+            profileAction.saveEditData(data);
+            console.log(this.context);
+        }
     }
 
 
@@ -38,6 +47,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
     prepareRenderData(context) {
         const data = {
             title: context.getAttribute('name'),
+            id: context.id,
             fields: {
                 field1: {
                     name: context.getAttribute('name'),
