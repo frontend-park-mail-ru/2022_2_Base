@@ -1,16 +1,23 @@
 {{#each comments}}
     <div class="comment">
         <div class="comment__header">
-            <img src="{{this.userPhoto}}" alt="user photo" class="comment__userPhoto">
-            <span class="comment__color-pure-black text-normal-large-normal">{{this.userName}}</span>
+            <img src="{{#if this.userPhoto}}{{this.userPhoto}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
+                 class="comment__userPhoto">
+            <span class="comment__color-pure-black text-normal-large-normal">
+                {{#if this.userName}}{{this.userName}}{{else}}Анонимный пользователь{{/if}}</span>
             <div class="comment__date-range">
                 <span class="comment_date text-normal-default">{{this.date}}</span>
                 <div class="comment-page__rating-stars">
-                    <input class="rating-start" type="radio" id="star5/{{this.id}}" name="rating/{{this.id}}" value="5"/> <label for="star5/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star4/{{this.id}}" name="rating/{{this.id}}" value="4"/> <label for="star4/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star3/{{this.id}}" name="rating/{{this.id}}" value="3"/> <label for="star3/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star2/{{this.id}}" name="rating/{{this.id}}" value="2"/> <label for="star2/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star1/{{this.id}}" name="rating/{{this.id}}" value="1"/> <label for="star1/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star5/{{this.id}}" name="rating/{{this.id}}"
+                           value="5"/> <label for="star5/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star4/{{this.id}}" name="rating/{{this.id}}"
+                           value="4"/> <label for="star4/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star3/{{this.id}}" name="rating/{{this.id}}"
+                           value="3"/> <label for="star3/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star2/{{this.id}}" name="rating/{{this.id}}"
+                           value="2"/> <label for="star2/{{this.id}}"></label>
+                    <input class="rating-start" type="radio" id="star1/{{this.id}}" name="rating/{{this.id}}"
+                           value="1"/> <label for="star1/{{this.id}}"></label>
                 </div>
             </div>
         </div>
@@ -18,8 +25,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Достоинства</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.dignity}}
-                        {{this.dignity}}
+                    {{#if this.worths}}
+                        {{this.worths}}
                     {{else}}
                         нет
                     {{/if}}
@@ -28,8 +35,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Недостатки</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.limitations}}
-                        {{this.limitations}}
+                    {{#if this.drawbacks}}
+                        {{this.drawbacks}}
                     {{else}}
                         нет
                     {{/if}}

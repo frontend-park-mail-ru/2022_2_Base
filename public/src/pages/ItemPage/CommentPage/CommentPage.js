@@ -3,6 +3,7 @@ import './CommentPage.scss';
 import Comment from '../../../components/Comment/Comment.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
+import itemsStore from '../../../stores/ItemsStore';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -26,8 +27,7 @@ export default class CommentPage extends BaseItemPage {
      * @param {object} data объект для добавления данных
      */
     loadMoreData(data) {
-        const comments = new Comment(document.getElementById('comments'));
-        comments.render(data.comments);
+        itemCardsAction.getComments();
     }
 
     /**
@@ -35,6 +35,15 @@ export default class CommentPage extends BaseItemPage {
      */
     addListener() {
         super.addListener();
+        itemsStore.addListener(this.listenCommentsLoad, ItemCardsActionTypes.GET_COMMENTS);
+    }
+
+    /**
+     * Функция, регистрирующая на загрузку комментариев
+     */
+    listenCommentsLoad() {
+        const comments = new Comment(document.getElementById('comments'));
+        comments.render(itemsStore.getContext(itemsStore._storeNames.comments));
     }
 
     /**

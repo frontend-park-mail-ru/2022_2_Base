@@ -6,8 +6,6 @@ import errorMessage from '../../../modules/ErrorMessage';
 import router from '../../../modules/Router';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
-import userStrore from '../../../stores/UserStrore';
-import refreshElements from '../../../modules/refreshElements';
 
 /**
  * Класс, реализующий главную страницу
@@ -40,9 +38,10 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, реагирующую на добавление отзыва
      */
     listenCommentAdd() {
+        console.log('asdasdasdas');
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            router.openPage(location.pathname.split('/').pop());
+            router.openPage(config.href.comment + '/' + location.pathname.split('/').pop());
             break;
         case config.responseCodes.code401:
             errorMessage.getAbsoluteErrorMessage('Вы не авторизированны');
@@ -57,6 +56,7 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, регистрирующая на нажатие кнопки создания отзыва
      */
     listenClickSubmitComment() {
+        console.log('listenClickSubmitComment');
         const commentData = {};
         commentData.rating = Math.abs(Array.from(document.getElementsByName('rating'))
             .findIndex(({checked}) => checked === true) - 5);
@@ -89,18 +89,18 @@ export default class AddCommentPage extends BaseItemPage {
             this.submitButton.removeEventListener('click', this.listenClickSubmitComment);
         }
     }
-
-    /**
-     * Метод, отрисовывающий страницу.
-     */
-    render() {
-        super.render();
-        // userStrore.getContext(userStrore._storeNames.isAuth) ? super.render() :
-        //     refreshElements.showUnAuthPage({
-        //         text: 'Чтобы написать отзыв нужно',
-        //         linkToPage: config.href.login,
-        //         linkText: 'войти',
-        //         textAfterLink: '&nbspв свой профиль',
-        //     });
-    }
+    //
+    // /**
+    //  * Метод, отрисовывающий страницу.
+    //  */
+    // render() {
+    //     super.render();
+    //     // userStrore.getContext(userStrore._storeNames.isAuth) ? super.render() :
+    //     //     refreshElements.showUnAuthPage({
+    //     //         text: 'Чтобы написать отзыв нужно',
+    //     //         linkToPage: config.href.login,
+    //     //         linkText: 'войти',
+    //     //         textAfterLink: '&nbspв свой профиль',
+    //     //     });
+    // }
 }

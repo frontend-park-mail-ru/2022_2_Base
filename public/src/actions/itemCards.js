@@ -14,6 +14,7 @@ export const ItemCardsActionTypes = {
     CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
     HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
     ADD_COMMENT: 'ADD_COMMENT',
+    GET_COMMENTS: 'GET_COMMENTS',
 };
 
 /**
@@ -93,11 +94,19 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос карточки с определенным id.
-     * @param {number} id
      */
     getItemCard() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     */
+    getComments() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.GET_COMMENTS,
         });
     },
 

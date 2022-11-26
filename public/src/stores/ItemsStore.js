@@ -56,6 +56,7 @@ class ItemsStore extends BaseStore {
         allCardsInCategory: 'allCardsInCategory',
         sortURL: 'sortURL',
         itemData: 'itemData',
+        comments: 'comments',
     };
 
     /**
@@ -72,6 +73,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.allCardsInCategory, []);
         this._storage.set(this._storeNames.sortURL, null);
         this._storage.set(this._storeNames.itemData, {});
+        this._storage.set(this._storeNames.comments, []);
     }
 
     /**
@@ -117,6 +119,11 @@ class ItemsStore extends BaseStore {
             this._emitChange([
                 ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
+            break;
+
+        case ItemCardsActionTypes.GET_COMMENTS:
+            await this._getComments();
+            this._emitChange([ItemCardsActionTypes.GET_COMMENTS]);
             break;
 
         case ItemCardsActionTypes.ADD_COMMENT:
@@ -266,11 +273,29 @@ class ItemsStore extends BaseStore {
                 ))
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        console.log(response.body);
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
             sharedFunctions.addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.itemData, response.body);
+            this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
+     * Действие: получение отзывов отзыва.
+     */
+    async _getComments() {
+        console.log('asdas');
+        const [status, response] = await request
+            .makeGetRequest(config.api.getComments +
+                document.location.pathname.slice(
+                    document.location.pathname.lastIndexOf('/'),
+                    document.location.pathname.length,
+                ))
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.comments, response.body);
             this.#syncCardsInCategory(response.body);
         }
     }

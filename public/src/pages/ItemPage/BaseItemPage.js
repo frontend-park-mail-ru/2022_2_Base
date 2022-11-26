@@ -103,7 +103,7 @@ export default class BaseItemPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        this.addListener();
         cartAction.getCart();
+        this.addListener();
     }
 }
