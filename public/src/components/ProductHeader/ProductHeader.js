@@ -36,7 +36,7 @@ export default class ProductHeader extends BaseComponent {
             rating: context.rating,
             commentsHref: context.commentsHref,
             commentsCount: context.commentsCount,
-            commentsCountText: sharedFunctions._sklonenie(context.commentsCount,
+            commentsCountText: sharedFunctions._declination(context.commentsCount,
                 ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };

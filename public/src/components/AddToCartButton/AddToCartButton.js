@@ -2,7 +2,7 @@ import AddToCartButtonTemplate from './AddToCartButton.hbs';
 import BaseComponent from '../BaseComponent.js';
 import './AddToCartButton.scss';
 import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import {cartAction} from '../../actions/cart.js';
 
 /**
  * Класс для реализации компонента AddToCartButton
@@ -15,11 +15,6 @@ export default class AddToCartButton extends BaseComponent {
      */
     constructor(parent) {
         super(parent);
-        // cartStore.addListener(this.buttonCreate, CartActionTypes.ADD_TO_CART);
-
-        // cartStore.addListener(this.buttonAdd, CartActionTypes.INCREASE_NUMBER);
-
-        // cartStore.addListener(this.buttonMinus, CartActionTypes.DECREASE_NUMBER);
     }
 
     /**
