@@ -48,22 +48,8 @@ class OrdersStore extends BaseStore {
             let addressString;
 
             element.items.forEach((itemcard) => {
-                price += itemcard.item.lowprice > 0 ? itemcard.item.lowprice : itemcard.item.price;
+                price += (itemcard.item.lowprice > 0 ? itemcard.item.lowprice : itemcard.item.price);
             });
-
-            // для Димы
-            // const sumWithInitial = element.items.reduce(
-            //     (accumulator, currentItem) => {
-            //         if (!(parseInt(accumulator))) {
-            //             accumulator =
-            //                 accumulator.item.lowprice > 0 ?
-            //                     accumulator.item.lowprice : accumulator.item.price
-            //         }
-            //         return accumulator +
-            //             (currentItem.item.lowprice > 0
-            //             ? currentItem.item.lowprice : currentItem.item.price)
-            //     }
-            // );
 
             element.totalPrice = price;
 
