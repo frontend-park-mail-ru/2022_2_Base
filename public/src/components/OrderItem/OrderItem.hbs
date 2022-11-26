@@ -1,8 +1,15 @@
-<div class="order-block__itemcard">
-    <img src="/img/Tablet.webp" class="order-block__itemcard__photo">
-    <div class="text-normal-large-normal order-block__itemcard__title"> Apple iPhone 13 64 ГБ some text
-        text text some text
+{{#each items}}
+    <div class="order-block__itemcard">
+        <img src="{{this.item.imgsrc}}" class="order-block__itemcard__photo" alt="{{this.item.name}} photo">
+        <a href="/product/{{this.item.id}}" class="text-normal-large-normal order-block__itemcard__title"> {{this.item.name}}
+        </a>
+        <span class="text-normal-large order-block__itemcard__counter"> {{this.count}} шт.</span>
+        <span class="text-normal-very-big order-block__itemcard__counter">
+            {{#if this.item.lowprice}}
+                {{this.item.lowprice}} ₽
+            {{else}}
+                {{this.item.price}} ₽
+            {{/if}}
+        </span>
     </div>
-    <span class="text-normal-large order-block__itemcard__counter"> 99 шт.</span>
-    <span class="text-normal-very-big order-block__itemcard__counter"> 123 321 Р</span>
-</div>
+{{/each}}

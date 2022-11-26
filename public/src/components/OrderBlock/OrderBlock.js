@@ -1,8 +1,9 @@
 import orderBlockTemplate from './OrderBlock.hbs';
-import OrderItem from '../OrderItem/OrderItem.js';
 import BaseComponent from '../BaseComponent.js';
 
 import './OrderBlock.scss';
+import './../OrderItem/OrderItem.scss';
+
 
 /**
  * Класс для реализации компонента OrderBlock
@@ -15,23 +16,6 @@ export default class OrderBlock extends BaseComponent {
      */
     constructor(parent) {
         super(parent);
-    }
-
-    /**
-     * Метод, загружающий карты.
-     * @param {string} classToGet имя класса, в который надо вставить карту
-     * @param {string} reqPath путь для api запроса к беку
-     */
-    async loadCards(classToGet, reqPath) {
-        let rootElement = document.getElementById('order-block__itemcards-block');
-        let itemElement = document.createElement('div');
-        itemElement.id = `${classToGet}`;
-        itemElement.classList.add('order-block__itemcard');
-        rootElement.insertAdjacentElement('afterbegin', itemElement);
-
-        /* rendering card itself */
-        this.orderItem = new OrderItem(itemElement);
-        this.orderItem.render();
     }
 
     /**
@@ -55,7 +39,6 @@ export default class OrderBlock extends BaseComponent {
      */
     async render(context) {
         super.render(this.prepareRenderData(context), orderBlockTemplate);
-        await this.loadCards('orderItem');
     }
 
     /**
@@ -64,6 +47,6 @@ export default class OrderBlock extends BaseComponent {
      * @return {Object} значение категории из контекста отрисовки
      */
     prepareRenderData(context) {
-        return {context};
+        return {orders: {...context}};
     }
 }

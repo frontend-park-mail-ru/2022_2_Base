@@ -24,28 +24,15 @@ export default class OrdersPage extends BasePage {
      * Функция, регистрирующая листенеры сторов
      */
     addListener() {
-        ordersStore.addListener(this.loadCards.bind(this), OrderActionTypes.GET_ORDERS);
+        ordersStore.addListener(this.renderCards.bind(this), OrderActionTypes.GET_ORDERS);
     }
 
     /**
-     * Метод, загружающий карты.
-     * @param {string} classToGet имя класса, в который надо вставить карту
-     * @param {string} reqPath путь для api запроса к беку
+     * Метод, отрисовывающий карточки заказов.
      */
-    loadCards(classToGet, reqPath) {
-        ordersStore.getContext(ordersStore._storeNames.orders); // <- request data
-
-
-        const rootElement = document.getElementById('orders-page__block');
-
-        const blockElement = document.createElement('div');
-        blockElement.id = `${classToGet}${String(1)}`;
-        blockElement.classList.add('order-block');
-        rootElement.before(blockElement);
-        /* rendering card itself */
-        torderStorehis.orderBlock = new OrderBlock(blockElement);
-
-        this.orderBlock.render();
+    renderCards() {
+        this.orderBlock = new OrderBlock(document.getElementById('orders-page__block'));
+        this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
     }
 
     /**
@@ -55,9 +42,6 @@ export default class OrdersPage extends BasePage {
     render(config) {
         super.render(config);
         orderAction.getOrders();
-
-        // this.loadCards('orderBlock'); // ???
-        // зачем тебе что-то передавать в функцию?
-        // проще через this в конструкторе прокинуть, если сильно надо, но тут вообще смысла не вижу, честно говоря. Поясни
+        this.renderCards();
     }
 }

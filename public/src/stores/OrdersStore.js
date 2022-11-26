@@ -1,10 +1,10 @@
 import BaseStore from './BaseStore.js';
-import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config.js';
-import cartStore from './CartStore';
-import sharedFunctions from '../modules/sharedFunctions';
+// import cartStore from './CartStore';
+// import sharedFunctions from '../modules/sharedFunctions';
 import {OrderActionTypes} from '../actions/order';
+import userStore from './UserStrore';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -47,36 +47,127 @@ class OrdersStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        // example response
-        // [
-        // {
-        //     "address": 0,
-        //     "card": 0,
-        //     "creationDate": "string",
-        //     "deliveryDate": "string",
-        //     "id": 0,
-        //     "items": [
-        //     {
-        //         "count": 0,
-        //         "item": {
-        //             "category": "string",
-        //             "id": 0,
-        //             "imgsrc": "string",
-        //             "lowprice": 0,
-        //             "name": "string",
-        //             "price": 0,
-        //             "rating": 0
-        //         }
-        //     }
-        // ],
-        //     "orderstatus": "string",
-        //     "paymentstatus": "string",
-        //     "userid": 0
-        // }
-        // ]
-
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.orders, response);
+            let orders = response;
+
+            // тестовые данные
+            /*
+            let orders = [
+                {
+                    address: 0,
+                    card: 0,
+                    creationDate: '00 / 00/ 0000',
+                    deliveryDate: '77 / 77 / 7777',
+                    id: 1,
+                    items: [
+                        {
+                            count: 1,
+                            item: {
+                                category: 'string',
+                                id: 123,
+                                imgsrc: './../img/Smartphone.webp',
+                                lowprice: 0,
+                                name: 'iPhone 11 Pro 64Гб',
+                                price: 24990,
+                                rating: 0
+                            }
+                        },
+                        {
+                            count: 5,
+                            item: {
+                                category: 'string',
+                                id: 124,
+                                imgsrc: './../img/Smartphone.webp',
+                                lowprice: 22990,
+                                name: 'iPhone 11 Pro 64Гб',
+                                price: 30990,
+                                rating: 0
+                            }
+                        },
+                        {
+                            count: 5,
+                            item: {
+                                category: 'string',
+                                id: 124,
+                                imgsrc: './../img/Smartphone.webp',
+                                lowprice: 22990,
+                                name: 'iPhone 11 Pro 64Гб',
+                                price: 30990,
+                                rating: 0
+                            }
+                        },
+                    ],
+                    orderStatus: 'Статус?',
+                    paymentStatus: 'Статус оплаты?',
+                    userId: 0,
+                },
+                {
+                    address: 0,
+                    card: 0,
+                    creationDate: '00 / 00/ 0000',
+                    deliveryDate: '77 / 77 / 7777',
+                    id: 2,
+                    items: [
+                        {
+                            count: 1,
+                            item: {
+                                category: 'string',
+                                id: 123,
+                                imgsrc: './../img/Smartphone.webp',
+                                lowprice: 0,
+                                name: 'iPhone 11 Pro 64Гб',
+                                price: 24990,
+                                rating: 0
+                            }
+                        },
+                        {
+                            count: 5,
+                            item: {
+                                category: 'string',
+                                id: 124,
+                                imgsrc: './../img/Smartphone.webp',
+                                lowprice: 22990,
+                                name: 'iPhone 11 Pro 64Гб',
+                                price: 30990,
+                                rating: 0
+                            }
+                        },
+                    ],
+                    orderStatus: 'Статус?',
+                    paymentStatus: 'Статус оплаты?',
+                    userId: 0,
+                }
+            ]
+            */
+
+            orders.forEach((element) => {
+                let price = 0;
+                let addressString;
+
+                element.items.forEach((itemcard) => {
+                    if (itemcard.item.lowprice > 0) {
+                        price += itemcard.item.lowprice;
+                    } else {
+                        price += itemcard.item.price;
+                    }
+                });
+                element.totalPrice = price;
+
+                const address = userStore.getContext(userStore._storeNames.address);
+                if (address) {
+                    address.forEach((key) => {
+                        if (key.id === element.address) {
+                            addressString = `${key.city}, ${key.street}, ${key.house}, ${key.flat}`;
+                        }
+                    });
+
+                    element.addressString = addressString;
+                }
+            });
+
+            orders = orders.reverse();
+
+            this._storage.set(this._storeNames.orders, orders);
         }
     }
 }

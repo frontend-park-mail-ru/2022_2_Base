@@ -5,37 +5,20 @@
         </a>
     </div>
 
-<!--    <details class="header__dropdown">-->
-<!--        <summary role="button">-->
-<!--            <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"-->
-<!--                   for="checkbox-toggle">-->
-<!--                <img src="/img/Catalog.svg" class="header__catalog-img" alt="Catalog">-->
-<!--                <span>Каталог</span>-->
-<!--            </label>-->
-<!--        </summary>-->
-<!--        <ul class="header__dropdown__content">-->
-<!--            {{#each this.categories}}-->
-<!--                <a href="{{this.href}}" class="text-normal-default header__dropdown__content__element"-->
-<!--                   id="catalog__popUp-category">{{this.nameCategory}}</a>-->
-<!--            {{/each}}-->
-<!--        </ul>-->
-<!--    </details>-->
-<!--    <div class="header__search-line disabled">-->
-<!--=======-->
-    <div class="dropdown">
-        <input type="checkbox" id="checkbox-toggle">
-        <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
-               for="checkbox-toggle">
-            <img type="image" src="/img/Catalog.svg" class="header__catalog-img" alt="Catalog">
-            <span>Каталог</span>
-        </label>
-        <ul class="dropdown-content">
+    <details class="header__dropdown">
+        <summary role="button">
+            <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default">
+                <img type="image" src="./img/Catalog.svg" class="header__catalog-img" alt="Catalog">
+                Каталог </a>
+        </summary>
+        <ul class="header__dropdown__content">
             {{#each this.categories}}
-                <a href="{{this.href}}" class="header__button-catalog_element text-normal-default"
+                <a href="{{this.href}}" class="text-normal-default header__dropdown__content__element"
                    id="catalog__popUp-category">{{this.nameCategory}}</a>
             {{/each}}
         </ul>
-    </div>
+    </details>
+
     <div class="header__search-line">
         <input type="search" class="header__form-search" name="search-line"
                placeholder="Что Вас интересует?" maxlength="75">

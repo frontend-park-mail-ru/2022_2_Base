@@ -44,6 +44,6 @@ export default class OrderItem extends BaseComponent {
      * @return {Object} значение категории из контекста отрисовки
      */
     prepareRenderData(context) {
-        return {context};
+        return {...context};
     }
 }

@@ -102,6 +102,8 @@ class Router {
         this.#titles.set(config.href.user, 'Ваши данные - Reazon');
         this.#titles.set(config.href.category, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
+        this.#titles.set(config.href.orders, 'Заказы - Reazon');
+
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

@@ -151,140 +151,75 @@ footer {
   margin-top: 10px;
 }
 
-//<<<<<<< HEAD
-/* header__dropdown styles */
-//.header__dropdown {
-//  position: relative;
-//  padding: 0;
-//  margin-right: 1em;
-//
-//  border: none;
-//}
-//
-//.header__dropdown summary {
-//  list-style: none;
-//}
-//
-//.header__dropdown > summary::-webkit-details-marker {
-//  display: none;
-//}
-//
-//.header__dropdown summary:focus {
-//  outline: none;
-//}
-//
-//.header__dropdown summary:focus a.button {
-//  border: 2px solid white;
-//}
-//
-//.header__dropdown summary:focus {
-//  outline: none;
-//}
-//
-////.header__dropdown ul {
-//.header__dropdown {
-//  position: absolute;
-//  margin-top: 13px;
-//  width: var(--header__dropdown-width);
-//  left: 50%;
-//  margin-left: -62px;
-//  box-sizing: border-box;
-//  z-index: 2;
-//  list-style: none;
-//  background-color: var(--pure_white);
-//  min-width: 116px;
-//  filter: drop-shadow(0 0 8px var(--shadow-default));
-//  border-radius: 10px;
-//}
-//
-///* Close the header__dropdown with outside clicks */
-//.header__dropdown > summary::before {
-//  display: none;
-//}
-//
-//.header__dropdown[open] > summary::before {
-//  content: ' ';
-//  display: block;
-//  position: fixed;
-//  top: 0;
-//  right: 0;
-//  left: 0;
-//  bottom: 0;
-//  z-index: 1;
-//}
-//
-//.header__dropdown__content__element {
-//  color: var(--jet-black);
-//  padding: 12px 16px;
-//  text-decoration: none;
-//  display: block;
-//  border-radius: 10px;
-//}
-//
-//.header__dropdown__content__element:hover {
-//  background-color: var(--background-grey);
-//}
-
-//=======
 .logo-reazon {
     width: 100px;
     height: 40px;
     align-self: center;
 }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
+/* header__dropdown styles */
+.header__dropdown {
+  position: relative;
+  padding: 0;
+  margin-right: 1em;
+  margin-top: 2px;
+  border: none;
 }
 
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    margin-top: 13px;
-    display: none;
-    position: absolute;
-    background-color: var(--pure_white);
-    min-width: 116px;
-    filter: drop-shadow(0 0 8px var(--shadow-default));
-    z-index: 1;
-    border-radius: 10px;
+.header__dropdown summary {
+  list-style: none;
+  list-style-type: none;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: var(--jet-black);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border-radius: 10px;
+.header__dropdown > summary::-webkit-details-marker {
+  display: none;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: var(--shadow-default);
+.header__dropdown summary:focus {
+  outline: none;
 }
 
-#checkbox-toggle {
-    display: none;
+.header__dropdown .header__dropdown__content {
+  position: absolute;
+  margin-top: 13px;
+  width: var(--header__dropdown-width);
+  left: 50%;
+  margin-left: -62px;
+  box-sizing: border-box;
+  z-index: 2;
+  list-style: none;
+  background-color: var(--pure_white);
+  min-width: 116px;
+  filter: drop-shadow(0 0 8px var(--shadow-default));
+  border-radius: 10px;
 }
 
-.dropdown-content {
-    position: absolute;
-    display: none;
-    z-index: 1;
-    margin-top: 8px;
+/* Close the header__dropdown with outside clicks */
+.header__dropdown > summary::before {
+  display: none;
 }
 
-.header__button-catalog_element {
-    color: inherit;
-    text-decoration: none;
+.header__dropdown[open] > summary::before {
+  content: ' ';
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
 }
 
-#checkbox-toggle:checked ~ .header__button-catalog {
-    background-color: var(--hover_purple);
+.header__dropdown__content__element {
+  color: var(--jet-black);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
 }
 
-#checkbox-toggle:checked ~ .dropdown-content {
-    display: block;
+.header__dropdown__content__element:hover {
+  background-color: var(--dark-grey);
 }
 
 .header_error-message {
