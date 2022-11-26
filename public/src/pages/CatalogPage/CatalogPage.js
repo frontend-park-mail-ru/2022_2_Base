@@ -1,10 +1,10 @@
-import BasePage from '../BasePage.js';
-import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
+import BasePage from '../BasePage';
+import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard';
 import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {config} from '../../config.js';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {config} from '../../config';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
@@ -230,9 +230,9 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, реагирующая на кнопки сортировки.
-     *  @param {HTMLElement} event - событие, вызвавшее клик.
+     *  @param {Event} event - событие, вызвавшее клик.
      */
-    lisitenSortCatalog(event) {
+    listenSortCatalog(event) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
             itemCardsAction.getHighRatingItemCardsByCategory(true);
@@ -288,7 +288,7 @@ export default class CatalogPage extends BasePage {
         this.removeScrollListener();
 
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+            this.catalogSort.addEventListener('click', this.listenSortCatalog);
         }
     }
 

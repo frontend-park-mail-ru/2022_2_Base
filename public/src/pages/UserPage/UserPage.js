@@ -1,11 +1,11 @@
-import BasePage from '../BasePage.js';
-import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard.js';
-import AddressCard from '../../components/InfoCard/AddressCard/AddressCard.js';
-import PopUpEditUserInfo from '../../components/popUp/PopUpEditUserInfo/PopUpEditUserInfo.js';
+import BasePage from '../BasePage';
+import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard';
+import AddressCard from '../../components/InfoCard/AddressCard/AddressCard';
+import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
-import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
-import userStore from '../../stores/UserStrore.js';
+import {profileAction, ProfileActionTypes} from '../../actions/profile';
+import userStore from '../../stores/UserStrore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 
@@ -131,7 +131,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        document.getElementById('user-photo_user-page').src =
+        document.getElementById('user-page__user-photo').src =
             userStore.getContext(userStore._storeNames.avatar);
     }
 

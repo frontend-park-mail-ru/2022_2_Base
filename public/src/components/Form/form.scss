@@ -8,7 +8,7 @@
 
 .form__name {
     margin-left: 28px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     height: 20px;
     color: var(--black-form);
 }
@@ -17,7 +17,7 @@
     border-left-width: 12px;
     border-right-width: 12px;
     border-color: rgb(0 0 0 / 0%);
-    margin-left: 17px;
+    margin-left: 16px;
     width: 344px;
     height: 40px;
     background: var(--background-white);
@@ -25,7 +25,7 @@
 }
 
 .form__input:focus {
-    outline-color: var(--hover_purple);
+    outline-color: var(--hover-purple);
 }
 
 .form__submit {
@@ -40,10 +40,10 @@
 }
 
 .form__submit:hover {
-    background: var(--hover_purple);
+    background: var(--hover-purple);
 }
 
 .login__form__error {
-    margin-left: 5px;
+    margin-left: 4px;
     margin-top: 10px;
 }

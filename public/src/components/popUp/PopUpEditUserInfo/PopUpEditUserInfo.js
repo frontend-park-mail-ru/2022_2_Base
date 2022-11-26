@@ -1,6 +1,6 @@
 import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
-import {profileAction} from '../../../actions/profile.js';
+import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
 
 /**

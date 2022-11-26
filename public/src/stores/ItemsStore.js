@@ -1,7 +1,7 @@
-import BaseStore from './BaseStore.js';
+import BaseStore from './BaseStore';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
-import {config} from '../config.js';
+import {config} from '../config';
 import cartStore from './CartStore';
 import sharedFunctions from '../modules/sharedFunctions';
 

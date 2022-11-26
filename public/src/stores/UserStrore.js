@@ -1,10 +1,10 @@
-import BaseStore from './BaseStore.js';
-import {UserActionTypes} from '../actions/user.js';
-import {ProfileActionTypes} from '../actions/profile.js';
-import request from '../modules/ajax.js';
-import {config} from '../config.js';
-import errorMessage from '../modules/ErrorMessage.js';
-import validation from '../modules/validation.js';
+import BaseStore from './BaseStore';
+import {UserActionTypes} from '../actions/user';
+import {ProfileActionTypes} from '../actions/profile';
+import request from '../modules/ajax';
+import {config} from '../config';
+import errorMessage from '../modules/ErrorMessage';
+import validation from '../modules/validation';
 import {cartAction} from '../actions/cart';
 
 /**
@@ -395,7 +395,7 @@ class UserStore extends BaseStore {
      * @param {Blob} avatar
      */
     async _uploadAvatar(avatar) {
-        const [status] = await request.makePostRequestSendAva(
+        const [status] = await request.makePostRequestSendAvatar(
             config.api.uploadAvatar, avatar ?? 'img/UserPhoto.webp')
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);

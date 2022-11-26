@@ -1,6 +1,6 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий в профиле.
@@ -34,7 +34,7 @@ export const profileAction = {
      * Действие: редактировать данные.
      * @param {object} data - отредактированное поле
      */
-    saveEditData( data) {
+    saveEditData(data) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: data,

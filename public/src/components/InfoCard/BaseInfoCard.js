@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import userStore from '../../stores/UserStrore';
 
 /**
@@ -21,7 +21,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickEdite(event) {
+    async listenClickEdit(event) {
         const cardID = event.target.id.replace('edit-img-', '');
         userStore.getContext(this.storeData).forEach((context) => {
             if (context.id === cardID) {
@@ -76,8 +76,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.delete.forEach((key) => {
                 key.addEventListener('click', this.bindListenClickDelete);
             });
-        } else {
-            console.log('element not found', this.delete, '.delete-' + this.pageName);
         }
 
         if (addCard) {
@@ -85,8 +83,6 @@ export default class BaseInfoCard extends BaseComponent {
             if (this.new) {
                 this.bindListenClickAdd = this.listenClickAdd.bind(this);
                 this.new.addEventListener('click', this.bindListenClickAdd);
-            } else {
-                console.log('element not found', this.new, `add-${this.pageName}`);
             }
         }
     }
@@ -94,12 +90,12 @@ export default class BaseInfoCard extends BaseComponent {
     /**
      * Метод, удаляющий слушатель изменения.
      */
-    strartEdit() {
+    startEdit() {
         this.edit = document.querySelectorAll(`.edit-${this.pageName}`);
         if (this.edit.length) {
-            this.bindListenClickEdite = this.listenClickEdite.bind(this);
+            this.bindListenClickEdit = this.listenClickEdit.bind(this);
             this.edit.forEach((key) => {
-                key.addEventListener('click', this.bindListenClickEdite);
+                key.addEventListener('click', this.bindListenClickEdit);
             });
         } else {
             console.log('element not found', this.edit, `.edit-${this.pageName}`);
@@ -111,7 +107,7 @@ export default class BaseInfoCard extends BaseComponent {
     removeEdit() {
         if (this.edit.length) {
             this.edit.forEach((key) => {
-                key.removeEventListener('click', this.bindListenClickEdite);
+                key.removeEventListener('click', this.bindListenClickEdit);
             });
         } else {
             console.log('element not found', this.edit);

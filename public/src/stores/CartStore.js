@@ -1,7 +1,7 @@
-import BaseStore from './BaseStore.js';
-import {CartActionTypes} from '../actions/cart.js';
-import request from '../modules/ajax.js';
-import {config} from '../config.js';
+import BaseStore from './BaseStore';
+import {CartActionTypes} from '../actions/cart';
+import request from '../modules/ajax';
+import {config} from '../config';
 import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
 import sharedFunctions from '../modules/sharedFunctions';
@@ -65,9 +65,9 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
 
-        case CartActionTypes.MAKEORDER:
+        case CartActionTypes.MAKE_ORDER:
             await this._makeOrder(payload.data);
-            this._emitChange([CartActionTypes.MAKEORDER]);
+            this._emitChange([CartActionTypes.MAKE_ORDER]);
             break;
 
         case CartActionTypes.RESET_CART:

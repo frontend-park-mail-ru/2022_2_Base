@@ -1,10 +1,10 @@
-import LoginPage from '../pages/LoginPage/LoginPage.js';
-import MainPage from '../pages/MainPage/MainPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
-import CatalogPage from '../pages/CatalogPage/CatalogPage.js';
-import ErrorPage from '../pages/ErrorPage/ErrorPage.js';
-import {config} from '../config.js';
-import CartPage from '../pages/CartPage/CartPage.js';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import MainPage from '../pages/MainPage/MainPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
+import CatalogPage from '../pages/CatalogPage/CatalogPage';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import {config} from '../config';
+import CartPage from '../pages/CartPage/CartPage';
 import UserPage from '../pages/UserPage/UserPage';
 
 /**

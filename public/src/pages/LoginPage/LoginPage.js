@@ -1,13 +1,13 @@
 import loginPageTemplate from './LoginPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './LoginPage.scss';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import userStore from '../../stores/UserStrore.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
+import {userActions, UserActionTypes} from '../../actions/user';
+import userStore from '../../stores/UserStrore';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
 

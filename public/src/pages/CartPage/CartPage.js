@@ -1,14 +1,14 @@
 import CartPageTemplate from './CartPage.hbs';
-import BasePage from '../BasePage.js';
-import CartItem from '../../components/CartItem/CartItem.js';
+import BasePage from '../BasePage';
+import CartItem from '../../components/CartItem/CartItem';
 import './CartPage.scss';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import sharedFunctions from '../../modules/sharedFunctions';
 import PopUpChooseAddressAndPaymentCard
-    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard.js';
-import cartStore from '../../stores/CartStore.js';
-import userStore from '../../stores/UserStrore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
+    from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
+import cartStore from '../../stores/CartStore';
+import userStore from '../../stores/UserStrore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {profileAction, ProfileActionTypes} from '../../actions/profile';
 import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
@@ -47,7 +47,9 @@ export default class CartOrderPage extends BasePage {
     deleteItem(id) {
         cartAction.deleteById(id);
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
-        deleteElement.remove();
+        if (deleteElement) {
+            deleteElement.remove();
+        }
         this.renderTotalCost();
     }
 
@@ -130,7 +132,7 @@ export default class CartOrderPage extends BasePage {
             document.getElementById('main').innerHTML = `
             <div class="paint-background"></div>
             <div id="content-cart"
-                <span class="text-normal-large-normal cart-main_empty">
+                <span class="text-normal-large-normal cart-main__empty">
                 Корзина пуста. Случайно не нужен&nbsp
                 <a href="${config.href.category}/phones" class="link">телефон</a>
                 ?
@@ -190,14 +192,14 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
             case 'edit-address':
-                this.#handleEditPopup(document.querySelector('.address_cart__main').id,
+                this.#handleEditPopup(document.querySelector('.address-cart__main').id,
                     {
                         address: userStore.getContext(userStore._storeNames.address),
                         isAddress: true,
                     });
                 break;
             case 'edit-payment-card':
-                this.#handleEditPopup(document.querySelector('.payment-method_cart').id,
+                this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
                     {
                         paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
                     });
@@ -225,7 +227,7 @@ export default class CartOrderPage extends BasePage {
                                 key.textContent = data;
                             });
                         }
-                        const choice = document.querySelectorAll('.payment-method_cart');
+                        const choice = document.querySelectorAll('.payment-method__cart');
                         if (choice) {
                             choice.forEach((key) => {
                                 key.id = `paymentCard/${choiceId}`;
@@ -332,7 +334,7 @@ export default class CartOrderPage extends BasePage {
      */
     renderTotalCost() {
         const data = [];
-        const itemsCart = document.getElementsByClassName('cart-item_cart');
+        const itemsCart = document.getElementsByClassName('cart-item__cart');
         if (itemsCart) {
             Array.from(itemsCart).forEach((child) => {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
@@ -442,7 +444,7 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseInt(document.querySelector('.payment-method_cart')
+                orderData.card = parseInt(document.querySelector('.payment-method__cart')
                     .id.split('/', 2)[1]);
                 orderData.card = orderData.card ? orderData.card : null;
                 cartAction.makeOrder(orderData);

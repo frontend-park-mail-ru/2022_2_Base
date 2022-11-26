@@ -1,19 +1,15 @@
 import registerPageTemplate from './RegisterPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './RegisterPage.scss';
-import userStore from '../../stores/UserStrore.js';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
+import userStore from '../../stores/UserStrore';
+import {userActions, UserActionTypes} from '../../actions/user';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
-
-const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
-const ERROR_401_MESSAGE = 'Неверная почта или пароль';
-const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -115,7 +111,6 @@ export default class RegisterPage extends BasePage {
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
     render() {
         this.context = userStore.getContext(userStore._storeNames.context);

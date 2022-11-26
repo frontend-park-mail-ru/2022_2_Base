@@ -1,4 +1,4 @@
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import catalogItemCardTemplate from './CatalogItemCard.hbs';
 import './CatalogItemCard.scss';
 
