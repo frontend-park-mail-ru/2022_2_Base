@@ -1,6 +1,6 @@
 'use strict';
 
-import Dispatcher from '../modules/dispatcher.js';
+import Dispatcher from '../modules/dispatcher';
 
 /**
  * Константа, содержащая в себе типы действий с лайками.
@@ -14,7 +14,7 @@ export const LikesActionTypes = {
 /**
  * Класс, содержащий в себе действия с лайками.
  */
-export const LikesAction = {
+export const likesAction = {
     /**
      * Действие: лайкнуть карточку.
      * @param {number} id

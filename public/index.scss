@@ -1,23 +1,25 @@
 :root {
-    --text_white: #EEEEEE;
-    --background-red: #C54A4C;
+    --text-white: #eee;
+    --background-red: #c54a4c;
     --font-main: "IBM Plex Sans", sans-serif;
-    --hover_purple: #3F47D0;
-    --pure_white: #FFFFFF;
-    --background-white: #F8F8F8;
-    --purple_disabled: #6369D1;
-    --default_purple: #6369D1;
-    --jet-black: #333333;
-    --secondary-purple: #999AAD;
-    --shadow-default: #D6D6D6;
-    --pink-accent: #D14372;
+    --hover-purple: #3f47d0;
+    --pure-white: #fff;
+    --background-white: #f8f8f8;
+    --purple-disabled: #6369d1;
+    --default-purple: #6369d1;
+    --jet-black: #333;
+    --secondary-purple: #999aad;
+    --shadow-default: #d6d6d6;
+    --pink-accent: #d14372;
+    --gray-for-text: #989898;
     --apple-shadow: drop-shadow(0 0 20px var(--shadow-default));
-    --90_white: rgba(255, 255, 255, 0.9);
-    --green-shinny: #68B684;
-    --green-correct: #32A416;
-    --shadow-dim: #000000FF;
+    --90-white: rgb(255 255 255 / 90%);
+    --green-shinny: #68b684;
+    --green-correct: #32a416;
+    --shadow-dim: #000f;
+    --dark-grey: #dde1e4;
     --apple-dim-shadow: drop-shadow(0 4px 20px var(--shadow-dim));
-    --border-color: 0.5px solid rgba(111, 111, 111, 0.24);
+    --border-color: .5px solid rgb(111 111 111 / 24%);
     --black-form: #171717;
 }
 
@@ -28,10 +30,8 @@
 
 .input-field-error {
     position: absolute;
-    color: var(--text_white);
+    color: var(--text-white);
     background-color: var(--background-red);
-    margin-left: 5px;
-    margin-top: 10px;
     display: inline;
     border-radius: 4px;
     padding: 5px;
@@ -40,26 +40,21 @@
 }
 
 .input-field-error__text {
-    @extend .text-normal-small;
+    @extend %text-normal-small;
     display: inline-block;
-    font-family: var(--font-main);
 }
 
 .server-error {
-    color: var(--text_white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
     background-color: var(--background-red);
-    margin-left: 5px;
-    margin-top: 10px;
     border-radius: 4px;
-    padding: 5px;
-    text-align: center;
-    vertical-align: middle;
 }
 
 .server-error__text {
-    display: inline-block;
     font-family: var(--font-main);
-    font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 25px;
@@ -70,26 +65,48 @@
 }
 
 .paint-purple {
-    background-color: var(--default_purple);
+    background-color: var(--default-purple);
+}
+
+%button-default {
+    @extend %text-normal-default;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    cursor: pointer;
 }
 
 .button-default {
-    border-radius: 10px;
-    border: none;
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
+    @extend %button-default;
+}
+
+.button-default-no-box {
+    @extend %button-default;
+    border-radius: 0;
+    background-color: inherit;
+}
+
+.button-notext {
+    @extend %button-default;
+    padding: 0 8px;
+    color: inherit;
+    background-color: inherit;
+    font-size: 20px;
 }
 
 .link {
     text-decoration: none;
-    color: var(--default_purple);
+    color: var(--default-purple);
 }
 
 .link:hover {
-    color: var(--hover_purple);
+    color: var(--hover-purple);
+}
+
+.link__no-color {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .page {
@@ -109,107 +126,145 @@ main {
     pointer-events: none;
     cursor: default;
     color: var(--jet-black);
-    opacity: 0.4;
+    opacity: .4;
 }
 
 /* fonts */
 
-.text-normal-huge {
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 52px;
-    color: var(--jet-black);
-}
-
-.text-normal-default {
+%text-normal-default {
     font-family: var(--font-main);
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
 }
 
-.text-normal-small {
-    font-family: var(--font-main);
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: -0.05em;
+.text-normal-default {
+    @extend %text-normal-default;
 }
 
-.text-normal-default-bold {
-    @extend .text-normal-default;
+.text-normal-huge {
+    @extend %text-normal-default;
+    font-size: 40px;
+    line-height: 52px;
+    color: var(--jet-black);
+}
+
+.text-normal-default__strikethrough {
+    @extend %text-normal-default;
+    text-decoration-line: line-through;
+    color: var(--secondary-purple);
+}
+
+%text-normal-small {
+    @extend %text-normal-default;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -.05em;
+}
+
+.text-normal-small {
+    @extend %text-normal-small;
+}
+
+.text-normal-default__bold {
+    @extend %text-normal-default;
     font-weight: 600;
 }
 
-.text-normal-large {
-    font-family: var(--font-main);
+%text-normal-large {
+    @extend %text-normal-default;
     font-weight: 600;
     font-size: 20px;
     line-height: 26px;
 }
 
+.text-normal-large {
+    @extend %text-normal-large;
+}
+
+.text-normal-large__strikethrough {
+    @extend %text-normal-large;
+    text-decoration-line: line-through;
+    font-weight: 500;
+    color: var(--secondary-purple);
+}
+
+%text-normal-very-large__bold {
+    @extend %text-normal-large;
+    font-size: 32px;
+    line-height: 42px;
+}
+
+.text-normal-very-large__bold {
+    @extend %text-normal-very-large__bold;
+}
+
+.text-normal-very-large {
+    @extend %text-normal-very-large__bold;
+    font-weight: 500;
+}
+
 .text-normal-large-normal {
-    @extend.text-normal-large;
+    @extend %text-normal-large;
     font-weight: 500;
 }
 
 /* cyrillic-ext */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdzeFb5N.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdzeFb5N.woff2) format("woff2");
     unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
     font-display: swap;
 }
 
 /* cyrillic */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdXeFb5N.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdXeFb5N.woff2) format("woff2");
     unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
     font-display: swap;
 }
 
 /* greek */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdLeFb5N.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdLeFb5N.woff2) format("woff2");
     unicode-range: U+0370-03FF;
     font-display: swap;
 }
 
 /* vietnamese */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhd7eFb5N.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhd7eFb5N.woff2) format("woff2");
     unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
     font-display: swap;
 }
 
 /* latin-ext */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhd_eFb5N.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhd_eFb5N.woff2) format("woff2");
     unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
     font-display: swap;
 }
 
 /* latin */
 @font-face {
-    font-family: 'IBM Plex Sans';
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 500;
-    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdHeFQ.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdHeFQ.woff2) format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     font-display: swap;
 }

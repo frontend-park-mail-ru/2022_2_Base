@@ -1,35 +1,57 @@
-<a href="" class="item-card__top disabled">
+<div class="item-card__top">
     <div class="text-normal-small content__sales-image">
-        <img src={{imgsrc}} class="item-card__image" alt="iPhone 13">
-        {{#if salePrice}}
+        <img src={{imgsrc}} class="item-card__image" data-selection="itemcard_item-pic/{{this.id}}" alt="{{this.name}} photo">
+        {{#if this.price}}
             <div class="content__sales-value">
-               -{{discount}}%
+                -{{this.discount}}%
             </div>
         {{/if}}
     </div>
-</a>
+</div>
 
- <div class="item-card__textbox">
+<div class="item-card__textbox">
+    <div class="item-card__price">
                 <span class="text-normal-large">
-                    {{price}}₽
+                    {{this.lowprice}} ₽
                 </span>
-        {{#if salePrice}}
-            <span class="text-normal-default item-card__text-strikethrough">
-                    {{salePrice}}₽
+        {{#if this.price}}
+            <span class="text-normal-default__strikethrough item-card__text-strikethrough">
+                    {{this.price}} ₽
                 </span>
         {{/if}}
-        <span class="text-normal-default item-card__title">
-            {{cardTitle}}
-        </span>
     </div>
+    <span class="text-normal-default item-card__title" data-selection="itemcard_item-title/{{this.id}}">
+        {{this.name}}
+    </span>
+</div>
 
 <div class="item-card__bottom">
-    <button type="button" class="button-default button_add-to-card paint-purple-disabled" >В корзину
-    </button>
-    <button type="button" class="item-card__rating" disabled>
-        <img src="img/Star.svg" alt="S" class="rating-icon">
-        <span class="text-normal-default-bold">
-            {{rating}}
+    <div class="item-card__block__button-add-to-cart">
+        <div class="item-card__button-add-to-card button-default button__add-to-card paint-purple"
+             data-selection="itemcard_button-add-to-cart/{{this.id}}"  {{#if this.count}} style="display: none;" {{/if}}>
+            В корзину
+        </div>
+        <div class="catalog__amount-selector" data-selection="itemcard_amount-selector/{{this.id}}"
+             data-count="{{this.count}}"
+            {{#if this.count}} style="display: grid;" {{/if}}>
+            <button class="button-notext">
+                <span class="link__no-color text-normal-large" data-selection="itemcard_button-minus_cart/{{this.id}}">−</span>
+            </button>
+            <div class="catalog__amount-selector__amount">
+            <span class="text-normal-large" data-selection="itemcard_item-count/{{this.id}}">
+                {{this.count}}
+            </span>
+            </div>
+            <button class="button-notext">
+                <span class="link__no-color text-normal-large" data-selection="itemcard_button-plus_cart/{{this.id}}">+</span>
+            </button>
+        </div>
+    </div>
+
+    <button type="button" class="item-card__rating">
+        <img src="/img/Star.svg" alt="S" class="rating star icon">
+        <span class="text-normal-default__bold">
+            {{this.rating}}
         </span>
     </button>
 </div>

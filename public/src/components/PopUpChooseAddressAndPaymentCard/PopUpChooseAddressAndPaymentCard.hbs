@@ -1,0 +1,41 @@
+<form method="post" class="cart-popup-form" novalidate>
+    <div class="cart-popup-form__header">
+        <span class="text-normal-large">
+            Мои
+            {{#if isAddress}} адреса {{else}} карты  {{/if}}
+        </span>
+        <button class="button-default-no-box" id="popup-item-create">
+            <a href="/user" class="items-cart__upper-button link">Добавить</a>
+        </button>
+    </div>
+    <div class="cart-popup-form__fields">
+        {{#if isAddress}}
+            {{#each address}}
+                <label for="address/{{this.id}}">
+                    <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}}
+                           id="address/{{this.id}}" {{/if}}value="{{#if this.city}}{{this.city}}{{/if}}, {{#if
+                            this.street}}{{this.street}}{{/if}}, д. {{#if this.house}}{{this.house}}{{/if}}, кв. {{#if
+                            this.flat}}{{this.flat}}{{/if}}" readonly="">
+                </label>
+            {{/each}}
+        {{else}}
+            {{#each paymentCard}}
+                <label for="paymentCard/{{this.id}}">
+                    <input type="text" maxlength="30" class="cart-popup-form__input text-normal-default" {{#if this.id}}
+                           id="paymentCard/{{this.id}}" {{/if}}value="{{#if this.number}}{{this.number}}{{/if}}    {{#if
+                            this.expiry}} {{this.expiry}} {{/if}}" readonly="">
+                </label>
+            {{/each}}
+            <input type="text" class="cart-popup-form__input text-normal-default" id="payment-upon-receipt"
+                   value="Картой или наличными при получении" readonly="">
+        {{/if}}
+    </div>
+    <div class="cart-popup-form__buttons">
+        <button class="button-default cart-popup-form__button cart-popup-form__cancel" id="cart-popup-form__cancel">
+            Отменить
+        </button>
+        <button class="button-default cart-popup-form__button cart-popup-form__apply" id="cart-popup-form__apply">
+            Применить
+        </button>
+    </div>
+</form>

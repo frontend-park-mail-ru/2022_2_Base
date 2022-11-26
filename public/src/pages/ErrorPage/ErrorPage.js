@@ -1,5 +1,6 @@
 import errorPageTemplate from './errorPage.hbs';
-import BasePage from '../BasePage.js';
+import BasePage from '../BasePage';
+import './ErrorPage.scss';
 
 /**
  * Класс, реализующий страницу входа.
@@ -19,7 +20,7 @@ export default class ErrorPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
-        super.render(this.context);
+    render() {
+        super.render();
     }
 }
