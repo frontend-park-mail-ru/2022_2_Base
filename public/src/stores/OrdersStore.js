@@ -91,7 +91,7 @@ class OrdersStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
-            let orders = response;
+            let orders = response.body;
 
             // тестовые данные
             /*
