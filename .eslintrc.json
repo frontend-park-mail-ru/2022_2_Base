@@ -19,7 +19,7 @@
     "linebreak-style": "off",
     "no-var": "error",
     "no-redeclare": "error",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "error",
     "max-len": ["error", { "code": 105 }],
     "no-irregular-whitespace": "off"
   }

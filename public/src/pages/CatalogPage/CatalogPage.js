@@ -1,14 +1,15 @@
-import BasePage from '../BasePage.js';
-import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
+import BasePage from '../BasePage';
+import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard';
 import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {config} from '../../config.js';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {config} from '../../config';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
 import errorMessage from '../../modules/ErrorMessage';
+import {parseIntInPrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -24,15 +25,8 @@ export default class CatalogPage extends BasePage {
         super(parent, CatalogPageTemplate);
 
         this.#category = new Map();
-        // const categories = itemsStore.getContext(itemsStore._storeNames.topCategory);
         this.#category.set(config.href.category + '/phones', 'Телефоны');
-        this.#category.set(config.href.category + '/monitors', 'Телефоны');
-        this.#category.set(config.href.category + '/computers', 'Компьютеры');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
-        this.#category.set(config.href.category + '/tvs', 'Телевизоры');
-        this.#category.set(config.href.category + '/watches', 'Часы');
-        this.#category.set(config.href.category + '/tablets', 'Планшеты');
-        this.#category.set(config.href.category + '/accessories', 'Аксессуары');
     }
 
     /**
@@ -72,7 +66,6 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            // itemCardsAction.getItemCardsByCategory(true);
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -84,8 +77,10 @@ export default class CatalogPage extends BasePage {
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
+            console.log(document.getElementById('items-block'));
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+            console.log(Card, data);
             if (data.length) {
                 Card.render(data);
             } else if (
@@ -105,10 +100,7 @@ export default class CatalogPage extends BasePage {
      * Функция, подгружающая и отрисовывающая карточки дешевых товаров
      */
     loadSortedItemCards() {
-        // console.log(window.location.pathname +
-        //     itemsStore.getContext(itemsStore._storeNames.sortURL));
-        router.addToHistory(window.location.pathname +
-            itemsStore.getContext(itemsStore._storeNames.sortURL));
+        router.addToHistory(itemsStore.getContext(itemsStore._storeNames.sortURL));
         this.itemsBlock.innerHTML = '';
         itemCardsAction.getItemCardsByCategory(true);
         this.removeScrollListener();
@@ -144,7 +136,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+            const count = parseIntInPrice(itemAmount.textContent);
             itemAmount.textContent = (count + 1).toString();
         }
     }
@@ -156,8 +148,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
-
+            const count = parseIntInPrice(itemAmount.textContent);
             if (count === 1) {
                 const amountSelector = document.getElementById(
                     `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
@@ -225,6 +216,8 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
+     * Когда скролл достигает 0.8 части страницы мы вызываем экшен на загрузку новых товаров.
+     * setTimeout для того, чтобы экшен вызывался не миллион раз в секунду, а лишь один раз в 300 мс
      */
     bottomOfPageHandlerPrototype() {
         if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {
@@ -240,17 +233,15 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, реагирующая на кнопки сортировки.
-     *  @param {HTMLElement} event - событие, вызвавшее клик.
+     *  @param {Event} event - событие, вызвавшее клик.
      */
-    lisitenSortCatalog(event) {
+    listenSortCatalog(event) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
-            itemCardsAction.getHighRatingItemCardsByCategory(
-                window.location.search.includes(config.queryParams.sort.ratingDown));
+            itemCardsAction.getHighRatingItemCardsByCategory(true);
             break;
         case 'catalog_sort-price':
-            itemCardsAction.getCheapItemCardsByCategory(
-                window.location.search.includes(config.queryParams.sort.priceDown));
+            itemCardsAction.getCheapItemCardsByCategory(true);
             break;
         }
     }
@@ -300,10 +291,9 @@ export default class CatalogPage extends BasePage {
         this.removeScrollListener();
 
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+            this.catalogSort.addEventListener('click', this.listenSortCatalog);
         }
     }
-
 
     /**
      * Метод, отрисовывающий страницу.

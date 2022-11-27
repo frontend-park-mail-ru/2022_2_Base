@@ -1,5 +1,5 @@
 import errorPageTemplate from './errorPage.hbs';
-import BasePage from '../BasePage.js';
+import BasePage from '../BasePage';
 import './ErrorPage.scss';
 
 /**

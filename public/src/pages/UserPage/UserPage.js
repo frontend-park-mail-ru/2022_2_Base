@@ -1,11 +1,11 @@
-import BasePage from '../BasePage.js';
-import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard.js';
-import AddressCard from '../../components/InfoCard/AddressCard/AddressCard.js';
-import PopUpEditUserInfo from '../../components/PopUpEditUserInfo/PopUpEditUserInfo.js';
+import BasePage from '../BasePage';
+import PaymentCard from '../../components/InfoCard/PaymentCard/PaymentCard';
+import AddressCard from '../../components/InfoCard/AddressCard/AddressCard';
+import PopUpEditUserInfo from '../../components/popUp/PopUpEditUserInfo/PopUpEditUserInfo';
 import UserPageTemplate from './UserPage.hbs';
 import './UserPage.scss';
-import {profileAction, ProfileActionTypes} from '../../actions/profile.js';
-import userStore from '../../stores/UserStrore.js';
+import {profileAction, ProfileActionTypes} from '../../actions/profile';
+import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 
@@ -59,13 +59,9 @@ export default class UserPage extends BasePage {
     templateFunction(toDo) {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            toDo();
-            break;
-        case config.states.invalidUserData:
-            break;
-        case config.states.invalidData:
-            errorMessage.getAbsoluteErrorMessage(
-                userStore.getContext(userStore._storeNames.errorMessage));
+            if (typeof toDo === 'function') {
+                toDo();
+            }
             break;
         default:
             errorMessage.getAbsoluteErrorMessage();
@@ -129,7 +125,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        document.getElementById('user-photo_user-page').src =
+        document.getElementById('user-page__user-photo').src =
             userStore.getContext(userStore._storeNames.avatar);
     }
 
@@ -304,8 +300,6 @@ export default class UserPage extends BasePage {
                 paymentCard.addEventListener('mouseenter', this.listenMouseOverPaymentCard);
                 paymentCard.addEventListener('mouseleave', this.listenMouseOutPaymentCard);
             });
-        } else {
-            console.log('element not found', this.paymentCard);
         }
     }
 
@@ -319,8 +313,6 @@ export default class UserPage extends BasePage {
                 addressCard.addEventListener('mouseenter', this.listenMouseOverAddressCard);
                 addressCard.addEventListener('mouseleave', this.listenMouseOutAddressCard);
             });
-        } else {
-            console.log('element not found', this.addressCard);
         }
     }
 
@@ -360,16 +352,12 @@ export default class UserPage extends BasePage {
         this.avatar = document.getElementById('change-user-photo_user-page');
         if (this.avatar) {
             this.avatar.addEventListener('click', this.listenClickAvatar);
-        } else {
-            console.log('element not found', this.avatar);
         }
 
         this.profile = document.getElementById('user-photo-block');
         if (this.profile) {
             this.profile.addEventListener('mouseenter', this.listenMouseOverProfile);
             this.profile.addEventListener('mouseleave', this.listenMouseOutProfile);
-        } else {
-            console.log('element not found', this.profile);
         }
 
         this.userInfo = document.querySelectorAll('.edit-profile-data');
@@ -379,8 +367,6 @@ export default class UserPage extends BasePage {
                 this.userInfoArr.push(this.listenClickUserInfo.bind(this, key.parentNode));
                 key.addEventListener('click', this.userInfoArr[index]);
             });
-        } else {
-            console.log('element not found', this.userInfo);
         }
     }
 

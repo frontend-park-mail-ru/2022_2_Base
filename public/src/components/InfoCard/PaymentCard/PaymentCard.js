@@ -1,7 +1,7 @@
-import PopUpAddPaymentCard from '../../PopUpAddPaymentCard/PopUpAddPaymentCard.js';
+import PopUpAddPaymentCard from '../../popUp/PopUpAddPaymentCard/PopUpAddPaymentCard';
 import PaymentCardTemplate from './paymentCard.hbs';
 import './PaymentCard.scss';
-import userStore from '../../../stores/UserStrore';
+import userStore from '../../../stores/UserStore';
 import BaseInfoCard from '../BaseInfoCard';
 import {profileAction} from '../../../actions/profile';
 
@@ -32,8 +32,7 @@ export default class PaymentCard extends BaseInfoCard {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickDelete(event) {
-        console.log('pay');
+    listenClickDelete(event) {
         profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
     }
 }

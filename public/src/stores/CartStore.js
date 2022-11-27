@@ -1,62 +1,15 @@
-import BaseStore from './BaseStore.js';
-import {CartActionTypes} from '../actions/cart.js';
-import request from '../modules/ajax.js';
-import {config} from '../config.js';
-import userStore from './UserStrore';
+import BaseStore from './BaseStore';
+import {CartActionTypes} from '../actions/cart';
+import request from '../modules/ajax';
+import {config} from '../config';
+import userStore from './UserStore';
 import itemsStore from './ItemsStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
  */
 class CartStore extends BaseStore {
-    #items = [
-        {
-            count: 1,
-            name: `Apple iPhone 13 64 ГБ \\
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.webp',
-            category: '',
-            price: 100000,
-            lowprice: null,
-            id: 1,
-            rating: 5,
-        },
-        {
-            count: 2,
-            name: `Apple iPhone 13 64 ГБ \\r
-            gladwehaveanunderstanding, fuck out the way
-yeah, all your shit lame, I feel no pain, we" "\\eof`,
-            imgsrc: './img/Smartphone.webp',
-            category: '',
-            price: 100000,
-            lowprice: 80000,
-            id: 12,
-            rating: 10,
-        },
-    ];
-
-    #data = {
-        addressID: 1111,
-        city: 'Москва',
-        street: 'Мира',
-        house: 15,
-        flat: 4,
-        deliveryPrice: 'Бесплатно',
-        date: new Date('2022-11-25'),
-        // paymentMethodProvider: mirIcon,
-        avatar: './img/Smartphone.webp',
-        username: 'Джахар',
-        phone: '+7 (872) 234-23-65',
-        deliveryDate: this.#getDate(1),
-        deliveryTime: '18:00 - 23:00',
-        cardNumber: '8765432143212546',
-        expiry: '05 / 24',
-        paymentCardId: 1,
-        auth: true,
-    };
-
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -72,7 +25,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         super();
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.itemsCart, []); // this.#items
+        this._storage.set(this._storeNames.itemsCart, []);
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
@@ -96,31 +49,25 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             await this._deleteAll(payload.data);
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
-
         case CartActionTypes.INCREASE_NUMBER:
             await this._increaseNumber(payload.data);
             this._emitChange([CartActionTypes.INCREASE_NUMBER]);
             break;
-
         case CartActionTypes.ADD_TO_CART:
             await this._addToCart(payload.data);
             this._emitChange([CartActionTypes.ADD_TO_CART]);
             break;
-
         case CartActionTypes.DECREASE_NUMBER:
             await this._decreaseNumber(payload.data);
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
-
-        case CartActionTypes.MAKEORDER:
+        case CartActionTypes.MAKE_ORDER:
             await this._makeOrder(payload.data);
-            this._emitChange([CartActionTypes.MAKEORDER]);
+            this._emitChange([CartActionTypes.MAKE_ORDER]);
             break;
-
         case CartActionTypes.RESET_CART:
             await this._resetCart();
             break;
-
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
             this._emitChange([CartActionTypes.MERGE_CART]);
@@ -145,7 +92,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response?.items?.forEach((globalItem) => {
+        response.items.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
                 if (globalItem.id === localItem.id) {
@@ -177,11 +124,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _getCart() {
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
-        console.log('itemsCart', this._storage.get(this._storeNames.itemsCart));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            sharedFunctions.addSpacesToPrice(response.items);
+            addSpacesToPrice(response.items);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
@@ -200,7 +146,10 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
+
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
+        }
     }
 
     /**
@@ -212,14 +161,17 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        this._storage.set(this._storeNames.itemsCart, []);
+
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.itemsCart, []);
+        }
     }
 
     /**
      * Действие: добавить товар в корзину.
-     * @param {int} status
-     * @param {int} countChange
-     * @param {int} id
+     * @param {number} status
+     * @param {number} countChange
+     * @param {number} id
      */
     #editCountOfItem(status, countChange, id) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
@@ -232,7 +184,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
@@ -291,29 +243,11 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            const itemsCart = this._storage.get(this._storeNames.itemsCart);
-            data.items.forEach((id) => {
-                itemsCart.forEach((item, key) => {
-                    if (item.id === id) {
-                        delete itemsCart[key];
-                    }
-                });
-            });
-            this._storage.set(this._storeNames.itemsCart, itemsCart);
+            this._storage.set(this._storeNames.itemsCart, data.items.reduce(
+                (newItemsCart, id) =>
+                    newItemsCart.filter((item) => item.id !== id),
+                this._storage.get(this._storeNames.itemsCart)));
         }
-    }
-
-    /**
-     * Функция, возвращающая завтрашнюю дату.
-     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
-     * @return {object} завтрашняя дата
-     */
-    #getDate(firstDayIn) {
-        const getDate = (next) => {
-            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-        };
-        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 

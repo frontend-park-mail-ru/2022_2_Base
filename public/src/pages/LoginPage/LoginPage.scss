@@ -1,4 +1,4 @@
-.content_login {
+.content__login {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-left: auto;
@@ -7,7 +7,7 @@
     min-width: 1400px;
 }
 
-.left_login {
+.left__login {
     display: grid;
     justify-items: center;
     align-items: center;
@@ -18,7 +18,7 @@
     grid-row-gap: 16px;
 }
 
-.page-name_login {
+.page-name__login {
     width: 250px;
     height: 52px;
     text-align: center;
@@ -30,7 +30,7 @@
     margin-top: 14px;
     display: grid;
     grid-template-rows: repeat(4, 63px);
-    background-color: var(--pure_white);
+    background-color: var(--pure-white);
     height: 280px;
     width: 400px;
     border-radius: 15px;
@@ -41,7 +41,7 @@
     text-align: center;
 }
 
-.login-right-img {
+.login__right-img {
     display: block;
     width: 480px;
     height: 540px;

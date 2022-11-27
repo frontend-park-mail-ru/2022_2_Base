@@ -21,7 +21,7 @@ class Dispatcher {
 
     /**
      * Метод, удаляющий регистрацию коллбека.
-     * @param {int} id
+     * @param {number} id
      */
     unregister(id) {
         if (this._callbacks.has(id)) {

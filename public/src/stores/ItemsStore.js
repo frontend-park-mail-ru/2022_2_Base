@@ -1,9 +1,9 @@
-import BaseStore from './BaseStore.js';
+import BaseStore from './BaseStore';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
-import {config} from '../config.js';
+import {config} from '../config';
 import cartStore from './CartStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -23,17 +23,29 @@ class ItemsStore extends BaseStore {
         Monitors: {
             nameCategory: 'Мониторы',
             img: './img/Monitors.webp',
+<<<<<<< HEAD
             href: config.href.category + '/monitors',
+=======
+            href: '/category/monitors',
+>>>>>>> main
         },
         TV: {
             nameCategory: 'Телевизоры',
             img: './img/TV.webp',
+<<<<<<< HEAD
             href: config.href.category + '/tvs',
+=======
+            href: '/category/televisors',
+>>>>>>> main
         },
         Watch: {
             nameCategory: 'Часы',
             img: './img/Watch.webp',
+<<<<<<< HEAD
             href: config.href.category + '/watches',
+=======
+            href: '/category/watches',
+>>>>>>> main
         },
         Tablet: {
             nameCategory: 'Планшеты',
@@ -43,7 +55,11 @@ class ItemsStore extends BaseStore {
         Accessories: {
             nameCategory: 'Аксессуары',
             img: './img/Accessories.webp',
+<<<<<<< HEAD
             href: config.href.category + '/accessories',
+=======
+            href: '/category/accessories',
+>>>>>>> main
         },
     };
 
@@ -58,8 +74,13 @@ class ItemsStore extends BaseStore {
     };
 
     /**
+<<<<<<< HEAD
    * @constructor
    */
+=======
+     * @constructor
+     */
+>>>>>>> main
     constructor() {
         super();
         this._storage = new Map();
@@ -73,9 +94,15 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+<<<<<<< HEAD
    * Метод, реализующий реакцию на рассылку Диспетчера.
    * @param {Object} payload полезная нагрузка запроса
    */
+=======
+     * Метод, реализующий реакцию на рассылку Диспетчера.
+     * @param {Object} payload полезная нагрузка запроса
+     */
+>>>>>>> main
     async _onDispatch(payload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
@@ -98,6 +125,7 @@ class ItemsStore extends BaseStore {
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
 
+<<<<<<< HEAD
         case ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getPopularItemCard(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
@@ -105,13 +133,21 @@ class ItemsStore extends BaseStore {
 
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getByPriceItemCard(payload.data);
+=======
+        case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
+            await this._getCheapItemCard(payload.data);
+>>>>>>> main
             this._emitChange([
                 ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
             break;
 
         case ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY:
+<<<<<<< HEAD
             await this._getByRatingItemCard(payload.data);
+=======
+            await this._getHighRatingItemCard(payload.data);
+>>>>>>> main
             this._emitChange([
                 ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             ]);
@@ -120,8 +156,13 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+<<<<<<< HEAD
    * Действие: запрос списка карточек.
    */
+=======
+     * Действие: запрос списка карточек.
+     */
+>>>>>>> main
     async _getItemCardsHome({path, popularCard}) {
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
@@ -130,7 +171,11 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
+<<<<<<< HEAD
             sharedFunctions.addSpacesToPrice(response.body);
+=======
+            addSpacesToPrice(response.body);
+>>>>>>> main
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
@@ -145,6 +190,7 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+<<<<<<< HEAD
    * Действие: запрос списка популярных карточек.
    * @param {boolean} isFirstRequest - получали ли мы до этого карточки
    */
@@ -177,6 +223,29 @@ class ItemsStore extends BaseStore {
    * Синхранизируем количество товаров в корзине
    * @param {object} items - полученные товары
    */
+=======
+     * Действие: запрос списка дешевых карточек.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
+    _getCheapItemCard(isFirstRequest) {
+        this._storage.set(this._storeNames.sortURL,
+            config.queryParams.sort.base + config.queryParams.sort.price);
+    }
+
+    /**
+     * Действие: запрос списка карточек с высоким рейтингом.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
+    _getHighRatingItemCard(isFirstRequest) {
+        this._storage.set(this._storeNames.sortURL,
+            config.queryParams.sort.base + config.queryParams.sort.rating);
+    }
+
+    /**
+     * Синхранизируем количество товаров в корзине
+     * @param {object} items - полученные товары
+     */
+>>>>>>> main
     #syncWithCart(items) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (items && cartItems && items.length && cartItems.length) {
@@ -191,9 +260,29 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+<<<<<<< HEAD
    * Действие: запрос списка карточек по категориям.
    * @param {boolean} isFirstRequest - получали ли мы до этого карточки
    */
+=======
+     * Действие: запрос списка карточек по категориям.
+     * @return {string} путь запроса к серверу
+     */
+    #getRequestPathWithQueryParams() {
+        return config.api.category +
+            document.location.pathname.slice(
+                document.location.pathname.lastIndexOf('/'),
+                document.location.pathname.length,
+            ) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}`+
+            `&count=${5}&${window.location.search.substring(1)}`;
+    }
+
+    /**
+     * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
+>>>>>>> main
     async _getItemCardsByCategory(isFirstRequest) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
@@ -201,6 +290,7 @@ class ItemsStore extends BaseStore {
         }
 
         const [status, response] = await request
+<<<<<<< HEAD
             .makeGetRequest(
                 config.api.category +
           document.location.pathname.slice(
@@ -211,12 +301,19 @@ class ItemsStore extends BaseStore {
               this._storeNames.cardLoadCount,
           )}&count=${5}&${window.location.search.substring(1)}`,
             )
+=======
+            .makeGetRequest(this.#getRequestPathWithQueryParams())
+>>>>>>> main
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
+<<<<<<< HEAD
             sharedFunctions.addSpacesToPrice(response.body);
+=======
+            addSpacesToPrice(response.body);
+>>>>>>> main
             this._storage.set(this._storeNames.cardsCategory, response.body);
             this._storage.set(
                 this._storeNames.allCardsInCategory,
@@ -237,6 +334,7 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+<<<<<<< HEAD
    * Действие: запрос списка карточек на основании ввода пользователя.
    * @param {String} searchString - строка для поиска
    */
@@ -247,6 +345,20 @@ class ItemsStore extends BaseStore {
    * @param {number} id
    */
     async _getItemCard(id) {}
+=======
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     */
+    async _searchItemCards(searchString) {
+    }
+
+    /**
+     * Действие: запрос карточки с определенным id.
+     * @param {number} id
+     */
+    async _getItemCard(id) {
+    }
+>>>>>>> main
 }
 
 export default new ItemsStore();

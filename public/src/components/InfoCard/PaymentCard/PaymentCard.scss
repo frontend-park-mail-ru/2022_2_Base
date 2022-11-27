@@ -18,19 +18,24 @@
 .primary-payment-card {
     height: 120px;
     width: 200px;
-    background-color: var(--default_purple);
+    background-color: var(--default-purple);
 
-    --text-color: var(--pure_white);
+    --text-color: var(--pure-white);
 }
 
-.other-payment-card {
+%other-payment-card {
     border: 1px solid var(--jet-black);
 
     --text-color: var(--jet-black);
 }
 
+.other-payment-card {
+    @extend %other-payment-card;
+}
+
 .add-payment-card {
-    @extend .other-payment-card;
+    @extend %other-payment-card;
+    grid-template-rows: 32px 48px 40px;
 }
 
 .change-payment-card {
@@ -38,9 +43,6 @@
     margin-left: 78px;
     width: 40px;
     align-items: center;
-
-    //grid-template-columns: 1fr;
-    //display:grid;
 }
 
 .payment-card-title {
@@ -53,14 +55,18 @@
     color: var(--text-color);
 }
 
-.payment-card-number {
+%payment-card-number {
     margin-left: 16px;
     align-self: center;
     color: var(--text-color);
 }
 
+.payment-card-number {
+    @extend %payment-card-number;
+}
+
 .card-date-type_payment-card {
-    @extend .payment-card-number;
+    @extend %payment-card-number;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -71,7 +77,7 @@
     color: var(--text-color);
 }
 
-.expiry-date_payment-card {
+.expiry-date__payment-card {
     align-self: center;
 }
 
@@ -81,10 +87,9 @@
     height: 32px;
     align-self: center;
     justify-self: center;
-    margin-top: -4px;
 }
 
-.text-add-card_payment-card {
+.text-add-card__payment-card {
     color: var(--jet-black);
     justify-self: center;
     margin-left: 44px;

@@ -1,12 +1,11 @@
-import HeaderComponent from '../components/Header/Header.js';
-import FooterComponent from '../components/Footer/Footer.js';
-import router from './Router.js';
-import {config} from '../config.js';
-import UserPage from '../pages/UserPage/UserPage.js';
-import userStore from '../stores/UserStrore.js';
-import LoginPage from '../pages/LoginPage/LoginPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
-import OrdersPage from '../pages/OrdersPage/OrdersPage';
+import HeaderComponent from '../components/Header/Header';
+import FooterComponent from '../components/Footer/Footer';
+import router from './Router';
+import {config} from '../config';
+import UserPage from '../pages/UserPage/UserPage';
+import userStore from '../stores/UserStore';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
 /**
  * Класс, реализующий перерендеринг элементов
@@ -40,14 +39,14 @@ class RefreshEl {
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {boolean} auth - контекст отрисовки компонента
+     * @param {boolean} isAuth - есть ли авторизация
      */
-    refreshHeader(auth) {
+    refreshHeader(isAuth) {
         const header = document.getElementById('header');
         header.innerHTML = '';
         const headerComponent = new HeaderComponent(header);
-        headerComponent.render(auth);
-        auth ? headerComponent.startEventListener() :
+        headerComponent.render(isAuth);
+        isAuth ? headerComponent.startEventListener() :
             headerComponent.removeEventListener();
     };
 
@@ -68,7 +67,6 @@ class RefreshEl {
         router.remove(config.href.login);
         router.remove(config.href.signup);
         router.register(config.href.user, UserPage);
-        router.register(config.href.orders, OrdersPage);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 
@@ -79,7 +77,6 @@ class RefreshEl {
         router.register(config.href.login, LoginPage);
         router.register(config.href.signup, RegisterPage);
         router.remove(config.href.user);
-        router.remove(config.href.orders);
         router.refresh(config);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
