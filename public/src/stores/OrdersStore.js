@@ -183,8 +183,10 @@ class OrdersStore extends BaseStore {
             ];
             */
 
-            this.#prepareOrdersData(orders);
-            orders = orders.reverse();
+            if (orders) {
+                orders = orders.reverse();
+                this.#prepareOrdersData(orders);
+            }
             this._storage.set(this._storeNames.orders, orders);
         }
     }

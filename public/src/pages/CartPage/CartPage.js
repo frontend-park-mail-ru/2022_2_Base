@@ -446,7 +446,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            orderData.address = parseIntInPrice(address.getAttribute('id')
+            orderData.address = parseInt(address.getAttribute('id')
                 .split('/', 2)[1]);
             if (orderData.address !== -1) {
                 let date = document.getElementById('date-delivery').textContent.trim();
