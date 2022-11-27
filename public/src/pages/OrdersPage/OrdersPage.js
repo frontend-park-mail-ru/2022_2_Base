@@ -4,6 +4,8 @@ import './OrdersPage.scss';
 import OrderBlock from '../../components/OrderBlock/OrderBlock.js';
 import {orderAction, OrderActionTypes} from '../../actions/order';
 import ordersStore from '../../stores/OrdersStore';
+import {config} from '../../config';
+import errorMessage from '../../modules/ErrorMessage';
 
 /**
  * Класс, реализующий главную страницу
@@ -31,8 +33,16 @@ export default class OrdersPage extends BasePage {
      * Метод, отрисовывающий карточки заказов.
      */
     renderCards() {
-        this.orderBlock = new OrderBlock(document.getElementById('orders-page__block'));
-        this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
+        switch (ordersStore.getContext(ordersStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            this.orderBlock = new OrderBlock(document.getElementById('orders-page__block'));
+            this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
+            break;
+        case config.responseCodes.code401:
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов: нет авторизации');
+            break;
+        }
     }
 
     /**

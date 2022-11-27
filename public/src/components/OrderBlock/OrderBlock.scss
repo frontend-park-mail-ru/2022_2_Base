@@ -3,7 +3,7 @@
   height: 550px;
   display: grid;
   grid-template-rows: 62px 456px;
-  background-color: var(--pure_white);
+  background-color: var(--pure-white);
   border-radius: 10px;
   margin-bottom: 32px;
 }
@@ -36,7 +36,7 @@
 }
 
 .order-block__item-cards-block::-webkit-scrollbar-thumb {
-  background-color: var(--default_purple);
+  background-color: var(--default-purple);
   border-radius: 4px;
 }
 
@@ -72,12 +72,12 @@
 }
 
 .button-repeat-order {
-  background: var(--default_purple);
+  background: var(--default-purple);
   color: var(--background-white);
 }
 
 .button-repeat-order:hover {
-  background: var(--hover_purple);
+  background: var(--hover-purple);
 }
 
 .button-cancel-order {
