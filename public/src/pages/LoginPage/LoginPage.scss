@@ -16,11 +16,11 @@
 .login {
     display: grid;
     grid-row-gap: 16px;
+    justify-content: center;
 }
 
 .page-name__login {
     text-align: center;
-    justify-self: center;
     color: var(--shadow-dim);
 }
 
@@ -67,5 +67,17 @@
     }
 }
 
-// @media (max-width: 767px) {
-// }
+@media (max-width: 767px) {
+    .right {
+        display: none
+    }
+
+    .login {
+        width: 100%;
+        padding: 50px 0;
+    }
+
+    .content__login {
+        grid-template-columns: 1fr;
+    }
+}
