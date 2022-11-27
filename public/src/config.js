@@ -29,6 +29,8 @@ export const config = {
         deleteFromCart: `${basePathApi}cart/deletefromcart`,
         makeOrder: `${basePathApi}cart/makeorder`,
         cart: `${basePathApi}cart`,
+        orders: `${basePathApi}orders`,
+
     },
     states: {
         endOf: -1,

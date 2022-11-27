@@ -42,6 +42,5 @@ export default class OrdersPage extends BasePage {
     render(config) {
         super.render(config);
         orderAction.getOrders();
-        this.renderCards();
     }
 }

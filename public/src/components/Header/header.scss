@@ -183,13 +183,13 @@ footer {
 .header__dropdown .header__dropdown__content {
   position: absolute;
   margin-top: 13px;
-  width: var(--header__dropdown-width);
+  width: 140px;
   left: 50%;
   margin-left: -62px;
   box-sizing: border-box;
   z-index: 2;
   list-style: none;
-  background-color: var(--pure_white);
+  background-color: var(--pure-white);
   min-width: 116px;
   filter: drop-shadow(0 0 8px var(--shadow-default));
   border-radius: 10px;
@@ -223,7 +223,7 @@ footer {
   background-color: var(--dark-grey);
 }
 
-.header_error-message {
+.header__error-message {
   position: fixed;
   left: 1080px;
   top: 80px;

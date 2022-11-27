@@ -1,10 +1,10 @@
 import BaseStore from './BaseStore.js';
 import request from '../modules/ajax';
 import {config} from '../config.js';
-// import cartStore from './CartStore';
 // import sharedFunctions from '../modules/sharedFunctions';
 import {OrderActionTypes} from '../actions/order';
-import userStore from './UserStrore';
+import userStore from './UserStore';
+import errorMessage from '../modules/ErrorMessage';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -91,7 +91,8 @@ class OrdersStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
-        if (status === config.responseCodes.code200 || true) {
+        switch (status) {
+        case config.responseCodes.code200:
             let orders = response;
 
             // тестовые данные
@@ -187,6 +188,11 @@ class OrdersStore extends BaseStore {
             this.#prepareOrdersData(orders);
             orders = orders.reverse();
             this._storage.set(this._storeNames.orders, orders);
+            break;
+        case config.responseCodes.code401:
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов: нет авторизации');
+            break;
         }
     }
 }
