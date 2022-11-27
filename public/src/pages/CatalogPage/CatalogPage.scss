@@ -31,13 +31,13 @@
     gap: 32px;
 }
 
-.catalog_sort-rating__img{
+%catalog_sort-rating__img{
     width: 12px;
     height: 12px;
 }
 
 .catalog_sort-price__img{
-    @extend .catalog_sort-rating__img
+    @extend %catalog_sort-rating__img
 }
 
 .rotate-img-180{
