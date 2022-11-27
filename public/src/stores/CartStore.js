@@ -1,15 +1,62 @@
-import BaseStore from './BaseStore';
-import {CartActionTypes} from '../actions/cart';
-import request from '../modules/ajax';
-import {config} from '../config';
-import userStore from './UserStore';
+import BaseStore from './BaseStore.js';
+import {CartActionTypes} from '../actions/cart.js';
+import request from '../modules/ajax.js';
+import {config} from '../config.js';
+import userStore from './UserStrore';
 import itemsStore from './ItemsStore';
-import {addSpacesToPrice} from '../modules/sharedFunctions';
+import sharedFunctions from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
  */
 class CartStore extends BaseStore {
+    #items = [
+        {
+            count: 1,
+            name: `Apple iPhone 13 64 ГБ \\
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            imgsrc: './img/Smartphone.webp',
+            category: '',
+            price: 100000,
+            lowprice: null,
+            id: 1,
+            rating: 5,
+        },
+        {
+            count: 2,
+            name: `Apple iPhone 13 64 ГБ \\r
+            gladwehaveanunderstanding, fuck out the way
+yeah, all your shit lame, I feel no pain, we" "\\eof`,
+            imgsrc: './img/Smartphone.webp',
+            category: '',
+            price: 100000,
+            lowprice: 80000,
+            id: 12,
+            rating: 10,
+        },
+    ];
+
+    #data = {
+        addressID: 1111,
+        city: 'Москва',
+        street: 'Мира',
+        house: 15,
+        flat: 4,
+        deliveryPrice: 'Бесплатно',
+        date: new Date('2022-11-25'),
+        // paymentMethodProvider: mirIcon,
+        avatar: './img/Smartphone.webp',
+        username: 'Джахар',
+        phone: '+7 (872) 234-23-65',
+        deliveryDate: this.#getDate(1),
+        deliveryTime: '18:00 - 23:00',
+        cardNumber: '8765432143212546',
+        expiry: '05 / 24',
+        paymentCardId: 1,
+        auth: true,
+    };
+
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -25,7 +72,7 @@ class CartStore extends BaseStore {
         super();
         this._storage = new Map();
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.itemsCart, []);
+        this._storage.set(this._storeNames.itemsCart, []); // this.#items
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
@@ -49,25 +96,31 @@ class CartStore extends BaseStore {
             await this._deleteAll(payload.data);
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
+
         case CartActionTypes.INCREASE_NUMBER:
             await this._increaseNumber(payload.data);
             this._emitChange([CartActionTypes.INCREASE_NUMBER]);
             break;
+
         case CartActionTypes.ADD_TO_CART:
             await this._addToCart(payload.data);
             this._emitChange([CartActionTypes.ADD_TO_CART]);
             break;
+
         case CartActionTypes.DECREASE_NUMBER:
             await this._decreaseNumber(payload.data);
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
-        case CartActionTypes.MAKE_ORDER:
+
+        case CartActionTypes.MAKEORDER:
             await this._makeOrder(payload.data);
-            this._emitChange([CartActionTypes.MAKE_ORDER]);
+            this._emitChange([CartActionTypes.MAKEORDER]);
             break;
+
         case CartActionTypes.RESET_CART:
             await this._resetCart();
             break;
+
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
             this._emitChange([CartActionTypes.MERGE_CART]);
@@ -92,7 +145,7 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response.items.forEach((globalItem) => {
+        response?.items?.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
                 if (globalItem.id === localItem.id) {
@@ -124,10 +177,11 @@ class CartStore extends BaseStore {
     async _getCart() {
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
+        console.log('itemsCart', this._storage.get(this._storeNames.itemsCart));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            addSpacesToPrice(response.items);
+            sharedFunctions.addSpacesToPrice(response.items);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
@@ -146,10 +200,7 @@ class CartStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
-        }
+        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
     }
 
     /**
@@ -161,17 +212,14 @@ class CartStore extends BaseStore {
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, []);
-        }
+        this._storage.set(this._storeNames.itemsCart, []);
     }
 
     /**
      * Действие: добавить товар в корзину.
-     * @param {number} status
-     * @param {number} countChange
-     * @param {number} id
+     * @param {int} status
+     * @param {int} countChange
+     * @param {int} id
      */
     #editCountOfItem(status, countChange, id) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
@@ -184,7 +232,7 @@ class CartStore extends BaseStore {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
@@ -243,11 +291,29 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, data.items.reduce(
-                (newItemsCart, id) =>
-                    newItemsCart.filter((item) => item.id !== id),
-                this._storage.get(this._storeNames.itemsCart)));
+            const itemsCart = this._storage.get(this._storeNames.itemsCart);
+            data.items.forEach((id) => {
+                itemsCart.forEach((item, key) => {
+                    if (item.id === id) {
+                        delete itemsCart[key];
+                    }
+                });
+            });
+            this._storage.set(this._storeNames.itemsCart, itemsCart);
         }
+    }
+
+    /**
+     * Функция, возвращающая завтрашнюю дату.
+     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
+     * @return {object} завтрашняя дата
+     */
+    #getDate(firstDayIn) {
+        const getDate = (next) => {
+            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
+        };
+        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 
