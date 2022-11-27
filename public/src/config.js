@@ -4,7 +4,6 @@ const basePathApi = 'api/v1/';
 
 export const config = {
     basePath: 'https://www.reazon.ru',
-    // basePath: 'http://127.0.0.1:8080',
     href: {
         main: '/',
         login: '/login',
@@ -16,27 +15,26 @@ export const config = {
         cart: '/cart',
     },
     api: {
-        login: basePathApi + 'login',
-        signup: basePathApi + 'signup',
-        logout: basePathApi + 'logout',
-        session: basePathApi + 'session',
-        products: basePathApi + 'products',
-        category: basePathApi + 'category',
-        profile: basePathApi + 'user/profile',
-        uploadAvatar: basePathApi + 'user/avatar',
-        avatarsDir: basePathApi + 'img/avatars/',
-        insertIntoCart: basePathApi + 'cart/insertintocart',
-        deleteFromCart: basePathApi + 'cart/deletefromcart',
-        makeOrder: basePathApi + 'cart/makeorder',
-        productsByCategory: basePathApi + 'products/',
-        cart: basePathApi + 'cart',
-
+        login: `${basePathApi}login`,
+        signup: `${basePathApi}signup`,
+        logout: `${basePathApi}logout`,
+        session: `${basePathApi}session`,
+        products: `${basePathApi}products`,
+        category: `${basePathApi}category`,
+        profile: `${basePathApi}user/profile`,
+        uploadAvatar: `${basePathApi}user/avatar`,
+        avatarsDir: `${basePathApi}img/avatars/`,
+        insertIntoCart: `${basePathApi}cart/insertintocart`,
+        deleteFromCart: `${basePathApi}cart/deletefromcart`,
+        makeOrder: `${basePathApi}cart/makeorder`,
+        cart: `${basePathApi}cart`,
     },
     states: {
         endOf: -1,
-        invalidUserData: 4000,
-        invalidData: 4040,
-        noPayCardId: 1,
+    },
+    errorMessages: {
+        error400auth: 'Ошибка. Попробуйте еще раз',
+        error401auth: 'Неверная почта или пароль',
     },
     queryParams: {
         sort: {

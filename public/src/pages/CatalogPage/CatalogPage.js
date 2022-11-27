@@ -1,10 +1,10 @@
-import BasePage from '../BasePage.js';
-import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard.js';
+import BasePage from '../BasePage';
+import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard';
 import './CatalogPage.scss';
 import CatalogPageTemplate from './CatalogPage.hbs';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
-import {config} from '../../config.js';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
+import {config} from '../../config';
 import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
@@ -71,7 +71,6 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            itemCardsAction.getItemCardsByCategory(true); // fix
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -222,6 +221,8 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
+     * Когда скролл достигает 0.8 части страницы мы вызываем экшен на загрузку новых товаров.
+     * setTimeout для того, чтобы экшен вызывался не миллион раз в секунду, а лишь один раз в 300 мс
      */
     bottomOfPageHandlerPrototype() {
         if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {
@@ -301,7 +302,7 @@ export default class CatalogPage extends BasePage {
         }
         this.removeScrollListener();
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.addLisitenSortCatalog);
+            this.catalogSort.removeEventListener('click', this.addLisitenSortCatalog);
         }
     }
 
@@ -319,8 +320,6 @@ export default class CatalogPage extends BasePage {
         this.itemsBlock = document.getElementById('items-block');
         this.ratingSortImg = document.getElementById('catalog_sort-rating__img');
         this.priceSortImg = document.getElementById('catalog_sort-price__img');
-        console.log(this.ratingSortImg);
-        console.log(this.priceSortImg);
     }
 }
 

@@ -4,8 +4,13 @@
             <div class="text-normal-default"></div>
 
             <div class="text-normal-small">
+<<<<<<< HEAD
                 <img class="add-address-card-pic" src="/img/Add_card.svg" alt="add address card">
                 <div class="text-add-address-card text-normal-default"> Добавить адрес</div>
+=======
+                <img class="add-address-card__pic" src="/img/Add_card.svg" alt="add address card button">
+                <div class="add-address-card__text text-normal-default"> Добавить адрес</div>
+>>>>>>> main
             </div>
         </a>
 
@@ -17,6 +22,7 @@
             class="address-card-template address-card other-address-card"
             {{/if}} id="text-{{this.id}}">
 
+<<<<<<< HEAD
                 <div class="address-card-city text-normal-default">
                     {{this.city}}
                 </div>
@@ -35,6 +41,26 @@
                 <div class="separation-line_user-page"></div>
                 <div id="delete-{{this.id}}" class="pop-up-button_user-page">
                     <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="pop-up-button-pic_user-page delete-address" alt="delete address card">
+=======
+                <div class="address-card__city text-normal-default">
+                    {{this.city}}
+                </div>
+
+                <div class="address-card__city text-normal-default">
+                    {{this.street}}
+                </div>
+
+                <div class="address-card__city text-normal-default"> д. {{this.house}}, {{#if this.flat}}кв. {{this.flat}}{{/if}}</div>
+            </a>
+
+            <div class="change-address-card user-page__change-pop-up" id="change-address-card-{{this.id}}">
+                <a id="edit-{{this.id}}" class="user-page__pop-up-button edit-address">
+                    <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="user-page__pop-up-button-pic" alt="edit address card button">
+                </a>
+                <div class="user-page__separation-line"></div>
+                <div id="delete-{{this.id}}" class="user-page__pop-up-button">
+                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="user-page__pop-up-button-pic delete-address" alt="delete address card button">
+>>>>>>> main
                 </div>
             </div>
         </div>

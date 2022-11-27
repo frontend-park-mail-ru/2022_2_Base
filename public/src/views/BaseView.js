@@ -1,5 +1,5 @@
 // Базовый компонент
-import BaseComponent from '../components/BaseComponent.js';
+import BaseComponent from '../components/BaseComponent';
 
 /**
  * Класс, реализующий базовый view.

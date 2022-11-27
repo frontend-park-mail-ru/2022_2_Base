@@ -1,5 +1,5 @@
 import errorPageTemplate from './errorPage.hbs';
-import BasePage from '../BasePage.js';
+import BasePage from '../BasePage';
 import './ErrorPage.scss';
 
 /**
@@ -15,12 +15,5 @@ export default class ErrorPage extends BasePage {
             parent,
             errorPageTemplate,
         );
-    }
-    /**
-     * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
-     */
-    render() {
-        super.render();
     }
 }

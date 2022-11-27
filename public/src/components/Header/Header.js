@@ -1,5 +1,5 @@
 import headerTemplate from './header.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './header.scss';
 import itemsStore from '../../stores/ItemsStore';
 

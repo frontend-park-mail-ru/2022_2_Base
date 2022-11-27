@@ -1,9 +1,9 @@
-import BaseStore from './BaseStore.js';
+import BaseStore from './BaseStore';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
-import {config} from '../config.js';
+import {config} from '../config';
 import cartStore from './CartStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -58,8 +58,8 @@ class ItemsStore extends BaseStore {
     };
 
     /**
-   * @constructor
-   */
+     * @constructor
+     */
     constructor() {
         super();
         this._storage = new Map();
@@ -98,11 +98,6 @@ class ItemsStore extends BaseStore {
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
 
-        case ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getPopularItemCard(payload.data);
-            this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
-            break;
-
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getByPriceItemCard(payload.data);
             this._emitChange([
@@ -130,7 +125,7 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+            addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
@@ -142,13 +137,6 @@ class ItemsStore extends BaseStore {
                     .concat(response.body),
             );
         }
-    }
-
-    /**
-   * Действие: запрос списка популярных карточек.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
-    _getPopularItemCard(isFirstRequest) {
     }
 
     /**
@@ -191,9 +179,23 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек по категориям.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка карточек по категориям.
+     * @return {string} путь запроса к серверу
+     */
+    #getRequestPathWithQueryParams() {
+        return config.api.category +
+            document.location.pathname.slice(
+                document.location.pathname.lastIndexOf('/'),
+                document.location.pathname.length,
+            ) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}`+
+            `&count=${5}&${window.location.search.substring(1)}`;
+    }
+
+    /**
+     * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
     async _getItemCardsByCategory(isFirstRequest) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
@@ -201,22 +203,15 @@ class ItemsStore extends BaseStore {
         }
 
         const [status, response] = await request
-            .makeGetRequest(
-                config.api.category +
-          document.location.pathname.slice(
-              document.location.pathname.lastIndexOf('/'),
-              document.location.pathname.length,
-          ) +
-          `?lastitemid=${this._storage.get(
-              this._storeNames.cardLoadCount,
-          )}&count=${5}&${window.location.search.substring(1)}`,
-            )
+            .makeGetRequest(this.#getRequestPathWithQueryParams())
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+
+            addSpacesToPrice(response.body);
+
             this._storage.set(this._storeNames.cardsCategory, response.body);
             this._storage.set(
                 this._storeNames.allCardsInCategory,
