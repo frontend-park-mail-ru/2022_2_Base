@@ -2,7 +2,7 @@ import ProductPagePageTemplate from './ProductPage.hbs';
 import BasePage from '../BasePage.js';
 import './ProductPage.scss';
 import ProductHeader from '../../components/ProductHeader/ProductHeader.js';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import {getDate} from '../../modules/sharedFunctions';
 import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 
 /**
@@ -82,7 +82,7 @@ export default class ProductPage extends BasePage {
             salePrice: '31 580',
             discount: 12,
         };
-        data.date = sharedFunctions._getDate(1)[0];
+        data.date = getDate(1)[0];
         super.render(data);
         const pageHeader = new ProductHeader(document.getElementById('product-page-header'));
         pageHeader.render(data);

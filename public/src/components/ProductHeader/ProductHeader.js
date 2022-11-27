@@ -1,7 +1,7 @@
 import ProductHeaderTemplate from './ProductHeader.hbs';
 import BaseComponent from '../BaseComponent.js';
 import './ProductHeader.scss';
-import sharedFunctions from '../../modules/sharedFunctions.js';
+import {declination} from '../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента ProductHeader
@@ -36,7 +36,7 @@ export default class ProductHeader extends BaseComponent {
             rating: context.rating,
             commentsHref: context.commentsHref,
             commentsCount: context.commentsCount,
-            commentsCountText: sharedFunctions._declination(context.commentsCount,
+            commentsCountText: declination(context.commentsCount,
                 ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
