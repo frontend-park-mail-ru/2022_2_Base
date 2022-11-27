@@ -1,5 +1,4 @@
-{{#each catalogCardItem}}
-
+{{#each item}}
     <div class="catalog-item-card">
         <div class="catalog-item-card__pic-block" id="catalog_item-pic-block">
             <a href="/item/{{this.id}}">
@@ -27,32 +26,13 @@
                     <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num"> {{this.rating}}
                     </span>
                 </div>
-
-                <div class="text-normal-default catalog-item-card__properties-block__property-line">
-                    {{#if this.propertyName1}}
-                        {{this.propertyName1}}: {{this.property1}}
-                    {{/if}}
-                </div>
-
-                <div class="text-normal-default catalog-item-card__properties-block__property-line">
-                    {{#if this.propertyName2}}
-                        {{this.propertyName2}}: {{this.property2}}
-
-                    {{/if}}
-                </div>
-
-                <div class="text-normal-default catalog-item-card__properties-block__property-line">
-                    {{#if this.propertyName3}}
-                        {{this.propertyName3}}: {{this.property3}}
-                    {{/if}}
-                </div>
-
-                <div class="text-normal-default catalog-item-card__properties-block__property-line">
-                    {{#if this.propertyName4}}
-                        {{this.propertyName4}}: {{this.property4}}
-                    {{/if}}
-                </div>
-
+                {{#each properties}}
+                    <div class="text-normal-default catalog-item-card__properties-block__property-line">
+                        {{#if this.properties.name}}
+                            {{this.properties.name}}: {{this.property}}
+                        {{/if}}
+                    </div>
+                {{/each}}
             </div>
 
         </div>
@@ -64,7 +44,7 @@
 
                 <label class="item-cart__selection disabled">
                     <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
-                    <!--                        {{#if this.favourite}} checked {{/if}}>-->
+                    {{#if this.favourite}} checked {{/if}}>
                 </label>
             </div>
 

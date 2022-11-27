@@ -3,7 +3,7 @@ import FooterComponent from '../components/Footer/Footer';
 import router from './Router';
 import {config} from '../config';
 import UserPage from '../pages/UserPage/UserPage';
-import userStore from '../stores/UserStrore';
+import userStore from '../stores/UserStore';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
@@ -39,14 +39,14 @@ class RefreshEl {
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {boolean} auth - контекст отрисовки компонента
+     * @param {boolean} isAuth - есть ли авторизация
      */
-    refreshHeader(auth) {
+    refreshHeader(isAuth) {
         const header = document.getElementById('header');
         header.innerHTML = '';
         const headerComponent = new HeaderComponent(header);
-        headerComponent.render(auth);
-        auth ? headerComponent.startEventListener() :
+        headerComponent.render(isAuth);
+        isAuth ? headerComponent.startEventListener() :
             headerComponent.removeEventListener();
     };
 

@@ -39,6 +39,7 @@
 }
 
 .catalog__path-and-sort-block__sort-block {
+    grid-column: 2;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 16px;

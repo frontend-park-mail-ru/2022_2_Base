@@ -58,14 +58,16 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cancel = document.getElementById('cart-popup-form__cancel');
-        cancel.addEventListener('click', this.listenClickCancel);
+        this.cancelElement = document.getElementById('cart-popup-form__cancel');
+        this.cancelElement.addEventListener('click', this.listenClickCancel);
 
-        const fields = document.querySelectorAll('.cart-popup-form__input');
-        if (fields) {
-            fields.forEach((key) => {
-                const fieldId = key.getAttribute('id');
-                key.addEventListener('click', this.listenClickAddressAndPaymentCard.bind(null, fieldId));
+        this.popUpFields = document.querySelectorAll('.cart-popup-form__input');
+        if (this.popUpFields) {
+            this.bindListenClickAddressAndPaymentCard = [];
+            this.popUpFields.forEach((key, i) => {
+                this.bindListenClickAddressAndPaymentCard.push(
+                    this.listenClickAddressAndPaymentCard.bind(null, key.id));
+                key.addEventListener('click', this.bindListenClickAddressAndPaymentCard[i]);
             });
         }
     }
@@ -74,15 +76,12 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const cancel = document.getElementById('.cart-popup-form__cancel');
-        cancel.removeEventListener('click', this.listenClickCancel);
+        this.cancelElement.removeEventListener('click', this.listenClickCancel);
 
-        const fields = document.querySelectorAll('.cart-popup-form__input');
-        if (fields) {
-            fields.forEach((key) => {
-                const fieldId = key.getAttribute('id');
+        if (this.popUpFields) {
+            this.popUpFields.forEach((key, i) => {
                 key.removeEventListener('click',
-                    this.listenClickAddressAndPaymentCard.bind(null, fieldId));
+                    this.bindListenClickAddressAndPaymentCard[i]);
             });
         }
     }

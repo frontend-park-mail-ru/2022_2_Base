@@ -9,6 +9,7 @@ import {config} from '../../config';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import cartStore from '../../stores/CartStore';
 import errorMessage from '../../modules/ErrorMessage';
+import {parseIntInPrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий главную страницу
@@ -78,8 +79,8 @@ export default class MainPage extends BasePage {
      */
     localEventListenersHandler(event) {
         event.preventDefault();
-        if (event.target.getAttribute('ind')) {
-            const [elementId, itemId] = event.target.getAttribute('ind').split('/');
+        if (event.target.getAttribute('data-selection')) {
+            const [elementId, itemId] = event.target.getAttribute('data-selection').split('/');
             switch (elementId) {
             case 'itemcard_button-add-to-cart':
                 cartAction.addToCart(itemId);
@@ -99,17 +100,17 @@ export default class MainPage extends BasePage {
      */
     buttonCreate() {
         const countSelector = document.querySelectorAll(
-            '[ind=\'itemcard_amount-selector\/' +
+            '[data-selection=\'itemcard_amount-selector\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         const addToCartButton = document.querySelectorAll(
-            '[ind=\'itemcard_button-add-to-cart\/' +
+            '[data-selection=\'itemcard_button-add-to-cart\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (!!addToCartButton && !!countSelector) {
             countSelector.forEach((selector) => selector.style.display = 'grid');
             addToCartButton.forEach((button) => button.style.display = 'none');
 
             const itemCount = document.querySelectorAll(
-                '[ind=\'itemcard_item-count\/' +
+                '[data-selection=\'itemcard_item-count\/' +
                 cartStore.getContext(cartStore._storeNames.currID) + '\']');
             if (itemCount) {
                 itemCount.forEach((item) => item.textContent = '1');
@@ -124,10 +125,10 @@ export default class MainPage extends BasePage {
      */
     buttonAdd() {
         const itemCount = document.querySelectorAll(
-            '[ind=\'itemcard_item-count\/' +
+            '[data-selection=\'itemcard_item-count\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseInt(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent);
             itemCount.forEach((item) => item.textContent = (count + 1).toString());
         }
     }
@@ -137,17 +138,17 @@ export default class MainPage extends BasePage {
      */
     buttonMinus() {
         const itemCount = document.querySelectorAll(
-            '[ind=\'itemcard_item-count\/' +
+            '[data-selection=\'itemcard_item-count\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseInt(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent);
 
             if (count === 1) {
                 const countSelector = document.querySelectorAll(
-                    '[ind=\'itemcard_amount-selector\/' +
+                    '[data-selection=\'itemcard_amount-selector\/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 const addToCartButton = document.querySelectorAll(
-                    '[ind=\'itemcard_button-add-to-cart\/' +
+                    '[data-selection=\'itemcard_button-add-to-cart\/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 if (!!addToCartButton && !!countSelector) {
                     countSelector.forEach((selector) => selector.style.display = 'none');

@@ -1,5 +1,5 @@
 import BaseComponent from '../BaseComponent';
-import userStore from '../../stores/UserStrore';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс для реализации компонента Footer
@@ -21,7 +21,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickEdit(event) {
+    listenClickEdit(event) {
         const cardID = event.target.id.replace('edit-img-', '');
         userStore.getContext(this.storeData).forEach((context) => {
             if (context.id === cardID) {
@@ -35,7 +35,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickAdd(event) {
+    listenClickAdd(event) {
         this._showPopUp({
             add: true,
         });
@@ -61,7 +61,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickDelete(event) {
+    listenClickDelete(event) {
         console.warn('must be overriden');
     }
 
@@ -97,8 +97,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.edit.forEach((key) => {
                 key.addEventListener('click', this.bindListenClickEdit);
             });
-        } else {
-            console.log('element not found', this.edit, `.edit-${this.pageName}`);
         }
     }
     /**
@@ -109,8 +107,6 @@ export default class BaseInfoCard extends BaseComponent {
             this.edit.forEach((key) => {
                 key.removeEventListener('click', this.bindListenClickEdit);
             });
-        } else {
-            console.log('element not found', this.edit);
         }
     }
 
@@ -122,14 +118,10 @@ export default class BaseInfoCard extends BaseComponent {
             this.delete.forEach((key) => {
                 this.delete.removeEventListener('click', this.bindListenClickDelete);
             });
-        } else {
-            console.log('element not found', this.delete);
         }
 
         if (this.new) {
             this.new.addEventListener('click', this.bindListenClickAdd);
-        } else {
-            console.log('element not found', this.new);
         }
     }
 

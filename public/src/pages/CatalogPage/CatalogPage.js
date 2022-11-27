@@ -9,6 +9,7 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import router from '../../modules/Router';
 import errorMessage from '../../modules/ErrorMessage';
+import {parseIntInPrice} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -65,7 +66,6 @@ export default class CatalogPage extends BasePage {
             itemCardsAction.getItemCardsByCategory(true);
             break;
         default:
-            console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -77,8 +77,10 @@ export default class CatalogPage extends BasePage {
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
+            console.log(document.getElementById('items-block'));
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+            console.log(Card, data);
             if (data.length) {
                 Card.render(data);
             } else if (
@@ -134,7 +136,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+            const count = parseIntInPrice(itemAmount.textContent);
             itemAmount.textContent = (count + 1).toString();
         }
     }
@@ -146,7 +148,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseInt(itemAmount.textContent);
+            const count = parseIntInPrice(itemAmount.textContent);
 
             if (count === 1) {
                 const amountSelector = document.getElementById(
@@ -215,6 +217,8 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая скролл на странице
+     * Когда скролл достигает 0.8 части страницы мы вызываем экшен на загрузку новых товаров.
+     * setTimeout для того, чтобы экшен вызывался не миллион раз в секунду, а лишь один раз в 300 мс
      */
     bottomOfPageHandlerPrototype() {
         if ((scrollY + innerHeight > (0.8 * document.body.scrollHeight))) {

@@ -1,6 +1,7 @@
 import headerTemplate from './header.hbs';
 import BaseComponent from '../BaseComponent';
 import './header.scss';
+import itemsStore from '../../stores/ItemsStore';
 
 /**
  * Класс для реализации компонента Header
@@ -105,7 +106,7 @@ export default class Header extends BaseComponent {
     prepareRenderData(context) {
         return {
             session: context,
-            categories: this.context.categories,
+            categories: itemsStore.getContext(itemsStore._storeNames.topCategory),
         };
     }
 }

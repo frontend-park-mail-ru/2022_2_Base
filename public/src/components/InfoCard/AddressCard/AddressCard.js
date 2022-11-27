@@ -1,7 +1,7 @@
-import PopUpAddAddress from '../../PopUpAddAddress/PopUpAddAddress';
+import PopUpAddAddress from '../../popUp/PopUpAddAddress/PopUpAddAddress';
 import AddressCardTemplate from './addressCard.hbs';
 import './AddressCard.scss';
-import userStore from '../../../stores/UserStrore';
+import userStore from '../../../stores/UserStore';
 import BaseInfoCard from '../BaseInfoCard';
 import {profileAction} from '../../../actions/profile';
 
@@ -32,7 +32,7 @@ export default class AddressCard extends BaseInfoCard {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickDelete(event) {
+    listenClickDelete(event) {
         profileAction.deleteAddress(Number(event.target.id.replace('delete-img-addressCard/', '')));
     }
     /**

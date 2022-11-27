@@ -36,15 +36,6 @@ export default class CatalogItemCard extends BaseComponent {
      */
     render(context) {
         this._parent.insertAdjacentHTML('beforeend',
-            catalogItemCardTemplate(this.prepareRenderData(context)));
-    }
-
-    /**
-     * Метод, подготавливавающий наполнение карточками товара
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} значение категории из контекста отрисовки
-     */
-    prepareRenderData(context) {
-        return {catalogCardItem: {...context}};
+            catalogItemCardTemplate(super.prepareCategory(context)));
     }
 }
