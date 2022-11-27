@@ -47,3 +47,13 @@
     margin-left: 4px;
     margin-top: 10px;
 }
+
+@media (max-width: 991px) {
+    .form__input {
+        width: 244px;
+    }
+    
+    .form__submit {
+        width: 260px;
+    }
+}
