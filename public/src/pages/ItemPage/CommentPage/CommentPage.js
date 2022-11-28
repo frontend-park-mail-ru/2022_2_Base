@@ -44,7 +44,8 @@ export default class CommentPage extends BaseItemPage {
     listenCommentsLoad() {
         const comments = new Comment(document.getElementById('comments'));
         comments.render(itemsStore.getContext(itemsStore._storeNames.comments).map((comment) => {
-            comment[`rating${comment.rating}`] = true;
+            comment[`rating${comment.rating - 1}`] = true;
+            console.log(comment);
             return comment;
         }));
     }
