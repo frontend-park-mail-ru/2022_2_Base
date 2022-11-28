@@ -391,12 +391,7 @@ class UserStore extends BaseStore {
      * @param {number} id - идентификатор элемента
      */
     async _saveDeleteCard(id) {
-        // const userData = this.#collectUserData();
-        // userData.paymentMethods.forEach((item, key) => {
-        //     if (item.id === id) {
-        //         delete userData.paymentMethods[key];
-        //     }
-        // });
+        const userData = this.#collectUserData();
         userData.paymentMethods = userData.paymentMethods.filter((item) => item.id !== id);
         await this.#makePostRequestCard(userData, 'paymentMethods');
     }
@@ -436,12 +431,6 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        // userData.address.forEach((item, key) => {
-        //     if (item.id === id) {
-        //         delete userData.address[key];
-        //     }
-        // });
-        // await this.#makePostRequestCard(userData, 'address');
         await this.#makePostRequestCard(userData.filter((item) => item.id !== id), 'address');
     }
 }

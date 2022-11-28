@@ -108,8 +108,8 @@ export default class Header extends BaseComponent {
      */
     listenInputSearch() {
         if (this.searchInput.value) {
-            const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
-            if (errorMessageSearch) {
+            const errorMessageSearch = validation.validateSearchField(this.searchInput.value, true);
+            if (!errorMessageSearch) {
                 const category = this.#isSearchContainsCategory();
                 if (category) {
                     itemCardsAction.getSuggestionSearch(category.nameCategory, true);

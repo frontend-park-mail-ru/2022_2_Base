@@ -39,7 +39,7 @@
         <div class="catalog-item-card__sale-block">
             <div class="catalog-item-card__sale-block__ex-price-and-like-block">
                 <div class="catalog-item-card__ex-price-and-like-block__ex-price text-normal-large__strikethrough ">
-                    {{#if this.price}} {{this.price}} ₽ {{/if}}
+                    {{#if this.strPrice}} {{this.strPrice}} ₽ {{/if}}
                 </div>
 
 <!--                <label class="item-cart__selection disabled">-->
@@ -49,7 +49,7 @@
             </div>
 
             <div class="text-normal-very-large__bold catalog-item-card__sale-block__catalog-price">
-                {{#if this.lowprice}} {{this.lowprice}} {{else}} {{this.price}} {{/if}}₽
+                {{#if this.strLowprice}} {{this.strLowprice}} {{else}} {{this.price}} {{/if}}₽
             </div>
 
             <div id="catalog_block-button-add-to-cart" data-id="{{this.id}}">

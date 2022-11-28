@@ -162,6 +162,7 @@ class Router {
         this.#titles.set(config.href.signup, 'Регистрация - Reazon');
         this.#titles.set(config.href.user, 'Ваши данные - Reazon');
         this.#titles.set(config.href.category, '- Reazon');
+        this.#titles.set(config.href.search, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
 
         this.#titles.set(config.href.product, 'О товаре - Reazon');

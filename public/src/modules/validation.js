@@ -142,7 +142,7 @@ class Validation {
      * @return {string} errorMessage - сообщение об ошибке
      */
     validateSearchField(searchString, isSuggest = false) {
-        if (searchString.length < 3 || isSuggest) {
+        if (searchString.length < 3 && !isSuggest) {
             return 'Введите не меньше 3 символов';
         }
         if (!/^[a-z0-9 а-яА-ЯёЁ]+$/i

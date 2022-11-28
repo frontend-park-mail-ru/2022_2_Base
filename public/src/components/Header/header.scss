@@ -34,6 +34,10 @@ footer {
   align-self: center;
 }
 
+.header__search-block{
+  display: flex;
+}
+
 .header__search-line {
   display: grid;
   grid-template-columns: 1fr;
@@ -116,12 +120,6 @@ footer {
 
 .header__button-search:hover {
   background-color: var(--hover-purple);
-}
-
-.paint-purple-disabled {
-  background-color: var(--purple-disabled);
-  cursor: default;
-  opacity: .4;
 }
 
 .profile__pop-up {

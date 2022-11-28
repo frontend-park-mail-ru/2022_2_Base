@@ -12,11 +12,14 @@ export function truncatePrice(number) {
  * @param {object} item - данные карты
  */
 const _addSpacesToItemPrice = (item) => {
-    item.discount = null;
-    item.price === item.lowprice ? item.price = item.discount :
+    if (item.lowprice) {
         item.discount = 100 - Math.round(item.lowprice / item.price * 100);
-    item.strPrice = truncatePrice(item.price);
-    item.strLowprice = (item.strLowprice ? truncatePrice(item.lowprice) : null);
+        item.strPrice = truncatePrice(item.price);
+    } else {
+        item.lowprice = item.price;
+        delete item.price;
+    }
+    item.strLowprice = truncatePrice(item.lowprice);
 };
 
 /**
