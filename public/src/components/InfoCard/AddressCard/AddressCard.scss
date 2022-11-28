@@ -1,90 +1,90 @@
 .address-card-template {
-    justify-self: center;
-    align-self: center;
-    height: 118px;
-    width: 198px;
-    border-radius: 10px;
-    display: grid;
-    grid-template-rows: 40px 40px 40px;
-    color: var(--jet-black);
-    text-decoration: none;
-    cursor: pointer;
+  justify-self: center;
+  align-self: center;
+  height: 118px;
+  width: 198px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 40px 40px 40px;
+  color: var(--jet-black);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .address-card {
-    filter: none;
+  filter: none;
 }
 
-//.address-card:hover {
-//    filter: blur(1px);
-//}
-
 .change-address-card {
-    width: 84px;
-    margin-top: -80px;
-    margin-left: 58px;
+  width: 84px;
+  margin-top: -80px;
+  margin-left: 58px;
 }
 
 .primary-address-card {
-    height: 120px;
-    width: 200px;
-    background-color: var(--default_purple);
+  height: 120px;
+  width: 200px;
+  background-color: var(--default-purple);
 
-    --text-color: var(--pure_white);
+  --text-color: var(--pure-white);
+}
+
+%other-address-card {
+  border: 1px solid var(--jet-black);
+
+  --text-color: var(--jet-black);
 }
 
 .other-address-card {
-    border: 1px solid var(--jet-black);
-
-    --text-color: var(--jet-black);
+  @extend %other-address-card;
 }
 
 .add-address-card {
-    @extend .other-address-card;
+  @extend %other-address-card;
+  //grid-template-rows: 32px 48px 40px;
 }
 
-.address-card-city {
-    margin-left: 16px;
-    align-self: center;
-    color: var(--text-color);
-    width: 168px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.address-card__city {
+  margin-left: 16px;
+  align-self: center;
+  color: var(--text-color);
+  width: 168px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-title-main {
-    color: var(--text-color);
+  color: var(--text-color);
 }
 
-.address-card-street {
-    margin-left: 16px;
-    align-self: center;
-    color: var(--text-color);
-    width: 168px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.address-card__street {
+  margin-left: 16px;
+  align-self: center;
+  color: var(--text-color);
+  width: 168px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.address-card-house {
-    margin-left: 16px;
-    align-self: center;
-    color: var(--text-color);
-    width: 168px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.address-card__house {
+  margin-left: 16px;
+  align-self: center;
+  color: var(--text-color);
+  width: 168px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.add-address-card-pic {
-    margin-left: 84px;
-    margin-top: -4px;
-    width: 32px;
-    height: 32px;
-    align-self: center;
-    justify-self: center;
+.add-address-card__pic {
+  margin-left: 84px;
+  width: 32px;
+  height: 32px;
+  align-self: center;
+  justify-self: center;
 }
 
-.text-add-address-card {
-    color: var(--jet-black);
-    justify-self: center;
-    margin-left: 44px;
+.add-address-card__text {
+  color: var(--jet-black);
+  justify-self: center;
+  margin-left: 44px;
 }

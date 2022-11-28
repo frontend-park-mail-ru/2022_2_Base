@@ -1,59 +1,10 @@
 'use strict';
-
-import refresh from './modules/refreshElements.js';
-import router from './modules/Router.js';
+import refresh from './modules/refreshElements';
+import router from './modules/Router';
 import '../index.scss';
-import {userActions, UserActionTypes} from './actions/user.js';
-import {config} from './config.js';
-import userStore from './stores/UserStrore.js';
 
 refresh.refreshFooter();
-router.start(config);
-
-/**
- * Функция перехода на новую страницу
- * @param {object} event - событие, произошедшее на странице
- */
-const changePage = async (event) => {
-    const {target} = event;
-
-    let href = target.getAttribute('href');
-
-    if (href === null) {
-        href = target.parentElement.getAttribute('href');
-    }
-
-    if (!!href && !href.includes('#')) {
-        event.preventDefault();
-        router.openPage(href);
-    }
-
-    if (href === config.href.logout) {
-        event.preventDefault();
-        userActions.logout();
-    }
-};
-
-window.addEventListener('click', changePage);
-
-userStore.addListener(() => {
-    if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
-        refresh.onAuth();
-    } else {
-        refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
-    }
-    router.openPage(document.location.pathname);
-},
-UserActionTypes.USER_FETCH);
-
-userStore.addListener(() => {
-    if (userStore.getContext(userStore._storeNames.responseCode) === 200) {
-        refresh.onLogOut();
-    }
-},
-UserActionTypes.USER_LOGOUT);
-
-document.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
+router.start();
 
 // Регистрация Service Worker
 const registerServiceWorker = () => {

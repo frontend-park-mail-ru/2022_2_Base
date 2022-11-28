@@ -1,19 +1,16 @@
 import registerPageTemplate from './RegisterPage.hbs';
-import BasePage from '../BasePage.js';
-import FormComponent from '../../components/Form/Form.js';
-import errorMessage from '../../modules/ErrorMessage.js';
-import router from '../../modules/Router.js';
+import BasePage from '../BasePage';
+import FormComponent from '../../components/Form/Form';
+import errorMessage from '../../modules/ErrorMessage';
+import router from '../../modules/Router';
 import './RegisterPage.scss';
-import userStore from '../../stores/UserStrore.js';
-import {userActions, UserActionTypes} from '../../actions/user.js';
-import {config} from '../../config.js';
-import refresh from '../../modules/refreshElements.js';
+import userStore from '../../stores/UserStore';
+import {userActions, UserActionTypes} from '../../actions/user';
+import {config} from '../../config';
+import refresh from '../../modules/refreshElements';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
-
-const ERROR_400_MESSAGE = 'Ошибка. Попробуйте еще раз';
-const ERROR_401_MESSAGE = 'Неверная почта или пароль';
-const SERVER_ERROR_MESSAGE = 'Ошибка сервера. Попробуйте позже';
+import validation from '../../modules/validation';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -35,7 +32,8 @@ export default class RegisterPage extends BasePage {
      */
     addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_REGISTER);
-        cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
+        // cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
+        cartStore.addListener(() => router.back(), CartActionTypes.MERGE_CART);
     }
 
     /**
@@ -51,20 +49,17 @@ export default class RegisterPage extends BasePage {
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'Error400Message', ERROR_400_MESSAGE) :
+                    'Error400Message', config.errorMessages.error400auth) :
                 console.log('bad request: ', status);
             break;
         case 401:
             errorMessage.getErrorMessage(document.getElementById(
                 userStore.getContext(userStore._storeNames.context).fields.email.name),
-            'emailError', ERROR_401_MESSAGE);
+            'emailError', config.errorMessages.error401auth);
             console.log('no auth: ', status);
             break;
         default:
-            !document.getElementById('serverErrorMessage') ?
-                errorMessage.getServerMessage(document.getElementById('inForm'),
-                    'serverErrorMessage', SERVER_ERROR_MESSAGE) :
-                console.log('server error: ', status);
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }
@@ -113,19 +108,19 @@ export default class RegisterPage extends BasePage {
         }
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
-        userActions.signup(data);
+        if (validation.validate(data)) {
+            userActions.signup(data);
+        }
     };
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
      */
     render() {
         this.context = userStore.getContext(userStore._storeNames.context);
         delete this.context.fields.phone;
         super.render(this.context);
 
-        /* Создание и отрисовка компонента Form */
         this.formComponent = new FormComponent(document.getElementById('signup__form'));
         this.formComponent.render(this.context);
 

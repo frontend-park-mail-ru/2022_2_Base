@@ -1,5 +1,5 @@
 import itemTemplate from './itemCard.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './itemCard.scss';
 
 /**

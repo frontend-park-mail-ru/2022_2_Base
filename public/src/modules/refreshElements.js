@@ -1,11 +1,11 @@
-import HeaderComponent from '../components/Header/Header.js';
-import FooterComponent from '../components/Footer/Footer.js';
-import router from './Router.js';
-import {config} from '../config.js';
-import UserPage from '../pages/UserPage/UserPage.js';
-import userStore from '../stores/UserStrore.js';
-import LoginPage from '../pages/LoginPage/LoginPage.js';
-import RegisterPage from '../pages/RegisterPage/RegisterPage.js';
+import HeaderComponent from '../components/Header/Header';
+import FooterComponent from '../components/Footer/Footer';
+import router from './Router';
+import {config} from '../config';
+import UserPage from '../pages/UserPage/UserPage';
+import userStore from '../stores/UserStore';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
 /**
  * Класс, реализующий перерендеринг элементов
@@ -35,19 +35,20 @@ class RefreshEl {
         page.appendChild(this.createElementWithId('footer'));
 
         root.appendChild(page);
+
+        this.header = document.getElementById('header');
+        this.headerComponent = new HeaderComponent(this.header);
     }
 
     /**
      * Метод, реализующий перерендеринг компонента Header
-     * @param {boolean} auth - контекст отрисовки компонента
+     * @param {boolean} isAuth - есть ли авторизация
      */
-    refreshHeader(auth) {
-        const header = document.getElementById('header');
-        header.innerHTML = '';
-        const headerComponent = new HeaderComponent(header);
-        headerComponent.render(auth);
-        auth ? headerComponent.startEventListener() :
-            headerComponent.removeEventListener();
+    refreshHeader(isAuth) {
+        this.innerHTML = '';
+        this.headerComponent.removeEventListener();
+        this.headerComponent.render(isAuth);
+        this.headerComponent.startEventListener();
     };
 
     /**

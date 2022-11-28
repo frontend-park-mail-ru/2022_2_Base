@@ -1,19 +1,17 @@
-import BaseComponent from '../BaseComponent.js';
-import PopUpAddAddressTemplate from './PopUpAddAddress.hbs';
-import './PopUpAddAddress.scss';
-import {profileAction} from '../../actions/profile';
+import BaseComponent from '../BaseComponent';
 
 /**
  * Класс для реализации компонента Footer
  */
-export default class PopUpAddPaymentCard extends BaseComponent {
+export default class BasePopUp extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
-     * осуществлена отрисовка
+     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param {Array} childClassData данные из дочернего класса
      */
-    constructor(parent) {
+    constructor(parent, childClassData) {
         super(parent);
+        [this.template, this.pageName] = childClassData;
     }
 
     /**
@@ -39,43 +37,32 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * @param {object} event - событие
      */
     async listenClickApply(event) {
-        event.preventDefault();
-        const inputData = {
-            city: document.getElementById('city').value,
-            street: document.getElementById('street').value,
-            house: document.getElementById('house').value,
-            flat: document.getElementById('flat').value,
-            id: Number(this.context.id?.replace('addressCard/', '')),
-        };
-
-        if (this.context.add) {
-            profileAction.saveAddAddress(inputData);
-        } else {
-            profileAction.saveEditAddress(inputData);
-        }
+        console.warn('must be overridden in child class');
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const cancel = document.getElementById('popup-form_add-address__cancel');
-        cancel.addEventListener('click', this.listenClickCancel);
+        this.cancel = document.getElementById(`popup-form_${this.pageName}__cancel`);
+        if (this.cancel) {
+            this.cancel.addEventListener('click', this.listenClickCancel);
+        }
 
-        const apply = document.getElementById('popup-form_add-address__apply');
-        this.listenClickApplyBind = this.listenClickApply.bind(this);
-        apply.addEventListener('click', this.listenClickApplyBind);
+        this.apply = document.getElementById(`popup-form_${this.pageName}__apply`);
+        if (this.apply) {
+            this.listenClickApplyBind = this.listenClickApply.bind(this);
+            this.apply.addEventListener('click', this.listenClickApplyBind);
+        }
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const cancel = document.getElementById('.popup-form_add-address__cancel');
-        cancel.removeEventListener('click', this.listenClickCancel);
+        this.cancel.removeEventListener('click', this.listenClickCancel);
 
-        const apply = document.getElementById('.popup-form_add-address__apply');
-        apply.removeEventListener('click', this.listenClickApplyBind);
+        this.apply.removeEventListener('click', this.listenClickApplyBind);
     }
 
     /**
@@ -85,7 +72,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     render(context) {
         this.context = context;
-        super.render(context, PopUpAddAddressTemplate);
+        super.render(context, this.template);
         this.startEventListener();
     }
 }

@@ -4,7 +4,7 @@
 class ErrorMessage {
     /**
      * Метод, который отрисовывает сообщение об ошибке ввода
-     * @param {object} target - HTML-элемент, после которого будет осуществлена отрисовка
+     * @param {Element} target - HTML-элемент, после которого будет осуществлена отрисовка
      * @param {string} nameId - id HTML-элемента, который будет отрисован
      * @param {string} message - сообщение для отрисовки
      * @param {String} additionalClasses - классы, которые необходимо добавить к сообщению об ошибке
@@ -39,7 +39,7 @@ class ErrorMessage {
 
     /**
      * Метод, который отрисовывает сообщение об ошибке сервера.
-     * @param {object} target - HTML-элемент, после (до) которого будет осуществлена отрисовка
+     * @param {Element} target - HTML-элемент, после (до) которого будет осуществлена отрисовка
      * @param {string} nameId - id HTML-элемента, который будет отрисован
      * @param {string} message - сообщение для отрисовки
      * @param {boolean} after - вставить после или до target
@@ -64,7 +64,7 @@ class ErrorMessage {
         if (!this.errorElement) {
             document.getElementById('main').insertAdjacentHTML(
                 'afterbegin',
-                `<div class="server-error header_error-message" style="display: flex;"
+                `<div class="server-error header__error-message" style="display: flex;"
                         id="header_error-message">
                     <span class="server-error__text" id="server-error__text_">
                         ${errorText}
@@ -95,10 +95,8 @@ class ErrorMessage {
     validateField(valData, element, additionalClasses = null) {
         if (!valData.status) {
             const exError = document.getElementById('error-text');
-            if (exError) {
-                if (!(exError.innerText === valData.message)) {
-                    this.deleteErrorMessage(element.errorID);
-                }
+            if (exError && !(exError.innerText === valData.message)) {
+                this.deleteErrorMessage(element.errorID);
             }
             this.getErrorMessage(document.getElementById(element.name),
                 element.errorID, valData.message, additionalClasses);

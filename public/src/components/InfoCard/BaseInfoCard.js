@@ -1,5 +1,5 @@
-import BaseComponent from '../BaseComponent.js';
-import userStore from '../../stores/UserStrore';
+import BaseComponent from '../BaseComponent';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс для реализации компонента Footer
@@ -21,7 +21,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickEdite(event) {
+    async listenClickEdit(event) {
         const cardID = event.target.id.replace('edit-img-', '');
         userStore.getContext(this.storeData).forEach((context) => {
             if (context.id === cardID) {
@@ -90,12 +90,12 @@ export default class BaseInfoCard extends BaseComponent {
     /**
      * Метод, удаляющий слушатель изменения.
      */
-    strartEdit() {
+    startEdit() {
         this.edit = document.querySelectorAll(`.edit-${this.pageName}`);
         if (this.edit.length) {
-            this.bindListenClickEdite = this.listenClickEdite.bind(this);
+            this.bindListenClickEdit = this.listenClickEdit.bind(this);
             this.edit.forEach((key) => {
-                key.addEventListener('click', this.bindListenClickEdite);
+                key.addEventListener('click', this.bindListenClickEdit);
             });
         }
     }
@@ -105,7 +105,7 @@ export default class BaseInfoCard extends BaseComponent {
     removeEdit() {
         if (this.edit.length) {
             this.edit.forEach((key) => {
-                key.removeEventListener('click', this.bindListenClickEdite);
+                key.removeEventListener('click', this.bindListenClickEdit);
             });
         }
     }
@@ -116,7 +116,7 @@ export default class BaseInfoCard extends BaseComponent {
     removeEventListener() {
         if (this.delete.length) {
             this.delete.forEach((key) => {
-                this.delete.removeEventListener('click', this.bindListenClickDelete);
+                key.removeEventListener('click', this.bindListenClickDelete);
             });
         }
 

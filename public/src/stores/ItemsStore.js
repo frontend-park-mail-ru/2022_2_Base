@@ -1,9 +1,9 @@
-import BaseStore from './BaseStore.js';
+import BaseStore from './BaseStore';
 import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
-import {config} from '../config.js';
+import {config} from '../config';
 import cartStore from './CartStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -57,11 +57,12 @@ class ItemsStore extends BaseStore {
         sortURL: 'sortURL',
         itemData: 'itemData',
         comments: 'comments',
+        suggestionsSearch: 'suggestionsSearch',
     };
 
     /**
-   * @constructor
-   */
+     * @constructor
+     */
     constructor() {
         super();
         this._storage = new Map();
@@ -74,12 +75,13 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.sortURL, null);
         this._storage.set(this._storeNames.itemData, {});
         this._storage.set(this._storeNames.comments, []);
+        this._storage.set(this._storeNames.suggestionsSearch, []);
     }
 
     /**
-   * Метод, реализующий реакцию на рассылку Диспетчера.
-   * @param {Object} payload полезная нагрузка запроса
-   */
+     * Метод, реализующий реакцию на рассылку Диспетчера.
+     * @param {Object} payload полезная нагрузка запроса
+     */
     async _onDispatch(payload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
@@ -93,17 +95,12 @@ class ItemsStore extends BaseStore {
             break;
 
         case ItemCardsActionTypes.ITEM_CARDS_SEARCH:
-            await this._searchItemCards(payload.data);
+            await this._searchItemCards();
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_SEARCH]);
             break;
 
         case ItemCardsActionTypes.ITEM_CARD_GET:
             await this._getItemCard(payload.data);
-            this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
-            break;
-
-        case ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY:
-            await this._getPopularItemCard(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
 
@@ -130,12 +127,32 @@ class ItemsStore extends BaseStore {
             await this._addComment(payload.data);
             this._emitChange([ItemCardsActionTypes.ADD_COMMENT]);
             break;
+
+        case ItemCardsActionTypes.GET_SEARCH_RESULTS:
+            await this._getSearchResults(payload.data);
+            this._emitChange([ItemCardsActionTypes.GET_SEARCH_RESULTS]);
+            break;
+
+        case ItemCardsActionTypes.GET_SUGGESTION_SEARCH:
+            await this._getSuggestionSearch(payload.data);
+            this._emitChange([ItemCardsActionTypes.GET_SUGGESTION_SEARCH]);
+            break;
+
+        case ItemCardsActionTypes.LOCAL_SORT_RATING:
+            await this._localSortRating(payload.data);
+            this._emitChange([ItemCardsActionTypes.LOCAL_SORT_RATING]);
+            break;
+
+        case ItemCardsActionTypes.LOCAL_SORT_PRICE:
+            await this._localSortPrice(payload.data);
+            this._emitChange([ItemCardsActionTypes.LOCAL_SORT_PRICE]);
+            break;
         }
     }
 
     /**
-   * Действие: запрос списка карточек.
-   */
+     * Действие: запрос списка карточек.
+     */
     async _getItemCardsHome({path, popularCard}) {
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
@@ -144,7 +161,7 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+            addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsHome, {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
@@ -154,16 +171,9 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка популярных карточек.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
-    _getPopularItemCard(isFirstRequest) {
-    }
-
-    /**
-   * Действие: запрос списка дешевых карточек.
-   * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка дешевых карточек.
+     * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
+     */
     _getByPriceItemCard(isLowToHighPrice) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
@@ -172,9 +182,9 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек с высоким рейтингом.
-   * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка карточек с высоким рейтингом.
+     * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
+     */
     _getByRatingItemCard(isLowToHighRating) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
@@ -183,9 +193,41 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Синхранизируем количество товаров в корзине
-   * @param {object} items - полученные товары
-   */
+     * Действие: запрос списка дешевых карточек.
+     * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
+     */
+    _localSortPrice(isLowToHighPrice) {
+        this._storage.set(this._storeNames.cardsCategory,
+            this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
+                (item1st, item2nd) => {
+                    return item1st.lowprice - item2nd.lowprice;
+                } :
+                (item1st, item2nd) => {
+                    return item2nd.lowprice - item1st.lowprice;
+                })));
+        this._getByPriceItemCard(isLowToHighPrice);
+    }
+
+    /**
+     * Действие: запрос списка карточек с высоким рейтингом.
+     * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
+     */
+    _localSortRating(isLowToHighRating) {
+        this._storage.set(this._storeNames.cardsCategory,
+            this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
+                (item1st, item2nd) => {
+                    return item1st.rating - item2nd.rating;
+                } :
+                (item1st, item2nd) => {
+                    return item2nd.rating - item1st.rating;
+                })));
+        this._getByRatingItemCard(isLowToHighRating);
+    }
+
+    /**
+     * Синхранизируем количество товаров в корзине
+     * @param {object} items - полученные товары
+     */
     #syncWithCart(items) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (items && cartItems && items.length && cartItems.length) {
@@ -200,9 +242,23 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек по категориям.
-   * @param {boolean} isFirstRequest - получали ли мы до этого карточки
-   */
+     * Действие: запрос списка карточек по категориям.
+     * @return {string} путь запроса к серверу
+     */
+    #getRequestPathWithQueryParams() {
+        return config.api.category +
+            document.location.pathname.slice(
+                document.location.pathname.lastIndexOf('/'),
+                document.location.pathname.length,
+            ) +
+            `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}` +
+            `&count=${5}&${window.location.search.substring(1)}`;
+    }
+
+    /**
+     * Действие: запрос списка карточек по категориям.
+     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     */
     async _getItemCardsByCategory(isFirstRequest) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
@@ -210,22 +266,13 @@ class ItemsStore extends BaseStore {
         }
 
         const [status, response] = await request
-            .makeGetRequest(
-                config.api.category +
-          document.location.pathname.slice(
-              document.location.pathname.lastIndexOf('/'),
-              document.location.pathname.length,
-          ) +
-          `?lastitemid=${this._storage.get(
-              this._storeNames.cardLoadCount,
-          )}&count=${5}&${window.location.search.substring(1)}`,
-            )
+            .makeGetRequest(this.#getRequestPathWithQueryParams())
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-            sharedFunctions.addSpacesToPrice(response.body);
+            addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
             this.#syncCardsInCategory(response.body);
 
@@ -241,13 +288,6 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос списка карточек на основании ввода пользователя.
-   * @param {String} searchString - строка для поиска
-   */
-    async _searchItemCards(searchString) {}
-
-
-    /**
      * Функция, обновляющая информацию о загруженных картах
      * @param {object} body - данные для добавления
      */
@@ -261,9 +301,9 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-   * Действие: запрос карточки с определенным id.
-   * @param {number} id - идентификатор товара
-   */
+     * Действие: запрос карточки с определенным id.
+     * @param {number} id - идентификатор товара
+     */
     async _getItemCard(id) {
         const [status, response] = await request
             .makeGetRequest(config.api.products +
@@ -297,6 +337,45 @@ class ItemsStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.comments, response.body);
             this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
+     * Действие: синхронизация списка карточек поиска с корзиной.
+     */
+    async _searchItemCards() {
+        this.#syncWithCart(this._storage.get(this._storeNames.cardsCategory));
+        // addSpacesToPrice(this._storage.get(this._storeNames.cardsCategory));
+    }
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     */
+    async _getSearchResults(searchString) {
+        const [status, response] = await request
+            .makePostRequest(config.api.search, {search: searchString})
+            .catch((err) => console.log(err));
+
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.cardsCategory, response.body);
+        }
+    }
+
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     */
+    async _getSuggestionSearch(searchString) {
+        const [status, response] = await request
+            .makePostRequest(config.api.suggestionSearch, {search: searchString})
+            .catch((err) => console.log(err));
+
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.suggestionsSearch, response.body);
         }
     }
 

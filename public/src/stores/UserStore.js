@@ -1,10 +1,8 @@
-import BaseStore from './BaseStore.js';
-import {UserActionTypes} from '../actions/user.js';
-import {ProfileActionTypes} from '../actions/profile.js';
-import request from '../modules/ajax.js';
-import {config} from '../config.js';
-import errorMessage from '../modules/ErrorMessage.js';
-import validation from '../modules/validation.js';
+import BaseStore from './BaseStore';
+import {UserActionTypes} from '../actions/user';
+import {ProfileActionTypes} from '../actions/profile';
+import request from '../modules/ajax';
+import {config} from '../config';
 import {cartAction} from '../actions/cart';
 
 /**
@@ -71,40 +69,6 @@ class UserStore extends BaseStore {
         },
     };
 
-    #testPaymentCards = [
-        {
-            id: 60,
-            type: '',
-            number: '1232131232131231',
-            expiryDate: '2053-01-31T00:00:00Z',
-            priority: false,
-        },
-        {
-            number: '123456******5678',
-            type: 'MIR',
-            expiry: '1987-08-19T23:15:30.000Z',
-            id: 2,
-        },
-    ];
-
-    #testAddressCards = [
-        {
-            priority: true,
-            city: 'г. Москва',
-            street: 'улица Бауманская',
-            house: '228',
-            flat: '420',
-            id: 1, // addressCard/
-        },
-        {
-            city: 'г. Москва',
-            street: 'улица Бассейная',
-            house: '228',
-            flat: '420',
-            id: 2,
-        },
-    ];
-
     _storeNames = {
         isAuth: 'isAuth',
         responseCode: 'responseCode',
@@ -132,8 +96,8 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
         this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
-        this._storage.set(this._storeNames.paymentMethods, []); // this.#testPaymentCards
-        this._storage.set(this._storeNames.address, []); // this.#testAddressCards
+        this._storage.set(this._storeNames.paymentMethods, []);
+        this._storage.set(this._storeNames.address, []);
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
@@ -151,17 +115,13 @@ class UserStore extends BaseStore {
             break;
 
         case UserActionTypes.USER_REGISTER:
-            if (this.#validate(payload.data)) {
-                await this._signup(payload.data);
-                this._emitChange([UserActionTypes.USER_REGISTER]);
-            }
+            await this._signup(payload.data);
+            this._emitChange([UserActionTypes.USER_REGISTER]);
             break;
 
         case UserActionTypes.USER_LOGIN:
-            if (this.#validate(payload.data)) {
-                await this._login(payload.data);
-                this._emitChange([UserActionTypes.USER_LOGIN]);
-            }
+            await this._login(payload.data);
+            this._emitChange([UserActionTypes.USER_LOGIN]);
             break;
 
         case UserActionTypes.USER_LOGOUT:
@@ -287,76 +247,6 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Метод, осуществляющий валидацию данных из формы.
-     * @param {object} data - объект, содержащий данные из формы
-     * @return {boolean} статус валидации
-     */
-    #validate(data) {
-        let isValid = true; // ?
-        Object.entries(data).forEach(([key, value]) => {
-            switch (key) {
-            case this.#context.fields.name.name:
-                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
-                    this.#context.fields.name);
-                break;
-            case this.#context.fields.email.name:
-                isValid &= errorMessage.validateField(validation.validateEMail(value),
-                    this.#context.fields.email, 'login__form__error');
-                break;
-            case this.#context.fields.password.name:
-                isValid &= errorMessage.validateField(validation.validatePassword(value),
-                    this.#context.fields.password);
-                break;
-            case this.#context.fields.repeatPassword.name:
-                isValid &= errorMessage.validateField(validation
-                    .validateRepeatPassword(data.password === data.repeatPassword),
-                this.#context.fields.repeatPassword);
-                break;
-            case this.#context.fields.name.popUpName:
-                isValid &= errorMessage.validateField(validation.checkEmptyField(value),
-                    {
-                        name: this.#context.fields.name.popUpName,
-                        errorID: this.#context.fields.name.errorID,
-                    }, 'userpage__popUp__error');
-                break;
-            case this.#context.fields.email.popUpName:
-                isValid &= errorMessage.validateField(validation.validateEMail(value),
-                    {
-                        name: this.#context.fields.email.popUpName,
-                        errorID: this.#context.fields.email.errorID,
-                    }, 'userpage__popUp__error');
-                break;
-            case this.#context.fields.phone.popUpName:
-                isValid &= errorMessage.validateField(validation.validatePhone(value),
-                    {
-                        name: this.#context.fields.phone.popUpName,
-                        errorID: this.#context.fields.phone.errorID,
-                    }, 'userpage__popUp__error');
-                break;
-            case this.#context.fields.password.popUpName:
-                isValid &= errorMessage.validateField(validation.validatePassword(value),
-                    {
-                        name: this.#context.fields.password.popUpName,
-                        errorID: this.#context.fields.password.errorID,
-                    }, 'userpage__popUp__error');
-                break;
-            case this.#context.fields.repeatPassword.popUpName:
-                isValid &= errorMessage.validateField(validation.validateRepeatPassword(value),
-                    {
-                        name: this.#context.fields.repeatPassword.popUpName,
-                        errorID: this.#context.fields.repeatPassword.errorID,
-                    }, 'userpage__popUp__error');
-                break;
-            case this.#context.fields?.phone?.name:
-                isValid &= errorMessage.validateField(validation.validatePhone(value),
-                    this.#context.fields.name);
-                break;
-            }
-        });
-        return isValid;
-    }
-
-    /**
      * Метод, реализующий получение данных пользователя.
      */
     async _getData() {
@@ -394,12 +284,6 @@ class UserStore extends BaseStore {
      */
     async _saveEditData(data) {
         const userData = this.#collectUserData();
-        const dataForVal = {};
-        dataForVal[this.#context.fields[data.id].popUpName] = data.value;
-        if (!this.#validate(dataForVal)) {
-            this._storage.set(this._storeNames.responseCode, config.states.invalidUserData);
-            return;
-        }
         switch (data.id) {
         case 'name':
             userData.username = data.value;
@@ -429,7 +313,7 @@ class UserStore extends BaseStore {
      * @param {Blob} avatar
      */
     async _uploadAvatar(avatar) {
-        const [status] = await request.makePostRequestSendAva(
+        const [status] = await request.makePostRequestSendAvatar(
             config.api.uploadAvatar, avatar ??
             await fetch('img/UserPhoto.webp').then((r) => r.blob()))
             .catch((err) => console.log(err));
@@ -464,6 +348,7 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
+            avatar: this._storage.get(this._storeNames.avatar),
             paymentMethods: paymentMethodsField,
             address: addressField,
         };
@@ -485,105 +370,49 @@ class UserStore extends BaseStore {
     }
 
     /**
-     * Функция, реализующая валидацию полей карты.
-     * @param {object} data - данные для обработки
-     * @return {string} errorMessage - сообщение об ошибке
-     */
-    #validateCard(data) {
-        if (data.expiry.length !== 5 ||
-            !/^\d+$/.test(data.expiry.slice(0, 2)) ||
-            !/^\d+$/.test(data.expiry.slice(-2))) {
-            return 'Срок действия карты формата 09/25';
-        }
-        if (Number(data.expiry.slice(0, 2)) > 12) {
-            return 'Месяц не может быть больше 12';
-        }
-        if (Number(data.expiry.slice(-2)) < new Date().getFullYear() % 100 ||
-            (Number(data.expiry.slice(-2)) === new Date().getFullYear() % 100 &&
-                Number(data.expiry.slice(0, 2)) < new Date().getMonth())) {
-            return 'Срок действия карты истек';
-        }
-        if (data.cvc.length !== 3 || !/^\d+$/.test(data.cvc)) {
-            return 'CVC код содержит 3 цифры';
-        }
-        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
-            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
-        }
-        return '';
-    }
-
-    /**
      * Метод, реализующий сохранение карты.
      * @param {object} data - данные для обработки
      */
     async _saveAddCard(data) {
         const userData = this.#collectUserData();
-        const errorMessage = this.#validateCard(data);
-        if (errorMessage) {
-            this._storage.set(this._storeNames.errorMessage, errorMessage);
-            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-        } else {
-            delete data.cvc;
-            userData.paymentMethods.forEach((item) => delete item.priority);
-            data.id = userData.paymentMethods.length;
-            data.priority = true;
-            data.expiryDate = data.expiry.split('/');
-            data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0]);
-            userData.paymentMethods.push(data);
+        delete data.cvc;
+        userData.paymentMethods.forEach((item) => delete item.priority);
+        data.id = userData.paymentMethods.length;
+        data.priority = true;
+        data.expiryDate = data.expiry.split('/');
+        data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0]);
+        userData.paymentMethods.push(data);
 
-            await this.#makePostRequestCard(userData, 'paymentMethods');
-        }
-    }
-
-    /**
-     * Метод, реализующий удаление способа оплаты.
-     * @param {int} id - идентификатор элемента
-     */
-    async _saveDeleteCard(id) {
-        const userData = this.#collectUserData();
-        userData.paymentMethods.forEach((item, key) => {
-            if (item.id === id) {
-                delete userData.paymentMethods[key];
-            }
-        });
         await this.#makePostRequestCard(userData, 'paymentMethods');
     }
 
     /**
-     * Функция, реализующая валидацию полей карты.
-     * @param {object} data - данные для обработки
-     * @return {string} errorMessage - сообщение об ошибке
+     * Метод, реализующий удаление способа оплаты.
+     * @param {number} id - идентификатор элемента
      */
-    #validateAddress(data) {
-        if (!data.city.length) {
-            return 'Введите ваш город';
-        }
-        if (!data.street.length) {
-            return 'Введите вашу улицу';
-        }
-        if (!data.house.length) {
-            return 'Введите ваш дом';
-        }
-        return '';
+    async _saveDeleteCard(id) {
+        // const userData = this.#collectUserData();
+        // userData.paymentMethods.forEach((item, key) => {
+        //     if (item.id === id) {
+        //         delete userData.paymentMethods[key];
+        //     }
+        // });
+        userData.paymentMethods = userData.paymentMethods.filter((item) => item.id !== id);
+        await this.#makePostRequestCard(userData, 'paymentMethods');
     }
+
     /**
      * Метод, реализующий добавление карты адреса.
      * @param {object} data - данные для обработки
      */
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
-        const errorMessage = this.#validateAddress(data);
-        if (errorMessage !== '') {
-            this._storage.set(this._storeNames.errorMessage, errorMessage);
-            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-        } else {
-            data.id = userData.address.length;
-            userData.address.forEach((item) => delete item.priority);
-            data.priority = true;
-            userData.address.push(data);
+        data.id = userData.address.length;
+        userData.address.forEach((item) => delete item.priority);
+        data.priority = true;
+        userData.address.push(data);
 
-            await this.#makePostRequestCard(userData, 'address');
-        }
+        await this.#makePostRequestCard(userData, 'address');
     }
 
     /**
@@ -592,33 +421,28 @@ class UserStore extends BaseStore {
      */
     async _saveEditAddress(data) {
         const userData = this.#collectUserData();
-        const errorMessage = this.#validateAddress(data);
-        if (errorMessage !== '') {
-            this._storage.set(this._storeNames.errorMessage, errorMessage);
-            this._storage.set(this._storeNames.responseCode, config.states.invalidData);
-        } else {
-            userData.address.forEach((item, key) => {
-                if (item.id === data.id) {
-                    data.priority = item.priority;
-                    userData.address[key] = data;
-                }
-            });
-            await this.#makePostRequestCard(userData, 'address');
-        }
+        userData.address.forEach((item, key) => {
+            if (item.id === data.id) {
+                data.priority = item.priority;
+                userData.address[key] = data;
+            }
+        });
+        await this.#makePostRequestCard(userData, 'address');
     }
 
     /**
      * Метод, реализующий удаление карты адреса.
-     * @param {int} id - идентификатор элемента
+     * @param {number} id - идентификатор элемента
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        userData.address.forEach((item, key) => {
-            if (item.id === id) {
-                delete userData.address[key];
-            }
-        });
-        await this.#makePostRequestCard(userData, 'address');
+        // userData.address.forEach((item, key) => {
+        //     if (item.id === id) {
+        //         delete userData.address[key];
+        //     }
+        // });
+        // await this.#makePostRequestCard(userData, 'address');
+        await this.#makePostRequestCard(userData.filter((item) => item.id !== id), 'address');
     }
 }
 

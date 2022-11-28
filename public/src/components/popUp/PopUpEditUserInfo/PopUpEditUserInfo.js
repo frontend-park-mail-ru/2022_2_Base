@@ -1,37 +1,21 @@
-import BaseComponent from '../BaseComponent.js';
 import PopUpEditUserInfoTemplate from './PopUpEditUserInfo.hbs';
 import './PopUpEditUserInfo.scss';
-import {profileAction} from '../../actions/profile.js';
+import {profileAction} from '../../../actions/profile';
+import BasePopUp from '../BasePopUp';
+import userStore from '../../../stores/UserStore';
+import validation from '../../../modules/validation';
 
 /**
  * Класс для реализации компонента Footer
  */
-export default class PopUpEditUserInfo extends BaseComponent {
+export default class PopUpEditUserInfo extends BasePopUp {
     /**
      * Конструктор, создающий класс компонента PopUpEditUserInfo
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
-        super(parent);
-    }
-
-    /**
-     * Функция для передачи в слушателе click на отмену изменений данных.
-     * @param {object} event - событие
-     */
-    async listenClickCancel(event) {
-        event.preventDefault();
-
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
-        }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
-        }
+        super(parent, [PopUpEditUserInfoTemplate, 'user-info']);
     }
 
     /**
@@ -40,11 +24,17 @@ export default class PopUpEditUserInfo extends BaseComponent {
      */
     async listenClickApply(event) {
         event.preventDefault();
-
-        profileAction.saveEditData({
+        const data = {
             value: document.getElementById(this.context.id + '__popUp').value,
             id: this.context.id,
-        });
+        };
+        const dataForVal = {};
+        dataForVal[userStore.getContext(userStore._storeNames.context)
+            .fields[data.id].popUpName] = data.value;
+        if (validation.validate(dataForVal)) {
+            profileAction.saveEditData(data);
+            console.log(this.context);
+        }
     }
 
 
@@ -56,6 +46,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
     prepareRenderData(context) {
         const data = {
             title: context.getAttribute('name'),
+            id: context.id,
             fields: {
                 field1: {
                     name: context.getAttribute('name'),
@@ -89,36 +80,11 @@ export default class PopUpEditUserInfo extends BaseComponent {
     }
 
     /**
-     * Метод, добавляющий слушатели.
-     */
-    startEventListener() {
-        const cancel = document.getElementById('popup-form_user-info__cancel');
-        cancel.addEventListener('click', this.listenClickCancel);
-
-        const apply = document.getElementById('popup-form_user-info__apply');
-        this.listenClickApplyBind = this.listenClickApply.bind(this);
-        apply.addEventListener('click', this.listenClickApplyBind);
-    }
-
-    /**
-     * Метод, удаляющий слушатели.
-     */
-    removeEventListener() {
-        const cancel = document.getElementById('.popup-form_user-info__cancel');
-        cancel.removeEventListener('click', this.listenClickCancel);
-
-        const apply = document.getElementById('.popup-form_user-info__apply');
-        apply.removeEventListener('click', this.listenClickApplyBind);
-    }
-
-    /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
      * @param {object} context, с учетом которого будет произведен рендер
      */
     render(context) {
-        this.context = context;
-        super.render(this.prepareRenderData(context), PopUpEditUserInfoTemplate);
-        this.startEventListener();
+        super.render(this.prepareRenderData(context));
     }
 }

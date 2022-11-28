@@ -1,5 +1,5 @@
 import TopCategoryTemplate from './topCategory.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './topCategory.scss';
 
 /**
