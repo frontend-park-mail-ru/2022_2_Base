@@ -20,6 +20,10 @@
     margin-left: 32px;
 }
 
+.user-photo_user-page {
+    object-fit: cover;
+}
+
 .user-page__edit-button {
     height: 16px;
     width: 16px;
@@ -75,10 +79,6 @@
     cursor: pointer;
     border-radius: 50px;
     object-fit: cover;
-}
-
-.user-page__user-photo:hover {
-    //filter: blur(1px);
 }
 
 .user-page__user-name-wrapper {

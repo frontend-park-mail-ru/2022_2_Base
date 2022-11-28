@@ -8,7 +8,8 @@
         <input type="checkbox" id="checkbox-toggle">
         <label class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
                for="checkbox-toggle">
-            <img type="image" src="/img/Catalog.svg" class="header__catalog-img" alt="Menu-Burger icon in button Catalog">
+            <img type="image" src="/img/Catalog.svg" class="header__catalog-img"
+                 alt="Menu-Burger icon in button Catalog">
             <span>Каталог</span>
         </label>
         <ul class="dropdown-content">
@@ -18,23 +19,27 @@
             {{/each}}
         </ul>
     </div>
-    <div class="header__search-line header__disabled">
-        <input type="search" class="header__form-search" name="search-line"
-               placeholder="Что Вас интересует?" maxlength="75">
-        <a href="" class="header__button-search header__disabled paint-purple ">
+    <div class="header__search-line">
+        <label>
+            <input type="search" class="header__form-search" name="search-line"
+                   placeholder="Что Вас интересует?" maxlength="75" id="search-line__text">
+        </label>
+        <button type="submit" class="header__button-search  paint-purple" id="search-button-submit">
             <img type="image" src="/img/Search.svg" alt="Search button">
-        </a>
+        </button>
+        <ul class="dropdown-content search-suggestions" id="search-suggestions__main" style="display: grid;">
+        </ul>
     </div>
 </div>
 <div class="header__right">
     <div class="header__order">
-        <a href="" class="header__disabled">
+        <a href="/orders">
             <img src="/img/Orders.svg" alt="Orders button" class="header__order-img">
         </a>
     </div>
     <div class="header__favourites">
-        <a href="" class="header__disabled">
-            <img src="/img/Favourites.svg" alt="Favourite items button" class="header__disabled-img">
+        <a href="/favourites" class="disabled">
+            <img src="/img/Favourites.svg" alt="Favourite items button" class="header__favourites-img">
         </a>
     </div>
     <div class="header__card">

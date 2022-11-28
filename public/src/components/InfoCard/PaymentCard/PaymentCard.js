@@ -32,7 +32,7 @@ export default class PaymentCard extends BaseInfoCard {
      * адреса
      * @param {object} event - событие
      */
-    listenClickDelete(event) {
+    async listenClickDelete(event) {
         profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
     }
 }

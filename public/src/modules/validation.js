@@ -154,6 +154,22 @@ class Validation {
     }
 
     /**
+     * Функция, реализующая валидацию полей карты.
+     * @param {String} searchString - данные для обработки
+     * @return {string} errorMessage - сообщение об ошибке
+     */
+    validateSearchField(searchString) {
+        if (searchString.length < 3) {
+            return 'Введите не меньше 3 символов';
+        }
+        if (!/^[a-z0-9 а-яА-ЯёЁ]+$/i
+            .test(searchString)) {
+            return 'Введены недопустимые символы';
+        }
+        return '';
+    }
+
+    /**
      * Метод, осуществляющий валидацию данных из формы.
      * @param {object} data - объект, содержащий данные из формы
      * @return {boolean} статус валидации

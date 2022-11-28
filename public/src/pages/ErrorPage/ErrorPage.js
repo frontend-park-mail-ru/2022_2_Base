@@ -16,11 +16,4 @@ export default class ErrorPage extends BasePage {
             errorPageTemplate,
         );
     }
-    /**
-     * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
-     */
-    render() {
-        super.render();
-    }
 }

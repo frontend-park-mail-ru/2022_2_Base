@@ -59,7 +59,7 @@ class ErrorMessage {
      * Метод, показывающий ошибку
      * @param {string} errorText - текст ошибки
      */
-    getAbsoluteErrorMessage(errorText = 'Возникла ошибка. Попробуйте позже') {
+    getAbsoluteErrorMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
         this.errorElement = document.getElementById('header_error-message');
         if (!this.errorElement) {
             document.getElementById('main').insertAdjacentHTML(
@@ -98,7 +98,6 @@ class ErrorMessage {
             if (exError && !(exError.innerText === valData.message)) {
                 this.deleteErrorMessage(element.errorID);
             }
-
             this.getErrorMessage(document.getElementById(element.name),
                 element.errorID, valData.message, additionalClasses);
             return false;
