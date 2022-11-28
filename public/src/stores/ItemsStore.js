@@ -366,16 +366,20 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
+     * @param {object} data - строка для поиска
      */
-    async _getSuggestionSearch(searchString) {
-        const [status, response] = await request
-            .makePostRequest(config.api.suggestionSearch, {search: searchString})
-            .catch((err) => console.log(err));
+    async _getSuggestionSearch(data) {
+        if (data.isCategory) {
+            this._storage.set(this._storeNames.suggestionsSearch, {search: data.searchString});
+        } else {
+            const [status, response] = await request
+                .makePostRequest(config.api.suggestionSearch, {search: data.searchString})
+                .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.suggestionsSearch, response.body);
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                this._storage.set(this._storeNames.suggestionsSearch, response.body);
+            }
         }
     }
 

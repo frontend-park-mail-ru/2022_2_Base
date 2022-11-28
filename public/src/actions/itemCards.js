@@ -148,11 +148,12 @@ export const itemCardsAction = {
     /**
      * Действие: запрос списка саджестов на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
+     * @param {boolean} isCategory - идет поиск по категориям или нет
      */
-    getSuggestionSearch(searchString) {
+    getSuggestionSearch(searchString, isCategory = false) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
-            data: searchString,
+            data: {searchString: searchString, isCategory: isCategory},
         });
     },
 
