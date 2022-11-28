@@ -11,3 +11,14 @@
     width: 120px;
     height: 78px;
 }
+
+@media (max-width: 991px) {
+    .item-top-cards__image {
+        width: 70px;
+        height: 75%;
+    }
+}
+
+// @media (max-width: 767px) {
+    
+// }
