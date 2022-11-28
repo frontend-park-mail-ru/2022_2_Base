@@ -2,6 +2,8 @@
     height: 65vh;
     display: grid;
     align-content: center;
+    justify-content: center;
+    grid-template-columns: max-content;
 }
 
 .server-error__404 {
