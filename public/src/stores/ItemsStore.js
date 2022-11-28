@@ -345,7 +345,7 @@ class ItemsStore extends BaseStore {
      */
     async _searchItemCards() {
         this.#syncWithCart(this._storage.get(this._storeNames.cardsCategory));
-        // addSpacesToPrice(this._storage.get(this._storeNames.cardsCategory));
+        addSpacesToPrice(this._storage.get(this._storeNames.cardsCategory));
     }
 
     /**

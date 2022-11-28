@@ -288,11 +288,13 @@ export default class CartOrderPage extends BasePage {
                 //                         document.getElementById('final-paymentmethod').textContent = 'При получении';
                 //                     }
                 // =======
-                let choiceId;
+                let choiceId = choice.id;
                 let choiceIdWithType = choice.id;
                 if (choiceIdWithType) {
                     if (choiceIdWithType.includes('/')) {
                         [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
+                    } else {
+                        choiceId = choiceIdWithType;
                     }
                     this.#choiceIdType(choiceIdWithType, choiceId, data);
                 }
@@ -530,7 +532,7 @@ export default class CartOrderPage extends BasePage {
                 //
                 // =======
                 orderData.card = parseInt(document.querySelector('.payment-method__cart')
-                    .id.split('/', 2)[1]);
+                    .id.split('/')[1]);
                 orderData.card = orderData.card ? orderData.card : null;
                 cartAction.makeOrder(orderData);
             } else {
