@@ -11,7 +11,7 @@
   grid-template-columns: max-content 1fr 1fr;
   align-items: start;
   gap: 32px;
-  background-color: var(--pure_white);
+  background-color: var(--pure-white);
   border-radius: 10px;
   margin-bottom: 32px;
   padding: 32px;
@@ -59,7 +59,7 @@
     &:before {
       content: "\2605";
       font-size: 42px;
-      color: var(--text_white);
+      color: var(--text-white);
       line-height: 44px;
     }
   }
@@ -108,7 +108,7 @@
   grid-column: 2;
   height: 40px;
   width: 840px;
-  background-color: var(--default_purple);
+  background-color: var(--default-purple);
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -117,5 +117,5 @@
 }
 
 .add-comment-page__block__input-fields__submit:hover {
-  background-color: var(--hover_purple);
+  background-color: var(--hover-purple);
 }

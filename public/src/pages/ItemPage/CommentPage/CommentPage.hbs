@@ -2,27 +2,27 @@
 <div class="content-comment-page content-comment-page_margin">
     <div class="comment-page-header content-comment-page-block-background comment-page-header-main_padding">
         <a href=""{{itemPath}}>
-        <img src="{{imgsrc}}" alt="comment photo" class="comment-page-header__photo">
+            <img src="{{imgsrc}}" alt="comment photo" class="comment-page-header__photo">
         </a>
         <div id="comment-page__header-product">
 
         </div>
         <div class="comment-page-header__right-block">
-        <div class="comment-page-header__add-cart">
-            <div class="comment-page-header__price">
-                <div class="comment-page-header__price-discount">
-                    <span class="text-normal-default comment-page-header__price-strikethrough">{{price}} ₽</span>
-                    {{#if lowprice}}
-                        <div class="comment-page-header__sales-value text-normal-small">
-                            -{{discount}}%
-                        </div>
-                    {{/if}}
+            <div class="comment-page-header__add-cart">
+                <div class="comment-page-header__price">
+                    <div class="comment-page-header__price-discount">
+                        <span class="text-normal-default comment-page-header__price-strikethrough">{{price}} ₽</span>
+                        {{#if lowprice}}
+                            <div class="comment-page-header__sales-value text-normal-small">
+                                -{{discount}}%
+                            </div>
+                        {{/if}}
+                    </div>
+                    <span class="comment-page-color-jet-black text-normal-large-normal">{{lowprice}} ₽</span>
                 </div>
-                <span class="comment-page-color-jet-black text-normal-large-normal">{{lowprice}} ₽</span>
+                <div id="comment-block-button-add-to-cart" data-id="{{this.id}}">
+                </div>
             </div>
-            <div id="comment-block-button-add-to-cart" data-id="{{this.id}}">
-            </div>
-        </div>
         </div>
     </div>
     <div class="comment-page-main content-comment-page-block-background comment-page-header-main_padding">
@@ -35,16 +35,16 @@
             </div>
             <div class="horizontal-line"></div>
         </div>
-<!--        <div class="comment-page-main__sort">-->
-<!--            <div>-->
-<!--                <img src="/img/sort-order.svg" class="comment-page-sort-icon" alt="sort by date">-->
-<!--                <span class="text-normal-default__bold comment-page-main__sort-condition">По дате</span>-->
-<!--            </div>-->
-<!--            <div class="">-->
-<!--                <img src="/img/sort-order.svg" class="comment-page-sort-icon" alt="sort by rating">-->
-<!--                <span class="text-normal-default__bold comment-page-main__sort-condition">По рейтингу</span>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="comment-page-main__sort">-->
+        <!--            <div>-->
+        <!--                <img src="/img/sort-order.svg" class="comment-page-sort-icon" alt="sort by date">-->
+        <!--                <span class="text-normal-default__bold comment-page-main__sort-condition">По дате</span>-->
+        <!--            </div>-->
+        <!--            <div class="">-->
+        <!--                <img src="/img/sort-order.svg" class="comment-page-sort-icon" alt="sort by rating">-->
+        <!--                <span class="text-normal-default__bold comment-page-main__sort-condition">По рейтингу</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="comment-page-main__comments" id="comments">
 
         </div>

@@ -377,6 +377,17 @@
   background: var(--hover-purple);
 }
 
+.summary_cart__create-order-button{
+  display: flex;
+  background: var(--default-purple);
+  padding: 0 16px 0 16px;
+  color: var(--text-white);
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+}
+
 .cart-main__empty {
   display: flex;
   justify-content: center;
