@@ -9,6 +9,10 @@ import userStore from '../stores/UserStore';
 import refresh from './refreshElements';
 import CategoryPage from '../pages/CatalogPage/CategoryPage/CategoryPage';
 import SearchPage from '../pages/CatalogPage/SearchPage/SearchPage';
+import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
+import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
+import UserPage from '../pages/UserPage/UserPage';
+import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -65,10 +69,18 @@ class Router {
             href = target.parentElement?.getAttribute('href');
         }
 
+        if (href === config.href.logout) {
+            userActions.logout();
+        }
+
         if (!!href && !href.includes('#')) {
             event.preventDefault();
             this.openPage(href);
         }
+        // this.register(config.href.logout, () => {
+        //     userActions.logout();
+        //     this.back();
+        // });
     };
 
 
@@ -136,10 +148,6 @@ class Router {
 
         this.register(config.href.main, MainPage);
         this.register(config.href.login, LoginPage);
-        this.register(config.href.logout, () => {
-            userActions.logout();
-            this.back();
-        });
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CategoryPage);
         this.register(config.href.search, SearchPage);

@@ -5,6 +5,8 @@ import {config} from '../../config';
 import {itemCardsAction} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
+import CatalogPageTemplate from './CatalogPage.hbs';
+import './CatalogPage.scss';
 
 /**
  * Класс, реализующий страницу с каталога.

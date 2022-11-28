@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import BaseComponent from '../BaseComponent.js';
-=======
 import BaseComponent from '../BaseComponent';
->>>>>>> main
 import PopUpChooseAddressAndPaymentCard from './PopUpChooseAddressAndPaymentCard.hbs';
 import './PopUpChooseAddressAndPaymentCard.scss';
 
@@ -39,11 +35,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на выбор новых данных.
-<<<<<<< HEAD
-     * @param {number} id - id элемента
-=======
      * @param {string} id - id элемента
->>>>>>> main
      */
     async listenClickAddressAndPaymentCard(id) {
         const chooseAddress = document.getElementById(id);
@@ -66,16 +58,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-<<<<<<< HEAD
-        const cancel = document.getElementById('cart-popup-form__cancel');
-        cancel.addEventListener('click', this.listenClickCancel);
-
-        const fields = document.querySelectorAll('.cart-popup-form__input');
-        if (fields) {
-            fields.forEach((key) => {
-                const fieldId = key.getAttribute('id');
-                key.addEventListener('click', this.listenClickAddressAndPaymentCard.bind(null, fieldId));
-=======
         this.cancelElement = document.getElementById('cart-popup-form__cancel');
         this.cancelElement.addEventListener('click', this.listenClickCancel);
 
@@ -86,7 +68,6 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 this.bindListenClickAddressAndPaymentCard.push(
                     this.listenClickAddressAndPaymentCard.bind(null, key.id));
                 key.addEventListener('click', this.bindListenClickAddressAndPaymentCard[i]);
->>>>>>> main
             });
         }
     }
@@ -95,24 +76,12 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-<<<<<<< HEAD
-        const cancel = document.getElementById('.cart-popup-form__cancel');
-        cancel.removeEventListener('click', this.listenClickCancel);
-
-        const fields = document.querySelectorAll('.cart-popup-form__input');
-        if (fields) {
-            fields.forEach((key) => {
-                const fieldId = key.getAttribute('id');
-                key.removeEventListener('click',
-                    this.listenClickAddressAndPaymentCard.bind(null, fieldId));
-=======
         this.cancelElement.removeEventListener('click', this.listenClickCancel);
 
         if (this.popUpFields) {
             this.popUpFields.forEach((key, i) => {
                 key.removeEventListener('click',
                     this.bindListenClickAddressAndPaymentCard[i]);
->>>>>>> main
             });
         }
     }

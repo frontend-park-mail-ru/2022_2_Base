@@ -24,7 +24,7 @@
     height: 24px;
 }
 
-.product-page-header__comment {
+%product-page-header__comment {
     display: flex;
     gap: 4px;
     align-items: center;
@@ -36,7 +36,7 @@
 }
 
 .product-page-header__selection {
-    @extend .product-page-header__comment;
+    @extend %product-page-header__comment;
 }
 
 .favourite-opt {

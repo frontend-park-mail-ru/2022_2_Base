@@ -1,8 +1,8 @@
 import ProductHeaderTemplate from './ProductHeader.hbs';
 import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
-import sharedFunctions from '../../modules/sharedFunctions';
 import {config} from '../../config';
+import {_sklonenie} from '../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента ProductHeader
@@ -40,7 +40,7 @@ export default class ProductHeader extends BaseComponent {
             rating: context.rating,
             // commentsHref: context.commentsHref,
             commentsCount: context.commentsCount,
-            commentsCountText: sharedFunctions.
+            commentsCountText:
                 _sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };

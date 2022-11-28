@@ -2,7 +2,7 @@ import ProductPagePageTemplate from './ProductPage.hbs';
 import './ProductPage.scss';
 import BaseItemPage from '../BaseItemPage';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
-import sharedFunctions from '../../../modules/sharedFunctions';
+import {getDate} from '../../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -26,8 +26,7 @@ export default class ProductPage extends BaseItemPage {
      * @param {object} data объект для добавления данных
      */
     loadMoreData(data) {
-        console.log(sharedFunctions._getDate(1)[0]);
-        data.delveryDate = sharedFunctions._getDate(1)[0];
+        data.delveryDate = getDate(1)[0];
     }
 
     /**

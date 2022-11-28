@@ -7,7 +7,7 @@ import errorMessage from '../../modules/ErrorMessage';
 import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 import ProductHeader from '../../components/ProductHeader/ProductHeader';
 import router from '../../modules/Router';
-import sharedFunctions from '../../modules/sharedFunctions';
+import {getDate} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -67,7 +67,7 @@ export default class BaseItemPage extends BasePage {
         case config.responseCodes.code200:
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             if (data) {
-                data.delveryDate = sharedFunctions._getDate(1)[0];
+                data.delveryDate = getDate(1)[0];
                 super.render(data);
                 this.loadMoreData(data);
                 const pageProduct = new ProductHeader(
