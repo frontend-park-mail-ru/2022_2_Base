@@ -32,7 +32,7 @@ export default class AddressCard extends BaseInfoCard {
      * адреса
      * @param {object} event - событие
      */
-    listenClickDelete(event) {
+    async listenClickDelete(event) {
         profileAction.deleteAddress(Number(event.target.id.replace('delete-img-addressCard/', '')));
     }
     /**

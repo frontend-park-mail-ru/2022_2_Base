@@ -1,17 +1,16 @@
 {{#each item}}
-
     <div class="catalog-item-card">
         <div class="catalog-item-card__pic-block" id="catalog_item-pic-block">
-            <a href="/item/{{this.id}}">
+            <a href="/product/{{this.id}}">
                 <img src="{{this.imgsrc}}" class="catalog-item-card__pic-block__pic" alt="{{this.name}} photo"
                      id="catalog-item-pic"
-                     data-href="/item/{{this.id}}">
+                     data-href="/product/{{this.id}}">
             </a>
         </div>
         <div class="catalog-item-card__description-block">
             <div class="catalog-item-card__description-block__description-title" id="catalog_item-title-block"
-                 data-href="/item/{{this.id}}">
-                <a href="/item/{{this.id}}"
+                 data-href="/product/{{this.id}}">
+                <a href="/product/{{this.id}}"
                    class="catalog-item-card__description-block__description-title text-normal-large"
                    id="catalog_item-title">
                     {{this.name}}
@@ -35,7 +34,6 @@
                     </div>
                 {{/each}}
             </div>
-
         </div>
         <div class="catalog-item-card__sale-block">
             <div class="catalog-item-card__sale-block__ex-price-and-like-block">
@@ -43,10 +41,10 @@
                     {{#if this.price}} {{this.price}} ₽ {{/if}}
                 </div>
 
-                <label class="item-cart__selection disabled">
-                    <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">
-                    {{#if this.favourite}} checked {{/if}}>
-                </label>
+<!--                <label class="item-cart__selection disabled">-->
+<!--                    <input type="checkbox" class="favourite-opt " id="catalog_like-button/{{this.id}}">-->
+<!--                    {{#if this.favourite}} checked {{/if}}-->
+<!--                </label>-->
             </div>
 
             <div class="text-normal-very-large__bold catalog-item-card__sale-block__catalog-price">
@@ -64,7 +62,6 @@
                         <span class="link__no-color text-normal-large"
                               id="catalog_button-minus_cart/{{this.id}}">−</span>
                     </button>
-
                     <div class="catalog__amount-selector__amount">
             <span class="text-normal-large" id="catalog_item-count/{{this.id}}">
                 {{this.count}}

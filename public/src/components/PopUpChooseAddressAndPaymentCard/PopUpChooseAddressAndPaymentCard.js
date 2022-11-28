@@ -35,7 +35,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
     /**
      * Функция для передачи в слушателе click на выбор новых данных.
-     * @param {number} id - id элемента
+     * @param {string} id - id элемента
      */
     async listenClickAddressAndPaymentCard(id) {
         const chooseAddress = document.getElementById(id);

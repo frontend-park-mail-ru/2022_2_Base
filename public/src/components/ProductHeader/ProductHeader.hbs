@@ -1,0 +1,36 @@
+<div class="product-page-header product-page-color-jet-black">
+    {{#if categoryPath}}
+        <a class="text-normal-default link__no-color" href="{{categoryPath}}">{{categoryName}}</a>
+    {{else}}
+        <a href="" class="comment-page-header__back link">
+            <img src="img/ReturnArrow.png" alt="return-arrow">
+            <span class="text-normal-default">К описанию товара</span>
+        </a>
+    {{/if}}
+    <a href="{{itemPath}}" class="text-normal-very-large link__no-color">
+        {{name}}
+    </a>
+    <div class="product-page-header__data">
+        <a href="{{this.commentPath}}" class="product-page-header__rating link__no-color">
+            <img src="/img/Star.svg" alt="product rating" class="product-page-header__rating-img">
+            <span class="text-normal-large-normal">
+                {{rating}}
+            </span>
+            <div class="product-page-header__comment text-normal-large-normal link">
+                <img src="/img/Comment.svg" alt="product comment" class="product-page-header__comment-img">
+                {{#if commentsCount}}
+                    {{commentsCount}}
+                {{else}}
+                    нет
+                {{/if}}
+                {{commentsCountText}}
+            </div>
+        </a>
+        <label class="product-page-header__selection">
+            <input type="checkbox" class="favourite-opt" {{#if favourite}} checked {{/if}}>
+            <span class="product-page-header__selection-text text-normal-large-normal"
+                  id="favourite-opt_cart__text">{{#if favourite}}
+                В избранном {{else}} В избранное {{/if}}</span>
+        </label>
+    </div>
+</div>

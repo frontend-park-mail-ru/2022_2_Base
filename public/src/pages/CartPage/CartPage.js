@@ -121,6 +121,7 @@ export default class CartOrderPage extends BasePage {
                 });
             }
             context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
+            context.isAuth = true; // fix
             if (context.isAuth) {
                 context.avatar = userStore.getContext(userStore._storeNames.avatar);
                 context.username = userStore.getContext(userStore._storeNames.name);
@@ -141,16 +142,6 @@ export default class CartOrderPage extends BasePage {
                 linkText: 'телефон',
                 textAfterLink: '?',
             });
-            // document.getElementById('main').innerHTML = `
-            // <div class='paint-background'></div>
-            // <div id='content-cart'
-            //     <span class='text-normal-large-normal cart-main_empty'>
-            //     Корзина пуста. Случайно не нужен&nbsp
-            //     <a href='${config.href.category}/phones' class='link'>телефон</a>
-            //     ?
-            //     </span>
-            // </div>
-            // <div class='paint-background'></div>`;
         }
     }
 
@@ -161,7 +152,6 @@ export default class CartOrderPage extends BasePage {
     getUserData() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            break;
         case config.responseCodes.code401:
             break;
         default:
@@ -251,7 +241,7 @@ export default class CartOrderPage extends BasePage {
                     });
                 break;
             case 'edit-payment-card':
-                this.#handleEditPopup(document.querySelector('.payment-method_cart').id,
+                this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
                     {
                         paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
                     });
@@ -260,42 +250,15 @@ export default class CartOrderPage extends BasePage {
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                let choiseIdWithType = choice.id;
-                let choiceId;
-                if (choiseIdWithType) {
-                    if (choiseIdWithType.includes('/')) {
-                        [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
+                let choiceId = choice.id;
+                let choiceIdWithType = choice.id;
+                if (choiceIdWithType) {
+                    if (choiceIdWithType.includes('/')) {
+                        [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
+                    } else {
+                        choiceId = choiceIdWithType;
                     }
-                    switch (choiseIdWithType) {
-                    case 'address':
-                        const addressField = document.querySelector('.addressID');
-                        addressField.textContent = data;
-                        addressField.id = `address/${choiceId}`;
-                        break;
-                    case 'paymentCard':
-                        const cardNumber = document.querySelectorAll('.card-number');
-                        if (cardNumber) {
-                            cardNumber.forEach((key) => {
-                                key.textContent = data;
-                            });
-                        }
-                        const choice = document.querySelectorAll('.payment-method_cart');
-                        if (choice) {
-                            choice.forEach((key) => {
-                                key.id = `paymentCard/${choiceId}`;
-                            });
-                        }
-                        document.getElementById('final-paymentmethod').textContent = 'Картой';
-                        break;
-                    case 'payment-upon-receipt':
-                        const paymentReceipt = document.querySelectorAll('.card-number');
-                        if (paymentReceipt) {
-                            paymentReceipt.forEach((key) => {
-                                key.textContent = data;
-                            });
-                        }
-                        document.getElementById('final-paymentmethod').textContent = 'При получении';
-                    }
+                    this.#choiceIdType(choiceIdWithType, choiceId, data);
                 }
                 const popUp = document.getElementById('popUp');
                 const popUpFade = document.getElementById('popUp-fade');
@@ -326,11 +289,11 @@ export default class CartOrderPage extends BasePage {
             switch (elementId) {
             case 'delivery-date':
                 document.getElementById('date-delivery').textContent =
-                    document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                        document.getElementById(`delivery-date-value/${itemId}`).textContent;
                 break;
             case 'delivery-time':
                 document.getElementById('time-delivery').textContent =
-                    document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                        document.getElementById(`delivery-time-value/${itemId}`).textContent;
                 break;
             }
         }
@@ -358,7 +321,7 @@ export default class CartOrderPage extends BasePage {
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
-                    const count = parseIntInPrice(amountItem.textContent);
+                    const count = parseInt(amountItem.textContent);
                     if (count === 1) {
                         this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                     } else {
@@ -398,7 +361,7 @@ export default class CartOrderPage extends BasePage {
                         document.getElementById(`sale-price/${itemId}`).textContent);
                     const count = parseIntInPrice(
                         document.getElementById(`count-product/${itemId}`).textContent);
-                    if (isNaN(price)) {
+                    if (Number.isNaN(price)) {
                         price = lowprice;
                     }
                     data.push({
@@ -476,7 +439,7 @@ export default class CartOrderPage extends BasePage {
                 const itemId = key.id.split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
-                        parseIntInPrice(itemId));
+                        parseInt(itemId));
                 }
             });
         } else {
@@ -494,11 +457,9 @@ export default class CartOrderPage extends BasePage {
                 orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
-
-                orderData.card = document.querySelector('.payment-method__cart')
-                    .id.split('/')[1] ?? config.states.noPayCardId;
-                orderData.card = parseInt(orderData.card);
-
+                orderData.card = parseInt(document.querySelector('.payment-method__cart')
+                    .id.split('/')[1]);
+                orderData.card = orderData.card ? orderData.card : 1;
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');

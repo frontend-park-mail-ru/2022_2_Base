@@ -1,16 +1,16 @@
 header {
-    display: grid;
-    background-color: var(--pure-white);
-    grid-template-columns: 2fr 1fr;
-    margin-top: 4px;
+  display: grid;
+  background-color: var(--pure-white);
+  grid-template-columns: 2fr 1fr;
+  margin-top: 4px;
 }
 
 header,
 footer {
-    max-width: 1400px;
-    min-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 1400px;
+  min-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header__left {
@@ -35,25 +35,25 @@ footer {
 }
 
 .header__search-line {
-    display: grid;
-    grid-template-columns: 1fr 0;
-    background-color: var(--background-white);
-    border-radius: 10px;
-    border: solid 2px;
-    border-color: var(--pure-white);
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: var(--background-white);
+  border-radius: 10px;
+  border: solid 2px;
+  border-color: var(--pure-white);
 }
 
 .header__search-line:hover {
-    border-color: var(--hover-purple);
+  border-color: var(--hover-purple);
 }
 
 .header__form-search {
-    border-left-width: 10px;
-    border-color: rgb(0 0 0 / 0%);
-    width: 550px;
-    height: 40px;
-    background: var(--background-white);
-    border-radius: 10px;
+  border-left-width: 10px;
+  border-color: rgb(0 0 0 / 0%);
+  width: 550px;
+  height: 40px;
+  background: var(--background-white);
+  border-radius: 10px;
 }
 
 .header__form-search:focus {
@@ -61,28 +61,28 @@ footer {
 }
 
 .header__order {
-    width: 90px;
-    height: 60px;
-    margin-left: 48px;
-    padding: 4px 0;
+  width: 90px;
+  height: 60px;
+  margin-left: 48px;
+  padding: 4px 0;
 }
 
 .header__favourites {
-    width: 90px;
-    height: 60px;
-    padding: 4px 0;
+  width: 90px;
+  height: 60px;
+  padding: 4px 0;
 }
 
 .header__card {
-    width: 90px;
-    height: 60px;
-    padding: 4px 0;
+  width: 90px;
+  height: 60px;
+  padding: 4px 0;
 }
 
 .header__profile {
-    width: 90px;
-    height: 60px;
-    padding: 4px 0;
+  width: 90px;
+  height: 60px;
+  padding: 4px 0;
 }
 
 .header__button-catalog {
@@ -112,40 +112,39 @@ footer {
   align-items: center;
   justify-content: center;
   grid-column: 3;
+  border: none;
 }
 
 .header__button-search:hover {
-    background-color: var(--hover-purple);
+  background-color: var(--hover-purple);
 }
 
 .paint-purple-disabled {
-    background-color: var(--purple-disabled);
-
-    /* pointer-events: none; */
-    cursor: default;
-    opacity: .4;
+  background-color: var(--purple-disabled);
+  cursor: default;
+  opacity: .4;
 }
 
 .profile__pop-up {
-    display: none;
-    position: absolute;
-    height: 44px;
-    width: 90px;
-    margin-top: 14px;
-    border-radius: 15%;
-    background-color: rgb(255 255 255 / 100%);
-    text-align: center;
-    vertical-align: middle;
-    z-index: 1;
+  display: none;
+  position: absolute;
+  height: 44px;
+  width: 90px;
+  margin-top: 14px;
+  border-radius: 15%;
+  background-color: rgb(255 255 255 / 100%);
+  text-align: center;
+  vertical-align: middle;
+  z-index: 1;
 }
 
 .profile__pop-up::after {
-    content: "";
-    position: absolute; /* Абсолютное позиционирование */
-    left: 34px;
-    bottom: 100%; /* Положение треугольника */
-    border: 12px solid transparent; /* Прозрачные границы */
-    border-bottom: 10px solid rgb(255 255 255 / 100%);
+  content: "";
+  position: absolute; /* Абсолютное позиционирование */
+  left: 34px;
+  bottom: 100%; /* Положение треугольника */
+  border: 12px solid transparent; /* Прозрачные границы */
+  border-bottom: 10px solid rgb(255 255 255 / 100%);
 }
 
 .profile__logout {
@@ -153,11 +152,12 @@ footer {
 }
 
 .logo-reazon {
-    width: 100px;
-    height: 40px;
-    align-self: center;
+  width: 100px;
+  height: 40px;
+  align-self: center;
 }
 
+<<<<<<< HEAD
 /* header__dropdown styles */
 .header__dropdown {
   position: relative;
@@ -228,24 +228,24 @@ footer {
   left: 1080px;
   top: 80px;
   padding: 16px;
-  animation: animation_fade-out 5s;
+  animation: animation__fade-out 5s;
   z-index: 999999;
 }
 
 @keyframes animation__fade-out {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    5% {
-        opacity: 1;
-    }
+  5% {
+    opacity: 1;
+  }
 
-    95% {
-        opacity: 1;
-    }
+  95% {
+    opacity: 1;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }

@@ -46,24 +46,6 @@ class Validation {
     };
 
     /**
-     * Метод, валидирующий номер телефона.
-     * @param {string} phone - номер для валидации
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
-     * и полем сообщением ошибки message
-     */
-    validatePhone(phone) {
-        const checkEmpty = this.checkEmptyField(phone);
-        if (!checkEmpty.status) {
-            return checkEmpty;
-        }
-        if (phone.length !== 11 || !/^\d+$/.test(phone)) {
-            return {status: false,
-                message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`};
-        }
-        return {status: true, message: ''};
-    };
-
-    /**
      * Метод, валидирующий пароль.
      * @param {string} data - пароль для валидации
      * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
@@ -149,6 +131,22 @@ class Validation {
         }
         if (!data.house.length) {
             return 'Введите ваш дом';
+        }
+        return '';
+    }
+
+    /**
+     * Функция, реализующая валидацию полей карты.
+     * @param {String} searchString - данные для обработки
+     * @return {string} errorMessage - сообщение об ошибке
+     */
+    validateSearchField(searchString) {
+        if (searchString.length < 3) {
+            return 'Введите не меньше 3 символов';
+        }
+        if (!/^[a-z0-9 а-яА-ЯёЁ]+$/i
+            .test(searchString)) {
+            return 'Введены недопустимые символы';
         }
         return '';
     }

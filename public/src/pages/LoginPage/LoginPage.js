@@ -32,6 +32,7 @@ export default class LoginPage extends BasePage {
      */
     addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_LOGIN);
+        // cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
         cartStore.addListener(() => router.back(), CartActionTypes.MERGE_CART);
     }
 

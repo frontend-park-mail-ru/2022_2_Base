@@ -13,6 +13,12 @@ export const ItemCardsActionTypes = {
     POPULAR_ITEM_CARDS_GET_BY_CATEGORY: 'POPULAR_ITEM_CARDS_GET_BY_CATEGORY',
     CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
     HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
+    ADD_COMMENT: 'ADD_COMMENT',
+    GET_COMMENTS: 'GET_COMMENTS',
+    GET_SEARCH_RESULTS: 'GET_SEARCH_RESULTS',
+    LOCAL_SORT_RATING: 'LOCAL_SORT_RATING',
+    LOCAL_SORT_PRICE: 'LOCAL_SORT_PRICE',
+    GET_SUGGESTION_SEARCH: 'GET_SUGGESTION_SEARCH',
 };
 
 /**
@@ -59,23 +65,63 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает дешевые карты в конкретной категории
-     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     * @param {boolean} isLowToHigh - порядок сортировки
      */
-    getCheapItemCardsByCategory(isFirstRequest) {
+    getCheapItemCardsByCategory(isLowToHigh) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
-            data: isFirstRequest,
+            data: isLowToHigh,
         });
     },
 
     /**
      * Действие: запрашивает популярные карты в конкретной категории
-     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     * @param {boolean} isLowToHigh - порядок сортировки
      */
-    getHighRatingItemCardsByCategory(isFirstRequest) {
+    getHighRatingItemCardsByCategory(isLowToHigh) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
-            data: isFirstRequest,
+            data: isLowToHigh,
+        });
+    },
+
+    /**
+     * Действие: запрашивает дешевые карты в конкретной категории
+     * @param {boolean} isLowToHigh - порядок сортировки
+     */
+    localSortRating(isLowToHigh) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.LOCAL_SORT_RATING,
+            data: isLowToHigh,
+        });
+    },
+
+    /**
+     * Действие: запрашивает популярные карты в конкретной категории
+     * @param {boolean} isLowToHigh - порядок сортировки
+     */
+    localSortPrice(isLowToHigh) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.LOCAL_SORT_PRICE,
+            data: isLowToHigh,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     */
+    searchItemCards() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARDS_SEARCH,
+        });
+    },
+
+    /**
+     * Действие: запрос карточки с определенным id.
+     */
+    getItemCard() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARD_GET,
         });
     },
 
@@ -83,21 +129,41 @@ export const itemCardsAction = {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
      */
-    searchItemCards(searchString) {
+    getSearchResults(searchString) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARDS_SEARCH,
-            data: {searchString},
+            actionName: ItemCardsActionTypes.GET_SEARCH_RESULTS,
+            data: searchString,
         });
     },
 
     /**
-     * Действие: запрос карточки с определенным id.
-     * @param {number} id
+     * Действие: запрос списка карточек на основании ввода пользователя.
      */
-    getItemCard(id) {
+    getComments() {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARD_GET,
-            data: {id},
+            actionName: ItemCardsActionTypes.GET_COMMENTS,
+        });
+    },
+
+    /**
+     * Действие: запрос списка саджестов на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     */
+    getSuggestionSearch(searchString) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
+            data: searchString,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {object} comment - данные отзыва
+     */
+    addComment(comment) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ADD_COMMENT,
+            data: comment,
         });
     },
 };

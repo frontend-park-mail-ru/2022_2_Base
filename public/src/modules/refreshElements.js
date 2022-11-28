@@ -35,6 +35,9 @@ class RefreshEl {
         page.appendChild(this.createElementWithId('footer'));
 
         root.appendChild(page);
+
+        this.header = document.getElementById('header');
+        this.headerComponent = new HeaderComponent(this.header);
     }
 
     /**
@@ -42,12 +45,10 @@ class RefreshEl {
      * @param {boolean} isAuth - есть ли авторизация
      */
     refreshHeader(isAuth) {
-        const header = document.getElementById('header');
-        header.innerHTML = '';
-        const headerComponent = new HeaderComponent(header);
-        headerComponent.render(isAuth);
-        isAuth ? headerComponent.startEventListener() :
-            headerComponent.removeEventListener();
+        this.innerHTML = '';
+        this.headerComponent.removeEventListener();
+        this.headerComponent.render(isAuth);
+        this.headerComponent.startEventListener();
     };
 
     /**

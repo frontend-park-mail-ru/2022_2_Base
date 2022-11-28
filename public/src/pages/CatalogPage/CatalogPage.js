@@ -1,15 +1,12 @@
 import BasePage from '../BasePage';
-import CatalogItemCard from '../../components/CatalogItemCard/CatalogItemCard';
-import './CatalogPage.scss';
-import CatalogPageTemplate from './CatalogPage.hbs';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import {config} from '../../config';
-import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import {itemCardsAction} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
-import router from '../../modules/Router';
 import errorMessage from '../../modules/ErrorMessage';
-import {parseIntInPrice} from '../../modules/sharedFunctions';
+import CatalogPageTemplate from './CatalogPage.hbs';
+import './CatalogPage.scss';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -20,13 +17,22 @@ export default class CatalogPage extends BasePage {
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param {Array} childClassData данные дочернего класса
      */
-    constructor(parent) {
+    constructor(parent, childClassData) {
         super(parent, CatalogPageTemplate);
+
+        [this.actionToLoadCards, this.getSortByRating, this.getSortByPrice] = childClassData;
 
         this.#category = new Map();
         this.#category.set(config.href.category + '/phones', 'Телефоны');
+        this.#category.set(config.href.category + '/monitors', 'Телефоны');
+        this.#category.set(config.href.category + '/computers', 'Компьютеры');
         this.#category.set(config.href.category + '/monitors', 'Мониторы');
+        this.#category.set(config.href.category + '/tvs', 'Телевизоры');
+        this.#category.set(config.href.category + '/watches', 'Часы');
+        this.#category.set(config.href.category + '/tablets', 'Планшеты');
+        this.#category.set(config.href.category + '/accessories', 'Аксессуары');
     }
 
     /**
@@ -44,16 +50,7 @@ export default class CatalogPage extends BasePage {
             CartActionTypes.DECREASE_NUMBER,
         );
 
-        itemsStore.addListener(this.loadCatalogItemCards.bind(this),
-            ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
-
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
-
-        itemsStore.addListener(this.loadSortedItemCards.bind(this),
-            ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY);
-
-        itemsStore.addListener(this.loadSortedItemCards.bind(this),
-            ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY);
     }
 
     /**
@@ -63,48 +60,13 @@ export default class CatalogPage extends BasePage {
         switch (cartStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
-            itemCardsAction.getItemCardsByCategory(true);
+            this.actionToLoadCards(true);
             break;
         default:
+            this.actionToLoadCards(true); // fix
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
-    }
-
-    /**
-     * Функция, подгружающая и отрисовывающая карточки товаров
-     */
-    loadCatalogItemCards() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            console.log(document.getElementById('items-block'));
-            const Card = new CatalogItemCard(document.getElementById('items-block'));
-            const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
-            console.log(Card, data);
-            if (data.length) {
-                Card.render(data);
-            } else if (
-                itemsStore.getContext(itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
-                this.removeScrollListener();
-            } else {
-                router.openNotFoundPage();
-            }
-            break;
-        default:
-            router.openNotFoundPage();
-            break;
-        }
-    }
-
-    /**
-     * Функция, подгружающая и отрисовывающая карточки дешевых товаров
-     */
-    loadSortedItemCards() {
-        router.addToHistory(itemsStore.getContext(itemsStore._storeNames.sortURL));
-        this.itemsBlock.innerHTML = '';
-        itemCardsAction.getItemCardsByCategory(true);
-        this.removeScrollListener();
-        this.startScrollListener();
     }
 
     /**
@@ -136,7 +98,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseIntInPrice(itemAmount.textContent);
+            const count = parseInt(itemAmount.textContent);
             itemAmount.textContent = (count + 1).toString();
         }
     }
@@ -148,7 +110,8 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            const count = parseIntInPrice(itemAmount.textContent);
+            const count = parseInt(itemAmount.textContent);
+
             if (count === 1) {
                 const amountSelector = document.getElementById(
                     `catalog_amount-selector/${cartStore.getContext(cartStore._storeNames.currID)}`);
@@ -233,15 +196,24 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, реагирующая на кнопки сортировки.
-     *  @param {Event} event - событие, вызвавшее клик.
+     *  @param {HTMLElement} event - событие, вызвавшее клик.
      */
     listenSortCatalog(event) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
-            itemCardsAction.getHighRatingItemCardsByCategory(true);
+            const isLowToHighRating =
+                window.location.search.includes(config.queryParams.sort.ratingDown);
+            isLowToHighRating ?
+                this.ratingSortImg.classList.remove('rotate-img-180') :
+                this.ratingSortImg.classList.add('rotate-img-180');
+            this.getSortByRating(isLowToHighRating);
             break;
         case 'catalog_sort-price':
-            itemCardsAction.getCheapItemCardsByCategory(true);
+            const isLowToHighPrice = window.location.search.includes(config.queryParams.sort.priceDown);
+            isLowToHighPrice ?
+                this.priceSortImg.classList.remove('rotate-img-180') :
+                this.priceSortImg.classList.add('rotate-img-180');
+            this.getSortByPrice(isLowToHighPrice);
             break;
         }
     }
@@ -255,14 +227,13 @@ export default class CatalogPage extends BasePage {
             this.catalogContent.addEventListener('click', this.localEventListenersHandler);
         }
 
-
         this.waitThrottleScroll = false;
         this.bottomOfPageHandler = this.bottomOfPageHandlerPrototype.bind(this);
-        this.startScrollListener();
 
         this.catalogSort = document.getElementById('catalog_sort-buttons');
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.lisitenSortCatalog);
+            this.addLisitenSortCatalog = this.listenSortCatalog.bind(this);
+            this.catalogSort.addEventListener('click', this.addLisitenSortCatalog);
         }
     }
 
@@ -288,10 +259,8 @@ export default class CatalogPage extends BasePage {
             this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
 
-        this.removeScrollListener();
-
         if (this.catalogSort) {
-            this.catalogSort.addEventListener('click', this.listenSortCatalog);
+            this.catalogSort.removeEventListener('click', this.addLisitenSortCatalog);
         }
     }
 
@@ -306,6 +275,7 @@ export default class CatalogPage extends BasePage {
         cartAction.getCart();
         this.startEventListener();
         this.itemsBlock = document.getElementById('items-block');
+        this.ratingSortImg = document.getElementById('catalog_sort-rating__img');
+        this.priceSortImg = document.getElementById('catalog_sort-price__img');
     }
 }
-
