@@ -10,11 +10,11 @@ import userStore from '../../../stores/UserStore';
 import refreshElements from '../../../modules/refreshElements';
 
 /**
- * Класс, реализующий главную страницу
+ * Класс, реализующий AddCommentPage
  */
 export default class AddCommentPage extends BaseItemPage {
     /**
-     * Конструктор, создающий конструктор базовой страницы с нужными параметрами
+     * Конструктор, создающий конструктор базовой страницы AddCommentPage с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
     constructor(parent) {

@@ -9,7 +9,7 @@ import {cartAction, CartActionTypes} from '../../actions/cart.js';
  */
 export default class AddToCartButton extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента ItemCard
+     * Конструктор, создающий класс компонента AddToCartButton
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */

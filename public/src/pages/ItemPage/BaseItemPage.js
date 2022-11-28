@@ -10,11 +10,11 @@ import router from '../../modules/Router';
 import {getDate} from '../../modules/sharedFunctions';
 
 /**
- * Класс, реализующий страницу с регистрации.
+ * Класс, реализующий страницу BaseItemPage.
  */
 export default class BaseItemPage extends BasePage {
     /**
-     * Конструктор, создающий конструктор базовой страницы с нужными параметрами
+     * Конструктор, создающий конструктор базовой страницы BaseItemPage с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      * @param {HandlebarsTemplateDelegate} template HTML-шаблон, в который будет осуществлена отрисовка
      * @param {array} childClassData данные дочернего класса

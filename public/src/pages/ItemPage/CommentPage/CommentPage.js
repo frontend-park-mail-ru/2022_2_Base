@@ -10,7 +10,7 @@ import {config} from '../../../config';
 import router from '../../../modules/Router';
 
 /**
- * Класс, реализующий страницу с регистрации.
+ * Класс, реализующий страницу CommentPage.
  */
 export default class CommentPage extends BaseItemPage {
     /**

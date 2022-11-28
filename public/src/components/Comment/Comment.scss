@@ -36,7 +36,6 @@
 
 .comment__content {
     display: grid;
-    //grid-template-rows: auto auto auto 38px;
     gap: 8px;
     margin-left: 78px;
 }
@@ -92,8 +91,6 @@
     }
 
     .rating-star_disabled:checked ~ .rating-star__label_disabled:before,
-    //&:not(:checked) > .comment-page__rating_label:hover:before,
-    //&:not(:checked) > .comment-page__rating_label:hover ~ .comment-page__rating_label:before
     {
       color: var(--yellow-star);
     }
