@@ -61,6 +61,24 @@ class RefreshEl {
     };
 
     /**
+     * Метод, вызываемый при загрузке страницы,
+     * к которой может получить доступ только авторизированный пользователь
+     * @param {object} data - данные для отображения
+     */
+    showUnAuthPage(data) {
+        document.getElementById('main').innerHTML = `
+            <div class="paint-background"></div>
+            <div id="content-unAuth-page-redirect"
+                <span class="text-normal-large-normal main_empty">
+                ${data.text}&nbsp
+                <a href=${data.linkToPage} class="link">${data.linkText}</a>
+                ${data.textAfterLink}
+                </span>
+            </div>
+            <div class="paint-background"></div>`;
+    }
+
+    /**
      * Метод, вызываемый при авторизации
      */
     onAuth() {

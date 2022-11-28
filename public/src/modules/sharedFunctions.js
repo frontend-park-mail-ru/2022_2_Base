@@ -37,9 +37,9 @@ export function parseIntInPrice(stringNumber) {
  */
 export function getDate(firstDayIn) {
     const getDate = (next) => {
-        const currDate = new Date();
-        currDate.setDate(next);
-        return currDate.toLocaleDateString('en-GB').split('/').join(' / ');
+        const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
+        return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
     };
     return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
 }
+

@@ -2,9 +2,9 @@ import BaseStore from './BaseStore.js';
 import {CartActionTypes} from '../actions/cart.js';
 import request from '../modules/ajax.js';
 import {config} from '../config.js';
-import userStore from './UserStrore';
+import userStore from './UserStore';
 import itemsStore from './ItemsStore';
-import sharedFunctions from '../modules/sharedFunctions';
+import {addSpacesToPrice, getDate} from '../modules/sharedFunctions';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -49,7 +49,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
         avatar: './img/Smartphone.webp',
         username: 'Джахар',
         phone: '+7 (872) 234-23-65',
-        deliveryDate: this.#getDate(1),
+        deliveryDate: getDate(1),
         deliveryTime: '18:00 - 23:00',
         cardNumber: '8765432143212546',
         expiry: '05 / 24',
@@ -114,7 +114,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         case CartActionTypes.MAKEORDER:
             await this._makeOrder(payload.data);
-            this._emitChange([CartActionTypes.MAKEORDER]);
+            this._emitChange([CartActionTypes.MAKE_ORDER]);
             break;
 
         case CartActionTypes.RESET_CART:
@@ -181,7 +181,7 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            sharedFunctions.addSpacesToPrice(response.items);
+            addSpacesToPrice(response.items);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             this._storage.set(this._storeNames.cartID, response.id);
             this._storage.set(this._storeNames.userID, response.userid);
@@ -301,19 +301,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
             });
             this._storage.set(this._storeNames.itemsCart, itemsCart);
         }
-    }
-
-    /**
-     * Функция, возвращающая завтрашнюю дату.
-     * @param {int} firstDayIn сколько дней пропустить, считая от сегодняшнего
-     * @return {object} завтрашняя дата
-     */
-    #getDate(firstDayIn) {
-        const getDate = (next) => {
-            const currDate = new Date(new Date().getTime() + next * 24 * 60 * 60 * 1000);
-            return `${currDate.getDate()} / ${currDate.getMonth()} / ${currDate.getFullYear()}`;
-        };
-        return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
     }
 }
 

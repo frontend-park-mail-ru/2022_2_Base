@@ -34,6 +34,7 @@ export const config = {
     },
     states: {
         endOf: -1,
+        noPayCardId: 1,
     },
     errorMessages: {
         error400auth: 'Ошибка. Попробуйте еще раз',

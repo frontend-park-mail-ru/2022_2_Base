@@ -13,6 +13,7 @@ import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
 import {getDate, parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
+import refreshElements from '../../modules/refreshElements';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -36,7 +37,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
-        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKEORDER);
+        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
@@ -134,16 +135,22 @@ export default class CartOrderPage extends BasePage {
             cartItem.render(data);
             this.startEventListener();
         } else {
-            document.getElementById('main').innerHTML = `
-            <div class="paint-background"></div>
-            <div id="content-cart"
-                <span class="text-normal-large-normal cart-main__empty">
-                Корзина пуста. Случайно не нужен&nbsp
-                <a href="${config.href.category}/phones" class="link">телефон</a>
-                ?
-                </span>
-            </div>
-            <div class="paint-background"></div>`;
+            refreshElements.showUnAuthPage({
+                text: 'Корзина пуста. Случайно не нужен',
+                linkToPage: config.href.category + '/phones',
+                linkText: 'телефон',
+                textAfterLink: '?',
+            });
+            // document.getElementById('main').innerHTML = `
+            // <div class='paint-background'></div>
+            // <div id='content-cart'
+            //     <span class='text-normal-large-normal cart-main_empty'>
+            //     Корзина пуста. Случайно не нужен&nbsp
+            //     <a href='${config.href.category}/phones' class='link'>телефон</a>
+            //     ?
+            //     </span>
+            // </div>
+            // <div class='paint-background'></div>`;
         }
     }
 
@@ -154,6 +161,7 @@ export default class CartOrderPage extends BasePage {
     getUserData() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
+            break;
         case config.responseCodes.code401:
             break;
         default:
@@ -236,14 +244,14 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
             case 'edit-address':
-                this.#handleEditPopup(document.querySelector('.address-cart__main').id,
+                this.#handleEditPopup(document.querySelector('.address_cart__main').id,
                     {
                         address: userStore.getContext(userStore._storeNames.address),
                         isAddress: true,
                     });
                 break;
             case 'edit-payment-card':
-                this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
+                this.#handleEditPopup(document.querySelector('.payment-method_cart').id,
                     {
                         paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
                     });
@@ -252,12 +260,42 @@ export default class CartOrderPage extends BasePage {
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                let choiceIdWithType = choice.id;
-                if (choiceIdWithType) {
-                    if (choiceIdWithType.includes('/')) {
-                        [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
+                let choiseIdWithType = choice.id;
+                let choiceId;
+                if (choiseIdWithType) {
+                    if (choiseIdWithType.includes('/')) {
+                        [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
                     }
-                    this.#choiceIdType(choiceIdWithType, choiceId, data);
+                    switch (choiseIdWithType) {
+                    case 'address':
+                        const addressField = document.querySelector('.addressID');
+                        addressField.textContent = data;
+                        addressField.id = `address/${choiceId}`;
+                        break;
+                    case 'paymentCard':
+                        const cardNumber = document.querySelectorAll('.card-number');
+                        if (cardNumber) {
+                            cardNumber.forEach((key) => {
+                                key.textContent = data;
+                            });
+                        }
+                        const choice = document.querySelectorAll('.payment-method_cart');
+                        if (choice) {
+                            choice.forEach((key) => {
+                                key.id = `paymentCard/${choiceId}`;
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'Картой';
+                        break;
+                    case 'payment-upon-receipt':
+                        const paymentReceipt = document.querySelectorAll('.card-number');
+                        if (paymentReceipt) {
+                            paymentReceipt.forEach((key) => {
+                                key.textContent = data;
+                            });
+                        }
+                        document.getElementById('final-paymentmethod').textContent = 'При получении';
+                    }
                 }
                 const popUp = document.getElementById('popUp');
                 const popUpFade = document.getElementById('popUp-fade');
@@ -288,11 +326,11 @@ export default class CartOrderPage extends BasePage {
             switch (elementId) {
             case 'delivery-date':
                 document.getElementById('date-delivery').textContent =
-                        document.getElementById(`delivery-date-value/${itemId}`).textContent;
+                    document.getElementById(`delivery-date-value/${itemId}`).textContent;
                 break;
             case 'delivery-time':
                 document.getElementById('time-delivery').textContent =
-                        document.getElementById(`delivery-time-value/${itemId}`).textContent;
+                    document.getElementById(`delivery-time-value/${itemId}`).textContent;
                 break;
             }
         }
@@ -315,16 +353,16 @@ export default class CartOrderPage extends BasePage {
                 cartAction.deleteAll();
                 break;
             case 'delete-cart-item':
-                this.deleteItem(parseIntInPrice(itemId));
+                this.deleteItem(parseInt(itemId));
                 break;
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
                     const count = parseIntInPrice(amountItem.textContent);
                     if (count === 1) {
-                        this.deleteItem(parseIntInPrice(itemId)); // удаление элемента из корзины
+                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                     } else {
-                        cartAction.decreaseNumber(parseIntInPrice(itemId));
+                        cartAction.decreaseNumber(parseInt(itemId));
                         amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
@@ -333,8 +371,8 @@ export default class CartOrderPage extends BasePage {
             case 'button-plus_cart':
                 const itemAmount = document.getElementById(`count-product/${itemId}`);
                 if (itemAmount) {
-                    cartAction.increaseNumber(parseIntInPrice(itemId));
-                    const count = parseIntInPrice(itemAmount.textContent);
+                    cartAction.increaseNumber(parseInt(itemId));
+                    const count = parseInt(itemAmount.textContent);
                     itemAmount.textContent = (count + 1).toString();
                     this.renderTotalCost();
                 }
@@ -360,7 +398,7 @@ export default class CartOrderPage extends BasePage {
                         document.getElementById(`sale-price/${itemId}`).textContent);
                     const count = parseIntInPrice(
                         document.getElementById(`count-product/${itemId}`).textContent);
-                    if (Number.isNaN(price)) {
+                    if (isNaN(price)) {
                         price = lowprice;
                     }
                     data.push({
@@ -457,9 +495,10 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseIntInPrice(document.querySelector('.payment-method__cart')
-                    .id.split('/', 2)[1]);
-                orderData.card = orderData.card ? orderData.card : null;
+                orderData.card = document.querySelector('.payment-method_cart')
+                    .id.split('/')[1] ?? config.states.noPayCardId;
+                orderData.card = parseInt(orderData.card);
+
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
