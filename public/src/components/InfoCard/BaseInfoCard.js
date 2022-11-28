@@ -93,9 +93,9 @@ export default class BaseInfoCard extends BaseComponent {
     startEdit() {
         this.edit = document.querySelectorAll(`.edit-${this.pageName}`);
         if (this.edit.length) {
-            this.bindListenClickEdite = this.listenClickEdite.bind(this);
+            this.bindListenClickEdit = this.listenClickEdite.bind(this);
             this.edit.forEach((key) => {
-                key.addEventListener('click', this.bindListenClickEdite);
+                key.addEventListener('click', this.bindListenClickEdit);
             });
         }
     }
@@ -105,7 +105,7 @@ export default class BaseInfoCard extends BaseComponent {
     removeEdit() {
         if (this.edit.length) {
             this.edit.forEach((key) => {
-                key.removeEventListener('click', this.bindListenClickEdite);
+                key.removeEventListener('click', this.bindListenClickEdit);
             });
         }
     }
