@@ -4,6 +4,7 @@ import itemsStore from '../../../stores/ItemsStore';
 import CatalogItemCard from '../../../components/CatalogItemCard/CatalogItemCard';
 import {config} from '../../../config';
 import router from '../../../modules/Router';
+import refreshElements from '../../../modules/refreshElements';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -41,16 +42,12 @@ export default class SearchPage extends CatalogPage {
             const Card = new CatalogItemCard(document.getElementById('items-block'));
             Card.render(searchResult);
         } else {
-            document.getElementById('main').innerHTML = `
-            <div class="paint-background"></div>
-            <div id="content-catalog"
-                <span class="text-normal-large-normal cart-main__empty">
-                Ничего не найдено. Случайно не нужен&nbsp
-                <a href="${config.href.category}/phones" class="link">телефон</a>
-                ?
-                </span>
-            </div>
-            <div class="paint-background"></div>`;
+            refreshElements.showUnAuthPage({
+                text: 'Ничего не найдено. Может посмотрите',
+                linkToPage: config.href.main,
+                linkText: 'товары',
+                textAfterLink: '&nbspпо скидке?',
+            });
         }
     }
 

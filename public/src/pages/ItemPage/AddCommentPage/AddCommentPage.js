@@ -6,6 +6,8 @@ import errorMessage from '../../../modules/ErrorMessage';
 import router from '../../../modules/Router';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
+import userStore from '../../../stores/UserStore';
+import refreshElements from '../../../modules/refreshElements';
 
 /**
  * Класс, реализующий главную страницу
@@ -86,18 +88,20 @@ export default class AddCommentPage extends BaseItemPage {
             this.submitButton.removeEventListener('click', this.listenClickSubmitComment);
         }
     }
-    //
-    // /**
-    //  * Метод, отрисовывающий страницу.
-    //  */
-    // render() {
-    //     super.render();
-    //     // userStrore.getContext(userStrore._storeNames.isAuth) ? super.render() :
-    //     //     refreshElements.showUnAuthPage({
-    //     //         text: 'Чтобы написать отзыв нужно',
-    //     //         linkToPage: config.href.login,
-    //     //         linkText: 'войти',
-    //     //         textAfterLink: '&nbspв свой профиль',
-    //     //     });
-    // }
+
+    /**
+     * Метод, отрисовывающий страницу.
+     */
+    render() {
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            super.render();
+        } else {
+            refreshElements.showUnAuthPage({
+                text: 'Чтобы написать отзыв',
+                linkToPage: config.href.login,
+                linkText: 'войдите',
+                textAfterLink: '&nbspв аккаунт',
+            });
+        }
+    }
 }
