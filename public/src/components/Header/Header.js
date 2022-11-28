@@ -165,6 +165,7 @@ export default class Header extends BaseComponent {
      * @param {Boolean} session контекст отрисовки шаблона, содержащий информацию об авторизации
      */
     render(session) {
+        this._parent.innerHTML = '';
         super.render(this.prepareRenderData(session), headerTemplate);
         this.elementSuggestions = document.getElementById('search-suggestions__main');
         this.suggestionsBlock = new SearchSuggestion(this.elementSuggestions);
