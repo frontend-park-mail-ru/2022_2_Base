@@ -41,7 +41,6 @@ class Router {
             } else {
                 refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
             }
-            // this.openPage(document.location.pathname);
             this.openWithCustomHistoryPage(document.location.pathname,
                 document.location.pathname + document.location.search);
         },

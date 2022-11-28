@@ -51,12 +51,12 @@ export function parseIntInPrice(stringNumber) {
  * @return {object} завтрашняя дата
  */
 export function getDate(firstDayIn) {
+    const currDate = new Date();
     const getDate = (next) => {
-        const currDate = new Date();
-        currDate.setDate(next);
+        currDate.setDate(currDate.getDate() + 1 + next);
         return currDate.toLocaleDateString('en-GB').split('/').join(' / ');
     };
-    return Array.from(Array(7).keys()).map((inDays) => getDate(inDays + firstDayIn));
+    return Array.from(Array(7).keys()).map(() => getDate(firstDayIn));
 }
 
 /**
