@@ -244,7 +244,7 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
             case 'edit-address':
-                this.#handleEditPopup(document.querySelector('.address_cart__main').id,
+                this.#handleEditPopup(document.querySelector('.address-cart__main').id,
                     {
                         address: userStore.getContext(userStore._storeNames.address),
                         isAddress: true,
@@ -495,7 +495,7 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = document.querySelector('.payment-method_cart')
+                orderData.card = document.querySelector('.payment-method__cart')
                     .id.split('/')[1] ?? config.states.noPayCardId;
                 orderData.card = parseInt(orderData.card);
 
