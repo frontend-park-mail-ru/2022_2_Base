@@ -1,6 +1,6 @@
 .content__main {
     max-width: 1400px;
-    min-width: 1400px;
+    min-width: min(1400px, 100%);
     padding-bottom: 16px;
     margin-left: auto;
     margin-right: auto;
@@ -85,3 +85,19 @@
 .content__popular-title {
     margin-left: 20px;
 }
+
+@media (max-width: 991px) {
+    .content__main {
+        grid-template-rows: auto 60px 1fr 60px 1fr;
+    }
+
+    .content__catalog {
+        grid-template-columns: repeat(7, auto);
+        grid-gap: 8px;
+        height: 72px;
+    }
+}
+
+// @media (max-width: 767px) {
+
+// }

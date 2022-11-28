@@ -316,17 +316,12 @@ footer {
     }
 
     .header__left {
-        grid-template-columns: 70px 40px 1fr;
-        margin-right: 4px;
+        grid-template-columns: auto 40px 1fr;
+        margin-right: 16px;
+        margin-left: 16px;
     }
 
     .header__logotip {
-        margin-left: 10px;
-    }
-
-    .logo-reazon {
-        margin-top: 10px;
-        width: 50px;
-        height: 20px;
+        margin-left: 0px;
     }
 }
