@@ -155,7 +155,7 @@ class Router {
         this.register(config.href.product, ProductPage);
         this.register(config.href.comment, CommentPage);
         this.register(config.href.addComment, AddCommentPage);
-        this.register(config.href.user, UserPage); // fix
+        // this.register(config.href.user, UserPage); // fix
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');

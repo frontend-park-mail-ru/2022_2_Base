@@ -288,6 +288,7 @@ export default class CartOrderPage extends BasePage {
                 //                         document.getElementById('final-paymentmethod').textContent = 'При получении';
                 //                     }
                 // =======
+                let choiceId;
                 let choiceIdWithType = choice.id;
                 if (choiceIdWithType) {
                     if (choiceIdWithType.includes('/')) {
