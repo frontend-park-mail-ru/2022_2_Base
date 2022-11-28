@@ -83,7 +83,16 @@ export default class Header extends BaseComponent {
         if (errorMessageSearch) {
             errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
         } else {
-            itemCardsAction.getSearchResults(this.searchInput.value);
+            const lowercaseInput = this.searchInput.value.toLowerCase();
+            const category = Object.values(
+                itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
+                (category) => category.nameCategory.toLowerCase() === lowercaseInput);
+
+            if (category) {
+                router.openPage(category.href);
+            } else {
+                itemCardsAction.getSearchResults(this.searchInput.value);
+            }
         }
     }
 
@@ -106,6 +115,7 @@ export default class Header extends BaseComponent {
     listenSuggestSearch({target}) {
         const errorMessageSearch = validation.validateSearchField(target.innerText);
         if (!errorMessageSearch) {
+            this.searchInput.innerText = target.innerText;
             itemCardsAction.getSearchResults(target.innerText);
         }
     }
@@ -133,7 +143,8 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.elementSuggestions.addEventListener('click', this.listenSuggestSearch);
+            this.bindListenSuggestSearch = this.listenSuggestSearch.bind(this);
+            this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
         }
     }
 
@@ -155,7 +166,7 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.elementSuggestions.removeEventListener('click', this.listenSuggestSearch);
+            this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
         }
     }
 
