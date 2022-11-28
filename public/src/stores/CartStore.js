@@ -128,15 +128,19 @@ class CartStore extends BaseStore {
      * Действие: получить данные корзины.
      */
     async _getCart() {
-        const [status, response] = await request.makeGetRequest(config.api.cart)
-            .catch((err) => console.log(err));
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            const [status, response] = await request.makeGetRequest(config.api.cart)
+                .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            addSpacesToPrice(response.items);
-            this._storage.set(this._storeNames.itemsCart, response.items ?? []);
-            this._storage.set(this._storeNames.cartID, response.id);
-            this._storage.set(this._storeNames.userID, response.userid);
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                addSpacesToPrice(response.items);
+                this._storage.set(this._storeNames.itemsCart, response.items ?? []);
+                this._storage.set(this._storeNames.cartID, response.id);
+                this._storage.set(this._storeNames.userID, response.userid);
+            }
+        } else {
+            this._storage.set(this._storeNames.responseCode, config.responseCodes.code401);
         }
     }
 
@@ -238,7 +242,6 @@ class CartStore extends BaseStore {
      */
     async _makeOrder(data) {
         data.userid = this._storage.get(this._storeNames.userID);
-        // data.card = this._storage.get(this._storeNames.cartID);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);

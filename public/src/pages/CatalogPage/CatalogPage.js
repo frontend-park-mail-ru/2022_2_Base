@@ -270,7 +270,6 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        this.addListener();
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});

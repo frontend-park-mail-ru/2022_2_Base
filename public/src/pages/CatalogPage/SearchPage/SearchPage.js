@@ -5,6 +5,9 @@ import CatalogItemCard from '../../../components/CatalogItemCard/CatalogItemCard
 import {config} from '../../../config';
 import router from '../../../modules/Router';
 import refreshElements from '../../../modules/refreshElements';
+import validation from '../../../modules/validation';
+import errorMessage from '../../../modules/ErrorMessage';
+import {getQueryParams} from '../../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -27,10 +30,28 @@ export default class SearchPage extends CatalogPage {
         super.addListener();
         itemsStore.addListener(this.loadSearchItemCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_SEARCH);
+
+        itemsStore.addListener(this.listenSearchRequest.bind(this),
+            ItemCardsActionTypes.GET_SEARCH_RESULTS);
+
         itemsStore.addListener(this.sortCards.bind(this),
             ItemCardsActionTypes.LOCAL_SORT_RATING);
+
         itemsStore.addListener(this.sortCards.bind(this),
             ItemCardsActionTypes.LOCAL_SORT_PRICE);
+    }
+
+    /**
+     * Функция, обрабатывающая результат запроса на поиск.
+     */
+    listenSearchRequest() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            super.render();
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
+        }
     }
 
     /**
@@ -59,5 +80,21 @@ export default class SearchPage extends CatalogPage {
         router.addToHistory(window.location.pathname +
             itemsStore.getContext(itemsStore._storeNames.sortURL));
         this.loadSearchItemCards();
+    }
+
+    /**
+     * Метод, отрисовывающий страницу.
+     */
+    render() {
+        const searchString = getQueryParams().q ?? '';
+        const errorMessageSearch = validation.validateSearchField(searchString);
+        if (errorMessageSearch === '') {
+            this.addListener();
+            itemCardsAction.getSearchResults(searchString);
+        } else if (errorMessageSearch) {
+            errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
+        } else {
+            super.render();
+        }
     }
 }

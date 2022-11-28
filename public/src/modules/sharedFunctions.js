@@ -70,3 +70,14 @@ export function _sklonenie(number, txt) {
     return txt[(number % 100 > 4 && number % 100 < 20) ?
         2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 }
+
+
+/**
+ * Функция, возвращает объект query параметров вида {q: 'param'}.
+ * @return {object} query params
+ */
+export function getQueryParams() {
+    return new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+}

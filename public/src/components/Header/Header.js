@@ -21,24 +21,8 @@ export default class Header extends BaseComponent {
     constructor(parent) {
         super(parent);
 
-        itemsStore.addListener(this.listenSearchRequest.bind(this),
-            ItemCardsActionTypes.GET_SEARCH_RESULTS);
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
-    }
-
-    /**
-     * Функция, обрабатывающая результат запроса на поиск.
-     */
-    listenSearchRequest() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            router.openPage(config.href.search);
-            this.elementSuggestions.innerHTML = '';
-            break;
-        default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
-        }
     }
 
     /**
@@ -79,16 +63,13 @@ export default class Header extends BaseComponent {
      * Функция, обрабатывающая нажатие на кнопку поиска.
      */
     listenSearchButtonClick() {
-        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
-        if (errorMessageSearch) {
-            errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
+        const category = this.#isSearchContainsCategory();
+        if (category) {
+            router.openPage(category.href);
         } else {
-            const category = this.#isSearchContainsCategory();
-            if (category) {
-                router.openPage(category.href);
-            } else {
-                itemCardsAction.getSearchResults(this.searchInput.value);
-            }
+            router.openWithCustomHistoryPage(config.href.search,
+                `${config.href.search}?q=${this.searchInput.value}`);
+            this.elementSuggestions.innerHTML = '';
         }
     }
 
@@ -136,7 +117,9 @@ export default class Header extends BaseComponent {
             router.openPage(category.href);
             this.elementSuggestions.innerHTML = '';
         } else {
-            itemCardsAction.getSearchResults(target.innerText);
+            router.openWithCustomHistoryPage(config.href.search,
+                `${config.href.search}?q=${target.innerText}`);
+            this.elementSuggestions.innerHTML = '';
         }
     }
 

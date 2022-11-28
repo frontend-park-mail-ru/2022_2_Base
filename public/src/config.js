@@ -62,4 +62,5 @@ export const config = {
         code400: 400,
         code401: 401,
     },
+    noop: () => {},
 };
