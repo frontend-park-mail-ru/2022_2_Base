@@ -258,6 +258,10 @@
     opacity: 1;
 }
 
+.select:focus .option_select {
+    opacity: 1;
+}
+
 .select:focus .select-opt:checked + %option__select {
     border-radius: 10px 10px 0 0;
 }
@@ -379,4 +383,3 @@
     align-items: center;
     height: 60vh;
 }
-

@@ -315,7 +315,7 @@ export default class CartOrderPage extends BasePage {
                 cartAction.deleteAll();
                 break;
             case 'delete-cart-item':
-                this.deleteItem(parseIntInPrice(itemId));
+                this.deleteItem(parseInt(itemId));
                 break;
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
@@ -333,8 +333,8 @@ export default class CartOrderPage extends BasePage {
             case 'button-plus_cart':
                 const itemAmount = document.getElementById(`count-product/${itemId}`);
                 if (itemAmount) {
-                    cartAction.increaseNumber(parseIntInPrice(itemId));
-                    const count = parseIntInPrice(itemAmount.textContent);
+                    cartAction.increaseNumber(parseInt(itemId));
+                    const count = parseInt(itemAmount.textContent);
                     itemAmount.textContent = (count + 1).toString();
                     this.renderTotalCost();
                 }
@@ -438,7 +438,7 @@ export default class CartOrderPage extends BasePage {
                 const itemId = key.id.split('/')[1];
                 if (key.checked) {
                     orderData.items.push(
-                        parseIntInPrice(itemId));
+                        parseInt(itemId));
                 }
             });
         } else {
@@ -446,7 +446,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            orderData.address = parseIntInPrice(address.getAttribute('id')
+            orderData.address = parseInt(address.getAttribute('id')
                 .split('/', 2)[1]);
             if (orderData.address !== -1) {
                 let date = document.getElementById('date-delivery').textContent.trim();
@@ -457,7 +457,7 @@ export default class CartOrderPage extends BasePage {
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
 
-                orderData.card = parseIntInPrice(document.querySelector('.payment-method__cart')
+                orderData.card = parseInt(document.querySelector('.payment-method__cart')
                     .id.split('/', 2)[1]);
                 orderData.card = orderData.card ? orderData.card : null;
                 cartAction.makeOrder(orderData);

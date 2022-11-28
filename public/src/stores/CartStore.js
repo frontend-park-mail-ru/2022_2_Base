@@ -98,7 +98,7 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response.items.forEach((globalItem) => {
+        response?.items?.forEach((globalItem) => {
             let hasItem = false;
             itemsCart?.forEach((localItem, key) => {
                 if (globalItem.id === localItem.id) {
@@ -152,9 +152,7 @@ class CartStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
-        }
+        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
     }
 
     /**
@@ -166,9 +164,7 @@ class CartStore extends BaseStore {
         })
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.itemsCart, []);
-        }
+        this._storage.set(this._storeNames.itemsCart, []);
     }
 
     /**
@@ -188,7 +184,7 @@ class CartStore extends BaseStore {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((id) => id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
@@ -247,6 +243,15 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            // const itemsCart = this._storage.get(this._storeNames.itemsCart);
+            // data.items.forEach((id) => {
+            //     itemsCart.forEach((item, key) => {
+            //         if (item.id === id) {
+            //             delete itemsCart[key];
+            //         }
+            //     });
+            // });
+
             this._storage.set(this._storeNames.itemsCart, data.items.reduce(
                 (newItemsCart, id) =>
                     newItemsCart.filter((item) => item.id !== id),

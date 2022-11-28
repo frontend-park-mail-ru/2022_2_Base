@@ -13,6 +13,7 @@ export const config = {
         user: '/user',
         category: '/category',
         cart: '/cart',
+        search: '/search',
     },
     api: {
         login: `${basePathApi}login`,
@@ -28,6 +29,8 @@ export const config = {
         deleteFromCart: `${basePathApi}cart/deletefromcart`,
         makeOrder: `${basePathApi}cart/makeorder`,
         cart: `${basePathApi}cart`,
+        search: `${basePathApi}search`,
+        suggestionSearch: `${basePathApi}suggestions`,
     },
     states: {
         endOf: -1,
@@ -39,9 +42,12 @@ export const config = {
     queryParams: {
         sort: {
             base: '?sort=',
-            price: 'price',
-            rating: 'rating',
-            popular: 'popular',
+            priceUp: 'priceup',
+            priceDown: 'pricedown',
+            ratingUp: 'ratingup',
+            ratingDown: 'ratingdown',
+            popularUp: 'popularup',
+            popularDown: 'populardown',
         },
     },
     responseCodes: {

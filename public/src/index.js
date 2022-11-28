@@ -1,11 +1,11 @@
 'use strict';
-
 import refresh from './modules/refreshElements';
 import router from './modules/Router';
 import '../index.scss';
 
 refresh.refreshFooter();
 router.start();
+
 
 // Регистрация Service Worker
 const registerServiceWorker = () => {
