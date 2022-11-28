@@ -1,7 +1,6 @@
 import LoginPage from '../pages/LoginPage/LoginPage';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import CatalogPage from '../pages/CatalogPage/CatalogPage';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import {config} from '../config';
 import CartPage from '../pages/CartPage/CartPage';
@@ -9,6 +8,8 @@ import {userActions, UserActionTypes} from '../actions/user';
 import userStore from '../stores/UserStore';
 import refresh from './refreshElements';
 import UserPage from '../pages/UserPage/UserPage';
+import CategoryPage from '../pages/CatalogPage/CategoryPage/CategoryPage';
+import SearchPage from '../pages/CatalogPage/SearchPage/SearchPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -62,7 +63,7 @@ class Router {
         let href = target.getAttribute('href');
 
         if (href === null) {
-            href = target.parentElement.getAttribute('href');
+            href = target.parentElement?.getAttribute('href');
         }
 
         if (!!href && !href.includes('#')) {
@@ -138,9 +139,9 @@ class Router {
         this.register(config.href.login, LoginPage);
         this.register(config.href.logout, userActions.logout);
         this.register(config.href.signup, RegisterPage);
-        this.register(config.href.category, CatalogPage);
+        this.register(config.href.category, CategoryPage);
+        this.register(config.href.search, SearchPage);
         this.register(config.href.cart, CartPage);
-        this.register(config.href.user, UserPage); // fix
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');

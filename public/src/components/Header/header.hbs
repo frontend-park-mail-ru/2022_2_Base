@@ -19,12 +19,16 @@
             {{/each}}
         </ul>
     </div>
-    <div class="header__search-line header__disabled">
-        <input type="search" class="header__form-search" name="search-line"
-               placeholder="Что Вас интересует?" maxlength="75">
-        <a href="" class="header__button-search header__disabled paint-purple ">
+    <div class="header__search-line">
+        <label>
+            <input type="search" class="header__form-search" name="search-line"
+                   placeholder="Что Вас интересует?" maxlength="75" id="search-line__text">
+        </label>
+        <button type="submit" class="header__button-search  paint-purple" id="search-button-submit">
             <img type="image" src="/img/Search.svg" alt="Search button">
-        </a>
+        </button>
+        <ul class="dropdown-content search-suggestions" id="search-suggestions__main" style="display: grid;">
+        </ul>
     </div>
 </div>
 <div class="header__right">

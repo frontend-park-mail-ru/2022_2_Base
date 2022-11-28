@@ -2,6 +2,12 @@ import headerTemplate from './header.hbs';
 import BaseComponent from '../BaseComponent';
 import './header.scss';
 import itemsStore from '../../stores/ItemsStore';
+import validation from '../../modules/validation';
+import errorMessage from '../../modules/ErrorMessage';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
+import {config} from '../../config';
+import router from '../../modules/Router';
+import SearchSuggestion from '../SearchSuggestion/SearchSuggestion';
 
 /**
  * Класс для реализации компонента Header
@@ -14,6 +20,37 @@ export default class Header extends BaseComponent {
      */
     constructor(parent) {
         super(parent);
+
+        itemsStore.addListener(this.listenSearchRequest, ItemCardsActionTypes.GET_SEARCH_RESULTS);
+        itemsStore.addListener(this.listenSearchSuggestion.bind(this),
+            ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
+    }
+
+    /**
+     * Функция, обрабатывающая результат запроса на поиск.
+     */
+    listenSearchRequest() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            router.openPage(config.href.search);
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая результат запроса на подсказки поиска.
+     */
+    listenSearchSuggestion() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            this.suggestionsBlock.render(
+                itemsStore.getContext(itemsStore._storeNames.suggestionsSearch));
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
+        }
     }
 
     /**
@@ -21,7 +58,9 @@ export default class Header extends BaseComponent {
      */
     async listenMouseOverProfile() {
         const headerPopUp = document.querySelector('.profile__pop-up');
-        headerPopUp.style.display = 'block';
+        if (headerPopUp) {
+            headerPopUp.style.display = 'block';
+        }
     }
 
     /**
@@ -29,19 +68,73 @@ export default class Header extends BaseComponent {
      */
     async listenMouseOutProfile() {
         const headerPopUp = document.querySelector('.profile__pop-up');
-        headerPopUp.style.display = 'none';
+        if (headerPopUp) {
+            headerPopUp.style.display = 'none';
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая нажатие на кнопку поиска.
+     */
+    listenSearchButtonClick() {
+        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
+        if (errorMessageSearch) {
+            errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
+        } else {
+            itemCardsAction.getSearchResults(this.searchInput.value);
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая ввод в строку поиска.
+     */
+    listenInputSearch() {
+        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
+        if (!errorMessageSearch) {
+            itemCardsAction.getSuggestionSearch(this.searchInput.value);
+        } else {
+            // this.suggestionsBlock.render([]);
+            this.elementSuggestions.innerHTML = '';
+        }
+    }
+
+    /**
+     * Функция, обрабатывающая нажатие на саджест.
+     * @param {HTMLElement} target - элемент вызвавший событие
+     */
+    listenSuggestSearch({target}) {
+        const errorMessageSearch = validation.validateSearchField(target.innerText);
+        if (!errorMessageSearch) {
+            itemCardsAction.getSearchResults(target.innerText);
+            this.elementSuggestions.innerHTML = '';
+        }
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const headerProfile = document.querySelector('.header__profile');
-        if (headerProfile) {
-            headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
-            headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
-        } else {
-            console.log('element not found', headerProfile);
+        this.headerProfile = document.querySelector('.header__profile');
+        if (this.headerProfile) {
+            this.headerProfile.addEventListener('mouseover', this.listenMouseOverProfile);
+            this.headerProfile.addEventListener('mouseout', this.listenMouseOutProfile);
+        }
+
+        this.searchButton = document.getElementById('search-button-submit');
+        if (this.searchButton) {
+            this.bindListenSearchButtonClick = this.listenSearchButtonClick.bind(this);
+            this.searchButton.addEventListener('click', this.bindListenSearchButtonClick);
+        }
+
+        this.searchInput = document.getElementById('search-line__text');
+        if (this.searchInput) {
+            this.bindListenInputSearch = this.listenInputSearch.bind(this);
+            this.searchInput.addEventListener('input', this.bindListenInputSearch);
+        }
+
+        if (this.elementSuggestions) {
+            this.bindListenSuggestSearch = this.listenSuggestSearch.bind(this);
+            this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
         }
     }
 
@@ -49,10 +142,21 @@ export default class Header extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const headerProfile = document.querySelector('.header__profile');
-        if (headerProfile) {
-            headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
-            headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
+        if (this.headerProfile) {
+            this.headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
+            this.headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
+        }
+
+        if (this.searchButton) {
+            this.searchButton.removeEventListener('click', this.bindListenSearchButtonClick);
+        }
+
+        if (this.searchInput) {
+            this.searchInput.removeEventListener('input', this.bindListenInputSearch);
+        }
+
+        if (this.elementSuggestions) {
+            this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
         }
     }
 
@@ -63,6 +167,8 @@ export default class Header extends BaseComponent {
      */
     render(session) {
         super.render(this.prepareRenderData(session), headerTemplate);
+        this.elementSuggestions = document.getElementById('search-suggestions__main');
+        this.suggestionsBlock = new SearchSuggestion(this.elementSuggestions);
     }
 
     /**
