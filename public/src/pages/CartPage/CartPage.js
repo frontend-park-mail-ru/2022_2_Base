@@ -250,44 +250,6 @@ export default class CartOrderPage extends BasePage {
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
-                // <<<<<<< HEAD
-                //                 let choiseIdWithType = choice.id;
-                //                 let choiceId;
-                //                 if (choiseIdWithType) {
-                //                     if (choiseIdWithType.includes('/')) {
-                //                         [choiseIdWithType, choiceId] = choiseIdWithType.split('/');
-                //                     }
-                //                     switch (choiseIdWithType) {
-                //                     case 'address':
-                //                         const addressField = document.querySelector('.addressID');
-                //                         addressField.textContent = data;
-                //                         addressField.id = `address/${choiceId}`;
-                //                         break;
-                //                     case 'paymentCard':
-                //                         const cardNumber = document.querySelectorAll('.card-number');
-                //                         if (cardNumber) {
-                //                             cardNumber.forEach((key) => {
-                //                                 key.textContent = data;
-                //                             });
-                //                         }
-                //                         const choice = document.querySelectorAll('.payment-method_cart');
-                //                         if (choice) {
-                //                             choice.forEach((key) => {
-                //                                 key.id = `paymentCard/${choiceId}`;
-                //                             });
-                //                         }
-                //                         document.getElementById('final-paymentmethod').textContent = 'Картой';
-                //                         break;
-                //                     case 'payment-upon-receipt':
-                //                         const paymentReceipt = document.querySelectorAll('.card-number');
-                //                         if (paymentReceipt) {
-                //                             paymentReceipt.forEach((key) => {
-                //                                 key.textContent = data;
-                //                             });
-                //                         }
-                //                         document.getElementById('final-paymentmethod').textContent = 'При получении';
-                //                     }
-                // =======
                 let choiceId = choice.id;
                 let choiceIdWithType = choice.id;
                 if (choiceIdWithType) {
@@ -327,13 +289,6 @@ export default class CartOrderPage extends BasePage {
             switch (elementId) {
             case 'delivery-date':
                 document.getElementById('date-delivery').textContent =
-                    // <<<<<<< HEAD
-                    //                     document.getElementById(`delivery-date-value/${itemId}`).textContent;
-                    //                 break;
-                    //             case 'delivery-time':
-                    //                 document.getElementById('time-delivery').textContent =
-                    //                     document.getElementById(`delivery-time-value/${itemId}`).textContent;
-                    // =======
                         document.getElementById(`delivery-date-value/${itemId}`).textContent;
                 break;
             case 'delivery-time':
@@ -366,13 +321,6 @@ export default class CartOrderPage extends BasePage {
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
-                    // <<<<<<< HEAD
-                    //                     const count = parseInt(amountItem.textContent);
-                    //                     if (count === 1) {
-                    //                         this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
-                    //                     } else {
-                    //                         cartAction.decreaseNumber(parseInt(itemId));
-                    // =======
                     const count = parseInt(amountItem.textContent);
                     if (count === 1) {
                         this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
@@ -407,15 +355,6 @@ export default class CartOrderPage extends BasePage {
                 const check = child.getElementsByClassName('checkbox-opt')[0];
                 const itemId = check.getAttribute('id').split('/')[1];
                 if (check.checked) {
-                    // <<<<<<< HEAD
-                    //                     const lowprice = sharedFunctions._parseInt(
-                    //                         document.getElementById(`price/${itemId}`).textContent);
-                    //                     let price = sharedFunctions._parseInt(
-                    //                         document.getElementById(`sale-price/${itemId}`).textContent);
-                    //                     const count = sharedFunctions._parseInt(
-                    //                         document.getElementById(`count-product/${itemId}`).textContent);
-                    //                     if (isNaN(price)) {
-                    // =======
                     const lowprice = parseIntInPrice(
                         document.getElementById(`price/${itemId}`).textContent);
                     let price = parseIntInPrice(
@@ -518,22 +457,9 @@ export default class CartOrderPage extends BasePage {
                 orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
-
-                // <<<<<<< HEAD
-                //                 console.log('element card', document.querySelector('.payment-method_cart')
-                //                     .id.split('/')[1]);
-                //                 console.log('element card id', parseInt(document.querySelector('.payment-method_cart')
-                //                     .id.split('/')[1]));
-                //
-                //
-                //                 orderData.card = document.querySelector('.payment-method_cart')
-                //                     .id.split('/')[1] ?? config.states.noPayCardId;
-                //                 orderData.card = parseInt(orderData.card);
-                //
-                // =======
                 orderData.card = parseInt(document.querySelector('.payment-method__cart')
                     .id.split('/')[1]);
-                orderData.card = orderData.card ? orderData.card : null;
+                orderData.card = orderData.card ? orderData.card : 1;
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
