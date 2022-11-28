@@ -4,7 +4,6 @@ import itemsStore from '../../../stores/ItemsStore';
 import CatalogItemCard from '../../../components/CatalogItemCard/CatalogItemCard';
 import {config} from '../../../config';
 import router from '../../../modules/Router';
-import {sortByRating} from '../../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента PaymentCard

@@ -7,7 +7,6 @@ import CartPage from '../pages/CartPage/CartPage';
 import {userActions, UserActionTypes} from '../actions/user';
 import userStore from '../stores/UserStore';
 import refresh from './refreshElements';
-import UserPage from '../pages/UserPage/UserPage';
 import CategoryPage from '../pages/CatalogPage/CategoryPage/CategoryPage';
 import SearchPage from '../pages/CatalogPage/SearchPage/SearchPage';
 

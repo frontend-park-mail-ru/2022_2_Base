@@ -141,12 +141,12 @@ class Validation {
      * @return {string} errorMessage - сообщение об ошибке
      */
     validateSearchField(searchString) {
+        if (searchString.length < 3) {
+            return 'Введите не меньше 3 символов';
+        }
         if (!/^[a-z0-9 аАбБвВгГдДеЕёЁжЖзЗиИйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ]+$/i
             .test(searchString)) {
             return 'Введены недопустимые символы';
-        }
-        if (searchString.length < 3) {
-            return 'Введите не меньше 3 символов';
         }
         return '';
     }

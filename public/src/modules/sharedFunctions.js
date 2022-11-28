@@ -1,5 +1,3 @@
-import itemsStore from '../stores/ItemsStore';
-
 /**
  * Метод, подготавливающий число, разделенное пробелами по сотням
  * @param {number} number контекст отрисовки шаблона
