@@ -93,7 +93,6 @@ export default class Header extends BaseComponent {
         if (!errorMessageSearch) {
             itemCardsAction.getSuggestionSearch(this.searchInput.value);
         } else {
-            // this.suggestionsBlock.render([]);
             this.elementSuggestions.innerHTML = '';
         }
     }
@@ -105,8 +104,8 @@ export default class Header extends BaseComponent {
     listenSuggestSearch({target}) {
         const errorMessageSearch = validation.validateSearchField(target.innerText);
         if (!errorMessageSearch) {
-            itemCardsAction.getSearchResults(target.innerText);
             this.elementSuggestions.innerHTML = '';
+            itemCardsAction.getSearchResults(target.innerText);
         }
     }
 

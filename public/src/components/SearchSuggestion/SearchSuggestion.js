@@ -21,7 +21,6 @@ export default class SearchSuggestion extends BaseComponent {
      */
     render(context) {
         this._parent.innerHTML = '';
-        console.log(super.prepareCategory(context));
         super.render(super.prepareCategory(context), SearchSuggestionTemplate);
     }
 }
