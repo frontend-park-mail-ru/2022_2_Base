@@ -56,7 +56,6 @@ export default class LoginPage extends BasePage {
             errorMessage.getErrorMessage(document.getElementById(
                 userStore.getContext(userStore._storeNames.context).fields.email.name),
             'emailError', config.errorMessages.error401auth);
-            console.log('no auth: ', status);
             break;
         default:
             errorMessage.getAbsoluteErrorMessage();

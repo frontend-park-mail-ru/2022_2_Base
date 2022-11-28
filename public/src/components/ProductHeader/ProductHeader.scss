@@ -17,8 +17,9 @@
 .product-page-header__rating {
     display: flex;
     gap: 4px;
+    align-items: center;
 }
-
+product-page-main__photo
 .product-page-header__rating-img {
     width: 24px;
     height: 24px;
@@ -28,6 +29,10 @@
     display: flex;
     gap: 4px;
     align-items: center;
+}
+
+.product-page-header__comment{
+    @extend %product-page-header__comment;
 }
 
 .product-page-header__comment-img {

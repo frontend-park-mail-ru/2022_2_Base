@@ -83,11 +83,7 @@ export default class Header extends BaseComponent {
         if (errorMessageSearch) {
             errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
         } else {
-            const lowercaseInput = this.searchInput.value.toLowerCase();
-            const category = Object.values(
-                itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
-                (category) => category.nameCategory.toLowerCase() === lowercaseInput);
-
+            const category = this.#isSearchContainsCategory();
             if (category) {
                 router.openPage(category.href);
             } else {
@@ -97,20 +93,31 @@ export default class Header extends BaseComponent {
     }
 
     /**
+     * Функция, возвращающая категорию, если она содержится в строке поиска
+     * @return {string|undefined} категория
+     */
+    #isSearchContainsCategory() {
+        return Object.values(
+            itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
+            (category) => category.nameCategory.toLowerCase()
+                .includes(this.searchInput.value.toLowerCase()));
+    }
+
+    /**
      * Функция, обрабатывающая ввод в строку поиска.
      */
     listenInputSearch() {
-        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
-        if (!errorMessageSearch) {
-            const lowercaseInput = this.searchInput.value.toLowerCase();
-            const category = Object.values(
-                itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
-                (category) => category.nameCategory.toLowerCase().includes(lowercaseInput));
-
-            if (category) {
-                itemCardsAction.getSuggestionSearch(category.nameCategory, true);
+        if (this.searchInput.value) {
+            const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
+            if (errorMessageSearch) {
+                const category = this.#isSearchContainsCategory();
+                if (category) {
+                    itemCardsAction.getSuggestionSearch(category.nameCategory, true);
+                } else {
+                    itemCardsAction.getSuggestionSearch(this.searchInput.value);
+                }
             } else {
-                itemCardsAction.getSuggestionSearch(this.searchInput.value);
+                errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
             }
         } else {
             this.elementSuggestions.innerHTML = '';
@@ -118,25 +125,18 @@ export default class Header extends BaseComponent {
     }
 
     /**
-     * Функция, обрабатывающая нажатие на саджест.
+     * Функция, обрабатывающая нажатие на подсказку.
      * @param {HTMLElement} target - элемент вызвавший событие
      */
     listenSuggestSearch({target}) {
-        const errorMessageSearch = validation.validateSearchField(target.innerText);
-        if (!errorMessageSearch) {
-            this.searchInput.value = target.innerText;
+        this.searchInput.value = target.innerText;
+        const category = this.#isSearchContainsCategory();
 
-            const lowercaseInput = target.innerText.toLowerCase();
-            const category = Object.values(
-                itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
-                (category) => category.nameCategory.toLowerCase() === lowercaseInput);
-
-            if (category) {
-                router.openPage(category.href);
-                this.elementSuggestions.innerHTML = '';
-            } else {
-                itemCardsAction.getSearchResults(target.innerText);
-            }
+        if (category) {
+            router.openPage(category.href);
+            this.elementSuggestions.innerHTML = '';
+        } else {
+            itemCardsAction.getSearchResults(target.innerText);
         }
     }
 

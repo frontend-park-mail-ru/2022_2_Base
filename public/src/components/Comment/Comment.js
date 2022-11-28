@@ -22,15 +22,4 @@ export default class Comment extends BaseComponent {
     render(context) {
         super.render(super.prepareCategory(context), CommentTemplate);
     }
-    //
-    // /**
-    //  * Метод, подготавливавающий наполнение для формы, исходя из контекста
-    //  * @param {Object} context контекст отрисовки шаблона
-    //  * @return {Object} наполнение для формы
-    //  */
-    //  prepareRenderData(context) {
-    //     return {
-    //         comments: {...context},
-    //     };
-    // }
 }

@@ -14,15 +14,18 @@
         <a href="{{this.commentPath}}" class="product-page-header__rating link__no-color">
             <img src="/img/Star.svg" alt="product rating" class="product-page-header__rating-img">
             <span class="text-normal-large-normal">
-                {{rating}}
+                        {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
             </span>
-            <div class="product-page-header__comment text-normal-large-normal link">
-                <img src="/img/Comment.svg" alt="product comment" class="product-page-header__comment-img">
-                {{#if commentscount}}
-                    {{commentscount}}
-                {{else}}
-                    нет
-                {{/if}}
+            <div class="product-page-header__comment">
+                <img src="/img/Comment.svg" alt="product comments counter" class="product-page-header__comment-img">
+                <span class="text-normal-large-normal link">
+                    {{#if commentsCount}}
+                        {{commentsCount}}
+                    {{else}}
+                        нет
+                    {{/if}}
+                    {{commentsCountText}}
+                </span>
             </div>
         </a>
         <label class="product-page-header__selection">

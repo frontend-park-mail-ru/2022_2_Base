@@ -302,9 +302,8 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос карточки с определенным id.
-     * @param {number} id - идентификатор товара
      */
-    async _getItemCard(id) {
+    async _getItemCard() {
         const [status, response] = await request
             .makeGetRequest(config.api.products +
                 document.location.pathname.slice(
@@ -325,7 +324,6 @@ class ItemsStore extends BaseStore {
      * Действие: получение отзывов отзыва.
      */
     async _getComments() {
-        console.log('asdas');
         const [status, response] = await request
             .makeGetRequest(config.api.getComments +
                 document.location.pathname.slice(
@@ -390,7 +388,6 @@ class ItemsStore extends BaseStore {
     async _addComment(comment) {
         comment.itemid = this._storage.get(this._storeNames.itemData).id;
         comment.userid = cartStore.getContext(cartStore._storeNames.userID);
-        console.log(comment);
         const [status] = await request
             .makePostRequest(config.api.makeComment, comment);
         this._storage.set(this._storeNames.responseCode, status);

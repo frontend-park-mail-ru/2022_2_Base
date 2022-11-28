@@ -23,7 +23,8 @@
                          class="catalog-item-card__description-block__properties-block__rating-block__star-icon"
                          alt="rating star icon">
                     <span class="text-normal-default">Рейтинг</span>
-                    <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num"> {{this.rating}}
+                    <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num">
+                                {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
                     </span>
                 </div>
                 {{#each properties}}

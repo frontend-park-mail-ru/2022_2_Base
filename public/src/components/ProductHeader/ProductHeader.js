@@ -39,9 +39,9 @@ export default class ProductHeader extends BaseComponent {
             name: context.name,
             rating: context.rating,
             // commentsHref: context.commentsHref,
-            commentsCount: context.commentsCount,
+            commentsCount: context.commentscount,
             commentsCountText:
-                _sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
+                _sklonenie(context.commentscount, ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
     }

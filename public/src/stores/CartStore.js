@@ -152,7 +152,6 @@ class CartStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        console.log('noNullItemsCart', noNullItemsCart);// fix
         this._storage.set(this._storeNames.itemsCart, noNullItemsCart);
     }
 
@@ -185,14 +184,12 @@ class CartStore extends BaseStore {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        console.log('currCartItems', currCartItems);// fix
         const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
             currCartItems[editItemIndex] = itemToAdd;
         }
-        console.log('currCartItems 2', currCartItems);// fix
         this._storage.set(this._storeNames.itemsCart, currCartItems);
     }
 
@@ -246,15 +243,6 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            // const itemsCart = this._storage.get(this._storeNames.itemsCart);
-            // data.items.forEach((id) => {
-            //     itemsCart.forEach((item, key) => {
-            //         if (item.id === id) {
-            //             delete itemsCart[key];
-            //         }
-            //     });
-            // });
-
             this._storage.set(this._storeNames.itemsCart, data.items.reduce(
                 (newItemsCart, id) =>
                     newItemsCart.filter((item) => item.id !== id),

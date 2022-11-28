@@ -56,7 +56,7 @@
     <a href="/comment/{{this.id}}" class="item-card__rating link__no-color">
         <img src="/img/Star.svg" alt="S" class="rating star icon">
         <span class="text-normal-default__bold">
-            {{this.rating}}
+            {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
         </span>
     </a>
 </div>
