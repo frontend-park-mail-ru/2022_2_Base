@@ -25,7 +25,6 @@ class SharedFunctions {
      * @param {Array|object} data - данные карты
      */
     addSpacesToPrice(data) {
-        console.log(data);
         if (Array.isArray(data)) {
             data.forEach((item) => {
                 this.#addSpacesToItemPrice(item);

@@ -22,7 +22,6 @@ export default class AddCommentPage extends BaseItemPage {
             [itemCardsAction.getItemCard, ItemCardsActionTypes.ITEM_CARD_GET,
                 'comment'],
         );
-        // this.inputRegEx = /[^A-Za-z0-9.? ,:;!]+/g;
     }
 
     /**
@@ -38,7 +37,6 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, реагирующую на добавление отзыва
      */
     listenCommentAdd() {
-        console.log('asdasdasdas');
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             router.openPage(config.href.comment + '/' + location.pathname.split('/').pop());
@@ -56,14 +54,13 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, регистрирующая на нажатие кнопки создания отзыва
      */
     listenClickSubmitComment() {
-        console.log('listenClickSubmitComment');
         const commentData = {};
         commentData.rating = Math.abs(Array.from(document.getElementsByName('rating'))
             .findIndex(({checked}) => checked === true) - 5);
 
         if (commentData.rating !== 6) {
-            commentData.worths = document.getElementById('textarea_pros-filed').value;
-            commentData.drawbacks = document.getElementById('textarea_cons-filed').value;
+            commentData.pros = document.getElementById('textarea_pros-filed').value;
+            commentData.cons = document.getElementById('textarea_cons-filed').value;
             commentData.comment = document.getElementById('textarea_comment-filed').value;
             itemCardsAction.addComment(commentData);
         } else {

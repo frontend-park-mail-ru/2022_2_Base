@@ -1,10 +1,10 @@
-{{#each comments}}
+{{#each item}}
     <div class="comment">
         <div class="comment__header">
-            <img src="{{#if this.userPhoto}}{{this.userPhoto}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
+            <img src="{{#if this.imgsrc}}{{this.imgsrc}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
                  class="comment__userPhoto">
             <span class="comment__color-pure-black text-normal-large-normal">
-                {{#if this.userName}}{{this.userName}}{{else}}Анонимный пользователь{{/if}}</span>
+                {{#if this.username}}{{this.username}}{{else}}Анонимный пользователь{{/if}}</span>
             <div class="comment__date-range">
                 <span class="comment_date text-normal-default">{{this.date}}</span>
                 <div class="rating-stars_disabled">
@@ -26,8 +26,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Достоинства</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.worths}}
-                        {{this.worths}}
+                    {{#if this.pros}}
+                        {{this.pros}}
                     {{else}}
                         нет
                     {{/if}}
@@ -36,8 +36,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Недостатки</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.drawbacks}}
-                        {{this.drawbacks}}
+                    {{#if this.cons}}
+                        {{this.cons}}
                     {{else}}
                         нет
                     {{/if}}
@@ -53,20 +53,6 @@
                     {{/if}}
                 </span>
             </div>
-<!--            <div class="comment-content__like-dislike comment-content__like-dislike_margin">-->
-<!--                <button type="button" class="comment-content-like-button">-->
-<!--                    <img src="img/like-finger.svg" alt="like">-->
-<!--                    <span class="text-normal-default">-->
-<!--                        {{this.likeCount}}-->
-<!--                    </span>-->
-<!--                </button>-->
-<!--                <button type="button" class="comment-content-like-button">-->
-<!--                    <img src="img/dislike-finger.svg" alt="dislike">-->
-<!--                    <span class="comment-content-like-text text-normal-default">-->
-<!--                        {{this.dislikeCount}}-->
-<!--                    </span>-->
-<!--                </button>-->
-<!--            </div>-->
         </div>
     </div>
 {{/each}}

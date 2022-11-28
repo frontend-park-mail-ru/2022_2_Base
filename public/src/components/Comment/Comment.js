@@ -20,17 +20,17 @@ export default class Comment extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        super.render(this.prepareRenderData(context), CommentTemplate);
+        super.render(super.prepareCategory(context), CommentTemplate);
     }
-
-    /**
-     * Метод, подготавливавающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} наполнение для формы
-     */
-     prepareRenderData(context) {
-        return {
-            comments: {...context},
-        };
-    }
+    //
+    // /**
+    //  * Метод, подготавливавающий наполнение для формы, исходя из контекста
+    //  * @param {Object} context контекст отрисовки шаблона
+    //  * @return {Object} наполнение для формы
+    //  */
+    //  prepareRenderData(context) {
+    //     return {
+    //         comments: {...context},
+    //     };
+    // }
 }

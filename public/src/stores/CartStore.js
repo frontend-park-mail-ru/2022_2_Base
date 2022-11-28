@@ -177,7 +177,6 @@ yeah, all your shit lame, I feel no pain, we" "\\eof`,
     async _getCart() {
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
-        console.log('itemsCart', this._storage.get(this._storeNames.itemsCart));
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
