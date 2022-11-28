@@ -152,7 +152,8 @@ class CartStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-        this._storage.set(this._storeNames.itemsCart, {items: noNullItemsCart});
+        console.log('noNullItemsCart', noNullItemsCart);// fix
+        this._storage.set(this._storeNames.itemsCart, noNullItemsCart);
     }
 
     /**
@@ -184,12 +185,14 @@ class CartStore extends BaseStore {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
+        console.log('currCartItems', currCartItems);// fix
         const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
             currCartItems[editItemIndex] = itemToAdd;
         }
+        console.log('currCartItems 2', currCartItems);// fix
         this._storage.set(this._storeNames.itemsCart, currCartItems);
     }
 

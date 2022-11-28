@@ -37,7 +37,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
-        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKEORDER);
+        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
