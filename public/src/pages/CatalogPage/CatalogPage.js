@@ -63,6 +63,7 @@ export default class CatalogPage extends BasePage {
             this.actionToLoadCards(true);
             break;
         default:
+            this.actionToLoadCards(true);
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }

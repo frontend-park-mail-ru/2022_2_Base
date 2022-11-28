@@ -21,7 +21,8 @@ export default class Header extends BaseComponent {
     constructor(parent) {
         super(parent);
 
-        itemsStore.addListener(this.listenSearchRequest, ItemCardsActionTypes.GET_SEARCH_RESULTS);
+        itemsStore.addListener(this.listenSearchRequest.bind(this),
+            ItemCardsActionTypes.GET_SEARCH_RESULTS);
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
     }
@@ -33,6 +34,7 @@ export default class Header extends BaseComponent {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             router.openPage(config.href.search);
+            this.elementSuggestions.innerHTML = '';
             break;
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
@@ -104,7 +106,6 @@ export default class Header extends BaseComponent {
     listenSuggestSearch({target}) {
         const errorMessageSearch = validation.validateSearchField(target.innerText);
         if (!errorMessageSearch) {
-            this.elementSuggestions.innerHTML = '';
             itemCardsAction.getSearchResults(target.innerText);
         }
     }
@@ -132,8 +133,7 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.bindListenSuggestSearch = this.listenSuggestSearch.bind(this);
-            this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
+            this.elementSuggestions.addEventListener('click', this.listenSuggestSearch);
         }
     }
 
@@ -155,7 +155,7 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
+            this.elementSuggestions.removeEventListener('click', this.listenSuggestSearch);
         }
     }
 
