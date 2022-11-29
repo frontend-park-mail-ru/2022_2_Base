@@ -318,8 +318,7 @@ class UserStore extends BaseStore {
      */
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAvatar(
-            config.api.uploadAvatar, avatar ??
-            await fetch('img/UserPhoto.webp').then((r) => r.blob()))
+            config.api.uploadAvatar, avatar ?? '')
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -352,7 +351,7 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
-            // avatar: this._storage.get(this._storeNames.avatar),
+            avatar: this._storage.get(this._storeNames.avatar),
             paymentMethods: paymentMethodsField,
             address: addressField,
         };
@@ -435,6 +434,7 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
+        console.log(userData);
         await this.#makePostRequestCard(userData.filter((item) => item.id !== id), 'address');
     }
 }

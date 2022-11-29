@@ -13,6 +13,7 @@ import SearchPage from '../pages/CatalogPage/SearchPage/SearchPage';
 import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
 import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
+import UserPage from '../pages/UserPage/UserPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -157,6 +158,7 @@ class Router {
         this.register(config.href.comment, CommentPage);
         this.register(config.href.addComment, AddCommentPage);
         this.register(config.href.orders, OrdersPage);
+        this.register(config.href.user, UserPage);
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
