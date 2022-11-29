@@ -88,7 +88,7 @@
 
 @media (max-width: 991px) {
     .content__main {
-        grid-template-rows: auto 60px 1fr 60px 1fr;
+        grid-template-rows: auto 60px 350px 60px 350px;
     }
 
     .content__catalog {
@@ -96,8 +96,33 @@
         grid-gap: 8px;
         height: 72px;
     }
+
+    .main-page__scroll {
+        overflow-y: auto;
+        overflow-x: hidden;
+        transform: rotate(270deg) translateY(-320px) translateX(-10px);
+        width: 336px;
+        height: 100vw;
+        margin: 0;
+        transform-origin: right top;
+    }
+
+    .content__sales {
+        transform: rotate(90deg) translateX(300px);
+        transform-origin: right top;
+        @extend %content__sales;
+    }
+
+    .content__popular {
+        transform: rotate(90deg) translateX(300px);
+        transform-origin: right top;
+    }
+
+    .arrow-button {
+        display: none;
+    }
 }
 
 // @media (max-width: 767px) {
-
+    
 // }

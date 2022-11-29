@@ -174,7 +174,9 @@ export default class MainPage extends BasePage {
             itemCardsAction.getHomeItemCards(config.api.products, false);
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
+            itemCardsAction.getHomeItemCards(config.api.products, true);
+            itemCardsAction.getHomeItemCards(config.api.products, false);
+            // errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
             break;
         }
     }
