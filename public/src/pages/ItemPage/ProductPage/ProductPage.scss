@@ -87,7 +87,7 @@
 
 .product-page-main__add-cart {
     box-sizing: border-box;
-    height: 250px;
+    height: min-content;
     padding: 32px;
     display: grid;
     grid-gap: 16px;

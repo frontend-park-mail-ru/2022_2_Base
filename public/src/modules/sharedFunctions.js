@@ -12,6 +12,7 @@ export function truncatePrice(number) {
  * @param {object} item - данные карты
  */
 const _addSpacesToItemPrice = (item) => {
+    console.log(item);
     if (item.lowprice) {
         item.discount = 100 - Math.round(item.lowprice / item.price * 100);
         item.strPrice = truncatePrice(item.price);

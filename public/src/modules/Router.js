@@ -171,6 +171,7 @@ class Router {
         this.#titles.set(config.href.orders, 'Заказы - Reazon');
         this.#titles.set(config.href.product, 'О товаре - Reazon');
         this.#titles.set(config.href.comment, 'Отзывы - Reazon');
+        this.#titles.set(config.href.addComment, 'Отзыв - Reazon');
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

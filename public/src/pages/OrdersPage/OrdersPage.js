@@ -6,6 +6,8 @@ import {orderAction, OrderActionTypes} from '../../actions/order';
 import ordersStore from '../../stores/OrdersStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
+import refreshElements from '../../modules/refreshElements';
+import itemsStore from '../../stores/ItemsStore';
 
 /**
  * Класс, реализующий главную страницу
@@ -35,12 +37,29 @@ export default class OrdersPage extends BasePage {
     renderCards() {
         switch (ordersStore.getContext(ordersStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            this.orderBlock = new OrderBlock(document.getElementById('orders-page__block'));
-            this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
+            if (ordersStore.getContext(ordersStore._storeNames.orders).length) {
+                this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
+            } else {
+                refreshElements.showUnAuthPage({
+                    text: 'Пока у вас нет заказов. Может купите',
+                    linkToPage:
+                        itemsStore.getContext(itemsStore._storeNames.topCategory.Smartphone.href),
+                    linkText: 'телефон',
+                    textAfterLink: '.',
+                });
+            }
             break;
         case config.responseCodes.code401:
+            refreshElements.showUnAuthPage({
+                text: 'Чтобы посмотреть заказы',
+                linkToPage: config.href.login,
+                linkText: 'авторизуйтесь',
+                textAfterLink: '.',
+            });
+            break;
         default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов: нет авторизации');
+            // this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders)); //fix
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов');
             break;
         }
     }
@@ -51,6 +70,7 @@ export default class OrdersPage extends BasePage {
      */
     render(config) {
         super.render(config);
+        this.orderBlock = new OrderBlock(document.getElementById('orders-page__header'));
         orderAction.getOrders();
     }
 }

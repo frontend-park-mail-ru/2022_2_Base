@@ -10,15 +10,21 @@
         <div class="comment-page-header__right-block">
             <div class="comment-page-header__add-cart">
                 <div class="comment-page-header__price">
-                    <div class="comment-page-header__price-discount">
-                        <span class="text-normal-default comment-page-header__price-strikethrough">{{price}} ₽</span>
-                        {{#if lowprice}}
+                    {{#if strPrice}}
+                        <div class="comment-page-header__price-discount">
+
+                            <span class="text-normal-default comment-page-header__price-strikethrough">{{strPrice}}
+                                ₽</span>
                             <div class="comment-page-header__sales-value text-normal-small">
                                 -{{discount}}%
                             </div>
-                        {{/if}}
-                    </div>
-                    <span class="comment-page-color-jet-black text-normal-large-normal">{{lowprice}} ₽</span>
+                        </div>
+                    {{/if}}
+                    <span class="text-normal-large-normal">{{#if
+                            strLowprice}}{{strLowprice}} ₽</span>
+                {{else}}
+                <span class="text-normal-large-normal">
+                    {{strPrice}} ₽</span>{{/if}}
                 </div>
                 <div id="comment-block-button-add-to-cart" data-id="{{this.id}}">
                 </div>
@@ -29,7 +35,8 @@
         <div class="comment-page-main__header">
             <div class="comment-page-main__header-name-button">
                 <span class="text-normal-very-large comment-page-color-jet-black">Отзывы</span>
-                <button  id="add-comment-btn" class="button-default comment-page-header__button comment-page-main__button link__no-color">
+                <button id="add-comment-btn"
+                        class="button-default comment-page-header__button comment-page-main__button link__no-color">
                     Оставить отзыв
                 </button>
             </div>

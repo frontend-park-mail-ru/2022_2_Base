@@ -1,107 +1,78 @@
-{{#each orders}}
+{{#each item}}
     <div class="order-block">
-        <div class="order-block__header">
-            <span class="text-normal-very-big order-block__header__status"> Номер заказа: {{this.id}} </span>
-            <span class="text-normal-large-normal order-block__header__number"> {{this.orderStatus}} </span>
+        <span class="text-normal-large-normal paint-jet-black"> Номер заказа: {{this.id}} </span>
+        <span class="text-normal-large-normal"> Статус: {{this.orderStatus}} </span>
+
+        <div class="order-block__item-cards-block" id="order-block__itemcards-block">
+
+            {{#each items}}
+                <div class="order-block__itemcard">
+                    <img src="{{this.item.imgsrc}}" class="order-block__itemcard__photo"
+                         alt="{{this.item.name}} photo">
+                    <a href="/product/{{this.item.id}}"
+                       class="text-normal-large-normal order-block__itemcard__title"> {{this.item.name}}
+                    </a>
+                    <span class="text-normal-large-normal order-block__itemcard__counter"> {{this.count}} шт.</span>
+                    <span class="text-normal-very-big order-block__itemcard__counter">
+                        {{#if this.item.lowprice}}
+                            {{this.item.lowprice}} ₽
+                        {{else}}
+                            {{this.item.price}} ₽
+                        {{/if}}
+                    </span>
+                </div>
+                <div class="horizontal-line"></div>
+            {{/each}}
+
         </div>
 
-        <div class="order-block__content">
-            <div class="order-block__item-cards-block" id="order-block__itemcards-block">
+        <div class="order-block__info-block">
 
-                {{#each items}}
-                    <div class="order-block__itemcard">
-                        <img src="{{this.item.imgsrc}}" class="order-block__itemcard__photo"
-                             alt="{{this.item.name}} photo">
-                        <a href="/product/{{this.item.id}}"
-                           class="text-normal-large-normal order-block__itemcard__title"> {{this.item.name}}
-                        </a>
-                        <span class="text-normal-large order-block__itemcard__counter"> {{this.count}} шт.</span>
-                        <span class="text-normal-very-big order-block__itemcard__counter">
-                            {{#if this.item.lowprice}}
-                                {{this.item.lowprice}} ₽
-                            {{else}}
-                                {{this.item.price}} ₽
-                            {{/if}}
+            <div class="order-block__info-block__split-line">
+                <span class="text-normal-large"> Итого </span>
+                <span class="text-normal-large order-block__info-block__line-right"> {{this.totalPrice}} ₽
                         </span>
-                    </div>
-                {{/each}}
 
+                <span class="text-normal-default order-block__info-block__line-left"> Оплата </span>
+                <span class="text-normal-default order-block__info-block__line-right">
+                    {{#if this.card}}
+                        Картой
+                    {{else}}
+                        При получении
+                    {{/if}}
+                </span>
+
+                <span class="text-normal-default order-block__info-block__line-left"> Статус оплаты </span>
+                <span class="text-normal-default order-block__info-block__line-right"> {{this.paymentStatus}} </span>
+
+                <span class="text-normal-default order-block__info-block__line-left"> Дата оформления </span>
+                <span class="text-normal-default order-block__info-block__line-right"> {{this.creationDateString}} </span>
             </div>
 
-            <div></div>
 
-            <div class="order-block__info-block">
+            <div class="order-block__info-block__split-line">
+                <span class="text-normal-large"> Доставка </span>
 
-                <div>
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-large"> Итого </span>
-                        <span class="text-normal-large order-block__info-block__line-right"> {{this.totalPrice}} ₽
-                        </span>
-                    </div>
+                <span class="text-normal-default order-block__info-block__line-left"> Адрес </span>
+                <span class="text-normal-default order-block__info-block__line-right "> {{this.addressString}}
+                </span>
 
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-default order-block__info-block__line-left"> Оплата </span>
-                        <span class="text-normal-default order-block__info-block__line-right">
-                            {{#if this.card}}
-                                Картой
-                            {{else}}
-                                Наличными при получении
-                            {{/if}}
-                        </span>
-                    </div>
+                <span class="text-normal-default order-block__info-block__line-left"> Дата доставки </span>
+                <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryDateString}} </span>
 
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-default order-block__info-block__line-left"> Статус оплаты </span>
-                        <span class="text-normal-default order-block__info-block__line-right"> {{this.paymentStatus}} </span>
-                    </div>
-
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-default order-block__info-block__line-left"> Дата оформления </span>
-                        <span class="text-normal-default order-block__info-block__line-right"> {{this.creationDateString}} </span>
-                    </div>
-                </div>
-
-
-                <div class="order-block__info-block__title">
-                    <span class="text-normal-large"> Способ получения </span>
-                </div>
-
-
-                <div>
-                    <div class="order-block__info-block__split-line__address">
-                        <span class="text-normal-default order-block__info-block__line-left"> Адрес </span>
-                        <span class="text-normal-default order-block__info-block__line-right "> {{this.addressString}}
-                        </span>
-                    </div>
-
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-default order-block__info-block__line-left"> Дата доставки </span>
-                        <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryDateString}} </span>
-                    </div>
-
-                    <div class="order-block__info-block__split-line">
-                        <span class="text-normal-default order-block__info-block__line-left"> Время доставки </span>
-                        <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
-                    </div>
-
-                    <div class="order-block__info-block__split-line">
-<!--                        <span class="text-normal-default order-block__info-block__line-left"> Срок хранения </span>-->
-<!--                        <span class="text-normal-default order-block__info-block__line-right"> 3 дня </span>-->
-                    </div>
-                </div>
-
-                <div class="order-block__info-block__buttons-line">
-                    <div class="button-default button-order-block button-cancel-order" id="button-cancel-order"
-                         data-id="{{this.id}}"> Отменить заказ
-                    </div>
-                    <div class="button-default button-order-block button-repeat-order" id="button-repeat-order"
-                         data-id="{{this.id}}"> Повторить заказ
-                    </div>
-
-                </div>
-
-
+                <span class="text-normal-default order-block__info-block__line-left"> Время доставки </span>
+                <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
             </div>
+
+            <div class="order-block__info-block__buttons-line">
+                <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
+                     data-id="{{this.id}}"> Отменить заказ
+                </div>
+                <div class="button-default button-order-block button-repeat-order disabled" id="button-repeat-order"
+                     data-id="{{this.id}}"> Повторить заказ
+                </div>
+            </div>
+
         </div>
     </div>
 {{/each}}

@@ -1,7 +1,6 @@
 import BaseStore from './BaseStore.js';
 import request from '../modules/ajax';
 import {config} from '../config.js';
-// import sharedFunctions from '../modules/sharedFunctions';
 import {OrderActionTypes} from '../actions/order';
 import userStore from './UserStore';
 
@@ -46,8 +45,8 @@ class OrdersStore extends BaseStore {
             let price = 0;
             let addressString;
 
-            element.items.forEach((itemcard) => {
-                price += (itemcard.item.lowprice > 0 ? itemcard.item.lowprice : itemcard.item.price);
+            element.items.forEach((itemCard) => {
+                price += (itemCard.item.lowprice > 0 ? itemCard.item.lowprice : itemCard.item.price);
             });
 
             element.totalPrice = price;
@@ -91,103 +90,152 @@ class OrdersStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
-            let orders = response.body;
-
-            // тестовые данные
-            /*
-            orders = [
-                {
-                    address: 1,
-                    card: 0,
-                    creationDate: '2022-11-28T08:00:00.000Z',
-                    deliveryDate: '2022-11-28T10:00:00.000Z',
-                    id: 1,
-                    items: [
-                        {
-                            count: 1,
-                            item: {
-                                category: 'string',
-                                id: 123,
-                                imgsrc: './../img/Smartphone.webp',
-                                lowprice: 0,
-                                name: 'iPhone 11 Pro 64Гб',
-                                price: 24990,
-                                rating: 0,
-                            },
-                        },
-                        {
-                            count: 5,
-                            item: {
-                                category: 'string',
-                                id: 124,
-                                imgsrc: './../img/Smartphone.webp',
-                                lowprice: 22990,
-                                name: 'iPhone 11 Pro 64Гб',
-                                price: 30990,
-                                rating: 0,
-                            },
-                        },
-                        {
-                            count: 5,
-                            item: {
-                                category: 'string',
-                                id: 124,
-                                imgsrc: './../img/Smartphone.webp',
-                                lowprice: 22990,
-                                name: 'iPhone 11 Pro 64Гб',
-                                price: 30990,
-                                rating: 0,
-                            },
-                        },
-                    ],
-                    orderStatus: 'Статус?',
-                    paymentStatus: 'Статус оплаты?',
-                    userId: 0,
-                },
-                {
-                    address: 2,
-                    card: 0,
-                    creationDate: '2022-11-28T08:00:00.000Z',
-                    deliveryDate: '2022-11-28T14:00:00.000Z',
-                    id: 2,
-                    items: [
-                        {
-                            count: 1,
-                            item: {
-                                category: 'string',
-                                id: 123,
-                                imgsrc: './../img/Smartphone.webp',
-                                lowprice: 0,
-                                name: 'iPhone 11 Pro 64Гб',
-                                price: 24990,
-                                rating: 0,
-                            },
-                        },
-                        {
-                            count: 5,
-                            item: {
-                                category: 'string',
-                                id: 124,
-                                imgsrc: './../img/Smartphone.webp',
-                                lowprice: 22990,
-                                name: 'iPhone 11 Pro 64Гб',
-                                price: 30990,
-                                rating: 0,
-                            },
-                        },
-                    ],
-                    orderStatus: 'Статус?',
-                    paymentStatus: 'Статус оплаты?',
-                    userId: 0,
-                },
-            ];
-            */
-
-            if (orders) {
-                orders = orders.reverse();
+            if (response.body.length) {
+                // let orders = response.body;
+                //
+                // // тестовые данные
+                // orders = [
+                //     {
+                //         address: 1,
+                //         card: 0,
+                //         creationDate: '2022-11-28T08:00:00.000Z',
+                //         deliveryDate: '2022-11-28T10:00:00.000Z',
+                //         id: 1,
+                //         items: [
+                //             {
+                //                 count: 1,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 123,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 0,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 24990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //         ],
+                //         orderStatus: 'Статус?',
+                //         paymentStatus: 'Статус оплаты?',
+                //         userId: 0,
+                //     },
+                //     {
+                //         address: 2,
+                //         card: 0,
+                //         creationDate: '2022-11-28T08:00:00.000Z',
+                //         deliveryDate: '2022-11-28T14:00:00.000Z',
+                //         id: 2,
+                //         items: [
+                //             {
+                //                 count: 1,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 123,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 0,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 24990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //             {
+                //                 count: 5,
+                //                 item: {
+                //                     category: 'string',
+                //                     id: 124,
+                //                     imgsrc: './../img/Smartphone.webp',
+                //                     lowprice: 22990,
+                //                     name: 'iPhone 11 Pro 64Гб',
+                //                     price: 30990,
+                //                     rating: 0,
+                //                 },
+                //             },
+                //         ],
+                //         orderStatus: 'Статус?',
+                //         paymentStatus: 'Статус оплаты?',
+                //         userId: 0,
+                //     },
+                // ];
+                const orders = response.body.reverse();
                 this.#prepareOrdersData(orders);
+                this._storage.set(this._storeNames.orders, orders);
+            } else {
+                this._storage.set(this._storeNames.orders, []);
             }
-            this._storage.set(this._storeNames.orders, orders);
+        } else {
+            this._storage.set(this._storeNames.orders, []);
         }
     }
 }
