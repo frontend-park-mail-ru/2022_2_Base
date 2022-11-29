@@ -7,6 +7,7 @@
   height: 480px;
   display: grid;
   grid-template-columns: 3fr 1fr;
+  grid-template-rows: min-content;
   padding: 32px;
   background-color: var(--pure-white);
   border-radius: 10px;
@@ -23,7 +24,7 @@
 }
 
 .order-block__item-cards-block {
-  overflow-y: auto;
+  overflow-y: scroll;
   color: var(--jet-black);
 }
 
