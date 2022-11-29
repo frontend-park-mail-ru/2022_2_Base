@@ -13,6 +13,8 @@ export const ItemCardsActionTypes = {
     POPULAR_ITEM_CARDS_GET_BY_CATEGORY: 'POPULAR_ITEM_CARDS_GET_BY_CATEGORY',
     CHEAP_ITEM_CARDS_GET_BY_CATEGORY: 'CHEAP_ITEM_CARDS_GET_BY_CATEGORY',
     HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY: 'HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY',
+    ADD_COMMENT: 'ADD_COMMENT',
+    GET_COMMENTS: 'GET_COMMENTS',
     GET_SEARCH_RESULTS: 'GET_SEARCH_RESULTS',
     LOCAL_SORT_RATING: 'LOCAL_SORT_RATING',
     LOCAL_SORT_PRICE: 'LOCAL_SORT_PRICE',
@@ -115,6 +117,15 @@ export const itemCardsAction = {
     },
 
     /**
+     * Действие: запрос карточки с определенным id.
+     */
+    getItemCard() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARD_GET,
+        });
+    },
+
+    /**
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
      */
@@ -126,24 +137,34 @@ export const itemCardsAction = {
     },
 
     /**
-     * Действие: запрос списка саджестов на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
+     * Действие: запрос списка карточек на основании ввода пользователя.
      */
-    getSuggestionSearch(searchString) {
+    getComments() {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
-            data: searchString,
+            actionName: ItemCardsActionTypes.GET_COMMENTS,
         });
     },
 
     /**
-     * Действие: запрос карточки с определенным id.
-     * @param {number} id
+     * Действие: запрос списка саджестов на основании ввода пользователя.
+     * @param {String} searchString - строка для поиска
+     * @param {boolean} isCategory - идет поиск по категориям или нет
      */
-    getItemCard(id) {
+    getSuggestionSearch(searchString, isCategory = false) {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARD_GET,
-            data: {id},
+            actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
+            data: {searchString: searchString, isCategory: isCategory},
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек на основании ввода пользователя.
+     * @param {object} comment - данные отзыва
+     */
+    addComment(comment) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ADD_COMMENT,
+            data: comment,
         });
     },
 };

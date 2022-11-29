@@ -250,31 +250,35 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение данных пользователя.
      */
     async _getData() {
-        const [status, response] = await request.makeGetRequest(config.api.profile)
-            .catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.name, response.username);
-            this._storage.set(this._storeNames.email, response.email);
-            this._storage.set(this._storeNames.phone, response.phone);
-            if (!!response.avatar && response.avatar !== '') {
-                this._storage.set(this._storeNames.avatar, response.avatar);
-            } else {
-                this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
-            }
+        if (this._storage.get(this._storeNames.isAuth)) {
+            const [status, response] = await request.makeGetRequest(config.api.profile)
+                .catch((err) => console.log(err));
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                this._storage.set(this._storeNames.name, response.username);
+                this._storage.set(this._storeNames.email, response.email);
+                this._storage.set(this._storeNames.phone, response.phone);
+                if (!!response.avatar && response.avatar !== '') {
+                    this._storage.set(this._storeNames.avatar, response.avatar);
+                } else {
+                    this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
+                }
 
-            if (response.paymentmethods) {
-                response.paymentmethods.forEach((mehtod, key) => {
-                    const date = new Date(mehtod.expirydate);
-                    response.paymentmethods[key].expiry =
-                        ('0'+(date.getMonth()+1)).slice(-2) +
-                        '/' + date.getUTCFullYear() % 100;
-                });
-            } else {
-                response.paymentmethods = [];
+                if (response.paymentmethods) {
+                    response.paymentmethods.forEach((mehtod, key) => {
+                        const date = new Date(mehtod.expirydate);
+                        response.paymentmethods[key].expiry =
+                            ('0' + (date.getMonth() + 1)).slice(-2) +
+                            '/' + date.getUTCFullYear() % 100;
+                    });
+                } else {
+                    response.paymentmethods = [];
+                }
+                this._storage.set(this._storeNames.paymentMethods, response.paymentmethods);
+                this._storage.set(this._storeNames.address, response.address ?? []);
             }
-            this._storage.set(this._storeNames.paymentMethods, response.paymentmethods);
-            this._storage.set(this._storeNames.address, response.address ?? []);
+        } else {
+            this._storage.set(this._storeNames.responseCode, config.responseCodes.code401);
         }
     }
 
@@ -314,7 +318,8 @@ class UserStore extends BaseStore {
      */
     async _uploadAvatar(avatar) {
         const [status] = await request.makePostRequestSendAvatar(
-            config.api.uploadAvatar, avatar ?? 'img/UserPhoto.webp')
+            config.api.uploadAvatar, avatar ??
+            await fetch('img/UserPhoto.webp').then((r) => r.blob()))
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {

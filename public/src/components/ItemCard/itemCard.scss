@@ -16,6 +16,13 @@
 }
 
 .item-card__rating {
+
+    display: flex;
+    width: 44px;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+
     background: transparent;
     border: none;
 }
@@ -35,6 +42,8 @@
 .item-card__bottom {
     display: flex;
     justify-content: space-between;
+
+    align-items: center;
 }
 
 .item-card__bottom:disabled {

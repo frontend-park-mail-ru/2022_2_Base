@@ -21,24 +21,8 @@ export default class Header extends BaseComponent {
     constructor(parent) {
         super(parent);
 
-        itemsStore.addListener(this.listenSearchRequest.bind(this),
-            ItemCardsActionTypes.GET_SEARCH_RESULTS);
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
-    }
-
-    /**
-     * Функция, обрабатывающая результат запроса на поиск.
-     */
-    listenSearchRequest() {
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            router.openPage(config.href.search);
-            this.elementSuggestions.innerHTML = '';
-            break;
-        default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
-        }
     }
 
     /**
@@ -79,34 +63,63 @@ export default class Header extends BaseComponent {
      * Функция, обрабатывающая нажатие на кнопку поиска.
      */
     listenSearchButtonClick() {
-        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
-        if (errorMessageSearch) {
-            errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
+        const category = this.#isSearchContainsCategory();
+        if (category) {
+            router.openPage(category.href);
         } else {
-            itemCardsAction.getSearchResults(this.searchInput.value);
+            router.openWithCustomHistoryPage(config.href.search,
+                `${config.href.search}?q=${this.searchInput.value}`);
+            this.elementSuggestions.innerHTML = '';
         }
+    }
+
+    /**
+     * Функция, возвращающая категорию, если она содержится в строке поиска
+     * @return {string|undefined} категория
+     */
+    #isSearchContainsCategory() {
+        return Object.values(
+            itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
+            (category) => category.nameCategory.toLowerCase()
+                .includes(this.searchInput.value.toLowerCase()));
     }
 
     /**
      * Функция, обрабатывающая ввод в строку поиска.
      */
     listenInputSearch() {
-        const errorMessageSearch = validation.validateSearchField(this.searchInput.value);
-        if (!errorMessageSearch) {
-            itemCardsAction.getSuggestionSearch(this.searchInput.value);
+        if (this.searchInput.value) {
+            const errorMessageSearch = validation.validateSearchField(this.searchInput.value, true);
+            if (!errorMessageSearch) {
+                const category = this.#isSearchContainsCategory();
+                if (category) {
+                    itemCardsAction.getSuggestionSearch(category.nameCategory, true);
+                } else {
+                    itemCardsAction.getSuggestionSearch(this.searchInput.value);
+                }
+            } else {
+                errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
+            }
         } else {
             this.elementSuggestions.innerHTML = '';
         }
     }
 
     /**
-     * Функция, обрабатывающая нажатие на саджест.
+     * Функция, обрабатывающая нажатие на подсказку.
      * @param {HTMLElement} target - элемент вызвавший событие
      */
     listenSuggestSearch({target}) {
-        const errorMessageSearch = validation.validateSearchField(target.innerText);
-        if (!errorMessageSearch) {
-            itemCardsAction.getSearchResults(target.innerText);
+        this.searchInput.value = target.innerText;
+        const category = this.#isSearchContainsCategory();
+
+        if (category) {
+            router.openPage(category.href);
+            this.elementSuggestions.innerHTML = '';
+        } else {
+            router.openWithCustomHistoryPage(config.href.search,
+                `${config.href.search}?q=${target.innerText}`);
+            this.elementSuggestions.innerHTML = '';
         }
     }
 
@@ -133,7 +146,8 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.elementSuggestions.addEventListener('click', this.listenSuggestSearch);
+            this.bindListenSuggestSearch = this.listenSuggestSearch.bind(this);
+            this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
         }
     }
 
@@ -155,7 +169,7 @@ export default class Header extends BaseComponent {
         }
 
         if (this.elementSuggestions) {
-            this.elementSuggestions.removeEventListener('click', this.listenSuggestSearch);
+            this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
         }
     }
 

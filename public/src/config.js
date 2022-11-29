@@ -13,6 +13,9 @@ export const config = {
         user: '/user',
         category: '/category',
         cart: '/cart',
+        product: '/product',
+        comment: '/comment',
+        addComment: '/addcomment',
         search: '/search',
     },
     api: {
@@ -31,9 +34,12 @@ export const config = {
         cart: `${basePathApi}cart`,
         search: `${basePathApi}search`,
         suggestionSearch: `${basePathApi}suggestions`,
+        makeComment: `${basePathApi}user/makecomment`,
+        getComments: `${basePathApi}products/comments`,
     },
     states: {
         endOf: -1,
+        noPayCardId: 1,
     },
     errorMessages: {
         error400auth: 'Ошибка. Попробуйте еще раз',
@@ -56,4 +62,5 @@ export const config = {
         code400: 400,
         code401: 401,
     },
+    noop: () => {},
 };

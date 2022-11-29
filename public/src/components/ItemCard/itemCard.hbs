@@ -1,5 +1,5 @@
 <div class="item-card__top">
-    <div class="text-normal-small content__sales-image">
+    <a href="/product/{{this.id}}" class="text-normal-small content__sales-image link__no-color">
         <img src={{imgsrc}} class="item-card__image" data-selection="itemcard_item-pic/{{this.id}}"
              alt="{{this.name}} photo">
         {{#if this.price}}
@@ -7,23 +7,24 @@
                 -{{this.discount}}%
             </div>
         {{/if}}
-    </div>
+    </a>
 </div>
 
 <div class="item-card__textbox">
     <div class="item-card__price">
                 <span class="text-normal-large">
-                    {{this.lowprice}} ₽
+                    {{this.strLowprice}} ₽
                 </span>
-        {{#if this.price}}
+        {{#if this.strLowprice}}
             <span class="text-normal-default__strikethrough item-card__text-strikethrough">
-                    {{this.price}} ₽
+                    {{this.strLowprice}} ₽
                 </span>
         {{/if}}
     </div>
-    <span class="text-normal-default item-card__title" data-selection="itemcard_item-title/{{this.id}}">
+    <a href="/product/{{this.id}}" class="text-normal-default item-card__title link__no-color"
+       ind="itemcard_item-title/{{this.id}}">
         {{this.name}}
-    </span>
+    </a>
 </div>
 
 <div class="item-card__bottom">
@@ -52,10 +53,10 @@
         </div>
     </div>
 
-    <button type="button" class="item-card__rating">
+    <a href="/comment/{{this.id}}" class="item-card__rating link__no-color">
         <img src="/img/Star.svg" alt="S" class="rating star icon">
         <span class="text-normal-default__bold">
-            {{this.rating}}
+            {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
         </span>
-    </button>
+    </a>
 </div>

@@ -6,7 +6,6 @@ import '../index.scss';
 refresh.refreshFooter();
 router.start();
 
-
 // Регистрация Service Worker
 const registerServiceWorker = () => {
     if ('serviceWorker' in navigator) {
