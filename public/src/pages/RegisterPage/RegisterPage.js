@@ -32,7 +32,6 @@ export default class RegisterPage extends BasePage {
      */
     addListener() {
         userStore.addListener(this.#authServerResponse, UserActionTypes.USER_REGISTER);
-        // cartStore.addListener(() => router.openPage(config.href.main), CartActionTypes.MERGE_CART);
         cartStore.addListener(() => router.back(), CartActionTypes.MERGE_CART);
     }
 

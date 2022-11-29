@@ -7,7 +7,7 @@
             <span class="text-normal-default">К описанию товара</span>
         </a>
     {{/if}}
-    <a href="{{itemPath}}" class="text-normal-very-large link__no-color">
+    <a href="{{itemPath}}" class="text-normal-very-large link__no-color comment-page-header__title">
         {{name}}
     </a>
     <div class="product-page-header__data">
@@ -16,7 +16,7 @@
             <span class="text-normal-large-normal">
                         {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
             </span>
-            <div class="product-page-header__comment">
+<!--            <div class="product-page-header__comment">-->
                 <img src="/img/Comment.svg" alt="product comments counter" class="product-page-header__comment-img">
                 <span class="text-normal-large-normal link">
                     {{#if commentsCount}}
@@ -26,7 +26,6 @@
                     {{/if}}
                     {{commentsCountText}}
                 </span>
-            </div>
         </a>
         <label class="product-page-header__selection">
             <input type="checkbox" class="favourite-opt" {{#if favourite}} checked {{/if}}>

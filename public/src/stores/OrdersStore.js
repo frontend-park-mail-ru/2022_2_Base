@@ -23,18 +23,18 @@ class OrdersStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, null);
 
         this.paymentStates = new Map();
-        this.paymentStates.set('paid', 'оплачен');
-        this.paymentStates.set('onReceive', 'при получении');
-        this.paymentStates.set('not started', 'не оплачено');
+        this.paymentStates.set('paid', 'Оплачен');
+        this.paymentStates.set('onReceive', 'При получении');
+        this.paymentStates.set('not started', 'Не оплачено');
 
         this.ordersStates = new Map();
-        this.ordersStates.set('cart', 'в корзине');
-        this.ordersStates.set('created', 'cоздан');
-        this.ordersStates.set('processed', 'в обработке');
-        this.ordersStates.set('delivery', 'доставляется');
-        this.ordersStates.set('delivered', 'доставлен');
-        this.ordersStates.set('received', 'получен');
-        this.ordersStates.set('returned', 'возвращен');
+        this.ordersStates.set('cart', 'В корзине');
+        this.ordersStates.set('created', 'Создан');
+        this.ordersStates.set('processed', 'В обработке');
+        this.ordersStates.set('delivery', 'Доставляется');
+        this.ordersStates.set('delivered', 'Доставлен');
+        this.ordersStates.set('received', 'Получен');
+        this.ordersStates.set('returned', 'Возвращен');
     }
 
     /**

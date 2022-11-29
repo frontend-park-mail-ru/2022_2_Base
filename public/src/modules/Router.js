@@ -63,16 +63,12 @@ class Router {
      */
     #changePage = async (event) => {
         const {target} = event;
-
         let href = target.getAttribute('href');
 
         if (href === null) {
             href = target.parentElement?.getAttribute('href');
         }
-
-        if (href === config.href.logout) {
-            userActions.logout();
-        }
+        console.log(href);
 
         if (!!href && !href.includes('#')) {
             event.preventDefault();
