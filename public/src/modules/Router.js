@@ -68,7 +68,6 @@ class Router {
         if (href === null) {
             href = target.parentElement?.getAttribute('href');
         }
-        console.log(href);
 
         if (!!href && !href.includes('#')) {
             event.preventDefault();
