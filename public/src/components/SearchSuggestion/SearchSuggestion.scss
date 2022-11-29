@@ -3,3 +3,24 @@
   top: 56px;
   width: 550px;
 }
+
+.header__dropdown__suggestion__element {
+  color: var(--jet-black);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: var(--pure-white);
+}
+
+.header__dropdown__suggestion__element:first-child{
+  border-radius: 10px 10px 0 0;
+}
+
+.header__dropdown__suggestion__element:last-child{
+  border-radius: 0  0 10px 10px;
+}
+
+
+.header__dropdown__suggestion__element:hover {
+  background-color: var(--dark-grey);
+}

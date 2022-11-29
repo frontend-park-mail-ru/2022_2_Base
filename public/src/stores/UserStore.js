@@ -352,7 +352,7 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name),
             email: this._storage.get(this._storeNames.email),
             phone: this._storage.get(this._storeNames.phone),
-            avatar: this._storage.get(this._storeNames.avatar),
+            // avatar: this._storage.get(this._storeNames.avatar),
             paymentMethods: paymentMethodsField,
             address: addressField,
         };
@@ -381,7 +381,7 @@ class UserStore extends BaseStore {
         const userData = this.#collectUserData();
         delete data.cvc;
         userData.paymentMethods.forEach((item) => delete item.priority);
-        data.id = userData.paymentMethods.length;
+        data.id = config.states.noPayCardId;
         data.priority = true;
         data.expiryDate = data.expiry.split('/');
         data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0]);
@@ -395,12 +395,7 @@ class UserStore extends BaseStore {
      * @param {number} id - идентификатор элемента
      */
     async _saveDeleteCard(id) {
-        // const userData = this.#collectUserData();
-        // userData.paymentMethods.forEach((item, key) => {
-        //     if (item.id === id) {
-        //         delete userData.paymentMethods[key];
-        //     }
-        // });
+        const userData = this.#collectUserData();
         userData.paymentMethods = userData.paymentMethods.filter((item) => item.id !== id);
         await this.#makePostRequestCard(userData, 'paymentMethods');
     }
@@ -411,7 +406,7 @@ class UserStore extends BaseStore {
      */
     async _saveAddAddress(data) {
         const userData = this.#collectUserData();
-        data.id = userData.address.length;
+        data.id = config.states.noPayCardId;
         userData.address.forEach((item) => delete item.priority);
         data.priority = true;
         userData.address.push(data);
@@ -440,12 +435,6 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        // userData.address.forEach((item, key) => {
-        //     if (item.id === id) {
-        //         delete userData.address[key];
-        //     }
-        // });
-        // await this.#makePostRequestCard(userData, 'address');
         await this.#makePostRequestCard(userData.filter((item) => item.id !== id), 'address');
     }
 }

@@ -99,14 +99,12 @@
   min-width: 360px;
   gap: 32px;
   justify-content: space-between;
-  grid-template-columns: 128px auto min-content min-content;
+  grid-template-columns: 128px 1fr min-content min-content;
   white-space:nowrap
 }
 
 .order-block__itemcard__title {
   align-self: center;
-  text-decoration: none;
-  color: var(--jet-black);
 }
 
 .order-block__itemcard__photo {

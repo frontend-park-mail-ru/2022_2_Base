@@ -11,8 +11,7 @@ export function truncatePrice(number) {
  * Действие: запрос списка популярных карточек.
  * @param {object} item - данные карты
  */
-const _addSpacesToItemPrice = (item) => {
-    console.log(item);
+export function _addSpacesToItemPrice(item) {
     if (item.lowprice) {
         item.discount = 100 - Math.round(item.lowprice / item.price * 100);
         item.strPrice = truncatePrice(item.price);
@@ -21,10 +20,10 @@ const _addSpacesToItemPrice = (item) => {
         delete item.price;
     }
     item.strLowprice = truncatePrice(item.lowprice);
-};
+}
 
 /**
- * Действие: запрос списка популярных карточек.
+ * Действие: добавление пробелов в цену и вычисление скидки.
  * @param {array} data - данные карты
  */
 export function addSpacesToPrice(data) {
@@ -47,6 +46,15 @@ export function parseIntInPrice(stringNumber) {
 }
 
 /**
+ * Функция, возвращающая дату с пробелами между '/'.
+ * @param {Date} date дата для конвертации
+ * @return {string} дата в формате 09 / 12 / 2022
+ */
+export function getLocalDate(date) {
+    return date.toLocaleDateString('en-GB').split('/').join(' / ');
+}
+
+/**
  * Функция, возвращающая завтрашнюю дату.
  * @param {number} firstDayIn сколько дней пропустить, считая от сегодняшнего
  * @return {object} завтрашняя дата
@@ -54,7 +62,7 @@ export function parseIntInPrice(stringNumber) {
 export function getDate(firstDayIn) {
     const currDate = new Date();
     const getDate = (next) => {
-        currDate.setDate(currDate.getDate() + 1 + next);
+        currDate.setDate(currDate.getDate() + next);
         return currDate.toLocaleDateString('en-GB').split('/').join(' / ');
     };
     return Array.from(Array(7).keys()).map(() => getDate(firstDayIn));
@@ -81,16 +89,4 @@ export function getQueryParams() {
     return new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });
-}
-
-/**
- * Функция, выполняющая склонение окончаний в словах.
- * @param {int} number число для которого нужно выполнить склонение окончания у существительного
- * @param {Array} txt массив строк с выриантами склонений
- * @return {string} подходящая строка
- */
-export function _sklonenie(number, txt) {
-    const cases = [2, 0, 1, 1, 1, 2];
-    return txt[(number % 100 > 4 && number % 100 < 20) ?
-        2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 }

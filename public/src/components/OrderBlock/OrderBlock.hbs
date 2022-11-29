@@ -1,27 +1,27 @@
 {{#each item}}
     <div class="order-block">
-        <span class="text-normal-large-normal paint-jet-black"> Номер заказа: {{this.id}} </span>
-        <span class="text-normal-large-normal"> Статус: {{this.orderStatus}} </span>
+        <span class="text-normal-large-normal paint-jet-black"> Заказ №{{this.id}} </span>
+        <span class="text-normal-large-normal"> Статус: {{this.orderstatus}} </span>
 
         <div class="order-block__item-cards-block" id="order-block__itemcards-block">
 
             {{#each items}}
                 <div class="order-block__itemcard">
-                    <img src="{{this.item.imgsrc}}" class="order-block__itemcard__photo"
-                         alt="{{this.item.name}} photo">
-                    <a href="/product/{{this.item.id}}"
-                       class="text-normal-large-normal order-block__itemcard__title"> {{this.item.name}}
+                    <img src="{{this.imgsrc}}" class="order-block__itemcard__photo"
+                         alt="{{this.name}} photo">
+                    <a href="/product/{{this.id}}"
+                       class="text-normal-large-normal order-block__itemcard__title link__no-color"> {{this.name}}
                     </a>
                     <span class="text-normal-large-normal order-block__itemcard__counter"> {{this.count}} шт.</span>
                     <span class="text-normal-very-big order-block__itemcard__counter">
-                        {{#if this.item.lowprice}}
-                            {{this.item.lowprice}} ₽
+                        {{#if this.strLowprice}}
+                            {{this.strLowprice}} ₽
                         {{else}}
-                            {{this.item.price}} ₽
+                            {{this.strPrice}} ₽
                         {{/if}}
                     </span>
                 </div>
-                <div class="horizontal-line"></div>
+<!--                <div class="horizontal-line"></div>-->
             {{/each}}
 
         </div>
@@ -43,7 +43,7 @@
                 </span>
 
                 <span class="text-normal-default order-block__info-block__line-left"> Статус оплаты </span>
-                <span class="text-normal-default order-block__info-block__line-right"> {{this.paymentStatus}} </span>
+                <span class="text-normal-default order-block__info-block__line-right"> {{this.paymentstatus}} </span>
 
                 <span class="text-normal-default order-block__info-block__line-left"> Дата оформления </span>
                 <span class="text-normal-default order-block__info-block__line-right"> {{this.creationDateString}} </span>
@@ -54,7 +54,8 @@
                 <span class="text-normal-large"> Доставка </span>
 
                 <span class="text-normal-default order-block__info-block__line-left"> Адрес </span>
-                <span class="text-normal-default order-block__info-block__line-right "> {{this.addressString}}
+                <span class="text-normal-default order-block__info-block__line-right ">
+                    {{this.address.city}}, {{this.address.street}}, {{this.address.house}}{{#if this.address.flat}}, {{this.address.flat}}{{/if}}
                 </span>
 
                 <span class="text-normal-default order-block__info-block__line-left"> Дата доставки </span>
