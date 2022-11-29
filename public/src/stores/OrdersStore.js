@@ -25,6 +25,7 @@ class OrdersStore extends BaseStore {
         this.paymentStates = new Map();
         this.paymentStates.set('paid', 'оплачен');
         this.paymentStates.set('onReceive', 'при получении');
+        this.paymentStates.set('not started', 'не оплачено');
 
         this.ordersStates = new Map();
         this.ordersStates.set('cart', 'в корзине');
