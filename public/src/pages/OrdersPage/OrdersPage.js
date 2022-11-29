@@ -58,7 +58,6 @@ export default class OrdersPage extends BasePage {
             });
             break;
         default:
-            this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders)); // fix
             errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов');
             break;
         }

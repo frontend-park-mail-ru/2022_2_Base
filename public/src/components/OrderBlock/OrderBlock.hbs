@@ -21,7 +21,10 @@
                         {{/if}}
                     </span>
                 </div>
-<!--                <div class="horizontal-line"></div>-->
+                {{#if @last}}
+                {{else}}
+                <div class="horizontal-line"></div>
+                {{/if}}
             {{/each}}
 
         </div>

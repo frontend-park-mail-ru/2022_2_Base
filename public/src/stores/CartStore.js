@@ -188,14 +188,12 @@ class CartStore extends BaseStore {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        console.log('currCartItems', currCartItems);// fix
         const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
             currCartItems[editItemIndex] = itemToAdd;
         }
-        console.log('currCartItems 2', currCartItems);// fix
         this._storage.set(this._storeNames.itemsCart, currCartItems);
     }
 
