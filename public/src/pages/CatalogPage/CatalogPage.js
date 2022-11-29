@@ -33,6 +33,7 @@ export default class CatalogPage extends BasePage {
         this.#category.set(config.href.category + '/watches', 'Часы');
         this.#category.set(config.href.category + '/tablets', 'Планшеты');
         this.#category.set(config.href.category + '/accessories', 'Аксессуары');
+        this.#category.set(config.href.search, 'Поиск');
     }
 
     /**
@@ -63,7 +64,6 @@ export default class CatalogPage extends BasePage {
             this.actionToLoadCards(true);
             break;
         default:
-            this.actionToLoadCards(true); // fix
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
@@ -154,22 +154,15 @@ export default class CatalogPage extends BasePage {
                     break;
                 case 'catalog_like-button':
                     /* Запрос на добавление товара в избраннное */
-                    // console.log(target)
-                    // const likeButton = document.getElementById(`catalog_like-button/${itemId}`);
-                    // console.log(target.hasAttribute('checked'));
-                    // target.setAttribute('checked','');
-
                     break;
                 }
             } else {
                 switch (elementId) {
                 case 'catalog-item-pic':
-                    // target.dataset.href;
                     /* Переход на страницу товара по ссылке в комменте выше */
 
                     break;
                 case 'catalog_item-title':
-                    // target.getAttribute('href'));
                     /* Переход на страницу товара по ссылке в комменте выше */
                     break;
                 }
@@ -268,7 +261,6 @@ export default class CatalogPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        this.addListener();
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});

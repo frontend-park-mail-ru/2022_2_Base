@@ -2,14 +2,14 @@ import ProductHeaderTemplate from './ProductHeader.hbs';
 import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
 import {config} from '../../config';
-import {_sklonenie} from '../../modules/sharedFunctions';
+import {_declension} from '../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента ProductHeader
  */
 export default class ProductHeader extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента ItemCard
+     * Конструктор, создающий класс компонента ProductHeader
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -38,10 +38,9 @@ export default class ProductHeader extends BaseComponent {
             categoryName: 'Категория',
             name: context.name,
             rating: context.rating,
-            // commentsHref: context.commentsHref,
-            commentsCount: context.commentsCount,
+            commentsCount: context.commentscount,
             commentsCountText:
-                _sklonenie(context.commentsCount, ['отзыв', 'отзыва', 'отзывов']),
+                _declension(context.commentscount, ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
     }

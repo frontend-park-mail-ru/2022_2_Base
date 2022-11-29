@@ -3,11 +3,11 @@ import BaseComponent from '../BaseComponent.js';
 import './Comment.scss';
 
 /**
- * Класс для реализации компонента ItemCard
+ * Класс для реализации компонента Comment
  */
 export default class Comment extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента ItemCard
+     * Конструктор, создающий класс компонента Comment
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -22,15 +22,4 @@ export default class Comment extends BaseComponent {
     render(context) {
         super.render(super.prepareCategory(context), CommentTemplate);
     }
-    //
-    // /**
-    //  * Метод, подготавливавающий наполнение для формы, исходя из контекста
-    //  * @param {Object} context контекст отрисовки шаблона
-    //  * @return {Object} наполнение для формы
-    //  */
-    //  prepareRenderData(context) {
-    //     return {
-    //         comments: {...context},
-    //     };
-    // }
 }

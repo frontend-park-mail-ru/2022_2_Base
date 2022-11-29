@@ -4,9 +4,13 @@ import Comment from '../../../components/Comment/Comment.js';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
 import itemsStore from '../../../stores/ItemsStore';
+import cartStore from '../../../stores/CartStore';
+import errorMessage from '../../../modules/ErrorMessage';
+import {config} from '../../../config';
+import router from '../../../modules/Router';
 
 /**
- * Класс, реализующий страницу с регистрации.
+ * Класс, реализующий страницу CommentPage.
  */
 export default class CommentPage extends BaseItemPage {
     /**
@@ -50,14 +54,38 @@ export default class CommentPage extends BaseItemPage {
     }
 
     /**
+     * Функция, реагирующая на нажатие кнопки создания заказа
+     */
+    listenAddCommentButton() {
+        if (itemsStore.getContext(itemsStore._storeNames.comments)
+            .find((comment) => comment.id === cartStore.getContext(cartStore._storeNames.userID))) {
+            errorMessage.getAbsoluteErrorMessage('Вы уже создали отзыв об этом товаре');
+        } else {
+            router.openPage(
+                config.href.addComment +
+                document.location.pathname.slice(
+                    document.location.pathname.lastIndexOf('/'),
+                    document.location.pathname.length,
+                ));
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
+        this.createOrderButton = document.getElementById('add-comment-btn');
+        if (this.createOrderButton) {
+            this.createOrderButton.addEventListener('click', this.listenAddCommentButton);
+        }
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
+        if (this.createOrderButton) {
+            this.createOrderButton.removeEventListener('click', this.listenAddCommentButton);
+        }
     }
 }

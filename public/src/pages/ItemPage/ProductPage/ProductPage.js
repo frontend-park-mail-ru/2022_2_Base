@@ -5,7 +5,7 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards'
 import {getDate} from '../../../modules/sharedFunctions';
 
 /**
- * Класс, реализующий страницу с регистрации.
+ * Класс, реализующий страницу ProductPage.
  */
 export default class ProductPage extends BaseItemPage {
     /**

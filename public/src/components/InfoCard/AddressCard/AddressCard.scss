@@ -25,6 +25,7 @@
   height: 120px;
   width: 200px;
   background-color: var(--default-purple);
+
   --text-color: var(--pure-white);
 }
 
@@ -40,7 +41,6 @@
 
 .add-address-card {
   @extend %other-address-card;
-  //grid-template-rows: 32px 48px 40px;
 }
 
 .address-card__city {

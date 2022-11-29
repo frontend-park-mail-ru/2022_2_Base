@@ -30,7 +30,6 @@ class Router {
     constructor() {
         this.#pathToPage = new Map();
         this.#titles = new Map();
-        this.noop = () => {};
         this.addToHistory = this.addToHistory.bind(this);
 
         window.addEventListener('click', this.#changePage);
@@ -44,7 +43,8 @@ class Router {
             } else {
                 refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
             }
-            this.openPage(document.location.pathname);
+            this.openWithCustomHistoryPage(document.location.pathname,
+                document.location.pathname + document.location.search);
         },
         UserActionTypes.USER_FETCH);
 
@@ -78,10 +78,11 @@ class Router {
             event.preventDefault();
             this.openPage(href);
         }
-        // this.register(config.href.logout, () => {
-        //     userActions.logout();
-        //     this.back();
-        // });
+
+        if (href === config.href.logout) {
+            event.preventDefault();
+            userActions.logout();
+        }
     };
 
 
@@ -122,7 +123,7 @@ class Router {
      * Обновляет страницу.
      */
     refresh() {
-        this.openPage(document.location.pathname, this.noop);
+        this.openPage(document.location.pathname, config.noop);
     }
 
     /**
@@ -131,14 +132,14 @@ class Router {
      */
     addToHistory(path) {
         window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
-        window.onpopstate = (event) => this.openPage(document.location.pathname, this.noop);
+        window.onpopstate = (event) => this.openPage(document.location.pathname, config.noop);
     }
 
     /**
      * Переходит по истории назад. Если истории нет, то на главную.
      */
     back() {
-        History.length > 1 ? history.back() : this.openPage(config.href.main, this.noop);
+        History.length > 1 ? history.back() : this.openPage(config.href.main, config.noop);
     }
 
     /**
@@ -159,18 +160,29 @@ class Router {
         this.register(config.href.orders, OrdersPage);
         this.register(config.href.user, UserPage);
 
+
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
         this.#titles.set(config.href.signup, 'Регистрация - Reazon');
         this.#titles.set(config.href.user, 'Ваши данные - Reazon');
         this.#titles.set(config.href.category, '- Reazon');
+        this.#titles.set(config.href.search, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
         this.#titles.set(config.href.orders, 'Заказы - Reazon');
-
         this.#titles.set(config.href.product, 'О товаре - Reazon');
         this.#titles.set(config.href.comment, 'Отзывы - Reazon');
 
         this.#currentPage = new MainPage(this.#mainElement);
+    }
+
+    /**
+     * Переходит на страницу.
+     * @param {string} path - путь к странице
+     * @param {string} pathForHistory - путь который надо проставить в браузере
+     */
+    openWithCustomHistoryPage(path, pathForHistory) {
+        this.addToHistory(pathForHistory);
+        this.openPage(path, config.noop);
     }
 
     /**
@@ -200,7 +212,7 @@ class Router {
         window.history.replaceState(
             {page: document.location.pathname + (window.history.length).toString()},
             '', document.location.pathname);
-        this.openPage(config.href.notFound, this.noop);
+        this.openPage(config.href.notFound, config.noop);
     }
 }
 
