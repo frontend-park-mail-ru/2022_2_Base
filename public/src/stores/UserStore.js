@@ -291,12 +291,15 @@ class UserStore extends BaseStore {
         switch (data.id) {
         case 'name':
             userData.username = data.value;
+            this._storage.set(this._storeNames.name, data.value);
             break;
         case 'email':
             userData.email = data.value;
+            this._storage.set(this._storeNames.email, data.value);
             break;
         case 'phone':
             userData.phone = data.value;
+            this._storage.set(this._storeNames.phone, data.value);
             break;
         case 'password':
             userData.password = data.value;
@@ -317,9 +320,14 @@ class UserStore extends BaseStore {
      * @param {Blob} avatar
      */
     async _uploadAvatar(avatar) {
-        const [status] = await request.makePostRequestSendAvatar(
-            config.api.uploadAvatar, avatar ?? '')
-            .catch((err) => console.log(err));
+        const [status] = avatar ?
+            await request.makePostRequestSendAvatar(
+                config.api.uploadAvatar, avatar)
+                .catch((err) => console.log(err)) :
+            await request.makePostRequest(
+                config.api.profile, {avatar: ''})
+                .catch((err) => console.log(err));
+
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             if (avatar) {
@@ -434,8 +442,8 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id) {
         const userData = this.#collectUserData();
-        console.log(userData);
-        await this.#makePostRequestCard(userData.filter((item) => item.id !== id), 'address');
+        userData.address = userData.address.filter((item) => item.id !== id);
+        await this.#makePostRequestCard(userData, 'address');
     }
 }
 
