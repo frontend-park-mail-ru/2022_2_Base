@@ -1,4 +1,5 @@
 'use strict';
+
 import refresh from './modules/refreshElements';
 import router from './modules/Router';
 import '../index.scss';

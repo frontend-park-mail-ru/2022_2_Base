@@ -148,7 +148,7 @@ class Validation {
         if (searchString.length < 3 && !isSuggest) {
             return 'Введите не меньше 3 символов';
         }
-        if (!/^[a-z0-9 а-яА-ЯёЁ]+$/i
+        if (!/^[a-z0-9 а-яА-ЯёЁ!?()_-]+$/i
             .test(searchString)) {
             return 'Введены недопустимые символы';
         }

@@ -401,7 +401,16 @@ export default class UserPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     async render() {
-        this.addListener();
-        profileAction.getData();
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
+            this.addListener();
+            profileAction.getData();
+        } else {
+            refreshElements.showUnAuthPage({
+                text: 'Чтобы посмотреть Ваш профиль надо',
+                linkToPage: config.href.login,
+                linkText: 'войти',
+                textAfterLink: '.',
+            });
+        }
     }
 }

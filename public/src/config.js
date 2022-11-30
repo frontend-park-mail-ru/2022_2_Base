@@ -13,6 +13,7 @@ export const config = {
         user: '/user',
         category: '/category',
         cart: '/cart',
+        orders: '/orders',
         product: '/product',
         comment: '/comment',
         addComment: '/addcomment',
@@ -32,6 +33,7 @@ export const config = {
         deleteFromCart: `${basePathApi}cart/deletefromcart`,
         makeOrder: `${basePathApi}cart/makeorder`,
         cart: `${basePathApi}cart`,
+        orders: `${basePathApi}cart/orders`,
         search: `${basePathApi}search`,
         suggestionSearch: `${basePathApi}suggestions`,
         makeComment: `${basePathApi}user/makecomment`,
@@ -39,7 +41,7 @@ export const config = {
     },
     states: {
         endOf: -1,
-        noPayCardId: 1,
+        noPayCardId: -1,
     },
     errorMessages: {
         error400auth: 'Ошибка. Попробуйте еще раз',
