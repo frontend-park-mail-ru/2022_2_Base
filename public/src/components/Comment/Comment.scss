@@ -25,7 +25,7 @@
 
 .comment__date-range {
     display: grid;
-    grid-template-columns: 106px 124px;
+    grid-template-columns: auto 124px;
     gap: 16px;
 }
 
@@ -94,5 +94,13 @@
     .rating-star_disabled:checked ~ .rating-star__label_disabled:before,
     {
       color: var(--yellow-star);
+    }
+}
+
+@media (max-width: 767px) {
+    .comment__header {
+        width: 100%;
+        grid-template-columns: 46px auto auto;
+        gap: 16px;
     }
 }
