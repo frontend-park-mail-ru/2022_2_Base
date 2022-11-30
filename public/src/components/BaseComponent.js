@@ -30,7 +30,8 @@ export default class BaseComponent {
      * Метод, отрисовывающий компонент.
      * @param {any} context контекст данных для компонента
      * @param {HandlebarsTemplateDelegate} templateName скомпилированный шаблон шаблона
-     * @param {InsertPosition} insertInPlace место вставки относительно _parent элемента
+     * @param {'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'} insertInPlace
+     * место вставки относительно _parent элемента
      */
     render(context, templateName, insertInPlace = 'afterbegin') {
         this._parent.insertAdjacentHTML(insertInPlace,
