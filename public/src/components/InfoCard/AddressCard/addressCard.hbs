@@ -8,7 +8,6 @@
                 <div class="add-address-card__text text-normal-default"> Добавить адрес</div>
             </div>
         </a>
-
     {{else}}
         <div class="address-card-wrapper" id="wrapper-{{this.id}}">
             <a {{#if this.priority}}
@@ -25,16 +24,19 @@
                     {{this.street}}
                 </div>
 
-                <div class="address-card__city text-normal-default"> д. {{this.house}}, {{#if this.flat}}кв. {{this.flat}}{{/if}}</div>
+                <div class="address-card__city text-normal-default"> д. {{this.house}}, {{#if this.flat}}
+                    кв. {{this.flat}}{{/if}}</div>
             </a>
 
             <div class="change-address-card user-page__change-pop-up" id="change-address-card-{{this.id}}">
                 <a id="edit-{{this.id}}" class="user-page__pop-up-button edit-address">
-                    <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="user-page__pop-up-button-pic" alt="edit address card button">
+                    <img id="edit-img-{{this.id}}" src="/img/editButton.svg" class="user-page__pop-up-button-pic"
+                         alt="edit address card button">
                 </a>
                 <div class="user-page__separation-line"></div>
                 <div id="delete-{{this.id}}" class="user-page__pop-up-button">
-                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg" class="user-page__pop-up-button-pic delete-address" alt="delete address card button">
+                    <img id="delete-img-{{this.id}}" src="/img/deleteButton.svg"
+                         class="user-page__pop-up-button-pic delete-address" alt="delete address card button">
                 </div>
             </div>
         </div>

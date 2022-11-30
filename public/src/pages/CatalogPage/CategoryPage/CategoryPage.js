@@ -86,4 +86,12 @@ export default class CategoryPage extends CatalogPage {
         super.removeEventListener();
         super.removeScrollListener();
     }
+
+    /**
+     * Метод, отрисовывающий страницу.
+     */
+    render() {
+        this.addListener();
+        super.render();
+    }
 }

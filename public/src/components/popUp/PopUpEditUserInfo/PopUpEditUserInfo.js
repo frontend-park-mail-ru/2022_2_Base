@@ -33,7 +33,6 @@ export default class PopUpEditUserInfo extends BasePopUp {
             .fields[data.id].popUpName] = data.value;
         if (validation.validate(dataForVal)) {
             profileAction.saveEditData(data);
-            console.log(this.context);
         }
     }
 

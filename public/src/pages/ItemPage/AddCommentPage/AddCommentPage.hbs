@@ -1,0 +1,106 @@
+<div class="paint-background"></div>
+<div class="content_add-comment">
+
+
+    <div class="comment-page-header content-comment-page-block-background comment-page-header-main_padding">
+        <a href="{{itemPath}}">
+            <img src="{{imgsrc}}" alt="comment photo" class="comment-page-header__photo">
+        </a>
+        <div id="comment-page__header-product">
+
+        </div>
+        <div class="comment-page-header__right-block">
+            <div class="comment-page-header__add-cart">
+                <div class="comment-page-header__price">
+                    <div class="comment-page-header__price-discount">
+                        <span class="text-normal-default comment-page-header__price-strikethrough">{{price}} ₽</span>
+                        {{#if lowprice}}
+                            <div class="comment-page-header__sales-value text-normal-small">
+                                -{{discount}}%
+                            </div>
+                        {{/if}}
+                    </div>
+                    <span class="comment-page-color-jet-black text-normal-large-normal">{{lowprice}} ₽</span>
+                </div>
+                <div id="comment-block-button-add-to-cart" data-id="{{this.id}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="add-comment-page__block" id="add-comment-page__block">
+        <div class="add-comment-page-main__header">
+            <div class="comment-page-main__header-name-button">
+                <span class="text-normal-very-large paint-jet-black">Отзыв о товаре</span>
+            </div>
+            <div class="horizontal-line"></div>
+        </div>
+        <span class="text-normal-large-normal add-comment-page__block__title add-comment-page__block__title_average-score"> Общая оценка </span>
+
+
+        <div class="add-comment-page__rating-stars">
+            <input class="rating-start" type="radio" id="star5" name="rating"/> <label class="rating-start__label"
+                                                                                       for="star5"></label>
+            <input class="rating-start" type="radio" id="star4" name="rating"/> <label class="rating-start__label"
+                                                                                       for="star4"></label>
+            <input class="rating-start" type="radio" id="star3" name="rating"/> <label class="rating-start__label"
+                                                                                       for="star3"></label>
+            <input class="rating-start" type="radio" id="star2" name="rating"/> <label class="rating-start__label"
+                                                                                       for="star2"></label>
+            <input class="rating-start" type="radio" id="star1" name="rating"/> <label class="rating-start__label"
+                                                                                       for="star1"></label>
+        </div>
+
+        <span class="text-normal-large-normal add-comment-page__block__title"> Расскажите подробнее </span>
+
+
+        <div class="add-comment-page__block__input-fields">
+            <div class="add-comment-page__block__input-fields__block">
+                <span class="text-normal-default add-comment-page__block__input-fields__block__title"> Достоинства </span>
+                <div class="add-comment-page__block__input-fields__block__field">
+                    <label>
+<textarea class="add-comment-page__block__input-fields__block__field__input text-normal-default"
+          name="input-comment-field"
+          placeholder="Что вам понравилось" id="textarea_pros-filed"
+          maxlength="456"
+          spellcheck="true"
+></textarea>
+                    </label>
+                </div>
+            </div>
+
+            <div class="add-comment-page__block__input-fields__block">
+                <span class="text-normal-default add-comment-page__block__input-fields__block__title"> Недостатки </span>
+                <div class="add-comment-page__block__input-fields__block__field">
+                    <label>
+<textarea class="add-comment-page__block__input-fields__block__field__input text-normal-default"
+          placeholder="Что не понравилось" id="textarea_cons-filed"
+          maxlength="456"
+          spellcheck="true"></textarea>
+                    </label>
+                </div>
+            </div>
+
+            <div class="add-comment-page__block__input-fields__block">
+                <span class="text-normal-default add-comment-page__block__input-fields__block__title"> Комментарий </span>
+                <div class="add-comment-page__block__input-fields__block__field">
+                    <label>
+<textarea class="add-comment-page__block__input-fields__block__field__input text-normal-default"
+          name="input-comment-field"
+          placeholder="Другие впечатления" id="textarea_comment-filed"
+          maxlength="456"
+          spellcheck="true"></textarea>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="button-default add-comment-page__block__input-fields__submit"
+                id="add-comment-page__submit"> Отправить отзыв
+        </button>
+
+    </div>
+
+</div>
+<div class="paint-background"></div>

@@ -155,11 +155,15 @@ class Validation {
 
     /**
      * Функция, реализующая валидацию полей карты.
-     * @param {String} searchString - данные для обработки
-     * @return {string} errorMessage - сообщение об ошибке
+     * @param {string} searchString - данные для обработки
+     * @param {boolean} isSuggest - проверяем ли мы для показа подсказки
+     * @return {string|null} errorMessage - сообщение об ошибке
      */
-    validateSearchField(searchString) {
-        if (searchString.length < 3) {
+    validateSearchField(searchString, isSuggest = false) {
+        if (!searchString) {
+            return null;
+        }
+        if (searchString.length < 3 && !isSuggest) {
             return 'Введите не меньше 3 символов';
         }
         if (!/^[a-z0-9 а-яА-ЯёЁ]+$/i

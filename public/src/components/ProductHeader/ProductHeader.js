@@ -1,14 +1,15 @@
 import ProductHeaderTemplate from './ProductHeader.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
-import {declination} from '../../modules/sharedFunctions';
+import {config} from '../../config';
+import {_declension} from '../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента ProductHeader
  */
 export default class ProductHeader extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента ItemCard
+     * Конструктор, создающий класс компонента ProductHeader
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
@@ -31,13 +32,15 @@ export default class ProductHeader extends BaseComponent {
      */
     prepareRenderData(context) {
         return {
-            path: context.path,
+            itemPath: config.href.product + '/' + context.id,
+            commentPath: config.href.comment + '/' + context.id,
+            categoryPath: config.href.category + '/' + context.category,
+            categoryName: 'Категория',
             name: context.name,
             rating: context.rating,
-            commentsHref: context.commentsHref,
-            commentsCount: context.commentsCount,
-            commentsCountText: declination(context.commentsCount,
-                ['отзыв', 'отзыва', 'отзывов']),
+            commentsCount: context.commentscount,
+            commentsCountText:
+                _declension(context.commentscount, ['отзыв', 'отзыва', 'отзывов']),
             favourite: context.favourite,
         };
     }

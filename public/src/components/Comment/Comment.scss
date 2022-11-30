@@ -66,45 +66,33 @@
     cursor: pointer;
 }
 
-.comment-page__rating-stars {
+.rating-stars_disabled {
     justify-self: start;
 
-    input {
-      display: none;
-    }
-
-    label {
+    .rating-star__label_disabled {
       float: right;
       position: relative;
       width: 20px;
       height: 20px;
-      cursor: pointer;
-  
-  
+
       &:not(:first-of-type) {
         padding-right: 2px;
       }
-  
-      input:hover {
-        font-size: 20px;
-      }
-  
+
       &:before {
         content: "\2605";
         font-size: 22px;
-        color: var(--text_white);
+        color: var(--text-white);
         line-height: 24px;
       }
     }
-  
-    & > label:hover:before {
-      font-size: 28px;
-      margin-top: 55px;
+
+    .rating-star_disabled {
+      display: none;
     }
-  
-    input:checked ~ label:before,
-    &:not(:checked) > label:hover:before,
-    &:not(:checked) > label:hover ~ label:before {
+
+    .rating-star_disabled:checked ~ .rating-star__label_disabled:before,
+    {
       color: var(--yellow-star);
     }
 }

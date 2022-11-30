@@ -1,0 +1,138 @@
+.content-comment-page {
+    max-width: 1400px;
+    min-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--background-white);
+    display: grid;
+    grid-template-rows: 150px 1fr;
+    grid-gap: 32px;
+}
+
+.content-comment-page_margin {
+    margin-top: 32px;
+    margin-bottom: 32px
+}
+
+.content-comment-page-block-background {
+    border-radius: 15px;
+    background-color: var(--pure-white);
+}
+
+.comment-page-header {
+    display: grid;
+    grid-template-columns: 66px 976px 1fr;
+    grid-gap: 16px;
+    align-items: center;
+}
+
+.comment-page-header-main_padding {
+    padding: 16px 32px 16px 32px;
+}
+
+.comment-page-header__right-block{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.comment-page-header__photo {
+    width: 66px;
+    height: 66px;
+
+}
+
+.product-page-color-jet-black {
+    color: var(--jet-black);
+}
+
+.comment-page-header__add-cart {
+    display: grid;
+    grid-template-columns: auto 120px;
+    grid-gap: 32px;
+    align-items: center;
+}
+
+.comment-page-header__price {
+    display: grid;
+    grid-template-rows: 20px 26px;
+    grid-gap: 16px;
+}
+
+.comment-page-header__price-discount {
+    display: grid;
+    grid-template-columns: auto 42px;
+    grid-gap: 4px;
+}
+
+.comment-page-header__price-strikethrough {
+    text-decoration-line: line-through;
+    color: var(--secondary-purple);
+}
+
+.comment-page-header__sales-value {
+    display: flex;
+    border-radius: 20px;
+    width: 42px;
+    height: 20px;
+    color: var(--pure-white);
+    background-color: var(--pink-accent);
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-page-header__button {
+    display: flex;
+    background: var(--background-grey);
+    padding: 0 16px 0 16px;
+    color: var(--jet-black);
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+}
+
+.comment-page-header__button:hover {
+    background: var(--dark-grey);
+}
+
+.comment-page-main {
+    display: grid;
+    grid-gap: 16px;
+}
+
+.comment-page-main__header {
+    display: grid;
+}
+
+.comment-page-main__header-name-button {
+    display: flex;
+    height: 42px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-page-main__sort {
+    display: flex;
+    gap: 16px;
+}
+
+%comment-page-color-jet-black{
+    color: var(--jet-black);
+}
+
+.comment-page-main__sort-condition {
+    @extend %comment-page-color-jet-black;
+    cursor: pointer;
+}
+
+.comment-page-sort-icon {
+    height: 12px;
+    width: 12px;
+    margin-left: 2px;
+}
+
+.comment-page-main__comments {
+    display: grid;
+    gap: 32px;
+}

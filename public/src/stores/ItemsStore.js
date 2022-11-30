@@ -55,6 +55,8 @@ class ItemsStore extends BaseStore {
         cardLoadCount: 'cardLoadCount',
         allCardsInCategory: 'allCardsInCategory',
         sortURL: 'sortURL',
+        itemData: 'itemData',
+        comments: 'comments',
         suggestionsSearch: 'suggestionsSearch',
     };
 
@@ -71,6 +73,8 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.cardLoadCount, null);
         this._storage.set(this._storeNames.allCardsInCategory, []);
         this._storage.set(this._storeNames.sortURL, null);
+        this._storage.set(this._storeNames.itemData, {});
+        this._storage.set(this._storeNames.comments, []);
         this._storage.set(this._storeNames.suggestionsSearch, []);
     }
 
@@ -114,6 +118,16 @@ class ItemsStore extends BaseStore {
             ]);
             break;
 
+        case ItemCardsActionTypes.GET_COMMENTS:
+            await this._getComments();
+            this._emitChange([ItemCardsActionTypes.GET_COMMENTS]);
+            break;
+
+        case ItemCardsActionTypes.ADD_COMMENT:
+            await this._addComment(payload.data);
+            this._emitChange([ItemCardsActionTypes.ADD_COMMENT]);
+            break;
+
         case ItemCardsActionTypes.GET_SEARCH_RESULTS:
             await this._getSearchResults(payload.data);
             this._emitChange([ItemCardsActionTypes.GET_SEARCH_RESULTS]);
@@ -152,12 +166,7 @@ class ItemsStore extends BaseStore {
                 classToGet: popularCard ? 'popularCard' : 'salesCard',
                 body: response.body,
             });
-            this._storage.set(
-                this._storeNames.allCardsInCategory,
-                this._storage
-                    .get(this._storeNames.allCardsInCategory)
-                    .concat(response.body),
-            );
+            this.#syncCardsInCategory(response.body);
         }
     }
 
@@ -263,16 +272,9 @@ class ItemsStore extends BaseStore {
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
-
             addSpacesToPrice(response.body);
-
             this._storage.set(this._storeNames.cardsCategory, response.body);
-            this._storage.set(
-                this._storeNames.allCardsInCategory,
-                this._storage
-                    .get(this._storeNames.allCardsInCategory)
-                    .concat(response.body),
-            );
+            this.#syncCardsInCategory(response.body);
 
             if (response.body[response.body.length - 1]) {
                 this._storage.set(
@@ -286,11 +288,62 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+     * Функция, обновляющая информацию о загруженных картах
+     * @param {object} body - данные для добавления
+     */
+    #syncCardsInCategory(body) {
+        this._storage.set(
+            this._storeNames.allCardsInCategory,
+            this._storage
+                .get(this._storeNames.allCardsInCategory)
+                .concat(body),
+        );
+    }
+
+    /**
+     * Действие: запрос карточки с определенным id.
+     */
+    async _getItemCard() {
+        const [status, response] = await request
+            .makeGetRequest(config.api.products +
+                document.location.pathname.slice(
+                    document.location.pathname.lastIndexOf('/'),
+                    document.location.pathname.length,
+                ))
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this.#syncWithCart(response.body);
+            addSpacesToPrice(response.body);
+            this._storage.set(this._storeNames.itemData, response.body);
+            this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
+     * Действие: получение отзывов отзыва.
+     */
+    async _getComments() {
+        const [status, response] = await request
+            .makeGetRequest(config.api.getComments +
+                document.location.pathname.slice(
+                    document.location.pathname.lastIndexOf('/'),
+                    document.location.pathname.length,
+                ))
+            .catch((err) => console.log(err));
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.comments, response.body);
+            this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
      * Действие: синхронизация списка карточек поиска с корзиной.
      */
     async _searchItemCards() {
         this.#syncWithCart(this._storage.get(this._storeNames.cardsCategory));
-        // addSpacesToPrice(this._storage.get(this._storeNames.cardsCategory));
+        addSpacesToPrice(this._storage.get(this._storeNames.cardsCategory));
     }
 
     /**
@@ -311,24 +364,36 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
+     * @param {object} data - строка для поиска
      */
-    async _getSuggestionSearch(searchString) {
-        const [status, response] = await request
-            .makePostRequest(config.api.suggestionSearch, {search: searchString})
-            .catch((err) => console.log(err));
+    async _getSuggestionSearch(data) {
+        if (data.isCategory) {
+            this._storage.set(this._storeNames.suggestionsSearch, {search: data.searchString});
+        } else {
+            const [status, response] = await request
+                .makePostRequest(config.api.suggestionSearch, {search: data.searchString})
+                .catch((err) => console.log(err));
 
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.suggestionsSearch, response.body);
+            this._storage.set(this._storeNames.responseCode, status);
+            if (status === config.responseCodes.code200) {
+                this._storage.set(this._storeNames.suggestionsSearch, response.body);
+            }
         }
     }
 
     /**
-     * Действие: запрос карточки с определенным id.
-     * @param {number} id
+     * Действие: отправка отзыва.
+     * @param {object} comment - данные отзыва
      */
-    async _getItemCard(id) {
+    async _addComment(comment) {
+        comment.itemid = this._storage.get(this._storeNames.itemData).id;
+        comment.userid = cartStore.getContext(cartStore._storeNames.userID);
+        const [status] = await request
+            .makePostRequest(config.api.makeComment, comment);
+        this._storage.set(this._storeNames.responseCode, status);
+
+        if (status === config.responseCodes.code200) {
+        }
     }
 }
 

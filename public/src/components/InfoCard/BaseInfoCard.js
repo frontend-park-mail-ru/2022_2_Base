@@ -21,7 +21,7 @@ export default class BaseInfoCard extends BaseComponent {
      * адреса
      * @param {object} event - событие
      */
-    async listenClickEdite(event) {
+    async listenClickEdit(event) {
         const cardID = event.target.id.replace('edit-img-', '');
         userStore.getContext(this.storeData).forEach((context) => {
             if (context.id === cardID) {
@@ -93,7 +93,7 @@ export default class BaseInfoCard extends BaseComponent {
     startEdit() {
         this.edit = document.querySelectorAll(`.edit-${this.pageName}`);
         if (this.edit.length) {
-            this.bindListenClickEdit = this.listenClickEdite.bind(this);
+            this.bindListenClickEdit = this.listenClickEdit.bind(this);
             this.edit.forEach((key) => {
                 key.addEventListener('click', this.bindListenClickEdit);
             });

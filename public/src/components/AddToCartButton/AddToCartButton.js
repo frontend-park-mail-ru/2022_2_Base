@@ -2,19 +2,25 @@ import AddToCartButtonTemplate from './AddToCartButton.hbs';
 import BaseComponent from '../BaseComponent.js';
 import './AddToCartButton.scss';
 import cartStore from '../../stores/CartStore.js';
-import {cartAction} from '../../actions/cart.js';
+import {cartAction, CartActionTypes} from '../../actions/cart.js';
 
 /**
  * Класс для реализации компонента AddToCartButton
  */
 export default class AddToCartButton extends BaseComponent {
     /**
-     * Конструктор, создающий класс компонента ItemCard
+     * Конструктор, создающий класс компонента AddToCartButton
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
     constructor(parent) {
         super(parent);
+
+        cartStore.addListener(this.buttonCreate, CartActionTypes.ADD_TO_CART);
+
+        cartStore.addListener(this.buttonAdd, CartActionTypes.INCREASE_NUMBER);
+
+        cartStore.addListener(this.buttonMinus, CartActionTypes.DECREASE_NUMBER);
     }
 
     /**
@@ -81,30 +87,21 @@ export default class AddToCartButton extends BaseComponent {
 
     /**
      * Функция, обрабатывающая клики на кнопку добавить в корзину
-     * @param {Event} event контекст события для обработки
+     * @param {HTMLElement} target элемент, вызвавший обработчик
      */
-    listenClickButtonAddIntoCart(event) {
-        event.preventDefault();
-        const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-                switch (elementId) {
-                case 'button-add-to-cart':
-                    this.buttonCreate(); // убрать
-                    cartAction.addToCart(itemId);
-                    break;
-                case 'button-minus_cart':
-                    this.buttonMinus(); // убрать
-                    cartAction.decreaseNumber(itemId);
-                    break;
-                case 'button-plus_cart':
-                    this.buttonAdd(); // убрать
-                    cartAction.increaseNumber(itemId);
-                    break;
-                }
+    listenClickButtonAddIntoCart({target}) {
+        if (target.id && target.id.includes('/')) {
+            const [elementID, itemID] = target.id.split('/');
+            switch (elementID) {
+            case 'button-add-to-cart':
+                cartAction.addToCart(itemID);
+                break;
+            case 'button-minus_cart':
+                cartAction.decreaseNumber(itemID);
+                break;
+            case 'button-plus_cart':
+                cartAction.increaseNumber(itemID);
+                break;
             }
         }
     }
@@ -113,9 +110,10 @@ export default class AddToCartButton extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const buttonAddIntoCart = document.getElementById('block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.addEventListener('click', this.listenClickButtonAddIntoCart.bind(this));
+        this.buttonAddIntoCart = document.getElementById('block-button-add-to-cart');
+        if (this.buttonAddIntoCart) {
+            this.bindListenClickButtonAddIntoCart = this.listenClickButtonAddIntoCart.bind(this);
+            this.buttonAddIntoCart.addEventListener('click', this.bindListenClickButtonAddIntoCart);
         }
     }
 
@@ -123,9 +121,8 @@ export default class AddToCartButton extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     removeEventListener() {
-        const buttonAddIntoCart = document.getElementById('block-button-add-to-cart');
-        if (buttonAddIntoCart) {
-            buttonAddIntoCart.removeEventListener('click', this.listenClickButtonAddIntoCart);
+        if (this.buttonAddIntoCart) {
+            this.buttonAddIntoCart.removeEventListener('click', this.bindListenClickButtonAddIntoCart);
         }
     }
 

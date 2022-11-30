@@ -1,16 +1,23 @@
-{{#each comments}}
+{{#each item}}
     <div class="comment">
         <div class="comment__header">
-            <img src="{{this.userPhoto}}" alt="user photo" class="comment__userPhoto">
-            <span class="comment__color-pure-black text-normal-large-normal">{{this.userName}}</span>
+            <img src="{{#if this.imgsrc}}{{this.imgsrc}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
+                 class="comment__userPhoto">
+            <span class="comment__color-pure-black text-normal-large-normal">
+                {{#if this.username}}{{this.username}}{{else}}Анонимный пользователь{{/if}}</span>
             <div class="comment__date-range">
                 <span class="comment_date text-normal-default">{{this.date}}</span>
-                <div class="comment-page__rating-stars">
-                    <input class="rating-start" type="radio" id="star5/{{this.id}}" name="rating/{{this.id}}" value="5"/> <label for="star5/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star4/{{this.id}}" name="rating/{{this.id}}" value="4"/> <label for="star4/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star3/{{this.id}}" name="rating/{{this.id}}" value="3"/> <label for="star3/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star2/{{this.id}}" name="rating/{{this.id}}" value="2"/> <label for="star2/{{this.id}}"></label>
-                    <input class="rating-start" type="radio" id="star1/{{this.id}}" name="rating/{{this.id}}" value="1"/> <label for="star1/{{this.id}}"></label>
+                <div class="rating-stars_disabled">
+                    <input class="rating-star_disabled" type="radio" id="star5/{{this.id}}" name="rating/{{@ index}}"
+                           value="5" {{#if this.rating5}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star5/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star4/{{this.id}}" name="rating/{{@ index}}"
+                           value="4" {{#if this.rating4}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star4/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star3/{{this.id}}" name="rating/{{@ index}}"
+                           value="3" {{#if this.rating3}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star3/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star2/{{this.id}}" name="rating/{{@ index}}"
+                           value="2" {{#if this.rating2}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star2/{{@ index}}"> </label>
+                    <input class="rating-star_disabled" type="radio" id="star1/{{this.id}}" name="rating/{{@ index}}"
+                           value="1" {{#if this.rating1}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star1/{{@ index}}"></label>
                 </div>
             </div>
         </div>
@@ -18,8 +25,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Достоинства</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.dignity}}
-                        {{this.dignity}}
+                    {{#if this.pros}}
+                        {{this.pros}}
                     {{else}}
                         нет
                     {{/if}}
@@ -28,8 +35,8 @@
             <div class="comment__content-sections">
                 <span class="text-normal-large-normal comment__color-pure-black">Недостатки</span>
                 <span class="text-normal-default comment__color-jet-black">
-                    {{#if this.limitations}}
-                        {{this.limitations}}
+                    {{#if this.cons}}
+                        {{this.cons}}
                     {{else}}
                         нет
                     {{/if}}
@@ -44,20 +51,6 @@
                         нет
                     {{/if}}
                 </span>
-            </div>
-            <div class="comment-content__like-dislike comment-content__like-dislike_margin">
-                <button type="button" class="comment-content-like-button">
-                    <img src="img/like-finger.svg" alt="like comment">
-                    <span class="text-normal-default">
-                        {{this.likeCount}}
-                    </span>
-                </button>
-                <button type="button" class="comment-content-like-button">
-                    <img src="img/dislike-finger.svg" alt="dislike">
-                    <span class="comment-content-like-text text-normal-default">
-                        {{this.dislikeCount}}
-                    </span>
-                </button>
             </div>
         </div>
     </div>

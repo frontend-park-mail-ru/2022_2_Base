@@ -13,6 +13,7 @@ import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
 import {getDate, parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
+import refreshElements from '../../modules/refreshElements';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -36,7 +37,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
-        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKEORDER);
+        cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
     }
 
@@ -134,16 +135,12 @@ export default class CartOrderPage extends BasePage {
             cartItem.render(data);
             this.startEventListener();
         } else {
-            document.getElementById('main').innerHTML = `
-            <div class="paint-background"></div>
-            <div id="content-cart"
-                <span class="text-normal-large-normal cart-main__empty">
-                Корзина пуста. Случайно не нужен&nbsp
-                <a href="${config.href.category}/phones" class="link">телефон</a>
-                ?
-                </span>
-            </div>
-            <div class="paint-background"></div>`;
+            refreshElements.showUnAuthPage({
+                text: 'Корзина пуста. Случайно не нужен',
+                linkToPage: config.href.category + '/phones',
+                linkText: 'телефон',
+                textAfterLink: '?',
+            });
         }
     }
 
@@ -252,10 +249,13 @@ export default class CartOrderPage extends BasePage {
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
                 const data = choice.getAttribute('value');
+                let choiceId = choice.id;
                 let choiceIdWithType = choice.id;
                 if (choiceIdWithType) {
                     if (choiceIdWithType.includes('/')) {
                         [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
+                    } else {
+                        choiceId = choiceIdWithType;
                     }
                     this.#choiceIdType(choiceIdWithType, choiceId, data);
                 }
@@ -320,11 +320,11 @@ export default class CartOrderPage extends BasePage {
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
-                    const count = parseIntInPrice(amountItem.textContent);
+                    const count = parseInt(amountItem.textContent);
                     if (count === 1) {
-                        this.deleteItem(parseIntInPrice(itemId)); // удаление элемента из корзины
+                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
                     } else {
-                        cartAction.decreaseNumber(parseIntInPrice(itemId));
+                        cartAction.decreaseNumber(parseInt(itemId));
                         amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
@@ -456,10 +456,9 @@ export default class CartOrderPage extends BasePage {
                 orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
                     (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
                     0)).toJSON();
-
                 orderData.card = parseInt(document.querySelector('.payment-method__cart')
-                    .id.split('/', 2)[1]);
-                orderData.card = orderData.card ? orderData.card : null;
+                    .id.split('/')[1]);
+                orderData.card = orderData.card ? orderData.card : 1;
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
