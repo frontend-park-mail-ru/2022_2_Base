@@ -40,11 +40,11 @@
 }
 
 .left-arrow {
-    @extend %left-arrow;
+    display: none;
 }
 
 .right-arrow {
-    @extend %left-arrow;
+    display: none;
 }
 
 .arrow:disabled {
