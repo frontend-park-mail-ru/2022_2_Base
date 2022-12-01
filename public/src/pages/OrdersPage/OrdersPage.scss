@@ -1,0 +1,22 @@
+.content__orders {
+  max-width: 1400px;
+  min-width: min(1400px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orders-page__header {
+  margin-top: 32px;
+}
+
+@media (max-width: 991px) {
+  .orders-page__header {
+    margin-top: 16px;
+  }
+
+  .orders-page__header-text.text-normal-huge {
+    font-size: 32px;
+    line-height: 42px;
+  }
+
+}

@@ -4,6 +4,7 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import {config} from '../config';
 import CartPage from '../pages/CartPage/CartPage';
+import OrdersPage from '../pages/OrdersPage/OrdersPage';
 import {userActions, UserActionTypes} from '../actions/user';
 import userStore from '../stores/UserStore';
 import refresh from './refreshElements';
@@ -12,6 +13,7 @@ import SearchPage from '../pages/CatalogPage/SearchPage/SearchPage';
 import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
 import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
+import UserPage from '../pages/UserPage/UserPage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -61,7 +63,6 @@ class Router {
      */
     #changePage = async (event) => {
         const {target} = event;
-
         let href = target.getAttribute('href');
 
         if (href === null) {
@@ -151,6 +152,8 @@ class Router {
         this.register(config.href.product, ProductPage);
         this.register(config.href.comment, CommentPage);
         this.register(config.href.addComment, AddCommentPage);
+        this.register(config.href.orders, OrdersPage);
+        this.register(config.href.user, UserPage);
 
         this.#titles.set(config.href.main, 'Главная - Reazon');
         this.#titles.set(config.href.login, 'Вход - Reazon');
@@ -159,11 +162,10 @@ class Router {
         this.#titles.set(config.href.category, '- Reazon');
         this.#titles.set(config.href.search, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
+        this.#titles.set(config.href.orders, 'Заказы - Reazon');
         this.#titles.set(config.href.product, 'О товаре - Reazon');
         this.#titles.set(config.href.comment, 'Отзывы - Reazon');
-
-        this.#titles.set(config.href.product, 'О товаре - Reazon');
-        this.#titles.set(config.href.comment, 'Отзывы - Reazon');
+        this.#titles.set(config.href.addComment, 'Отзыв - Reazon');
 
         this.#currentPage = new MainPage(this.#mainElement);
     }

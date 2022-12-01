@@ -103,6 +103,7 @@
         grid-template-columns: repeat(6, 1fr);
         margin-left: 16px;
         margin-right: 16px;
+        grid-column-gap: 4vw;
     }
 
     .content__popular {
@@ -110,6 +111,7 @@
         grid-template-columns: repeat(6, 1fr);
         margin-left: 16px;
         margin-right: 16px;
+        grid-column-gap: 4vw;
     }
 
     .left-arrow {

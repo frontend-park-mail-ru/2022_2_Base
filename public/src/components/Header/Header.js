@@ -157,6 +157,16 @@ export default class Header extends BaseComponent {
     }
 
     /**
+     * Функция, обрабатывающая нажатие на кнопку enter при вводе поискового запроса.
+     * @param {KeyboardEvent} event - событие, вызвавшее функцию
+     */
+    listenEnterPressSearch(event) {
+        if (event.key === 'Enter') {
+            this.listenSearchButtonClick();
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -176,6 +186,8 @@ export default class Header extends BaseComponent {
         if (this.searchInput) {
             this.bindListenInputSearch = this.listenInputSearch.bind(this);
             this.searchInput.addEventListener('input', this.bindListenInputSearch);
+            this.bindListenEnterPressSearch = this.listenEnterPressSearch.bind(this);
+            this.searchInput.addEventListener('keypress', this.bindListenEnterPressSearch);
         }
 
         if (this.elementSuggestions) {
@@ -203,6 +215,7 @@ export default class Header extends BaseComponent {
 
         if (this.elementSuggestions) {
             this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
+            this.searchInput.removeEventListener('keypress', this.bindListenEnterPressSearch);
         }
     }
 

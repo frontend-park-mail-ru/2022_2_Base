@@ -6,7 +6,6 @@
   --font-main: "IBM Plex Sans", sans-serif;
   --hover-purple: #3f47d0;
   --pure-white: #fff;
-  --pure_white: #fff;
   --background-white: #f8f8f8;
   --purple-disabled: #6369d1;
   --default-purple: #6369d1;
@@ -292,18 +291,6 @@ main {
   src: url(https://fonts.gstatic.com/s/ibmplexsans/v14/zYXgKVElMYYaJe8bpLHnCwDKhdHeFQ.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   font-display: swap;
-}
-
-@media (max-width: 991.98px) {
-  main {
-    grid-template-columns: 1fr auto 1fr;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .page {
-    grid-template-rows: 140px 1fr 104px;
-  }
 }
 
 @media (max-width: 991px) {
