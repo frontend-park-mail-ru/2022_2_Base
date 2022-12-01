@@ -307,4 +307,15 @@ main {
   .page {
     grid-template-rows: 140px 1fr 104px;
   }
+
+  .main_empty.text-normal-large-normal {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .input-field-error {
+    grid-row-start: 2;
+    position: relative;
+    border-radius: 0px;
+  }
 }

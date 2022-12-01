@@ -297,7 +297,7 @@ class UserStore extends BaseStore {
             switch (key) {
             case this.#context.fields.name.name:
                 isValid &= errorMessage.validateField(validation.checkEmptyField(value),
-                    this.#context.fields.name);
+                    this.#context.fields.name, 'login__form__error');
                 break;
             case this.#context.fields.email.name:
                 isValid &= errorMessage.validateField(validation.validateEMail(value),
@@ -305,12 +305,12 @@ class UserStore extends BaseStore {
                 break;
             case this.#context.fields.password.name:
                 isValid &= errorMessage.validateField(validation.validatePassword(value),
-                    this.#context.fields.password);
+                    this.#context.fields.password, 'login__form__error');
                 break;
             case this.#context.fields.repeatPassword.name:
                 isValid &= errorMessage.validateField(validation
                     .validateRepeatPassword(data.password === data.repeatPassword),
-                this.#context.fields.repeatPassword);
+                this.#context.fields.repeatPassword, 'login__form__error');
                 break;
             case this.#context.fields.name.popUpName:
                 isValid &= errorMessage.validateField(validation.checkEmptyField(value),

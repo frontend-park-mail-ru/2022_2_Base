@@ -57,3 +57,19 @@
         width: 260px;
     }
 }
+
+@media (max-width: 767px) {
+    .form {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    .form__field {
+        display: grid;
+        grid-template-rows: auto auto auto;
+    }
+    .login__form__error {
+        margin-left: 0px;
+        margin-top: 0px;
+    }
+}

@@ -77,4 +77,9 @@
     .content__signup {
         grid-template-columns: 1fr;
     }
+
+    .signup__form {
+        height: auto;
+        grid-template-rows: repeat(4, auto) 1fr;
+    }
 }

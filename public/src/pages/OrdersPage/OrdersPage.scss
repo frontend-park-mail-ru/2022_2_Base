@@ -3,6 +3,8 @@
   min-width: min(1400px, 100%);
   margin-left: auto;
   margin-right: auto;
+  display: grid;
+  gap: 32px;
 }
 
 .orders-page__header {
@@ -15,8 +17,15 @@
   }
 
   .orders-page__header-text.text-normal-huge {
+    margin-left: 32px;
     font-size: 32px;
     line-height: 42px;
   }
 
+}
+
+@media (max-width: 767px) {
+  .content__orders {
+    gap: 16px;
+  }
 }

@@ -185,7 +185,7 @@ class Validation {
             switch (key) {
             case context.fields.name.name:
                 isValid &= errorMessage.validateField(this.checkEmptyField(value),
-                    context.fields.name);
+                    context.fields.name, 'login__form__error');
                 break;
             case context.fields.email.name:
                 isValid &= errorMessage.validateField(this.validateEMail(value),
@@ -193,12 +193,12 @@ class Validation {
                 break;
             case context.fields.password.name:
                 isValid &= errorMessage.validateField(this.validatePassword(value),
-                    context.fields.password);
+                    context.fields.password, 'login__form__error');
                 break;
             case context.fields.repeatPassword.name:
                 isValid &= errorMessage.validateField(this
                     .validateRepeatPassword(data.password === data.repeatPassword),
-                context.fields.repeatPassword);
+                context.fields.repeatPassword, 'login__form__error');
                 break;
             case context.fields.name.popUpName:
                 isValid &= errorMessage.validateField(this.checkEmptyField(value),
