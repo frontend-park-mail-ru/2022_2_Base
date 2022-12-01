@@ -49,7 +49,7 @@ class UserStore extends BaseStore {
                 type: 'password',
                 name: 'password',
                 popUpName: 'password__popUp__div',
-                placeholder: 'Придумайте пароль',
+                placeholder: 'Введите пароль',
                 maxLength: '16',
                 errorID: 'passwordError',
             },
