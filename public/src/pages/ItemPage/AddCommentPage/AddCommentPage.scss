@@ -1,12 +1,16 @@
 .content_add-comment {
   max-width: 1400px;
-  min-width: 1400px;
+  min-width: min(1400px, 100%);
   margin-left: auto;
   margin-right: auto;
 }
 
+.content_add-comment-page_margin {
+  margin-top: 32px;
+}
+
 .add-comment-page__block {
-  margin-top: 16px;
+  margin-top: 32px;
   display: grid;
   grid-template-columns: max-content 1fr 1fr;
   align-items: start;
@@ -118,4 +122,53 @@
 
 .add-comment-page__block__input-fields__submit:hover {
   background-color: var(--hover-purple);
+}
+
+@media (max-width: 991px) {
+  .add-comment-page__block {
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: auto;
+    width: 92%;
+    padding: 4%;
+    gap: 4vw;
+  }
+
+  .add-comment-page-main__header {
+    grid-column: initial;
+    grid-row: 1;
+
+  }
+
+  .add-comment-page__block__title {
+    grid-column: initial;
+    grid-row: 2;
+  }
+
+  .add-comment-page__rating-stars {
+    grid-column: initial;
+    grid-row: 3;
+  }
+
+  .add-comment-page__block__input-fields__submit {
+    grid-column: initial;
+    grid-row: 6;
+    width: 100%;
+  }
+
+  .add-comment-page__block__title__second {
+    grid-column: initial;
+    grid-row: 4;
+  }
+
+  .add-comment-page__block__input-fields__block__field {
+    width: 100%;
+  }
+  .add-comment-page__block__input-fields__block__field__input {
+    width: 92%;
+  }
+
+  .add-comment-page__block__input-fields {
+    grid-row: 5;
+  }
 }

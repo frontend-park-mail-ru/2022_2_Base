@@ -302,13 +302,13 @@ main {
 
 @media (max-width: 767.98px) {
   .page {
-    grid-template-rows: 140px 1fr 234px;
+    grid-template-rows: 140px 1fr 104px;
   }
 }
 
 @media (max-width: 991px) {
   .page {
-    grid-template-rows: 70px auto 234px;
+    grid-template-rows: 70px auto 104px;
   }
 
   main {
@@ -318,6 +318,6 @@ main {
 
 @media (max-width: 767px) {
   .page {
-    grid-template-rows: 140px 1fr 234px;
+    grid-template-rows: 140px 1fr 104px;
   }
 }
