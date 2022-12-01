@@ -1,0 +1,130 @@
+.content__orders{
+  display: grid;
+  gap: 32px;
+}
+
+.order-block {
+  height: 480px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: min-content;
+  padding: 32px;
+  background-color: var(--pure-white);
+  border-radius: 10px;
+  gap: 24px 32px;
+}
+
+.order-block:last-child {
+  margin-bottom: 32px;
+}
+
+.order-block__content {
+  display: grid;
+  grid-template-columns: 1fr 64px;
+}
+
+.order-block__item-cards-block {
+  overflow-y: scroll;
+  color: var(--jet-black);
+}
+
+.order-block__item-cards-block::-webkit-scrollbar {
+  background-color: var(--dark-grey);
+  border-radius: 4px;
+  width: 6px;
+}
+
+.order-block__item-cards-block::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-purple);
+  border-radius: 4px;
+}
+
+.order-block__info-block {
+  display: grid;
+  max-width: 64px;
+  gap: 16px;
+  grid-template-rows: 1fr 1fr min-content;
+  color: var(--jet-black);
+}
+
+.order-block__info-block__split-line {
+  display: grid;
+  grid-template-columns: 132px auto;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.button-order-block {
+  width: 152px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button-repeat-order {
+  background: var(--default-purple);
+  color: var(--background-white);
+}
+
+.button-repeat-order:hover {
+  background: var(--hover-purple);
+}
+
+.button-cancel-order {
+  background: var(--dark-grey);
+  color: var(--jet-black);
+  justify-self: end;
+}
+
+.order-block__info-block__line-left {
+  grid-column: 1;
+  color: var(--secondary-purple);
+}
+
+.order-block__info-block__line-right{
+  grid-column: 2;
+}
+
+.order-block__info-block__buttons-line {
+  height: min-content;
+  display: flex;
+  gap: 16px;
+}
+
+.order-block__itemcard {
+  display: grid;
+  height: 128px;
+  max-width: 936px;
+  min-width: 360px;
+  gap: 32px;
+  justify-content: space-between;
+  grid-template-columns: 128px 1fr min-content min-content;
+  white-space:nowrap
+}
+
+.order-block__itemcard__title {
+  align-self: center;
+}
+
+.order-block__itemcard__photo {
+  object-fit: cover;
+  align-self: center;
+  justify-self: center;
+  width: 64px;
+  height: 64px;
+}
+
+.order-block__itemcard__counter {
+  align-self: center;
+  justify-self: center;
+}
+
+.text-normal-very-big {
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 42px;
+}
+

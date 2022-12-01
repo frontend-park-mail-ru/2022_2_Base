@@ -58,7 +58,7 @@ export default class CommentPage extends BaseItemPage {
      */
     listenAddCommentButton() {
         if (itemsStore.getContext(itemsStore._storeNames.comments)
-            .find((comment) => comment.id === cartStore.getContext(cartStore._storeNames.userID))) {
+            .find((comment) => comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
             errorMessage.getAbsoluteErrorMessage('Вы уже создали отзыв об этом товаре');
         } else {
             router.openPage(

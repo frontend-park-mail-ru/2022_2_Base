@@ -88,22 +88,18 @@ class ItemsStore extends BaseStore {
             await this._getItemCardsHome(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_HOME]);
             break;
-
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
             await this._getItemCardsByCategory(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY]);
             break;
-
         case ItemCardsActionTypes.ITEM_CARDS_SEARCH:
             await this._searchItemCards();
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_SEARCH]);
             break;
-
         case ItemCardsActionTypes.ITEM_CARD_GET:
             await this._getItemCard(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
-
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getByPriceItemCard(payload.data);
             this._emitChange([

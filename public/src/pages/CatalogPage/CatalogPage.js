@@ -257,7 +257,6 @@ export default class CatalogPage extends BasePage {
         }
     }
 
-
     /**
      * Метод, отрисовывающий страницу.
      */
