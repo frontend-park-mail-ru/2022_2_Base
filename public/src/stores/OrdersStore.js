@@ -81,108 +81,11 @@ class OrdersStore extends BaseStore {
         const [status, response] = await request
             .makeGetRequest(config.api.orders)
             .catch((err) => console.log(err));
-        this._storage.set(this._storeNames.responseCode, 200); // fix 200 => status
-        console.log(response); // fix убрать
-        if (status === config.responseCodes.code200 || true) { // fix
-            // if (response.body.length || true) { // fix
-            if (true) {
-            // const orders = response.body.reverse(); // fix
-
-                const orders = [{
-                    'id': 1,
-                    'userid': 1,
-                    'items': [{
-                        'id': 3,
-                        'name': 'realme GT Master',
-                        'count': 1,
-                        'price': 29999,
-                        'lowprice': 21999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30058843bb.jpg',
-                    }, {
-                        'id': 4,
-                        'name': 'Apple iPhone 11',
-                        'count': 1,
-                        'price': 62999,
-                        'lowprice': 54999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30063237bb.jpg',
-                    },
-                    {
-                        'id': 4,
-                        'name': 'Apple iPhone 11',
-                        'count': 1,
-                        'price': 62999,
-                        'lowprice': 54999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30063237bb.jpg',
-                    },
-                    {
-                        'id': 4,
-                        'name': 'Apple iPhone 11',
-                        'count': 1,
-                        'price': 62999,
-                        'lowprice': 54999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30063237bb.jpg',
-                    }],
-                    'orderstatus': 'created',
-                    'paymentstatus': 'not started',
-                    'address': {
-                        'id': 1,
-                        'city': 'default',
-                        'street': 'default',
-                        'house': 'default',
-                        'flat': '',
-                        'priority': false,
-                    },
-                    'card': {
-                        'id': 1,
-                        'type': 'Card',
-                        'number': 'default',
-                        'expirydate': '1975-08-19T00:00:00Z',
-                        'priority': false,
-                    },
-                    'creationDate': '2022-11-28T15:40:26Z',
-                    'deliveryDate': '2022-12-01T10:00:00Z',
-                }, {
-                    'id': 3,
-                    'userid': 1,
-                    'items': [{
-                        'id': 2,
-                        'name': 'Tecno Spark 8с',
-                        'count': 1,
-                        'price': 12999,
-                        'lowprice': 8999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30062036bb.jpg',
-                    }, {
-                        'id': 3,
-                        'name': 'realme GT Master',
-                        'count': 1,
-                        'price': 29999,
-                        'lowprice': 21999,
-                        'imgsrc': 'https://img.mvideo.ru/Big/30058843bb.jpg',
-                    }],
-                    'orderstatus': 'created',
-                    'paymentstatus': 'not started',
-                    'address': {
-                        'id': 1,
-                        'city': 'default',
-                        'street': 'default',
-                        'house': 'default',
-                        'flat': '',
-                        'priority': false,
-                    },
-                    'card': {
-                        'id': 1,
-                        'type': 'Card',
-                        'number': 'default',
-                        'expirydate': '1975-08-19T00:00:00Z',
-                        'priority': false,
-                    },
-                    'creationDate': '2022-11-28T23:26:23Z',
-                    'deliveryDate': '2023-01-01T10:00:00Z',
-                }];
-
-
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            if (response.body.length) {
+                const orders = response.body.reverse();
                 this.#prepareOrdersData(orders);
-
                 this._storage.set(this._storeNames.orders, orders);
             } else {
                 this._storage.set(this._storeNames.orders, []);
