@@ -231,95 +231,95 @@ footer {
 
 @media (max-width: 991px) {
     header, footer {
-        max-width: 100%;
-        min-width: 100%;
+      max-width: 100%;
+      min-width: 100%;
     }
 
     header {
-        grid-template-columns: 2fr 1fr;
+      grid-template-columns: 2fr 1fr;
     }
     
     .header__left {
-        grid-template-columns: auto auto 1fr;
-        grid-column-gap: 8px
+      grid-template-columns: auto auto 1fr;
+      grid-column-gap: 8px
     }
 
     .header__right {
-        grid-column-gap: 8px
+      grid-column-gap: 8px
     }
 
     .header__button-catalog span {
-        display: none;
+      display: none;
     }
 
     .header__button-catalog {
-        width: 40px;
+      width: 40px;
     }
 
     .header__catalog-img {
-        margin-right: 0px;
+      margin-right: 0px;
     }
 
     .header__order {
-        margin-left: 0px;
-        width: max-content;
+      margin-left: 0px;
+      width: max-content;
     }
 
     .header__order-img {
-        width: 66px;
-        margin-top: 10px
+      width: 66px;
+      margin-top: 10px
     }
 
     .header__favourites {
-        width: max-content;
+      width: max-content;
     }
 
     .header__disabled-img {
-        width: 66px;
-        margin-top: 10px
+      width: 66px;
+      margin-top: 10px
     }
 
     .header__card {
-        width: max-content;
+      width: max-content;
     }
 
     .header__card-img {
-        width: 66px;
-        margin-top: 10px
+      width: 66px;
+      margin-top: 10px
     }
 
     .header__profile {
-        width: max-content;
+      width: max-content;
     }
 
     .header__profile-img {
-        width: 66px;
-        margin-top: 10px
+      width: 66px;
+      margin-top: 10px
     }
 }
 
 @media (max-width: 767px) {
     header, footer {
-        max-width: 100%;
-        min-width: 100%;
+      max-width: 100%;
+      min-width: 100%;
     }
 
     header {
-        grid-template-columns: none;
-        grid-template-rows: 1fr 1fr;
+      grid-template-columns: none;
+      grid-template-rows: 1fr 1fr;
     }
     
     .header__right {
-        justify-items: center;
+      justify-items: center;
     }
 
     .header__left {
-        grid-template-columns: auto 40px 1fr;
-        margin-right: 16px;
-        margin-left: 16px;
+      grid-template-columns: auto 40px 1fr;
+      margin-right: 16px;
+      margin-left: 16px;
     }
 
     .header__logotip {
-        margin-left: 0px;
+      margin-left: 0px;
     }
 }
