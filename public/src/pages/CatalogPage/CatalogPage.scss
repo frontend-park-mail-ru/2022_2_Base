@@ -26,7 +26,7 @@
     border-radius: 10px;
     margin-bottom: 32px;
     position: sticky;
-    top: 32px;
+    top: 68px;
     gap: 32px;
 }
 
@@ -96,6 +96,7 @@
     }
 
     .catalog__filter-block {
+        top: 136px;
         gap: 16px;
         grid-row-start: 1;
     }
