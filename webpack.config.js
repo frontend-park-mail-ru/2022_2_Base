@@ -6,12 +6,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-// const config = require(path.resolve(__dirname, 'public/src/config'));
 
 const webPackConfig = {
     entry: {
         'app': './public/src/index.js',
-        // 'sw': './public/src/sw.js',
     },
     module: {
         rules: [
@@ -115,7 +113,6 @@ const webPackConfig = {
             failOnWarning: true,
         }),
         new WorkboxPlugin.GenerateSW({
-            // swDest: 'sw.js',
             clientsClaim: true,
             skipWaiting: true,
             cleanupOutdatedCaches: true,
