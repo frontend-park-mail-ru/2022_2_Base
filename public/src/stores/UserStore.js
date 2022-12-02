@@ -258,7 +258,7 @@ class UserStore extends BaseStore {
                 this._storage.set(this._storeNames.name, response.username);
                 this._storage.set(this._storeNames.email, response.email);
                 this._storage.set(this._storeNames.phone, response.phone);
-                if (!!response.avatar && response.avatar !== '') {
+                if (!!response.avatar && response.avatar !== config.states.noAvatar) {
                     this._storage.set(this._storeNames.avatar, response.avatar);
                 } else {
                     this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
@@ -274,7 +274,7 @@ class UserStore extends BaseStore {
                 } else {
                     response.paymentmethods = [];
                 }
-                this._storage.set(this._storeNames.paymentMethods, response.paymentmethods);
+                this._storage.set(this._storeNames.paymentMethods, response.paymentmethods ?? []);
                 this._storage.set(this._storeNames.address, response.address ?? []);
             }
         } else {
@@ -325,7 +325,7 @@ class UserStore extends BaseStore {
                 config.api.uploadAvatar, avatar)
                 .catch((err) => console.log(err)) :
             await request.makePostRequest(
-                config.api.profile, {avatar: ''})
+                config.api.profile, {avatar: config.states.noAvatar})
                 .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);

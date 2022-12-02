@@ -8,6 +8,7 @@ import {profileAction, ProfileActionTypes} from '../../actions/profile';
 import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
+import refreshElements from '../../modules/refreshElements';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -125,7 +126,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        document.getElementById('user-page__user-photo').src =
+        document.getElementById('user-photo_user-page').src =
             userStore.getContext(userStore._storeNames.avatar);
     }
 

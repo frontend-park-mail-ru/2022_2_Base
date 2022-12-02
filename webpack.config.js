@@ -5,11 +5,11 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
-const config = {
+const webPackConfig = {
     entry: {
         'app': './public/src/index.js',
-        'service-worker': './public/src/sw.js',
     },
     module: {
         rules: [
@@ -112,23 +112,45 @@ const config = {
             fix: true,
             failOnWarning: true,
         }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            cleanupOutdatedCaches: true,
+            runtimeCaching: [
+                {
+                    urlPattern: new RegExp('https://www.reazon.ru/api/v1/'),
+                    handler: 'NetworkFirst',
+                    options: {cacheName: 'api-cache'},
+                },
+                {
+                    urlPattern: new RegExp('https://www.reazon.ru/img/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
+                {
+                    urlPattern: new RegExp('https://img.mvideo.ru/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
+            ],
+        }),
     ],
 };
 
 module.exports = (env, argv) => {
     if (argv.mode === 'production' || env.mode === 'production') {
-        config.module.rules.push({
+        webPackConfig.module.rules.push({
             test: /\.s[ac]ss$/i,
             use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
         });
-        config.mode = 'production';
+        webPackConfig.mode = 'production';
     } else {
-        config.module.rules.push({
+        webPackConfig.module.rules.push({
             test: /\.s[ac]ss$/i,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
         });
-        config.devtool = 'source-map';
-        config.devServer = {
+        webPackConfig.devtool = 'source-map';
+        webPackConfig.devServer = {
             hot: true,
             historyApiFallback: true,
             static: path.join(__dirname, 'dist'),
@@ -141,11 +163,11 @@ module.exports = (env, argv) => {
             compress: true,
             port: 8081,
         };
-        config.stats = {
+        webPackConfig.stats = {
             errorDetails: true,
         };
-        config.mode = 'development';
+        webPackConfig.mode = 'development';
     }
 
-    return config;
+    return webPackConfig;
 };
