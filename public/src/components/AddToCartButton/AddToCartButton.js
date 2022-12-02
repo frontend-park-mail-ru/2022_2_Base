@@ -131,7 +131,6 @@ export default class AddToCartButton extends BaseComponent {
      * @param {Object} context контекст отрисовки шаблона
      */
     render(context) {
-        console.log('addBtn', context);
         super.render(context, AddToCartButtonTemplate);
         this.startEventListener();
     }
