@@ -5,12 +5,11 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config = {
     entry: {
         'app': './public/src/index.js',
-        'service-worker': './public/src/sw.js',
+        'sw': './public/src/sw.js',
     },
     module: {
         rules: [
@@ -33,7 +32,7 @@ const config = {
         ],
     },
     output: {
-        filename: '[name].[contenthash].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         clean: true,
@@ -112,10 +111,6 @@ const config = {
             exclude: ['node_modules', 'dist'],
             fix: true,
             failOnWarning: true,
-        }),
-        new WorkboxPlugin.GenerateSW({
-            clientsClaim: true,
-            skipWaiting: true,
         }),
     ],
 };
