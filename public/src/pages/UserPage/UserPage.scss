@@ -149,12 +149,12 @@
 }
 
 .user-page__popUp {
-    position: absolute;
+    position: fixed;
     margin: auto;
     inset: 0;
     display: none;
     width: min(410px, 100%);
-    height: 280px;
+    height: max-content;
     background-color: var(--pure-white);
     border-radius: 15px;
     box-sizing: border-box;
