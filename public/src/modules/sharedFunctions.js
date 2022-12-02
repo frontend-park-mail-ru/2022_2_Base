@@ -90,3 +90,16 @@ export function getQueryParams() {
         get: (searchParams, prop) => searchParams.get(prop),
     });
 }
+
+/**
+ * Метод, выполняющая склонение окончаний в словах.
+ * @param {number} number число для которого нужно выполнить склонение окончания у существительного
+ * @param {Array} txt массив строк с выриантами склонений
+ * @return {string} подходящая строка
+ */
+export function declination(number, txt) {
+    const cases = [2, 0, 1, 1, 1, 2];
+    return txt[
+        (number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
+    ];
+}

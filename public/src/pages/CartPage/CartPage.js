@@ -172,6 +172,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'grid';
+            document.getElementById('body').style.overflow = 'hidden';
         }
         this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
         this.PopUpChooseAddressAndPaymentCard.render(context);
@@ -267,6 +268,7 @@ export default class CartOrderPage extends BasePage {
                 }
                 if (popUpFade) {
                     popUpFade.style.display = 'none';
+                    document.getElementById('body').style.overflow = 'visible';
                 }
                 break;
             }

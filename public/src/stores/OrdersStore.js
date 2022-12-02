@@ -82,7 +82,6 @@ class OrdersStore extends BaseStore {
             .makeGetRequest(config.api.orders)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
-
         if (status === config.responseCodes.code200) {
             if (response.body.length) {
                 const orders = response.body.reverse();

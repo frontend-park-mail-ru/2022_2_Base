@@ -10,7 +10,8 @@
             <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default">
                 <img type="image" src="/img/Catalog.svg" class="header__catalog-img"
                      alt="Menu-Burger icon in button Catalog">
-                Каталог </a>
+                <span>Каталог</span> 
+            </a>
         </summary>
         <ul class="header__dropdown__content">
             {{#each this.categories}}
@@ -34,24 +35,24 @@
 <div class="header__right">
     <div class="header__order">
         <a href="/orders">
-            <img src="/img/Orders.svg" alt="Orders button">
+            <img src="/img/Orders.svg" alt="Orders button" class="header__order-img">
         </a>
     </div>
     <div class="header__favourites">
         <a href="/favourites" class="disabled">
-            <img src="/img/Favourites.svg" alt="Favourite items button">
+            <img src="/img/Favourites.svg" alt="Favourite items button" class="header__favourites-img">
         </a>
     </div>
     <div class="header__card">
         <a href="/cart">
-            <img src="/img/Cart.svg" alt="Cart button">
+            <img src="/img/Cart.svg" alt="Cart button" class="header__card-img">
         </a>
     </div>
 
     <div class="header__profile">
         {{#if session}}
             <a href="/user">
-                <img src="/img/Profile.svg" alt="Profile button">
+                <img src="/img/Profile.svg" alt="Profile button" class="header__profile-img">
             </a>
             <div class="profile__pop-up">
                 <a href="/logout">
@@ -60,7 +61,7 @@
             </div>
         {{else}}
             <a href="/login">
-                <img src="/img/ProfileLogIn.svg" alt="LogIn button">
+                <img src="/img/ProfileLogIn.svg" alt="LogIn button" class="header__profile-img">
             </a>
         {{/if}}
     </div>

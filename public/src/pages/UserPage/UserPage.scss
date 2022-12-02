@@ -1,22 +1,21 @@
 .content__user-page {
     max-width: 1400px;
-    min-width: 1400px;
+    min-width: min(1400px, 100vw);
     margin-left: auto;
     margin-right: auto;
     background-color: var(--background-white);
     display: grid;
-    grid-template-rows: 232px 200px 232px;
+    grid-template-rows: max-content 200px 232px;
     grid-row-gap: 32px;
 }
 
 .user-page__global-card {
-    min-width: 1400px;
-    max-width: 1400px;
     border-radius: 10px;
     background-color: var(--pure-white);
 }
 
 .user-photo-block {
+    margin-right: 32px;
     margin-left: 32px;
 }
 
@@ -35,7 +34,8 @@
     height: 200px;
     margin-top: 32px;
     display: grid;
-    grid-template-columns: 2fr 3fr 3fr 3fr 3fr;
+    grid-template-columns: 2fr 3fr 3fr 3fr 2fr;
+    gap: 16px;
     align-items: center;
 }
 
@@ -149,12 +149,12 @@
 }
 
 .user-page__popUp {
-    position: absolute;
+    position: fixed;
     margin: auto;
     inset: 0;
     display: none;
-    width: 410px;
-    height: 280px;
+    width: min(410px, 100%);
+    height: max-content;
     background-color: var(--pure-white);
     border-radius: 15px;
     box-sizing: border-box;
@@ -165,4 +165,86 @@
 
 .edit-profile-data {
     cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    .content__user-page {
+        grid-row-gap: 16px;
+    }
+    .user-photo-block {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    .user-page__user-photo {
+        height: 100px;
+        width: 100px;
+    }
+
+    .user-page__user-card {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        grid-template-columns: 1fr 3fr 3fr;
+    }
+
+    .user-card_user-page-block__phone {
+        grid-column-start: 2;
+    }
+
+    .address-cards_user-page-items {
+        grid-column-gap: 16px;
+        margin-left: 16px;
+        overflow-x: auto;
+    }
+
+    .user-page__card-block-title {
+        margin-left: 16px;
+    }
+
+    .payment-cards-items_user-page {
+        grid-column-gap: 16px;
+        margin-left: 16px;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .user-page__user-photo {
+        margin-top: 8px;
+        height: 60px;
+        width: 60px;
+    }
+
+    .user-page__user-card {
+        height: auto;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr;
+    }
+
+    .user-card_user-page-block {
+        grid-column-start: 2;
+    }
+
+    .user-card_user-page-block-password {
+        grid-column-start: 2;
+    }
+
+    .user-card_user-page-block__phone {
+        margin-top: 16px;
+        margin-bottom: 10px;
+    }
+
+    .user-page__user-card__block-title.text-normal-large-normal {
+        font-size: 15px;
+        line-height: 20px;
+    }
+    .user-name_user-page.text-normal-large-normal  {
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .edit-profile-data.text-normal-large-normal {
+        font-size: 15px;
+        line-height: 20px;
+    }
 }

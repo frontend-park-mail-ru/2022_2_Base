@@ -30,12 +30,12 @@
 }
 
 .footer__contact-logo {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
 }
 
 .footer__margin-contact-logo {
-    margin-left: 20px;
+    margin-left: 16px;
 }
 
 .logo-img {
@@ -43,7 +43,7 @@
     height: 38px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .footer__grid {
         margin: 20px 60px;
         grid-template-rows: max-content 70px;
@@ -63,7 +63,7 @@
         height: 20px;
     }
 
-    .logo-reazon{
+    .footer__logo.logo-reazon{
         width: 60px;
         height: 22px;
     }
@@ -76,7 +76,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .footer__grid {
         margin: 2px 6px;
         grid-template-rows: max-content 70px;
@@ -92,7 +92,7 @@
         height: 16px;
     }
 
-    .logo-reazon{
+    .footer__logo.logo-reazon{
         width: 60px;
         height: 22px;
     }

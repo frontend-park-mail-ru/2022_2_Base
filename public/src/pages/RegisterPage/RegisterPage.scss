@@ -4,7 +4,7 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 1400px;
-    min-width: 1400px;
+    min-width: min(1400px, 100vw);
 }
 
 .left__signup {
@@ -19,8 +19,6 @@
 }
 
 .page-name__signup {
-    width: 250px;
-    height: 52px;
     text-align: center;
     justify-self: center;
     color: var(--shadow-dim);
@@ -48,4 +46,40 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 104px;
+}
+
+@media (max-width: 991px) {
+    .signup__right-img {
+        width: 100%;
+        margin-bottom: 0%;
+    }
+
+    .signup__form {
+        width: 300px;
+    }
+
+    .page-name__signup.text-normal-huge {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .signup {
+        padding: 50px;
+    }
+}
+
+@media (max-width: 767px) {
+    .right {
+        display: none
+    }
+
+    .content__signup {
+        grid-template-columns: 1fr;
+    }
+
+    .signup__form {
+        height: auto;
+        grid-template-rows: repeat(4, auto) 1fr;
+    }
 }

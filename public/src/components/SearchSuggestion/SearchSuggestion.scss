@@ -1,4 +1,4 @@
-.search-suggestions{
+.search-suggestions {
   position: absolute;
   top: 56px;
   width: 550px;
@@ -12,15 +12,23 @@
   background-color: var(--pure-white);
 }
 
-.header__dropdown__suggestion__element:first-child{
+.header__dropdown__suggestion__element:first-child {
   border-radius: 10px 10px 0 0;
 }
 
-.header__dropdown__suggestion__element:last-child{
+.header__dropdown__suggestion__element:last-child {
   border-radius: 0  0 10px 10px;
 }
 
 
 .header__dropdown__suggestion__element:hover {
   background-color: var(--dark-grey);
+}
+
+@media (max-width: 991px) {
+  .search-suggestions {
+    width: 92vw;
+    z-index: 2;
+    left: 4vw;
+  }
 }
