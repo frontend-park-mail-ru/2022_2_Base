@@ -130,6 +130,11 @@ const webPackConfig = {
                     handler: 'CacheFirst',
                     options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
                 },
+                {
+                    urlPattern: new RegExp('https://img.mvideo.ru/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
             ],
         }),
     ],
