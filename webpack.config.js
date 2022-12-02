@@ -101,7 +101,7 @@ const config = {
         }),
         new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.webp')),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
+            filename: '[name].css',
             chunkFilename: '[id].css',
             ignoreOrder: false,
         }),
