@@ -72,6 +72,7 @@
     margin-top: 8px;
     display: grid;
     grid-template-columns: 60px repeat(6, 1fr) 60px;
+    grid-column-gap: 16px;
 }
 
 .content__sales {

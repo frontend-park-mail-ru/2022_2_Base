@@ -428,10 +428,12 @@
 
   .payment-cart {
     grid-column-end: 3;
+    height: 24vw;
   }
 
   .user-data-cart {
     grid-row-start: 4;
     grid-column-start: 1;
+    height: 24vw;
   }
 }

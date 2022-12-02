@@ -29,7 +29,7 @@ export default class BasePopUp extends BaseComponent {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
-            document.getElementById('body').style.overflow = 'visible'
+            document.getElementById('body').style.overflow = 'visible';
         }
     }
 

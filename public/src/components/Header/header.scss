@@ -6,13 +6,15 @@ header {
   position: sticky;
   top: 0;
   z-index: 999;
+  border-radius: 0 0 10px 10px;
 }
+
 header,
 footer {
-    max-width: 1400px;
-    min-width: min(1400px, 100vw);
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 1400px;
+  min-width: min(1400px, 100vw);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header__left {
@@ -36,17 +38,17 @@ footer {
   align-self: center;
 }
 
-.header__search-block{
+.header__search-block {
   display: flex;
 }
 
 .header__search-line {
-    display: grid;
-    grid-template-columns: 0fr auto max-content;
-    background-color: var(--background-white);
-    border-radius: 10px;
-    border: solid 2px;
-    border-color: var(--pure-white);
+  display: grid;
+  grid-template-columns: 0fr auto max-content;
+  background-color: var(--background-white);
+  border-radius: 10px;
+  border: solid 2px;
+  border-color: var(--pure-white);
 }
 
 .header__search-line:hover {
@@ -54,12 +56,12 @@ footer {
 }
 
 .header__form-search {
-    border-left-width: 10px;
-    border-color: rgb(0 0 0 / 0%);
-    width: 100%;
-    height: 40px;
-    background: var(--background-white);
-    border-radius: 10px;
+  border-left-width: 10px;
+  border-color: rgb(0 0 0 / 0%);
+  width: 100%;
+  height: 40px;
+  background: var(--background-white);
+  border-radius: 10px;
 }
 
 .header__form-search:focus {
@@ -240,7 +242,7 @@ footer {
   header {
     grid-template-columns: 2fr 1fr;
   }
-  
+
   .header__left {
     grid-template-columns: auto auto 1fr;
     grid-column-gap: 8px
@@ -318,7 +320,7 @@ footer {
     grid-template-columns: none;
     grid-template-rows: 1fr 1fr;
   }
-  
+
   .header__right {
     justify-items: center;
   }

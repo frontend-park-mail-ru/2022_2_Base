@@ -268,7 +268,7 @@ export default class CartOrderPage extends BasePage {
                 }
                 if (popUpFade) {
                     popUpFade.style.display = 'none';
-                    document.getElementById('body').style.overflow = 'visible'
+                    document.getElementById('body').style.overflow = 'visible';
                 }
                 break;
             }
