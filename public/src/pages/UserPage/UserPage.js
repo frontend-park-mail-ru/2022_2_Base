@@ -175,6 +175,7 @@ export default class UserPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
+            document.getElementById('body').style.overflow = 'visible'
         }
     }
 

@@ -51,6 +51,7 @@ export default class BaseInfoCard extends BaseComponent {
         }
         if (this.PopUpFade) {
             this.PopUpFade.style.display = 'grid';
+            document.getElementById('body').style.overflow = 'hidden'
         }
 
         this.PopUpClass.render(data);

@@ -31,6 +31,7 @@ export default class PopUpEditUserInfo extends BaseComponent {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
+            document.getElementById('body').style.overflow = 'visible'
         }
     }
 
