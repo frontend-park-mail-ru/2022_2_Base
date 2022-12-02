@@ -1,12 +1,14 @@
 <div id="block-button-add-to-cart" data-id="{{this.id}}">
     <div class="button-default add-to-cart-button"
-        id="button-add-to-cart/{{this.id}}">
+        id="button-add-to-cart/{{this.id}}"
+        {{#if this.count}}
+         style="display: none;" {{/if}}>
         В корзину
     </div>
     <div class="add-to-cart-button_amount-selector" id="amount-selector/{{this.id}}"
-        data-amount="{{this.count}}">
+        data-amount="{{this.count}}" {{#if this.count}} style="display: grid;" {{/if}}>
         <button class="button-notext">
-            <span class="link__no-color text-normal-large" id="button-minus_cart/{{this.id}}">−</span>
+            <span class="link__no-color text-normal-large" id="button-minus_cart/{{this.id}}">&minus;</span>
         </button>
         <div class="add-to-cart-button_amount-selector__amount">
     <span class="text-normal-large" id="amount/{{this.id}}">
