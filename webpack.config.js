@@ -125,11 +125,11 @@ const webPackConfig = {
                     handler: 'NetworkFirst',
                     options: {cacheName: 'api-cache'},
                 },
-                // {
-                //     urlPattern: new RegExp('https://www.reazon.ru'),
-                //     handler: 'StaleWhileRevalidate',
-                //     options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-                // },
+                {
+                    urlPattern: new RegExp('https://www.reazon.ru/img/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
             ],
         }),
     ],
