@@ -5,12 +5,12 @@ header {
   margin-top: 4px;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
 }
 header,
 footer {
     max-width: 1400px;
-    min-width: min(1400px, 100%);
+    min-width: min(1400px, 100vw);
     margin-left: auto;
     margin-right: auto;
 }

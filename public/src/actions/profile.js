@@ -105,7 +105,7 @@ export const profileAction = {
     },
 
     /** Удаление адреса с определенным id.
-     * @param {int} id
+     * @param {number} id
      */
     deleteAddress(id) {
         Dispatcher.dispatch({
