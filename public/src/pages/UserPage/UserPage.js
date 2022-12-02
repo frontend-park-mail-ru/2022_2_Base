@@ -262,6 +262,7 @@ export default class UserPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'block';
+            document.getElementById('body').style.overflow = 'hidden';
         }
         this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
         this.PopUpEditUserInfo.render(element);
