@@ -187,6 +187,7 @@ class Router {
      * @return {boolean} - зарегистрирована ли такая страница
      */
     openPage(path, addToHistory = this.addToHistory) {
+        document.documentElement.scrollTop = 0;
         const goToPath = (path?.slice(0, path.lastIndexOf('/')) ?
             path?.slice(0, path.lastIndexOf('/')) : path);
         this.#currentPage.removeEventListener();

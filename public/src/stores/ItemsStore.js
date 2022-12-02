@@ -221,18 +221,28 @@ class ItemsStore extends BaseStore {
     }
 
     /**
-     * Синхранизируем количество товаров в корзине
-     * @param {object} items - полученные товары
+     * Синхронизируем количество товаров в корзине
+     * @param {Array<Object>} items - полученные товары
      */
     #syncWithCart(items) {
-        const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
-        if (items && cartItems && items.length && cartItems.length) {
+        if (Array.isArray(items)) {
             items.forEach((item) => {
-                cartItems.forEach((cartItem) => {
-                    if (cartItem.id === item.id) {
-                        item.count = cartItem.count;
-                    }
-                });
+                this.#syncItemWithCart(item);
+            });
+        }
+    }
+
+    /**
+     * Синхронизируем количество товара в корзине
+     * @param {Object} item - полученный товар
+     */
+    #syncItemWithCart(item) {
+        const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
+        if (Array.isArray(cartItems)) {
+            cartItems.forEach((cartItem) => {
+                if (cartItem.id === item.id) {
+                    item.count = cartItem.count;
+                }
             });
         }
     }
@@ -309,7 +319,7 @@ class ItemsStore extends BaseStore {
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this.#syncWithCart(response.body);
+            this.#syncItemWithCart(response.body);
             addSpacesToPrice(response.body);
             this._storage.set(this._storeNames.itemData, response.body);
             this.#syncCardsInCategory(response.body);
