@@ -32,7 +32,7 @@ self.addEventListener('fetch', (event) => {
                     return fetch(event.request) // Получить данные из сети
                         .then((res) => {
                             const resClone = res.clone();
-                            putInCache(event.request, resClone).then((r) => console.log(r));
+                            putInCache(event.request, resClone);
                             return res;
                         })
                         .catch((err) => console.error(err));

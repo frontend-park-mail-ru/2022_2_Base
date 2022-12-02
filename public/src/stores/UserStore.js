@@ -330,8 +330,13 @@ class UserStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.avatar,
-                URL.createObjectURL(avatar));
+            if (avatar) {
+                this._storage.set(this._storeNames.avatar,
+                    URL.createObjectURL(avatar));
+            } else {
+                this._storage.set(this._storeNames.avatar,
+                    'img/UserPhoto.webp');
+            }
         }
     }
 
