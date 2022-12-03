@@ -13,7 +13,7 @@ class ErrorMessage {
         const errorMsg = document.getElementById(nameId + 'Error');
         if (!errorMsg) {
             const div = document.createElement('div');
-            div.id = nameId + 'Error';
+            div.id = nameId;
             const span = document.createElement('span');
             div.appendChild(span);
             if (additionalClasses) {
@@ -32,6 +32,7 @@ class ErrorMessage {
      * @param {object} nameId название поля
      */
     deleteErrorMessage(nameId) {
+        console.log('deleteErrorMessage', document.getElementById(nameId + 'Error'), nameId);
         if (document.getElementById(nameId + 'Error')) {
             document.getElementById(nameId + 'Error').remove();
         }
@@ -102,10 +103,7 @@ class ErrorMessage {
                 element.errorID, valData.message, additionalClasses);
             return false;
         }
-
         this.deleteErrorMessage(element.errorID);
-
-        return true;
     }
 }
 
