@@ -32,7 +32,6 @@ class ErrorMessage {
      * @param {object} nameId название поля
      */
     deleteErrorMessage(nameId) {
-        console.log('deleteErrorMessage', document.getElementById(nameId + 'Error'), nameId);
         if (document.getElementById(nameId + 'Error')) {
             document.getElementById(nameId + 'Error').remove();
         }
@@ -104,6 +103,7 @@ class ErrorMessage {
             return false;
         }
         this.deleteErrorMessage(element.errorID);
+        return true;
     }
 }
 

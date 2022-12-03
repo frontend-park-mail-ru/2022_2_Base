@@ -77,7 +77,6 @@ export default class LoginPage extends BasePage {
      * @param {object} event событие получения фокуса полем
      */
     async onFocusinHandler(event) {
-        console.log('lol', event.target.name);
         errorMessage.deleteErrorMessage(event.target.name);
     };
 
