@@ -85,7 +85,6 @@ class RefreshEl {
     onAuth() {
         router.remove(config.href.login);
         router.remove(config.href.signup);
-        router.register(config.href.user, UserPage);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 
@@ -95,7 +94,6 @@ class RefreshEl {
     onLogOut() {
         router.register(config.href.login, LoginPage);
         router.register(config.href.signup, RegisterPage);
-        router.remove(config.href.user);
         router.refresh(config);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
