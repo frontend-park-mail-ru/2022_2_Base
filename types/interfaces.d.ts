@@ -1,7 +1,3 @@
-import {truncatePrice} from '../public/src/modules/sharedFunctions';
-import PopUpAddPaymentCard from '../public/src/components/popUp/PopUpAddPaymentCard/PopUpAddPaymentCard';
-import PopUpAddAddress from '../public/src/components/popUp/PopUpAddAddress/PopUpAddAddress';
-
 interface baseStoreObject {
     callbacks: emptyCallback,
     promise: Promise<string> | null,
@@ -61,4 +57,34 @@ interface PaymentCardObj {
     avatar: string,
     id: string,
     addCard?: boolean,
+}
+
+interface OrderDataObj {
+    items: Array<number>,
+    address?: number,
+    deliveryDate?: string,
+    card?: number,
+}
+
+interface summaryPrice{
+    sumPrice?: string,
+    count?: string,
+    noSalePrice?: string,
+    priceDiff?: string,
+}
+
+interface renderCart{
+    address?: any,
+    paymentCard?: any,
+    isAuth?: boolean,
+    avatar?: string,
+    username?: string,
+    phone?: string,
+    deliveryPrice?: string,
+    deliveryDate?: string[],
+}
+
+interface dispatcherPayload{
+    actionName: string,
+    data?: any
 }

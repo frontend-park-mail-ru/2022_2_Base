@@ -15,10 +15,10 @@ import {getQueryParams} from '../../../modules/sharedFunctions';
 export default class SearchPage extends CatalogPage {
     /**
      * Конструктор, создающий класс компонента PaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(parent, [itemCardsAction.searchItemCards,
             itemCardsAction.localSortRating, itemCardsAction.localSortPrice]);
     }
@@ -26,7 +26,7 @@ export default class SearchPage extends CatalogPage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         super.addListener();
         itemsStore.addListener(this.loadSearchItemCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_SEARCH);
@@ -56,11 +56,12 @@ export default class SearchPage extends CatalogPage {
 
     /**
      * Функция, подгружающая и отрисовывающая карточки товаров
-     * @param {Array} searchResult результаты поиска
+     * @param {Array} searchResult - результаты поиска
      */
     loadSearchItemCards(searchResult = itemsStore.getContext(itemsStore._storeNames.cardsCategory)) {
-        if (searchResult && searchResult.length) {
-            const Card = new CatalogItemCard(document.getElementById('items-block'));
+        const itemsBlock = document.getElementById('items-block');
+        if (searchResult && searchResult.length && itemsBlock) {
+            const Card = new CatalogItemCard(itemsBlock);
             Card.render(searchResult);
         } else {
             refreshElements.showUnAuthPage({
@@ -85,7 +86,7 @@ export default class SearchPage extends CatalogPage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         const searchString = (getQueryParams() as any).q ?? '';
         const errorMessageSearch = validation.validateSearchField(searchString);
         if (errorMessageSearch === '') {

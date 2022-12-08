@@ -61,7 +61,7 @@ class ItemsStore extends BaseStore {
     };
 
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         super();
@@ -80,9 +80,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {Object} payload полезная нагрузка запроса
+     * @param payload - полезная нагрузка запроса
      */
-    async _onDispatch(payload: any) {
+    override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
             await this._getItemCardsHome(payload.data);
@@ -150,10 +150,7 @@ class ItemsStore extends BaseStore {
     /**
      * Действие: запрос списка карточек.
      */
-    async _getItemCardsHome({
-        path,
-        popularCard
-    }: any) {
+    async _getItemCardsHome({path, popularCard}: any) {
         // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
@@ -173,9 +170,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка дешевых карточек.
-     * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
+     * @param isLowToHighPrice - получали ли мы до этого карточки
      */
-    _getByPriceItemCard(isLowToHighPrice: any) {
+    _getByPriceItemCard(isLowToHighPrice: boolean) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighPrice ?
@@ -184,9 +181,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек с высоким рейтингом.
-     * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
+     * @param isLowToHighRating - получали ли мы до этого карточки
      */
-    _getByRatingItemCard(isLowToHighRating: any) {
+    _getByRatingItemCard(isLowToHighRating: boolean) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighRating ?
@@ -195,9 +192,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка дешевых карточек.
-     * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
+     * @param isLowToHighPrice - получали ли мы до этого карточки
      */
-    _localSortPrice(isLowToHighPrice: any) {
+    _localSortPrice(isLowToHighPrice: boolean) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
                 (item1st: any, item2nd: any) => {
@@ -211,9 +208,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек с высоким рейтингом.
-     * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
+     * @param isLowToHighRating - получали ли мы до этого карточки
      */
-    _localSortRating(isLowToHighRating: any) {
+    _localSortRating(isLowToHighRating: boolean) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
                 (item1st: any, item2nd: any) => {
@@ -227,9 +224,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Синхронизируем количество товаров в корзине
-     * @param {Array<Object>} items - полученные товары
+     * @param items - полученные товары
      */
-    #syncWithCart(items: any) {
+    #syncWithCart(items: Array<any>) {
         if (Array.isArray(items)) {
             items.forEach((item) => {
                 this.#syncItemWithCart(item);
@@ -239,7 +236,7 @@ class ItemsStore extends BaseStore {
 
     /**
      * Синхронизируем количество товара в корзине
-     * @param {Object} item - полученный товар
+     * @param item - полученный товар
      */
     #syncItemWithCart(item: any) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
@@ -254,7 +251,7 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек по категориям.
-     * @return {string} путь запроса к серверу
+     * @returns путь запроса к серверу
      */
     #getRequestPathWithQueryParams() {
         return config.api.category +
@@ -268,9 +265,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек по категориям.
-     * @param {boolean} isFirstRequest - получали ли мы до этого карточки
+     * @param isFirstRequest - получали ли мы до этого карточки
      */
-    async _getItemCardsByCategory(isFirstRequest: any) {
+    async _getItemCardsByCategory(isFirstRequest: boolean) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
             this._storage.set(this._storeNames.allCardsInCategory, []);
@@ -300,7 +297,7 @@ class ItemsStore extends BaseStore {
 
     /**
      * Функция, обновляющая информацию о загруженных картах
-     * @param {object} body - данные для добавления
+     * @param body - данные для добавления
      */
     #syncCardsInCategory(body: any) {
         this._storage.set(
@@ -359,9 +356,9 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
+     * @param searchString - строка для поиска
      */
-    async _getSearchResults(searchString: any) {
+    async _getSearchResults(searchString: string) {
         const [status, response] = await request
             .makePostRequest(config.api.search, {search: searchString})
             .catch((err) => console.log(err));
@@ -375,7 +372,7 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {object} data - строка для поиска
+     * @param data - строка для поиска
      */
     async _getSuggestionSearch(data: any) {
         if (data.isCategory) {
@@ -394,7 +391,7 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: отправка отзыва.
-     * @param {object} comment - данные отзыва
+     * @param comment - данные отзыва
      */
     async _addComment(comment: any) {
         comment.itemid = this._storage.get(this._storeNames.itemData).id;
@@ -402,9 +399,6 @@ class ItemsStore extends BaseStore {
         const [status] = await request
             .makePostRequest(config.api.makeComment, comment);
         this._storage.set(this._storeNames.responseCode, status);
-
-        if (status === config.responseCodes.code200) {
-        }
     }
 }
 

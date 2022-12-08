@@ -16,7 +16,7 @@ class OrdersStore extends BaseStore {
     };
 
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         super();
@@ -41,9 +41,9 @@ class OrdersStore extends BaseStore {
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {Object} payload полезная нагрузка запроса
+     * @param payload - полезная нагрузка запроса
      */
-    async _onDispatch(payload: any) {
+    override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case OrderActionTypes.GET_ORDERS:
             await this._getOrders();
@@ -54,9 +54,9 @@ class OrdersStore extends BaseStore {
 
     /**
      * Метод, дополняющий информацию о заказах.
-     * @param {Array} orders полезная нагрузка запроса
+     * @param orders - полезная нагрузка запроса
      */
-    #prepareOrdersData(orders: any) {
+    #prepareOrdersData(orders: Array<any>) {
         orders.forEach((item: any) => {
             item.totalPrice = item.items.reduce((price: any, itemCard: any) => {
                 _addSpacesToItemPrice(itemCard);

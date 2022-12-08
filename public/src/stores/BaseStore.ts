@@ -1,4 +1,5 @@
 import Dispatcher from '../modules/dispatcher';
+import {baseStoreObject} from '../../../types/interfaces';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -8,7 +9,7 @@ export default class BaseStore {
     _events: Map<string, baseStoreObject>;
     _storage: Map<string, any>;
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         this._changed = false;
@@ -19,8 +20,8 @@ export default class BaseStore {
 
     /**
      * Метод, возвращающий текущее состояние (контекст) хранилища.
-     * @param {string} field возвращаемое поле
-     * @return {any} контекст хранилища
+     * @param field - возвращаемое поле
+     * @returns контекст хранилища
      */
     getContext(field: string) {
         return (field ? this._storage.get(field) : this._storage);
@@ -28,8 +29,8 @@ export default class BaseStore {
 
     /**
      * Метод, добавляющий нового слушателя.
-     * @param {emptyCallback} callback функция-обработчик
-     * @param {String} changeEvent наименование события
+     * @param callback - функция-обработчик
+     * @param changeEvent - наименование события
      */
     addListener(callback: emptyCallback, changeEvent: string) {
         this._events.set(changeEvent, {
@@ -40,7 +41,7 @@ export default class BaseStore {
 
     /**
      * Метод, проверяющий, изменилось ли хранилище
-     * @return {boolean} результат проверки
+     * @returns результат проверки
      */
     hasChanged() {
         return this._changed;
@@ -48,7 +49,7 @@ export default class BaseStore {
 
     /**
      * Метод, устанавливающий статус "изменено".
-     * @param {Array<string>} events произошедшие события
+     * @param events - произошедшие события
      */
     _emitChange(events: Array<string>) {
         if (events.every((val: string) => this._events.get(val)!.promise = Promise.resolve(val))) {
@@ -60,7 +61,7 @@ export default class BaseStore {
 
     /**
      * Метод, реализующий обертку под _onDispatch.
-     * @param {object} payload полезная нагрузка
+     * @param payload - полезная нагрузка
      */
     async _invokeOnDispatch(payload: object) {
         this._changed = false;
@@ -80,7 +81,7 @@ export default class BaseStore {
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {object} payload полезная нагрузка запроса
+     * @param payload - полезная нагрузка запроса
      */
     async _onDispatch(payload: object) {
         throw new Error('Store: метод _onDispatch должен быть реализован в подклассе');

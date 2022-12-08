@@ -1,4 +1,3 @@
-// @ts-expect-error TS(2307): Cannot find module './CommentPage.hbs' or its corr... Remove this comment to see the full error message
 import CommentPagePageTemplate from './CommentPage.hbs';
 import './CommentPage.scss';
 import Comment from '../../../components/Comment/Comment.js';
@@ -17,9 +16,9 @@ export default class CommentPage extends BaseItemPage {
     createOrderButton: any;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             CommentPagePageTemplate,
@@ -30,16 +29,15 @@ export default class CommentPage extends BaseItemPage {
 
     /**
      * Функция, загружающая дополнительные данные
-     * @param {object} data объект для добавления данных
      */
-    loadMoreData(data: any) {
+    override loadMoreData() {
         itemCardsAction.getComments();
     }
 
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         super.addListener();
         itemsStore.addListener(this.listenCommentsLoad, ItemCardsActionTypes.GET_COMMENTS);
     }
@@ -48,11 +46,15 @@ export default class CommentPage extends BaseItemPage {
      * Функция, регистрирующая на загрузку комментариев
      */
     listenCommentsLoad() {
-        const comments = new Comment(document.getElementById('comments'));
-        comments.render(itemsStore.getContext(itemsStore._storeNames.comments).map((comment: any) => {
-            comment[`rating${comment.rating}`] = true;
-            return comment;
-        }));
+        const commentElement = document.getElementById('comments');
+        if (commentElement) {
+            const comments = new Comment(commentElement);
+            comments.render(itemsStore.getContext(itemsStore._storeNames.comments)
+                .map((comment: any) => {
+                    comment[`rating${comment.rating}`] = true;
+                    return comment;
+                }));
+        }
     }
 
     /**
@@ -60,7 +62,8 @@ export default class CommentPage extends BaseItemPage {
      */
     listenAddCommentButton() {
         if (itemsStore.getContext(itemsStore._storeNames.comments)
-            .find((comment: any) => comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
+            .find((comment: any) =>
+                comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
             errorMessage.getAbsoluteErrorMessage('Вы уже создали отзыв об этом товаре');
         } else {
             router.openPage(
@@ -75,7 +78,7 @@ export default class CommentPage extends BaseItemPage {
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         this.createOrderButton = document.getElementById('add-comment-btn');
         if (this.createOrderButton) {
             this.createOrderButton.addEventListener('click', this.listenAddCommentButton);
@@ -85,7 +88,7 @@ export default class CommentPage extends BaseItemPage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.createOrderButton) {
             this.createOrderButton.removeEventListener('click', this.listenAddCommentButton);
         }

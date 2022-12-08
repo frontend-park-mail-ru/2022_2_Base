@@ -1,4 +1,3 @@
-// @ts-expect-error TS(2307): Cannot find module './CartPage.hbs' or its corresp... Remove this comment to see the full error message
 import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage';
 import CartItem from '../../components/CartItem/CartItem';
@@ -13,36 +12,51 @@ import itemsStore from '../../stores/ItemsStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import router from '../../modules/Router';
-import {getDate, parseIntInPrice, truncatePrice} from '../../modules/sharedFunctions';
+import {
+    getDate,
+    getTextContent,
+    parseIntInPrice,
+    setTextContent,
+    truncatePrice,
+} from '../../modules/sharedFunctions';
 import refreshElements from '../../modules/refreshElements';
 
 /**
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
-    PopUpChooseAddressAndPaymentCard: any;
-    addressCart: any;
-    bindListenChangeCheckbox: any;
-    bindListenClickAddressAndPaymentCardBlock: any;
-    bindListenClickProductsBlock: any;
-    cartContent: any;
-    createOrder: any;
-    productsContent: any;
+    PopUpChooseAddressAndPaymentCard: PopUpChooseAddressAndPaymentCard | undefined;
+    addressCart: HTMLElement | null;
+    bindListenChangeCheckbox: addListenerFunction;
+    bindListenClickAddressAndPaymentCardBlock: addListenerFunction;
+    bindListenClickProductsBlock: addListenerFunction;
+    cartContent: HTMLElement | null;
+    createOrder: HTMLElement | null;
+    productsContent: HTMLElement | null;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             CartPageTemplate,
         );
+
+        this.addressCart = null;
+        this.cartContent = null;
+        this.createOrder = null;
+        this.productsContent = null;
+
+        this.bindListenChangeCheckbox = config.noop;
+        this.bindListenClickAddressAndPaymentCardBlock = config.noop;
+        this.bindListenClickProductsBlock = config.noop;
     }
 
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.DELETE_ALL);
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
@@ -52,9 +66,9 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, вызывающая action функцию отрисовки при удалении товара
-     * @param {number} id - id удаленного товара
+     * @param id - id удаленного товара
      */
-    deleteItem(id: any) {
+    deleteItem(id: number) {
         cartAction.deleteById(id);
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
         if (deleteElement) {
@@ -80,10 +94,10 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, считающая итоговую стоимость товаров в корине
-     * @param {array} data
-     * @param {object} context
+     * @param data - данные для вычисления
+     * @param context - контекст
      */
-    #calcSummaryPrice(data: any, context: any) {
+    #calcSummaryPrice(data: Array<priceData>, context: any) {
         /*
         * мы считаем сумму товаров в корзине (sumPrice), сумму скидок (noSalePrice),
         * итоговую разницу цены со скидкой и без скидки (priceDiff), количество товаров (count).
@@ -91,7 +105,7 @@ export default class CartOrderPage extends BasePage {
         * и не создавать лишних переменных
         * */
         [context.sumPrice, context.noSalePrice, context.priceDiff, context.count] =
-            data.reduce((sumVal: any, key: any) => {
+            data.reduce((sumVal: Array<number>, key: any) => {
                 // sumPrice
                 sumVal[0] += key.lowprice * key.count ?? key.price * key.count;
                 // noSalePrice
@@ -101,48 +115,51 @@ export default class CartOrderPage extends BasePage {
                 // count
                 sumVal[3] += key.count;
                 return sumVal;
-            }, [0, 0, 0, 0]).map((val: any) => {
+            }, [0, 0, 0, 0]).map((val: number) => {
                 return truncatePrice(val);
             });
     }
 
     /**
      * Функция, отрисовывающая корзину
-     * @param {object} data - данные для заполнения
+     * @param data - данные для заполнения
      */
-    renderCart(data: any) {
+    renderCart(data: Array<priceData>) {
         if (data && data.length) {
-            const context = {};
+            const context: renderCart = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
                 address.forEach((key: any) => {
-    if (key.priority) {
-        (context as any).address = key;
-    }
-});
+                    if (key.priority) {
+                        context.address = key;
+                    }
+                });
             }
             const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
             if (paymentCards) {
                 paymentCards.forEach((key: any) => {
-    if (key.priority) {
-        (context as any).paymentCard = key;
-    }
-});
+                    if (key.priority) {
+                        context.paymentCard = key;
+                    }
+                });
             }
-            (context as any).isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            if ((context as any).isAuth) {
-                (context as any).avatar = userStore.getContext(userStore._storeNames.avatar);
-                (context as any).username = userStore.getContext(userStore._storeNames.name);
-                (context as any).phone = userStore.getContext(userStore._storeNames.phone);
+            context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
+            if (context.isAuth) {
+                context.avatar = userStore.getContext(userStore._storeNames.avatar);
+                context.username = userStore.getContext(userStore._storeNames.name);
+                context.phone = userStore.getContext(userStore._storeNames.phone);
             }
-            (context as any).deliveryPrice = 'Бесплатно';
-            (context as any).deliveryDate = getDate(1);
+            context.deliveryPrice = 'Бесплатно';
+            context.deliveryDate = getDate(1);
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
-            const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
-            cartItem.render(data);
-            this.startEventListener();
+            const checkBoxes = document.getElementById('checkboxes_cart');
+            if (checkBoxes) {
+                const cartItem = new CartItem(checkBoxes);
+                cartItem.render(data);
+                this.startEventListener();
+            }
         } else {
             refreshElements.showUnAuthPage({
                 text: 'Корзина пуста. Случайно не нужен',
@@ -170,10 +187,10 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {string} elementToEditID - id поля, которе надо будет изменить в попапе
-     * @param {object} context - данные для передачи в попап
+     * @param elementToEditID - id поля, которе надо будет изменить в попапе
+     * @param context - данные для передачи в попап
      */
-    #handleEditPopup(elementToEditID: any, context: any) {
+    #handleEditPopup(elementToEditID: string, context: object) {
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {
@@ -181,8 +198,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'grid';
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            document.getElementById('body').style.overflow = 'hidden';
+            config.HTMLskeleton.body.style.overflow = 'hidden';
         }
         this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
         this.PopUpChooseAddressAndPaymentCard.render(context);
@@ -195,20 +211,21 @@ export default class CartOrderPage extends BasePage {
     /**
      * Функция, Выбирающая какие данные надо отобразить в корзине
      * при выборе способа оплаты или адреса доставаки в попапе
-     * @param {string} choiceIdWithType название поля для изменения
-     * @param {string} choiceId id карты для отображения
-     * @param {string} data данные для отображения в корзине
+     * @param choiceIdWithType - название поля для изменения
+     * @param choiceId - id карты для отображения
+     * @param data - данные для отображения в корзине
      */
-    #choiceIdType(choiceIdWithType: any, choiceId: any, data: any) {
+    #choiceIdType(choiceIdWithType: string, choiceId: string, data: string) {
         switch (choiceIdWithType) {
-        case 'address':
+        case 'address': {
             const addressField = document.querySelector('.addressID');
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            addressField.textContent = data;
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            addressField.id = `address/${choiceId}`;
+            if (addressField) {
+                addressField.textContent = data;
+                addressField.id = `address/${choiceId}`;
+            }
             break;
-        case 'paymentCard':
+        }
+        case 'paymentCard': {
             const cardNumber = document.querySelectorAll('.card-number');
             if (cardNumber) {
                 cardNumber.forEach((key) => {
@@ -221,152 +238,167 @@ export default class CartOrderPage extends BasePage {
                     key.id = `paymentCard/${choiceId}`;
                 });
             }
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            document.getElementById('final-paymentmethod').textContent = 'Картой';
+            const summaryPayment = document.getElementById('final-paymentmethod');
+            if (summaryPayment) {
+                summaryPayment.textContent = 'Картой';
+            }
             break;
-        case 'payment-upon-receipt':
+        }
+        case 'payment-upon-receipt': {
             const paymentReceipt = document.querySelectorAll('.card-number');
             if (paymentReceipt) {
                 paymentReceipt.forEach((key) => {
                     key.textContent = data;
                 });
             }
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            document.getElementById('final-paymentmethod').textContent = 'При получении';
+            const summaryPayment = document.getElementById('final-paymentmethod');
+            if (summaryPayment) {
+                summaryPayment.textContent = 'При получении';
+            }
+        }
         }
     }
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {HTMLElement} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    async listenClickAddressAndPaymentCardBlock(event: any) {
-        let elementId = event.target.id;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId] = elementId.split('/');
-            }
-            switch (elementId) {
-            case 'edit-address':
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                this.#handleEditPopup(document.querySelector('.address-cart__main').id,
-                    {
-                        address: userStore.getContext(userStore._storeNames.address),
-                        isAddress: true,
-                    });
-                break;
-            case 'edit-payment-card':
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
-                    {
-                        paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
-                    });
-                break;
-            case 'cart-popup-form__apply':
-                event.preventDefault();
-                const choice = document.querySelector('.choice');
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                const data = choice.getAttribute('value');
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                let choiceId = choice.id;
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                let choiceIdWithType = choice.id;
-                if (choiceIdWithType) {
-                    if (choiceIdWithType.includes('/')) {
-                        [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
-                    } else {
-                        choiceId = choiceIdWithType;
+    async listenClickAddressAndPaymentCardBlock(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            let elementId = event.target.id;
+            if (elementId) {
+                if (elementId.includes('/')) {
+                    [elementId] = elementId.split('/');
+                }
+                switch (elementId) {
+                case 'edit-address': {
+                    const addressCard = document.querySelector('.address-cart__main');
+                    if (addressCard) {
+                        this.#handleEditPopup(addressCard.id,
+                            {
+                                address: userStore.getContext(userStore._storeNames.address),
+                                isAddress: true,
+                            },
+                        );
                     }
-                    this.#choiceIdType(choiceIdWithType, choiceId, data);
+                    break;
                 }
-                const popUp = document.getElementById('popUp');
-                const popUpFade = document.getElementById('popUp-fade');
-                if (popUp) {
-                    popUp.style.display = 'none';
-                    popUp.replaceChildren();
+                case 'edit-payment-card': {
+                    const paymentCard = document.querySelector('.payment-method__cart');
+                    if (paymentCard) {
+                        this.#handleEditPopup(paymentCard.id,
+                            {
+                                paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
+                            },
+                        );
+                    }
+                    break;
                 }
-                if (popUpFade) {
-                    popUpFade.style.display = 'none';
-                    // @ts-expect-error TS(2531): Object is possibly 'null'.
-                    document.getElementById('body').style.overflow = 'visible';
+                case 'cart-popup-form__apply': {
+                    event.preventDefault();
+                    const choice = document.querySelector('.choice');
+                    if (choice) {
+                        const data = choice.getAttribute('value');
+                        let choiceId = choice.id;
+                        let choiceIdWithType = choice.id;
+                        if (choiceIdWithType) {
+                            if (choiceIdWithType.includes('/')) {
+                                [choiceIdWithType, choiceId] = choiceIdWithType.split('/');
+                            } else {
+                                choiceId = choiceIdWithType;
+                            }
+                            this.#choiceIdType(choiceIdWithType, choiceId, data ?? '');
+                        }
+                        const popUp = document.getElementById('popUp');
+                        const popUpFade = document.getElementById('popUp-fade');
+                        if (popUp) {
+                            popUp.style.display = 'none';
+                            popUp.replaceChildren();
+                        }
+                        if (popUpFade) {
+                            popUpFade.style.display = 'none';
+                            config.HTMLskeleton.body.style.overflow = 'visible';
+                        }
+                    }
+                    break;
                 }
-                break;
+                }
             }
         }
     }
 
     /**
      * Функция, обрабатывающая выбор даты и времени доставки
-     * @param {Event} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    async listenChangeDateAndTime(event: any) {
+    async listenChangeDateAndTime(event: Event) {
         const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-            }
-            switch (elementId) {
-            case 'delivery-date':
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                document.getElementById('date-delivery').textContent =
-                        // @ts-expect-error TS(2531): Object is possibly 'null'.
-                        document.getElementById(`delivery-date-value/${itemId}`).textContent;
-                break;
-            case 'delivery-time':
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                document.getElementById('time-delivery').textContent =
-                        // @ts-expect-error TS(2531): Object is possibly 'null'.
-                        document.getElementById(`delivery-time-value/${itemId}`).textContent;
-                break;
+        if (target instanceof HTMLInputElement) {
+            let elementId = target.id;
+            let itemId;
+            if (elementId) {
+                if (elementId.includes('/')) {
+                    [elementId, itemId] = elementId.split('/');
+                }
+                switch (elementId) {
+                case 'delivery-date':
+                    setTextContent(document.getElementById('date-delivery'),
+                        getTextContent(document.getElementById(`delivery-date-value/${itemId}`)));
+                    break;
+                case 'delivery-time':
+                    setTextContent(document.getElementById('time-delivery'),
+                        getTextContent(document.getElementById(`delivery-time-value/${itemId}`)));
+                    break;
+                }
             }
         }
     }
 
     /**
      * Функция, обрабатывающая клики в блоке товаров
-     * @param {Event} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    async listenClickProductsBlock(event: any) {
+    async listenClickProductsBlock(event: Event) {
         const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-            }
-            switch (elementId) {
-            case 'empty-cart':
-                cartAction.deleteAll();
-                break;
-            case 'delete-cart-item':
-                this.deleteItem(parseInt(itemId));
-                break;
-            case 'button-minus_cart':
-                const amountItem = document.getElementById(`count-product/${itemId}`);
-                if (amountItem) {
-                    // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-                    const count = parseInt(amountItem.textContent);
-                    if (count === 1) {
-                        this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
-                    } else {
-                        cartAction.decreaseNumber(parseInt(itemId));
-                        amountItem.textContent = (count - 1).toString();
+        if (target instanceof HTMLInputElement) {
+            let elementId = target.id;
+            let itemId;
+            if (elementId) {
+                if (elementId.includes('/')) {
+                    [elementId, itemId] = elementId.split('/');
+                }
+                switch (elementId) {
+                case 'empty-cart':
+                    cartAction.deleteAll();
+                    break;
+                case 'delete-cart-item':
+                    this.deleteItem(parseInt(itemId ?? ''));
+                    break;
+                case 'button-minus_cart': {
+                    const amountItem = document.getElementById(`count-product/${itemId}`);
+                    if (amountItem) {
+                        const count = parseInt(amountItem.textContent ?? '');
+                        if (count === 1) {
+                            this.deleteItem(parseInt(itemId ?? '')); // удаление элемента из корзины
+                        } else {
+                            cartAction.decreaseNumber(parseInt(itemId ?? ''));
+                            amountItem.textContent = (count - 1).toString();
+                            this.renderTotalCost();
+                        }
+                    }
+                    break;
+                }
+                case 'button-plus_cart': {
+                    const itemAmount = document.getElementById(`count-product/${itemId}`);
+                    if (itemAmount) {
+                        cartAction.increaseNumber(parseInt(itemId ?? ''));
+                        const count = parseInt(itemAmount.textContent ?? '');
+                        itemAmount.textContent = (count + 1).toString();
                         this.renderTotalCost();
                     }
+                    break;
                 }
-                break;
-            case 'button-plus_cart':
-                const itemAmount = document.getElementById(`count-product/${itemId}`);
-                if (itemAmount) {
-                    cartAction.increaseNumber(parseInt(itemId));
-                    // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-                    const count = parseInt(itemAmount.textContent);
-                    itemAmount.textContent = (count + 1).toString();
-                    this.renderTotalCost();
                 }
-                break;
             }
         }
     }
@@ -379,81 +411,84 @@ export default class CartOrderPage extends BasePage {
         const itemsCart = document.getElementsByClassName('cart-item__cart');
         if (itemsCart) {
             Array.from(itemsCart).forEach((child) => {
-    const check = child.getElementsByClassName('checkbox-opt')[0];
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
-    const itemId = check.getAttribute('id').split('/')[1];
-    if ((check as any).checked) {
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        const lowprice = parseIntInPrice(document.getElementById(`price/${itemId}`).textContent);
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        let price = parseIntInPrice(document.getElementById(`sale-price/${itemId}`).textContent);
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        const count = parseIntInPrice(document.getElementById(`count-product/${itemId}`).textContent);
-        if (Number.isNaN(price)) {
-            price = lowprice;
-        }
-        data.push({
-            lowprice: lowprice,
-            price: price,
-            count: count,
-        });
-    }
-});
+                const check = child.getElementsByClassName('checkbox-opt')[0];
+                const itemId = check.id.split('/')[1];
+                if (check instanceof HTMLInputElement && check.checked) {
+                    const priceEl = document.getElementById(`price/${itemId}`);
+                    const salePriceEl = document.getElementById(`sale-price/${itemId}`);
+                    const countProductsEl = document.getElementById(`count-product/${itemId}`);
+                    if (priceEl && salePriceEl && countProductsEl) {
+                        const lowprice = parseIntInPrice(priceEl.textContent ?? '');
+                        let price = parseIntInPrice(salePriceEl.textContent ?? '');
+                        const count = parseIntInPrice(countProductsEl.textContent ?? '');
+                        if (Number.isNaN(price)) {
+                            price = lowprice;
+                        }
+                        data.push({
+                            lowprice: lowprice,
+                            price: price,
+                            count: count,
+                        });
+                    }
+                }
+            });
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
-        const summary = {};
+        const summary: summaryPrice = {};
         this.#calcSummaryPrice(data, summary);
         // Изменение итоговых сумм
-        const totalPrice = document.getElementById('total-price');
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        totalPrice.textContent = (summary as any).sumPrice + ' ₽';
-        const productsNumber = document.getElementById('products-number');
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        productsNumber.textContent = 'Товары, ' + (summary as any).count + ' шт.';
-        const priceWithoutDiscount = document.getElementById('price-without-discount');
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        priceWithoutDiscount.textContent = (summary as any).noSalePrice + ' ₽';
-        const discount = document.getElementById('discount');
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
-        discount.textContent = (summary as any).priceDiff + ' ₽';
+        setTextContent(document.getElementById('total-price'), summary.sumPrice + ' ₽');
+        setTextContent(document.getElementById('products-number'), 'Товары, ' + summary.count + ' шт.');
+        setTextContent(document.getElementById('price-without-discount'), summary.noSalePrice + ' ₽');
+        setTextContent(document.getElementById('discount'), summary.priceDiff + ' ₽');
     }
 
     /**
      * Функция, обрабатывающая событие change в блоке товаров
-     * @param {Event} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    async listenChangeCheckbox(event: any) {
+    async listenChangeCheckbox(event: Event) {
         const target = event.target;
-        let elementId = target.id;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId] = elementId.split('/');
-            }
-            switch (elementId) {
-            case 'item_cart__select-all':
-                // Установка и снятие галочек у товаров
-                const checkedItems = document.getElementsByName('itemCart');
-                checkedItems.forEach((key) => {
-    (key as any).checked = target.checked;
-});
-                this.renderTotalCost();
-                break;
-            case 'item_cart__select':
-                const selectAll = document.getElementById('item_cart__select-all');
-                if (!target.checked) {
-                    // Снятие галочки выбрать все
-(selectAll as any).checked = false;
-                } else {
-                    // Установление галочки выбрать все
-                    const selectItems = document.getElementsByName('itemCart');
-                    if ([...selectItems].every((key) => {
-                        return (key as any).checked;
-                    })) {
-                        (selectAll as any).checked = true;
-                    }
+        if (target instanceof HTMLInputElement) {
+            let elementId = target.id;
+            if (elementId) {
+                if (elementId.includes('/')) {
+                    [elementId] = elementId.split('/');
                 }
-                this.renderTotalCost();
-                break;
+                switch (elementId) {
+                case 'item_cart__select-all': {
+                    // Установка и снятие галочек у товаров
+                    const checkedItems = document.getElementsByName('itemCart');
+                    if (checkedItems) {
+                        checkedItems.forEach((key) => {
+                            if (key instanceof HTMLInputElement) {
+                                key.checked = target.checked;
+                            }
+                        });
+                        this.renderTotalCost();
+                    }
+                    break;
+                }
+                case 'item_cart__select': {
+                    const selectAll = document.getElementById('item_cart__select-all');
+                    if (selectAll instanceof HTMLInputElement) {
+                        if (!target.checked) {
+                            // Снятие галочки выбрать все
+                            selectAll.checked = false;
+                        } else {
+                            // Установление галочки выбрать все
+                            const selectItems = document.getElementsByName('itemCart');
+                            if ([...selectItems].every((key) => {
+                                return (key as HTMLInputElement).checked;
+                            })) {
+                                selectAll.checked = true;
+                            }
+                        }
+                    }
+                    this.renderTotalCost();
+                    break;
+                }
+                }
             }
         }
     }
@@ -462,42 +497,46 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая клик на кнопку создания заказа
      */
     async listenClickCreateOrder() {
-        const orderData = {
+        const orderData: OrderDataObj = {
             items: [],
         };
         const checkedItems = document.getElementsByName('itemCart');
         if (checkedItems) {
             checkedItems.forEach((key) => {
-    const itemId = key.id.split('/')[1];
-    if ((key as any).checked) {
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        orderData.items.push(parseInt(itemId));
-    }
-});
+                const itemId = key.id.split('/')[1];
+                if (key instanceof HTMLInputElement && key.checked) {
+                    orderData.items.push(parseInt(itemId));
+                }
+            });
         } else {
             console.log('elements not found', checkedItems);
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            (orderData as any).address = parseInt(address.getAttribute('id')
-    .split('/', 2)[1]);
-            if ((orderData as any).address !== -1) {
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                let date = document.getElementById('date-delivery').textContent.trim();
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                let time = document.getElementById('time-delivery').textContent.trim();
-                // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
-                date = date.split(' / ');
-                // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
-                time = time.split(' - ');
-                // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
-                (orderData as any).deliveryDate = new Date(Date.UTC(date[2], date[1], date[0], (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24, 0)).toJSON();
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                (orderData as any).card = parseInt(document.querySelector('.payment-method__cart')
-    .id.split('/')[1]);
-                (orderData as any).card = (orderData as any).card ? (orderData as any).card : 1;
-                cartAction.makeOrder(orderData);
+            if (address) {
+                orderData.address = parseInt(address.id.split('/', 2)[1]);
+            }
+            if (orderData.address !== -1) {
+                const dateElement = document.getElementById('date-delivery');
+                const timeElement = document.getElementById('time-delivery');
+                if (dateElement && timeElement) {
+                    const date = dateElement.textContent?.trim().split(' / ');
+                    const time = timeElement.textContent?.trim().split(' - ');
+                    if (date && time) {
+                        orderData.deliveryDate =
+                            new Date(Date.UTC(Number(date[2]), Number(date[1]), Number(date[0]),
+                                (Number(time[1].split(':')[0]) +
+                                    Number(time[0].split(':')[0])) / 2 % 24, 0)).toJSON();
+                        const paymentMethodsCard = document.querySelector('.payment-method__cart');
+                        if (paymentMethodsCard) {
+                            orderData.card =
+                                parseInt(paymentMethodsCard.id.split('/')[1]);
+                            orderData.card =
+                                orderData.card ? orderData.card : 1;
+                            cartAction.makeOrder(orderData);
+                        }
+                    }
+                }
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');
             }
@@ -509,7 +548,7 @@ export default class CartOrderPage extends BasePage {
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         // Обработчик блока товаров
         this.productsContent = document.getElementById('block-products');
         if (this.productsContent) {
@@ -541,7 +580,7 @@ export default class CartOrderPage extends BasePage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.productsContent) {
             this.productsContent.removeEventListener('click', this.bindListenClickProductsBlock);
             this.productsContent.removeEventListener('change', this.bindListenChangeCheckbox);
@@ -564,7 +603,7 @@ export default class CartOrderPage extends BasePage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         this.addListener();
         profileAction.getData();
         cartAction.getCart();

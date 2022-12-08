@@ -11,10 +11,10 @@ import CatalogItemCard from '../../../components/CatalogItemCard/CatalogItemCard
 export default class CategoryPage extends CatalogPage {
     /**
      * Конструктор, создающий класс компонента PaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(parent, [itemCardsAction.getItemCardsByCategory,
             itemCardsAction.getHighRatingItemCardsByCategory,
             itemCardsAction.getCheapItemCardsByCategory]);
@@ -24,7 +24,7 @@ export default class CategoryPage extends CatalogPage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         super.addListener();
         itemsStore.addListener(this.loadCatalogItemCards.bind(this),
             ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY);
@@ -41,18 +41,24 @@ export default class CategoryPage extends CatalogPage {
      */
     loadCatalogItemCards() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
-            const Card = new CatalogItemCard(document.getElementById('items-block'));
-            const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
-            if (data.length) {
-                Card.render(data);
-            } else if (
-                itemsStore.getContext(itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
-                this.removeScrollListener();
-            } else {
-                router.openNotFoundPage();
+        case config.responseCodes.code200: {
+            const itemsBlock = document.getElementById('items-block');
+            if (itemsBlock) {
+                const Card = new CatalogItemCard(itemsBlock);
+                const data = itemsStore.getContext(itemsStore._storeNames.cardsCategory);
+
+                if (data.length) {
+                    Card.render(data);
+                } else if (
+                    itemsStore.getContext(
+                        itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
+                    this.removeScrollListener();
+                } else {
+                    router.openNotFoundPage();
+                }
             }
             break;
+        }
         default:
             router.openNotFoundPage();
             break;
@@ -74,7 +80,7 @@ export default class CategoryPage extends CatalogPage {
     /**
      * Метод, добавляющий слушатели
      */
-    startEventListener() {
+    override startEventListener() {
         super.startEventListener();
         super.startScrollListener();
     }
@@ -82,7 +88,7 @@ export default class CategoryPage extends CatalogPage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         super.removeEventListener();
         super.removeScrollListener();
     }
@@ -90,7 +96,7 @@ export default class CategoryPage extends CatalogPage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         this.addListener();
         super.render();
     }

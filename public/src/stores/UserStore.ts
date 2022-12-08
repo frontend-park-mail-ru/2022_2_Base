@@ -85,7 +85,7 @@ class UserStore extends BaseStore {
     };
 
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         super();
@@ -105,9 +105,9 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {Object} payload полезная нагрузка запроса
+     * @param payload - полезная нагрузка запроса
      */
-    override async _onDispatch(payload: any) {
+    override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case UserActionTypes.USER_FETCH:
             await this._fetchUser();
@@ -180,6 +180,7 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение сессии.
      */
     async _fetchUser() {
+        // @ts-ignore
         const [status] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err));
 
@@ -207,10 +208,10 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий авторизацию.
-     * @param {string} path - путь запроса
-     * @param {object} data - данные для авторизации
+     * @param path - путь запроса
+     * @param data - данные для авторизации
      */
-    async #auth(path: any, data: any) {
+    async #auth(path: string, data: any) {
         const [status] = await request.makePostRequest(path, data)
             .catch((err) => console.log(err));
 
@@ -223,7 +224,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий регистрацию.
-     * @param {object} data - данные для входа
+     * @param data - данные для входа
      */
     async _signup(data: any) {
         const {username, email, password} = data;
@@ -236,7 +237,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий вход в сессию.
-     * @param {object} data - данные для входа
+     * @param data - данные для входа
      */
     async _login(data: any) {
         const {email, password} = data;
@@ -284,7 +285,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий сохранение данных профиля.
-     * @param {object} data данные для изменения
+     * @param data - данные для изменения
      */
     async _saveEditData(data: any) {
         const userData = this.#collectUserData();
@@ -317,9 +318,9 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий загрузку аватара.
-     * @param {Blob} avatar
+     * @param avatar - фото
      */
-    async _uploadAvatar(avatar: any) {
+    async _uploadAvatar(avatar: Blob | null) {
         const [status] = avatar ?
             await request.makePostRequestSendAvatar(
                 config.api.uploadAvatar, avatar)
@@ -342,7 +343,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, собирающий данные пользователя
-     * @return {object} данные
+     * @returns данные о пользователе
      */
     #collectUserData() {
         const paymentMethodsField = this._storage.get(this._storeNames.paymentMethods);
@@ -367,8 +368,8 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий отправку данных для карт профиля.
-     * @param {object} data - данные для обработки
-     * @param {object} field - название поля
+     * @param data - данные для обработки
+     * @param field - название поля
      */
     async #makePostRequestCard(data: any, field: any) {
         const [status] = await request.makePostRequest(config.api.profile, data)
@@ -383,7 +384,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий сохранение карты.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
     async _saveAddCard(data: any) {
         const userData = this.#collectUserData();
@@ -400,9 +401,9 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий удаление способа оплаты.
-     * @param {number} id - идентификатор элемента
+     * @param id - идентификатор элемента
      */
-    async _saveDeleteCard(id: any) {
+    async _saveDeleteCard(id: number) {
         const userData = this.#collectUserData();
         userData.paymentMethods = userData.paymentMethods.filter((item: any) => item.id !== id);
         await this.#makePostRequestCard(userData, 'paymentMethods');
@@ -410,7 +411,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий добавление карты адреса.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
     async _saveAddAddress(data: any) {
         const userData = this.#collectUserData();
@@ -424,7 +425,7 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий изменение карты адреса.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
     async _saveEditAddress(data: any) {
         const userData = this.#collectUserData();
@@ -439,9 +440,9 @@ class UserStore extends BaseStore {
 
     /**
      * Метод, реализующий удаление карты адреса.
-     * @param {number} id - идентификатор элемента
+     * @param id - идентификатор элемента
      */
-    async _deleteAddress(id: any) {
+    async _deleteAddress(id: number) {
         const userData = this.#collectUserData();
         userData.address = userData.address.filter((item: any) => item.id !== id);
         await this.#makePostRequestCard(userData, 'address');

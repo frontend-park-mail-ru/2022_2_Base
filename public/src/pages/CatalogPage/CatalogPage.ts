@@ -5,7 +5,6 @@ import {config} from '../../config';
 import {itemCardsAction} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
-// @ts-expect-error TS(2307): Cannot find module './CatalogPage.hbs' or its corr... Remove this comment to see the full error message
 import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
 
@@ -28,10 +27,10 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
-     * @param {Array} childClassData данные дочернего класса
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
+     * @param childClassData - данные дочернего класса
      */
-    constructor(parent: any, childClassData: any) {
+    constructor(parent: HTMLElement, childClassData: Array<any>) {
         super(parent, CatalogPageTemplate);
 
         [this.actionToLoadCards, this.getSortByRating, this.getSortByPrice] = childClassData;
@@ -51,7 +50,7 @@ export default class CatalogPage extends BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         cartStore.addListener(this.buttonCreate,
             CartActionTypes.ADD_TO_CART);
 
@@ -110,8 +109,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-            const count = parseInt(itemAmount.textContent);
+            const count = parseInt(itemAmount.textContent ?? '');
             itemAmount.textContent = (count + 1).toString();
         }
     }
@@ -123,8 +121,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
-            // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-            const count = parseInt(itemAmount.textContent);
+            const count = parseInt(itemAmount.textContent ?? '');
 
             if (count === 1) {
                 const amountSelector = document.getElementById(
@@ -146,39 +143,41 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {Event} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    localEventListenersHandler(event: any) {
+    localEventListenersHandler(event: Event) {
         event.preventDefault();
         const target = event.target;
-        let elementId = target.id;
-        let itemId;
-        if (elementId) {
-            if (elementId.includes('/')) {
-                [elementId, itemId] = elementId.split('/');
-                switch (elementId) {
-                case 'catalog_button-add-to-cart':
-                    cartAction.addToCart(itemId);
-                    break;
-                case 'catalog_button-minus_cart':
-                    cartAction.decreaseNumber(itemId);
-                    break;
-                case 'catalog_button-plus_cart':
-                    cartAction.increaseNumber(itemId);
-                    break;
-                case 'catalog_like-button':
+        if (target instanceof HTMLElement) {
+            let elementId = target.id;
+            let itemId;
+            if (elementId) {
+                if (elementId.includes('/')) {
+                    [elementId, itemId] = elementId.split('/');
+                    switch (elementId) {
+                    case 'catalog_button-add-to-cart':
+                        cartAction.addToCart(itemId);
+                        break;
+                    case 'catalog_button-minus_cart':
+                        cartAction.decreaseNumber(itemId);
+                        break;
+                    case 'catalog_button-plus_cart':
+                        cartAction.increaseNumber(itemId);
+                        break;
+                    case 'catalog_like-button':
                     /* Запрос на добавление товара в избраннное */
-                    break;
-                }
-            } else {
-                switch (elementId) {
-                case 'catalog-item-pic':
+                        break;
+                    }
+                } else {
+                    switch (elementId) {
+                    case 'catalog-item-pic':
                     /* Переход на страницу товара по ссылке в комменте выше */
 
-                    break;
-                case 'catalog_item-title':
+                        break;
+                    case 'catalog_item-title':
                     /* Переход на страницу товара по ссылке в комменте выше */
-                    break;
+                        break;
+                    }
                 }
             }
         }
@@ -203,32 +202,37 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, реагирующая на кнопки сортировки.
-     *  @param {HTMLElement} event - событие, вызвавшее клик.
+     *  @param event - событие, вызвавшее клик.
      */
-    listenSortCatalog(event: any) {
-        switch (event.target.id) {
-        case 'catalog_sort-rating':
-            const isLowToHighRating =
-                window.location.search.includes(config.queryParams.sort.ratingDown);
-            isLowToHighRating ?
-                this.ratingSortImg.classList.remove('rotate-img-180') :
-                this.ratingSortImg.classList.add('rotate-img-180');
-            this.getSortByRating(isLowToHighRating);
-            break;
-        case 'catalog_sort-price':
-            const isLowToHighPrice = window.location.search.includes(config.queryParams.sort.priceDown);
-            isLowToHighPrice ?
-                this.priceSortImg.classList.remove('rotate-img-180') :
-                this.priceSortImg.classList.add('rotate-img-180');
-            this.getSortByPrice(isLowToHighPrice);
-            break;
+    listenSortCatalog(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            switch (event.target.id) {
+            case 'catalog_sort-rating': {
+                const isLowToHighRating =
+                    window.location.search.includes(config.queryParams.sort.ratingDown);
+                isLowToHighRating ?
+                    this.ratingSortImg.classList.remove('rotate-img-180') :
+                    this.ratingSortImg.classList.add('rotate-img-180');
+                this.getSortByRating(isLowToHighRating);
+                break;
+            }
+            case 'catalog_sort-price': {
+                const isLowToHighPrice =
+                    window.location.search.includes(config.queryParams.sort.priceDown);
+                isLowToHighPrice ?
+                    this.priceSortImg.classList.remove('rotate-img-180') :
+                    this.priceSortImg.classList.add('rotate-img-180');
+                this.getSortByPrice(isLowToHighPrice);
+                break;
+            }
+            }
         }
     }
 
     /**
      * Метод, добавляющий слушатели
      */
-    startEventListener() {
+    override startEventListener() {
         this.catalogContent = document.getElementById('catalog_content');
         if (this.catalogContent) {
             this.catalogContent.addEventListener('click', this.localEventListenersHandler);
@@ -261,7 +265,7 @@ export default class CatalogPage extends BasePage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.catalogContent) {
             this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
@@ -274,7 +278,7 @@ export default class CatalogPage extends BasePage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         document.title = this.#category.get(window.location.pathname) + ' ' + document.title;
 
         super.render({category: this.#category.get(window.location.pathname)});

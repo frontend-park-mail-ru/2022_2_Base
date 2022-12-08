@@ -1,4 +1,3 @@
-// @ts-expect-error TS(2307): Cannot find module './MainPage.hbs' or its corresp... Remove this comment to see the full error message
 import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage';
 import TopCategory from '../../components/TopCategory/TopCategory';
@@ -16,23 +15,24 @@ import {parseIntInPrice} from '../../modules/sharedFunctions';
  * Класс, реализующий главную страницу
  */
 export default class MainPage extends BasePage {
-    catalogContent: any;
-    topComponent: any;
+    catalogContent: HTMLElement | null;
+    topComponent: TopCategory | undefined;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             mainPageTemplate,
         );
+        this.catalogContent = null;
     }
 
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         itemsStore.addListener(this.loadCards,
             ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
 
@@ -66,35 +66,42 @@ export default class MainPage extends BasePage {
                 const cardElement = document.createElement('div');
                 cardElement.id = `${response.classToGet}${String(num)}`;
                 cardElement.classList.add('item-card');
-                // @ts-expect-error TS(2531): Object is possibly 'null'.
-                rootElement.before(cardElement);
-                const itemCard = new ItemCard(cardElement);
-                itemCard.render(card);
+                if (rootElement) {
+                    rootElement.before(cardElement);
+                    const itemCard = new ItemCard(cardElement);
+                    itemCard.render(card);
+                }
             });
         } else if (!document.getElementById('ServerLoadError')) {
-            errorMessage.getServerMessage(document.getElementById('catalog'), 'ServerLoadError',
-                'Возникла ошибка при загрузке товаров. Попробуйте позже', true);
+            const errorElement = document.getElementById('catalog');
+            if (errorElement) {
+                errorMessage.getServerMessage(errorElement, 'ServerLoadError',
+                    'Возникла ошибка при загрузке товаров. Попробуйте позже', true);
+            }
         }
     }
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param {Event} event контекст события для обработки
+     * @param event - контекст события для обработки
      */
-    localEventListenersHandler(event: any) {
+    localEventListenersHandler(event: Event) {
         event.preventDefault();
-        if (event.target.getAttribute('data-selection')) {
-            const [elementId, itemId] = event.target.getAttribute('data-selection').split('/');
-            switch (elementId) {
-            case 'itemcard_button-add-to-cart':
-                cartAction.addToCart(itemId);
-                break;
-            case 'itemcard_button-minus_cart':
-                cartAction.decreaseNumber(itemId);
-                break;
-            case 'itemcard_button-plus_cart':
-                cartAction.increaseNumber(itemId);
-                break;
+        if (event.target instanceof HTMLElement) {
+            const dataSelection = event.target.getAttribute('data-selection');
+            if (dataSelection) {
+                const [elementId, itemId] = dataSelection.split('/');
+                switch (elementId) {
+                case 'itemcard_button-add-to-cart':
+                    cartAction.addToCart(itemId);
+                    break;
+                case 'itemcard_button-minus_cart':
+                    cartAction.decreaseNumber(itemId);
+                    break;
+                case 'itemcard_button-plus_cart':
+                    cartAction.increaseNumber(itemId);
+                    break;
+                }
             }
         }
     }
@@ -104,17 +111,17 @@ export default class MainPage extends BasePage {
      */
     buttonCreate() {
         const countSelector = document.querySelectorAll(
-            '[data-selection=\'itemcard_amount-selector\/' +
+            '[data-selection=\'itemcard_amount-selector/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         const addToCartButton = document.querySelectorAll(
-            '[data-selection=\'itemcard_button-add-to-cart\/' +
+            '[data-selection=\'itemcard_button-add-to-cart/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (!!addToCartButton && !!countSelector) {
             countSelector.forEach((selector) => (selector as any).style.display = 'grid');
             addToCartButton.forEach((button) => (button as any).style.display = 'none');
 
             const itemCount = document.querySelectorAll(
-                '[data-selection=\'itemcard_item-count\/' +
+                '[data-selection=\'itemcard_item-count/' +
                 cartStore.getContext(cartStore._storeNames.currID) + '\']');
             if (itemCount) {
                 itemCount.forEach((item) => item.textContent = '1');
@@ -129,10 +136,10 @@ export default class MainPage extends BasePage {
      */
     buttonAdd() {
         const itemCount = document.querySelectorAll(
-            '[data-selection=\'itemcard_item-count\/' +
+            '[data-selection=\'itemcard_item-count/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseIntInPrice(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent ?? '');
             itemCount.forEach((item) => item.textContent = (count + 1).toString());
         }
     }
@@ -142,17 +149,17 @@ export default class MainPage extends BasePage {
      */
     buttonMinus() {
         const itemCount = document.querySelectorAll(
-            '[data-selection=\'itemcard_item-count\/' +
+            '[data-selection=\'itemcard_item-count/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (itemCount.length) {
-            const count = parseIntInPrice(itemCount[0].textContent);
+            const count = parseIntInPrice(itemCount[0].textContent ?? '');
 
             if (count === 1) {
                 const countSelector = document.querySelectorAll(
-                    '[data-selection=\'itemcard_amount-selector\/' +
+                    '[data-selection=\'itemcard_amount-selector/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 const addToCartButton = document.querySelectorAll(
-                    '[data-selection=\'itemcard_button-add-to-cart\/' +
+                    '[data-selection=\'itemcard_button-add-to-cart/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 if (!!addToCartButton && !!countSelector) {
                     countSelector.forEach((selector) => (selector as any).style.display = 'none');
@@ -188,33 +195,35 @@ export default class MainPage extends BasePage {
      */
     startTimer() {
         const display = document.getElementById('main-page-sale-timer');
-        const start = new Date;
-        start.setHours(3, 0, 0); // 3am
+        if (display) {
+            const start = new Date;
+            start.setHours(3, 0, 0); // 3am
 
-        const pad = (num: any) => {
-            return ('0' + parseInt(num)).substr(-2);
-        };
-        const tick = () => {
-            const now = new Date;
-            if (now > start) { // too late, go to tomorrow
-                start.setDate(start.getDate() + 1);
-            }
-            // @ts-expect-error TS(2362): The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
-            const remain = ((start - now) / 1000);
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            display.textContent =
-                pad((remain / 60 / 60) % 60) + ':' +
-                pad((remain / 60) % 60) + ':' +
-                pad(remain % 60);
-            setTimeout(tick, 1000);
-        };
-        tick();
+            const pad = (num: any) => {
+                return ('0' + parseInt(num)).substr(-2);
+            };
+            const tick = () => {
+                const now = new Date;
+                if (now > start) { // too late, go to tomorrow
+                    start.setDate(start.getDate() + 1);
+                }
+                const remain = ((Number(start) - Number(now)) / 1000);
+                display.textContent =
+                    pad((remain / 60 / 60) % 60) + ':' +
+                    pad((remain / 60) % 60) + ':' +
+                    pad(remain % 60);
+                setTimeout(tick, 1000);
+            };
+            tick();
+        } else {
+            errorMessage.getAbsoluteErrorMessage('Ошибка таймера скидки');
+        }
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         this.catalogContent = document.getElementById('content_main');
         if (this.catalogContent) {
             this.catalogContent.addEventListener('click', this.localEventListenersHandler);
@@ -224,7 +233,7 @@ export default class MainPage extends BasePage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.catalogContent) {
             this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
         }
@@ -233,14 +242,20 @@ export default class MainPage extends BasePage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         super.render(config);
 
-        this.topComponent = new TopCategory(document.getElementById('catalog'));
-        this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
+        const catalogElement = document.getElementById('catalog');
 
-        cartAction.getCart();
-        this.startEventListener();
-        this.startTimer();
+        if (catalogElement) {
+            this.topComponent = new TopCategory(catalogElement);
+            this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
+
+            cartAction.getCart();
+            this.startEventListener();
+            this.startTimer();
+        } else {
+            errorMessage.getAbsoluteErrorMessage();
+        }
     }
 }

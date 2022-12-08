@@ -1,4 +1,3 @@
-// @ts-expect-error TS(2307): Cannot find module './AddCommentPage.hbs' or its c... Remove this comment to see the full error message
 import addCommentPageTemplate from './AddCommentPage.hbs';
 import './AddCommentPage.scss';
 import itemsStore from '../../../stores/ItemsStore';
@@ -14,24 +13,26 @@ import refreshElements from '../../../modules/refreshElements';
  * Класс, реализующий AddCommentPage
  */
 export default class AddCommentPage extends BaseItemPage {
-    submitButton: any;
+    submitButton: HTMLElement | null;
     /**
      * Конструктор, создающий конструктор базовой страницы AddCommentPage с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             addCommentPageTemplate,
             [itemCardsAction.getItemCard, ItemCardsActionTypes.ITEM_CARD_GET,
                 'comment'],
         );
+
+        this.submitButton = null;
     }
 
     /**
-     * Функция, регистрирующая листенеры сторов
+     * Функция, регистрирующая листенеры сторож
      */
-    addListener() {
+    override addListener() {
         super.addListener();
 
         itemsStore.addListener(this.listenCommentAdd, ItemCardsActionTypes.ADD_COMMENT);
@@ -58,25 +59,36 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, регистрирующая на нажатие кнопки создания отзыва
      */
     listenClickSubmitComment() {
-        const commentData = {};
-        (commentData as any).rating = Math.abs(Array.from(document.getElementsByName('rating'))
-    // @ts-expect-error TS(2339): Property 'checked' does not exist on type 'HTMLEle... Remove this comment to see the full error message
-    .findIndex(({ checked }) => checked === true) - 5);
+        const commentData: any = {};
+        const rating = document.getElementsByName('rating');
+        if (rating) {
+            commentData.rating = Math.abs((Array.from(rating) as Array<HTMLInputElement>)
+                .findIndex(({checked}) => checked) - 5);
 
-        if ((commentData as any).rating !== 6) {
-            (commentData as any).pros = (document.getElementById('textarea_pros-filed') as any).value;
-            (commentData as any).cons = (document.getElementById('textarea_cons-filed') as any).value;
-            (commentData as any).comment = (document.getElementById('textarea_comment-filed') as any).value;
-            itemCardsAction.addComment(commentData);
-        } else {
-            errorMessage.getAbsoluteErrorMessage('Укажите рейтинг товара');
+            if (commentData.rating !== 6) {
+                const pros = document.getElementById('textarea_pros-filed');
+                const cons = document.getElementById('textarea_cons-filed');
+                const comment = document.getElementById('textarea_comment-filed');
+                if (pros instanceof HTMLInputElement) {
+                    commentData.pros = pros.value;
+                }
+                if (cons instanceof HTMLInputElement) {
+                    commentData.cons = cons.value;
+                }
+                if (comment instanceof HTMLInputElement) {
+                    commentData.comment = comment.value;
+                }
+                itemCardsAction.addComment(commentData);
+            } else {
+                errorMessage.getAbsoluteErrorMessage('Укажите рейтинг товара');
+            }
         }
     }
 
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         this.submitButton = document.getElementById('add-comment-page__submit');
         if (this.submitButton) {
             this.submitButton.addEventListener('click', this.listenClickSubmitComment);
@@ -86,7 +98,7 @@ export default class AddCommentPage extends BaseItemPage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.submitButton) {
             this.submitButton.removeEventListener('click', this.listenClickSubmitComment);
         }
@@ -95,7 +107,7 @@ export default class AddCommentPage extends BaseItemPage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             super.render();
         } else {

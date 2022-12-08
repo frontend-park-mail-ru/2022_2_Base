@@ -1,4 +1,3 @@
-// @ts-expect-error TS(2307): Cannot find module './OrdersPage.hbs' or its corre... Remove this comment to see the full error message
 import ordersPageTemplate from './OrdersPage.hbs';
 import BasePage from '../BasePage.js';
 import './OrdersPage.scss';
@@ -14,12 +13,12 @@ import itemsStore from '../../stores/ItemsStore';
  * Класс, реализующий страницу OrdersPage
  */
 export default class OrdersPage extends BasePage {
-    orderBlock: any;
+    orderBlock: OrderBlock | undefined;
     /**
      * Конструктор, создающий конструктор страницы OrdersPage с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             ordersPageTemplate,
@@ -29,7 +28,7 @@ export default class OrdersPage extends BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         ordersStore.addListener(this.renderCards.bind(this), OrderActionTypes.GET_ORDERS);
     }
 
@@ -40,14 +39,15 @@ export default class OrdersPage extends BasePage {
         switch (ordersStore.getContext(ordersStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             if (ordersStore.getContext(ordersStore._storeNames.orders).length) {
-                this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
+                this.orderBlock?.render(ordersStore.getContext(ordersStore._storeNames.orders));
             } else {
                 refreshElements.showUnAuthPage({
-    text: 'Пока у вас нет заказов. Может купите',
-    linkToPage: itemsStore.getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
-    linkText: 'телефон',
-    textAfterLink: '.',
-});
+                    text: 'Пока у вас нет заказов. Может купите',
+                    linkToPage: itemsStore.
+                        getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
+                    linkText: 'телефон',
+                    textAfterLink: '.',
+                });
             }
             break;
         case config.responseCodes.code401:
@@ -66,11 +66,14 @@ export default class OrdersPage extends BasePage {
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {object} config контекст отрисовки страницы
+     * @param config - контекст отрисовки страницы
      */
-    render(config: any) {
+    override render(config: object) {
         super.render(config);
-        this.orderBlock = new OrderBlock(document.getElementById('orders-page__header'));
-        orderAction.getOrders();
+        const ordersHeader = document.getElementById('orders-page__header');
+        if (ordersHeader) {
+            this.orderBlock = new OrderBlock(ordersHeader);
+            orderAction.getOrders();
+        }
     }
 }

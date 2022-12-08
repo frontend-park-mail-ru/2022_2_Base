@@ -15,14 +15,14 @@ import {getDate} from '../../modules/sharedFunctions';
 export default class BaseItemPage extends BasePage {
     getItemAction: any;
     getItemTypeAction: any;
-    pageName: any;
+    pageName: string;
     /**
      * Конструктор, создающий конструктор базовой страницы BaseItemPage с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
-     * @param {HandlebarsTemplateDelegate} template HTML-шаблон, в который будет осуществлена отрисовка
-     * @param {array} childClassData данные дочернего класса
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
+     * @param template - HTML-шаблон, в который будет осуществлена отрисовка
+     * @param childClassData - данные дочернего класса
      */
-    constructor(parent: any, template: any, childClassData: any) {
+    constructor(parent: HTMLElement, template: HandlebarsTemplateDelegate, childClassData: Array<any>) {
         super(
             parent,
             template,
@@ -33,7 +33,7 @@ export default class BaseItemPage extends BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         itemsStore.addListener(this.loadItem.bind(this), this.getItemTypeAction);
 
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
@@ -41,7 +41,7 @@ export default class BaseItemPage extends BasePage {
 
     /**
      * Функция, загружающая дополнительные данные
-     * @param {object} data объект для добавления данных
+     * @param data - объект для добавления данных
      */
     loadMoreData(data: any) {
     }
@@ -66,23 +66,30 @@ export default class BaseItemPage extends BasePage {
      */
     loadItem() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
-        case config.responseCodes.code200:
+        case config.responseCodes.code200: {
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             if (data) {
                 data.delveryDate = getDate(1)[0];
                 super.render(data);
                 this.loadMoreData(data);
-                const pageProduct = new ProductHeader(
-                    document.getElementById(`${this.pageName}-page__header-product`));
-                pageProduct.render(data);
-                const addToCartButton = new AddToCartButton(
-                    document.getElementById(`${this.pageName}-block-button-add-to-cart`));
-                addToCartButton.render(data);
+                const headerProduct = document.getElementById(
+                    `${this.pageName}-page__header-product`);
+                if (headerProduct) {
+                    const pageProduct = new ProductHeader(headerProduct);
+                    pageProduct.render(data);
+                }
+                const addToCard =document.getElementById(
+                    `${this.pageName}-block-button-add-to-cart`);
+                if (addToCard) {
+                    const addToCartButton = new AddToCartButton(addToCard);
+                    addToCartButton.render(data);
+                }
                 this.startEventListener();
             } else {
                 router.openNotFoundPage();
             }
             break;
+        }
         default:
             router.openNotFoundPage();
             break;
@@ -92,19 +99,19 @@ export default class BaseItemPage extends BasePage {
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
     }
 
     /**
      * Метод, отрисовывающий страницу.
      */
-    render() {
+    override render() {
         cartAction.getCart();
         this.addListener();
     }

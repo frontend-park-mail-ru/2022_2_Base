@@ -1,4 +1,3 @@
-import {priceData} from '../../../types/interfaces';
 import {config} from '../config';
 
 /**
@@ -116,4 +115,26 @@ export function getStringValueFromStore(data: unknown) {
     } else {
         return '';
     }
+}
+
+/**
+ * Функция изменяющаяся textContent.
+ * @param  element - данные для обработки
+ * @param  data - данные для обработки
+ */
+export function setTextContent(element: HTMLElement | null, data: string) {
+    if (element) {
+        element.textContent = data;
+    }
+}
+
+/**
+ * Функция изменяющаяся textContent.
+ * @param  element - данные для обработки
+ */
+export function getTextContent(element: HTMLElement | null) {
+    if (element) {
+        return element.textContent ?? '';
+    }
+    return '';
 }

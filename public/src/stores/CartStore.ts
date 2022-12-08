@@ -10,7 +10,7 @@ import {addSpacesToPrice} from '../modules/sharedFunctions';
  * Класс, реализующий базовое хранилище.
  */
 class CartStore extends BaseStore {
-    _storage: any;
+    override _storage: Map<string, any>;
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -20,7 +20,7 @@ class CartStore extends BaseStore {
     };
 
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         super();
@@ -34,9 +34,9 @@ class CartStore extends BaseStore {
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {Object} payload полезная нагрузка запроса
+     * @param payload - полезная нагрузка запроса
      */
-    async _onDispatch(payload: any) {
+    override async _onDispatch(payload: any) {
         switch (payload.actionName) {
         case CartActionTypes.GET_CART:
             await this._getCart();
@@ -96,7 +96,7 @@ class CartStore extends BaseStore {
      * Действие: соединить локальную корзину с корзиной в БД.
      */
     async _mergeCart() {
-        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
+        // @ts-ignore / TS2488 ???
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
 
@@ -119,7 +119,7 @@ class CartStore extends BaseStore {
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             const [postStatus] = await request.makePostRequest(config.api.cart, {
                 items: itemsCart.map(({
-                    id
+                    id,
                 }: any) => id),
             }).catch((err) => console.log(err));
             this._storage.set(this._storeNames.responseCode, postStatus);
@@ -151,9 +151,9 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: удалить товар по ID.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    async _deleteById(id: any) {
+    async _deleteById(id: number) {
         const noNullItemsCart =
             this._storage.get(this._storeNames.itemsCart)
                 .filter((item: any) => item.id !== id)
@@ -178,11 +178,11 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: добавить товар в корзину.
-     * @param {number} status
-     * @param {number} countChange
-     * @param {number} id
+     * @param status - статус корзины
+     * @param countChange - изменение количества
+     * @param id - идентификатор
      */
-    #editCountOfItem(status: any, countChange: any, id: any) {
+    #editCountOfItem(status: number, countChange: number, id: number) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             this._storage.set(this._storeNames.responseCode, status);
         }
@@ -204,9 +204,9 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: добавить товар в корзину.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    async _addToCart(id: any) {
+    async _addToCart(id: number) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
@@ -219,17 +219,17 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: увеличить количество товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    async _increaseNumber(id: any) {
+    async _increaseNumber(id: number) {
         await this._addToCart(id);
     }
 
     /**
      * Действие: уменьшить количество товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    async _decreaseNumber(id: any) {
+    async _decreaseNumber(id: number) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.deleteFromCart, {
@@ -243,7 +243,7 @@ class CartStore extends BaseStore {
 
     /**
      * Действие: оформить заказ
-     * @param {object} data - данные для оформления заказа
+     * @param data - данные для оформления заказа
      */
     async _makeOrder(data: any) {
         data.userid = this._storage.get(this._storeNames.userID);
