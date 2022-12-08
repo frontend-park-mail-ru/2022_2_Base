@@ -9,9 +9,10 @@ router.start();
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-            console.log("EEEEE SW!")
-        }).catch((registrationError) => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+            })
+            .catch((registrationError) => {
             console.log('SW registration failed: ', registrationError);
         });
     });

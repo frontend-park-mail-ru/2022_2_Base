@@ -11,10 +11,6 @@ app.use(express.static(publicFolder));
 
 const port = process.env.PORT || 3000;
 
-app.all('/service-worker.js', (req, res) => {
-    res.sendFile(path.resolve(`${publicFolder}/scr/service-worker.js`));
-});
-
 app.all('*', (req, res) => {
     res.sendFile(path.resolve(`${publicFolder}/index.html`));
 });

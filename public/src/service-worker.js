@@ -1,17 +1,20 @@
 const CACHE_NAME = 'base-v1';
 
+const urls = [];
+
 self.addEventListener('install', (event) => {
-    event.waitUntil(self.skipWaiting());
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(urls)),
+    );
 });
 
 this.addEventListener('activate', (event) => {
-    const expectedCacheNames = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
+    const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
 
-    // Delete out of date cahes
     event.waitUntil(
         caches.keys().then((cacheNames) => Promise.all(
             cacheNames.map((cacheName) => {
-                if (expectedCacheNames.indexOf(cacheName) === -1) {
+                if (expectedCache.indexOf(cacheName) === -1) {
                     return caches.delete(cacheName);
                 }
                 return null;
@@ -19,22 +22,6 @@ this.addEventListener('activate', (event) => {
         )),
     );
 });
-
-// /**
-//  * @description Подписываемся на событиие получения сообщения со списком ресурсов,
-//  * которые надо кешировать при первом посещении страницы
-// */
-// self.addEventListener('message', (event) => {
-//     if (event.data.type === 'CACHE_URLS') {
-//         event.waitUntil(
-//             caches.open(CACHE_NAME)
-//                 .then((cache) => {
-//                     return cache.addAll(event.data.payload);
-//                 })
-//                 .catch((error) => console.log(`Error adding to cache ${error}`)),
-//         );
-//     }
-// });
 
 /**
  * @description Подписываемся на событиие отправки браузером запроса к серверу
@@ -57,14 +44,8 @@ self.addEventListener('fetch', (event) => {
                 if (cachedResponse) {
                     return cachedResponse; // Получить из кеша
                 }
-
-                const init = { // Создать пустой запрос
-                    status: 418,
-                    statusText: 'Offline Mode',
-                };
-                const data = {message: 'Content is not available in offline mode'};
-                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-                return new Response(blob, init);
+                console.log("not found")
+                return caches.match('/error404');
             })
             .catch((err) => {
                 console.log(err.stack || err);
