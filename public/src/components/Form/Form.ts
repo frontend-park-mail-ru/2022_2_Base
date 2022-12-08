@@ -1,7 +1,6 @@
 import formTemplate from './form.hbs';
 import BaseComponent from '../BaseComponent';
 import './form.scss';
-import {formContextObj} from '../../../../types/interfaces';
 
 /**
  * Класс для реализации компонента Form

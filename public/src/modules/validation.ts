@@ -1,6 +1,5 @@
 import errorMessage from './ErrorMessage';
 import userStore from '../stores/UserStore';
-import {validateAddressData, validatePaymentCardData} from '../../../types/interfaces';
 import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;

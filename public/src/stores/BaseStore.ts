@@ -1,5 +1,4 @@
 import Dispatcher from '../modules/dispatcher';
-import {baseStoreObject} from '../../../types/interfaces';
 
 /**
  * Класс, реализующий базовое хранилище.

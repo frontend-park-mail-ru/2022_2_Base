@@ -1,5 +1,5 @@
 import CommentTemplate from './Comment.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './Comment.scss';
 
 /**

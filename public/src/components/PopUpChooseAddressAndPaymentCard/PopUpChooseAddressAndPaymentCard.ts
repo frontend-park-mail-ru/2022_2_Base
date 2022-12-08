@@ -1,5 +1,4 @@
 import BaseComponent from '../BaseComponent';
-// @ts-expect-error TS(2307): Cannot find module './PopUpChooseAddressAndPayment... Remove this comment to see the full error message
 import PopUpChooseAddressAndPaymentCard from './PopUpChooseAddressAndPaymentCard.hbs';
 import './PopUpChooseAddressAndPaymentCard.scss';
 
@@ -49,11 +48,11 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             const fields = document.querySelectorAll('.cart-popup-form__input');
             if (fields) {
                 fields.forEach((key) => {
-    (key as any).style.border = '1px solid #d5d5d5';
-    if (key.classList.contains('choice')) {
-        key.classList.remove('choice');
-    }
-});
+                    (key as any).style.border = '1px solid #d5d5d5';
+                    if (key.classList.contains('choice')) {
+                        key.classList.remove('choice');
+                    }
+                });
             }
             chooseAddress.style.border = '1px solid #6369D1';
             chooseAddress.classList.add('choice');
@@ -81,7 +80,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         this.cancelElement.removeEventListener('click', this.listenClickCancel);
 
         if (this.popUpFields) {
@@ -95,9 +94,9 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Object} context контекст отрисовки шаблона
+     * @param context - контекст отрисовки шаблона
      */
-    render(context: any) {
+    override render(context: any) {
         super.render(context, PopUpChooseAddressAndPaymentCard);
         this.startEventListener();
     }

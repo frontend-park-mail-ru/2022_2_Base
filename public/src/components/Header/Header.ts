@@ -8,7 +8,6 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import {config} from '../../config';
 import router from '../../modules/Router';
 import SearchSuggestion from '../SearchSuggestion/SearchSuggestion';
-import {topCategoryElement} from '../../../../types/interfaces';
 
 /**
  * Класс для реализации компонента Header
@@ -22,7 +21,7 @@ export default class Header extends BaseComponent {
     headerProfile: HTMLElement | null;
     searchButton: HTMLElement | null;
     searchInput: HTMLInputElement | null;
-    suggestionsBlock: SearchSuggestion;
+    suggestionsBlock: SearchSuggestion | undefined;
     /**
      * Конструктор, создающий класс компонента Header
      * @param parent - HTML-элемент, в который будет
@@ -39,7 +38,6 @@ export default class Header extends BaseComponent {
         this.headerProfile = null;
         this.searchButton = null;
         this.searchInput = null;
-        this.suggestionsBlock = new SearchSuggestion(null);
 
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
@@ -51,7 +49,7 @@ export default class Header extends BaseComponent {
     listenSearchSuggestion() {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            this.suggestionsBlock.render(
+            this.suggestionsBlock?.render(
                 itemsStore.getContext(itemsStore._storeNames.suggestionsSearch));
             break;
         default:
@@ -222,7 +220,9 @@ export default class Header extends BaseComponent {
         this._parent.innerHTML = '';
         super.render(this.prepareRenderData(session), headerTemplate);
         this.elementSuggestions = document.getElementById('search-suggestions__main');
-        this.suggestionsBlock = new SearchSuggestion(this.elementSuggestions);
+        if (this.elementSuggestions) {
+            this.suggestionsBlock = new SearchSuggestion(this.elementSuggestions);
+        }
     }
 
     /**

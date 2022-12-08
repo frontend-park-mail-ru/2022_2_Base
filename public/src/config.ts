@@ -1,7 +1,5 @@
 'use strict';
 
-import refreshElements from './modules/refreshElements';
-
 const basePathApi = 'api/v1/';
 
 export const config = {
@@ -70,10 +68,10 @@ export const config = {
     noop: () => {},
     empyNode: document.createElement('div'),
     HTMLskeleton: {
-        body: refreshElements.body,
-        root: refreshElements.root,
-        header: refreshElements.header,
-        main: refreshElements.main,
-        footer: refreshElements.footer,
+        body: document.createElement('div') as HTMLElement,
+        root: document.createElement('div') as HTMLElement,
+        header: document.createElement('div') as HTMLElement,
+        main: document.createElement('div') as HTMLElement,
+        footer: document.createElement('div') as HTMLElement,
     },
 };

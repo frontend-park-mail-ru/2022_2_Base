@@ -9,13 +9,14 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const webPackConfig = {
     entry: {
-        'app': './public/src/index.js',
+        'app': './public/src/index.ts',
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.json']
     },
     module: {
         rules: [
-            {test: /\.(js)$/, use: 'babel-loader'},
             {test: /\.(json)$/, use: 'cson-loader'},
-            {test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader'},
             {test: /\.hbs$/, loader: 'handlebars-loader'},
             {test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource'},
             {test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource'},
@@ -28,6 +29,11 @@ const webPackConfig = {
                         cacheDirectory: true,
                     },
                 },
+            },
+            {
+                test: /\.([cm]?ts|tsx)$/,
+                exclude: /node_modules/,
+                loader: 'ts-loader'
             },
         ],
     },

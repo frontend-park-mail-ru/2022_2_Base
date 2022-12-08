@@ -1,7 +1,7 @@
 import ordersPageTemplate from './OrdersPage.hbs';
-import BasePage from '../BasePage.js';
+import BasePage from '../BasePage';
 import './OrdersPage.scss';
-import OrderBlock from '../../components/OrderBlock/OrderBlock.js';
+import OrderBlock from '../../components/OrderBlock/OrderBlock';
 import {orderAction, OrderActionTypes} from '../../actions/order';
 import ordersStore from '../../stores/OrdersStore';
 import {config} from '../../config';

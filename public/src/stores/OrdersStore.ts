@@ -1,6 +1,6 @@
-import BaseStore from './BaseStore.js';
+import BaseStore from './BaseStore';
 import request from '../modules/ajax';
-import {config} from '../config.js';
+import {config} from '../config';
 import {OrderActionTypes} from '../actions/order';
 import {_addSpacesToItemPrice, getLocalDate, truncatePrice} from '../modules/sharedFunctions';
 
@@ -80,7 +80,7 @@ class OrdersStore extends BaseStore {
      * Действие: запрос списка карточек.
      */
     async _getOrders() {
-        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
+        // @ts-ignore
         const [status, response] = await request
             .makeGetRequest(config.api.orders)
             .catch((err) => console.log(err));

@@ -143,7 +143,7 @@ class Router {
      * Запускает роутер.
      */
     start() {
-        this.#mainElement = document.getElementById('main');
+        this.#mainElement = config.HTMLskeleton.main;
 
         this.register(config.href.main, MainPage);
         this.register(config.href.login, LoginPage);

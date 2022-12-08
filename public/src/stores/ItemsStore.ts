@@ -151,7 +151,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек.
      */
     async _getItemCardsHome({path, popularCard}: any) {
-        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
+        // @ts-ignore
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
             .catch((err) => console.log(err));

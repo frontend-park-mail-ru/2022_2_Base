@@ -1,6 +1,6 @@
 import CommentPagePageTemplate from './CommentPage.hbs';
 import './CommentPage.scss';
-import Comment from '../../../components/Comment/Comment.js';
+import Comment from '../../../components/Comment/Comment';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import BaseItemPage from '../BaseItemPage';
 import itemsStore from '../../../stores/ItemsStore';

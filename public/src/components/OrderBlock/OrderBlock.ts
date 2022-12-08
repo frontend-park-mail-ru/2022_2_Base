@@ -1,5 +1,5 @@
 import orderBlockTemplate from './OrderBlock.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './OrderBlock.scss';
 
 /**

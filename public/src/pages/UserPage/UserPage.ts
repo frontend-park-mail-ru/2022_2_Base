@@ -9,7 +9,6 @@ import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import refreshElements from '../../modules/refreshElements';
-import {PaymentCardObj} from '../../../../types/interfaces';
 import {UserPageLoadCardsPages} from '../../../../types/aliases';
 import {getStringValueFromStore} from '../../modules/sharedFunctions';
 

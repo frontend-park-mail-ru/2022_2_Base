@@ -3,7 +3,6 @@ import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
 import {config} from '../../config';
 import {_declension} from '../../modules/sharedFunctions';
-import {productObj} from '../../../../types/interfaces';
 
 /**
  * Класс для реализации компонента ProductHeader

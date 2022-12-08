@@ -1,8 +1,8 @@
 import * as AddToCartButtonTemplate from './AddToCartButton.hbs';
-import BaseComponent from '../BaseComponent.js';
+import BaseComponent from '../BaseComponent';
 import './AddToCartButton.scss';
-import cartStore from '../../stores/CartStore.js';
-import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import cartStore from '../../stores/CartStore';
+import {cartAction, CartActionTypes} from '../../actions/cart';
 import {config} from '../../config';
 
 /**
@@ -114,7 +114,7 @@ export default class AddToCartButton extends BaseComponent {
     /**
      * Метод, добавляющий слушатели.
      */
-    override startEventListener() {
+    startEventListener() {
         this.buttonAddIntoCart = document.getElementById('block-button-add-to-cart');
         if (this.buttonAddIntoCart) {
             this.bindListenClickButtonAddIntoCart = this.listenClickButtonAddIntoCart.bind(this);

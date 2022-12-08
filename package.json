@@ -30,7 +30,8 @@
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
     "morgan": "^1.10.0",
-    "stylelint-selector-bem-pattern": "^2.1.1"
+    "stylelint-selector-bem-pattern": "^2.1.1",
+    "ts-loader": "^9.4.2"
   },
   "contributors": [
     "Liza",
