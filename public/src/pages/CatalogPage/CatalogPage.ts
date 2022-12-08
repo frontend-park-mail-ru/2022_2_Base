@@ -5,6 +5,7 @@ import {config} from '../../config';
 import {itemCardsAction} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
+// @ts-expect-error TS(2307): Cannot find module './CatalogPage.hbs' or its corr... Remove this comment to see the full error message
 import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
 
@@ -12,6 +13,17 @@ import './CatalogPage.scss';
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
+    actionToLoadCards: any;
+    addLisitenSortCatalog: any;
+    bottomOfPageHandler: any;
+    catalogContent: any;
+    catalogSort: any;
+    getSortByPrice: any;
+    getSortByRating: any;
+    itemsBlock: any;
+    priceSortImg: any;
+    ratingSortImg: any;
+    waitThrottleScroll: any;
     #category;
 
     /**
@@ -19,7 +31,7 @@ export default class CatalogPage extends BasePage {
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      * @param {Array} childClassData данные дочернего класса
      */
-    constructor(parent, childClassData) {
+    constructor(parent: any, childClassData: any) {
         super(parent, CatalogPageTemplate);
 
         [this.actionToLoadCards, this.getSortByRating, this.getSortByPrice] = childClassData;
@@ -98,6 +110,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
+            // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
             const count = parseInt(itemAmount.textContent);
             itemAmount.textContent = (count + 1).toString();
         }
@@ -110,6 +123,7 @@ export default class CatalogPage extends BasePage {
         const itemAmount = document.getElementById(
             `catalog_item-count/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (itemAmount) {
+            // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
             const count = parseInt(itemAmount.textContent);
 
             if (count === 1) {
@@ -134,7 +148,7 @@ export default class CatalogPage extends BasePage {
      * Функция, обрабатывающая клики на данной странице
      * @param {Event} event контекст события для обработки
      */
-    localEventListenersHandler(event) {
+    localEventListenersHandler(event: any) {
         event.preventDefault();
         const target = event.target;
         let elementId = target.id;
@@ -191,7 +205,7 @@ export default class CatalogPage extends BasePage {
      * Функция, реагирующая на кнопки сортировки.
      *  @param {HTMLElement} event - событие, вызвавшее клик.
      */
-    listenSortCatalog(event) {
+    listenSortCatalog(event: any) {
         switch (event.target.id) {
         case 'catalog_sort-rating':
             const isLowToHighRating =

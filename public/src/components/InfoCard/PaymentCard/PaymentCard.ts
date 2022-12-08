@@ -4,6 +4,7 @@ import './PaymentCard.scss';
 import userStore from '../../../stores/UserStore';
 import BaseInfoCard from '../BaseInfoCard';
 import {profileAction} from '../../../actions/profile';
+import {config} from '../../../config';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -11,28 +12,45 @@ import {profileAction} from '../../../actions/profile';
 export default class PaymentCard extends BaseInfoCard {
     /**
      * Конструктор, создающий класс компонента PaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         const popup = document.getElementById('popUp_user-page');
-        const popupClass = new PopUpAddPaymentCard(popup);
-
-        super(parent,
-            [popup,
-                document.getElementById('popUp-fade_user-page'),
-                userStore._storeNames.address,
-                popupClass,
-                PaymentCardTemplate,
-                'payment-card']);
+        const fadePopup = document.getElementById('popUp-fade_user-page');
+        if (fadePopup && popup) {
+            const popupClass = new PopUpAddPaymentCard(popup);
+            super(parent,
+                [
+                    popup,
+                    fadePopup,
+                    userStore._storeNames.address,
+                    popupClass,
+                    PaymentCardTemplate,
+                    'payment-card',
+                ]);
+        } else {
+            const popupClass = new PopUpAddPaymentCard(config.empyNode);
+            super(parent,
+                [
+                    config.empyNode,
+                    config.empyNode,
+                    userStore._storeNames.address,
+                    popupClass,
+                    PaymentCardTemplate,
+                    '',
+                ]);
+        }
     }
 
     /**
      * Функция для передачи в слушателе click на значок удаления
      * адреса
-     * @param {object} event - событие
+     * @param event - событие
      */
-    async listenClickDelete(event) {
-        profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
+    override async listenClickDelete(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            profileAction.deleteCard(Number(event.target.id.replace('delete-img-paymentCard/', '')));
+        }
     }
 }

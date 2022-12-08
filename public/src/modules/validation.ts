@@ -1,5 +1,7 @@
 import errorMessage from './ErrorMessage';
 import userStore from '../stores/UserStore';
+import {validateAddressData, validatePaymentCardData} from '../../../types/interfaces';
+import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;
 
@@ -9,11 +11,10 @@ const emailRegex = /@/;
 class Validation {
     /**
      * Метод, валидирующий e-mail.
-     * @param {string} data - e-mail для валидации
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
-     * и полем сообщением ошибки message
+     * @param data - e-mail для валидации
+     * @returns объект с полем статуса проверки status и полем сообщением ошибки message
      */
-    validateEMail(data) {
+    validateEMail(data: string) {
         const checkEmpty = this.checkEmptyField(data);
         if (!checkEmpty.status) {
             return checkEmpty;
@@ -25,15 +26,14 @@ class Validation {
             return {status: false, message: 'Почта может содержать максимум 30 символов'};
         }
         return {status: true, message: ''};
-    };
+    }
 
     /**
      * Метод, валидирующий номер телефона.
-     * @param {string} phone - номер для валидации
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
-     * и полем сообщением ошибки message
+     * @param phone - номер для валидации
+     * @returns объект с полем статуса проверки status и полем сообщением ошибки message
      */
-    validatePhone(phone) {
+    validatePhone(phone: string) {
         const checkEmpty = this.checkEmptyField(phone);
         if (!checkEmpty.status) {
             return checkEmpty;
@@ -43,15 +43,15 @@ class Validation {
                 message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`};
         }
         return {status: true, message: ''};
-    };
+    }
 
     /**
      * Метод, валидирующий пароль.
-     * @param {string} data - пароль для валидации
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
+     * @param data - пароль для валидации
+     * @returns объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    validatePassword = (data) => {
+    validatePassword = (data: string) => {
         const checkEmpty = this.checkEmptyField(data);
         if (!checkEmpty.status) {
             return checkEmpty;
@@ -67,34 +67,34 @@ class Validation {
 
     /**
      * Метод, валидирующий повторный ввод пароля.
-     * @param {boolean} isValid - совпадают ли пароли
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
+     * @param isValid - совпадают ли пароли
+     * @returns объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    validateRepeatPassword(isValid) {
+    validateRepeatPassword(isValid: boolean) {
         return (isValid ? {status: true, message: ''} :
             {status: false, message: 'Введенные пароли не совпадают'});
-    };
+    }
 
     /**
      * Метод, проверяющий пустые поля.
-     * @param {string} data - данные для валидации
-     * @return {{status: boolean, message: String}} - объект с полем статуса проверки status
+     * @param data - данные для валидации
+     * @returns объект с полем статуса проверки status
      * и полем сообщением ошибки message
      */
-    checkEmptyField(data) {
+    checkEmptyField(data: string) {
         if (data.length === 0) {
             return {status: false, message: 'Поле обязательно должно быть заполнено'};
         }
         return {status: true, message: ''};
-    };
+    }
 
     /**
      * Функция, реализующая валидацию полей карты.
-     * @param {object} data - данные для обработки
-     * @return {string} errorMessage - сообщение об ошибке
+     * @param data - данные карты для обработки
+     * @returns errorMessage - сообщение об ошибке
      */
-    validateCard(data) {
+    validateCard(data: validatePaymentCardData) {
         if (data.expiry.length !== 5 ||
             !/^\d+$/.test(data.expiry.slice(0, 2)) ||
             !/^\d+$/.test(data.expiry.slice(-2))) {
@@ -119,10 +119,10 @@ class Validation {
 
     /**
      * Функция, реализующая валидацию полей карты.
-     * @param {object} data - данные для обработки
-     * @return {string} errorMessage - сообщение об ошибке
+     * @param data - данные для обработки
+     * @returns errorMessage - сообщение об ошибке
      */
-    validateAddress(data) {
+    validateAddress(data: validateAddressData) {
         if (!data.city.length) {
             return 'Введите ваш город';
         }
@@ -137,11 +137,11 @@ class Validation {
 
     /**
      * Функция, реализующая валидацию полей карты.
-     * @param {string} searchString - данные для обработки
-     * @param {boolean} isSuggest - проверяем ли мы для показа подсказки
-     * @return {string|null} errorMessage - сообщение об ошибке
+     * @param searchString - данные для обработки
+     * @param isSuggest - проверяем ли мы для показа подсказки
+     * @returns errorMessage - сообщение об ошибке
      */
-    validateSearchField(searchString, isSuggest = false) {
+    validateSearchField(searchString: string, isSuggest = false) {
         if (!searchString) {
             return null;
         }
@@ -157,68 +157,69 @@ class Validation {
 
     /**
      * Метод, осуществляющий валидацию данных из формы.
-     * @param {object} data - объект, содержащий данные из формы
-     * @return {boolean} статус валидации
+     * @param data - объект, содержащий данные из формы
+     * @returns статус валидации
      */
-    validate(data) {
+    validate(data: RecordString) {
         const context = userStore.getContext(userStore._storeNames.context);
         let isValid= true;
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
             case context.fields.name.name:
-                isValid &= errorMessage.validateField(this.checkEmptyField(value),
+                isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
                     context.fields.name, 'login__form__error');
                 break;
             case context.fields.email.name:
-                isValid &= errorMessage.validateField(this.validateEMail(value),
+                isValid = isValid && errorMessage.validateField(this.validateEMail(value),
                     context.fields.email, 'login__form__error');
                 break;
             case context.fields.password.name:
-                isValid &= errorMessage.validateField(this.validatePassword(value),
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
                     context.fields.password, 'login__form__error');
                 break;
             case context.fields.repeatPassword.name:
-                isValid &= errorMessage.validateField(this
+                isValid = isValid && errorMessage.validateField(this
                     .validateRepeatPassword(data.password === data.repeatPassword),
                 context.fields.repeatPassword, 'login__form__error');
                 break;
             case context.fields.name.popUpName:
-                isValid &= errorMessage.validateField(this.checkEmptyField(value),
+                isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
                     {
                         name: context.fields.name.popUpName,
                         errorID: context.fields.name.errorID,
                     }, 'userpage__popUp__error');
                 break;
             case context.fields.email.popUpName:
-                isValid &= errorMessage.validateField(this.validateEMail(value),
+                isValid = isValid && errorMessage.validateField(this.validateEMail(value),
                     {
                         name: context.fields.email.popUpName,
                         errorID: context.fields.email.errorID,
                     }, 'userpage__popUp__error');
                 break;
             case context.fields.phone.popUpName:
-                isValid &= errorMessage.validateField(this.validatePhone(value),
+                isValid = isValid && errorMessage.validateField(this.validatePhone(value),
                     {
                         name: context.fields.phone.popUpName,
                         errorID: context.fields.phone.errorID,
                     }, 'userpage__popUp__error');
                 break;
             case context.fields.password.popUpName:
-                isValid &= errorMessage.validateField(this.validatePassword(value),
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
                     {
                         name: context.fields.password.popUpName,
                         errorID: context.fields.password.errorID,
                     }, 'userpage__popUp__error');
                 break;
             case context.fields.repeatPassword.popUpName:
-                isValid &= errorMessage.validateField(this.validateRepeatPassword(value),
+                isValid = isValid && errorMessage.validateField(
+                    this.validateRepeatPassword(data.password === data.repeatPassword),
                     {
                         name: context.fields.repeatPassword.popUpName,
                         errorID: context.fields.repeatPassword.errorID,
                     }, 'userpage__popUp__error');
                 break;
             case context.fields?.phone?.name:
-                isValid &= errorMessage.validateField(this.validatePhone(value),
+                isValid = isValid && errorMessage.validateField(this.validatePhone(value),
                     context.fields.name);
                 break;
             }

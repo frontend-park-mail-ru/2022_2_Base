@@ -10,6 +10,7 @@ import {addSpacesToPrice} from '../modules/sharedFunctions';
  * Класс, реализующий базовое хранилище.
  */
 class CartStore extends BaseStore {
+    _storage: any;
     _storeNames = {
         responseCode: 'responseCode',
         itemsCart: 'itemsCart',
@@ -35,7 +36,7 @@ class CartStore extends BaseStore {
      * Метод, реализующий реакцию на рассылку Диспетчера.
      * @param {Object} payload полезная нагрузка запроса
      */
-    async _onDispatch(payload) {
+    async _onDispatch(payload: any) {
         switch (payload.actionName) {
         case CartActionTypes.GET_CART:
             await this._getCart();
@@ -46,6 +47,7 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DELETE_BY_ID]);
             break;
         case CartActionTypes.DELETE_ALL:
+            // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
             await this._deleteAll(payload.data);
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
@@ -94,13 +96,14 @@ class CartStore extends BaseStore {
      * Действие: соединить локальную корзину с корзиной в БД.
      */
     async _mergeCart() {
+        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
         const [status, response] = await request.makeGetRequest(config.api.cart)
             .catch((err) => console.log(err));
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response?.items?.forEach((globalItem) => {
+        response?.items?.forEach((globalItem: any) => {
             let hasItem = false;
-            itemsCart?.forEach((localItem, key) => {
+            itemsCart?.forEach((localItem: any, key: any) => {
                 if (globalItem.id === localItem.id) {
                     itemsCart[key].count += globalItem.count;
                     hasItem = true;
@@ -115,7 +118,9 @@ class CartStore extends BaseStore {
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             const [postStatus] = await request.makePostRequest(config.api.cart, {
-                items: itemsCart.map(({id}) => id),
+                items: itemsCart.map(({
+                    id
+                }: any) => id),
             }).catch((err) => console.log(err));
             this._storage.set(this._storeNames.responseCode, postStatus);
             if (postStatus === config.responseCodes.code200) {
@@ -148,11 +153,11 @@ class CartStore extends BaseStore {
      * Действие: удалить товар по ID.
      * @param {number} id
      */
-    async _deleteById(id) {
+    async _deleteById(id: any) {
         const noNullItemsCart =
             this._storage.get(this._storeNames.itemsCart)
-                .filter((item) => item.id !== id)
-                .map((item) => item.id);
+                .filter((item: any) => item.id !== id)
+                .map((item: any) => item.id);
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
@@ -177,18 +182,18 @@ class CartStore extends BaseStore {
      * @param {number} countChange
      * @param {number} id
      */
-    #editCountOfItem(status, countChange, id) {
+    #editCountOfItem(status: any, countChange: any, id: any) {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             this._storage.set(this._storeNames.responseCode, status);
         }
         this._storage.set(this._storeNames.currID, id);
         const itemToAdd = itemsStore.getContext(itemsStore._storeNames.allCardsInCategory).find(
-            (item) => item.id === Number(id));
+            (item: any) => item.id === Number(id));
         if (itemToAdd) {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((item) => item.id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((item: any) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {
@@ -201,7 +206,7 @@ class CartStore extends BaseStore {
      * Действие: добавить товар в корзину.
      * @param {number} id
      */
-    async _addToCart(id) {
+    async _addToCart(id: any) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
@@ -216,7 +221,7 @@ class CartStore extends BaseStore {
      * Действие: увеличить количество товара.
      * @param {number} id
      */
-    async _increaseNumber(id) {
+    async _increaseNumber(id: any) {
         await this._addToCart(id);
     }
 
@@ -224,7 +229,7 @@ class CartStore extends BaseStore {
      * Действие: уменьшить количество товара.
      * @param {number} id
      */
-    async _decreaseNumber(id) {
+    async _decreaseNumber(id: any) {
         let status;
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.deleteFromCart, {
@@ -240,15 +245,15 @@ class CartStore extends BaseStore {
      * Действие: оформить заказ
      * @param {object} data - данные для оформления заказа
      */
-    async _makeOrder(data) {
+    async _makeOrder(data: any) {
         data.userid = this._storage.get(this._storeNames.userID);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
             .catch((err) => console.log(err));
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, data.items.reduce(
-                (newItemsCart, id) =>
-                    newItemsCart.filter((item) => item.id !== id),
+                (newItemsCart: any, id: any) =>
+                    newItemsCart.filter((item: any) => item.id !== id),
                 this._storage.get(this._storeNames.itemsCart)));
         }
     }

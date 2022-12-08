@@ -8,18 +8,38 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import {config} from '../../config';
 import router from '../../modules/Router';
 import SearchSuggestion from '../SearchSuggestion/SearchSuggestion';
+import {topCategoryElement} from '../../../../types/interfaces';
 
 /**
  * Класс для реализации компонента Header
  */
 export default class Header extends BaseComponent {
+    bindListenEnterPressSearch: addListenerFunction | emptyCallback;
+    bindListenInputSearch: addListenerFunction | emptyCallback;
+    bindListenSearchButtonClick: addListenerFunction | emptyCallback;
+    bindListenSuggestSearch: addListenerFunction | emptyCallback;
+    elementSuggestions: HTMLElement | null;
+    headerProfile: HTMLElement | null;
+    searchButton: HTMLElement | null;
+    searchInput: HTMLInputElement | null;
+    suggestionsBlock: SearchSuggestion;
     /**
      * Конструктор, создающий класс компонента Header
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
+        this.bindListenEnterPressSearch = config.noop;
+        this.bindListenInputSearch = config.noop;
+        this.bindListenSearchButtonClick = config.noop;
+        this.bindListenSuggestSearch = config.noop;
+
+        this.elementSuggestions = null;
+        this.headerProfile = null;
+        this.searchButton = null;
+        this.searchInput = null;
+        this.suggestionsBlock = new SearchSuggestion(null);
 
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
@@ -44,7 +64,7 @@ export default class Header extends BaseComponent {
      */
     async listenMouseOverProfile() {
         const headerPopUp = document.querySelector('.profile__pop-up');
-        if (headerPopUp) {
+        if (headerPopUp instanceof HTMLElement) {
             headerPopUp.style.display = 'block';
         }
     }
@@ -54,7 +74,7 @@ export default class Header extends BaseComponent {
      */
     async listenMouseOutProfile() {
         const headerPopUp = document.querySelector('.profile__pop-up');
-        if (headerPopUp) {
+        if (headerPopUp instanceof HTMLElement) {
             headerPopUp.style.display = 'none';
         }
     }
@@ -63,35 +83,37 @@ export default class Header extends BaseComponent {
      * Функция, обрабатывающая нажатие на кнопку поиска.
      */
     listenSearchButtonClick() {
-        const category = this.#isSearchContainsCategory();
+        const category = this.#isSearchContainsCategory() as topCategoryElement; // fix
         if (category) {
             router.openPage(category.href);
         } else {
             router.openWithCustomHistoryPage(config.href.search,
-                `${config.href.search}?q=${this.searchInput.value}`);
-            this.elementSuggestions.innerHTML = '';
+                `${config.href.search}?q=${this.searchInput?.value}`);
+            if (this.elementSuggestions) {
+                this.elementSuggestions.innerHTML = '';
+            }
         }
     }
 
     /**
      * Функция, возвращающая категорию, если она содержится в строке поиска
-     * @return {string|undefined} категория
+     * @returns категория
      */
     #isSearchContainsCategory() {
         return Object.values(
             itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
-            (category) => category.nameCategory.toLowerCase()
-                .includes(this.searchInput.value.toLowerCase()));
+            (category: any) => category.nameCategory.toLowerCase()
+                .includes(this.searchInput?.value.toLowerCase()));
     }
 
     /**
      * Функция, обрабатывающая ввод в строку поиска.
      */
     listenInputSearch() {
-        if (this.searchInput.value) {
+        if (this.searchInput?.value) {
             const errorMessageSearch = validation.validateSearchField(this.searchInput.value, true);
             if (!errorMessageSearch) {
-                const category = this.#isSearchContainsCategory();
+                const category = this.#isSearchContainsCategory() as topCategoryElement; // fix
                 if (category) {
                     itemCardsAction.getSuggestionSearch(category.nameCategory, true);
                 } else {
@@ -101,34 +123,39 @@ export default class Header extends BaseComponent {
                 errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
             }
         } else {
-            this.elementSuggestions.innerHTML = '';
+            if (this.elementSuggestions) {
+                this.elementSuggestions.innerHTML = '';
+            }
         }
     }
 
     /**
      * Функция, обрабатывающая нажатие на подсказку.
-     * @param {HTMLElement} target - элемент вызвавший событие
+     * @param target - элемент вызвавший событие
      */
-    listenSuggestSearch({target}) {
-        this.searchInput.value = target.innerText;
-        const category = this.#isSearchContainsCategory();
+    listenSuggestSearch({target}: Event) {
+        if (target instanceof HTMLElement && this.searchInput) {
+            this.searchInput.value = target.innerText;
+            const category = this.#isSearchContainsCategory() as topCategoryElement;
 
-        if (category) {
-            router.openPage(category.href);
-            this.elementSuggestions.innerHTML = '';
-        } else {
-            router.openWithCustomHistoryPage(config.href.search,
-                `${config.href.search}?q=${target.innerText}`);
-            this.elementSuggestions.innerHTML = '';
+            if (category) {
+                router.openPage(category.href);
+            } else {
+                router.openWithCustomHistoryPage(config.href.search,
+                    `${config.href.search}?q=${target.innerText}`);
+            }
+            if (this.elementSuggestions) {
+                this.elementSuggestions.innerHTML = '';
+            }
         }
     }
 
     /**
      * Функция, обрабатывающая нажатие на кнопку enter при вводе поискового запроса.
-     * @param {KeyboardEvent} event - событие, вызвавшее функцию
+     * @param event - событие, вызвавшее функцию
      */
-    listenEnterPressSearch(event) {
-        if (event.key === 'Enter') {
+    listenEnterPressSearch(event: Event) {
+        if ((event as KeyboardEvent).key === 'Enter') {
             this.listenSearchButtonClick();
         }
     }
@@ -149,7 +176,7 @@ export default class Header extends BaseComponent {
             this.searchButton.addEventListener('click', this.bindListenSearchButtonClick);
         }
 
-        this.searchInput = document.getElementById('search-line__text');
+        this.searchInput = document.getElementById('search-line__text') as HTMLInputElement;
         if (this.searchInput) {
             this.bindListenInputSearch = this.listenInputSearch.bind(this);
             this.searchInput.addEventListener('input', this.bindListenInputSearch);
@@ -166,7 +193,7 @@ export default class Header extends BaseComponent {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.headerProfile) {
             this.headerProfile.removeEventListener('mouseover', this.listenMouseOverProfile);
             this.headerProfile.removeEventListener('mouseout', this.listenMouseOutProfile);
@@ -182,16 +209,16 @@ export default class Header extends BaseComponent {
 
         if (this.elementSuggestions) {
             this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
-            this.searchInput.removeEventListener('keypress', this.bindListenEnterPressSearch);
+            this.searchInput?.removeEventListener('keypress', this.bindListenEnterPressSearch);
         }
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Boolean} session контекст отрисовки шаблона, содержащий информацию об авторизации
+     * @param session - контекст отрисовки шаблона, содержащий информацию об авторизации
      */
-    render(session) {
+    override render(session: boolean) {
         this._parent.innerHTML = '';
         super.render(this.prepareRenderData(session), headerTemplate);
         this.elementSuggestions = document.getElementById('search-suggestions__main');
@@ -200,10 +227,10 @@ export default class Header extends BaseComponent {
 
     /**
      * Метод, подготавливавающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} значение категории из контекста отрисовки
+     * @param context - контекст отрисовки шаблона
+     * @returns значение категории из контекста отрисовки
      */
-    prepareRenderData(context) {
+    prepareRenderData(context: boolean) {
         return {
             session: context,
             categories: itemsStore.getContext(itemsStore._storeNames.topCategory),

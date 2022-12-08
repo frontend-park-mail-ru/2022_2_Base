@@ -8,33 +8,19 @@ import './CatalogItemCard.scss';
 export default class CatalogItemCard extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента PaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
-    }
-
-    /**
-     * Метод, добавляющий слушатели.
-     */
-    startEventListener() {
-
-    }
-
-    /**
-     * Метод, удаляющий слушатели.
-     */
-    removeEventListener() {
-
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {Array} context, с учетом которого будет произведен рендер
+     * @param context - контекст с учетом которого будет произведен рендер
      */
-    render(context) {
+    override render(context: Array<object>) {
         this._parent.insertAdjacentHTML('beforeend',
             catalogItemCardTemplate(super.prepareCategory(context)));
     }

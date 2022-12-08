@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './MainPage.hbs' or its corresp... Remove this comment to see the full error message
 import mainPageTemplate from './MainPage.hbs';
 import BasePage from '../BasePage';
 import TopCategory from '../../components/TopCategory/TopCategory';
@@ -15,11 +16,13 @@ import {parseIntInPrice} from '../../modules/sharedFunctions';
  * Класс, реализующий главную страницу
  */
 export default class MainPage extends BasePage {
+    catalogContent: any;
+    topComponent: any;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             mainPageTemplate,
@@ -59,10 +62,11 @@ export default class MainPage extends BasePage {
         const response = itemsStore.getContext(itemsStore._storeNames.cardsHome);
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
             const rootElement = document.getElementById(response.classToGet + '__right-arrow');
-            response.body.forEach((card, num) => {
+            response.body.forEach((card: any, num: any) => {
                 const cardElement = document.createElement('div');
                 cardElement.id = `${response.classToGet}${String(num)}`;
                 cardElement.classList.add('item-card');
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 rootElement.before(cardElement);
                 const itemCard = new ItemCard(cardElement);
                 itemCard.render(card);
@@ -77,7 +81,7 @@ export default class MainPage extends BasePage {
      * Функция, обрабатывающая клики на данной странице
      * @param {Event} event контекст события для обработки
      */
-    localEventListenersHandler(event) {
+    localEventListenersHandler(event: any) {
         event.preventDefault();
         if (event.target.getAttribute('data-selection')) {
             const [elementId, itemId] = event.target.getAttribute('data-selection').split('/');
@@ -106,8 +110,8 @@ export default class MainPage extends BasePage {
             '[data-selection=\'itemcard_button-add-to-cart\/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (!!addToCartButton && !!countSelector) {
-            countSelector.forEach((selector) => selector.style.display = 'grid');
-            addToCartButton.forEach((button) => button.style.display = 'none');
+            countSelector.forEach((selector) => (selector as any).style.display = 'grid');
+            addToCartButton.forEach((button) => (button as any).style.display = 'none');
 
             const itemCount = document.querySelectorAll(
                 '[data-selection=\'itemcard_item-count\/' +
@@ -151,8 +155,8 @@ export default class MainPage extends BasePage {
                     '[data-selection=\'itemcard_button-add-to-cart\/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 if (!!addToCartButton && !!countSelector) {
-                    countSelector.forEach((selector) => selector.style.display = 'none');
-                    addToCartButton.forEach((button) => button.style.display = 'flex');
+                    countSelector.forEach((selector) => (selector as any).style.display = 'none');
+                    addToCartButton.forEach((button) => (button as any).style.display = 'flex');
                 } else {
                     console.warn(
                         'Элементы не найдены: addToCartButton, addToCartButton');
@@ -187,7 +191,7 @@ export default class MainPage extends BasePage {
         const start = new Date;
         start.setHours(3, 0, 0); // 3am
 
-        const pad = (num) => {
+        const pad = (num: any) => {
             return ('0' + parseInt(num)).substr(-2);
         };
         const tick = () => {
@@ -195,7 +199,9 @@ export default class MainPage extends BasePage {
             if (now > start) { // too late, go to tomorrow
                 start.setDate(start.getDate() + 1);
             }
+            // @ts-expect-error TS(2362): The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
             const remain = ((start - now) / 1000);
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             display.textContent =
                 pad((remain / 60 / 60) % 60) + ':' +
                 pad((remain / 60) % 60) + ':' +

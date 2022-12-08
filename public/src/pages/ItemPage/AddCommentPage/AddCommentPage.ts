@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './AddCommentPage.hbs' or its c... Remove this comment to see the full error message
 import addCommentPageTemplate from './AddCommentPage.hbs';
 import './AddCommentPage.scss';
 import itemsStore from '../../../stores/ItemsStore';
@@ -13,11 +14,12 @@ import refreshElements from '../../../modules/refreshElements';
  * Класс, реализующий AddCommentPage
  */
 export default class AddCommentPage extends BaseItemPage {
+    submitButton: any;
     /**
      * Конструктор, создающий конструктор базовой страницы AddCommentPage с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             addCommentPageTemplate,
@@ -57,13 +59,14 @@ export default class AddCommentPage extends BaseItemPage {
      */
     listenClickSubmitComment() {
         const commentData = {};
-        commentData.rating = Math.abs(Array.from(document.getElementsByName('rating'))
-            .findIndex(({checked}) => checked === true) - 5);
+        (commentData as any).rating = Math.abs(Array.from(document.getElementsByName('rating'))
+    // @ts-expect-error TS(2339): Property 'checked' does not exist on type 'HTMLEle... Remove this comment to see the full error message
+    .findIndex(({ checked }) => checked === true) - 5);
 
-        if (commentData.rating !== 6) {
-            commentData.pros = document.getElementById('textarea_pros-filed').value;
-            commentData.cons = document.getElementById('textarea_cons-filed').value;
-            commentData.comment = document.getElementById('textarea_comment-filed').value;
+        if ((commentData as any).rating !== 6) {
+            (commentData as any).pros = (document.getElementById('textarea_pros-filed') as any).value;
+            (commentData as any).cons = (document.getElementById('textarea_cons-filed') as any).value;
+            (commentData as any).comment = (document.getElementById('textarea_comment-filed') as any).value;
             itemCardsAction.addComment(commentData);
         } else {
             errorMessage.getAbsoluteErrorMessage('Укажите рейтинг товара');

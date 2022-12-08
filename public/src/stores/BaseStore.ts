@@ -4,6 +4,9 @@ import Dispatcher from '../modules/dispatcher';
  * Класс, реализующий базовое хранилище.
  */
 export default class BaseStore {
+    _changed: boolean;
+    _events: Map<string, baseStoreObject>;
+    _storage: Map<string, any>;
     /**
      * @constructor
      */
@@ -16,19 +19,19 @@ export default class BaseStore {
 
     /**
      * Метод, возвращающий текущее состояние (контекст) хранилища.
-     * @param {String?} field возвращаемое поле
+     * @param {string} field возвращаемое поле
      * @return {any} контекст хранилища
      */
-    getContext(field) {
+    getContext(field: string) {
         return (field ? this._storage.get(field) : this._storage);
     }
 
     /**
      * Метод, добавляющий нового слушателя.
-     * @param {function} callback функция-обработчик
-     * @param {String?} changeEvent наименование события
+     * @param {emptyCallback} callback функция-обработчик
+     * @param {String} changeEvent наименование события
      */
-    addListener(callback, changeEvent) {
+    addListener(callback: emptyCallback, changeEvent: string) {
         this._events.set(changeEvent, {
             callbacks: callback,
             promise: null,
@@ -45,11 +48,10 @@ export default class BaseStore {
 
     /**
      * Метод, устанавливающий статус "изменено".
-     * @param {Array.<string>} events произошедшие события
+     * @param {Array<string>} events произошедшие события
      */
-    _emitChange(events) {
-        if (events.every((val) =>
-            this._events.get(val).promise = Promise.resolve(val))) {
+    _emitChange(events: Array<string>) {
+        if (events.every((val: string) => this._events.get(val)!.promise = Promise.resolve(val))) {
             this._changed = true;
         } else {
             throw new Error('Store: метод _emitChange должен вызывать существующие события');
@@ -58,29 +60,29 @@ export default class BaseStore {
 
     /**
      * Метод, реализующий обертку под _onDispatch.
-     * @param {Object} payload полезная нагрузка
+     * @param {object} payload полезная нагрузка
      */
-    async _invokeOnDispatch(payload) {
+    async _invokeOnDispatch(payload: object) {
         this._changed = false;
         await this._onDispatch(payload);
 
         if (this.hasChanged()) {
-            this._events.forEach((value, key) => {
+            this._events.forEach((value: baseStoreObject, key: string) => {
                 value.promise?.then(
                     (changeEvent) => {
                         value.callbacks();
-                        this._events.get(key).promise = null;
+                        this._events.get(key)!.promise = null;
                     })
-                    .catch((error) => console.log('_invokeOnDispatch:', error));
+                    .catch((error: any) => console.log('_invokeOnDispatch:', error));
             });
         }
     }
 
     /**
      * Метод, реализующий реакцию на рассылку Диспетчера.
-     * @param {Object} payload полезная нагрузка запроса
+     * @param {object} payload полезная нагрузка запроса
      */
-    async _onDispatch(payload) {
+    async _onDispatch(payload: object) {
         throw new Error('Store: метод _onDispatch должен быть реализован в подклассе');
     }
 }

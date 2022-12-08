@@ -3,15 +3,15 @@
  */
 export default class BasePage {
     #parent;
-    #template;
+    readonly #template;
 
     /**
      * Конструктор, создающий базовый класс реализации страницы.
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
-     * @param {HandlebarsTemplateDelegate} template шаблон для отрисовки
+     * @param template - шаблон для отрисовки
      */
-    constructor(parent, template) {
+    constructor(parent: Element, template: HandlebarsTemplateDelegate) {
         this.#parent = parent;
         this.#template = template;
     }
@@ -19,29 +19,27 @@ export default class BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
-
-    }
+    addListener() {}
 
     /**
      * Метод, добавляющий слушатели.
-     * @param {any} context контекст данных для страницы
+     * @param context - контекст данных для страницы
      */
-    startEventListener(context) {
+    startEventListener(context: object) {
     }
 
     /**
      * Метод, удаляющий слушатели.
-     * @param {any} context контекст данных для страницы
+     * @param context - контекст данных для страницы
      */
-    removeEventListener(context) {
+    removeEventListener(context: object) {
     }
 
     /**
      * Метод, отрисовывающий страницу.
-     * @param {any} data контекст данных для страницы
+     * @param data - контекст данных для страницы
      */
-    render(data) {
+    render(data: object) {
         this.addListener();
         this.#parent.innerHTML = this.#template(data);
     }

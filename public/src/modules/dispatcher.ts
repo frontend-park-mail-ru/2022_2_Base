@@ -2,6 +2,10 @@
  * Класс, реализующий Диспетчер.
  */
 class Dispatcher {
+    _callbacks: Map<number, DispatcherCallbackObject>;
+    _isDispatching: boolean;
+    _lastId: number;
+    _pendingPayload?: object;
     /**
      * @constructor
      */
@@ -15,15 +19,15 @@ class Dispatcher {
      * Метод, регистрирующий новый коллбек в диспетчере.
      * @param {Function} newCallback функция-коллбек
      */
-    register(newCallback) {
+    register(newCallback: objectFunction) {
         this._callbacks.set(this._lastId++, {callback: newCallback, isPending: false});
     }
 
     /**
      * Метод, удаляющий регистрацию коллбека.
-     * @param {number} id
+     * @param {number} id - идентификатор коллбека
      */
-    unregister(id) {
+    unregister(id: number) {
         if (this._callbacks.has(id)) {
             this._callbacks.delete(id);
             return;
@@ -33,9 +37,9 @@ class Dispatcher {
 
     /**
      * Метод, организующий рассылку.
-     * @param {Object?} payload
+     * @param {object} payload - данные для передачи в стор
      */
-    dispatch(payload) {
+    dispatch(payload: object) {
         if (this.isDispatching()) {
             throw new Error('Dispatcher: метод dispatch должен быть запущен при выключенном Dispatcher');
         }
@@ -64,18 +68,18 @@ class Dispatcher {
 
     /**
      * Метод, вызывающий функцию коллбека у id.
-     * @param {Number} id идентификатор коллбека
+     * @param {number} id идентификатор коллбека
      */
-    _invokeCallback(id) {
-        this._callbacks.get(id).isPending = true;
-        this._callbacks.get(id).callback(this._pendingPayload);
+    _invokeCallback(id: number) {
+        this._callbacks.get(id)!.isPending = true;
+        this._callbacks.get(id)!.callback(this._pendingPayload);
     }
 
     /**
      * Метод, инициирующий рассылку действий.
-     * @param {Object} payload
+     * @param {object} payload - данные для передачи в стор
      */
-    _startDispatching(payload) {
+    _startDispatching(payload: object) {
         for (const value of this._callbacks.values()) {
             value.isPending = false;
         }

@@ -8,18 +8,18 @@ import './itemCard.scss';
 export default class ItemCard extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента ItemCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
-     * @param {Object} context контекст отрисовки шаблона
+     * @param context - контекст отрисовки шаблона
      */
-    render(context) {
+    override render(context: object) {
         super.render(context, itemTemplate);
     }
 }

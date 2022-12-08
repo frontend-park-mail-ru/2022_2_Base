@@ -1,20 +1,25 @@
-import AddToCartButtonTemplate from './AddToCartButton.hbs';
+import * as AddToCartButtonTemplate from './AddToCartButton.hbs';
 import BaseComponent from '../BaseComponent.js';
 import './AddToCartButton.scss';
 import cartStore from '../../stores/CartStore.js';
 import {cartAction, CartActionTypes} from '../../actions/cart.js';
+import {config} from '../../config';
 
 /**
  * Класс для реализации компонента AddToCartButton
  */
 export default class AddToCartButton extends BaseComponent {
+    bindListenClickButtonAddIntoCart: addListenerFunction | null;
+    buttonAddIntoCart: HTMLElement | null;
     /**
      * Конструктор, создающий класс компонента AddToCartButton
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
+        this.bindListenClickButtonAddIntoCart = null;
+        this.buttonAddIntoCart = null;
 
         cartStore.addListener(this.buttonCreate, CartActionTypes.ADD_TO_CART);
 
@@ -52,7 +57,7 @@ export default class AddToCartButton extends BaseComponent {
         const amount = document.getElementById(
             `amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (amount) {
-            const count = parseInt(amount.textContent);
+            const count = parseInt(amount.textContent ?? '');
             amount.textContent = (count + 1).toString();
         }
     }
@@ -64,7 +69,7 @@ export default class AddToCartButton extends BaseComponent {
         const amount = document.getElementById(
             `amount/${cartStore.getContext(cartStore._storeNames.currID)}`);
         if (amount) {
-            const count = parseInt(amount.textContent);
+            const count = parseInt(amount.textContent ?? '');
 
             if (count === 1) {
                 const amountSelector = document.getElementById(
@@ -87,10 +92,10 @@ export default class AddToCartButton extends BaseComponent {
 
     /**
      * Функция, обрабатывающая клики на кнопку добавить в корзину
-     * @param {HTMLElement} target элемент, вызвавший обработчик
+     * @param target - элемент, вызвавший обработчик
      */
-    listenClickButtonAddIntoCart({target}) {
-        if (target.id && target.id.includes('/')) {
+    listenClickButtonAddIntoCart({target}: Event) {
+        if (target instanceof HTMLElement && target.id && target.id.includes('/')) {
             const [elementID, itemID] = target.id.split('/');
             switch (elementID) {
             case 'button-add-to-cart':
@@ -109,7 +114,7 @@ export default class AddToCartButton extends BaseComponent {
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         this.buttonAddIntoCart = document.getElementById('block-button-add-to-cart');
         if (this.buttonAddIntoCart) {
             this.bindListenClickButtonAddIntoCart = this.listenClickButtonAddIntoCart.bind(this);
@@ -120,17 +125,18 @@ export default class AddToCartButton extends BaseComponent {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.buttonAddIntoCart) {
-            this.buttonAddIntoCart.removeEventListener('click', this.bindListenClickButtonAddIntoCart);
+            this.buttonAddIntoCart.removeEventListener('click',
+                this.bindListenClickButtonAddIntoCart ?? config.noop);
         }
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
-     * @param {Object} context контекст отрисовки шаблона
+     * @param context - контекст отрисовки шаблона
      */
-    render(context) {
+    override render(context: object) {
         super.render(context, AddToCartButtonTemplate);
         this.startEventListener();
     }

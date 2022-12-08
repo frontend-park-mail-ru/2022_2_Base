@@ -4,6 +4,8 @@ import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
 import userStore from '../../../stores/UserStore';
 import validation from '../../../modules/validation';
+import {getInputValueById} from '../../../modules/sharedFunctions';
+import {RecordString} from '../../../../../types/tuples';
 
 /**
  * Класс для реализации компонента Footer
@@ -11,38 +13,41 @@ import validation from '../../../modules/validation';
 export default class PopUpEditUserInfo extends BasePopUp {
     /**
      * Конструктор, создающий класс компонента PopUpEditUserInfo
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLInputElement) {
         super(parent, [PopUpEditUserInfoTemplate, 'user-info']);
     }
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
-     * @param {object} event - событие
+     * @param event - событие
      */
-    async listenClickApply(event) {
+    override async listenClickApply(event: Event) {
         event.preventDefault();
         const data = {
-            value: document.getElementById(this.context.id + '__popUp').value,
+            value: (getInputValueById(this.context.id + '__popUp')).value,
             id: this.context.id,
         };
-        const dataForVal = {};
-        dataForVal[userStore.getContext(userStore._storeNames.context)
-            .fields[data.id].popUpName] = data.value;
-        if (validation.validate(dataForVal)) {
-            profileAction.saveEditData(data);
+        const storeData = userStore.getContext(userStore._storeNames.context)
+            .fields[data.id].popUpName;
+        if (typeof storeData === 'string') {
+            const dataForVal: RecordString = {};
+            dataForVal[storeData] = data.value;
+            if (validation.validate(dataForVal)) {
+                profileAction.saveEditData(data);
+            }
         }
     }
 
 
     /**
      * Метод, подготавливавающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} наполнение для формы
+     * @param context - контекст отрисовки шаблона
+     * @returns наполнение для формы
      */
-    prepareRenderData(context) {
+    prepareRenderData(context: HTMLInputElement) {
         const data = {
             title: context.getAttribute('name'),
             id: context.id,
@@ -51,6 +56,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
                     name: context.getAttribute('name'),
                     id: context.id + '__popUp',
                     type: context.id,
+                    value: '',
                 },
             },
         };
@@ -69,11 +75,11 @@ export default class PopUpEditUserInfo extends BasePopUp {
             data.fields.field1.name = 'Новый пароль';
             data.fields.field1.value = context.value;
 
-            data.fields.field2 = {};
-            data.fields.field2.name = 'Повторить пароль';
-            data.fields.field2.value = '';
-            data.fields.field2.type = context.id;
-            data.fields.field2.id = context.id + '__2__popUp';
+            // data.fields.field2 = {};
+            // data.fields.field2.name = 'Повторить пароль';
+            // data.fields.field2.value = '';
+            // data.fields.field2.type = context.id;
+            // data.fields.field2.id = context.id + '__2__popUp';
         }
         return data;
     }
@@ -81,9 +87,11 @@ export default class PopUpEditUserInfo extends BasePopUp {
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
-     * @param {object} context, с учетом которого будет произведен рендер
+     * @param context - контекст, с учетом которого будет произведен рендер
      */
-    render(context) {
-        super.render(this.prepareRenderData(context));
+    override render(context: object) {
+        if (context instanceof HTMLInputElement) {
+            super.render(this.prepareRenderData(context));
+        }
     }
 }

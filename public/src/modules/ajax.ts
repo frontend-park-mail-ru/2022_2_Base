@@ -16,7 +16,7 @@ class Request {
      * @param {object} options - параметры запроса
      * @return {Promise<Response>} промис запроса
      */
-    makeRequest = (url, options) => {
+    makeRequest = (url: string, options: object) => {
         return fetch(url, options).then((response) => response.ok ?
             response.json().then((data) => [response.status, data]) :
             [response.status, response.body]).catch((error) => [500, error]);
@@ -27,7 +27,7 @@ class Request {
      * @param {string} url - путь URL
      * @return {Promise<Response>} - промис запроса
      */
-    makeGetRequest = async (url) => {
+    makeGetRequest = async (url: string) => {
         const options = {
             method: 'get',
             mode: 'cors',
@@ -43,7 +43,7 @@ class Request {
      * @param {object} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-    makePostRequest = async (url, data) => {
+    makePostRequest = async (url: string, data: object) => {
         const options = {
             method: 'post',
             mode: 'cors',
@@ -60,7 +60,7 @@ class Request {
      * @param {Blob} data - полезная нагрузка запроса
      * @return {Promise<Response>} промис запроса
      */
-    makePostRequestSendAvatar = async (url, data) => {
+    makePostRequestSendAvatar = async (url: string, data: Blob) => {
         const formData = new FormData();
         formData.append('file', data);
         const options = {
@@ -77,7 +77,7 @@ class Request {
      * @param {string} url - путь URL
      * @return {Promise<Response>} промис запроса
      */
-    makeDeleteRequest = async (url) => {
+    makeDeleteRequest = async (url: string) => {
         const options = {
             method: 'delete',
             mode: 'cors',

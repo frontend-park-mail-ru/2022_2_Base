@@ -8,10 +8,10 @@ import './footer.scss';
 export default class Header extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента Footer
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
     }
 
@@ -19,7 +19,7 @@ export default class Header extends BaseComponent {
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону,
      * импортированному из templates.js
      */
-    render() {
+    override render() {
         super.render(null, footerTemplate);
     }
 }

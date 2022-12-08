@@ -34,7 +34,7 @@ export const profileAction = {
      * Действие: редактировать данные.
      * @param {object} data - отредактированное поле
      */
-    saveEditData(data) {
+    saveEditData(data: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: data,
@@ -45,7 +45,7 @@ export const profileAction = {
      * Действие: загрузка аватара.
      * @param {Blob} avatar - аватар
      */
-    uploadAvatar(avatar) {
+    uploadAvatar(avatar: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.UPLOAD_AVATAR,
             data: avatar,
@@ -65,7 +65,7 @@ export const profileAction = {
      * Действие: добавить новую банковскую карту.
      * @param {object} data - данные для обработки
      */
-    saveAddCard(data) {
+    saveAddCard(data: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
             data: data,
@@ -75,7 +75,7 @@ export const profileAction = {
     /** Удаление банковской карты с определенным id.
      * @param {number} id
      */
-    deleteCard(id) {
+    deleteCard(id: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_CARD,
             data: id,
@@ -86,7 +86,7 @@ export const profileAction = {
      * Действие: добавить новый адрес.
      * @param {object} data - данные для обработки
      */
-    saveAddAddress(data) {
+    saveAddAddress(data: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
             data: data,
@@ -97,7 +97,7 @@ export const profileAction = {
      * Действие: редактировать адрес.
      * @param {object} data - данные для обработки
      */
-    saveEditAddress(data) {
+    saveEditAddress(data: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
             data: data,
@@ -107,7 +107,7 @@ export const profileAction = {
     /** Удаление адреса с определенным id.
      * @param {number} id
      */
-    deleteAddress(id) {
+    deleteAddress(id: any) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_ADDRESS,
             data: id,

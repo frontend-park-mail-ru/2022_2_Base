@@ -14,15 +14,16 @@ import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
 import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
 import UserPage from '../pages/UserPage/UserPage';
+import {CustomPages} from '../../../types/aliases';
 
 /**
  * Класс, реализующий переход между страницами SPA.
  */
 class Router {
-    #pathToPage;
-    #mainElement;
-    #currentPage;
-    #titles;
+    #pathToPage: Map<string, CustomPages>;
+    #mainElement: HTMLElement | null;
+    #currentPage: CustomPages;
+    #titles: Map<string, string>;
 
     /**
      * Конструктор роутера.
@@ -30,6 +31,7 @@ class Router {
     constructor() {
         this.#pathToPage = new Map();
         this.#titles = new Map();
+        this.#mainElement = null;
         this.addToHistory = this.addToHistory.bind(this);
 
         window.addEventListener('click', this.#changePage);
@@ -38,7 +40,7 @@ class Router {
 
         userStore.addListener(() => {
             if (userStore.getContext(userStore._storeNames.responseCode) ===
-                config.responseCodes.code200) {
+                    config.responseCodes.code200) {
                 refresh.onAuth();
             } else {
                 refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
@@ -50,7 +52,7 @@ class Router {
 
         userStore.addListener(() => {
             if (userStore.getContext(userStore._storeNames.responseCode) ===
-                config.responseCodes.code200) {
+                    config.responseCodes.code200) {
                 refresh.onLogOut();
             }
         },
@@ -59,58 +61,58 @@ class Router {
 
     /**
      * Функция перехода на новую страницу
-     * @param {object} event - событие, произошедшее на странице
+     * @param event - событие, произошедшее на странице
      */
-    #changePage = async (event) => {
+    #changePage = async (event: Event) => {
         const {target} = event;
-        let href = target.getAttribute('href');
+        if (target) {
+            let href = (target as HTMLElement).getAttribute('href');
 
-        if (href === null) {
-            href = target.parentElement?.getAttribute('href');
-        }
+            if (!href) {
+                href = (target as HTMLElement).parentElement?.getAttribute('href') ?? null;
+            }
 
-        if (!!href && !href.includes('#')) {
-            event.preventDefault();
-            this.openPage(href);
-        }
+            if (!!href && !href.includes('#')) {
+                event.preventDefault();
+                this.openPage(href);
+            }
 
-        if (href === config.href.logout) {
-            event.preventDefault();
-            userActions.logout();
+            if (href === config.href.logout) {
+                event.preventDefault();
+                userActions.logout();
+            }
         }
     };
 
 
     /**
      * Функция отрисовки страницы
-     * @param {object} PageConstructor конструктор класса страницы
-     * @return {object} класс страницы
+     * @param PageConstructor - конструктор класса страницы
+     * @returns класс страницы
      */
-    renderPage(PageConstructor) {
-        if (PageConstructor instanceof Function && typeof PageConstructor === 'function') {
-            const page = new PageConstructor(this.#mainElement);
+    renderPage(PageConstructor: CustomPages) {
+        const page = new PageConstructor(this.#mainElement);
 
-            return (context) => {
-                page.render(context);
-                return page;
-            };
-        }
-    };
+        return (context: object) => {
+            page.render(context);
+            return page;
+        };
+    }
 
     /**
      * Регистрирует страницу.
-     * @param {string} path - путь к странице
-     * @param {object} view - страница
+     * @param path - путь к странице
+     * @param view - страница
      */
-    register(path, view) {
+    register(path: string, view: CustomPages) {
         this.#pathToPage.set(path, this.renderPage(view));
     }
 
     /**
      * Удаляет страницу.
-     * @param {string} path - путь к странице
+     * @param path - путь к странице
      */
-    remove(path) {
+    remove(path: string) {
         this.#pathToPage.delete(path);
     }
 
@@ -123,9 +125,9 @@ class Router {
 
     /**
      * Добавляет в историю браузера.
-     * @param {string} path - путь к странице
+     * @param path - путь к странице
      */
-    addToHistory(path) {
+    addToHistory(path: string) {
         window.history.pushState({page: path + (window.history.length + 1).toString()}, path, path);
         window.onpopstate = (event) => this.openPage(document.location.pathname, config.noop);
     }
@@ -134,7 +136,7 @@ class Router {
      * Переходит по истории назад. Если истории нет, то на главную.
      */
     back() {
-        History.length > 1 ? history.back() : this.openPage(config.href.main, config.noop);
+        History.length > 2 ? history.back() : this.openPage(config.href.main, config.noop);
     }
 
     /**
@@ -172,27 +174,27 @@ class Router {
 
     /**
      * Переходит на страницу.
-     * @param {string} path - путь к странице
-     * @param {string} pathForHistory - путь который надо проставить в браузере
+     * @param path - путь к странице
+     * @param pathForHistory - путь который надо проставить в браузере
      */
-    openWithCustomHistoryPage(path, pathForHistory) {
+    openWithCustomHistoryPage(path: string, pathForHistory: string) {
         this.addToHistory(pathForHistory);
         this.openPage(path, config.noop);
     }
 
     /**
      * Переходит на страницу.
-     * @param {string} path - путь к странице
-     * @param {function} addToHistory - путь к странице
-     * @return {boolean} - зарегистрирована ли такая страница
+     * @param path - путь к странице
+     * @param addToHistory - путь к странице
+     * @returns зарегистрирована ли такая страница
      */
-    openPage(path, addToHistory = this.addToHistory) {
+    openPage(path: string, addToHistory = this.addToHistory) {
         document.documentElement.scrollTop = 0;
         const goToPath = (path?.slice(0, path.lastIndexOf('/')) ?
             path?.slice(0, path.lastIndexOf('/')) : path);
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
-            document.title = this.#titles.get(goToPath);
+            document.title = this.#titles.get(goToPath) ?? 'Reazon';
             addToHistory(path);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;

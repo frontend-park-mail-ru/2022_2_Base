@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './CartPage.hbs' or its corresp... Remove this comment to see the full error message
 import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage';
 import CartItem from '../../components/CartItem/CartItem';
@@ -19,11 +20,19 @@ import refreshElements from '../../modules/refreshElements';
  * Класс, реализующий страницу с регистрации.
  */
 export default class CartOrderPage extends BasePage {
+    PopUpChooseAddressAndPaymentCard: any;
+    addressCart: any;
+    bindListenChangeCheckbox: any;
+    bindListenClickAddressAndPaymentCardBlock: any;
+    bindListenClickProductsBlock: any;
+    cartContent: any;
+    createOrder: any;
+    productsContent: any;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             CartPageTemplate,
@@ -45,7 +54,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, вызывающая action функцию отрисовки при удалении товара
      * @param {number} id - id удаленного товара
      */
-    deleteItem(id) {
+    deleteItem(id: any) {
         cartAction.deleteById(id);
         const deleteElement = document.getElementById(`cart-item_cart/${id}`);
         if (deleteElement) {
@@ -74,7 +83,7 @@ export default class CartOrderPage extends BasePage {
      * @param {array} data
      * @param {object} context
      */
-    #calcSummaryPrice(data, context) {
+    #calcSummaryPrice(data: any, context: any) {
         /*
         * мы считаем сумму товаров в корзине (sumPrice), сумму скидок (noSalePrice),
         * итоговую разницу цены со скидкой и без скидки (priceDiff), количество товаров (count).
@@ -82,7 +91,7 @@ export default class CartOrderPage extends BasePage {
         * и не создавать лишних переменных
         * */
         [context.sumPrice, context.noSalePrice, context.priceDiff, context.count] =
-            data.reduce((sumVal, key) => {
+            data.reduce((sumVal: any, key: any) => {
                 // sumPrice
                 sumVal[0] += key.lowprice * key.count ?? key.price * key.count;
                 // noSalePrice
@@ -92,7 +101,7 @@ export default class CartOrderPage extends BasePage {
                 // count
                 sumVal[3] += key.count;
                 return sumVal;
-            }, [0, 0, 0, 0]).map((val) => {
+            }, [0, 0, 0, 0]).map((val: any) => {
                 return truncatePrice(val);
             });
     }
@@ -101,33 +110,33 @@ export default class CartOrderPage extends BasePage {
      * Функция, отрисовывающая корзину
      * @param {object} data - данные для заполнения
      */
-    renderCart(data) {
+    renderCart(data: any) {
         if (data && data.length) {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
-                address.forEach((key) => {
-                    if (key.priority) {
-                        context.address = key;
-                    }
-                });
+                address.forEach((key: any) => {
+    if (key.priority) {
+        (context as any).address = key;
+    }
+});
             }
             const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
             if (paymentCards) {
-                paymentCards.forEach((key) => {
-                    if (key.priority) {
-                        context.paymentCard = key;
-                    }
-                });
+                paymentCards.forEach((key: any) => {
+    if (key.priority) {
+        (context as any).paymentCard = key;
+    }
+});
             }
-            context.isAuth = userStore.getContext(userStore._storeNames.isAuth);
-            if (context.isAuth) {
-                context.avatar = userStore.getContext(userStore._storeNames.avatar);
-                context.username = userStore.getContext(userStore._storeNames.name);
-                context.phone = userStore.getContext(userStore._storeNames.phone);
+            (context as any).isAuth = userStore.getContext(userStore._storeNames.isAuth);
+            if ((context as any).isAuth) {
+                (context as any).avatar = userStore.getContext(userStore._storeNames.avatar);
+                (context as any).username = userStore.getContext(userStore._storeNames.name);
+                (context as any).phone = userStore.getContext(userStore._storeNames.phone);
             }
-            context.deliveryPrice = 'Бесплатно';
-            context.deliveryDate = getDate(1);
+            (context as any).deliveryPrice = 'Бесплатно';
+            (context as any).deliveryDate = getDate(1);
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
@@ -164,7 +173,7 @@ export default class CartOrderPage extends BasePage {
      * @param {string} elementToEditID - id поля, которе надо будет изменить в попапе
      * @param {object} context - данные для передачи в попап
      */
-    #handleEditPopup(elementToEditID, context) {
+    #handleEditPopup(elementToEditID: any, context: any) {
         const PopUp = document.getElementById('popUp');
         const PopUpFade = document.getElementById('popUp-fade');
         if (PopUp) {
@@ -172,6 +181,7 @@ export default class CartOrderPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'grid';
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             document.getElementById('body').style.overflow = 'hidden';
         }
         this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
@@ -189,11 +199,13 @@ export default class CartOrderPage extends BasePage {
      * @param {string} choiceId id карты для отображения
      * @param {string} data данные для отображения в корзине
      */
-    #choiceIdType(choiceIdWithType, choiceId, data) {
+    #choiceIdType(choiceIdWithType: any, choiceId: any, data: any) {
         switch (choiceIdWithType) {
         case 'address':
             const addressField = document.querySelector('.addressID');
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             addressField.textContent = data;
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             addressField.id = `address/${choiceId}`;
             break;
         case 'paymentCard':
@@ -209,6 +221,7 @@ export default class CartOrderPage extends BasePage {
                     key.id = `paymentCard/${choiceId}`;
                 });
             }
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             document.getElementById('final-paymentmethod').textContent = 'Картой';
             break;
         case 'payment-upon-receipt':
@@ -218,6 +231,7 @@ export default class CartOrderPage extends BasePage {
                     key.textContent = data;
                 });
             }
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             document.getElementById('final-paymentmethod').textContent = 'При получении';
         }
     }
@@ -226,7 +240,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая клики на данной странице
      * @param {HTMLElement} event контекст события для обработки
      */
-    async listenClickAddressAndPaymentCardBlock(event) {
+    async listenClickAddressAndPaymentCardBlock(event: any) {
         let elementId = event.target.id;
         if (elementId) {
             if (elementId.includes('/')) {
@@ -234,6 +248,7 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
             case 'edit-address':
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 this.#handleEditPopup(document.querySelector('.address-cart__main').id,
                     {
                         address: userStore.getContext(userStore._storeNames.address),
@@ -241,6 +256,7 @@ export default class CartOrderPage extends BasePage {
                     });
                 break;
             case 'edit-payment-card':
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 this.#handleEditPopup(document.querySelector('.payment-method__cart').id,
                     {
                         paymentCard: userStore.getContext(userStore._storeNames.paymentMethods),
@@ -249,8 +265,11 @@ export default class CartOrderPage extends BasePage {
             case 'cart-popup-form__apply':
                 event.preventDefault();
                 const choice = document.querySelector('.choice');
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 const data = choice.getAttribute('value');
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 let choiceId = choice.id;
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 let choiceIdWithType = choice.id;
                 if (choiceIdWithType) {
                     if (choiceIdWithType.includes('/')) {
@@ -268,6 +287,7 @@ export default class CartOrderPage extends BasePage {
                 }
                 if (popUpFade) {
                     popUpFade.style.display = 'none';
+                    // @ts-expect-error TS(2531): Object is possibly 'null'.
                     document.getElementById('body').style.overflow = 'visible';
                 }
                 break;
@@ -279,7 +299,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая выбор даты и времени доставки
      * @param {Event} event контекст события для обработки
      */
-    async listenChangeDateAndTime(event) {
+    async listenChangeDateAndTime(event: any) {
         const target = event.target;
         let elementId = target.id;
         let itemId;
@@ -289,11 +309,15 @@ export default class CartOrderPage extends BasePage {
             }
             switch (elementId) {
             case 'delivery-date':
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 document.getElementById('date-delivery').textContent =
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         document.getElementById(`delivery-date-value/${itemId}`).textContent;
                 break;
             case 'delivery-time':
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 document.getElementById('time-delivery').textContent =
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         document.getElementById(`delivery-time-value/${itemId}`).textContent;
                 break;
             }
@@ -304,7 +328,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая клики в блоке товаров
      * @param {Event} event контекст события для обработки
      */
-    async listenClickProductsBlock(event) {
+    async listenClickProductsBlock(event: any) {
         const target = event.target;
         let elementId = target.id;
         let itemId;
@@ -322,6 +346,7 @@ export default class CartOrderPage extends BasePage {
             case 'button-minus_cart':
                 const amountItem = document.getElementById(`count-product/${itemId}`);
                 if (amountItem) {
+                    // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
                     const count = parseInt(amountItem.textContent);
                     if (count === 1) {
                         this.deleteItem(parseInt(itemId)); // удаление элемента из корзины
@@ -336,6 +361,7 @@ export default class CartOrderPage extends BasePage {
                 const itemAmount = document.getElementById(`count-product/${itemId}`);
                 if (itemAmount) {
                     cartAction.increaseNumber(parseInt(itemId));
+                    // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
                     const count = parseInt(itemAmount.textContent);
                     itemAmount.textContent = (count + 1).toString();
                     this.renderTotalCost();
@@ -349,49 +375,54 @@ export default class CartOrderPage extends BasePage {
      * Функция, перерисовывающая итоговую стоимость
      */
     renderTotalCost() {
-        const data = [];
+        const data: any = [];
         const itemsCart = document.getElementsByClassName('cart-item__cart');
         if (itemsCart) {
             Array.from(itemsCart).forEach((child) => {
-                const check = child.getElementsByClassName('checkbox-opt')[0];
-                const itemId = check.getAttribute('id').split('/')[1];
-                if (check.checked) {
-                    const lowprice = parseIntInPrice(
-                        document.getElementById(`price/${itemId}`).textContent);
-                    let price = parseIntInPrice(
-                        document.getElementById(`sale-price/${itemId}`).textContent);
-                    const count = parseIntInPrice(
-                        document.getElementById(`count-product/${itemId}`).textContent);
-                    if (Number.isNaN(price)) {
-                        price = lowprice;
-                    }
-                    data.push({
-                        lowprice: lowprice,
-                        price: price,
-                        count: count,
-                    });
-                }
-            });
+    const check = child.getElementsByClassName('checkbox-opt')[0];
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
+    const itemId = check.getAttribute('id').split('/')[1];
+    if ((check as any).checked) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        const lowprice = parseIntInPrice(document.getElementById(`price/${itemId}`).textContent);
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        let price = parseIntInPrice(document.getElementById(`sale-price/${itemId}`).textContent);
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        const count = parseIntInPrice(document.getElementById(`count-product/${itemId}`).textContent);
+        if (Number.isNaN(price)) {
+            price = lowprice;
+        }
+        data.push({
+            lowprice: lowprice,
+            price: price,
+            count: count,
+        });
+    }
+});
         }
         // Подсчет итоговой стоимости товаров в корзине для отрисовки
         const summary = {};
         this.#calcSummaryPrice(data, summary);
         // Изменение итоговых сумм
         const totalPrice = document.getElementById('total-price');
-        totalPrice.textContent = summary.sumPrice + ' ₽';
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        totalPrice.textContent = (summary as any).sumPrice + ' ₽';
         const productsNumber = document.getElementById('products-number');
-        productsNumber.textContent = 'Товары, ' + summary.count + ' шт.';
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        productsNumber.textContent = 'Товары, ' + (summary as any).count + ' шт.';
         const priceWithoutDiscount = document.getElementById('price-without-discount');
-        priceWithoutDiscount.textContent = summary.noSalePrice + ' ₽';
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        priceWithoutDiscount.textContent = (summary as any).noSalePrice + ' ₽';
         const discount = document.getElementById('discount');
-        discount.textContent = summary.priceDiff + ' ₽';
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        discount.textContent = (summary as any).priceDiff + ' ₽';
     }
 
     /**
      * Функция, обрабатывающая событие change в блоке товаров
      * @param {Event} event контекст события для обработки
      */
-    async listenChangeCheckbox(event) {
+    async listenChangeCheckbox(event: any) {
         const target = event.target;
         let elementId = target.id;
         if (elementId) {
@@ -403,22 +434,22 @@ export default class CartOrderPage extends BasePage {
                 // Установка и снятие галочек у товаров
                 const checkedItems = document.getElementsByName('itemCart');
                 checkedItems.forEach((key) => {
-                    key.checked = target.checked;
-                });
+    (key as any).checked = target.checked;
+});
                 this.renderTotalCost();
                 break;
             case 'item_cart__select':
                 const selectAll = document.getElementById('item_cart__select-all');
                 if (!target.checked) {
                     // Снятие галочки выбрать все
-                    selectAll.checked = false;
+(selectAll as any).checked = false;
                 } else {
                     // Установление галочки выбрать все
                     const selectItems = document.getElementsByName('itemCart');
                     if ([...selectItems].every((key) => {
-                        return key.checked;
+                        return (key as any).checked;
                     })) {
-                        selectAll.checked = true;
+                        (selectAll as any).checked = true;
                     }
                 }
                 this.renderTotalCost();
@@ -437,30 +468,35 @@ export default class CartOrderPage extends BasePage {
         const checkedItems = document.getElementsByName('itemCart');
         if (checkedItems) {
             checkedItems.forEach((key) => {
-                const itemId = key.id.split('/')[1];
-                if (key.checked) {
-                    orderData.items.push(
-                        parseInt(itemId));
-                }
-            });
+    const itemId = key.id.split('/')[1];
+    if ((key as any).checked) {
+        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+        orderData.items.push(parseInt(itemId));
+    }
+});
         } else {
             console.log('elements not found', checkedItems);
         }
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
-            orderData.address = parseInt(address.getAttribute('id')
-                .split('/', 2)[1]);
-            if (orderData.address !== -1) {
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
+            (orderData as any).address = parseInt(address.getAttribute('id')
+    .split('/', 2)[1]);
+            if ((orderData as any).address !== -1) {
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 let date = document.getElementById('date-delivery').textContent.trim();
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 let time = document.getElementById('time-delivery').textContent.trim();
+                // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
                 date = date.split(' / ');
+                // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
                 time = time.split(' - ');
-                orderData.deliveryDate = new Date(Date.UTC(date[2], date[1], date[0],
-                    (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24,
-                    0)).toJSON();
-                orderData.card = parseInt(document.querySelector('.payment-method__cart')
-                    .id.split('/')[1]);
-                orderData.card = orderData.card ? orderData.card : 1;
+                // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
+                (orderData as any).deliveryDate = new Date(Date.UTC(date[2], date[1], date[0], (Number(time[1].split(':')[0]) + Number(time[0].split(':')[0])) / 2 % 24, 0)).toJSON();
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
+                (orderData as any).card = parseInt(document.querySelector('.payment-method__cart')
+    .id.split('/')[1]);
+                (orderData as any).card = (orderData as any).card ? (orderData as any).card : 1;
                 cartAction.makeOrder(orderData);
             } else {
                 errorMessage.getAbsoluteErrorMessage('Выберите адрес');

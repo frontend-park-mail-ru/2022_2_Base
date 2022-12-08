@@ -4,6 +4,7 @@ import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
 import validation from '../../../modules/validation';
 import errorMessage from '../../../modules/ErrorMessage';
+import {getInputValueById} from '../../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента Footer
@@ -11,24 +12,24 @@ import errorMessage from '../../../modules/ErrorMessage';
 export default class PopUpAddPaymentCard extends BasePopUp {
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent, [PopUpAddPaymentCardTemplate, 'add-card']);
     }
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
-     * @param {object} event - событие
+     * @param event - событие
      */
-    async listenClickApply(event) {
+    override async listenClickApply(event: Event) {
         event.preventDefault();
         const cardData = {
-            number: document.getElementById('cardNumber').value,
-            expiry: document.getElementById('month').value + '/' +
-                document.getElementById('year').value,
-            cvc: document.getElementById('cvc').value,
+            number: (getInputValueById('cardNumber')).value,
+            expiry: (getInputValueById('month')).value + '/' +
+        (getInputValueById('year')).value,
+            cvc: (getInputValueById('cvc')).value,
         };
         const validateMessage = validation.validateCard(cardData);
         validateMessage ?

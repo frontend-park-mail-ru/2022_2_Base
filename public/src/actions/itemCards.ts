@@ -31,7 +31,7 @@ export const itemCardsAction = {
      * @param {string} path - путь запроса
      * @param {boolean} selector
      */
-    getHomeItemCards(path, selector) {
+    getHomeItemCards(path: any, selector: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
             data: {
@@ -45,7 +45,7 @@ export const itemCardsAction = {
      * Действие: запрос списка карточек по категориям.
      * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getItemCardsByCategory(isFirstRequest) {
+    getItemCardsByCategory(isFirstRequest: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
             data: isFirstRequest,
@@ -56,7 +56,7 @@ export const itemCardsAction = {
      * Действие: запрашивает популярные карты в конкретной категории
      * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getPopularItemCardsByCategory(isFirstRequest) {
+    getPopularItemCardsByCategory(isFirstRequest: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY,
             data: isFirstRequest,
@@ -67,7 +67,7 @@ export const itemCardsAction = {
      * Действие: запрашивает дешевые карты в конкретной категории
      * @param {boolean} isLowToHigh - порядок сортировки
      */
-    getCheapItemCardsByCategory(isLowToHigh) {
+    getCheapItemCardsByCategory(isLowToHigh: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
             data: isLowToHigh,
@@ -78,7 +78,7 @@ export const itemCardsAction = {
      * Действие: запрашивает популярные карты в конкретной категории
      * @param {boolean} isLowToHigh - порядок сортировки
      */
-    getHighRatingItemCardsByCategory(isLowToHigh) {
+    getHighRatingItemCardsByCategory(isLowToHigh: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             data: isLowToHigh,
@@ -89,7 +89,7 @@ export const itemCardsAction = {
      * Действие: запрашивает дешевые карты в конкретной категории
      * @param {boolean} isLowToHigh - порядок сортировки
      */
-    localSortRating(isLowToHigh) {
+    localSortRating(isLowToHigh: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.LOCAL_SORT_RATING,
             data: isLowToHigh,
@@ -100,7 +100,7 @@ export const itemCardsAction = {
      * Действие: запрашивает популярные карты в конкретной категории
      * @param {boolean} isLowToHigh - порядок сортировки
      */
-    localSortPrice(isLowToHigh) {
+    localSortPrice(isLowToHigh: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.LOCAL_SORT_PRICE,
             data: isLowToHigh,
@@ -129,7 +129,7 @@ export const itemCardsAction = {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
      */
-    getSearchResults(searchString) {
+    getSearchResults(searchString: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.GET_SEARCH_RESULTS,
             data: searchString,
@@ -150,7 +150,7 @@ export const itemCardsAction = {
      * @param {String} searchString - строка для поиска
      * @param {boolean} isCategory - идет поиск по категориям или нет
      */
-    getSuggestionSearch(searchString, isCategory = false) {
+    getSuggestionSearch(searchString: any, isCategory = false) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
             data: {searchString: searchString, isCategory: isCategory},
@@ -161,7 +161,7 @@ export const itemCardsAction = {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {object} comment - данные отзыва
      */
-    addComment(comment) {
+    addComment(comment: any) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ADD_COMMENT,
             data: comment,

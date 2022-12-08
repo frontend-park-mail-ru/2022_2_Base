@@ -4,6 +4,7 @@ import './AddressCard.scss';
 import userStore from '../../../stores/UserStore';
 import BaseInfoCard from '../BaseInfoCard';
 import {profileAction} from '../../../actions/profile';
+import {config} from '../../../config';
 
 /**
  * Класс для реализации компонента Footer
@@ -11,35 +12,53 @@ import {profileAction} from '../../../actions/profile';
 export default class AddressCard extends BaseInfoCard {
     /**
      * Конструктор, создающий класс компонента AddressCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         const popup = document.getElementById('popUp_user-page');
-        const popupClass = new PopUpAddAddress(popup);
+        const fadePopup = document.getElementById('popUp-fade_user-page');
 
-        super(parent,
-            [popup,
-                document.getElementById('popUp-fade_user-page'),
-                userStore._storeNames.address,
-                popupClass,
-                AddressCardTemplate,
-                'address']);
+        if (fadePopup && popup) {
+            const popupClass = new PopUpAddAddress(popup);
+            super(parent,
+                [
+                    popup,
+                    fadePopup,
+                    userStore._storeNames.address,
+                    popupClass,
+                    AddressCardTemplate,
+                    'address',
+                ]);
+        } else {
+            const popupClass = new PopUpAddAddress(config.empyNode);
+            super(parent,
+                [
+                    config.empyNode,
+                    config.empyNode,
+                    userStore._storeNames.address,
+                    popupClass,
+                    AddressCardTemplate,
+                    '',
+                ]);
+        }
     }
 
     /**
      * Функция для передачи в слушателе click на значок удаления
      * адреса
-     * @param {object} event - событие
+     * @param event - событие
      */
-    async listenClickDelete(event) {
-        profileAction.deleteAddress(Number(event.target.id.replace('delete-img-addressCard/', '')));
+    override async listenClickDelete(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            profileAction.deleteAddress(Number(event.target.id.replace('delete-img-addressCard/', '')));
+        }
     }
     /**
      * Метод, добавляющий слушатели.
-     * @param {boolean} addCard - контекст для навешивания обработчиков
+     * @param addCard - контекст для навешивания обработчиков
      */
-    startEventListener({addCard}) {
+    override startEventListener(addCard: boolean) {
         super.startEventListener(addCard);
         super.startEdit();
     }
@@ -47,7 +66,7 @@ export default class AddressCard extends BaseInfoCard {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         super.removeEventListener();
         super.removeEdit();
     }

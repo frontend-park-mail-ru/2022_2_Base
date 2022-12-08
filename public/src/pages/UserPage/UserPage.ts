@@ -9,26 +9,46 @@ import userStore from '../../stores/UserStore';
 import {config} from '../../config';
 import errorMessage from '../../modules/ErrorMessage';
 import refreshElements from '../../modules/refreshElements';
+import {PaymentCardObj} from '../../../../types/interfaces';
+import {UserPageLoadCardsPages} from '../../../../types/aliases';
+import {getStringValueFromStore} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с регистрации.
  */
 export default class UserPage extends BasePage {
+    PopUpEditUserInfo: PopUpEditUserInfo | undefined;
+    addressCard: NodeListOf<Element> | undefined;
+    avatar: HTMLElement | null;
+    fileSelector: HTMLElement | null;
+    paymentCard: NodeListOf<Element> | undefined;
+    profile: HTMLElement | null;
+    userInfo: NodeListOf<Element> | undefined;
+    userInfoArr: Array<any>;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(
             parent,
             UserPageTemplate,
         );
+
+        this.PopUpEditUserInfo = undefined;
+        this.addressCard = undefined;
+        this.avatar = null;
+        this.fileSelector = null;
+        this.paymentCard = undefined;
+        this.profile = null;
+        this.userInfo = undefined;
+        this.userInfoArr = [];
     }
 
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {
+    override addListener() {
         userStore.addListener(this.getCards.bind(this), ProfileActionTypes.GET_DATA);
         userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
         userStore.addListener(this.onUploadAvatar,
@@ -55,9 +75,9 @@ export default class UserPage extends BasePage {
 
     /**
      * Функция, для передачи в листнер стора
-     * @param {function} toDo - обработчик события
+     * @param toDo - обработчик события
      */
-    templateFunction(toDo) {
+    templateFunction(toDo: emptyCallback) {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             if (typeof toDo === 'function') {
@@ -76,8 +96,11 @@ export default class UserPage extends BasePage {
     editUserInfo() {
         this.removePopUp();
         const data = userStore.getContext(userStore._storeNames.temp);
-        document.getElementById(
-            `${data.id}-text`).innerText = data.value;
+        const userInfoText = document.getElementById(
+            `${data.id}-text`);
+        if (userInfoText) {
+            userInfoText.innerText = data.value;
+        }
     }
 
     /**
@@ -87,10 +110,12 @@ export default class UserPage extends BasePage {
         this.removePopUp();
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
-        bankCard.innerHTML = '';
-        this.loadCards(new PaymentCard(bankCard),
-            'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
-        this.startListenerPaymentCard();
+        if (bankCard) {
+            bankCard.innerHTML = '';
+            this.loadCards(new PaymentCard(bankCard),
+                'paymentCard', userStore.getContext(userStore._storeNames.paymentMethods));
+            this.startListenerPaymentCard();
+        }
     }
 
     /**
@@ -100,23 +125,26 @@ export default class UserPage extends BasePage {
         this.removePopUp();
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
-        addressCard.innerHTML = '';
-        this.loadCards(new AddressCard(
-            addressCard),
-        'addressCard', userStore.getContext(userStore._storeNames.address));
-        this.startListenerAddressCard();
+        if (addressCard) {
+            addressCard.innerHTML = '';
+            this.loadCards(new AddressCard(
+                addressCard),
+            'addressCard', userStore.getContext(userStore._storeNames.address));
+            this.startListenerAddressCard();
+        }
     }
 
     /**
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     getCards() {
-        this.loadCards(null, 'userDataCard', {
-            name: userStore.getContext(userStore._storeNames.name),
-            email: userStore.getContext(userStore._storeNames.email),
-            phone: userStore.getContext(userStore._storeNames.phone),
-            avatar: userStore.getContext(userStore._storeNames.avatar),
-        });
+        this.loadCards(null, 'userDataCard', [{
+            name: getStringValueFromStore(userStore.getContext(userStore._storeNames.name)),
+            email: getStringValueFromStore(userStore.getContext(userStore._storeNames.email)),
+            phone: getStringValueFromStore(userStore.getContext(userStore._storeNames.phone)),
+            avatar: getStringValueFromStore(userStore.getContext(userStore._storeNames.avatar)),
+            id: '',
+        }]);
         this.renderPaymentCards();
         this.renderAddresses();
         this.startEventListener();
@@ -126,28 +154,31 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        document.getElementById('user-photo_user-page').src =
-            userStore.getContext(userStore._storeNames.avatar);
+        const userAvatar = document.getElementById('user-photo_user-page');
+        if (userAvatar instanceof HTMLImageElement) {
+            userAvatar.src =
+                userStore.getContext(userStore._storeNames.avatar);
+        }
     }
 
     /**
      * Функция, подгружающая и отрисовывающая карты пользователя
-     * @param {object} componentEntity - экземпляр класса компонента
-     * @param {string} nameOfCard - название карты
-     * @param {array} data - данные для заполнения карт
+     * @param componentEntity - экземпляр класса компонента
+     * @param nameOfCard - название карты
+     * @param data - данные для заполнения карт
      */
-    loadCards(componentEntity, nameOfCard, data) {
+    loadCards(componentEntity: UserPageLoadCardsPages, nameOfCard: string, data: Array<PaymentCardObj>) {
         switch (nameOfCard) {
         case 'userDataCard':
             super.render(data);
             return;
         case 'paymentCard':
-            data.forEach((paymentCard) => {
+            data.forEach((paymentCard: PaymentCardObj) => {
                 paymentCard.id = 'paymentCard/' + paymentCard.id;
             });
             break;
         case 'addressCard':
-            data.forEach((address) => {
+            data.forEach((address: PaymentCardObj) => {
                 address.id = 'addressCard/' + address.id;
             });
             break;
@@ -155,13 +186,20 @@ export default class UserPage extends BasePage {
             console.log('unknown command', nameOfCard);
         }
         if (data.length < 4) {
-            data.addCard = {
+            data.push({
+                name: '',
+                email: '',
+                phone: '',
+                avatar: '',
                 addCard: true,
                 id: `${nameOfCard}/${String(Object.keys(data).length)}`,
-            };
+            });
         }
         componentEntity.render(data);
-        delete data.addCard;
+        //
+        if (data[data.length - 1].addCard) {
+            data.pop();
+        }
     }
 
     /**
@@ -176,7 +214,7 @@ export default class UserPage extends BasePage {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
-            document.getElementById('body').style.overflow = 'visible';
+            config.HTMLskeleton.body.style.overflow = 'visible';
         }
     }
 
@@ -185,7 +223,9 @@ export default class UserPage extends BasePage {
      */
     async listenMouseOverProfile() {
         const PopUp = document.getElementById('change-user-photo_user-page');
-        PopUp.style.display = 'flex';
+        if (PopUp) {
+            PopUp.style.display = 'flex';
+        }
     }
 
     /**
@@ -193,92 +233,103 @@ export default class UserPage extends BasePage {
      */
     async listenMouseOutProfile() {
         const PopUp = document.getElementById('change-user-photo_user-page');
-        PopUp.style.display = 'none';
+        if (PopUp) {
+            PopUp.style.display = 'none';
+        }
     }
 
     /**
      * Функция для передачи в слушателе mouseover на карточке банковской карты.
-     * @param {object} event - событие, вызвавшее обработчик
+     * @param event - событие, вызвавшее обработчик
      */
-    async listenMouseOverPaymentCard(event) {
-        const {id} = event.target;
-        const PopUp = document
-            .getElementById('change-payment-card' + id.replace('wrapper', ''));
-        if (PopUp) {
-            PopUp.style.display = 'flex';
+    async listenMouseOverPaymentCard(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            const PopUp = document
+                .getElementById('change-payment-card' +
+                    event.target.id.replace('wrapper', ''));
+            if (PopUp) {
+                PopUp.style.display = 'flex';
+            }
         }
     }
 
     /**
      * Функция для передачи в слушателе mouseout на карточке банковской карты.
-     * @param {object} event - событие, вызвавшее обработчик
+     * @param event - событие, вызвавшее обработчик
      */
-    async listenMouseOutPaymentCard(event) {
-        const {id} = event.target;
-        const PopUp = document
-            .getElementById('change-payment-card' + id.replace('wrapper', ''));
-        if (PopUp) {
-            PopUp.style.display = 'none';
+    async listenMouseOutPaymentCard(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            const PopUp = document
+                .getElementById('change-payment-card' +
+                    event.target.id.replace('wrapper', ''));
+            if (PopUp) {
+                PopUp.style.display = 'none';
+            }
         }
     }
 
     /**
      * Функция для передачи в слушателе mouseover на карточке адреса.
-     * @param {object} event - событие, вызвавшее обработчик
+     * @param event - событие, вызвавшее обработчик
      */
-    async listenMouseOverAddressCard(event) {
-        const {id} = event.target;
-        const PopUp = document
-            .getElementById('change-address-card' + id.replace('wrapper', ''));
-        if (PopUp) {
-            PopUp.style.display = 'flex';
+    async listenMouseOverAddressCard(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            const PopUp = document
+                .getElementById('change-address-card' +
+                    event.target.id.replace('wrapper', ''));
+            if (PopUp) {
+                PopUp.style.display = 'flex';
+            }
         }
     }
 
     /**
      * Функция для передачи в слушателе mouseout на карточке адреса.
-     * @param {object} event - событие, вызвавшее обработчик
+     * @param event - событие, вызвавшее обработчик
      */
-    async listenMouseOutAddressCard(event) {
-        const {id} = event.target;
-        const PopUp = document
-            .getElementById('change-address-card' + id.replace('wrapper', ''));
-        if (PopUp) {
-            PopUp.style.display = 'none';
+    async listenMouseOutAddressCard(event: Event) {
+        if (event.target instanceof HTMLElement) {
+            const PopUp = document
+                .getElementById('change-address-card' +
+                    event.target.id.replace('wrapper', ''));
+            if (PopUp) {
+                PopUp.style.display = 'none';
+            }
         }
     }
 
     /**
      * Функция для передачи в слушателе click на значок редактирования
      * данных пользователя
-     * @param {HTMLElement} element - элемент DOM-дерева
-     * @param {object} event - событие
+     * @param element - элемент DOM-дерева
+     * @param event - событие
      */
-    async listenClickUserInfo(element, event) {
+    async listenClickUserInfo(element: HTMLElement, event: Event) {
         event.preventDefault();
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
+        if (PopUp && PopUp instanceof HTMLInputElement) {
             PopUp.style.display = 'block';
+            this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'block';
-            document.getElementById('body').style.overflow = 'hidden';
+            config.HTMLskeleton.body.style.overflow = 'hidden';
         }
-        this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
-        this.PopUpEditUserInfo.render(element);
+        this.PopUpEditUserInfo?.render(element);
     }
 
     /**
      * Функция для передачи в слушателе click на значок редактирования аватара
-     * @param {object} target - событие
+     * @param target - событие
      */
-    async listenClickAvatar({target}) {
-        switch (target.id) {
-        case 'changeUserPhoto':
+    async listenClickAvatar({target}: Event) {
+        switch (target instanceof HTMLElement && target.id) {
+        case 'changeUserPhoto': {
             const inputImg = document.getElementById('changeUserPhoto__upload');
-            inputImg.click();
+            inputImg?.click();
             break;
+        }
         case 'deleteUserPhoto':
             profileAction.deleteAvatar();
             break;
@@ -287,10 +338,12 @@ export default class UserPage extends BasePage {
 
     /**
      * Метод, загружающий файл из <input>
-     * @param {object} target - событие
+     * @param target - событие
      */
-    async uploadFile({target}) {
-        profileAction.uploadAvatar(target.files[0]);
+    async uploadFile({target}: Event) {
+        if (target instanceof DataTransfer) {
+            profileAction.uploadAvatar(target.files[0]);
+        }
     }
 
     /**
@@ -299,7 +352,7 @@ export default class UserPage extends BasePage {
     startListenerPaymentCard() {
         this.paymentCard = document.querySelectorAll('.payment-card-wrapper');
         if (this.paymentCard) {
-            this.paymentCard.forEach((paymentCard) => {
+            this.paymentCard.forEach((paymentCard: Element) => {
                 paymentCard.addEventListener('mouseenter', this.listenMouseOverPaymentCard);
                 paymentCard.addEventListener('mouseleave', this.listenMouseOutPaymentCard);
             });
@@ -312,7 +365,7 @@ export default class UserPage extends BasePage {
     startListenerAddressCard() {
         this.addressCard = document.querySelectorAll('.address-card-wrapper');
         if (this.addressCard) {
-            this.addressCard.forEach((addressCard) => {
+            this.addressCard.forEach((addressCard: Element) => {
                 addressCard.addEventListener('mouseenter', this.listenMouseOverAddressCard);
                 addressCard.addEventListener('mouseleave', this.listenMouseOutAddressCard);
             });
@@ -324,7 +377,7 @@ export default class UserPage extends BasePage {
      */
     removeListenerPaymentCard() {
         if (this.paymentCard) {
-            this.paymentCard.forEach((key) => {
+            this.paymentCard.forEach((key: Element) => {
                 key.removeEventListener('mouseenter', this.listenMouseOverPaymentCard);
                 key.removeEventListener('mouseleave', this.listenMouseOutPaymentCard);
             });
@@ -336,7 +389,7 @@ export default class UserPage extends BasePage {
      */
     removeListenerAddressCard() {
         if (this.addressCard) {
-            this.addressCard.forEach((key) => {
+            this.addressCard?.forEach((key: Element) => {
                 key.removeEventListener('mouseenter', this.listenMouseOverAddressCard);
                 key.removeEventListener('mouseleave', this.listenMouseOutAddressCard);
             });
@@ -346,7 +399,7 @@ export default class UserPage extends BasePage {
     /**
      * Метод, добавляющий слушатели.
      */
-    startEventListener() {
+    override startEventListener() {
         this.fileSelector = document.getElementById('changeUserPhoto__upload');
         if (this.fileSelector) {
             this.fileSelector.addEventListener('change', this.uploadFile);
@@ -366,7 +419,7 @@ export default class UserPage extends BasePage {
         this.userInfo = document.querySelectorAll('.edit-profile-data');
         if (this.userInfo) {
             this.userInfoArr = [];
-            this.userInfo.forEach((key, index) => {
+            this.userInfo.forEach((key: any, index: number) => {
                 this.userInfoArr.push(this.listenClickUserInfo.bind(this, key.parentNode));
                 key.addEventListener('click', this.userInfoArr[index]);
             });
@@ -376,7 +429,7 @@ export default class UserPage extends BasePage {
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {
+    override removeEventListener() {
         if (this.fileSelector) {
             this.fileSelector.removeEventListener('change', this.uploadFile);
         }
@@ -391,7 +444,7 @@ export default class UserPage extends BasePage {
         }
 
         if (this.userInfo) {
-            this.userInfo.forEach((key, index) => {
+            this.userInfo.forEach((key: any, index: number) => {
                 key.removeEventListener('click', this.userInfoArr[index]);
             });
         }
@@ -403,7 +456,7 @@ export default class UserPage extends BasePage {
     /**
      * Метод, отрисовывающий страницу.
      */
-    async render() {
+    override async render() {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             this.addListener();
             profileAction.getData();

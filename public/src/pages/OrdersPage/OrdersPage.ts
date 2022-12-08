@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './OrdersPage.hbs' or its corre... Remove this comment to see the full error message
 import ordersPageTemplate from './OrdersPage.hbs';
 import BasePage from '../BasePage.js';
 import './OrdersPage.scss';
@@ -13,11 +14,12 @@ import itemsStore from '../../stores/ItemsStore';
  * Класс, реализующий страницу OrdersPage
  */
 export default class OrdersPage extends BasePage {
+    orderBlock: any;
     /**
      * Конструктор, создающий конструктор страницы OrdersPage с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             ordersPageTemplate,
@@ -41,12 +43,11 @@ export default class OrdersPage extends BasePage {
                 this.orderBlock.render(ordersStore.getContext(ordersStore._storeNames.orders));
             } else {
                 refreshElements.showUnAuthPage({
-                    text: 'Пока у вас нет заказов. Может купите',
-                    linkToPage:
-                        itemsStore.getContext(itemsStore._storeNames.topCategory.Smartphone.href),
-                    linkText: 'телефон',
-                    textAfterLink: '.',
-                });
+    text: 'Пока у вас нет заказов. Может купите',
+    linkToPage: itemsStore.getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
+    linkText: 'телефон',
+    textAfterLink: '.',
+});
             }
             break;
         case config.responseCodes.code401:
@@ -67,7 +68,7 @@ export default class OrdersPage extends BasePage {
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
+    render(config: any) {
         super.render(config);
         this.orderBlock = new OrderBlock(document.getElementById('orders-page__header'));
         orderAction.getOrders();

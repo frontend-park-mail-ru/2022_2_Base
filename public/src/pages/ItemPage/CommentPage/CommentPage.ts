@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './CommentPage.hbs' or its corr... Remove this comment to see the full error message
 import CommentPagePageTemplate from './CommentPage.hbs';
 import './CommentPage.scss';
 import Comment from '../../../components/Comment/Comment.js';
@@ -13,11 +14,12 @@ import router from '../../../modules/Router';
  * Класс, реализующий страницу CommentPage.
  */
 export default class CommentPage extends BaseItemPage {
+    createOrderButton: any;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             CommentPagePageTemplate,
@@ -30,7 +32,7 @@ export default class CommentPage extends BaseItemPage {
      * Функция, загружающая дополнительные данные
      * @param {object} data объект для добавления данных
      */
-    loadMoreData(data) {
+    loadMoreData(data: any) {
         itemCardsAction.getComments();
     }
 
@@ -47,7 +49,7 @@ export default class CommentPage extends BaseItemPage {
      */
     listenCommentsLoad() {
         const comments = new Comment(document.getElementById('comments'));
-        comments.render(itemsStore.getContext(itemsStore._storeNames.comments).map((comment) => {
+        comments.render(itemsStore.getContext(itemsStore._storeNames.comments).map((comment: any) => {
             comment[`rating${comment.rating}`] = true;
             return comment;
         }));
@@ -58,7 +60,7 @@ export default class CommentPage extends BaseItemPage {
      */
     listenAddCommentButton() {
         if (itemsStore.getContext(itemsStore._storeNames.comments)
-            .find((comment) => comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
+            .find((comment: any) => comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
             errorMessage.getAbsoluteErrorMessage('Вы уже создали отзыв об этом товаре');
         } else {
             router.openPage(

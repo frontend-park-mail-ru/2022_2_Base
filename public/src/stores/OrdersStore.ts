@@ -8,6 +8,8 @@ import {_addSpacesToItemPrice, getLocalDate, truncatePrice} from '../modules/sha
  * Класс, реализующий базовое хранилище.
  */
 class OrdersStore extends BaseStore {
+    ordersStates: any;
+    paymentStates: any;
     _storeNames = {
         orders: 'orders',
         responseCode: 'responseCode',
@@ -41,7 +43,7 @@ class OrdersStore extends BaseStore {
      * Метод, реализующий реакцию на рассылку Диспетчера.
      * @param {Object} payload полезная нагрузка запроса
      */
-    async _onDispatch(payload) {
+    async _onDispatch(payload: any) {
         switch (payload.actionName) {
         case OrderActionTypes.GET_ORDERS:
             await this._getOrders();
@@ -54,9 +56,9 @@ class OrdersStore extends BaseStore {
      * Метод, дополняющий информацию о заказах.
      * @param {Array} orders полезная нагрузка запроса
      */
-    #prepareOrdersData(orders) {
-        orders.forEach((item) => {
-            item.totalPrice = item.items.reduce((price, itemCard) => {
+    #prepareOrdersData(orders: any) {
+        orders.forEach((item: any) => {
+            item.totalPrice = item.items.reduce((price: any, itemCard: any) => {
                 _addSpacesToItemPrice(itemCard);
                 return price + itemCard.lowprice;
             }, 0);
@@ -78,6 +80,7 @@ class OrdersStore extends BaseStore {
      * Действие: запрос списка карточек.
      */
     async _getOrders() {
+        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
         const [status, response] = await request
             .makeGetRequest(config.api.orders)
             .catch((err) => console.log(err));

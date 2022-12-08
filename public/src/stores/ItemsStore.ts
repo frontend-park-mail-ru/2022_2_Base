@@ -82,7 +82,7 @@ class ItemsStore extends BaseStore {
      * Метод, реализующий реакцию на рассылку Диспетчера.
      * @param {Object} payload полезная нагрузка запроса
      */
-    async _onDispatch(payload) {
+    async _onDispatch(payload: any) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
             await this._getItemCardsHome(payload.data);
@@ -97,6 +97,7 @@ class ItemsStore extends BaseStore {
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_SEARCH]);
             break;
         case ItemCardsActionTypes.ITEM_CARD_GET:
+            // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
             await this._getItemCard(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
@@ -149,7 +150,11 @@ class ItemsStore extends BaseStore {
     /**
      * Действие: запрос списка карточек.
      */
-    async _getItemCardsHome({path, popularCard}) {
+    async _getItemCardsHome({
+        path,
+        popularCard
+    }: any) {
+        // @ts-expect-error TS(2488): Type 'void | any[]' must have a '[Symbol.iterator]... Remove this comment to see the full error message
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
             .catch((err) => console.log(err));
@@ -170,7 +175,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка дешевых карточек.
      * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
      */
-    _getByPriceItemCard(isLowToHighPrice) {
+    _getByPriceItemCard(isLowToHighPrice: any) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighPrice ?
@@ -181,7 +186,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек с высоким рейтингом.
      * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
      */
-    _getByRatingItemCard(isLowToHighRating) {
+    _getByRatingItemCard(isLowToHighRating: any) {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighRating ?
@@ -192,13 +197,13 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка дешевых карточек.
      * @param {boolean} isLowToHighPrice - получали ли мы до этого карточки
      */
-    _localSortPrice(isLowToHighPrice) {
+    _localSortPrice(isLowToHighPrice: any) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
-                (item1st, item2nd) => {
+                (item1st: any, item2nd: any) => {
                     return item1st.lowprice - item2nd.lowprice;
                 } :
-                (item1st, item2nd) => {
+                (item1st: any, item2nd: any) => {
                     return item2nd.lowprice - item1st.lowprice;
                 })));
         this._getByPriceItemCard(isLowToHighPrice);
@@ -208,13 +213,13 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек с высоким рейтингом.
      * @param {boolean} isLowToHighRating - получали ли мы до этого карточки
      */
-    _localSortRating(isLowToHighRating) {
+    _localSortRating(isLowToHighRating: any) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
-                (item1st, item2nd) => {
+                (item1st: any, item2nd: any) => {
                     return item1st.rating - item2nd.rating;
                 } :
-                (item1st, item2nd) => {
+                (item1st: any, item2nd: any) => {
                     return item2nd.rating - item1st.rating;
                 })));
         this._getByRatingItemCard(isLowToHighRating);
@@ -224,7 +229,7 @@ class ItemsStore extends BaseStore {
      * Синхронизируем количество товаров в корзине
      * @param {Array<Object>} items - полученные товары
      */
-    #syncWithCart(items) {
+    #syncWithCart(items: any) {
         if (Array.isArray(items)) {
             items.forEach((item) => {
                 this.#syncItemWithCart(item);
@@ -236,7 +241,7 @@ class ItemsStore extends BaseStore {
      * Синхронизируем количество товара в корзине
      * @param {Object} item - полученный товар
      */
-    #syncItemWithCart(item) {
+    #syncItemWithCart(item: any) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (Array.isArray(cartItems)) {
             cartItems.forEach((cartItem) => {
@@ -265,7 +270,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек по категориям.
      * @param {boolean} isFirstRequest - получали ли мы до этого карточки
      */
-    async _getItemCardsByCategory(isFirstRequest) {
+    async _getItemCardsByCategory(isFirstRequest: any) {
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
             this._storage.set(this._storeNames.allCardsInCategory, []);
@@ -297,7 +302,7 @@ class ItemsStore extends BaseStore {
      * Функция, обновляющая информацию о загруженных картах
      * @param {object} body - данные для добавления
      */
-    #syncCardsInCategory(body) {
+    #syncCardsInCategory(body: any) {
         this._storage.set(
             this._storeNames.allCardsInCategory,
             this._storage
@@ -356,7 +361,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {String} searchString - строка для поиска
      */
-    async _getSearchResults(searchString) {
+    async _getSearchResults(searchString: any) {
         const [status, response] = await request
             .makePostRequest(config.api.search, {search: searchString})
             .catch((err) => console.log(err));
@@ -372,7 +377,7 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param {object} data - строка для поиска
      */
-    async _getSuggestionSearch(data) {
+    async _getSuggestionSearch(data: any) {
         if (data.isCategory) {
             this._storage.set(this._storeNames.suggestionsSearch, {search: data.searchString});
         } else {
@@ -391,7 +396,7 @@ class ItemsStore extends BaseStore {
      * Действие: отправка отзыва.
      * @param {object} comment - данные отзыва
      */
-    async _addComment(comment) {
+    async _addComment(comment: any) {
         comment.itemid = this._storage.get(this._storeNames.itemData).id;
         comment.userid = cartStore.getContext(cartStore._storeNames.userID);
         const [status] = await request

@@ -13,13 +13,16 @@ import {getDate} from '../../modules/sharedFunctions';
  * Класс, реализующий страницу BaseItemPage.
  */
 export default class BaseItemPage extends BasePage {
+    getItemAction: any;
+    getItemTypeAction: any;
+    pageName: any;
     /**
      * Конструктор, создающий конструктор базовой страницы BaseItemPage с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      * @param {HandlebarsTemplateDelegate} template HTML-шаблон, в который будет осуществлена отрисовка
      * @param {array} childClassData данные дочернего класса
      */
-    constructor(parent, template, childClassData) {
+    constructor(parent: any, template: any, childClassData: any) {
         super(
             parent,
             template,
@@ -40,7 +43,7 @@ export default class BaseItemPage extends BasePage {
      * Функция, загружающая дополнительные данные
      * @param {object} data объект для добавления данных
      */
-    loadMoreData(data) {
+    loadMoreData(data: any) {
     }
 
     /**

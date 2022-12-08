@@ -14,7 +14,7 @@ export default class CategoryPage extends CatalogPage {
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(parent, [itemCardsAction.getItemCardsByCategory,
             itemCardsAction.getHighRatingItemCardsByCategory,
             itemCardsAction.getCheapItemCardsByCategory]);

@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2307): Cannot find module './LoginPage.hbs' or its corres... Remove this comment to see the full error message
 import loginPageTemplate from './LoginPage.hbs';
 import BasePage from '../BasePage';
 import FormComponent from '../../components/Form/Form';
@@ -16,11 +17,14 @@ import validation from '../../modules/validation';
  * Класс, реализующий страницу входа.
  */
 export default class LoginPage extends BasePage {
+    context: any;
+    formComponent: any;
+    onSubmitHandlerRemove: any;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(
             parent,
             loginPageTemplate,
@@ -66,9 +70,11 @@ export default class LoginPage extends BasePage {
      * Метод, удаляющий слушатели.
      * @param {any} context контекст данных для страницы
      */
-    removeEventListener(context) {
+    removeEventListener(context: any) {
         const form = document.getElementById('login-form');
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         form.removeEventListener('focusin', this.onFocusinHandler);
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         form.removeEventListener('submit', this.onSubmitHandlerRemove);
     }
 
@@ -76,9 +82,9 @@ export default class LoginPage extends BasePage {
      * Метод, обрабатывающий получение фокуса полем.
      * @param {object} event событие получения фокуса полем
      */
-    async onFocusinHandler(event) {
+    async onFocusinHandler(event: any) {
         errorMessage.deleteErrorMessage(event.target.name);
-    };
+    }
 
     /**
      * Метод, обрабатывающий отсылку формы.
@@ -86,7 +92,7 @@ export default class LoginPage extends BasePage {
      * @param {object} form поля формы
      * @param {object} event событие отправки формы
      */
-    async onSubmitHandler(config, form, event) {
+    async onSubmitHandler(config: any, form: any, event: any) {
         event.preventDefault();
 
         /* Сохранить данные из формы в переменную */
@@ -94,10 +100,11 @@ export default class LoginPage extends BasePage {
         const {fields} = this.context;
         Object.keys(fields).forEach((page) => {
             const element = form.querySelector(`[name=${fields[page].name}]`);
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             data[fields[page].name] = element.value;
         });
 
-        data.email = data.email.trim();
+        (data as any).email = (data as any).email.trim();
         /* Удаление отрисованных ошибок */
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
@@ -108,13 +115,13 @@ export default class LoginPage extends BasePage {
         if (validation.validate(data)) {
             userActions.login(data);
         }
-    };
+    }
 
     /**
      * Метод, отрисовывающий страницу.
      * @param {object} config контекст отрисовки страницы
      */
-    render(config) {
+    render(config: any) {
         this.context = userStore.getContext(userStore._storeNames.context);
         this.context = {
             fields: {
@@ -131,10 +138,13 @@ export default class LoginPage extends BasePage {
         this.formComponent.render(this.context);
 
         const form = document.getElementById('login-form');
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         document.getElementById(this.context.fields.email.name).focus();
 
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         form.addEventListener('focusin', this.onFocusinHandler);
         this.onSubmitHandlerRemove = this.onSubmitHandler.bind(this, config, form);
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         form.addEventListener('submit', this.onSubmitHandlerRemove);
     }
 }

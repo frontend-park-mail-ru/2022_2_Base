@@ -4,6 +4,7 @@ import {profileAction} from '../../../actions/profile';
 import BasePopUp from '../BasePopUp';
 import validation from '../../../modules/validation';
 import errorMessage from '../../../modules/ErrorMessage';
+import {getInputValueById} from '../../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента Footer
@@ -11,24 +12,24 @@ import errorMessage from '../../../modules/ErrorMessage';
 export default class PopUpAddPaymentCard extends BasePopUp {
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent, [PopUpAddAddressTemplate, 'add-address']);
     }
 
     /**
      * Функция для передачи в слушателе click на сохранение новых данных.
-     * @param {object} event - событие
+     * @param event - событие
      */
-    async listenClickApply(event) {
+    override async listenClickApply(event: Event) {
         event.preventDefault();
         const inputData = {
-            city: document.getElementById('city').value,
-            street: document.getElementById('street').value,
-            house: document.getElementById('house').value,
-            flat: document.getElementById('flat').value,
+            city: (getInputValueById('city')).value,
+            street: (getInputValueById('street')).value,
+            house: (getInputValueById('house')).value,
+            flat: (getInputValueById('flat')).value,
             id: Number(this.context.id?.replace('addressCard/', '')),
         };
 

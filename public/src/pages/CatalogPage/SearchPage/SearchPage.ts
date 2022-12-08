@@ -18,7 +18,7 @@ export default class SearchPage extends CatalogPage {
      * @param {Element} parent HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: any) {
         super(parent, [itemCardsAction.searchItemCards,
             itemCardsAction.localSortRating, itemCardsAction.localSortPrice]);
     }
@@ -86,7 +86,7 @@ export default class SearchPage extends CatalogPage {
      * Метод, отрисовывающий страницу.
      */
     render() {
-        const searchString = getQueryParams().q ?? '';
+        const searchString = (getQueryParams() as any).q ?? '';
         const errorMessageSearch = validation.validateSearchField(searchString);
         if (errorMessageSearch === '') {
             this.addListener();

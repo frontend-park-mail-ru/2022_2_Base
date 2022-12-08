@@ -3,6 +3,7 @@ import BaseComponent from '../BaseComponent';
 import './ProductHeader.scss';
 import {config} from '../../config';
 import {_declension} from '../../modules/sharedFunctions';
+import {productObj} from '../../../../types/interfaces';
 
 /**
  * Класс для реализации компонента ProductHeader
@@ -10,27 +11,27 @@ import {_declension} from '../../modules/sharedFunctions';
 export default class ProductHeader extends BaseComponent {
     /**
      * Конструктор, создающий класс компонента ProductHeader
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         super(parent);
     }
 
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
-     * @param {Object} context контекст отрисовки шаблона
+     * @param context - контекст отрисовки шаблона
      */
-    render(context) {
+    override render(context: productObj) {
         super.render(this.prepareRenderData(context), ProductHeaderTemplate);
     }
 
     /**
      * Метод, подготавливавающий наполнение для формы, исходя из контекста
-     * @param {Object} context контекст отрисовки шаблона
-     * @return {Object} наполнение для формы
+     * @param context - контекст отрисовки шаблона
+     * @returns наполнение для формы
      */
-    prepareRenderData(context) {
+    prepareRenderData(context: productObj) {
         return {
             itemPath: config.href.product + '/' + context.id,
             commentPath: config.href.comment + '/' + context.id,
