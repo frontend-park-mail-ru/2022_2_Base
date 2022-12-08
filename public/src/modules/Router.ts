@@ -143,7 +143,7 @@ class Router {
      * Запускает роутер.
      */
     start() {
-        this.#mainElement = config.HTMLskeleton.main;
+        this.#mainElement = document.getElementById('main') ?? config.empyNode;
 
         this.register(config.href.main, MainPage);
         this.register(config.href.login, LoginPage);
@@ -169,7 +169,7 @@ class Router {
         this.#titles.set(config.href.comment, 'Отзывы - Reazon');
         this.#titles.set(config.href.addComment, 'Отзыв - Reazon');
 
-        this.#currentPage = new MainPage(this.#mainElement);
+        this.#currentPage = new MainPage(config.HTMLskeleton.main);
     }
 
     /**
