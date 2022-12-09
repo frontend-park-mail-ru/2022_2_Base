@@ -15,6 +15,7 @@ export const CartActionTypes = {
     DECREASE_NUMBER: 'DECREASE_NUMBER',
     RESET_CART: 'RESET_CART',
     MERGE_CART: 'MERGE_CART',
+    APPLY_PROMOCODE: 'APPLY_PROMOCODE',
 };
 
 /**
@@ -109,6 +110,17 @@ export const cartAction = {
     mergeCart() {
         Dispatcher.dispatch({
             actionName: CartActionTypes.MERGE_CART,
+        });
+    },
+
+    /**
+     * Действие: применить промокод
+     * @param {String} data - строка с промокодом
+     */
+    applyPromocode(data) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.APPLY_PROMOCODE,
+            data: data,
         });
     },
 };

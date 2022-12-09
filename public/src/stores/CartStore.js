@@ -16,6 +16,9 @@ class CartStore extends BaseStore {
         cartID: 'cartID',
         userID: 'userID',
         currID: 'currID',
+        promocode: 'promocode',
+        promocodeStatus: 'promocodeStatus',
+        promocodeReqStatus: 'promocodeReqStatus',
     };
 
     /**
@@ -29,6 +32,9 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
+        this._storage.set(this._storeNames.promocode, null);
+        this._storage.set(this._storeNames.promocodeReqStatus, null);
+        this._storage.set(this._storeNames.promocodeStatus, null);
     }
 
     /**
@@ -77,6 +83,11 @@ class CartStore extends BaseStore {
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
             this._emitChange([CartActionTypes.MERGE_CART]);
+            break;
+
+        case CartActionTypes.APPLY_PROMOCODE:
+            await this._applyPromocode(payload.data);
+            this._emitChange([CartActionTypes.APPLY_PROMOCODE]);
             break;
         }
     }
@@ -138,6 +149,7 @@ class CartStore extends BaseStore {
                 this._storage.set(this._storeNames.itemsCart, response.items ?? []);
                 this._storage.set(this._storeNames.cartID, response.id);
                 this._storage.set(this._storeNames.userID, response.userid);
+                this._storage.set(this._storeNames.promocode, response.promocode);
             }
         } else {
             this._storage.set(this._storeNames.responseCode, config.responseCodes.code401);
@@ -251,6 +263,24 @@ class CartStore extends BaseStore {
                     newItemsCart.filter((item) => item.id !== id),
                 this._storage.get(this._storeNames.itemsCart)));
         }
+    }
+
+    /**
+     * Действие: применить промокод.
+     * @param {String} data - строка с промокодом
+     */
+    async _applyPromocode(data) {
+        this._storage.set(this._storeNames.promocode, data);
+
+        const [status, response] = await request.makeGetRequest(config.api.applyPromocode)
+            .catch((err) => console.log(err)); // поправить запрос
+
+        this._storage.set(this._storeNames.promocodeReqStatus, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.promocodeStatus, response.promocodeStatus);
+        }
+
+        // this._storage.set(this._storeNames.promocodeStatus, 1); // test fix
     }
 }
 

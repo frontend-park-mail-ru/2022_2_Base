@@ -39,6 +39,7 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
+        cartStore.addListener(this.onApplyPromocode.bind(this), CartActionTypes.APPLY_PROMOCODE);
     }
 
     /**
@@ -60,6 +61,29 @@ export default class CartOrderPage extends BasePage {
     onMakeOrder() {
         this.getCart();
         router.refresh();
+    }
+
+    /**
+     * Функция, реагирующая на применение промокода
+     */
+    onApplyPromocode() {
+        const promocodeStatus = cartStore.getContext(cartStore._storeNames.promocodeStatus);
+
+        const promocodeStatusText = document.getElementById('cart-promocode-status');
+        if (promocodeStatusText) {
+            if (promocodeStatus === 0) {
+                promocodeStatusText.classList.add('paint-text-background-red');
+                promocodeStatusText.textContent = 'Промокод недействителен';
+            } else if (promocodeStatus === 1) {
+                promocodeStatusText.classList.add('paint-text-green-correct');
+                promocodeStatusText.textContent = 'Промокод применён';
+            } else {
+                promocodeStatusText.classList.add('paint-text-background-red');
+                promocodeStatusText.textContent = 'Повторите попытку позже';
+            }
+        }
+
+        this.renderTotalCost();
     }
 
     /**
@@ -95,6 +119,12 @@ export default class CartOrderPage extends BasePage {
             }, [0, 0, 0, 0]).map((val) => {
                 return truncatePrice(val);
             });
+
+        // const promocodeStr = cartStore.getContext(cartStore._storeNames.promocode);
+        /* Функция для парсинга скидки из промокода */
+        // promocodeDiscount = ...
+        // context.sumPrice *= promocodeDiscount;
+        // context.priceDiff = context.noSalePrice - context.sumPrice;
     }
 
     /**
@@ -102,7 +132,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        if (data && data.length) {
+        if (data && data.length) { // || true для локального отображения корзины
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
@@ -128,6 +158,11 @@ export default class CartOrderPage extends BasePage {
             }
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = getDate(1);
+
+            const promocodeStr = userStore.getContext(cartStore._storeNames.promocode);
+            if (promocodeStr) {
+                context.promocode = promocodeStr;
+            }
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
@@ -377,6 +412,7 @@ export default class CartOrderPage extends BasePage {
         const summary = {};
         this.#calcSummaryPrice(data, summary);
         // Изменение итоговых сумм
+
         const totalPrice = document.getElementById('total-price');
         totalPrice.textContent = summary.sumPrice + ' ₽';
         const productsNumber = document.getElementById('products-number');
@@ -471,6 +507,17 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
+     * Функция, обрабатывающая клик на кнопку создания заказа
+     */
+    async listenClickApplyPromocode() {
+        const promocodeStr = document.getElementById('cart-promocode-field').value;
+
+        if (promocodeStr) {
+            cartAction.applyPromocode(promocodeStr);
+        }
+    }
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -500,6 +547,12 @@ export default class CartOrderPage extends BasePage {
         if (this.addressCart) {
             this.addressCart.addEventListener('change', this.listenChangeDateAndTime);
         }
+
+        // Обработчик применения промокода
+        this.applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
+        if (this.applyPromocodeButton) {
+            this.applyPromocodeButton.addEventListener('click', this.listenClickApplyPromocode);
+        }
     }
 
     /**
@@ -522,6 +575,10 @@ export default class CartOrderPage extends BasePage {
 
         if (this.addressCart) {
             this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
+        }
+
+        if (this.applyPromocodeButton) {
+            this.applyPromocodeButton.removeEventListener('click', this.listenClickApplyPromocode);
         }
     }
 

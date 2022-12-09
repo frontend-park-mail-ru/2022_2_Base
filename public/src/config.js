@@ -38,6 +38,7 @@ export const config = {
         suggestionSearch: `${basePathApi}suggestions`,
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
+        applyPromocode: `${basePathApi}applypromo`, // исправить, когда будет ручка
     },
     states: {
         endOf: -1,
