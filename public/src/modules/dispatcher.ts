@@ -7,7 +7,7 @@ class Dispatcher {
     _lastId: number;
     _pendingPayload?: object;
     /**
-     * @constructor
+     * constructor
      */
     constructor() {
         this._isDispatching = false;
@@ -17,7 +17,7 @@ class Dispatcher {
 
     /**
      * Метод, регистрирующий новый коллбек в диспетчере.
-     * @param {Function} newCallback функция-коллбек
+     * @param newCallback - функция-коллбек
      */
     register(newCallback: objectFunction) {
         this._callbacks.set(this._lastId++, {callback: newCallback, isPending: false});
@@ -25,7 +25,7 @@ class Dispatcher {
 
     /**
      * Метод, удаляющий регистрацию коллбека.
-     * @param {number} id - идентификатор коллбека
+     * @param id - идентификатор коллбека
      */
     unregister(id: number) {
         if (this._callbacks.has(id)) {
@@ -37,7 +37,7 @@ class Dispatcher {
 
     /**
      * Метод, организующий рассылку.
-     * @param {object} payload - данные для передачи в стор
+     * @param payload - данные для передачи в стор
      */
     dispatch(payload: object) {
         if (this.isDispatching()) {
@@ -60,7 +60,7 @@ class Dispatcher {
 
     /**
      * Метод, возвращающий статус рассылки: активная или нет
-     * @return {boolean} статус активности рассылки диспетчера
+     * @returns статус активности рассылки диспетчера
      */
     isDispatching() {
         return this._isDispatching;
@@ -68,7 +68,7 @@ class Dispatcher {
 
     /**
      * Метод, вызывающий функцию коллбека у id.
-     * @param {number} id идентификатор коллбека
+     * @param id - идентификатор коллбека
      */
     _invokeCallback(id: number) {
         this._callbacks.get(id)!.isPending = true;
@@ -77,7 +77,7 @@ class Dispatcher {
 
     /**
      * Метод, инициирующий рассылку действий.
-     * @param {object} payload - данные для передачи в стор
+     * @param payload - данные для передачи в стор
      */
     _startDispatching(payload: object) {
         for (const value of this._callbacks.values()) {

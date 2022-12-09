@@ -12,9 +12,9 @@ class Request {
 
     /**
      * Метод, реализующий http-запрос.
-     * @param {string} url - адрес, на который будет посылаться запрос
-     * @param {object} options - параметры запроса
-     * @return {Promise<Response>} промис запроса
+     * @param url - адрес, на который будет посылаться запрос
+     * @param options - параметры запроса
+     * @returns промис запроса
      */
     makeRequest = (url: string, options: object) => {
         return fetch(url, options).then((response) => response.ok ?
@@ -24,8 +24,8 @@ class Request {
 
     /**
      * Метод, реализующий запрос GET.
-     * @param {string} url - путь URL
-     * @return {Promise<Response>} - промис запроса
+     * @param url - путь URL
+     * @returns - промис запроса
      */
     makeGetRequest = async (url: string) => {
         const options = {
@@ -39,9 +39,9 @@ class Request {
 
     /**
      * Метод, реализующий запрос POST.
-     * @param {string} url - путь URL
-     * @param {object} data - полезная нагрузка запроса
-     * @return {Promise<Response>} промис запроса
+     * @param url - путь URL
+     * @param data - полезная нагрузка запроса
+     * @returns промис запроса
      */
     makePostRequest = async (url: string, data: object) => {
         const options = {
@@ -56,9 +56,9 @@ class Request {
 
     /**
      * Метод, реализующий запрос POST.
-     * @param {string} url - путь URL
-     * @param {Blob} data - полезная нагрузка запроса
-     * @return {Promise<Response>} промис запроса
+     * @param url - путь URL
+     * @param data - полезная нагрузка запроса
+     * @returns промис запроса
      */
     makePostRequestSendAvatar = async (url: string, data: Blob) => {
         const formData = new FormData();
@@ -74,8 +74,8 @@ class Request {
 
     /**
      * Метод, реализующий запрос DELETE
-     * @param {string} url - путь URL
-     * @return {Promise<Response>} промис запроса
+     * @param url - путь URL
+     * @returns промис запроса
      */
     makeDeleteRequest = async (url: string) => {
         const options = {
