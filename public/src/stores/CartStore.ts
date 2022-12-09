@@ -99,9 +99,9 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err)) ?? [];
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
-        response?.items?.forEach((globalItem: any) => {
+        response?.items?.forEach((globalItem: productObj) => {
             let hasItem = false;
-            itemsCart?.forEach((localItem: any, key: any) => {
+            itemsCart?.forEach((localItem: productObj, key: number) => {
                 if (globalItem.id === localItem.id) {
                     itemsCart[key].count += globalItem.count;
                     hasItem = true;
@@ -116,9 +116,7 @@ class CartStore extends BaseStore {
             this._storage.set(this._storeNames.userID, response.userid);
             this._storage.set(this._storeNames.itemsCart, response.items ?? []);
             const [postStatus] = await request.makePostRequest(config.api.cart, {
-                items: itemsCart.map(({
-                    id,
-                }: any) => id),
+                items: itemsCart.map(({id}: productObj) => id),
             }).catch((err) => console.log(err)) ?? [];
             this._storage.set(this._storeNames.responseCode, postStatus);
             if (postStatus === config.responseCodes.code200) {
@@ -154,8 +152,8 @@ class CartStore extends BaseStore {
     async _deleteById(id: number) {
         const noNullItemsCart =
             this._storage.get(this._storeNames.itemsCart)
-                .filter((item: any) => item.id !== id)
-                .map((item: any) => item.id);
+                .filter((item: productObj) => item.id !== id)
+                .map((item: productObj) => item.id);
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
@@ -186,12 +184,12 @@ class CartStore extends BaseStore {
         }
         this._storage.set(this._storeNames.currID, id);
         const itemToAdd = itemsStore.getContext(itemsStore._storeNames.allCardsInCategory).find(
-            (item: any) => item.id === Number(id));
+            (item: productObj) => item.id === Number(id));
         if (itemToAdd) {
             itemToAdd.count = countChange + (itemToAdd?.count ?? 0);
         }
         const currCartItems = this._storage.get(this._storeNames.itemsCart);
-        const editItemIndex = currCartItems.findIndex((item: any) => item.id === itemToAdd.id);
+        const editItemIndex = currCartItems.findIndex((item: productObj) => item.id === itemToAdd.id);
         if (editItemIndex === -1) {
             currCartItems.push(itemToAdd);
         } else {

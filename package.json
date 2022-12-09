@@ -10,8 +10,8 @@
     "build:webpack-dev": "webpack",
     "deploy": "screen -d -m -S sudo npm start",
     "drop": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.sudo')\"",
-    "lint": "npx eslint . --ext .js .ts .tsx",
-    "lint:fix": "npx eslint . --ext .js .ts .tsx --fix",
+    "lint": "npx eslint . --ext .ts && npx eslint . --ext .js",
+    "lint:fix": "npx eslint . --ext .ts --fix && npx eslint . --ext .js --fix",
     "clean": "rd /s /q dist",
     "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",
     "css:fix": "npx stylelint '**/*.{css,scss}' --fix --config stylelint.config.js"

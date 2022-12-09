@@ -378,6 +378,7 @@ class UserStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             this._storage.set(this._storeNames[field], data[field]);
         }

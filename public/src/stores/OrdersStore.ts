@@ -56,23 +56,23 @@ class OrdersStore extends BaseStore {
      * Метод, дополняющий информацию о заказах.
      * @param orders - полезная нагрузка запроса
      */
-    #prepareOrdersData(orders: Array<any>) {
-        orders.forEach((item: any) => {
-            item.totalPrice = item.items.reduce((price: any, itemCard: any) => {
+    #prepareOrdersData(orders: Array<itemOrderData>) {
+        orders.forEach((item: itemOrderData) => {
+            item.totalPrice = item.items.reduce((price: number, itemCard: priceData) => {
                 _addSpacesToItemPrice(itemCard);
-                return price + itemCard.lowprice;
+                return (price + (itemCard.lowprice ?? 0));
             }, 0);
-            item.totalPrice = truncatePrice(item.totalPrice);
+            item.totalPrice = Number(truncatePrice(item.totalPrice));
 
             item.deliveryDateString = getLocalDate(new Date(item.deliveryDate));
-            item.deliveryTimeString = new Date(item.deliveryDate).getHours();
+            const deliveryDigitTime = new Date(item.deliveryDate).getHours();
             item.deliveryTimeString =
-                `${item.deliveryTimeString - 2}:00 — ${item.deliveryTimeString + 2}:00`;
+                `${deliveryDigitTime - 2}:00 — ${deliveryDigitTime + 2}:00`;
 
             item.creationDateString = getLocalDate(new Date(item.creationDate));
 
-            item.orderstatus = this.ordersStates.get(item.orderstatus);
-            item.paymentstatus = this.paymentStates.get(item.paymentstatus);
+            item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
+            item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
         });
     }
 

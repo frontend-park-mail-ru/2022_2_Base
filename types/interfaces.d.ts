@@ -10,10 +10,11 @@ interface DispatcherCallbackObject {
 
 interface priceData {
     lowprice: number | undefined,
-    discount: number | undefined,
+    discount?: number | undefined,
     price: number,
-    strPrice: string | undefined,
-    strLowprice: string | undefined,
+    count: number,
+    strPrice?: string | undefined,
+    strLowprice?: string | undefined,
 }
 
 interface PaymentCardObj {
@@ -75,14 +76,15 @@ interface summaryPrice {
 }
 
 interface renderCart {
-    address?: Array<addressCardObj>,
-    paymentCard?: Array<PaymentCardObj>,
+    address?: addressCardObj,
+    paymentCard?: PaymentCardObj,
     isAuth?: boolean,
     avatar?: string,
     username?: string,
     phone?: string,
     deliveryPrice?: string,
     deliveryDate?: string[],
+    priority?: boolean
 }
 
 interface dispatcherPayload {
@@ -95,7 +97,8 @@ interface addressCardObj {
     city: string,
     street: string,
     house: string,
-    priority?: boolean
+    priority?: boolean,
+    address?: string
 }
 
 interface commentObj {
@@ -112,3 +115,17 @@ interface suggestionSearchObj {
     searchString: string,
     isCategory: boolean
 }
+
+interface itemOrderData {
+    cont: number,
+    items: Array<priceData>,
+    totalPrice: number,
+    deliveryDateString: string,
+    deliveryTimeString: string,
+    creationDateString: string,
+    creationDate: Date,
+    deliveryDate: Date,
+    orderstatus: string,
+    paymentstatus:string;
+}
+

@@ -97,7 +97,7 @@ export default class CartOrderPage extends BasePage {
      * @param data - данные для вычисления
      * @param context - контекст
      */
-    #calcSummaryPrice(data: Array<priceData>, context: any) {
+    #calcSummaryPrice(data: Array<priceData>, context: summaryPrice) {
         /*
         * мы считаем сумму товаров в корзине (sumPrice), сумму скидок (noSalePrice),
         * итоговую разницу цены со скидкой и без скидки (priceDiff), количество товаров (count).
@@ -126,10 +126,10 @@ export default class CartOrderPage extends BasePage {
      */
     renderCart(data: Array<priceData>) {
         if (data && data.length) {
-            const context: renderCart = {};
+            const context: renderCart & summaryPrice = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
-                address.forEach((key: any) => {
+                address.forEach((key: addressCardObj) => {
                     if (key.priority) {
                         context.address = key;
                     }
@@ -137,7 +137,7 @@ export default class CartOrderPage extends BasePage {
             }
             const paymentCards = userStore.getContext(userStore._storeNames.paymentMethods);
             if (paymentCards) {
-                paymentCards.forEach((key: any) => {
+                paymentCards.forEach((key: PaymentCardObj) => {
                     if (key.priority) {
                         context.paymentCard = key;
                     }
@@ -407,7 +407,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, перерисовывающая итоговую стоимость
      */
     renderTotalCost() {
-        const data: any = [];
+        const data: Array<priceData> = [];
         const itemsCart = document.getElementsByClassName('cart-item__cart');
         if (itemsCart) {
             Array.from(itemsCart).forEach((child) => {
