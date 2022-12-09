@@ -32,12 +32,10 @@ export default class ProductPage extends BaseItemPage {
     /**
      * Метод, добавляющий слушатели.
      */
-    override startEventListener() {
-    }
+    override startEventListener() {}
 
     /**
      * Метод, удаляющий слушатели.
      */
-    override removeEventListener() {
-    }
+    override removeEventListener() {}
 }

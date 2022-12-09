@@ -16,16 +16,14 @@ interface priceData {
     strLowprice: string | undefined,
 }
 
-interface validatePaymentCardData {
+interface PaymentCardObj {
     expiry: string,
     number: string,
-    cvc: string,
-}
-
-interface validateAddressData {
-    city: string,
-    street: string,
-    house: string,
+    cvc?: string,
+    expiryDate?: Date,
+    expirydate?: Date,
+    id: number,
+    priority?: boolean
 }
 
 interface formContextObj {
@@ -47,10 +45,12 @@ interface productObj {
     name: string,
     rating: number,
     commentscount: number,
+    lowprice: number,
+    count?: number,
     favourite: boolean,
 }
 
-interface PaymentCardObj {
+interface CardObj {
     name: string,
     email: string,
     phone: string,
@@ -64,18 +64,19 @@ interface OrderDataObj {
     address?: number,
     deliveryDate?: string,
     card?: number,
+    userid?: number
 }
 
-interface summaryPrice{
+interface summaryPrice {
     sumPrice?: string,
     count?: string,
     noSalePrice?: string,
     priceDiff?: string,
 }
 
-interface renderCart{
-    address?: any,
-    paymentCard?: any,
+interface renderCart {
+    address?: Array<addressCardObj>,
+    paymentCard?: Array<PaymentCardObj>,
     isAuth?: boolean,
     avatar?: string,
     username?: string,
@@ -84,7 +85,30 @@ interface renderCart{
     deliveryDate?: string[],
 }
 
-interface dispatcherPayload{
+interface dispatcherPayload {
     actionName: string,
     data?: any
+}
+
+interface addressCardObj {
+    id: number,
+    city: string,
+    street: string,
+    house: string,
+    priority?: boolean
+}
+
+interface commentObj {
+    userid: number,
+    itemid: number,
+    rating: number,
+    pros: string,
+    cons: string,
+    comment: string
+
+}
+
+interface suggestionSearchObj {
+    searchString: string,
+    isCategory: boolean
 }

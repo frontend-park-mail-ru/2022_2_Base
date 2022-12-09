@@ -56,7 +56,7 @@ export default class SearchPage extends CatalogPage {
 
     /**
      * Функция, подгружающая и отрисовывающая карточки товаров
-     * @param {Array} searchResult - результаты поиска
+     * @param searchResult - результаты поиска
      */
     loadSearchItemCards(searchResult = itemsStore.getContext(itemsStore._storeNames.cardsCategory)) {
         const itemsBlock = document.getElementById('items-block');
@@ -77,10 +77,12 @@ export default class SearchPage extends CatalogPage {
      * Функция, сортирующая товары по цене
      */
     sortCards() {
-        this.itemsBlock.innerHTML = '';
-        router.addToHistory(window.location.pathname +
-            itemsStore.getContext(itemsStore._storeNames.sortURL));
-        this.loadSearchItemCards();
+        if (this.itemsBlock) {
+            this.itemsBlock.innerHTML = '';
+            router.addToHistory(window.location.pathname +
+                itemsStore.getContext(itemsStore._storeNames.sortURL));
+            this.loadSearchItemCards();
+        }
     }
 
     /**

@@ -36,7 +36,7 @@ class CartStore extends BaseStore {
      * Метод, реализующий реакцию на рассылку Диспетчера.
      * @param payload - полезная нагрузка запроса
      */
-    override async _onDispatch(payload: any) {
+    override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case CartActionTypes.GET_CART:
             await this._getCart();
@@ -47,8 +47,7 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DELETE_BY_ID]);
             break;
         case CartActionTypes.DELETE_ALL:
-            // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-            await this._deleteAll(payload.data);
+            await this._deleteAll();
             this._emitChange([CartActionTypes.DELETE_ALL]);
             break;
 
@@ -96,9 +95,8 @@ class CartStore extends BaseStore {
      * Действие: соединить локальную корзину с корзиной в БД.
      */
     async _mergeCart() {
-        // @ts-ignore / TS2488 ???
         const [status, response] = await request.makeGetRequest(config.api.cart)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         const itemsCart = this._storage.get(this._storeNames.itemsCart);
         response?.items?.forEach((globalItem: any) => {
@@ -121,7 +119,7 @@ class CartStore extends BaseStore {
                 items: itemsCart.map(({
                     id,
                 }: any) => id),
-            }).catch((err) => console.log(err));
+            }).catch((err) => console.log(err)) ?? [];
             this._storage.set(this._storeNames.responseCode, postStatus);
             if (postStatus === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.itemsCart, itemsCart);
@@ -135,7 +133,7 @@ class CartStore extends BaseStore {
     async _getCart() {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             const [status, response] = await request.makeGetRequest(config.api.cart)
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err)) ?? [];
 
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
@@ -159,7 +157,7 @@ class CartStore extends BaseStore {
                 .filter((item: any) => item.id !== id)
                 .map((item: any) => item.id);
         const [status] = await request.makePostRequest(config.api.cart, {items: noNullItemsCart})
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.itemsCart, noNullItemsCart);
     }
@@ -171,7 +169,7 @@ class CartStore extends BaseStore {
         const [status] = await request.makePostRequest(config.api.cart, {
             items: [],
         })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         this._storage.set(this._storeNames.itemsCart, []);
     }
@@ -211,7 +209,7 @@ class CartStore extends BaseStore {
         if (userStore.getContext(userStore._storeNames.isAuth)) {
             [status] = await request.makePostRequest(config.api.insertIntoCart, {
                 itemid: Number(id),
-            }).catch((err) => console.log(err));
+            }).catch((err) => console.log(err)) ?? [];
         }
         this.#editCountOfItem(status,
             1, id);
@@ -235,7 +233,7 @@ class CartStore extends BaseStore {
             [status] = await request.makePostRequest(config.api.deleteFromCart, {
                 itemid: Number(id),
             })
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err)) ?? [];
         }
         await this.#editCountOfItem(status,
             -1, id);
@@ -245,15 +243,15 @@ class CartStore extends BaseStore {
      * Действие: оформить заказ
      * @param data - данные для оформления заказа
      */
-    async _makeOrder(data: any) {
+    async _makeOrder(data: OrderDataObj) {
         data.userid = this._storage.get(this._storeNames.userID);
         const [status] = await request.makePostRequest(config.api.makeOrder, data)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.itemsCart, data.items.reduce(
-                (newItemsCart: any, id: any) =>
-                    newItemsCart.filter((item: any) => item.id !== id),
+                (newItemsCart: any, id: number) =>
+                    newItemsCart.filter((item: {id: number}) => item.id !== id),
                 this._storage.get(this._storeNames.itemsCart)));
         }
     }

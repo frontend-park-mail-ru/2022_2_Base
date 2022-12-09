@@ -3,6 +3,8 @@ import PopUpAddAddress from '../public/src/components/popUp/PopUpAddAddress/PopU
 
 type InfoCardBaseInfoObj =
     [HTMLElement, HTMLElement, string,
-            PopUpAddPaymentCard | PopUpAddAddress, HandlebarsTemplateDelegate, string]
+            PopUpAddPaymentCard | PopUpAddAddress, HandlebarsTemplateDelegate, string];
 
-type RecordString = {[key: string]: string}
+type RecordString = {[key: string]: string};
+
+type itemPageTuple = [actionFunc, string, string];

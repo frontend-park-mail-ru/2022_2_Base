@@ -12,17 +12,17 @@ import './CatalogPage.scss';
  * Класс, реализующий страницу с каталога.
  */
 export default class CatalogPage extends BasePage {
-    actionToLoadCards: any;
-    addLisitenSortCatalog: any;
-    bottomOfPageHandler: any;
-    catalogContent: any;
-    catalogSort: any;
-    getSortByPrice: any;
-    getSortByRating: any;
-    itemsBlock: any;
-    priceSortImg: any;
-    ratingSortImg: any;
-    waitThrottleScroll: any;
+    actionToLoadCards: actionFunc;
+    addLisitenSortCatalog: addListenerFunction;
+    bottomOfPageHandler: addListenerFunction;
+    catalogContent: HTMLElement | null;
+    catalogSort: HTMLElement | null;
+    getSortByPrice: actionFunc;
+    getSortByRating: actionFunc;
+    itemsBlock: HTMLElement | null;
+    priceSortImg: HTMLElement | null;
+    ratingSortImg: HTMLElement | null;
+    waitThrottleScroll: boolean;
     #category;
 
     /**
@@ -30,10 +30,20 @@ export default class CatalogPage extends BasePage {
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      * @param childClassData - данные дочернего класса
      */
-    constructor(parent: HTMLElement, childClassData: Array<any>) {
+    constructor(parent: HTMLElement, childClassData: [actionFunc, actionFunc, actionFunc]) {
         super(parent, CatalogPageTemplate);
 
         [this.actionToLoadCards, this.getSortByRating, this.getSortByPrice] = childClassData;
+
+        this.addLisitenSortCatalog = config.noop;
+        this.bottomOfPageHandler = config.noop;
+
+        this.catalogContent = null;
+        this.catalogSort = null;
+        this.itemsBlock = null;
+        this.priceSortImg = null;
+        this.ratingSortImg = null;
+        this.waitThrottleScroll = false;
 
         this.#category = new Map();
         this.#category.set(config.href.category + '/phones', 'Телефоны');
@@ -211,8 +221,8 @@ export default class CatalogPage extends BasePage {
                 const isLowToHighRating =
                     window.location.search.includes(config.queryParams.sort.ratingDown);
                 isLowToHighRating ?
-                    this.ratingSortImg.classList.remove('rotate-img-180') :
-                    this.ratingSortImg.classList.add('rotate-img-180');
+                    this.ratingSortImg?.classList.remove('rotate-img-180') :
+                    this.ratingSortImg?.classList.add('rotate-img-180');
                 this.getSortByRating(isLowToHighRating);
                 break;
             }
@@ -220,8 +230,8 @@ export default class CatalogPage extends BasePage {
                 const isLowToHighPrice =
                     window.location.search.includes(config.queryParams.sort.priceDown);
                 isLowToHighPrice ?
-                    this.priceSortImg.classList.remove('rotate-img-180') :
-                    this.priceSortImg.classList.add('rotate-img-180');
+                    this.priceSortImg?.classList.remove('rotate-img-180') :
+                    this.priceSortImg?.classList.add('rotate-img-180');
                 this.getSortByPrice(isLowToHighPrice);
                 break;
             }

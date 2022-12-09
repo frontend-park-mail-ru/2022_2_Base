@@ -69,12 +69,14 @@ export default class CategoryPage extends CatalogPage {
      * Функция, подгружающая и отрисовывающая карточки дешевых товаров
      */
     loadSortedItemCards() {
-        router.addToHistory(window.location.pathname +
-            itemsStore.getContext(itemsStore._storeNames.sortURL));
-        this.itemsBlock.innerHTML = '';
-        itemCardsAction.getItemCardsByCategory(true);
-        this.removeScrollListener();
-        this.startScrollListener();
+        if (this.itemsBlock) {
+            router.addToHistory(window.location.pathname +
+                itemsStore.getContext(itemsStore._storeNames.sortURL));
+            this.itemsBlock.innerHTML = '';
+            itemCardsAction.getItemCardsByCategory(true);
+            this.removeScrollListener();
+            this.startScrollListener();
+        }
     }
 
     /**

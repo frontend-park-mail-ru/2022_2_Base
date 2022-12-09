@@ -2,3 +2,4 @@ dist
 webpack.config.js
 stylelint.config.js
 babel.config.js
+server

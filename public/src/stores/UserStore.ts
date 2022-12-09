@@ -4,6 +4,7 @@ import {ProfileActionTypes} from '../actions/profile';
 import request from '../modules/ajax';
 import {config} from '../config';
 import {cartAction} from '../actions/cart';
+import {userStoreDataCollection} from '../../../types/aliases';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -180,9 +181,8 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение сессии.
      */
     async _fetchUser() {
-        // @ts-ignore
         const [status] = await request.makeGetRequest(config.api.session)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
 
@@ -196,7 +196,7 @@ class UserStore extends BaseStore {
      */
     async _logout() {
         const [status] = await request.makeDeleteRequest(config.api.logout)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
 
@@ -211,9 +211,9 @@ class UserStore extends BaseStore {
      * @param path - путь запроса
      * @param data - данные для авторизации
      */
-    async #auth(path: string, data: any) {
+    async #auth(path: string, data: object) {
         const [status] = await request.makePostRequest(path, data)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
 
@@ -226,7 +226,7 @@ class UserStore extends BaseStore {
      * Метод, реализующий регистрацию.
      * @param data - данные для входа
      */
-    async _signup(data: any) {
+    async _signup(data: userStoreDataCollection) {
         const {username, email, password} = data;
         await this.#auth(config.api.signup, {
             password,
@@ -239,7 +239,7 @@ class UserStore extends BaseStore {
      * Метод, реализующий вход в сессию.
      * @param data - данные для входа
      */
-    async _login(data: any) {
+    async _login(data: userStoreDataCollection) {
         const {email, password} = data;
         await this.#auth(config.api.login, {
             password,
@@ -253,7 +253,7 @@ class UserStore extends BaseStore {
     async _getData() {
         if (this._storage.get(this._storeNames.isAuth)) {
             const [status, response] = await request.makeGetRequest(config.api.profile)
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err)) ?? [];
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.name, response.username);
@@ -266,8 +266,8 @@ class UserStore extends BaseStore {
                 }
 
                 if (response.paymentmethods) {
-                    response.paymentmethods.forEach((mehtod: any, key: any) => {
-                        const date = new Date(mehtod.expirydate);
+                    response.paymentmethods.forEach((method: PaymentCardObj, key: string) => {
+                        const date = new Date(method.expirydate ?? new Date());
                         response.paymentmethods[key].expiry =
                             ('0' + (date.getMonth() + 1)).slice(-2) +
                             '/' + date.getUTCFullYear() % 100;
@@ -287,7 +287,7 @@ class UserStore extends BaseStore {
      * Метод, реализующий сохранение данных профиля.
      * @param data - данные для изменения
      */
-    async _saveEditData(data: any) {
+    async _saveEditData(data: HTMLInputElement) {
         const userData = this.#collectUserData();
         switch (data.id) {
         case 'name':
@@ -302,15 +302,16 @@ class UserStore extends BaseStore {
             userData.phone = data.value;
             this._storage.set(this._storeNames.phone, data.value);
             break;
-        case 'password':
-            (userData as any).password = data.value;
-            const [status] = await request.makePostRequest((config.api as any).password, userData)
-                .catch((err) => console.log(err));
+        case 'password': {
+            userData.password = data.value;
+            const [status] = await request.makePostRequest(config.api.password, userData)
+                .catch((err) => console.log(err)) ?? [];
             this._storage.set(this._storeNames.responseCode, status);
             return;
         }
+        }
         const [status] = await request.makePostRequest(config.api.profile, userData)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.temp, data);
         this._storage.set(this._storeNames.responseCode, status);
@@ -324,10 +325,10 @@ class UserStore extends BaseStore {
         const [status] = avatar ?
             await request.makePostRequestSendAvatar(
                 config.api.uploadAvatar, avatar)
-                .catch((err) => console.log(err)) :
+                .catch((err) => console.log(err)) ?? [] :
             await request.makePostRequest(
                 config.api.profile, {avatar: config.states.noAvatar})
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -348,22 +349,22 @@ class UserStore extends BaseStore {
     #collectUserData() {
         const paymentMethodsField = this._storage.get(this._storeNames.paymentMethods);
         paymentMethodsField.forEach(
-            (paymentMethod: any, key: any) =>
+            (paymentMethod: PaymentCardObj, key: string) =>
                 paymentMethodsField[key].id = Number((paymentMethod.id).toString().split('/')[1]));
 
         const addressField = this._storage.get(this._storeNames.address);
         addressField.forEach(
-            (address: any, key: any) =>
+            (address: addressCardObj, key: string) =>
                 addressField[key].id = Number((address.id).toString().replace('addressCard/', '')),
         );
         return {
-            username: this._storage.get(this._storeNames.name),
-            email: this._storage.get(this._storeNames.email),
-            phone: this._storage.get(this._storeNames.phone),
-            avatar: this._storage.get(this._storeNames.avatar),
-            paymentMethods: paymentMethodsField,
-            address: addressField,
-        };
+            username: this._storage.get(this._storeNames.name) as string,
+            email: this._storage.get(this._storeNames.email) as string,
+            phone: this._storage.get(this._storeNames.phone) as string,
+            avatar: this._storage.get(this._storeNames.avatar) as string | Blob,
+            paymentMethods: paymentMethodsField as Array<PaymentCardObj>,
+            address: addressField as Array<addressCardObj>,
+        } as userStoreDataCollection;
     }
 
     /**
@@ -371,13 +372,13 @@ class UserStore extends BaseStore {
      * @param data - данные для обработки
      * @param field - название поля
      */
-    async #makePostRequestCard(data: any, field: any) {
+    async #makePostRequestCard(data: userStoreDataCollection, field: string) {
         const [status] = await request.makePostRequest(config.api.profile, data)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-ignore
             this._storage.set(this._storeNames[field], data[field]);
         }
     }
@@ -386,14 +387,14 @@ class UserStore extends BaseStore {
      * Метод, реализующий сохранение карты.
      * @param data - данные для обработки
      */
-    async _saveAddCard(data: any) {
+    async _saveAddCard(data: PaymentCardObj) {
         const userData = this.#collectUserData();
         delete data.cvc;
-        userData.paymentMethods.forEach((item: any) => delete item.priority);
+        userData.paymentMethods.forEach((item: PaymentCardObj) => delete item.priority);
         data.id = config.states.noPayCardId;
         data.priority = true;
-        data.expiryDate = data.expiry.split('/');
-        data.expiryDate = new Date(2000 + Number(data.expiryDate[1]), data.expiryDate[0]);
+        data.expiryDate = new Date(2000 + Number(data.expiry.split('/')[1]),
+            Number(data.expiry.split('/')[0]));
         userData.paymentMethods.push(data);
 
         await this.#makePostRequestCard(userData, 'paymentMethods');
@@ -405,7 +406,8 @@ class UserStore extends BaseStore {
      */
     async _saveDeleteCard(id: number) {
         const userData = this.#collectUserData();
-        userData.paymentMethods = userData.paymentMethods.filter((item: any) => item.id !== id);
+        userData.paymentMethods = userData.paymentMethods
+            .filter((item: PaymentCardObj) => item.id !== id);
         await this.#makePostRequestCard(userData, 'paymentMethods');
     }
 
@@ -413,10 +415,10 @@ class UserStore extends BaseStore {
      * Метод, реализующий добавление карты адреса.
      * @param data - данные для обработки
      */
-    async _saveAddAddress(data: any) {
+    async _saveAddAddress(data: addressCardObj) {
         const userData = this.#collectUserData();
         data.id = config.states.noPayCardId;
-        userData.address.forEach((item: any) => delete item.priority);
+        userData.address.forEach((item: addressCardObj) => delete item.priority);
         data.priority = true;
         userData.address.push(data);
 
@@ -427,9 +429,9 @@ class UserStore extends BaseStore {
      * Метод, реализующий изменение карты адреса.
      * @param data - данные для обработки
      */
-    async _saveEditAddress(data: any) {
+    async _saveEditAddress(data: addressCardObj) {
         const userData = this.#collectUserData();
-        userData.address.forEach((item: any, key: any) => {
+        userData.address.forEach((item: addressCardObj, key: number) => {
             if (item.id === data.id) {
                 data.priority = item.priority;
                 userData.address[key] = data;
@@ -444,7 +446,7 @@ class UserStore extends BaseStore {
      */
     async _deleteAddress(id: number) {
         const userData = this.#collectUserData();
-        userData.address = userData.address.filter((item: any) => item.id !== id);
+        userData.address = userData.address.filter((item: addressCardObj) => item.id !== id);
         await this.#makePostRequestCard(userData, 'address');
     }
 }

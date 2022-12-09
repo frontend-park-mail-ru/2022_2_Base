@@ -166,18 +166,18 @@ export default class UserPage extends BasePage {
      * @param nameOfCard - название карты
      * @param data - данные для заполнения карт
      */
-    loadCards(componentEntity: UserPageLoadCardsPages, nameOfCard: string, data: Array<PaymentCardObj>) {
+    loadCards(componentEntity: UserPageLoadCardsPages, nameOfCard: string, data: Array<CardObj>) {
         switch (nameOfCard) {
         case 'userDataCard':
             super.render(data);
             return;
         case 'paymentCard':
-            data.forEach((paymentCard: PaymentCardObj) => {
+            data.forEach((paymentCard: CardObj) => {
                 paymentCard.id = 'paymentCard/' + paymentCard.id;
             });
             break;
         case 'addressCard':
-            data.forEach((address: PaymentCardObj) => {
+            data.forEach((address: CardObj) => {
                 address.id = 'addressCard/' + address.id;
             });
             break;

@@ -93,7 +93,7 @@ class Validation {
      * @param data - данные карты для обработки
      * @returns errorMessage - сообщение об ошибке
      */
-    validateCard(data: validatePaymentCardData) {
+    validateCard(data: PaymentCardObj) {
         if (data.expiry.length !== 5 ||
             !/^\d+$/.test(data.expiry.slice(0, 2)) ||
             !/^\d+$/.test(data.expiry.slice(-2))) {
@@ -107,7 +107,7 @@ class Validation {
                 Number(data.expiry.slice(0, 2)) < new Date().getMonth())) {
             return 'Срок действия карты истек';
         }
-        if (data.cvc.length !== 3 || !/^\d+$/.test(data.cvc)) {
+        if (data.cvc?.length !== 3 || !/^\d+$/.test(data.cvc)) {
             return 'CVC код содержит 3 цифры';
         }
         if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
@@ -121,7 +121,7 @@ class Validation {
      * @param data - данные для обработки
      * @returns errorMessage - сообщение об ошибке
      */
-    validateAddress(data: validateAddressData) {
+    validateAddress(data: addressCardObj) {
         if (!data.city.length) {
             return 'Введите ваш город';
         }

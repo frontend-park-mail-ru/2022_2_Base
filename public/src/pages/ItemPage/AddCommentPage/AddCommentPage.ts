@@ -59,7 +59,14 @@ export default class AddCommentPage extends BaseItemPage {
      * Функция, регистрирующая на нажатие кнопки создания отзыва
      */
     listenClickSubmitComment() {
-        const commentData: any = {};
+        const commentData: commentObj = {
+            userid: config.states.noPayCardId,
+            itemid: config.states.noPayCardId,
+            rating: config.states.noPayCardId,
+            pros: config.states.noAvatar,
+            cons: config.states.noAvatar,
+            comment: config.states.noAvatar,
+        };
         const rating = document.getElementsByName('rating');
         if (rating) {
             commentData.rating = Math.abs((Array.from(rating) as Array<HTMLInputElement>)

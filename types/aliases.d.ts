@@ -10,7 +10,6 @@ import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
 import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
 import UserPage from '../pages/UserPage/UserPage';
-import CartItem from '../public/src/components/CartItem/CartItem';
 import AddressCard from '../public/src/components/InfoCard/AddressCard/AddressCard';
 
 type CustomPages = LoginPage & MainPage & RegisterPage & ErrorPage & CartPage & OrdersPage &
@@ -19,3 +18,7 @@ type CustomPages = LoginPage & MainPage & RegisterPage & ErrorPage & CartPage & 
 type UserPageLoadCardsPages = AddressCard | PaymentCard | null;
 
 type addEventListenerFunction = addListenerFunction | emptyCallback;
+
+type userStoreDataCollection = {username: string, email: string, phone: string,
+    avatar: string | Blob, paymentMethods: Array<PaymentCardObj>, address: Array<addressCardObj>,
+    password?: string};

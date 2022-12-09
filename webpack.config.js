@@ -12,7 +12,7 @@ const webPackConfig = {
         'app': './public/src/index.ts',
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
@@ -21,7 +21,7 @@ const webPackConfig = {
             {test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource'},
             {test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource'},
             {
-                test: /\.js$/,
+                test: /\.(js|jsx|tsx|ts)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -29,11 +29,6 @@ const webPackConfig = {
                         cacheDirectory: true,
                     },
                 },
-            },
-            {
-                test: /\.([cm]?ts|tsx)$/,
-                exclude: /node_modules/,
-                loader: 'ts-loader'
             },
         ],
     },

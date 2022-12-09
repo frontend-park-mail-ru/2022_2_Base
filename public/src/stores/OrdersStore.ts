@@ -8,8 +8,8 @@ import {_addSpacesToItemPrice, getLocalDate, truncatePrice} from '../modules/sha
  * Класс, реализующий базовое хранилище.
  */
 class OrdersStore extends BaseStore {
-    ordersStates: any;
-    paymentStates: any;
+    ordersStates: Map<string, string>;
+    paymentStates: Map<string, string>;
     _storeNames = {
         orders: 'orders',
         responseCode: 'responseCode',
@@ -80,10 +80,9 @@ class OrdersStore extends BaseStore {
      * Действие: запрос списка карточек.
      */
     async _getOrders() {
-        // @ts-ignore
         const [status, response] = await request
             .makeGetRequest(config.api.orders)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             if (response.body.length) {

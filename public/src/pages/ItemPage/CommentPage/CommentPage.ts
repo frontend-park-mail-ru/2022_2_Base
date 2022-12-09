@@ -13,7 +13,7 @@ import router from '../../../modules/Router';
  * Класс, реализующий страницу CommentPage.
  */
 export default class CommentPage extends BaseItemPage {
-    createOrderButton: any;
+    createOrderButton: HTMLElement | null;
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
@@ -25,6 +25,8 @@ export default class CommentPage extends BaseItemPage {
             [itemCardsAction.getItemCard, ItemCardsActionTypes.ITEM_CARD_GET,
                 'comment'],
         );
+
+        this.createOrderButton = null;
     }
 
     /**
@@ -62,7 +64,7 @@ export default class CommentPage extends BaseItemPage {
      */
     listenAddCommentButton() {
         if (itemsStore.getContext(itemsStore._storeNames.comments)
-            .find((comment: any) =>
+            .find((comment: commentObj) =>
                 comment.userid === cartStore.getContext(cartStore._storeNames.userID))) {
             errorMessage.getAbsoluteErrorMessage('Вы уже создали отзыв об этом товаре');
         } else {

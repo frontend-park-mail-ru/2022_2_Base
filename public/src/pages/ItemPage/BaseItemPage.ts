@@ -8,21 +8,23 @@ import AddToCartButton from '../../components/AddToCartButton/AddToCartButton';
 import ProductHeader from '../../components/ProductHeader/ProductHeader';
 import router from '../../modules/Router';
 import {getDate} from '../../modules/sharedFunctions';
+import {itemPageTuple} from '../../../../types/tuples';
 
 /**
  * Класс, реализующий страницу BaseItemPage.
  */
 export default class BaseItemPage extends BasePage {
-    getItemAction: any;
-    getItemTypeAction: any;
-    pageName: string;
+    getItemAction;
+    getItemTypeAction;
+    pageName;
     /**
      * Конструктор, создающий конструктор базовой страницы BaseItemPage с нужными параметрами
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      * @param template - HTML-шаблон, в который будет осуществлена отрисовка
      * @param childClassData - данные дочернего класса
      */
-    constructor(parent: HTMLElement, template: HandlebarsTemplateDelegate, childClassData: Array<any>) {
+    constructor(parent: HTMLElement, template: HandlebarsTemplateDelegate,
+        childClassData: itemPageTuple) {
         super(
             parent,
             template,
@@ -43,7 +45,7 @@ export default class BaseItemPage extends BasePage {
      * Функция, загружающая дополнительные данные
      * @param data - объект для добавления данных
      */
-    loadMoreData(data: any) {
+    loadMoreData(data: unknown) {
     }
 
     /**

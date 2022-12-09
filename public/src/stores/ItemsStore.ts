@@ -150,11 +150,10 @@ class ItemsStore extends BaseStore {
     /**
      * Действие: запрос списка карточек.
      */
-    async _getItemCardsHome({path, popularCard}: any) {
-        // @ts-ignore
+    async _getItemCardsHome({path, popularCard}: {path: string, popularCard: productObj}) {
         const [status, response] = await request
             .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
@@ -197,10 +196,10 @@ class ItemsStore extends BaseStore {
     _localSortPrice(isLowToHighPrice: boolean) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
-                (item1st: any, item2nd: any) => {
+                (item1st: productObj, item2nd: productObj) => {
                     return item1st.lowprice - item2nd.lowprice;
                 } :
-                (item1st: any, item2nd: any) => {
+                (item1st: productObj, item2nd: productObj) => {
                     return item2nd.lowprice - item1st.lowprice;
                 })));
         this._getByPriceItemCard(isLowToHighPrice);
@@ -213,10 +212,10 @@ class ItemsStore extends BaseStore {
     _localSortRating(isLowToHighRating: boolean) {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
-                (item1st: any, item2nd: any) => {
+                (item1st: productObj, item2nd: productObj) => {
                     return item1st.rating - item2nd.rating;
                 } :
-                (item1st: any, item2nd: any) => {
+                (item1st: productObj, item2nd: productObj) => {
                     return item2nd.rating - item1st.rating;
                 })));
         this._getByRatingItemCard(isLowToHighRating);
@@ -226,7 +225,7 @@ class ItemsStore extends BaseStore {
      * Синхронизируем количество товаров в корзине
      * @param items - полученные товары
      */
-    #syncWithCart(items: Array<any>) {
+    #syncWithCart(items: Array<productObj>) {
         if (Array.isArray(items)) {
             items.forEach((item) => {
                 this.#syncItemWithCart(item);
@@ -238,7 +237,7 @@ class ItemsStore extends BaseStore {
      * Синхронизируем количество товара в корзине
      * @param item - полученный товар
      */
-    #syncItemWithCart(item: any) {
+    #syncItemWithCart(item: productObj) {
         const cartItems = cartStore.getContext(cartStore._storeNames.itemsCart);
         if (Array.isArray(cartItems)) {
             cartItems.forEach((cartItem) => {
@@ -275,7 +274,7 @@ class ItemsStore extends BaseStore {
 
         const [status, response] = await request
             .makeGetRequest(this.#getRequestPathWithQueryParams())
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
@@ -299,7 +298,7 @@ class ItemsStore extends BaseStore {
      * Функция, обновляющая информацию о загруженных картах
      * @param body - данные для добавления
      */
-    #syncCardsInCategory(body: any) {
+    #syncCardsInCategory(body: object) {
         this._storage.set(
             this._storeNames.allCardsInCategory,
             this._storage
@@ -318,7 +317,7 @@ class ItemsStore extends BaseStore {
                     document.location.pathname.lastIndexOf('/'),
                     document.location.pathname.length,
                 ))
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this.#syncItemWithCart(response.body);
@@ -338,7 +337,7 @@ class ItemsStore extends BaseStore {
                     document.location.pathname.lastIndexOf('/'),
                     document.location.pathname.length,
                 ))
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.comments, response.body);
@@ -361,7 +360,7 @@ class ItemsStore extends BaseStore {
     async _getSearchResults(searchString: string) {
         const [status, response] = await request
             .makePostRequest(config.api.search, {search: searchString})
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
@@ -374,13 +373,13 @@ class ItemsStore extends BaseStore {
      * Действие: запрос списка карточек на основании ввода пользователя.
      * @param data - строка для поиска
      */
-    async _getSuggestionSearch(data: any) {
+    async _getSuggestionSearch(data: suggestionSearchObj) {
         if (data.isCategory) {
             this._storage.set(this._storeNames.suggestionsSearch, {search: data.searchString});
         } else {
             const [status, response] = await request
                 .makePostRequest(config.api.suggestionSearch, {search: data.searchString})
-                .catch((err) => console.log(err));
+                .catch((err) => console.log(err)) ?? [];
 
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
@@ -393,7 +392,7 @@ class ItemsStore extends BaseStore {
      * Действие: отправка отзыва.
      * @param comment - данные отзыва
      */
-    async _addComment(comment: any) {
+    async _addComment(comment: commentObj) {
         comment.itemid = this._storage.get(this._storeNames.itemData).id;
         comment.userid = cartStore.getContext(cartStore._storeNames.userID);
         const [status] = await request
