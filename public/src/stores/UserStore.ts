@@ -5,6 +5,7 @@ import request from '../modules/ajax';
 import {config} from '../config';
 import {cartAction} from '../actions/cart';
 import {userStoreDataCollection} from '../../../types/aliases';
+import {userStoreCollectDataFields} from '../../../types/tuples';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -372,14 +373,12 @@ class UserStore extends BaseStore {
      * @param data - данные для обработки
      * @param field - название поля
      */
-    async #makePostRequestCard(data: userStoreDataCollection, field: string) {
+    async #makePostRequestCard(data: userStoreDataCollection, field: userStoreCollectDataFields) {
         const [status] = await request.makePostRequest(config.api.profile, data)
             .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             this._storage.set(this._storeNames[field], data[field]);
         }
     }

@@ -2,7 +2,7 @@
   "name": "reazon",
   "version": "1.0.0",
   "description": "Проект Ozon команды \"Base\"",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "npm run build:webpack && PORT=8081 DEBUG=server node server",
     "start:webpack": "webpack serve",
@@ -10,7 +10,7 @@
     "build:webpack-dev": "webpack",
     "deploy": "screen -d -m -S sudo npm start",
     "drop": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.sudo')\"",
-    "lint": "npx eslint . --ext .ts && npx eslint . --ext .js",
+    "lint": "npx eslint . --ext .ts",
     "lint:fix": "npx eslint . --ext .ts --fix && npx eslint . --ext .js --fix",
     "clean": "rd /s /q dist",
     "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",

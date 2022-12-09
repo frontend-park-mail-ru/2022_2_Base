@@ -9,5 +9,4 @@ type RecordString = {[key: string]: string};
 
 type itemPageTuple = [actionFunc, string, string];
 
-type userDataObj = CardObj & addressCardObj & PaymentCardObj &
-    {isAuth: boolean, deliveryPrice: string, deliveryDate: Array<string>};
+type userStoreCollectDataFields = 'avatar' | 'paymentMethods' | 'address';
