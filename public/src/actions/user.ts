@@ -27,9 +27,9 @@ export const userActions = {
 
     /**
      * Действие: регистрация пользователя.
-     * @param {object} data
+     * @param data - данные для регистрации
      */
-    signup(data: any) {
+    signup(data: object) {
         Dispatcher.dispatch({
             actionName: UserActionTypes.USER_REGISTER,
             data,
@@ -38,9 +38,9 @@ export const userActions = {
 
     /**
      * Действие: вход пользователя.
-     * @param {object} data
+     * @param data - данные для входа
      */
-    login(data: any) {
+    login(data: object) {
         Dispatcher.dispatch({
             actionName: UserActionTypes.USER_LOGIN,
             data,

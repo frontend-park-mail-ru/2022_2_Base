@@ -99,13 +99,13 @@ export default class AddToCartButton extends BaseComponent {
             const [elementID, itemID] = target.id.split('/');
             switch (elementID) {
             case 'button-add-to-cart':
-                cartAction.addToCart(itemID);
+                cartAction.addToCart(Number(itemID));
                 break;
             case 'button-minus_cart':
-                cartAction.decreaseNumber(itemID);
+                cartAction.decreaseNumber(Number(itemID));
                 break;
             case 'button-plus_cart':
-                cartAction.increaseNumber(itemID);
+                cartAction.increaseNumber(Number(itemID));
                 break;
             }
         }

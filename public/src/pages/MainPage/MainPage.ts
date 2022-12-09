@@ -93,13 +93,13 @@ export default class MainPage extends BasePage {
                 const [elementId, itemId] = dataSelection.split('/');
                 switch (elementId) {
                 case 'itemcard_button-add-to-cart':
-                    cartAction.addToCart(itemId);
+                    cartAction.addToCart(Number(itemId));
                     break;
                 case 'itemcard_button-minus_cart':
-                    cartAction.decreaseNumber(itemId);
+                    cartAction.decreaseNumber(Number(itemId));
                     break;
                 case 'itemcard_button-plus_cart':
-                    cartAction.increaseNumber(itemId);
+                    cartAction.increaseNumber(Number(itemId));
                     break;
                 }
             }

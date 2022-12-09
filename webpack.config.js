@@ -113,28 +113,28 @@ const webPackConfig = {
             fix: true,
             failOnWarning: true,
         }),
-        // new WorkboxPlugin.GenerateSW({
-        //     clientsClaim: true,
-        //     skipWaiting: true,
-        //     cleanupOutdatedCaches: true,
-        //     runtimeCaching: [
-        //         {
-        //             urlPattern: new RegExp('https://www.reazon.ru/api/v1/'),
-        //             handler: 'NetworkFirst',
-        //             options: {cacheName: 'api-cache'},
-        //         },
-        //         {
-        //             urlPattern: new RegExp('https://www.reazon.ru/img/'),
-        //             handler: 'CacheFirst',
-        //             options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-        //         },
-        //         {
-        //             urlPattern: new RegExp('https://img.mvideo.ru/'),
-        //             handler: 'CacheFirst',
-        //             options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-        //         },
-        //     ],
-        // }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            cleanupOutdatedCaches: true,
+            runtimeCaching: [
+                {
+                    urlPattern: new RegExp('https://www.reazon.ru/api/v1/'),
+                    handler: 'NetworkFirst',
+                    options: {cacheName: 'api-cache'},
+                },
+                {
+                    urlPattern: new RegExp('https://www.reazon.ru/img/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
+                {
+                    urlPattern: new RegExp('https://img.mvideo.ru/'),
+                    handler: 'CacheFirst',
+                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
+                },
+            ],
+        }),
     ],
 };
 

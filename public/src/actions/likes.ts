@@ -17,9 +17,9 @@ export const LikesActionTypes = {
 export const likesAction = {
     /**
      * Действие: лайкнуть карточку.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    like(id: any) {
+    like(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.LIKE,
             data: {id},
@@ -28,9 +28,9 @@ export const likesAction = {
 
     /**
      * Действие: дизлайкнуть карточку.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    dislike(id: any) {
+    dislike(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.DISLIKE,
             data: {id},
@@ -39,9 +39,9 @@ export const likesAction = {
 
     /**
      * Действие: запрос количества лайков карточки товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    get_number_of_likes(id: any) {
+    get_number_of_likes(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.GET_NUMBER_OF_LIKES,
             data: {id},

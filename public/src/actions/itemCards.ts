@@ -28,10 +28,10 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек.
-     * @param {string} path - путь запроса
-     * @param {boolean} selector
+     * @param path - путь запроса
+     * @param selector - тип запроса
      */
-    getHomeItemCards(path: any, selector: any) {
+    getHomeItemCards(path: string, selector: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
             data: {
@@ -43,9 +43,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек по категориям.
-     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     * @param isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getItemCardsByCategory(isFirstRequest: any) {
+    getItemCardsByCategory(isFirstRequest: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY,
             data: isFirstRequest,
@@ -54,9 +54,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает популярные карты в конкретной категории
-     * @param {boolean} isFirstRequest - нужно ли обнулять счётчик запросов
+     * @param isFirstRequest - нужно ли обнулять счётчик запросов
      */
-    getPopularItemCardsByCategory(isFirstRequest: any) {
+    getPopularItemCardsByCategory(isFirstRequest: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.POPULAR_ITEM_CARDS_GET_BY_CATEGORY,
             data: isFirstRequest,
@@ -65,9 +65,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает дешевые карты в конкретной категории
-     * @param {boolean} isLowToHigh - порядок сортировки
+     * @param isLowToHigh - порядок сортировки
      */
-    getCheapItemCardsByCategory(isLowToHigh: any) {
+    getCheapItemCardsByCategory(isLowToHigh: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY,
             data: isLowToHigh,
@@ -76,9 +76,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает популярные карты в конкретной категории
-     * @param {boolean} isLowToHigh - порядок сортировки
+     * @param isLowToHigh - порядок сортировки
      */
-    getHighRatingItemCardsByCategory(isLowToHigh: any) {
+    getHighRatingItemCardsByCategory(isLowToHigh: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.HIGH_RATING_ITEM_CARDS_GET_BY_CATEGORY,
             data: isLowToHigh,
@@ -87,9 +87,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает дешевые карты в конкретной категории
-     * @param {boolean} isLowToHigh - порядок сортировки
+     * @param isLowToHigh - порядок сортировки
      */
-    localSortRating(isLowToHigh: any) {
+    localSortRating(isLowToHigh: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.LOCAL_SORT_RATING,
             data: isLowToHigh,
@@ -98,9 +98,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрашивает популярные карты в конкретной категории
-     * @param {boolean} isLowToHigh - порядок сортировки
+     * @param isLowToHigh - порядок сортировки
      */
-    localSortPrice(isLowToHigh: any) {
+    localSortPrice(isLowToHigh: boolean) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.LOCAL_SORT_PRICE,
             data: isLowToHigh,
@@ -127,9 +127,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
+     * @param searchString - строка для поиска
      */
-    getSearchResults(searchString: any) {
+    getSearchResults(searchString: string) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.GET_SEARCH_RESULTS,
             data: searchString,
@@ -147,10 +147,10 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка саджестов на основании ввода пользователя.
-     * @param {String} searchString - строка для поиска
-     * @param {boolean} isCategory - идет поиск по категориям или нет
+     * @param searchString - строка для поиска
+     * @param isCategory - идет поиск по категориям или нет
      */
-    getSuggestionSearch(searchString: any, isCategory = false) {
+    getSuggestionSearch(searchString: string, isCategory = false) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.GET_SUGGESTION_SEARCH,
             data: {searchString: searchString, isCategory: isCategory},
@@ -159,9 +159,9 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек на основании ввода пользователя.
-     * @param {object} comment - данные отзыва
+     * @param comment - данные отзыва
      */
-    addComment(comment: any) {
+    addComment(comment: object) {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ADD_COMMENT,
             data: comment,

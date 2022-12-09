@@ -30,6 +30,7 @@ export default class PopUpAddPaymentCard extends BasePopUp {
             expiry: (getInputValueById('month')).value + '/' +
         (getInputValueById('year')).value,
             cvc: (getInputValueById('cvc')).value,
+            id: 0,
         };
         const validateMessage = validation.validateCard(cardData);
         validateMessage ?

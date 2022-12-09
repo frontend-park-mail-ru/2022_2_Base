@@ -1,28 +1,32 @@
 import BaseComponent from '../BaseComponent';
 import PopUpChooseAddressAndPaymentCard from './PopUpChooseAddressAndPaymentCard.hbs';
 import './PopUpChooseAddressAndPaymentCard.scss';
+import {config} from '../../config';
 
 /**
  * Класс для реализации компонента Footer
  */
 export default class PopUpAddPaymentCard extends BaseComponent {
-    bindListenClickAddressAndPaymentCard: any;
-    cancelElement: any;
-    popUpFields: any;
+    bindListenClickAddressAndPaymentCard: Array<addListenerFunction>;
+    cancelElement: HTMLElement | null;
+    popUpFields: NodeListOf<Element> | undefined;
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
-     * @param {Element} parent HTML-элемент, в который будет
+     * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent: any) {
+    constructor(parent: HTMLElement) {
         super(parent);
+
+        this.bindListenClickAddressAndPaymentCard = [config.noop];
+        this.cancelElement = null;
     }
 
     /**
      * Функция для передачи в слушателе click на отмену изменений данных.
-     * @param {object} event - событие
+     * @param event - событие
     */
-    async listenClickCancel(event: any) {
+    async listenClickCancel(event: Event) {
         event.preventDefault();
 
         const PopUp = document.getElementById('popUp');
@@ -33,22 +37,21 @@ export default class PopUpAddPaymentCard extends BaseComponent {
         }
         if (PopUpFade) {
             PopUpFade.style.display = 'none';
-            // @ts-expect-error TS(2531): Object is possibly 'null'.
-            document.getElementById('body').style.overflow = 'visible';
+            config.HTMLskeleton.body.style.overflow = 'visible';
         }
     }
 
     /**
      * Функция для передачи в слушателе click на выбор новых данных.
-     * @param {string} id - id элемента
+     * @param id - id элемента
      */
-    async listenClickAddressAndPaymentCard(id: any) {
+    async listenClickAddressAndPaymentCard(id: string) {
         const chooseAddress = document.getElementById(id);
         if (chooseAddress) {
             const fields = document.querySelectorAll('.cart-popup-form__input');
             if (fields) {
                 fields.forEach((key) => {
-                    (key as any).style.border = '1px solid #d5d5d5';
+                    (key as HTMLElement).style.border = '1px solid #d5d5d5';
                     if (key.classList.contains('choice')) {
                         key.classList.remove('choice');
                     }
@@ -64,12 +67,14 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     startEventListener() {
         this.cancelElement = document.getElementById('cart-popup-form__cancel');
-        this.cancelElement.addEventListener('click', this.listenClickCancel);
+        if (this.cancelElement) {
+            this.cancelElement.addEventListener('click', this.listenClickCancel);
+        }
 
         this.popUpFields = document.querySelectorAll('.cart-popup-form__input');
         if (this.popUpFields) {
             this.bindListenClickAddressAndPaymentCard = [];
-            this.popUpFields.forEach((key: any, i: any) => {
+            this.popUpFields.forEach((key: Element, i: number) => {
                 this.bindListenClickAddressAndPaymentCard.push(
                     this.listenClickAddressAndPaymentCard.bind(null, key.id));
                 key.addEventListener('click', this.bindListenClickAddressAndPaymentCard[i]);
@@ -81,10 +86,12 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     override removeEventListener() {
-        this.cancelElement.removeEventListener('click', this.listenClickCancel);
+        if (this.cancelElement) {
+            this.cancelElement.removeEventListener('click', this.listenClickCancel);
+        }
 
         if (this.popUpFields) {
-            this.popUpFields.forEach((key: any, i: any) => {
+            this.popUpFields.forEach((key: Element, i: number) => {
                 key.removeEventListener('click',
                     this.bindListenClickAddressAndPaymentCard[i]);
             });

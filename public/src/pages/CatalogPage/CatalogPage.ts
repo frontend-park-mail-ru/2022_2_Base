@@ -166,13 +166,13 @@ export default class CatalogPage extends BasePage {
                     [elementId, itemId] = elementId.split('/');
                     switch (elementId) {
                     case 'catalog_button-add-to-cart':
-                        cartAction.addToCart(itemId);
+                        cartAction.addToCart(Number(itemId));
                         break;
                     case 'catalog_button-minus_cart':
-                        cartAction.decreaseNumber(itemId);
+                        cartAction.decreaseNumber(Number(itemId));
                         break;
                     case 'catalog_button-plus_cart':
-                        cartAction.increaseNumber(itemId);
+                        cartAction.increaseNumber(Number(itemId));
                         break;
                     case 'catalog_like-button':
                     /* Запрос на добавление товара в избраннное */

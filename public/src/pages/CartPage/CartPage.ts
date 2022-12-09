@@ -200,7 +200,8 @@ export default class CartOrderPage extends BasePage {
             PopUpFade.style.display = 'grid';
             config.HTMLskeleton.body.style.overflow = 'hidden';
         }
-        this.PopUpChooseAddressAndPaymentCard = new PopUpChooseAddressAndPaymentCard(PopUp);
+        this.PopUpChooseAddressAndPaymentCard =
+            new PopUpChooseAddressAndPaymentCard(PopUp ?? config.empyNode);
         this.PopUpChooseAddressAndPaymentCard.render(context);
         const choose = document.getElementById(elementToEditID);
         if (choose) {

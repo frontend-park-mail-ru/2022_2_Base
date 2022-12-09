@@ -32,9 +32,9 @@ export const profileAction = {
 
     /**
      * Действие: редактировать данные.
-     * @param {object} data - отредактированное поле
+     * @param data - отредактированное поле
      */
-    saveEditData(data: any) {
+    saveEditData(data: object) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: data,
@@ -43,9 +43,9 @@ export const profileAction = {
 
     /**
      * Действие: загрузка аватара.
-     * @param {Blob} avatar - аватар
+     * @param avatar - аватар
      */
-    uploadAvatar(avatar: any) {
+    uploadAvatar(avatar: Blob) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.UPLOAD_AVATAR,
             data: avatar,
@@ -63,9 +63,9 @@ export const profileAction = {
 
     /**
      * Действие: добавить новую банковскую карту.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
-    saveAddCard(data: any) {
+    saveAddCard(data: object) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_CARD,
             data: data,
@@ -73,9 +73,9 @@ export const profileAction = {
     },
 
     /** Удаление банковской карты с определенным id.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    deleteCard(id: any) {
+    deleteCard(id: number) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_CARD,
             data: id,
@@ -84,9 +84,9 @@ export const profileAction = {
 
     /**
      * Действие: добавить новый адрес.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
-    saveAddAddress(data: any) {
+    saveAddAddress(data: object) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_ADD_ADDRESS,
             data: data,
@@ -95,9 +95,9 @@ export const profileAction = {
 
     /**
      * Действие: редактировать адрес.
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
-    saveEditAddress(data: any) {
+    saveEditAddress(data: object) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_ADDRESS,
             data: data,
@@ -105,9 +105,9 @@ export const profileAction = {
     },
 
     /** Удаление адреса с определенным id.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    deleteAddress(id: any) {
+    deleteAddress(id: number) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.DELETE_ADDRESS,
             data: id,

@@ -32,9 +32,9 @@ export const cartAction = {
 
     /**
      * Действие: удалить товар по ID.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    deleteById(id: any) {
+    deleteById(id: number) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.DELETE_BY_ID,
             data: id,
@@ -52,9 +52,9 @@ export const cartAction = {
 
     /**
      * Действие: увеличить количество товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    increaseNumber(id: any) {
+    increaseNumber(id: number) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.INCREASE_NUMBER,
             data: id,
@@ -63,9 +63,9 @@ export const cartAction = {
 
     /**
      * Действие: уменьшить количество товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    decreaseNumber(id: any) {
+    decreaseNumber(id: number) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.DECREASE_NUMBER,
             data: id,
@@ -74,9 +74,9 @@ export const cartAction = {
 
     /**
      * Действие: увеличить количество товара.
-     * @param {number} id
+     * @param id - идентификатор
      */
-    addToCart(id: any) {
+    addToCart(id: number) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.ADD_TO_CART,
             data: id,
@@ -85,9 +85,9 @@ export const cartAction = {
 
     /**
      * Действие: оформить заказ
-     * @param {object} data - данные для обработки
+     * @param data - данные для обработки
      */
-    makeOrder(data: any) {
+    makeOrder(data: object) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.MAKE_ORDER,
             data: data,
