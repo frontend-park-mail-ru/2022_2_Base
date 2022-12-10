@@ -67,16 +67,19 @@ export default class CartOrderPage extends BasePage {
      * Функция, реагирующая на применение промокода
      */
     onApplyPromocode() {
-        const promocodeStatus = cartStore.getContext(cartStore._storeNames.promocodeStatus);
-
+        const promocode = cartStore.getContext(cartStore._storeNames.promocode);
         const promocodeStatusText = document.getElementById('cart-promocode-status');
+
         if (promocodeStatusText) {
-            if (promocodeStatus === 0) {
-                promocodeStatusText.classList.add('paint-text-background-red');
-                promocodeStatusText.textContent = 'Промокод недействителен';
-            } else if (promocodeStatus === 1) {
-                promocodeStatusText.classList.add('paint-text-green-correct');
-                promocodeStatusText.textContent = 'Промокод применён';
+            if (cartStore.getContext(cartStore._storeNames.responseCode) ===
+                config.responseCodes.code200) {
+                if (promocode) {
+                    promocodeStatusText.classList.add('paint-text-green-correct');
+                    promocodeStatusText.textContent = 'Промокод применён';
+                } else {
+                    promocodeStatusText.classList.add('paint-text-background-red');
+                    promocodeStatusText.textContent = 'Повторите попытку позже';
+                }
             } else {
                 promocodeStatusText.classList.add('paint-text-background-red');
                 promocodeStatusText.textContent = 'Повторите попытку позже';
@@ -132,7 +135,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        if (data && data.length) { // || true для локального отображения корзины
+        if (data && data.length) {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
@@ -159,10 +162,8 @@ export default class CartOrderPage extends BasePage {
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = getDate(1);
 
-            const promocodeStr = userStore.getContext(cartStore._storeNames.promocode);
-            if (promocodeStr) {
-                context.promocode = promocodeStr;
-            }
+            const promocode = cartStore.getContext(cartStore._storeNames.promocode);
+            context.promocode = promocode;
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
@@ -510,10 +511,10 @@ export default class CartOrderPage extends BasePage {
      * Функция, обрабатывающая клик на кнопку создания заказа
      */
     async listenClickApplyPromocode() {
-        const promocodeStr = document.getElementById('cart-promocode-field').value;
-
-        if (promocodeStr) {
-            cartAction.applyPromocode(promocodeStr);
+        const promocodeStr = document.getElementById('cart-promocode-field');
+        if (promocodeStr && promocodeStr.value &&
+            (cartStore.getContext(cartStore._storeNames.promocode) !== promocodeStr.value)) {
+            cartAction.applyPromocode(promocodeStr.value);
         }
     }
 

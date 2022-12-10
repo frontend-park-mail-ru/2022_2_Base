@@ -17,8 +17,6 @@ class CartStore extends BaseStore {
         userID: 'userID',
         currID: 'currID',
         promocode: 'promocode',
-        promocodeStatus: 'promocodeStatus',
-        promocodeReqStatus: 'promocodeReqStatus',
     };
 
     /**
@@ -33,8 +31,6 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
         this._storage.set(this._storeNames.promocode, null);
-        this._storage.set(this._storeNames.promocodeReqStatus, null);
-        this._storage.set(this._storeNames.promocodeStatus, null);
     }
 
     /**
@@ -270,17 +266,14 @@ class CartStore extends BaseStore {
      * @param {String} data - строка с промокодом
      */
     async _applyPromocode(data) {
-        this._storage.set(this._storeNames.promocode, data);
+        const [status, response] = await request
+            .makePostRequest(config.api.applyPromocode, {promocode: data})
+            .catch((err) => console.log(err));
 
-        const [status, response] = await request.makeGetRequest(config.api.applyPromocode)
-            .catch((err) => console.log(err)); // поправить запрос
-
-        this._storage.set(this._storeNames.promocodeReqStatus, status);
+        this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.promocodeStatus, response.promocodeStatus);
+            this._storage.set(this._storeNames.promocode, response.promocode);
         }
-
-        // this._storage.set(this._storeNames.promocodeStatus, 1); // test fix
     }
 }
 

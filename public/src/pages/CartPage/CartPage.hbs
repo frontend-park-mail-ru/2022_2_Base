@@ -224,19 +224,28 @@
                 <span class="text-normal-large"> Промокод </span>
                 <div class="cart__promocode-block__input-submit-block">
                     <div class="cart__promocode-block__input-submit-block__input-block">
-                    <input class="form__input cart__promocode-block__input-submit-block__input-field"
-                           id="cart-promocode-field"
+                    <input id="cart-promocode-field" class="form__input cart__promocode-block__input-submit-block__input-field
+                    {{#unless this.isAuth}}
+                        disabled"
+                    {{/unless}}
                         {{#if this.promocode}}
                            placeholder="{{this.promocode}}">
                         {{else}}
                             placeholder="Введите промокод">
                         {{/if}}
                     </div>
-                    <div class="button-default cart__promocode-block__input-block__submit-button"
-                         id="cart-promocode-submit-button"> Применить
+                    <div id="cart-promocode-submit-button" class="button-default cart__promocode-block__input-block__submit-button
+                        {{#unless this.isAuth}}
+                            disabled"
+                        {{/unless}} >
+                        Применить
                     </div>
                 </div>
-                <span class="text-normal-default cart__promocode-block__status" id="cart-promocode-status"> </span>
+                <span id="cart-promocode-status" class="text-normal-default cart__promocode-block__status
+                    {{#if this.promocode}}
+                        paint-text-green-correct"> Промокод применён
+                    {{/if}}
+                </span>
             </div>
         </div>
     </div>
