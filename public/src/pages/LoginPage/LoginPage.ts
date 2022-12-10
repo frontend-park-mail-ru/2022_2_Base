@@ -113,11 +113,6 @@ export default class LoginPage extends BasePage {
         data.email = data.email.trim();
 
         /* Удаление отрисованных ошибок */
-        // for (const key in data) {
-        //     if (data.hasOwnProperty(key)) {
-        //         errorMessage.deleteErrorMessage(key);
-        //     }
-        // }
         Object.keys(data).forEach((key) => {
             errorMessage.deleteErrorMessage(key);
         });

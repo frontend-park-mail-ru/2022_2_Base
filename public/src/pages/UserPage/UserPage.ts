@@ -169,7 +169,6 @@ export default class UserPage extends BasePage {
     loadCards(componentEntity: UserPageLoadCardsPages, nameOfCard: string, data: Array<CardObj>) {
         switch (nameOfCard) {
         case 'userDataCard':
-            console.log(data[0]);
             super.render(data[0]);
             return;
         case 'paymentCard':

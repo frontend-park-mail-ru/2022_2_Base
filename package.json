@@ -11,7 +11,7 @@
     "deploy": "screen -d -m -S sudo npm start",
     "drop": "screen -r \"$(screen -ls | grep -Eo '[0-9]{1,}.sudo')\"",
     "lint": "npx eslint . --ext .ts",
-    "lint:fix": "npx eslint . --ext .ts --fix && npx eslint . --ext .js --fix",
+    "lint:fix": "npx eslint . --ext .ts --fix",
     "clean": "rd /s /q dist",
     "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",
     "css:fix": "npx stylelint '**/*.{css,scss}' --fix --config stylelint.config.js"
