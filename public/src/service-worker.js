@@ -1,5 +1,4 @@
 const CACHE_NAME = 'base-v1';
-
 const urls = [];
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
@@ -7,10 +6,10 @@ const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
  * @description Подписываемся на событиие установки сервис-воркера
  */
 self.addEventListener('install', (event) => {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(urls)),
     );
-    return self.skipWaiting();
 });
 
 /**
@@ -18,8 +17,7 @@ self.addEventListener('install', (event) => {
  */
 self.addEventListener('activate', (event) => {
     event.waitUntil(enableNavigationPreload());
-
-    return self.clients.claim();
+    self.clients.claim();
     // const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
 
     // event.waitUntil(
