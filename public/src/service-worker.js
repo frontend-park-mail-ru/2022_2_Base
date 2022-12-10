@@ -17,21 +17,7 @@ self.addEventListener('install', (event) => {
  */
 self.addEventListener('activate', (event) => {
     event.waitUntil(enableNavigationPreload());
-    self.clients.claim();
-    // const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
-
-    // event.waitUntil(
-    //     // Получение всех ключей из кеша
-    //     caches.keys().then((cacheNames) => Promise.all(
-    //         // Прохождение по всем кешированным файлам
-    //         cacheNames.map((cacheName) => {
-    //             if (expectedCache.indexOf(cacheName) === -1) {
-    //                 return caches.delete(cacheName);
-    //             }
-    //             return null;
-    //         }),
-    //     )),
-    // );
+    event.waitUntil(self.clients.claim());
 });
 
 /**
@@ -39,7 +25,6 @@ self.addEventListener('activate', (event) => {
  * которые надо кешировать при первом посещении страницы
  */
 self.addEventListener('message', (event) => {
-    console.log(2); //fix
     if (event.data.type === 'CACHE_URLS') {
         event.waitUntil(
             caches.open(CACHE_NAME)
@@ -49,41 +34,18 @@ self.addEventListener('message', (event) => {
                 .catch((error) => console.log(`Error adding to cache ${error}`)),
         );
     }
-    console.log(3); //fix
 });
 
 /**
  * @description Подписываемся на событиие отправки браузером запроса к серверу
  */
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return;
     if (imageRegRex.test(event.request)) {
         event.respondWith(cacheFirst(event));
     } else {
         event.respondWith(networkFirst(event));
     }
-    return true;
-    // Ищем ресурс в кэше
-    // caches.match(event.request)
-    //     .then((cachedResponse) => {
-    //         if (navigator.onLine) {
-    //             return fetch(event.request) // Получить данные из сети
-    //                 .then((res) => {
-    //                     const resClone = res.clone();
-    //                     putInCache(event.request, resClone);
-    //                     return res;
-    //                 })
-    //                 .catch((err) => console.error(err));
-    //         }
-
-    //         if (cachedResponse) {
-    //             return cachedResponse; // Получить из кеша
-    //         }
-    //         console.log("not found")
-    //         return caches.match('/error404');
-    //     })
-    //     .catch((err) => {
-    //         console.log(err.stack || err);
-    //     }),
 });
 
 /**
@@ -100,17 +62,7 @@ async function networkFirst(event) {
             await cache.put(request, response.clone());
         }
         return response;
-        // if (navigator.onLine) {
-        //     return fetch(request) // Получить данные из сети
-        //         .then((res) => {
-        //             const resClone = res.clone();
-        //             await cache.put(request, resClone);
-        //             return res;
-        //         })
-        //         .catch((err) => console.error(err));
-        // }
     } catch {
-        // let cachedResponse;
         try {
             const cachedResponse = await cache.match(request);
             if (cachedResponse) {
@@ -124,7 +76,6 @@ async function networkFirst(event) {
                 return new Response(null, {status: 404, statusText: 'Not Found'});
             }
         }
-        // return cachedResponse;
     }
 }
 
@@ -145,17 +96,7 @@ async function cacheFirst(event) {
         if (response) {
             return response;
         }
-        // if (navigator.onLine) {
-        //     return fetch(request) // Получить данные из сети
-        //         .then((res) => {
-        //             const resClone = res.clone();
-        //             await cache.put(request, resClone);
-        //             return res;
-        //         })
-        //         .catch((err) => console.error(err));
-        // }
     } catch {
-        // let cachedResponse;
         try {
             const response = await fetch(request);
 
@@ -166,17 +107,10 @@ async function cacheFirst(event) {
         } catch {
             return new Response(null, {status: 404, statusText: 'Not Found'});
         }
-        // return cachedResponse;
     }
 }
-
 const enableNavigationPreload = async () => {
     if (self.registration.navigationPreload) {
         await self.registration.navigationPreload.enable();
     }
 };
-
-// const putInCache = async (request, response) => {
-//     const cache = await caches.open(CACHE_NAME);
-//     await cache.put(request, response);
-// };
