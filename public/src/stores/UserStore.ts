@@ -261,6 +261,7 @@ class UserStore extends BaseStore {
                 this._storage.set(this._storeNames.email, response.email);
                 this._storage.set(this._storeNames.phone, response.phone);
                 if (!!response.avatar && response.avatar !== config.states.noAvatar) {
+                    console.log("response.avatar", response.avatar);
                     this._storage.set(this._storeNames.avatar, response.avatar);
                 } else {
                     this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
