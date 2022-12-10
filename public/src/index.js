@@ -19,7 +19,7 @@ if ('serviceWorker' in navigator) {
                     ],
                 };
                 console.log(performance.getEntriesByType('resource').map((r) => r.name));
-                registration.installing.postMessage(data);
+                registration.active.postMessage(data);
             })
             .catch((registrationError) => {
                 console.log('SW registration failed: ', registrationError);
