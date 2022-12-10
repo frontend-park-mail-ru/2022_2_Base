@@ -54,7 +54,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 async function networkFirst(request) {
-    // const cache = await caches.open(CACHE_NAME);
+    const cache = await caches.open(CACHE_NAME);
     try {
         // const response = await fetch(request);
 
@@ -66,15 +66,15 @@ async function networkFirst(request) {
             return fetch(request) // Получить данные из сети
                 .then((res) => {
                     const resClone = res.clone();
-                    putInCache(request, resClone);
+                    await cache.put(request, resClone);
                     return res;
                 })
-                // .catch((err) => console.error(err));
+                .catch((err) => console.error(err));
         }
     } catch {
         let cachedResponse;
         try {
-            cachedResponse = await caches.match(request);
+            cachedResponse = await cache.match(request);
         } catch {
             return new Response(null, { status: 404, statusText: 'Not Found' });
         }
@@ -82,7 +82,7 @@ async function networkFirst(request) {
     }
 }
 
-const putInCache = async (request, response) => {
-    const cache = await caches.open(CACHE_NAME);
-    await cache.put(request, response);
-};
+// const putInCache = async (request, response) => {
+//     const cache = await caches.open(CACHE_NAME);
+//     await cache.put(request, response);
+// };
