@@ -16,6 +16,7 @@ self.addEventListener('install', (event) => {
  * @description Подписываемся на событиие активации сервис-воркера
 */
 this.addEventListener('activate', (event) => {
+    console.log(4);
     // const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
 
     // event.waitUntil(
