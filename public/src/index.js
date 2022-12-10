@@ -8,7 +8,7 @@ refresh.refreshFooter();
 router.start();
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+    // window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
             .then((registration) => {
                 const data = {
@@ -31,5 +31,5 @@ if ('serviceWorker' in navigator) {
             .catch((registrationError) => {
                 console.log('SW registration failed: ', registrationError);
             });
-    });
+    // });
 }
