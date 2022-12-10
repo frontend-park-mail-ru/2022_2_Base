@@ -18,8 +18,9 @@ if ('serviceWorker' in navigator) {
                         ...performance.getEntriesByType('resource').map((r) => r.name),
                     ],
                 };
-                if (registration.installing) {
-                    registration.installing.postMessage(data);
+                if (registration.active) {
+                    registration.active.postMessage(data);
+                    console.log('Service worker active');
                 }
             })
             .catch((registrationError) => {
