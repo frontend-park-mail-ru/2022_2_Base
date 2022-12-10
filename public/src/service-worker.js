@@ -54,26 +54,31 @@ self.addEventListener('fetch', (event) => {
 });
 
 async function networkFirst(request) {
-    const cache = caches.open(CACHE_NAME);
+    const cache = await caches.open(CACHE_NAME);
     try {
+        const response = await fetch(request);
+
         if (navigator.onLine) {
-            return fetch(request) // Получить данные из сети
-                .then((res) => {
-                    const resClone = res.clone();
-                    putInCache(request, resClone);
-                    return res;
-                })
-                .catch((err) => console.error(err));
+            await cache.put(request, response.clone());
         }
+        return response;
+        // if (navigator.onLine) {
+        //     return fetch(request) // Получить данные из сети
+        //         .then((res) => {
+        //             const resClone = res.clone();
+        //             putInCache(request, resClone);
+        //             return res;
+        //         })
+        //         .catch((err) => console.error(err));
+        // }
     } catch {
+        let cachedResponse;
         try {
-            const cachedResponse = await cache.match(request);
-            if (cachedResponse) {
-                return cachedResponse; // Получить из кеша
-            }
+            cachedResponse = await cache.match(request);
         } catch {
             return new Response(null, { status: 404, statusText: 'Not Found' });
         }
+        return cachedResponse;
     }
 }
 
