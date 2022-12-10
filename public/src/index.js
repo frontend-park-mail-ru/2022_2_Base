@@ -19,17 +19,7 @@ if ('serviceWorker' in navigator) {
                     ],
                 };
                 console.log(performance.getEntriesByType('resource').map((r) => r.name));
-                if (registration.installing) {
-                    registration.installing.addEventListener('statechange', (data) => {
-                        return function(e) {
-                            if (e.target.state === 'activated') {
-                                console.log(e)
-                                e.postMessage(data);
-                            }
-                        }
-                    });
-                }
-                // registration.active.postMessage(data);
+                registration.installing.postMessage(data);
             })
             .catch((registrationError) => {
                 console.log('SW registration failed: ', registrationError);
