@@ -7,6 +7,7 @@ const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
  * @description Подписываемся на событиие установки сервис-воркера
  */
 self.addEventListener('install', (event) => {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(urls)),
     );
