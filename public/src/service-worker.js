@@ -69,7 +69,7 @@ async function networkFirst(request) {
                     putInCache(request, resClone);
                     return res;
                 })
-                .catch((err) => console.error(err));
+                // .catch((err) => console.error(err));
         }
     } catch {
         let cachedResponse;
