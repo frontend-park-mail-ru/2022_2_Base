@@ -5,7 +5,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const webPackConfig = {
     entry: {
