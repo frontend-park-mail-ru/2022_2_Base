@@ -1,7 +1,7 @@
 /**
  * Базовый класс для реализации компонентов.
  */
-export default class BaseComponent {
+export default abstract class BaseComponent {
     _parent: HTMLElement;
 
     /**
@@ -9,14 +9,14 @@ export default class BaseComponent {
      * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent: HTMLElement) {
+    protected constructor(parent: HTMLElement) {
         this._parent = parent;
     }
 
     /**
      * Метод, удаляющий слушатели.
      */
-    removeEventListener() {}
+    abstract removeEventListener(): void
 
     /**
      * Метод, отрисовывающий компонент.

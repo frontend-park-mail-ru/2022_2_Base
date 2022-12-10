@@ -97,8 +97,7 @@ class ItemsStore extends BaseStore {
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_SEARCH]);
             break;
         case ItemCardsActionTypes.ITEM_CARD_GET:
-            // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-            await this._getItemCard(payload.data);
+            await this._getItemCard();
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:

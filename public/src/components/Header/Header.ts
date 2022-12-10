@@ -81,7 +81,7 @@ export default class Header extends BaseComponent {
      * Функция, обрабатывающая нажатие на кнопку поиска.
      */
     listenSearchButtonClick() {
-        const category = this.#isSearchContainsCategory() as topCategoryElement; // fix
+        const category = this.#isSearchContainsCategory();// as topCategoryElement; // fix
         if (category) {
             router.openPage(category.href);
         } else {
@@ -101,7 +101,7 @@ export default class Header extends BaseComponent {
         return Object.values(
             itemsStore.getContext(itemsStore._storeNames.topCategory)).find(
             (category: any) => category.nameCategory.toLowerCase()
-                .includes(this.searchInput?.value.toLowerCase()));
+                .includes(this.searchInput?.value.toLowerCase())) as topCategoryElement;
     }
 
     /**

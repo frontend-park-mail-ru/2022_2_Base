@@ -30,7 +30,7 @@ export default class AddCommentPage extends BaseItemPage {
     }
 
     /**
-     * Функция, регистрирующая листенеры сторож
+     * Функция, регистрирующая листенеры сторов
      */
     override addListener() {
         super.addListener();

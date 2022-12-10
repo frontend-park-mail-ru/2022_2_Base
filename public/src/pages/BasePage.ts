@@ -1,7 +1,7 @@
 /**
  * Базовый класс для реализации страницы.
  */
-export default class BasePage {
+export default abstract class BasePage {
     #parent;
     readonly #template;
 
@@ -11,7 +11,7 @@ export default class BasePage {
      * осуществлена отрисовка
      * @param template - шаблон для отрисовки
      */
-    constructor(parent: Element, template: HandlebarsTemplateDelegate) {
+    protected constructor(parent: Element, template: HandlebarsTemplateDelegate) {
         this.#parent = parent;
         this.#template = template;
     }
@@ -19,21 +19,19 @@ export default class BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    addListener() {}
+    abstract addListener(): void
 
     /**
      * Метод, добавляющий слушатели.
      * @param context - контекст данных для страницы
      */
-    startEventListener(context: object) {
-    }
+    abstract startEventListener(context: object): void
 
     /**
      * Метод, удаляющий слушатели.
      * @param context - контекст данных для страницы
      */
-    removeEventListener(context: object) {
-    }
+    abstract removeEventListener(context: object): void
 
     /**
      * Метод, отрисовывающий страницу.

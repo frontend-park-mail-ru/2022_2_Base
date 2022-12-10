@@ -117,8 +117,10 @@ export default class MainPage extends BasePage {
             '[data-selection=\'itemcard_button-add-to-cart/' +
             cartStore.getContext(cartStore._storeNames.currID) + '\']');
         if (!!addToCartButton && !!countSelector) {
-            countSelector.forEach((selector) => (selector as any).style.display = 'grid');
-            addToCartButton.forEach((button) => (button as any).style.display = 'none');
+            countSelector.forEach((selector) =>
+                (selector as HTMLElement).style.display = 'grid');
+            addToCartButton.forEach((button) =>
+                (button as HTMLElement).style.display = 'none');
 
             const itemCount = document.querySelectorAll(
                 '[data-selection=\'itemcard_item-count/' +
@@ -162,8 +164,10 @@ export default class MainPage extends BasePage {
                     '[data-selection=\'itemcard_button-add-to-cart/' +
                     cartStore.getContext(cartStore._storeNames.currID) + '\']');
                 if (!!addToCartButton && !!countSelector) {
-                    countSelector.forEach((selector) => (selector as any).style.display = 'none');
-                    addToCartButton.forEach((button) => (button as any).style.display = 'flex');
+                    countSelector.forEach((selector) =>
+                        (selector as HTMLElement).style.display = 'none');
+                    addToCartButton.forEach((button) =>
+                        (button as HTMLElement).style.display = 'flex');
                 } else {
                     console.warn(
                         'Элементы не найдены: addToCartButton, addToCartButton');

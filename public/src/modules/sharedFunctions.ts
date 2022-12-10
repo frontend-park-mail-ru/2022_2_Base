@@ -19,7 +19,6 @@ export function _addSpacesToItemPrice(item: priceData) {
         item.strPrice = truncatePrice(item.price);
     } else {
         item.lowprice = item.price;
-        // item.price = null;
     }
     item.strLowprice = truncatePrice(item.lowprice);
 }
