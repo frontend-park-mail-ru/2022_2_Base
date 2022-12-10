@@ -20,12 +20,6 @@ if ('serviceWorker' in navigator) {
                 };
                 if (registration.installing) {
                     registration.installing.postMessage(data);
-                } else if (registration.waiting) {
-                    registration.waiting.postMessage(data);
-                    console.log('Service worker installed');
-                } else if (registration.active) {
-                    registration.active.postMessage(data);
-                    console.log('Service worker active');
                 }
             })
             .catch((registrationError) => {
