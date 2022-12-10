@@ -18,6 +18,7 @@ if ('serviceWorker' in navigator) {
                         ...performance.getEntriesByType('resource').map((r) => r.name),
                     ],
                 };
+                console.log(performance.getEntriesByType('resource').map((r) => r.name));
                 registration.installing.postMessage(data);
             })
             .catch((registrationError) => {

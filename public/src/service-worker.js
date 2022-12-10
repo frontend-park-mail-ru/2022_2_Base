@@ -9,6 +9,7 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(urls)),
     );
+    console.log(1);
 });
 
 /**
@@ -36,6 +37,7 @@ this.addEventListener('activate', (event) => {
  * которые надо кешировать при первом посещении страницы
 */
 self.addEventListener('message', (event) => {
+    console.log(2);
     if (event.data.type === 'CACHE_URLS') {
         event.waitUntil(
             caches.open(CACHE_NAME)
@@ -45,6 +47,7 @@ self.addEventListener('message', (event) => {
                 .catch((error) => console.log(`Error adding to cache ${error}`)),
         );
     }
+    console.log(3);
 });
 
 /**
