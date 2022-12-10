@@ -5,7 +5,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const webPackConfig = {
     entry: {
@@ -112,28 +111,6 @@ const webPackConfig = {
             exclude: ['node_modules', 'dist'],
             fix: true,
             failOnWarning: true,
-        }),
-        new WorkboxPlugin.GenerateSW({
-            clientsClaim: true,
-            skipWaiting: true,
-            cleanupOutdatedCaches: true,
-            runtimeCaching: [
-                {
-                    urlPattern: new RegExp('https://www.reazon.ru/api/v1/'),
-                    handler: 'NetworkFirst',
-                    options: {cacheName: 'api-cache'},
-                },
-                {
-                    urlPattern: new RegExp('https://www.reazon.ru/img/'),
-                    handler: 'CacheFirst',
-                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-                },
-                {
-                    urlPattern: new RegExp('https://img.mvideo.ru/'),
-                    handler: 'CacheFirst',
-                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-                },
-            ],
         }),
     ],
 };
