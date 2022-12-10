@@ -6,7 +6,7 @@ import Dispatcher from '../modules/dispatcher';
 export default class BaseStore {
     _changed: boolean;
     _events: Map<string, baseStoreObject>;
-    _storage: Map<string, unknown>;
+    _storage: Map<string, any>;
     /**
      * constructor
      */

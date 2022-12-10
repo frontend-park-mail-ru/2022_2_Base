@@ -1,7 +1,7 @@
 /**
  * Базовый класс для реализации страницы.
  */
-export default abstract class BasePage {
+export default class BasePage {
     #parent;
     readonly #template;
 
@@ -19,19 +19,19 @@ export default abstract class BasePage {
     /**
      * Функция, регистрирующая листенеры сторов
      */
-    abstract addListener(): void
+    addListener() {}
 
     /**
      * Метод, добавляющий слушатели.
      * @param context - контекст данных для страницы
      */
-    abstract startEventListener(context: object): void
+    startEventListener(context: object) {}
 
     /**
      * Метод, удаляющий слушатели.
      * @param context - контекст данных для страницы
      */
-    abstract removeEventListener(context: object): void
+    removeEventListener(context: object) {}
 
     /**
      * Метод, отрисовывающий страницу.

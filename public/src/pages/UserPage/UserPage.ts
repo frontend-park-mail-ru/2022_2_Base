@@ -186,12 +186,12 @@ export default class UserPage extends BasePage {
         }
         if (data.length < 4) {
             data.push({
+                addCard: true,
+                id: `${nameOfCard}/${String(data.length)}`,
                 name: '',
                 email: '',
                 phone: '',
                 avatar: '',
-                addCard: true,
-                id: `${nameOfCard}/${String(Object.keys(data).length)}`,
             });
         }
         componentEntity.render(data);
@@ -307,7 +307,7 @@ export default class UserPage extends BasePage {
         event.preventDefault();
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp && PopUp instanceof HTMLInputElement) {
+        if (PopUp instanceof HTMLElement) {
             PopUp.style.display = 'block';
             this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
         }
@@ -340,7 +340,7 @@ export default class UserPage extends BasePage {
      * @param target - событие
      */
     async uploadFile({target}: Event) {
-        if (target instanceof DataTransfer) {
+        if (target instanceof HTMLInputElement && target.files) {
             profileAction.uploadAvatar(target.files[0]);
         }
     }

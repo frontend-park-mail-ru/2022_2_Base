@@ -28,7 +28,7 @@ export default class BaseInfoCard extends BaseComponent {
      * @param parent - HTML-элемент, в который будет
      * @param childClassData - данные дочернего класса
      */
-    constructor(parent: HTMLElement, childClassData: InfoCardBaseInfoObj) {
+    protected constructor(parent: HTMLElement, childClassData: InfoCardBaseInfoObj) {
         super(parent);
         [this.PopUp, this.PopUpFade, this.storeData,
             this.PopUpClass, this.template, this.pageName] = childClassData;
@@ -106,7 +106,6 @@ export default class BaseInfoCard extends BaseComponent {
                 key.addEventListener('click', this.bindListenClickDelete);
             });
         }
-
         if (addCard) {
             this.new = document.getElementById(`add-${this.pageName}`);
             if (this.new) {
@@ -117,7 +116,7 @@ export default class BaseInfoCard extends BaseComponent {
     }
 
     /**
-     * Метод, удаляющий слушатель изменения.
+     * Метод, добавляющий слушатель изменения.
      */
     startEdit() {
         this.edit = document.querySelectorAll(`.edit-${this.pageName}`);
@@ -159,9 +158,9 @@ export default class BaseInfoCard extends BaseComponent {
      * импортированному из templates.js
      * @param context - контекст, с учетом которого будет произведен рендер
      */
-    override render(context: {addCard: boolean}) {
+    override render(context: Array<CardObj>) {
         this.context = context;
         super.render(super.prepareCategory(context), this.template);
-        this.startEventListener(context.addCard);
+        this.startEventListener(context[context.length - 1].addCard ?? false);
     }
 }

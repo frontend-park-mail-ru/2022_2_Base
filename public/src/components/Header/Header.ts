@@ -81,7 +81,7 @@ export default class Header extends BaseComponent {
      * Функция, обрабатывающая нажатие на кнопку поиска.
      */
     listenSearchButtonClick() {
-        const category = this.#isSearchContainsCategory();// as topCategoryElement; // fix
+        const category = this.#isSearchContainsCategory();
         if (category) {
             router.openPage(category.href);
         } else {
@@ -111,7 +111,7 @@ export default class Header extends BaseComponent {
         if (this.searchInput?.value) {
             const errorMessageSearch = validation.validateSearchField(this.searchInput.value, true);
             if (!errorMessageSearch) {
-                const category = this.#isSearchContainsCategory() as topCategoryElement; // fix
+                const category = this.#isSearchContainsCategory();
                 if (category) {
                     itemCardsAction.getSuggestionSearch(category.nameCategory, true);
                 } else {

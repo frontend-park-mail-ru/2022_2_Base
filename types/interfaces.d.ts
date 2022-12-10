@@ -129,3 +129,9 @@ interface itemOrderData {
     paymentstatus:string;
 }
 
+interface userInfoPopUp {
+    name: string,
+    id: string,
+    type: string,
+    value: string
+}

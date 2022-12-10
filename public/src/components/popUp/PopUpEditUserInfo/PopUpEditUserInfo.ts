@@ -16,7 +16,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
      * @param parent - HTML-элемент, в который будет
      * осуществлена отрисовка
      */
-    constructor(parent: HTMLInputElement) {
+    constructor(parent: HTMLElement) {
         super(parent, [PopUpEditUserInfoTemplate, 'user-info']);
     }
 
@@ -43,22 +43,21 @@ export default class PopUpEditUserInfo extends BasePopUp {
 
 
     /**
-     * Метод, подготавливавающий наполнение для формы, исходя из контекста
+     * Метод, подготавливающий наполнение для формы, исходя из контекста
      * @param context - контекст отрисовки шаблона
      * @returns наполнение для формы
      */
     prepareRenderData(context: HTMLInputElement) {
+        const field1 = {
+            name: context.getAttribute('name'),
+            id: context.id + '__popUp',
+            type: context.id,
+            value: '',
+        };
         const data = {
             title: context.getAttribute('name'),
             id: context.id,
-            fields: {
-                field1: {
-                    name: context.getAttribute('name'),
-                    id: context.id + '__popUp',
-                    type: context.id,
-                    value: '',
-                },
-            },
+            fields: [field1],
         };
 
         switch (context.id) {
@@ -72,14 +71,14 @@ export default class PopUpEditUserInfo extends BasePopUp {
             data.title = 'телефон';
             break;
         case 'password':
-            data.fields.field1.name = 'Новый пароль';
-            data.fields.field1.value = context.value;
-
-            // data.fields.field2 = {};
-            // data.fields.field2.name = 'Повторить пароль';
-            // data.fields.field2.value = '';
-            // data.fields.field2.type = context.id;
-            // data.fields.field2.id = context.id + '__2__popUp';
+            field1.name = 'Новый пароль';
+            field1.value = context.value;
+            data.fields.push({
+                name: 'Повторить пароль',
+                id: context.id + '__2__popUp',
+                type: context.id,
+                value: '',
+            });
         }
         return data;
     }
@@ -90,8 +89,8 @@ export default class PopUpEditUserInfo extends BasePopUp {
      * @param context - контекст, с учетом которого будет произведен рендер
      */
     override render(context: object) {
-        if (context instanceof HTMLInputElement) {
-            super.render(this.prepareRenderData(context));
+        if (context instanceof HTMLElement) {
+            super.render(this.prepareRenderData(context as HTMLInputElement));
         }
     }
 }

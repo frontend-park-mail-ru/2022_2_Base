@@ -30,7 +30,7 @@ export default class CatalogPage extends BasePage {
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      * @param childClassData - данные дочернего класса
      */
-    constructor(parent: HTMLElement, childClassData: [actionFunc, actionFunc, actionFunc]) {
+    protected constructor(parent: HTMLElement, childClassData: [actionFunc, actionFunc, actionFunc]) {
         super(parent, CatalogPageTemplate);
 
         [this.actionToLoadCards, this.getSortByRating, this.getSortByPrice] = childClassData;

@@ -23,7 +23,7 @@ export default class BaseItemPage extends BasePage {
      * @param template - HTML-шаблон, в который будет осуществлена отрисовка
      * @param childClassData - данные дочернего класса
      */
-    constructor(parent: HTMLElement, template: HandlebarsTemplateDelegate,
+    protected constructor(parent: HTMLElement, template: HandlebarsTemplateDelegate,
         childClassData: itemPageTuple) {
         super(
             parent,

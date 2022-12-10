@@ -17,7 +17,7 @@ export default class BasePopUp extends BaseComponent {
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
      * @param childClassData - данные из дочернего класса
      */
-    constructor(parent: HTMLElement, childClassData: [HandlebarsTemplateDelegate, string]) {
+    protected constructor(parent: HTMLElement, childClassData: [HandlebarsTemplateDelegate, string]) {
         super(parent);
         [this.template, this.pageName] = childClassData;
 
@@ -74,9 +74,12 @@ export default class BasePopUp extends BaseComponent {
      * Метод, удаляющий слушатели.
      */
     override removeEventListener() {
-        this.cancel?.removeEventListener('click', this.listenClickCancel);
-
-        this.apply?.removeEventListener('click', this.listenClickApplyBind);
+        if (this.cancel) {
+            this.cancel.removeEventListener('click', this.listenClickCancel);
+        }
+        if (this.apply) {
+            this.apply.removeEventListener('click', this.listenClickApplyBind);
+        }
     }
 
     /**

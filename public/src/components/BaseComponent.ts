@@ -1,7 +1,7 @@
 /**
  * Базовый класс для реализации компонентов.
  */
-export default abstract class BaseComponent {
+export default class BaseComponent {
     _parent: HTMLElement;
 
     /**
@@ -16,7 +16,7 @@ export default abstract class BaseComponent {
     /**
      * Метод, удаляющий слушатели.
      */
-    abstract removeEventListener(): void
+    removeEventListener() {}
 
     /**
      * Метод, отрисовывающий компонент.
