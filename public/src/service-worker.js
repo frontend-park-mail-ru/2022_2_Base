@@ -2,17 +2,25 @@ const CACHE_NAME = 'base-v1';
 
 const urls = [];
 
+/**
+ * @description Подписываемся на событиие установки сервис-воркера
+*/
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(urls)),
     );
 });
 
+/**
+ * @description Подписываемся на событиие активации сервис-воркера
+*/
 this.addEventListener('activate', (event) => {
     const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
 
     event.waitUntil(
+        // Получение всех ключей из кеша
         caches.keys().then((cacheNames) => Promise.all(
+            // Прохождение по всем кешированным файлам
             cacheNames.map((cacheName) => {
                 if (expectedCache.indexOf(cacheName) === -1) {
                     return caches.delete(cacheName);
@@ -21,6 +29,22 @@ this.addEventListener('activate', (event) => {
             }),
         )),
     );
+});
+
+/**
+ * @description Подписываемся на событиие получения сообщения со списком ресурсов,
+ * которые надо кешировать при первом посещении страницы
+*/
+self.addEventListener('message', (event) => {
+    if (event.data.type === 'CACHE_URLS') {
+        event.waitUntil(
+            caches.open(CACHE_NAME)
+                .then((cache) => {
+                    return cache.addAll(event.data.payload);
+                })
+                .catch((error) => console.log(`Error adding to cache ${error}`)),
+        );
+    }
 });
 
 /**
