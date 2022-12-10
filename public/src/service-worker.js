@@ -56,11 +56,11 @@ self.addEventListener('message', (event) => {
  * @description Подписываемся на событиие отправки браузером запроса к серверу
  */
 self.addEventListener('fetch', (event) => {
-    if (imageRegRex.test(event.request)) {
-        event.respondWith(cacheFirst(event));
-    } else {
-        event.respondWith(networkFirst(event));
-    }
+    // if (imageRegRex.test(event.request)) {
+    //     event.respondWith(cacheFirst(event));
+    // } else {
+    event.respondWith(networkFirst(event));
+    // }
     return true;
     // Ищем ресурс в кэше
     // caches.match(event.request)
