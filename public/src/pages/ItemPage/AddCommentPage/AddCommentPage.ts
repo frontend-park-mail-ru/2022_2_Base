@@ -76,13 +76,13 @@ export default class AddCommentPage extends BaseItemPage {
                 const pros = document.getElementById('textarea_pros-filed');
                 const cons = document.getElementById('textarea_cons-filed');
                 const comment = document.getElementById('textarea_comment-filed');
-                if (pros instanceof HTMLInputElement) {
+                if (pros instanceof HTMLTextAreaElement) {
                     commentData.pros = pros.value;
                 }
-                if (cons instanceof HTMLInputElement) {
+                if (cons instanceof HTMLTextAreaElement) {
                     commentData.cons = cons.value;
                 }
-                if (comment instanceof HTMLInputElement) {
+                if (comment instanceof HTMLTextAreaElement) {
                     commentData.comment = comment.value;
                 }
                 itemCardsAction.addComment(commentData);
