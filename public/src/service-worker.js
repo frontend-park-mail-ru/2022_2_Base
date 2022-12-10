@@ -15,20 +15,20 @@ self.addEventListener('install', (event) => {
  * @description Подписываемся на событиие активации сервис-воркера
 */
 this.addEventListener('activate', (event) => {
-    const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
+    // const expectedCache = Object.keys(CACHE_NAME).map((key) => CACHE_NAME[key]);
 
-    event.waitUntil(
-        // Получение всех ключей из кеша
-        caches.keys().then((cacheNames) => Promise.all(
-            // Прохождение по всем кешированным файлам
-            cacheNames.map((cacheName) => {
-                if (expectedCache.indexOf(cacheName) === -1) {
-                    return caches.delete(cacheName);
-                }
-                return null;
-            }),
-        )),
-    );
+    // event.waitUntil(
+    //     // Получение всех ключей из кеша
+    //     caches.keys().then((cacheNames) => Promise.all(
+    //         // Прохождение по всем кешированным файлам
+    //         cacheNames.map((cacheName) => {
+    //             if (expectedCache.indexOf(cacheName) === -1) {
+    //                 return caches.delete(cacheName);
+    //             }
+    //             return null;
+    //         }),
+    //     )),
+    // );
 });
 
 /**
