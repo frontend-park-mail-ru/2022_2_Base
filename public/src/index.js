@@ -13,7 +13,7 @@ if ('serviceWorker' in navigator) {
             .then((registration) => {
             })
             .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
-        });
+                console.log('SW registration failed: ', registrationError);
+            });
     });
 }

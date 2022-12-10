@@ -51,26 +51,27 @@ self.addEventListener('fetch', (event) => {
         //         console.log(err.stack || err);
         //     }),
     );
+    return true;
 });
 
 async function networkFirst(request) {
     const cache = await caches.open(CACHE_NAME);
     try {
-        // const response = await fetch(request);
+        const response = await fetch(request);
 
-        // if (navigator.onLine) {
-        //     await cache.put(request, response.clone());
-        // }
-        // return response;
         if (navigator.onLine) {
-            return fetch(request) // Получить данные из сети
-                .then((res) => {
-                    const resClone = res.clone();
-                    await cache.put(request, resClone);
-                    return res;
-                })
-                .catch((err) => console.error(err));
+            await cache.put(request, response.clone());
         }
+        return response;
+        // if (navigator.onLine) {
+        //     return fetch(request) // Получить данные из сети
+        //         .then((res) => {
+        //             const resClone = res.clone();
+        //             await cache.put(request, resClone);
+        //             return res;
+        //         })
+        //         .catch((err) => console.error(err));
+        // }
     } catch {
         let cachedResponse;
         try {
