@@ -184,13 +184,12 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение сессии.
      */
     async _fetchUser() {
-        const [status, response, headers, lol] = await request.makeGetRequest(config.api.session)
+        const [status, response, headers] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
-        console.log(headers);
-        console.log(lol);
+        console.log(headers?.csrf);
 
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);
@@ -220,12 +219,12 @@ class UserStore extends BaseStore {
      * @param data - данные для авторизации
      */
     async #auth(path: string, data: object) {
-        const [status, response, headers, lol] = await request.makePostRequest(path, data)
+        const [status, response, headers] = await request.makePostRequest(path, data)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
-        console.log(headers, lol);
+        console.log(headers?.csrf);
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);

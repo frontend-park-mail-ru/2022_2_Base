@@ -20,8 +20,8 @@ class Request {
      */
     makeRequest = (url: string, options: object) => {
         return fetch(url, options).then((response) => response.ok ?
-            response.json().then((data) => [response.status, data, response.headers, response]) :
-            [response.status, response.body, response.headers, response]).catch((error) => [500, error]);
+            response.json().then((data) => [response.status, data, response.headers]) :
+            [response.status, response.body, response.headers]).catch((error) => [500, error]);
     };
 
     /**
