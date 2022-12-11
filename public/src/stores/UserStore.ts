@@ -188,10 +188,10 @@ class UserStore extends BaseStore {
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
-
+        console.log(headers.csrf);
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);
-            if (headers.csrf) {
+            if (headers && headers.csrf) {
                 this._storage.set(this._storeNames.csrf, headers.csrf);
             }
         }
@@ -226,7 +226,7 @@ class UserStore extends BaseStore {
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
-            if (headers.csrf) {
+            if (headers && headers.csrf) {
                 this._storage.set(this._storeNames.csrf, headers.csrf);
             }
         }
