@@ -189,7 +189,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
-        for (const header of response.headers.entries()) {
+        for (const header of headers.entries()) {
             console.log(header);
         }
 
@@ -226,7 +226,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
-        for (const header of response.headers.entries()) {
+        for (const header of headers.entries()) {
             console.log(header);
         }
 
