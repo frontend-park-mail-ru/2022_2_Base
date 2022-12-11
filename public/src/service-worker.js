@@ -21,22 +21,6 @@ self.addEventListener('activate', (event) => {
 });
 
 /**
- * @description Подписываемся на событиие получения сообщения со списком ресурсов,
- * которые надо кешировать при первом посещении страницы
- */
-self.addEventListener('message', (event) => {
-    if (event.data.type === 'CACHE_URLS') {
-        event.waitUntil(
-            caches.open(CACHE_NAME)
-                .then((cache) => {
-                    return cache.addAll(event.data.payload);
-                })
-                .catch((error) => console.log(`Error adding to cache ${error}`)),
-        );
-    }
-});
-
-/**
  * @description Подписываемся на событиие отправки браузером запроса к серверу
  */
 self.addEventListener('fetch', (event) => {
