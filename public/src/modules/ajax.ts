@@ -46,6 +46,7 @@ class Request {
      * @returns промис запроса
      */
     makePostRequest = async (url: string, data: object) => {
+        this.#headers.csrf = userStore.getContext(userStore._storeNames.csrf);
         const options = {
             method: 'post',
             mode: 'cors',
@@ -63,6 +64,7 @@ class Request {
      * @returns промис запроса
      */
     makePostRequestSendAvatar = async (url: string, data: Blob) => {
+        this.#headers.csrf = userStore.getContext(userStore._storeNames.csrf);
         const formData = new FormData();
         formData.append('file', data);
         const options = {
@@ -80,6 +82,7 @@ class Request {
      * @returns промис запроса
      */
     makeDeleteRequest = async (url: string) => {
+        this.#headers.csrf = userStore.getContext(userStore._storeNames.csrf);
         const options = {
             method: 'delete',
             mode: 'cors',
