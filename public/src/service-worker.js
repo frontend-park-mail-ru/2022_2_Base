@@ -1,3 +1,5 @@
+import errorMessage from './modules/ErrorMessage';
+
 const CACHE_NAME = 'base-v1';
 const urls = [];
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
@@ -48,6 +50,7 @@ async function networkFirst(event) {
         return response;
     } catch {
         try {
+            errorMessage.getAbsoluteErrorMessage('Кажется у Вас проблемы с интернетом');
             const cachedResponse = await cache.match(request);
             if (cachedResponse) {
                 return cachedResponse;
