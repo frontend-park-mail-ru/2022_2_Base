@@ -14,6 +14,7 @@ import ProductPage from '../pages/ItemPage/ProductPage/ProductPage';
 import CommentPage from '../pages/ItemPage/CommentPage/CommentPage';
 import AddCommentPage from '../pages/ItemPage/AddCommentPage/AddCommentPage';
 import UserPage from '../pages/UserPage/UserPage';
+import errorMessage from './ErrorMessage';
 
 /**
  * Класс, реализующий переход между страницами SPA.
@@ -35,6 +36,9 @@ class Router {
         window.addEventListener('click', this.#changePage);
 
         document.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
+
+        window.addEventListener('offline',
+            () => errorMessage.getAbsoluteErrorMessage('Отсутствует подключение к интернету'));
 
         userStore.addListener(() => {
             if (userStore.getContext(userStore._storeNames.responseCode) ===
