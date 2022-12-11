@@ -84,6 +84,7 @@ class UserStore extends BaseStore {
         temp: 'temp',
         isValid: 'isValid',
         errorMessage: 'ErrorMessage',
+        csrf: 'csrf',
     };
 
     /**
@@ -103,6 +104,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.context, this.#context);
         this._storage.set(this._storeNames.isValid, null);
         this._storage.set(this._storeNames.errorMessage, '');
+        this._storage.set(this._storeNames.csrf, null);
     }
 
     /**
@@ -182,13 +184,14 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение сессии.
      */
     async _fetchUser() {
-        const [status] = await request.makeGetRequest(config.api.session)
+        const [status, response, headers] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err)) ?? [];
-
+        this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);
+            this._storage.set(this._storeNames.csrf, headers.csrf);
         }
     }
 
@@ -204,6 +207,7 @@ class UserStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, false);
             cartAction.resetCart();
+            this._storage.set(this._storeNames.csrf, null);
         }
     }
 
@@ -213,13 +217,14 @@ class UserStore extends BaseStore {
      * @param data - данные для авторизации
      */
     async #auth(path: string, data: object) {
-        const [status] = await request.makePostRequest(path, data)
+        const [status, response, headers] = await request.makePostRequest(path, data)
             .catch((err) => console.log(err)) ?? [];
-
+        this._storage.set(this._storeNames.csrf, response);
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
+            this._storage.set(this._storeNames.csrf, headers.csrf);
         }
     }
 

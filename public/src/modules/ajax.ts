@@ -1,4 +1,5 @@
 import {config} from '../config';
+import userStore from '../stores/UserStore';
 
 /**
  * Класс, реализующий работу с запросами.
@@ -8,6 +9,7 @@ class Request {
         'Content-Type': 'application/json',
         'accept': 'application/json',
         'Origin': 'https://www.reazon.ru',
+        'csrf': userStore.getContext(userStore._storeNames.csrf),
     };
 
     /**
@@ -19,7 +21,7 @@ class Request {
     makeRequest = (url: string, options: object) => {
         return fetch(url, options).then((response) => response.ok ?
             response.json().then((data) => [response.status, data]) :
-            [response.status, response.body]).catch((error) => [500, error]);
+            [response.status, response.body, response.headers]).catch((error) => [500, error]);
     };
 
     /**
