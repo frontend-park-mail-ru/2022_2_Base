@@ -5,22 +5,22 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const webPackConfig = {
     entry: {
-        'app': './public/src/index.js',
+        'app': './public/src/index.ts',
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
-            {test: /\.(js)$/, use: 'babel-loader'},
             {test: /\.(json)$/, use: 'cson-loader'},
-            {test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader'},
             {test: /\.hbs$/, loader: 'handlebars-loader'},
             {test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource'},
             {test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource'},
             {
-                test: /\.js$/,
+                test: /\.(js|jsx|tsx|ts)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
@@ -111,28 +111,6 @@ const webPackConfig = {
             exclude: ['node_modules', 'dist'],
             fix: true,
             failOnWarning: true,
-        }),
-        new WorkboxPlugin.GenerateSW({
-            clientsClaim: true,
-            skipWaiting: true,
-            cleanupOutdatedCaches: true,
-            runtimeCaching: [
-                {
-                    urlPattern: new RegExp('https://www.reazon.ru/api/v1/'),
-                    handler: 'NetworkFirst',
-                    options: {cacheName: 'api-cache'},
-                },
-                {
-                    urlPattern: new RegExp('https://www.reazon.ru/img/'),
-                    handler: 'CacheFirst',
-                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-                },
-                {
-                    urlPattern: new RegExp('https://img.mvideo.ru/'),
-                    handler: 'CacheFirst',
-                    options: {cacheName: 'images-cache', expiration: {maxEntries: 10}},
-                },
-            ],
         }),
     ],
 };
