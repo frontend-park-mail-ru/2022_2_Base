@@ -13,3 +13,13 @@ config.HTMLskeleton.root = refresh.root;
 config.HTMLskeleton.header = refresh.header;
 config.HTMLskeleton.main = refresh.main;
 config.HTMLskeleton.footer = refresh.footer;
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then().catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+

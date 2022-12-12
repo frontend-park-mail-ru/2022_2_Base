@@ -97,6 +97,10 @@ const webPackConfig = {
                     from: path.resolve(__dirname, 'public/img'),
                     to: path.resolve(__dirname, 'dist/img'),
                 },
+                {
+                    from: path.resolve(__dirname, 'public/src/service-worker.js'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
             ],
         }),
         new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.webp')),
