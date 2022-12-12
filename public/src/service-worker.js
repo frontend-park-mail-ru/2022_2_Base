@@ -3,7 +3,7 @@ const urls = [];
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
 /**
- * @description Подписываемся на событиие установки сервис-воркера
+ * Подписываемся на событие установки сервис воркера
  */
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -13,7 +13,7 @@ self.addEventListener('install', (event) => {
 });
 
 /**
- * @description Подписываемся на событиие активации сервис-воркера
+ * Подписываемся на событие активации сервис воркера
  */
 self.addEventListener('activate', (event) => {
     event.waitUntil(enableNavigationPreload());
@@ -21,7 +21,7 @@ self.addEventListener('activate', (event) => {
 });
 
 /**
- * @description Подписываемся на событиие отправки браузером запроса к серверу
+ * Подписываемся на событие отправки браузером запроса к серверу
  */
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
@@ -33,8 +33,8 @@ self.addEventListener('fetch', (event) => {
 });
 
 /**
- * @description Первый запрос в сеть
- * @param {Event} event
+ * Первый запрос в сеть
+ * @param {Event} event - событие, вызвавшее обработчик
  */
 async function networkFirst(event) {
     const {request} = event;
@@ -64,8 +64,8 @@ async function networkFirst(event) {
 }
 
 /**
- * @description Первый запрос в сеть
- * @param {Event} event
+ * Первый запрос в сеть
+ * @param {Event} event - событие, вызвавшее обработчик
  */
 async function cacheFirst(event) {
     const {request} = event;
