@@ -31,7 +31,6 @@ class Request {
      */
     makeGetRequest = async (url: string) => {
         this.#headers.csrf = userStore.getContext(userStore._storeNames.csrf);
-        console.log('ajax', this.#headers.csrf);
         const options = {
             method: 'get',
             mode: 'cors',
