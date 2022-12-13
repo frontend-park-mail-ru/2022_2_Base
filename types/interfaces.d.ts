@@ -119,7 +119,7 @@ interface suggestionSearchObj {
 interface itemOrderData {
     cont: number,
     items: Array<priceData>,
-    totalPrice: number,
+    totalPrice: string,
     deliveryDateString: string,
     deliveryTimeString: string,
     creationDateString: string,
