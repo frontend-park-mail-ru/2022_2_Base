@@ -169,9 +169,9 @@ class Router {
         this.#titles.set(config.href.search, '- Reazon');
         this.#titles.set(config.href.cart, 'Корзина - Reazon');
         this.#titles.set(config.href.orders, 'Заказы - Reazon');
-        this.#titles.set(config.href.product, 'О товаре - Reazon');
-        this.#titles.set(config.href.comment, 'Отзывы - Reazon');
-        this.#titles.set(config.href.addComment, 'Отзыв - Reazon');
+        this.#titles.set(config.href.product, '- Reazon');
+        this.#titles.set(config.href.comment, '- Отзывы, Reazon');
+        this.#titles.set(config.href.addComment, '- Отзыв, Reazon');
 
         this.#currentPage = new MainPage(config.HTMLskeleton.main);
     }

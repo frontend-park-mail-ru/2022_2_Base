@@ -89,6 +89,7 @@ export default class Header extends BaseComponent {
                 `${config.href.search}?q=${this.searchInput?.value}`);
             if (this.elementSuggestions) {
                 this.elementSuggestions.innerHTML = '';
+                this.elementSuggestions.classList.toggle('box-shadow__suggestion');
             }
         }
     }
@@ -123,6 +124,7 @@ export default class Header extends BaseComponent {
         } else {
             if (this.elementSuggestions) {
                 this.elementSuggestions.innerHTML = '';
+                this.elementSuggestions.classList.toggle('box-shadow__suggestion');
             }
         }
     }
@@ -144,6 +146,7 @@ export default class Header extends BaseComponent {
             }
             if (this.elementSuggestions) {
                 this.elementSuggestions.innerHTML = '';
+                this.elementSuggestions.classList.toggle('box-shadow__suggestion');
             }
         }
     }

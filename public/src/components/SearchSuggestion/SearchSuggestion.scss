@@ -2,8 +2,11 @@
   position: absolute;
   top: 56px;
   width: 550px;
-  box-shadow: 0 3px 6px 2px var(--shadow-default);
   border-radius: 10px;
+}
+
+.box-shadow__suggestion{
+  box-shadow: 0 3px 6px 2px var(--shadow-default);
 }
 
 .header__dropdown__suggestion__element {
