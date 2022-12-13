@@ -39,6 +39,7 @@ export const config = {
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
         applyPromocode: `${basePathApi}applypromo`, // исправить, когда будет ручка
+        cancelPromocode: `${basePathApi}cancelpromo`, // исправить, когда будет ручка
     },
     states: {
         endOf: -1,

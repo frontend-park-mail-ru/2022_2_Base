@@ -1,0 +1,20 @@
+<div class="apply-promocode-block">
+    <span class="text-normal-large"> Промокод </span>
+    <div class="apply-promocode-block__input-submit-block">
+        <div class="apply-promocode-block__input-submit-block__input-block">
+            <input id="cart-promocode-field" class="apply-promocode-block__input-submit-block__input-field
+            {{#unless this.isAuth}} disabled {{/unless}}
+            {{#if this.promocode}} apply-promocode-block__input-submit-block__input-field-disabled {{/if}} "
+                {{#if this.promocode}} placeholder="{{this.promocode}}"
+                {{else}} placeholder="Введите промокод" {{/if}} >
+        </div>
+        <div id="cart-promocode-submit-button" class="button-default apply-promocode-block__input-block__submit-button
+        {{#unless this.isAuth}} disabled {{/unless}} ">
+            {{#if this.promocode}} Удалить {{else}} Применить {{/if}}
+        </div>
+    </div>
+    <span id="cart-promocode-status" class="text-normal-default apply-promocode-block__status
+        {{#if this.promocode}} paint-text-green-correct"> Промокод применён {{else}} "> {{/if}}
+    </span>
+</div>
+

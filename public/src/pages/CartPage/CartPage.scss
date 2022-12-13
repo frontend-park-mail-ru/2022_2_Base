@@ -402,52 +402,6 @@
   height: 60vh;
 }
 
-.cart__promocode-block {
-  @extend %box__cart;
-  display: grid;
-  grid-template-rows: 6fr 9fr 5fr;
-  gap: 16px;
-}
-
-.cart__promocode-block__input-submit-block {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 16px;
-}
-
-.cart__promocode-block__input-submit-block__input-block {
-  margin-left: 0;
-  width: 100%;
-}
-
-.cart__promocode-block__input-submit-block__input-field {
-  margin-left: 0;
-  width: 88%;
-}
-
-.cart__promocode-block__input-block__submit-button {
-  background: var(--background-grey);
-  justify-content: center;
-  display: flex;
-  width: 100px;
-  height: 40px;
-  align-self: center;
-  align-items: center;
-}
-
-.paint-text-green-correct {
-  color: var(--green-correct);
-}
-
-.paint-text-background-red {
-  color: var(--background-red);
-}
-
-.cart__promocode-block__input-block__submit-button:hover {
-  background: var(--dark-grey);
-
-}
-
 @media (max-width: 991px) {
   .content__cart {
     grid-template-columns: none;

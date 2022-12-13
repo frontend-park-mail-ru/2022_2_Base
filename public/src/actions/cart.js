@@ -16,6 +16,7 @@ export const CartActionTypes = {
     RESET_CART: 'RESET_CART',
     MERGE_CART: 'MERGE_CART',
     APPLY_PROMOCODE: 'APPLY_PROMOCODE',
+    CANCEL_PROMOCODE: 'CANCEL_PROMOCODE',
 };
 
 /**
@@ -121,6 +122,15 @@ export const cartAction = {
         Dispatcher.dispatch({
             actionName: CartActionTypes.APPLY_PROMOCODE,
             data: data,
+        });
+    },
+
+    /**
+     * Действие: отменить промокод
+     */
+    cancelPromocode() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.CANCEL_PROMOCODE,
         });
     },
 };

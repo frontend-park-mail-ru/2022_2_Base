@@ -85,6 +85,11 @@ class CartStore extends BaseStore {
             await this._applyPromocode(payload.data);
             this._emitChange([CartActionTypes.APPLY_PROMOCODE]);
             break;
+
+        case CartActionTypes.CANCEL_PROMOCODE:
+            await this._cancelPromocode();
+            this._emitChange([CartActionTypes.CANCEL_PROMOCODE]);
+            break;
         }
     }
 
@@ -271,8 +276,22 @@ class CartStore extends BaseStore {
             .catch((err) => console.log(err));
 
         this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200 && response.promocodeStatus) {
+            // promocodeStatus = true, когда промокод валидный
+            this._storage.set(this._storeNames.promocode, data);
+        }
+    }
+
+    /**
+     * Действие: отменить промокод.
+     */
+    async _cancelPromocode() {
+        const [status] = await request.makePostRequest(config.api.cancelPromocode, null)
+            .catch((err) => console.log(err));
+
+        this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.promocode, response.promocode);
+            this._storage.set(this._storeNames.promocode, null);
         }
     }
 }

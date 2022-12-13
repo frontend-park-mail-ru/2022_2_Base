@@ -1,6 +1,7 @@
 import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage';
 import CartItem from '../../components/CartItem/CartItem';
+import ApplyPromocodeBlock from '../../components/ApplyPromocodeBlock/ApplyPromocodeBlock';
 import './CartPage.scss';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
@@ -39,7 +40,6 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
-        cartStore.addListener(this.onApplyPromocode.bind(this), CartActionTypes.APPLY_PROMOCODE);
     }
 
     /**
@@ -61,32 +61,6 @@ export default class CartOrderPage extends BasePage {
     onMakeOrder() {
         this.getCart();
         router.refresh();
-    }
-
-    /**
-     * Функция, реагирующая на применение промокода
-     */
-    onApplyPromocode() {
-        const promocode = cartStore.getContext(cartStore._storeNames.promocode);
-        const promocodeStatusText = document.getElementById('cart-promocode-status');
-
-        if (promocodeStatusText) {
-            if (cartStore.getContext(cartStore._storeNames.responseCode) ===
-                config.responseCodes.code200) {
-                if (promocode) {
-                    promocodeStatusText.classList.add('paint-text-green-correct');
-                    promocodeStatusText.textContent = 'Промокод применён';
-                } else {
-                    promocodeStatusText.classList.add('paint-text-background-red');
-                    promocodeStatusText.textContent = 'Повторите попытку позже';
-                }
-            } else {
-                promocodeStatusText.classList.add('paint-text-background-red');
-                promocodeStatusText.textContent = 'Повторите попытку позже';
-            }
-        }
-
-        this.renderTotalCost();
     }
 
     /**
@@ -122,12 +96,6 @@ export default class CartOrderPage extends BasePage {
             }, [0, 0, 0, 0]).map((val) => {
                 return truncatePrice(val);
             });
-
-        // const promocodeStr = cartStore.getContext(cartStore._storeNames.promocode);
-        /* Функция для парсинга скидки из промокода */
-        // promocodeDiscount = ...
-        // context.sumPrice *= promocodeDiscount;
-        // context.priceDiff = context.noSalePrice - context.sumPrice;
     }
 
     /**
@@ -135,7 +103,7 @@ export default class CartOrderPage extends BasePage {
      * @param {object} data - данные для заполнения
      */
     renderCart(data) {
-        if (data && data.length) {
+        if (data && data.length || true) {
             const context = {};
             const address = userStore.getContext(userStore._storeNames.address);
             if (address) {
@@ -162,13 +130,15 @@ export default class CartOrderPage extends BasePage {
             context.deliveryPrice = 'Бесплатно';
             context.deliveryDate = getDate(1);
 
-            const promocode = cartStore.getContext(cartStore._storeNames.promocode);
-            context.promocode = promocode;
-
             this.#calcSummaryPrice(data, context);
             super.render(context);
             const cartItem = new CartItem(document.getElementById('checkboxes_cart'));
             cartItem.render(data);
+
+            this.applyPromocodeBlock = new ApplyPromocodeBlock(document.getElementById(
+                'cart__apply-promocode-block'));
+            this.applyPromocodeBlock.render();
+
             this.startEventListener();
         } else {
             refreshElements.showUnAuthPage({
@@ -508,17 +478,6 @@ export default class CartOrderPage extends BasePage {
     }
 
     /**
-     * Функция, обрабатывающая клик на кнопку создания заказа
-     */
-    async listenClickApplyPromocode() {
-        const promocodeStr = document.getElementById('cart-promocode-field');
-        if (promocodeStr && promocodeStr.value &&
-            (cartStore.getContext(cartStore._storeNames.promocode) !== promocodeStr.value)) {
-            cartAction.applyPromocode(promocodeStr.value);
-        }
-    }
-
-    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -548,12 +507,6 @@ export default class CartOrderPage extends BasePage {
         if (this.addressCart) {
             this.addressCart.addEventListener('change', this.listenChangeDateAndTime);
         }
-
-        // Обработчик применения промокода
-        this.applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
-        if (this.applyPromocodeButton) {
-            this.applyPromocodeButton.addEventListener('click', this.listenClickApplyPromocode);
-        }
     }
 
     /**
@@ -578,8 +531,8 @@ export default class CartOrderPage extends BasePage {
             this.addressCart.removeEventListener('change', this.listenChangeDateAndTime);
         }
 
-        if (this.applyPromocodeButton) {
-            this.applyPromocodeButton.removeEventListener('click', this.listenClickApplyPromocode);
+        if (this.applyPromocodeBlock) {
+            this.applyPromocodeBlock.removeEventListener();
         }
     }
 
