@@ -7,6 +7,7 @@ import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
 import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
+import {getQueryParams} from '../../modules/sharedFunctions';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -20,8 +21,7 @@ export default class CatalogPage extends BasePage {
     getSortByPrice: actionFunc;
     getSortByRating: actionFunc;
     itemsBlock: HTMLElement | null;
-    priceSortImg: HTMLElement | null;
-    ratingSortImg: HTMLElement | null;
+    sortOrder: HTMLElement | null;
     waitThrottleScroll: boolean;
     #category;
 
@@ -41,8 +41,7 @@ export default class CatalogPage extends BasePage {
         this.catalogContent = null;
         this.catalogSort = null;
         this.itemsBlock = null;
-        this.priceSortImg = null;
-        this.ratingSortImg = null;
+        this.sortOrder = null;
         this.waitThrottleScroll = false;
 
         this.#category = new Map();
@@ -215,14 +214,15 @@ export default class CatalogPage extends BasePage {
      *  @param event - событие, вызвавшее клик.
      */
     listenSortCatalog(event: Event) {
-        if (event.target instanceof HTMLElement) {
+        if (event.target instanceof HTMLElement && this.sortOrder) {
+            this.sortOrder.classList.add('sort-rating__img_visible');
             switch (event.target.id) {
             case 'catalog_sort-rating': {
                 const isLowToHighRating =
                     window.location.search.includes(config.queryParams.sort.ratingDown);
                 isLowToHighRating ?
-                    this.ratingSortImg?.classList.remove('rotate-img-180') :
-                    this.ratingSortImg?.classList.add('rotate-img-180');
+                    this.sortOrder.classList.remove('rotate-img-180') :
+                    this.sortOrder.classList.add('rotate-img-180');
                 this.getSortByRating(isLowToHighRating);
                 break;
             }
@@ -230,8 +230,8 @@ export default class CatalogPage extends BasePage {
                 const isLowToHighPrice =
                     window.location.search.includes(config.queryParams.sort.priceDown);
                 isLowToHighPrice ?
-                    this.priceSortImg?.classList.remove('rotate-img-180') :
-                    this.priceSortImg?.classList.add('rotate-img-180');
+                    this.sortOrder.classList.add('rotate-img-180') :
+                    this.sortOrder.classList.remove('rotate-img-180');
                 this.getSortByPrice(isLowToHighPrice);
                 break;
             }
@@ -295,7 +295,14 @@ export default class CatalogPage extends BasePage {
         cartAction.getCart();
         this.startEventListener();
         this.itemsBlock = document.getElementById('items-block');
-        this.ratingSortImg = document.getElementById('catalog_sort-rating__img');
-        this.priceSortImg = document.getElementById('catalog_sort-price__img');
+        this.sortOrder = document.getElementById('catalog_sort-img');
+
+        const sortParam = getQueryParams().sort.toString();
+        if (sortParam.includes('up')) {
+            this.sortOrder?.classList.add('sort-rating__img_visible');
+            this.sortOrder?.classList.add('rotate-img-180');
+        } else if (sortParam.includes('down')) {
+            this.sortOrder?.classList.add('sort-rating__img_visible');
+        }
     }
 }

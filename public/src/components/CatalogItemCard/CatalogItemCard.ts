@@ -21,7 +21,8 @@ export default class CatalogItemCard extends BaseComponent {
      * @param context - контекст с учетом которого будет произведен рендер
      */
     override render(context: Array<object>) {
-        this._parent.insertAdjacentHTML('beforeend',
-            catalogItemCardTemplate(super.prepareCategory(context)));
+        // this._parent.insertAdjacentHTML('beforeend',
+        //     catalogItemCardTemplate(super.prepareCategory(context)));
+        this._parent.innerHTML = catalogItemCardTemplate(super.prepareCategory(context));
     }
 }
