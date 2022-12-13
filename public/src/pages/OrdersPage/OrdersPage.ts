@@ -38,7 +38,8 @@ export default class OrdersPage extends BasePage {
     renderCards() {
         switch (ordersStore.getContext(ordersStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            if (ordersStore.getContext(ordersStore._storeNames.orders).length) {
+            if (ordersStore.getContext(ordersStore._storeNames.orders).length >= 1) {
+                console.log(ordersStore.getContext(ordersStore._storeNames.orders));
                 this.orderBlock?.render(ordersStore.getContext(ordersStore._storeNames.orders));
             } else {
                 refreshElements.showUnAuthPage({

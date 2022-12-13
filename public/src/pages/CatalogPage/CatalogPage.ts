@@ -297,12 +297,14 @@ export default class CatalogPage extends BasePage {
         this.itemsBlock = document.getElementById('items-block');
         this.sortOrder = document.getElementById('catalog_sort-img');
 
-        const sortParam = getQueryParams().sort.toString();
-        if (sortParam.includes('up')) {
-            this.sortOrder?.classList.add('sort-rating__img_visible');
-            this.sortOrder?.classList.add('rotate-img-180');
-        } else if (sortParam.includes('down')) {
-            this.sortOrder?.classList.add('sort-rating__img_visible');
+        const sortParam = getQueryParams().sort?.toString();
+        if (sortParam) {
+            if (sortParam.includes('up')) {
+                this.sortOrder?.classList.add('sort-rating__img_visible');
+                this.sortOrder?.classList.add('rotate-img-180');
+            } else {
+                this.sortOrder?.classList.add('sort-rating__img_visible');
+            }
         }
     }
 }
