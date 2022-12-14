@@ -1,7 +1,7 @@
 .popup-form__add-address {
     display: grid;
     grid-template-rows: 32px 3fr 1fr;
-    grid-gap: 6px;
+    grid-gap: 12px;
 }
 
 .popup-form__add-address__header {
@@ -12,6 +12,7 @@
 .popup-form__add-address__fields {
     display: grid;
     grid-template-rows: 1fr 1fr;
+    gap: 4px;
 }
 
 .popup-form__add-address__country-city {
@@ -48,6 +49,10 @@
 
 .popup-form__add-address__buttons {
     text-align: right;
+}
+
+.popup-form__add-address__cancel {
+    margin-right: 8px;
 }
 
 .popup-form__add-address__button {

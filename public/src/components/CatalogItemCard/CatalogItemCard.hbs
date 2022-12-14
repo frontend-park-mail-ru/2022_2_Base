@@ -19,12 +19,12 @@
 
             <div class="catalog-item-card__properties-block">
                 <a href="/comment/{{this.id}}" class="catalog-item-card-properties-block__rating-block link__no-color">
-                    <img src="/img/star-icon.svg"
+                    <img src= "/img/Star{{#unless this.rating}}_dark{{/unless}}.svg"
                          class="catalog-item-card__description-block__properties-block__rating-block__star-icon"
                          alt="rating star icon">
                     <span class="text-normal-default">Рейтинг</span>
                     <span class="text-normal-default catalog-item-card-properties-block__rating-block__rating-num">
-                                {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
+                                {{#if this.rating}}{{this.rating}}{{else}}0.0{{/if}}
                     </span>
                 </a>
                 {{#each properties}}

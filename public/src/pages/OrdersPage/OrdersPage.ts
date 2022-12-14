@@ -42,7 +42,7 @@ export default class OrdersPage extends BasePage {
                 this.orderBlock?.render(ordersStore.getContext(ordersStore._storeNames.orders));
             } else {
                 refreshElements.showUnAuthPage({
-                    text: 'Пока у вас нет заказов. Может купите',
+                    text: 'Пока у вас нет заказов. Может купить',
                     linkToPage: itemsStore.
                         getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
                     linkText: 'телефон',

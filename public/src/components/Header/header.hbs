@@ -5,21 +5,19 @@
         </a>
     </div>
 
-    <details class="header__dropdown">
-        <summary role="button" class="header__dropdown-summary">
-            <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default">
-                <img type="image" src="/img/Catalog.svg" class="header__catalog-img"
-                     alt="Menu-Burger icon in button Catalog">
-                <span>Каталог</span> 
-            </a>
-        </summary>
-        <ul class="header__dropdown__content">
-            {{#each this.categories}}
-                <a href="{{this.href}}" class="text-normal-default header__dropdown__content__element"
-                   id="catalog__popUp-category">{{this.nameCategory}}</a>
-            {{/each}}
-        </ul>
-    </details>
+    <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
+       id="header__button-catalog">
+        <img type="image" src="/img/Catalog.svg" class="header__catalog-img" id="header__button-catalog__icon"
+             alt="Menu-Burger icon in button Catalog">
+        <span id="header__button-catalog__text">Каталог</span>
+    </a>
+
+    <div class="header__dropdown__content" id="header__dropdown__content">
+        {{#each this.categories}}
+            <a href="{{this.href}}" class="text-normal-default header__dropdown__content__element"
+               id="catalog__popUp-category">{{this.nameCategory}}</a>
+        {{/each}}
+    </div>
 
     <div class="header__search-line">
         <label for="search-line__text"></label><input type="search" class="header__form-search" name="search-line"
