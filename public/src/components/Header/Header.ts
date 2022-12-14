@@ -178,7 +178,8 @@ export default class Header extends BaseComponent {
         this.catalogButtonText = document.getElementById('header__button-catalog__text');
         this.dropdownContent = document.getElementById('header__dropdown__content');
 
-        if (this.catalogButton && this.catalogButtonIcon && this.catalogButtonText && this.dropdownContent) {
+        if (this.catalogButton && this.catalogButtonIcon &&
+            this.catalogButtonText && this.dropdownContent) {
             if ((event.target != this.catalogButton &&
                 event.target != this.catalogButtonIcon &&
                 event.target != this.catalogButtonText)) {
