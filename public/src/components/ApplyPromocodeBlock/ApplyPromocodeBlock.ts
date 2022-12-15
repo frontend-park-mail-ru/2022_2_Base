@@ -6,6 +6,8 @@ import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import userStore from '../../stores/UserStore';
 import router from '../../modules/Router';
+import validation from '../../modules/validation';
+
 
 /**
  * Класс для реализации компонента ApplyPromocodeBlock
@@ -32,34 +34,32 @@ export default class ApplyPromocodeBlock extends BaseComponent {
      * Функция, реагирующая на применение промокода
      */
     onApplyPromocode() {
-        router.refresh();
-
         const promocode = cartStore.getContext(cartStore._storeNames.promocode);
         const promocodeStatusText = document.getElementById('cart-promocode-status');
-        if (promocodeStatusText) {
-            if (cartStore.getContext(cartStore._storeNames.responseCode) ===
-                config.responseCodes.code200) {
-                if (promocode) {
-                    this.showPromocodeTryResult(true, 'Промокод применён');
+        if (promocodeStatusText && (cartStore.getContext(cartStore._storeNames.responseCode) ===
+            config.responseCodes.code200)) {
+            if (promocode) {
+                router.refresh();
+                this.showPromocodeTryResult(true, 'Промокод применён');
 
-                    const applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
-                    if (applyPromocodeButton) {
-                        applyPromocodeButton.textContent = 'Удалить';
-                    }
+                const applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
+                if (applyPromocodeButton) {
+                    applyPromocodeButton.textContent = 'Удалить';
+                }
 
-                    const promocodeField = document.getElementById('cart-promocode-field');
-                    if (promocodeField) {
-                        promocodeField.classList.add(
-                            'apply-promocode-block__input-submit-block__input-field-disabled');
-                    }
-                } else {
-                    this.showPromocodeTryResult(false, 'Промокод недействителен');
+                const promocodeField = document.getElementById('cart-promocode-field');
+                if (promocodeField) {
+                    promocodeField.classList.add(
+                        'apply-promocode-block__input-submit-block__input-field-disabled');
                 }
             } else {
-                this.showPromocodeTryResult(false, 'Повторите попытку позже');
+                this.showPromocodeTryResult(false, 'Промокод недействителен');
             }
+        } else {
+            this.showPromocodeTryResult(false, 'Повторите попытку позже');
         }
     }
+
 
     /**
      * Функция, выводящая строку с результатом действия с промокодом
@@ -81,12 +81,11 @@ export default class ApplyPromocodeBlock extends BaseComponent {
      * Функция, реагирующая на отмену промокода
      */
     onCancelPromocode() {
-        router.refresh();
-
         const promocodeStatusText = document.getElementById('cart-promocode-status');
         if (promocodeStatusText) {
             if (cartStore.getContext(cartStore._storeNames.responseCode) ===
                 config.responseCodes.code200) {
+                router.refresh();
                 this.showPromocodeTryResult(true, 'Промокод удалён');
 
                 const applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
@@ -110,16 +109,13 @@ export default class ApplyPromocodeBlock extends BaseComponent {
      */
     async listenClickApplyPromocode() {
         const promocodeStr = document.getElementById('cart-promocode-field');
-        if (promocodeStr && promocodeStr instanceof HTMLInputElement) {
+        if (promocodeStr instanceof HTMLInputElement) {
             if (cartStore.getContext(cartStore._storeNames.promocode)) {
                 cartAction.cancelPromocode();
-            } else if (promocodeStr.value) {
-                if (!/^[a-z0-9 а-яА-ЯёЁ!?()_-]+$/i
-                    .test(promocodeStr.value)) {
-                    this.showPromocodeTryResult(false, 'Введены недопустимые символы');
-                } else {
+            } else {
+                const promocodeValidationRes = validation.validatePromocodeField(promocodeStr.value);
+                promocodeValidationRes ? this.showPromocodeTryResult(false, promocodeValidationRes) :
                     cartAction.applyPromocode(promocodeStr.value);
-                }
             }
         }
     }

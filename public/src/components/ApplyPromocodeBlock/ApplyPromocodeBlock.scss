@@ -44,6 +44,10 @@
   color: var(--jet-black);
 }
 
+.apply-promocode-block__status {
+  min-height: 20px;
+}
+
 .apply-promocode-block__input-block__submit-button {
   background: var(--background-grey);
   justify-content: center;
@@ -70,5 +74,11 @@
   .apply-promocode-block__input-submit-block__input-field {
     display: flex;
     width: 94%;
+  }
+}
+
+@media (991px < width < 1150px) {
+  .apply-promocode-block__status {
+    min-height: 40px;
   }
 }

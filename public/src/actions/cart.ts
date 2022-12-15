@@ -116,7 +116,7 @@ export const cartAction = {
 
     /**
      * Действие: применить промокод
-     * @param {String} data - строка с промокодом
+     * @param data - строка с промокодом
      */
     applyPromocode(data: string) {
         Dispatcher.dispatch({
