@@ -155,9 +155,9 @@ class Validation {
     }
 
     /**
-     * Функция, реализующая валидацию поля для ввода промокода.
+     * Функция, реализующая валидацию входной строки.
      * @param inputString - входная строка
-     * @returns validateRes - результат валидации, true -> недопустимые символы найдены.
+     * @returns validateRes - результат валидации, true -> найдены недопустимые символы
      */
     validateString(inputString: string) {
         return (!stringRegex.test(inputString));
