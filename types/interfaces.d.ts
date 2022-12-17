@@ -24,7 +24,9 @@ interface PaymentCardObj {
     expiryDate?: Date,
     expirydate?: Date,
     id: number,
-    priority?: boolean
+    priority?: boolean,
+
+    type?: string
 }
 
 interface formContextObj {

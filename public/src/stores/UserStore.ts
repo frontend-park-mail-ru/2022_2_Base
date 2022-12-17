@@ -398,6 +398,7 @@ class UserStore extends BaseStore {
         userData.paymentMethods.forEach((item: PaymentCardObj) => delete item.priority);
         data.id = config.states.noPayCardId;
         data.priority = true;
+        data.type = 'Card';
         data.expiryDate = new Date(2000 + Number(data.expiry.split('/')[1]),
             Number(data.expiry.split('/')[0]));
         userData.paymentMethods.push(data);
