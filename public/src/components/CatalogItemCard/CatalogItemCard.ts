@@ -1,6 +1,7 @@
 import BaseComponent from '../BaseComponent';
 import catalogItemCardTemplate from './CatalogItemCard.hbs';
 import './CatalogItemCard.scss';
+import ordersStore from '../../stores/OrdersStore';
 
 /**
  * Класс для реализации компонента CatalogItemCard
@@ -21,8 +22,9 @@ export default class CatalogItemCard extends BaseComponent {
      * @param context - контекст с учетом которого будет произведен рендер
      */
     override render(context: Array<object>) {
-        // this._parent.insertAdjacentHTML('beforeend',
-        //     catalogItemCardTemplate(super.prepareCategory(context)));
-        this._parent.innerHTML = catalogItemCardTemplate(super.prepareCategory(context));
+        ordersStore.getContext(ordersStore._storeNames.cardLoadCount) ?
+            this._parent.insertAdjacentHTML('beforeend',
+                catalogItemCardTemplate(super.prepareCategory(context))) :
+            this._parent.innerHTML = catalogItemCardTemplate(super.prepareCategory(context));
     }
 }
