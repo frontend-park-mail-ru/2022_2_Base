@@ -65,14 +65,16 @@ class Request {
      * @returns промис запроса
      */
     makePostRequestSendAvatar = async (url: string, data: Blob) => {
-        this.#headers.csrf = userStore.getContext(userStore._storeNames.csrf);
         const formData = new FormData();
         formData.append('file', data);
         const options = {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            headers: this.#headers,
+            headers: {
+                'Origin': 'https://www.reazon.ru',
+                'csrf': userStore.getContext(userStore._storeNames.csrf),
+            },
             body: formData,
         };
         return this.makeRequest(`${config.basePath}/${url}`, options);
