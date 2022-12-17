@@ -58,6 +58,7 @@ class ItemsStore extends BaseStore {
         itemData: 'itemData',
         comments: 'comments',
         suggestionsSearch: 'suggestionsSearch',
+        isFirstRequest: 'isFirstRequest',
     };
 
     /**
@@ -76,6 +77,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.itemData, {});
         this._storage.set(this._storeNames.comments, []);
         this._storage.set(this._storeNames.suggestionsSearch, []);
+        this._storage.set(this._storeNames.isFirstRequest, false);
     }
 
     /**
@@ -171,6 +173,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _getByPriceItemCard(isLowToHighPrice: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighPrice ?
@@ -182,6 +185,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _getByRatingItemCard(isLowToHighRating: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighRating ?
@@ -193,6 +197,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _localSortPrice(isLowToHighPrice: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
                 (item1st: productObj, item2nd: productObj) => {
@@ -209,6 +214,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _localSortRating(isLowToHighRating: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
                 (item1st: productObj, item2nd: productObj) => {
@@ -266,8 +272,10 @@ class ItemsStore extends BaseStore {
      * @param isFirstRequest - получали ли мы до этого карточки
      */
     async _getItemCardsByCategory(isFirstRequest: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, false);
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
+            this._storage.set(this._storeNames.isFirstRequest, true);
             this._storage.set(this._storeNames.allCardsInCategory, []);
         }
 

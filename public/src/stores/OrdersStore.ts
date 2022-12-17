@@ -13,7 +13,6 @@ class OrdersStore extends BaseStore {
     _storeNames = {
         orders: 'orders',
         responseCode: 'responseCode',
-        cardLoadCount: 'cardLoadCount',
     };
 
     /**
@@ -24,7 +23,6 @@ class OrdersStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.orders, []);
         this._storage.set(this._storeNames.responseCode, null);
-        this._storage.set(this._storeNames.cardLoadCount, 0);
 
         this.paymentStates = new Map();
         this.paymentStates.set('paid', 'Оплачен');
