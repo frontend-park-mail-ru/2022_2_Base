@@ -72,6 +72,7 @@ class Request {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
+            headers: this.#headers,
             body: formData,
         };
         return this.makeRequest(`${config.basePath}/${url}`, options);
