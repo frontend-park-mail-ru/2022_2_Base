@@ -52,7 +52,6 @@
 }
 
 .arrow-button {
-    margin-left: 10px;
     display: flex;
     border: none;
     align-items: center;
@@ -61,11 +60,11 @@
     width: 40px;
     height: 40px;
     border-radius: 100%;
-    opacity: .4;
+    z-index: 1;
 }
 
 .arrow-button:hover {
-    filter: var(--apple-dim-shadow);
+    filter: var(--apple-shadow);
 }
 
 .content-main__sales{

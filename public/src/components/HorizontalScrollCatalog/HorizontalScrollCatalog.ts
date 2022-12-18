@@ -196,7 +196,7 @@ export default class HorizontalScrollCatalog extends BaseComponent {
         const scrollFunc = (isLeftScroll ?
             (i: number) => this.scrollItemsElement.scrollLeft -= 8 :
             (i: number) => this.scrollItemsElement.scrollLeft += 8);
-        for (const i of Array.from(Array(10).keys())) {
+        for (const i of Array.from(Array(64).keys())) {
             scrollFunc(i);
             await new Promise((r) => setTimeout(r, 1));
         }

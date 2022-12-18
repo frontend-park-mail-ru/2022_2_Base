@@ -87,11 +87,11 @@ class ItemsStore extends BaseStore {
     override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_SALES:
-            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${6}`);
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_SALES]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
-            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${6}`);
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED:
