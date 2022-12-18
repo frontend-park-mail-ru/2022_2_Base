@@ -6,6 +6,35 @@
     grid-template-columns: max-content;
 }
 
+.page-error__404__img-block {
+    display: flex;
+    justify-content: center;
+}
+
+.page-error__404__img-block__img {
+    width: 28vw;
+    height: 26vw;
+}
+
 .server-error__404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--jet-black);
     height: 64px;
 }
+
+@media (767px < width < 1300px) {
+    .page-error__404__img-block__img {
+        width: 32vw;
+        height: 30vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-error__404__img-block__img {
+        width: 64vw;
+        height: 60vw;
+    }
+}
+

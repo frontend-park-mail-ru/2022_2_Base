@@ -34,7 +34,7 @@ export default class PopUpAddPaymentCard extends BasePopUp {
         };
         const validateMessage = validation.validateCard(cardData);
         validateMessage ?
-            errorMessage.getAbsoluteErrorMessage(validateMessage) :
+            errorMessage.getAbsoluteMessage(validateMessage) :
             profileAction.saveAddCard(cardData);
     }
 }

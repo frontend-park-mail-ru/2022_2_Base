@@ -71,13 +71,18 @@ class ErrorMessage {
     /**
      * Метод, показывающий ошибку
      * @param errorText - текст ошибки
+     * @param isError - является ли данное сообщение ошибкой
      */
-    getAbsoluteErrorMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
+    getAbsoluteMessage(errorText= 'Возникла ошибка. Попробуйте позже', isError = true) {
         this.errorElement = document.getElementById('header_error-message');
+        let serverMessageClass = '';
+        if (!isError) {
+            serverMessageClass = 'server-message';
+        }
         if (!this.errorElement) {
             config.HTMLskeleton.main.insertAdjacentHTML(
                 'afterbegin',
-                `<div class="server-error header__error-message" style="display: flex;"
+                `<div class="server-error header__error-message ${serverMessageClass}" style="display: flex;"
                         id="header_error-message">
                     <span class="server-error__text" id="server-error__text_">
                         ${errorText}

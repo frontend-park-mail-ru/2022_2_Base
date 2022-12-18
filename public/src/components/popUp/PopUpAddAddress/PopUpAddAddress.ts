@@ -35,7 +35,7 @@ export default class PopUpAddPaymentCard extends BasePopUp {
 
         const validateMessage = validation.validateAddress(inputData);
         if (validateMessage) {
-            errorMessage.getAbsoluteErrorMessage(validateMessage);
+            errorMessage.getAbsoluteMessage(validateMessage);
         } else if (this.context.add) {
             profileAction.saveAddAddress(inputData);
         } else {

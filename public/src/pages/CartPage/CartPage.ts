@@ -180,7 +180,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
+            errorMessage.getAbsoluteMessage('Ошибка при получении данных пользователя');
             break;
         }
     }
@@ -539,10 +539,10 @@ export default class CartOrderPage extends BasePage {
                     }
                 }
             } else {
-                errorMessage.getAbsoluteErrorMessage('Выберите адрес');
+                errorMessage.getAbsoluteMessage('Выберите адрес');
             }
         } else {
-            errorMessage.getAbsoluteErrorMessage('Корзина пуста');
+            errorMessage.getAbsoluteMessage('Корзина пуста');
         }
     }
 

@@ -57,6 +57,13 @@
   border-radius: 4px;
 }
 
+.server-message {
+  color: var(--jet-black);
+  background-color: var(--background-white);
+  filter: drop-shadow(0 0 16px var(--shadow-default));
+  border: 2px solid var(--default-purple)
+}
+
 .server-error__text {
   font-family: var(--font-main);
   font-weight: 500;

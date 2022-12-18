@@ -65,7 +65,7 @@ export default class RegisterPage extends BasePage {
             'emailError', config.errorMessages.error401auth);
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteMessage();
             break;
         }
     }
@@ -143,7 +143,7 @@ export default class RegisterPage extends BasePage {
             this.onSubmitHandlerRemove = this.onSubmitHandler.bind(this, config, form);
             form.addEventListener('submit', this.onSubmitHandlerRemove);
         } else {
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteMessage();
         }
     }
 }

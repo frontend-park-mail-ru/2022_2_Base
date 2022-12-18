@@ -47,10 +47,10 @@ export default class AddCommentPage extends BaseItemPage {
             router.openPage(config.href.comment + '/' + location.pathname.split('/').pop());
             break;
         case config.responseCodes.code401:
-            errorMessage.getAbsoluteErrorMessage('Вы не авторизированны');
+            errorMessage.getAbsoluteMessage('Вы не авторизированны');
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage('Ошибка при создании отзыва');
+            errorMessage.getAbsoluteMessage('Ошибка при создании отзыва');
             break;
         }
     }
@@ -87,7 +87,7 @@ export default class AddCommentPage extends BaseItemPage {
                 }
                 itemCardsAction.addComment(commentData);
             } else {
-                errorMessage.getAbsoluteErrorMessage('Укажите рейтинг товара');
+                errorMessage.getAbsoluteMessage('Укажите рейтинг товара');
             }
         }
     }

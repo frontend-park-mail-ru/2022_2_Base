@@ -40,7 +40,7 @@ class Router {
         document.addEventListener('DOMContentLoaded', userActions.fetchUser, {once: true});
 
         window.addEventListener('offline',
-            () => errorMessage.getAbsoluteErrorMessage('Отсутствует подключение к интернету'));
+            () => errorMessage.getAbsoluteMessage('Отсутствует подключение к интернету'));
 
         userStore.addListener(() => {
             if (userStore.getContext(userStore._storeNames.responseCode) ===

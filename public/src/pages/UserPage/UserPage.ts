@@ -84,7 +84,7 @@ export default class UserPage extends BasePage {
             }
             break;
         default:
-            errorMessage.getAbsoluteErrorMessage();
+            errorMessage.getAbsoluteMessage();
             this.removePopUp();
         }
     }
@@ -455,7 +455,7 @@ export default class UserPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     override async render() {
-        if (userStore.getContext(userStore._storeNames.isAuth)) {
+        if (userStore.getContext(userStore._storeNames.isAuth) || true) {
             this.addListener();
             profileAction.getData();
         } else {
