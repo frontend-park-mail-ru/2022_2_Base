@@ -73,23 +73,6 @@
     gap: 8px;
 }
 
-%content__sales {
-    margin-top: 8px;
-    display: flex;
-    //grid-template-columns: 60px repeat(6, 1fr) 60px;
-    grid-column-gap: 8px;
-    overflow-x: scroll;
-    //grid-auto-flow: column;
-}
-
-.content__sales {
-    @extend %content__sales;
-}
-
-.content__popular {
-    @extend %content__sales;
-}
-
 .content__popular-title {
     margin-left: 20px;
 }
@@ -104,22 +87,6 @@
         grid-template-columns: repeat(7, auto);
         grid-gap: 8px;
         height: 72px;
-    }
-
-    .content__sales {
-        overflow-y: auto;
-        grid-template-columns: repeat(6, 1fr);
-        margin-left: 16px;
-        margin-right: 16px;
-        grid-column-gap: 4vw;
-    }
-
-    .content__popular {
-        overflow-y: auto;
-        grid-template-columns: repeat(6, 1fr);
-        margin-left: 16px;
-        margin-right: 16px;
-        grid-column-gap: 4vw;
     }
 
     .left-arrow {

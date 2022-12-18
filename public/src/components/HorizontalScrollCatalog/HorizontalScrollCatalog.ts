@@ -1,3 +1,4 @@
+import HorizontalScrollCatalogTemplate from './HorizontalScrollCatalog.hbs';
 import BaseComponent from '../BaseComponent';
 import itemsStore from '../../stores/ItemsStore';
 import ItemCard from '../ItemCard/ItemCard';
@@ -5,6 +6,8 @@ import errorMessage from '../../modules/ErrorMessage';
 import cartStore from '../../stores/CartStore';
 import {parseIntInPrice} from '../../modules/sharedFunctions';
 import {cartAction, CartActionTypes} from '../../actions/cart';
+import './HorizontalScrollCatalog.scss';
+import {config} from '../../config';
 
 /**
  * Класс для реализации компонента ItemCard
@@ -58,16 +61,17 @@ export default class HorizontalScrollCatalog extends BaseComponent {
      */
     loadCards() {
         const response = itemsStore.getContext(this.storeNameForCards);
-        if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
-            if (this.parent) {
-                response.forEach((card: any, num: number) => {
-                    const cardElement = document.createElement('div');
-                    cardElement.classList.add('item-card');
-                    this.parent.appendChild(cardElement);
-                    const itemCard = new ItemCard(cardElement);
-                    itemCard.render(card);
-                });
-            }
+        const rootElement =
+            document.getElementById(`content__horizontal-scroll_${this.parent.id}`);
+        if (itemsStore.getContext(itemsStore._storeNames.responseCode) ===
+            config.responseCodes.code200 && rootElement) {
+            response.forEach((card: any, num: number) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('item-card');
+                rootElement.appendChild(cardElement);
+                const itemCard = new ItemCard(cardElement);
+                itemCard.render(card);
+            });
         } else if (!document.getElementById('ServerLoadError')) {
             const errorElement = document.getElementById(this.errorMessageElementID);
             if (errorElement) {
@@ -201,9 +205,9 @@ export default class HorizontalScrollCatalog extends BaseComponent {
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
      */
     override render() {
+        super.render({id: this.parent.id},
+            HorizontalScrollCatalogTemplate);
         this.addListener();
         this.startEventListener();
-
-        // super.render(context, itemTemplate);
     }
 }
