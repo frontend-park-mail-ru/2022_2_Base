@@ -194,10 +194,10 @@ export default class HorizontalScrollCatalog extends BaseComponent {
      */
     async listenScrollButtonClick(isLeftScroll = false) {
         const scrollFunc = (isLeftScroll ?
-            () => this.scrollItemsElement.scrollLeft -= 8 :
-            () => this.scrollItemsElement.scrollLeft += 8);
-        for (const _ of Array.from(Array(64).keys())) {
-            scrollFunc();
+            (i: number) => this.scrollItemsElement.scrollLeft -= 8 :
+            (i: number) => this.scrollItemsElement.scrollLeft += 8);
+        for (const i of Array.from(Array(10).keys())) {
+            scrollFunc(i);
             await new Promise((r) => setTimeout(r, 1));
         }
     }
