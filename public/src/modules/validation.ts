@@ -148,7 +148,7 @@ class Validation {
         if (searchString.length < 3 && !isSuggest) {
             return 'Введите не меньше 3 символов';
         }
-        if (!this.validateString(searchString)) {
+        if (this.validateString(searchString)) {
             return 'Введены недопустимые символы';
         }
         return '';
@@ -157,7 +157,7 @@ class Validation {
     /**
      * Функция, реализующая валидацию входной строки.
      * @param inputString - входная строка
-     * @returns validateRes - результат валидации, true -> найдены недопустимые символы
+     * @returns validateRes - результат валидации, true, то найдены недопустимые символы
      */
     validateString(inputString: string) {
         return (!stringRegex.test(inputString));

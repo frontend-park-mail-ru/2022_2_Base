@@ -83,12 +83,12 @@ class CartStore extends BaseStore {
             break;
 
         case CartActionTypes.APPLY_PROMOCODE:
-            await this._applyPromocode(payload.data);
+            await this._applyPromo(payload.data);
             this._emitChange([CartActionTypes.APPLY_PROMOCODE]);
             break;
 
         case CartActionTypes.CANCEL_PROMOCODE:
-            await this._cancelPromocode();
+            await this._applyPromo();
             this._emitChange([CartActionTypes.CANCEL_PROMOCODE]);
             break;
         }
@@ -271,28 +271,14 @@ class CartStore extends BaseStore {
      * Действие: применить промокод.
      * @param data - строка с промокодом
      */
-    async _applyPromocode(data: string) {
+    async _applyPromo(data = '') {
         const [status, response] = await request
-            .makePostRequest(config.api.applyPromocode, {promocode: data})
+            .makePostRequest(config.api.setPromo, {promocode: data})
             .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200 && response.body.promocodeStatus) {
-            // promocodeStatus = true, когда промокод валидный
             this._storage.set(this._storeNames.promocode, data);
-        }
-    }
-
-    /**
-     * Действие: отменить промокод.
-     */
-    async _cancelPromocode() {
-        const [status] = await request.makePostRequest(config.api.cancelPromocode, {})
-            .catch((err) => console.log(err)) ?? [];
-
-        this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200) {
-            this._storage.set(this._storeNames.promocode, null);
         }
     }
 }

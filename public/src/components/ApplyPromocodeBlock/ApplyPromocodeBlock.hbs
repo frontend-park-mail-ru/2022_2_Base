@@ -2,7 +2,7 @@
     <span class="text-normal-large"> Промокод </span>
     <div class="apply-promocode-block__input-submit-block">
         <div class="apply-promocode-block__input-submit-block__input-block">
-            <input id="cart-promocode-field" class="apply-promocode-block__input-submit-block__input-field
+            <label for="cart-promocode-field"></label><input id="cart-promocode-field" class="apply-promocode-block__input-submit-block__input-field
             {{#unless this.isAuth}} disabled {{/unless}}
             {{#if this.promocode}} apply-promocode-block__input-submit-block__input-field-disabled {{/if}} "
                 {{#if this.promocode}} placeholder="{{this.promocode}}"
