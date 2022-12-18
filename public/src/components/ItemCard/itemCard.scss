@@ -59,7 +59,7 @@
     display: grid;
     height: 88px;
     margin-top: 8px;
-    gap: 8px;
+    gap: 4px;
     align-items: baseline;
     grid-auto-rows: min-content;
     overflow: hidden;
@@ -68,6 +68,8 @@
 .item-card__price {
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
+    flex-wrap: wrap;
 }
 
 .item-card__title {
@@ -107,7 +109,6 @@
     text-decoration: none;
     align-content: space-between;
     align-items: center;
-    width: 200px;
 }
 
 .item-card:hover {

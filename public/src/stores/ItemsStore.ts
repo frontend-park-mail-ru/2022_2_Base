@@ -175,24 +175,6 @@ class ItemsStore extends BaseStore {
             this.#syncCardsInCategory(response.body);
         }
     }
-    //
-    // /**
-    //  * Действие: запрос списка карточек.
-    //  */
-    // async _getSalesItemCards() {
-    //     const [status, response] = await request
-    //         .makeGetRequest(config.api.products + `?lastitemid=${0}&count=${6}`)
-    //         // .makeGetRequest(`${config.api.recommendations}/1`)
-    //         .catch((err) => console.log(err)) ?? [];
-    //     this._storage.set(this._storeNames.responseCode, status);
-    //
-    //     if (status === config.responseCodes.code200) {
-    //         this.#syncWithCart(response.body);
-    //         addSpacesToPrice(response.body);
-    //         this._storage.set(this._storeNames.cardsHome, response.body);
-    //         this.#syncCardsInCategory(response.body);
-    //     }
-    // }
 
     /**
      * Действие: запрос списка дешевых карточек.
