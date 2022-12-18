@@ -164,63 +164,63 @@ class Validation {
         let isValid= true;
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
-                case context.fields.name.name:
-                    isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
-                        context.fields.name, 'login__form__error');
-                    break;
-                case context.fields.email.name:
-                    isValid = isValid && errorMessage.validateField(this.validateEMail(value),
-                        context.fields.email, 'login__form__error');
-                    break;
-                case context.fields.password.name:
-                    isValid = isValid && errorMessage.validateField(this.validatePassword(value),
-                        context.fields.password, 'login__form__error');
-                    break;
-                case context.fields.repeatPassword.name:
-                    isValid = isValid && errorMessage.validateField(this
-                            .validateRepeatPassword(data.password === data.repeatPassword),
-                        context.fields.repeatPassword, 'login__form__error');
-                    break;
-                case context.fields.name.popUpName:
-                    isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
-                        {
-                            name: context.fields.name.popUpName,
-                            errorID: context.fields.name.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case context.fields.email.popUpName:
-                    isValid = isValid && errorMessage.validateField(this.validateEMail(value),
-                        {
-                            name: context.fields.email.popUpName,
-                            errorID: context.fields.email.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case context.fields.phone.popUpName:
-                    isValid = isValid && errorMessage.validateField(this.validatePhone(value),
-                        {
-                            name: context.fields.phone.popUpName,
-                            errorID: context.fields.phone.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case context.fields.password.popUpName:
-                    isValid = isValid && errorMessage.validateField(this.validatePassword(value),
-                        {
-                            name: context.fields.password.popUpName,
-                            errorID: context.fields.password.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case context.fields.repeatPassword.popUpName:
-                    isValid = isValid && errorMessage.validateField(
-                        this.validateRepeatPassword(data.password === data.repeatPassword),
-                        {
-                            name: context.fields.repeatPassword.popUpName,
-                            errorID: context.fields.repeatPassword.errorID,
-                        }, 'userpage__popUp__error');
-                    break;
-                case context.fields?.phone?.name:
-                    isValid = isValid && errorMessage.validateField(this.validatePhone(value),
-                        context.fields.name);
-                    break;
+            case context.fields.name.name:
+                isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
+                    context.fields.name, 'login__form__error');
+                break;
+            case context.fields.email.name:
+                isValid = isValid && errorMessage.validateField(this.validateEMail(value),
+                    context.fields.email, 'login__form__error');
+                break;
+            case context.fields.password.name:
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
+                    context.fields.password, 'login__form__error');
+                break;
+            case context.fields.repeatPassword.name:
+                isValid = isValid && errorMessage.validateField(this
+                    .validateRepeatPassword(data.password === data.repeatPassword),
+                context.fields.repeatPassword, 'login__form__error');
+                break;
+            case context.fields.name.popUpName:
+                isValid = isValid && errorMessage.validateField(this.checkEmptyField(value),
+                    {
+                        name: context.fields.name.popUpName,
+                        errorID: context.fields.name.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case context.fields.email.popUpName:
+                isValid = isValid && errorMessage.validateField(this.validateEMail(value),
+                    {
+                        name: context.fields.email.popUpName,
+                        errorID: context.fields.email.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case context.fields.phone.popUpName:
+                isValid = isValid && errorMessage.validateField(this.validatePhone(value),
+                    {
+                        name: context.fields.phone.popUpName,
+                        errorID: context.fields.phone.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case context.fields.password.popUpName:
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
+                    {
+                        name: context.fields.password.popUpName,
+                        errorID: context.fields.password.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case context.fields.repeatPassword.popUpName:
+                isValid = isValid && errorMessage.validateField(
+                    this.validateRepeatPassword(data.password === data.repeatPassword),
+                    {
+                        name: context.fields.repeatPassword.popUpName,
+                        errorID: context.fields.repeatPassword.errorID,
+                    }, 'userpage__popUp__error');
+                break;
+            case context.fields?.phone?.name:
+                isValid = isValid && errorMessage.validateField(this.validatePhone(value),
+                    context.fields.name);
+                break;
             }
         });
         return isValid;

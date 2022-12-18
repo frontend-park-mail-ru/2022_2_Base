@@ -82,7 +82,8 @@ class ErrorMessage {
         if (!this.errorElement) {
             config.HTMLskeleton.main.insertAdjacentHTML(
                 'afterbegin',
-                `<div class="server-error header__error-message ${serverMessageClass}" style="display: flex;"
+                `<div class="server-error header__error-message ${serverMessageClass}" 
+                            style="display: flex;"
                         id="header_error-message">
                     <span class="server-error__text" id="server-error__text_">
                         ${errorText}

@@ -455,7 +455,7 @@ export default class UserPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     override async render() {
-        if (userStore.getContext(userStore._storeNames.isAuth) || true) {
+        if (userStore.getContext(userStore._storeNames.isAuth)) {
             this.addListener();
             profileAction.getData();
         } else {

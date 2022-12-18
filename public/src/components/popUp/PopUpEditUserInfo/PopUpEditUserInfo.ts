@@ -61,24 +61,24 @@ export default class PopUpEditUserInfo extends BasePopUp {
         };
 
         switch (context.id) {
-            case 'name':
-                data.title = 'имя';
-                break;
-            case 'email':
-                data.title = 'почту';
-                break;
-            case 'phone':
-                data.title = 'телефон';
-                break;
-            case 'password':
-                field1.name = 'Новый пароль';
-                field1.value = context.value;
-                data.fields.push({
-                    name: 'Повторить пароль',
-                    id: context.id + '__2__popUp',
-                    type: context.id,
-                    value: '',
-                });
+        case 'name':
+            data.title = 'имя';
+            break;
+        case 'email':
+            data.title = 'почту';
+            break;
+        case 'phone':
+            data.title = 'телефон';
+            break;
+        case 'password':
+            field1.name = 'Новый пароль';
+            field1.value = context.value;
+            data.fields.push({
+                name: 'Повторить пароль',
+                id: context.id + '__2__popUp',
+                type: context.id,
+                value: '',
+            });
         }
         return data;
     }
