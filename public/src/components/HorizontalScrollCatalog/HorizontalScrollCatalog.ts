@@ -8,6 +8,7 @@ import {parseIntInPrice} from '../../modules/sharedFunctions';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import './HorizontalScrollCatalog.scss';
 import {config} from '../../config';
+import {addEventListenerFunction} from '../../../../types/aliases';
 
 /**
  * Класс для реализации компонента ItemCard
@@ -19,6 +20,13 @@ export default class HorizontalScrollCatalog extends BaseComponent {
     ActionNameLoadCards: string;
     isFirstElement: boolean;
     parent: HTMLElement;
+
+    bindListenLeftScrollButtonClick: addEventListenerFunction;
+    bindListenRightScrollButtonClick: addEventListenerFunction;
+    leftScrollButton: HTMLElement | null;
+    rightScrollButton: HTMLElement | null;
+
+    scrollItemsElement: HTMLElement;
 
     /**
      * Конструктор, создающий класс компонента ItemCard
@@ -32,6 +40,12 @@ export default class HorizontalScrollCatalog extends BaseComponent {
         [this.storeNameForCards, this.errorMessageElementID,
             this.catalogContent, this.ActionNameLoadCards, this.isFirstElement = false] =
             childClassData;
+
+        this.bindListenLeftScrollButtonClick = config.noop;
+        this.bindListenRightScrollButtonClick = config.noop;
+        this.leftScrollButton = null;
+        this.rightScrollButton = null;
+        this.scrollItemsElement = config.empyNode;
     }
 
     /**
@@ -61,14 +75,12 @@ export default class HorizontalScrollCatalog extends BaseComponent {
      */
     loadCards() {
         const response = itemsStore.getContext(this.storeNameForCards);
-        const rootElement =
-            document.getElementById(`content__horizontal-scroll_${this.parent.id}`);
         if (itemsStore.getContext(itemsStore._storeNames.responseCode) ===
-            config.responseCodes.code200 && rootElement) {
+            config.responseCodes.code200) {
             response.forEach((card: any, num: number) => {
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('item-card');
-                rootElement.appendChild(cardElement);
+                this.scrollItemsElement.appendChild(cardElement);
                 const itemCard = new ItemCard(cardElement);
                 itemCard.render(card);
             });
@@ -178,9 +190,18 @@ export default class HorizontalScrollCatalog extends BaseComponent {
 
     /**
      * Функция, делающая скролл элементов в "карусели" влево или вправо.
+     * @param isLeftScroll - должна ли кнопка скроллить влево
      */
-    listenScrollButtonClick() {
+    async listenScrollButtonClick(isLeftScroll = false) {
+        const scrollFunc = (isLeftScroll ?
+            () => this.scrollItemsElement.scrollLeft -= 128 :
+            () => this.scrollItemsElement.scrollLeft += 128);
 
+        scrollFunc();
+        // setTimeout(scrollFunc, 128);
+        // Array.from(Array(128).keys()).forEach((value) => {
+        //
+        // });
     }
 
     /**
@@ -189,6 +210,18 @@ export default class HorizontalScrollCatalog extends BaseComponent {
     startEventListener() {
         if (this.catalogContent && this.isFirstElement) {
             this.catalogContent.addEventListener('click', this.itemEventListenerClickHandler);
+        }
+
+        this.leftScrollButton = document.getElementById('left-scroll__'+ this.parent.id);
+        if (this.leftScrollButton) {
+            this.bindListenLeftScrollButtonClick = this.listenScrollButtonClick.bind(this, true);
+            this.leftScrollButton.addEventListener('click', this.bindListenLeftScrollButtonClick);
+        }
+
+        this.rightScrollButton = document.getElementById('right-scroll__'+ this.parent.id);
+        if (this.rightScrollButton) {
+            this.bindListenRightScrollButtonClick = this.listenScrollButtonClick.bind(this, false);
+            this.rightScrollButton.addEventListener('click', this.bindListenRightScrollButtonClick);
         }
     }
 
@@ -199,6 +232,14 @@ export default class HorizontalScrollCatalog extends BaseComponent {
         if (this.catalogContent && this.isFirstElement) {
             this.catalogContent.removeEventListener('click', this.itemEventListenerClickHandler);
         }
+
+        if (this.rightScrollButton) {
+            this.rightScrollButton.removeEventListener('click', this.bindListenRightScrollButtonClick);
+        }
+
+        if (this.leftScrollButton) {
+            this.leftScrollButton.removeEventListener('click', this.bindListenLeftScrollButtonClick);
+        }
     }
 
     /**
@@ -207,6 +248,11 @@ export default class HorizontalScrollCatalog extends BaseComponent {
     override render() {
         super.render({id: this.parent.id},
             HorizontalScrollCatalogTemplate);
+
+        this.scrollItemsElement = document.
+            getElementById(`content__horizontal-scroll_${this.parent.id}`) ??
+            config.empyNode;
+
         this.addListener();
         this.startEventListener();
     }
