@@ -272,12 +272,12 @@ class CartStore extends BaseStore {
      * @param data - строка с промокодом
      */
     async _applyPromo(data = '') {
-        const [status, response] = await request
+        const [status] = await request
             .makePostRequest(config.api.setPromo, {promocode: data})
             .catch((err) => console.log(err)) ?? [];
 
         this._storage.set(this._storeNames.responseCode, status);
-        if (status === config.responseCodes.code200 && response.body.promocodeStatus) {
+        if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.promocode, data);
         }
     }

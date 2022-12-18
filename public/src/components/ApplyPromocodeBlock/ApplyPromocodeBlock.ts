@@ -34,19 +34,31 @@ export default class ApplyPromocodeBlock extends BaseComponent {
      * Функция, реагирующая на применение промокода
      */
     onApplyPromocode() {
-        const promocode = cartStore.getContext(cartStore._storeNames.promocode);
-        const promocodeStatusText = document.getElementById('cart-promocode-status');
-        if (promocodeStatusText && (cartStore.getContext(cartStore._storeNames.responseCode) ===
-            config.responseCodes.code200)) {
-            if (promocode) {
-                router.refresh();
-                this.showPromocodeTryResult(true, 'Промокод применён');
-            } else {
-                this.showPromocodeTryResult(false, 'Промокод недействителен');
-            }
-        } else {
+        // const promocode = cartStore.getContext(cartStore._storeNames.promocode);
+        // const promocodeStatusText = document.getElementById('cart-promocode-status');
+        switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            router.refresh();
+            this.showPromocodeTryResult(true, 'Промокод применён');
+            break;
+        case config.responseCodes.code403:
+            this.showPromocodeTryResult(false, 'Промокод недействителен');
+            break;
+        case config.responseCodes.code409:
+            this.showPromocodeTryResult(false, 'Промокод уже был применен');
+            break;
+        default:
             this.showPromocodeTryResult(false, 'Повторите попытку позже');
         }
+        //     if (promocode) {
+        //         router.refresh();
+        //         this.showPromocodeTryResult(true, 'Промокод применён');
+        //     } else {
+        //         this.showPromocodeTryResult(false, 'Промокод недействителен');
+        //     }
+        // } else {
+        //     this.showPromocodeTryResult(false, 'Повторите попытку позже');
+        // }
     }
 
 

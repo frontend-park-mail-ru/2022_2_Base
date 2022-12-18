@@ -66,6 +66,8 @@ export const config = {
         code201: 201,
         code400: 400,
         code401: 401,
+        code403: 403,
+        code409: 409,
     },
     noop: () => {},
     empyNode: document.createElement('div'),
