@@ -32,151 +32,9 @@ export default class MainPage extends BasePage {
      * Функция, регистрирующая листенеры сторов
      */
     override addListener() {
-        // itemsStore.addListener(this.loadCards,
-        //     ItemCardsActionTypes.ITEM_CARDS_GET_HOME);
-        //
-        // itemsStore.addListener(this.loadCards,
-        //     ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
-        // );
-
-        // cartStore.addListener(this.buttonCreate,
-        //     CartActionTypes.ADD_TO_CART);
-        //
-        // cartStore.addListener(this.buttonAdd,
-        //     CartActionTypes.INCREASE_NUMBER,
-        // );
-        //
-        // cartStore.addListener(this.buttonMinus,
-        //     CartActionTypes.DECREASE_NUMBER,
-        // );
-
         cartStore.addListener(this.getCart.bind(this),
             CartActionTypes.GET_CART);
     }
-
-    // /**
-    //  * Метод, загружающий карты.
-    //  */
-    // async loadCards() {
-    //     const response = itemsStore.getContext(itemsStore._storeNames.cardsHome);
-    //     if (itemsStore.getContext(itemsStore._storeNames.responseCode) === 200) {
-    //         const rootElement = document.getElementById(response.classToGet + '__right-arrow');
-    //         if (rootElement) {
-    //             response.body.forEach((card: any, num: any) => {
-    //                 const cardElement = document.createElement('div');
-    //                 cardElement.id = `${response.classToGet}${String(num)}`;
-    //                 cardElement.classList.add('item-card');
-    //
-    //                 rootElement.before(cardElement);
-    //                 const itemCard = new ItemCard(cardElement);
-    //                 itemCard.render(card);
-    //             });
-    //         }
-    //     } else if (!document.getElementById('ServerLoadError')) {
-    //         const errorElement = document.getElementById('catalog');
-    //         if (errorElement) {
-    //             errorMessage.getServerMessage(errorElement, 'ServerLoadError',
-    //                 'Возникла ошибка при загрузке товаров. Попробуйте позже', true);
-    //         }
-    //     }
-    // }
-    //
-    // /**
-    //  * Функция, обрабатывающая клики на данной странице
-    //  * @param event - контекст события для обработки
-    //  */
-    // localEventListenersHandler(event: Event) {
-    //     event.preventDefault();
-    //     if (event.target instanceof HTMLElement) {
-    //         const dataSelection = event.target.getAttribute('data-selection');
-    //         if (dataSelection) {
-    //             const [elementId, itemId] = dataSelection.split('/');
-    //             switch (elementId) {
-    //             case 'itemcard_button-add-to-cart':
-    //                 cartAction.addToCart(Number(itemId));
-    //                 break;
-    //             case 'itemcard_button-minus_cart':
-    //                 cartAction.decreaseNumber(Number(itemId));
-    //                 break;
-    //             case 'itemcard_button-plus_cart':
-    //                 cartAction.increaseNumber(Number(itemId));
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // /**
-    //  * Функция, увеличение количество
-    //  */
-    // buttonCreate() {
-    //     const countSelector = document.querySelectorAll(
-    //         '[data-selection=\'itemcard_amount-selector/' +
-    //         cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //     const addToCartButton = document.querySelectorAll(
-    //         '[data-selection=\'itemcard_button-add-to-cart/' +
-    //         cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //     if (!!addToCartButton && !!countSelector) {
-    //         countSelector.forEach((selector) =>
-    //             (selector as HTMLElement).style.display = 'grid');
-    //         addToCartButton.forEach((button) =>
-    //             (button as HTMLElement).style.display = 'none');
-    //
-    //         const itemCount = document.querySelectorAll(
-    //             '[data-selection=\'itemcard_item-count/' +
-    //             cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //         if (itemCount) {
-    //             itemCount.forEach((item) => item.textContent = '1');
-    //         }
-    //     } else {
-    //         console.warn('Элементы не найдены');
-    //     }
-    // }
-    //
-    // /**
-    //  * Функция для увеличения количества товара в корзине
-    //  */
-    // buttonAdd() {
-    //     const itemCount = document.querySelectorAll(
-    //         '[data-selection=\'itemcard_item-count/' +
-    //         cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //     if (itemCount.length) {
-    //         const count = parseIntInPrice(itemCount[0].textContent ?? '');
-    //         itemCount.forEach((item) => item.textContent = (count + 1).toString());
-    //     }
-    // }
-    //
-    // /**
-    //  * Функция для уменьшения количества товара в корзине
-    //  */
-    // buttonMinus() {
-    //     const itemCount = document.querySelectorAll(
-    //         '[data-selection=\'itemcard_item-count/' +
-    //         cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //     if (itemCount.length) {
-    //         const count = parseIntInPrice(itemCount[0].textContent ?? '');
-    //
-    //         if (count === 1) {
-    //             const countSelector = document.querySelectorAll(
-    //                 '[data-selection=\'itemcard_amount-selector/' +
-    //                 cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //             const addToCartButton = document.querySelectorAll(
-    //                 '[data-selection=\'itemcard_button-add-to-cart/' +
-    //                 cartStore.getContext(cartStore._storeNames.currID) + '\']');
-    //             if (!!addToCartButton && !!countSelector) {
-    //                 countSelector.forEach((selector) =>
-    //                     (selector as HTMLElement).style.display = 'none');
-    //                 addToCartButton.forEach((button) =>
-    //                     (button as HTMLElement).style.display = 'flex');
-    //             } else {
-    //                 console.warn(
-    //                     'Элементы не найдены: addToCartButton, addToCartButton');
-    //             }
-    //         } else {
-    //             itemCount.forEach((item) => item.textContent = (count - 1).toString());
-    //         }
-    //     }
-    // }
 
     /**
      * Функция, реагирующая на получение товаров из корзины
@@ -185,9 +43,7 @@ export default class MainPage extends BasePage {
         switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401: {
-            // const saleItemsRootElement = document.getElementById('salesCard__right-arrow');
             const saleItemsRootElement = document.getElementById('content__sales');
-            // const popularItemsRootElement = document.getElementById('popularCard__right-arrow');
             const popularItemsRootElement = document.getElementById('content__popular');
             const catalogContent = document.getElementById('content_main');
             if (saleItemsRootElement && popularItemsRootElement &&
@@ -241,25 +97,6 @@ export default class MainPage extends BasePage {
             errorMessage.getAbsoluteErrorMessage('Ошибка таймера скидки');
         }
     }
-
-    // /**
-    //  * Метод, добавляющий слушатели.
-    //  */
-    // override startEventListener() {
-    //     this.catalogContent = document.getElementById('content_main');
-    //     if (this.catalogContent) {
-    //         this.catalogContent.addEventListener('click', this.localEventListenersHandler);
-    //     }
-    // }
-
-    // /**
-    //  * Метод, удаляющий слушатели.
-    //  */
-    // override removeEventListener() {
-    //     if (this.catalogContent) {
-    //         this.catalogContent.removeEventListener('click', this.localEventListenersHandler);
-    //     }
-    // }
 
     /**
      * Метод, отрисовывающий страницу.

@@ -32,10 +32,10 @@ export default class ProductPage extends BaseItemPage {
         data.delveryDate = getDate(1)[0];
 
         const recommendedItemsRootElement = document.getElementById('item-card__recommendation');
-        // const elementToAppendError = document.getElementById('content_main');
         if (recommendedItemsRootElement) {
             const recommendedItems = new HorizontalScrollCatalog(recommendedItemsRootElement,
-                [itemsStore._storeNames.cardsHome, 'catalog', recommendedItemsRootElement,
+                [itemsStore._storeNames.cardsHome, recommendedItemsRootElement,
+                    recommendedItemsRootElement,
                     ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED, true]);
             recommendedItems.render();
             itemCardsAction.getRecommendedItemCards(data.id);

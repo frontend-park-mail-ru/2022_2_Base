@@ -13,6 +13,9 @@ export const CartActionTypes = {
     ADD_TO_CART: 'ADD_TO_CART',
     INCREASE_NUMBER: 'INCREASE_NUMBER',
     DECREASE_NUMBER: 'DECREASE_NUMBER',
+    SINGLE_ADD_TO_CART: 'SINGLE_ADD_TO_CART',
+    SINGLE_INCREASE_NUMBER: 'SINGLE_INCREASE_NUMBER',
+    SINGLE_DECREASE_NUMBER: 'SINGLE_DECREASE_NUMBER',
     RESET_CART: 'RESET_CART',
     MERGE_CART: 'MERGE_CART',
 };
@@ -79,6 +82,39 @@ export const cartAction = {
     addToCart(id: number) {
         Dispatcher.dispatch({
             actionName: CartActionTypes.ADD_TO_CART,
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: увеличить количество товара.
+     * @param id - идентификатор
+     */
+    singleIncreaseNumber(id: number) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.SINGLE_INCREASE_NUMBER,
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: уменьшить количество товара.
+     * @param id - идентификатор
+     */
+    singleDecreaseNumber(id: number) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.SINGLE_DECREASE_NUMBER,
+            data: id,
+        });
+    },
+
+    /**
+     * Действие: увеличить количество товара.
+     * @param id - идентификатор
+     */
+    singleAddToCart(id: number) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.SINGLE_ADD_TO_CART,
             data: id,
         });
     },
