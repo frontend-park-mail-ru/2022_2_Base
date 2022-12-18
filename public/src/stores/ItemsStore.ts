@@ -86,9 +86,13 @@ class ItemsStore extends BaseStore {
      */
     override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
-        case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
-            await this._getItemCardsHome(payload.data);
-            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_HOME]);
+        case ItemCardsActionTypes.ITEM_CARDS_GET_SALES:
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${6}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_SALES]);
+            break;
+        case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${6}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
             await this._getItemCardsByCategory(payload.data);
@@ -150,23 +154,41 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек.
+     * @param path - запрос для получения данных о товарах
      */
-    async _getItemCardsHome({path, popularCard}: {path: string, popularCard: productObj}) {
+    async _getHorizontalItemCards(path: string) {
         const [status, response] = await request
-            .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
+            // .makeGetRequest(config.api.products + `?lastitemid=${0}&count=${6}`)
+            // .makeGetRequest(`${config.api.recommendations}/1`)
+            .makeGetRequest(path)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
             addSpacesToPrice(response.body);
-            this._storage.set(this._storeNames.cardsHome, {
-                classToGet: popularCard ? 'popularCard' : 'salesCard',
-                body: response.body,
-            });
+            this._storage.set(this._storeNames.cardsHome, response.body);
             this.#syncCardsInCategory(response.body);
         }
     }
+    //
+    // /**
+    //  * Действие: запрос списка карточек.
+    //  */
+    // async _getSalesItemCards() {
+    //     const [status, response] = await request
+    //         .makeGetRequest(config.api.products + `?lastitemid=${0}&count=${6}`)
+    //         // .makeGetRequest(`${config.api.recommendations}/1`)
+    //         .catch((err) => console.log(err)) ?? [];
+    //     this._storage.set(this._storeNames.responseCode, status);
+    //
+    //     if (status === config.responseCodes.code200) {
+    //         this.#syncWithCart(response.body);
+    //         addSpacesToPrice(response.body);
+    //         this._storage.set(this._storeNames.cardsHome, response.body);
+    //         this.#syncCardsInCategory(response.body);
+    //     }
+    // }
 
     /**
      * Действие: запрос списка дешевых карточек.

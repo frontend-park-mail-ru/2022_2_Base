@@ -68,11 +68,18 @@
     filter: var(--apple-dim-shadow);
 }
 
+.content-main__sales{
+    display: flex;
+    gap: 8px;
+}
+
 %content__sales {
     margin-top: 8px;
-    display: grid;
-    grid-template-columns: 60px repeat(6, 1fr) 60px;
+    display: flex;
+    //grid-template-columns: 60px repeat(6, 1fr) 60px;
     grid-column-gap: 8px;
+    overflow-x: scroll;
+    //grid-auto-flow: column;
 }
 
 .content__sales {

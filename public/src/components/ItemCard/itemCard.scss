@@ -62,6 +62,7 @@
     gap: 8px;
     align-items: baseline;
     grid-auto-rows: min-content;
+    overflow: hidden;
 }
 
 .item-card__price {
@@ -106,6 +107,7 @@
     text-decoration: none;
     align-content: space-between;
     align-items: center;
+    width: 204px; // fix
 }
 
 .item-card:hover {

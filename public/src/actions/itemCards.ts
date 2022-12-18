@@ -6,7 +6,8 @@ import Dispatcher from '../modules/dispatcher';
  * Константа, содержащая в себе типы действий с карточками товаров.
  */
 export const ItemCardsActionTypes = {
-    ITEM_CARDS_GET_HOME: 'ITEM_CARDS_GET_HOME',
+    ITEM_CARDS_GET_SALES: 'ITEM_CARDS_GET_SALES',
+    ITEM_CARDS_GET_POPULAR: 'ITEM_CARDS_GET_POPULAR',
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
@@ -28,16 +29,19 @@ export const itemCardsAction = {
 
     /**
      * Действие: запрос списка карточек.
-     * @param path - путь запроса
-     * @param selector - тип запроса
      */
-    getHomeItemCards(path: string, selector: boolean) {
+    getSalesItemCards() {
         Dispatcher.dispatch({
-            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_HOME,
-            data: {
-                path: path,
-                popularCard: selector,
-            },
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_SALES,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек.
+     */
+    getPopularItemCards() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
         });
     },
 
