@@ -41,17 +41,6 @@ export default class ApplyPromocodeBlock extends BaseComponent {
             if (promocode) {
                 router.refresh();
                 this.showPromocodeTryResult(true, 'Промокод применён');
-
-                // const applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
-                // if (applyPromocodeButton) {
-                //     applyPromocodeButton.textContent = 'Удалить';
-                // }
-                //
-                // const promocodeField = document.getElementById('cart-promocode-field');
-                // if (promocodeField) {
-                //     promocodeField.classList.add(
-                //         'apply-promocode-block__input-submit-block__input-field-disabled');
-                // }
             } else {
                 this.showPromocodeTryResult(false, 'Промокод недействителен');
             }
@@ -87,17 +76,6 @@ export default class ApplyPromocodeBlock extends BaseComponent {
                 config.responseCodes.code200) {
                 router.refresh();
                 this.showPromocodeTryResult(true, 'Промокод удалён');
-
-                // const applyPromocodeButton = document.getElementById('cart-promocode-submit-button');
-                // if (applyPromocodeButton) {
-                //     applyPromocodeButton.textContent = 'Применить';
-                // }
-                //
-                // const promocodeField = document.getElementById('cart-promocode-field');
-                // if (promocodeField) {
-                //     promocodeField.classList.remove(
-                //         'apply-promocode-block__input-submit-block__input-field-disabled');
-                // }
             } else {
                 this.showPromocodeTryResult(false, 'Повторите попытку позже');
             }
