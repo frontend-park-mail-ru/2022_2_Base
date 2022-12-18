@@ -3,6 +3,9 @@ import './ProductPage.scss';
 import BaseItemPage from '../BaseItemPage';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import {getDate} from '../../../modules/sharedFunctions';
+import HorizontalScrollCatalog
+    from '../../../components/HorizontalScrollCatalog/HorizontalScrollCatalog';
+import itemsStore from '../../../stores/ItemsStore';
 
 /**
  * Класс, реализующий страницу ProductPage.
@@ -25,8 +28,18 @@ export default class ProductPage extends BaseItemPage {
      * Функция, загружающая дополнительные данные
      * @param data - объект для добавления данных
      */
-    override loadMoreData(data: {delveryDate: string}) {
+    override loadMoreData(data: {delveryDate: string, id: number}) {
         data.delveryDate = getDate(1)[0];
+
+        const recommendedItemsRootElement = document.getElementById('item-card__recommendation');
+        // const elementToAppendError = document.getElementById('content_main');
+        if (recommendedItemsRootElement) {
+            const recommendedItems = new HorizontalScrollCatalog(recommendedItemsRootElement,
+                [itemsStore._storeNames.cardsHome, 'catalog', recommendedItemsRootElement,
+                    ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED, true]);
+            recommendedItems.render();
+            itemCardsAction.getRecommendedItemCards(data.id);
+        }
     }
 
     /**

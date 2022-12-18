@@ -8,6 +8,7 @@ import Dispatcher from '../modules/dispatcher';
 export const ItemCardsActionTypes = {
     ITEM_CARDS_GET_SALES: 'ITEM_CARDS_GET_SALES',
     ITEM_CARDS_GET_POPULAR: 'ITEM_CARDS_GET_POPULAR',
+    ITEM_CARDS_GET_RECOMMENDED: 'ITEM_CARDS_GET_RECOMMENDED',
     ITEM_CARDS_GET_BY_CATEGORY: 'ITEM_CARDS_GET_BY_CATEGORY',
     ITEM_CARDS_SEARCH: 'ITEM_CARDS_SEARCH',
     ITEM_CARD_GET: 'ITEM_CARD_GET',
@@ -42,6 +43,17 @@ export const itemCardsAction = {
     getPopularItemCards() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR,
+        });
+    },
+
+    /**
+     * Действие: запрос списка карточек
+     * @param id - идентификатор товара для рекомендаций
+     */
+    getRecommendedItemCards(id: number) {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED,
+            data: id,
         });
     },
 

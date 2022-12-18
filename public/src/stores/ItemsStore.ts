@@ -94,6 +94,10 @@ class ItemsStore extends BaseStore {
             await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${6}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
             break;
+        case ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED:
+            await this._getHorizontalItemCards(`${config.api.recommendations}/${payload.data}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED]);
+            break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
             await this._getItemCardsByCategory(payload.data);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY]);
