@@ -155,7 +155,7 @@ export function objectKeysToLowerCase(obj: object) {
  * @returns текст для отображения
  */
 export function parsePromo(promo: string) {
-    return (promo ? `Скидка на ${parseCategoryPromo(promo)} ` +
+    return (promo ? `${parseCategoryPromo(promo)} ` +
         `${Number(promo.substring(1, 3)).toString()}` : null);
 }
 
