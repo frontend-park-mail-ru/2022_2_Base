@@ -18,6 +18,8 @@ export const CartActionTypes = {
     SINGLE_DECREASE_NUMBER: 'SINGLE_DECREASE_NUMBER',
     RESET_CART: 'RESET_CART',
     MERGE_CART: 'MERGE_CART',
+    APPLY_PROMOCODE: 'APPLY_PROMOCODE',
+    CANCEL_PROMOCODE: 'CANCEL_PROMOCODE',
 };
 
 /**
@@ -145,6 +147,26 @@ export const cartAction = {
     mergeCart() {
         Dispatcher.dispatch({
             actionName: CartActionTypes.MERGE_CART,
+        });
+    },
+
+    /**
+     * Действие: применить промокод
+     * @param data - строка с промокодом
+     */
+    applyPromocode(data: string) {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.APPLY_PROMOCODE,
+            data: data,
+        });
+    },
+
+    /**
+     * Действие: отменить промокод
+     */
+    cancelPromocode() {
+        Dispatcher.dispatch({
+            actionName: CartActionTypes.CANCEL_PROMOCODE,
         });
     },
 };
