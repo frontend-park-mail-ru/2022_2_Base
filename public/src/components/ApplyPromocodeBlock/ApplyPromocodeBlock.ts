@@ -7,6 +7,7 @@ import {cartAction, CartActionTypes} from '../../actions/cart';
 import userStore from '../../stores/UserStore';
 import router from '../../modules/Router';
 import validation from '../../modules/validation';
+import {parsePromo} from '../../modules/sharedFunctions';
 
 
 /**
@@ -135,6 +136,7 @@ export default class ApplyPromocodeBlock extends BaseComponent {
         return {
             isAuth: userStore.getContext(userStore._storeNames.isAuth),
             promocode: cartStore.getContext(cartStore._storeNames.promocode),
+            promoText: parsePromo(cartStore.getContext(cartStore._storeNames.promocode)),
         };
     }
 }
