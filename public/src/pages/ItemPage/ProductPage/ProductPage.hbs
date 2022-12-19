@@ -37,15 +37,14 @@
         </div>
         <div class="product-page-main__add-cart content-product-page-block-background">
             {{#if strPrice}}
-            <div class="product-page-main__price">
-
+                <div class="product-page-main__price">
                     <span class="text-normal-default product-page-main__price-strikethrough">{{strPrice}} ₽</span>
                     <div class="product-page-main__sales-value text-normal-small">
                         -{{discount}}%
                     </div>
-            </div>
+                </div>
             {{/if}}
-<span class="product-page-color-jet-black text-normal-very-large">{{#if strLowprice}}{{strLowprice}}{{else}}{{strPrice}}{{/if}} ₽</span>
+            <span class="product-page-color-jet-black text-normal-very-large">{{#if strLowprice}}{{strLowprice}}{{else}}{{strPrice}}{{/if}} ₽</span>
             <span class="product-page-color-jet-black text-normal-default">Доставка: {{delveryDate}}</span>
             <div id="product-block-button-add-to-cart" data-id="{{this.id}}">
             </div>
