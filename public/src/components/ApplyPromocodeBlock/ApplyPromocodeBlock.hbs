@@ -13,11 +13,12 @@
             {{#if this.promocode}} Удалить {{else}} Применить {{/if}}
         </div>
     </div>
-    {{#if this.promocode}}
+
         <span id="cart-promocode-status" class="text-normal-default apply-promocode-block__status
          paint-text-green-correct">
+    {{#if this.promocode}}
             Скидка на {{this.promoText}}%
-        </span>
     {{/if}}
+        </span>
 </div>
 
