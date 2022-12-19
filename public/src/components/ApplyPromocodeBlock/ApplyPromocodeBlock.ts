@@ -34,8 +34,6 @@ export default class ApplyPromocodeBlock extends BaseComponent {
      * Функция, реагирующая на применение промокода
      */
     onApplyPromocode() {
-        // const promocode = cartStore.getContext(cartStore._storeNames.promocode);
-        // const promocodeStatusText = document.getElementById('cart-promocode-status');
         switch (cartStore.getContext(cartStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
             router.refresh();
@@ -50,15 +48,6 @@ export default class ApplyPromocodeBlock extends BaseComponent {
         default:
             this.showPromocodeTryResult(false, 'Повторите попытку позже');
         }
-        //     if (promocode) {
-        //         router.refresh();
-        //         this.showPromocodeTryResult(true, 'Промокод применён');
-        //     } else {
-        //         this.showPromocodeTryResult(false, 'Промокод недействителен');
-        //     }
-        // } else {
-        //     this.showPromocodeTryResult(false, 'Повторите попытку позже');
-        // }
     }
 
 
