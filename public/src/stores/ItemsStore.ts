@@ -162,8 +162,6 @@ class ItemsStore extends BaseStore {
      */
     async _getHorizontalItemCards(path: string) {
         const [status, response] = await request
-            // .makeGetRequest(config.api.products + `?lastitemid=${0}&count=${6}`)
-            // .makeGetRequest(`${config.api.recommendations}/1`)
             .makeGetRequest(path)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);

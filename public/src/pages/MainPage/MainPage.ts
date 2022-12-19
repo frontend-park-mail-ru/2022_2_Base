@@ -111,7 +111,6 @@ export default class MainPage extends BasePage {
             this.topComponent.render(itemsStore.getContext(itemsStore._storeNames.topCategory));
 
             cartAction.getCart();
-            // this.startEventListener();
             this.startTimer();
         } else {
             errorMessage.getAbsoluteErrorMessage();

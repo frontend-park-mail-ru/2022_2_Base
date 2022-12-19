@@ -72,7 +72,6 @@ export default class CategoryPage extends CatalogPage {
         if (this.itemsBlock) {
             router.addToHistory(window.location.pathname +
                 itemsStore.getContext(itemsStore._storeNames.sortURL));
-            // this.itemsBlock.innerHTML = '';
             itemCardsAction.getItemCardsByCategory(true);
             this.removeScrollListener();
             this.startScrollListener();
