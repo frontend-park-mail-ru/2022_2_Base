@@ -40,6 +40,7 @@ export const config = {
         getComments: `${basePathApi}products/comments`,
         setPromo: `${basePathApi}/cart/setpromocode`,
         password: `${basePathApi}passwordChange`,
+        recommendations: `${basePathApi}recommendations`,
     },
     states: {
         endOf: -1,

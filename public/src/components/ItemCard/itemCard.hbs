@@ -2,7 +2,7 @@
     <a href="/product/{{this.id}}" class="text-normal-small content__sales-image link__no-color">
         <img src={{imgsrc}} class="item-card__image" data-selection="itemcard_item-pic/{{this.id}}"
              alt="{{this.name}} photo">
-        {{#if this.price}}
+        {{#if this.strPrice}}
             <div class="content__sales-value">
                 -{{this.discount}}%
             </div>
@@ -22,7 +22,7 @@
         {{/if}}
     </div>
     <a href="/product/{{this.id}}" class="text-normal-default item-card__title link__no-color"
-       ind="itemcard_item-title/{{this.id}}">
+       data-selection="itemcard_item-title/{{this.id}}">
         {{this.name}}
     </a>
 </div>

@@ -73,7 +73,6 @@ class Request {
             mode: 'cors',
             credentials: 'include',
             headers: {
-                'Content-Type': 'multipart/form-data',
                 'accept': 'application/json',
                 'Origin': 'https://www.reazon.ru',
                 'csrf': userStore.getContext(userStore._storeNames.csrf),

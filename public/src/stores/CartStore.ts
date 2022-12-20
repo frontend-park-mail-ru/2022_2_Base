@@ -68,6 +68,21 @@ class CartStore extends BaseStore {
             this._emitChange([CartActionTypes.DECREASE_NUMBER]);
             break;
 
+        case CartActionTypes.SINGLE_INCREASE_NUMBER:
+            await this._increaseNumber(payload.data);
+            this._emitChange([CartActionTypes.SINGLE_INCREASE_NUMBER]);
+            break;
+
+        case CartActionTypes.SINGLE_ADD_TO_CART:
+            await this._addToCart(payload.data);
+            this._emitChange([CartActionTypes.SINGLE_ADD_TO_CART]);
+            break;
+
+        case CartActionTypes.SINGLE_DECREASE_NUMBER:
+            await this._decreaseNumber(payload.data);
+            this._emitChange([CartActionTypes.SINGLE_DECREASE_NUMBER]);
+            break;
+
         case CartActionTypes.MAKE_ORDER:
             await this._makeOrder(payload.data);
             this._emitChange([CartActionTypes.MAKE_ORDER]);
