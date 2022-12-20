@@ -24,7 +24,9 @@ interface PaymentCardObj {
     expiryDate?: Date,
     expirydate?: Date,
     id: number,
-    priority?: boolean
+    priority?: boolean,
+
+    type?: string
 }
 
 interface formContextObj {
@@ -119,7 +121,7 @@ interface suggestionSearchObj {
 interface itemOrderData {
     cont: number,
     items: Array<priceData>,
-    totalPrice: number,
+    totalPrice: string,
     deliveryDateString: string,
     deliveryTimeString: string,
     creationDateString: string,

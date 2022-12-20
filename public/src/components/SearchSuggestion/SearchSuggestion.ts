@@ -21,6 +21,7 @@ export default class SearchSuggestion extends BaseComponent {
      */
     override render(context: object) {
         this._parent.innerHTML = '';
+        this._parent.classList.add('box-shadow__suggestion');
         super.render(super.prepareCategory(context), SearchSuggestionTemplate);
     }
 }
