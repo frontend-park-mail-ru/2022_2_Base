@@ -377,7 +377,7 @@ export default class CartOrderPage extends BasePage {
      */
     async listenClickProductsBlock(event: Event) {
         const target = event.target;
-        if (target instanceof HTMLInputElement) {
+        if (target instanceof HTMLElement) {
             let elementId = target.id;
             let itemId;
             if (elementId) {

@@ -78,7 +78,6 @@ export default class SearchPage extends CatalogPage {
      */
     sortCards() {
         if (this.itemsBlock) {
-            this.itemsBlock.innerHTML = '';
             router.addToHistory(window.location.pathname +
                 itemsStore.getContext(itemsStore._storeNames.sortURL));
             this.loadSearchItemCards();

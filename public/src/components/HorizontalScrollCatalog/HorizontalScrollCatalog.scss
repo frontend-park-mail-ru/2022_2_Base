@@ -1,0 +1,26 @@
+.content__main-horizontal-scroll{
+  display: flex;
+  gap: 8px;
+  max-width: 1400px;
+}
+
+.content__horizontal-scroll {
+  margin-top: 8px;
+  display: flex;
+  grid-column-gap: 8px;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+.content__horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .content__horizontal-scroll {
+    margin-left: 16px;
+    margin-right: 16px;
+    grid-column-gap: 4vw;
+    width: 86vw;
+  }
+}

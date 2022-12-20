@@ -137,3 +137,13 @@ export function getTextContent(element: HTMLElement | null) {
     }
     return '';
 }
+
+/**
+ * Функция возвращающая объект со всеми свойствами в строчном написании.
+ * @param  obj - объект для обработки
+ */
+export function objectKeysToLowerCase(obj: object) {
+    return Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v]),
+    );
+}

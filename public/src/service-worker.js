@@ -24,8 +24,10 @@ self.addEventListener('activate', (event) => {
  * Подписываемся на событие отправки браузером запроса к серверу
  */
 self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-    if (imageRegRex.test(event.request)) {
+    if (event.request.method !== 'GET') {
+        return;
+    }
+    if (imageRegRex.test(event.request) && !event.request.path.includes('avatar')) {
         event.respondWith(cacheFirst(event));
     } else {
         event.respondWith(networkFirst(event));

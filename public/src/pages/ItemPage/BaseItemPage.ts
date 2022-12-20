@@ -45,8 +45,7 @@ export default class BaseItemPage extends BasePage {
      * Функция, загружающая дополнительные данные
      * @param data - объект для добавления данных
      */
-    loadMoreData(data: unknown) {
-    }
+    loadMoreData(data: unknown) {}
 
     /**
      * Функция, реагирующая на получение товаров из корзины
@@ -71,6 +70,7 @@ export default class BaseItemPage extends BasePage {
         case config.responseCodes.code200: {
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             if (data) {
+                document.title = data.name + ' ' + document.title;
                 data.delveryDate = getDate(1)[0];
                 super.render(data);
                 this.loadMoreData(data);

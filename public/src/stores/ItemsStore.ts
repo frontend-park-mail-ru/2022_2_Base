@@ -58,6 +58,7 @@ class ItemsStore extends BaseStore {
         itemData: 'itemData',
         comments: 'comments',
         suggestionsSearch: 'suggestionsSearch',
+        isFirstRequest: 'isFirstRequest',
     };
 
     /**
@@ -76,6 +77,7 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.itemData, {});
         this._storage.set(this._storeNames.comments, []);
         this._storage.set(this._storeNames.suggestionsSearch, []);
+        this._storage.set(this._storeNames.isFirstRequest, false);
     }
 
     /**
@@ -84,9 +86,17 @@ class ItemsStore extends BaseStore {
      */
     override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
-        case ItemCardsActionTypes.ITEM_CARDS_GET_HOME:
-            await this._getItemCardsHome(payload.data);
-            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_HOME]);
+        case ItemCardsActionTypes.ITEM_CARDS_GET_SALES:
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_SALES]);
+            break;
+        case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
+            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
+            break;
+        case ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED:
+            await this._getHorizontalItemCards(`${config.api.recommendations}/${payload.data}`);
+            this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_BY_CATEGORY:
             await this._getItemCardsByCategory(payload.data);
@@ -148,20 +158,18 @@ class ItemsStore extends BaseStore {
 
     /**
      * Действие: запрос списка карточек.
+     * @param path - запрос для получения данных о товарах
      */
-    async _getItemCardsHome({path, popularCard}: {path: string, popularCard: productObj}) {
+    async _getHorizontalItemCards(path: string) {
         const [status, response] = await request
-            .makeGetRequest(path + `?lastitemid=${0}&count=${6}`)
+            .makeGetRequest(path)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this.#syncWithCart(response.body);
             addSpacesToPrice(response.body);
-            this._storage.set(this._storeNames.cardsHome, {
-                classToGet: popularCard ? 'popularCard' : 'salesCard',
-                body: response.body,
-            });
+            this._storage.set(this._storeNames.cardsHome, response.body);
             this.#syncCardsInCategory(response.body);
         }
     }
@@ -171,6 +179,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _getByPriceItemCard(isLowToHighPrice: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighPrice ?
@@ -182,6 +191,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _getByRatingItemCard(isLowToHighRating: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighRating ?
@@ -193,6 +203,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _localSortPrice(isLowToHighPrice: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
                 (item1st: productObj, item2nd: productObj) => {
@@ -209,6 +220,7 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _localSortRating(isLowToHighRating: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
                 (item1st: productObj, item2nd: productObj) => {
@@ -266,8 +278,10 @@ class ItemsStore extends BaseStore {
      * @param isFirstRequest - получали ли мы до этого карточки
      */
     async _getItemCardsByCategory(isFirstRequest: boolean) {
+        this._storage.set(this._storeNames.isFirstRequest, false);
         if (isFirstRequest) {
             this._storage.set(this._storeNames.cardLoadCount, 0);
+            this._storage.set(this._storeNames.isFirstRequest, true);
             this._storage.set(this._storeNames.allCardsInCategory, []);
         }
 

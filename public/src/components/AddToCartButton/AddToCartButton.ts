@@ -21,11 +21,11 @@ export default class AddToCartButton extends BaseComponent {
         this.bindListenClickButtonAddIntoCart = null;
         this.buttonAddIntoCart = null;
 
-        cartStore.addListener(this.buttonCreate, CartActionTypes.ADD_TO_CART);
+        cartStore.addListener(this.buttonCreate, CartActionTypes.SINGLE_ADD_TO_CART);
 
-        cartStore.addListener(this.buttonAdd, CartActionTypes.INCREASE_NUMBER);
+        cartStore.addListener(this.buttonAdd, CartActionTypes.SINGLE_INCREASE_NUMBER);
 
-        cartStore.addListener(this.buttonMinus, CartActionTypes.DECREASE_NUMBER);
+        cartStore.addListener(this.buttonMinus, CartActionTypes.SINGLE_DECREASE_NUMBER);
     }
 
     /**
@@ -99,13 +99,13 @@ export default class AddToCartButton extends BaseComponent {
             const [elementID, itemID] = target.id.split('/');
             switch (elementID) {
             case 'button-add-to-cart':
-                cartAction.addToCart(Number(itemID));
+                cartAction.singleAddToCart(Number(itemID));
                 break;
             case 'button-minus_cart':
-                cartAction.decreaseNumber(Number(itemID));
+                cartAction.singleDecreaseNumber(Number(itemID));
                 break;
             case 'button-plus_cart':
-                cartAction.increaseNumber(Number(itemID));
+                cartAction.singleIncreaseNumber(Number(itemID));
                 break;
             }
         }
