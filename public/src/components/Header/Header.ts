@@ -22,9 +22,6 @@ export default class Header extends BaseComponent {
     searchButton: HTMLElement | null;
     searchInput: HTMLInputElement | null;
     catalogButton: HTMLElement | null;
-    catalogButtonIcon: HTMLElement | null;
-    catalogButtonText: HTMLSpanElement | null;
-    root: HTMLElement | null;
     dropdownContent: HTMLElement | null;
     suggestionsBlock: SearchSuggestion | undefined;
     /**
@@ -44,9 +41,6 @@ export default class Header extends BaseComponent {
         this.searchButton = null;
         this.searchInput = null;
         this.catalogButton = null;
-        this.root = null;
-        this.catalogButtonIcon = null;
-        this.catalogButtonText = null;
         this.dropdownContent = null;
 
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
@@ -174,24 +168,15 @@ export default class Header extends BaseComponent {
      */
     listenClickForDropdown(event: Event) {
         this.catalogButton = document.getElementById('header__button-catalog');
-        this.catalogButtonIcon = document.getElementById('header__button-catalog__icon');
-        this.catalogButtonText = document.getElementById('header__button-catalog__text');
         this.dropdownContent = document.getElementById('header__dropdown__content');
 
-        if (this.catalogButton && this.catalogButtonIcon &&
-            this.catalogButtonText && this.dropdownContent) {
-            if ((event.target != this.catalogButton &&
-                event.target != this.catalogButtonIcon &&
-                event.target != this.catalogButtonText)) {
-                if (this.dropdownContent.classList.contains('header__dropdown__content-visible')) {
-                    this.dropdownContent.classList.remove('header__dropdown__content-visible');
-                }
+        if (this.catalogButton && this.dropdownContent) {
+            if (event.target instanceof HTMLElement &&
+                (event.target.id === this.catalogButton.id ||
+                    event.target.parentElement?.id === this.catalogButton.id)) {
+                this.dropdownContent.classList.add('header__dropdown__content-visible');
             } else {
-                if (this.dropdownContent.classList.contains('header__dropdown__content-visible')) {
-                    this.dropdownContent.classList.remove('header__dropdown__content-visible');
-                } else {
-                    this.dropdownContent.classList.add('header__dropdown__content-visible');
-                }
+                this.dropdownContent.classList.remove('header__dropdown__content-visible');
             }
         }
     }
@@ -226,9 +211,8 @@ export default class Header extends BaseComponent {
             this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
         }
 
-        this.root = document.getElementById('root');
-        if (this.root) {
-            this.root.addEventListener('click', this.listenClickForDropdown);
+        if (config.HTMLskeleton.root) {
+            config.HTMLskeleton.root.addEventListener('click', this.listenClickForDropdown);
         }
     }
 
@@ -254,8 +238,8 @@ export default class Header extends BaseComponent {
             this.searchInput?.removeEventListener('keypress', this.bindListenEnterPressSearch);
         }
 
-        if (this.root) {
-            this.root.removeEventListener('click', this.listenClickForDropdown);
+        if (config.HTMLskeleton.root) {
+            config.HTMLskeleton.root.removeEventListener('click', this.listenClickForDropdown);
         }
     }
 

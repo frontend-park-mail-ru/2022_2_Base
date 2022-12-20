@@ -5,12 +5,12 @@
         </a>
     </div>
 
-    <a class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
+    <div class="header__catalog button-default header__button-catalog paint-purple text-normal-default"
        id="header__button-catalog">
-        <img type="image" src="/img/Catalog.svg" class="header__catalog-img" id="header__button-catalog__icon"
+        <img src="/img/Catalog.svg" class="header__catalog-img" id="header__button-catalog__icon"
              alt="Menu-Burger icon in button Catalog">
         <span id="header__button-catalog__text">Каталог</span>
-    </a>
+    </div>
 
     <div class="header__dropdown__content" id="header__dropdown__content">
         {{#each this.categories}}
@@ -24,7 +24,7 @@
                                                       placeholder="Что Вас интересует?" maxlength="75"
                                                       id="search-line__text">
         <button type="submit" class="header__button-search  paint-purple" id="search-button-submit">
-            <img type="image" src="/img/Search.svg" alt="Search button">
+            <img src="/img/Search.svg" alt="Search button">
         </button>
         <ul class="header__dropdown__content search-suggestions" id="search-suggestions__main" style="display: grid;">
         </ul>
