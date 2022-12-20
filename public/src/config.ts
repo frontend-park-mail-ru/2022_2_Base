@@ -38,7 +38,7 @@ export const config = {
         suggestionSearch: `${basePathApi}suggestions`,
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
-        password: `${basePathApi}passwordChange`,
+        password: `${basePathApi}user/password`,
     },
     states: {
         endOf: -1,

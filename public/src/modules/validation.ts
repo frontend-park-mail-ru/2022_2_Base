@@ -209,9 +209,18 @@ class Validation {
                         errorID: context.fields.password.errorID,
                     }, 'userpage__popUp__error');
                 break;
+            case context.fields.password.popUpNameNew:
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
+                    {
+                        name: context.fields.password.popUpNameNew,
+                        errorID: context.fields.password.errorID,
+                    }, 'userpage__popUp__error');
+                break;
             case context.fields.repeatPassword.popUpName:
                 isValid = isValid && errorMessage.validateField(
-                    this.validateRepeatPassword(data.password === data.repeatPassword),
+                    this.validateRepeatPassword(
+                        data[context.fields.password.popUpNameNew] ===
+                        data[context.fields.repeatPassword.popUpName]),
                     {
                         name: context.fields.repeatPassword.popUpName,
                         errorID: context.fields.repeatPassword.errorID,

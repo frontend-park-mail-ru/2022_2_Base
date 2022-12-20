@@ -130,8 +130,7 @@ interface itemOrderData {
 }
 
 interface userInfoPopUp {
-    name: string,
+    newValue?: string,
     id: string,
-    type: string,
     value: string
 }

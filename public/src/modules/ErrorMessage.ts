@@ -44,7 +44,7 @@ class ErrorMessage {
      * @param nameId - название поля
      */
     deleteErrorMessage(nameId: string) {
-        const errorMessageElement = document.getElementById(nameId + 'Error');
+        const errorMessageElement = document.getElementById(nameId);
         if (errorMessageElement) {
             errorMessageElement.remove();
         }
@@ -73,7 +73,7 @@ class ErrorMessage {
      * @param errorText - текст ошибки
      */
     getAbsoluteNotificationMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
-        this.getAbsoluteMessage(errorText);
+        this.getAbsoluteMessage(errorText, 'server-message');
     }
 
     /**
@@ -81,7 +81,7 @@ class ErrorMessage {
      * @param errorText - текст ошибки
      */
     getAbsoluteErrorMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
-        this.getAbsoluteMessage(errorText, 'server-message');
+        this.getAbsoluteMessage(errorText);
     }
 
     /**
@@ -130,7 +130,7 @@ class ErrorMessage {
         element: {errorID: string, name:string}, additionalClasses: string | null = null) {
         if (!valData.status) {
             const exError = document.getElementById('error-text');
-            if (exError && !(exError.innerText === valData.message)) {
+            if (exError) {
                 this.deleteErrorMessage(element.errorID);
             }
             this.getErrorMessage(document.getElementById(element.name),

@@ -55,13 +55,13 @@
   color: var(--text-white);
   background-color: var(--background-red);
   border-radius: 4px;
+  left: 75%;
 }
 
 .server-message {
   color: var(--jet-black);
   background-color: var(--background-white);
   filter: drop-shadow(0 0 16px var(--shadow-default));
-  border: 2px solid var(--default-purple)
 }
 
 .server-error__text {
@@ -314,10 +314,12 @@ main {
   .input-field-error {
     grid-row-start: 2;
     position: relative;
-    border-radius: 0px;
+    border-radius: 0;
   }
 
   .server-error {
     padding: 0 16px;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 }

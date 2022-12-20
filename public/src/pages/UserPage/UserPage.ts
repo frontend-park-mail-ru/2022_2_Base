@@ -83,9 +83,11 @@ export default class UserPage extends BasePage {
                 toDo();
             }
             break;
+        case config.responseCodes.code401:
+            errorMessage.getAbsoluteErrorMessage('Старый пароль не верный');
+            break;
         default:
             errorMessage.getAbsoluteErrorMessage();
-            this.removePopUp();
         }
     }
 
