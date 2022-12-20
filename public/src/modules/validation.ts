@@ -95,6 +95,9 @@ class Validation {
      * @returns errorMessage - сообщение об ошибке
      */
     validateCard(data: PaymentCardObj) {
+        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
+            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
+        }
         if (data.expiry.length !== 5 ||
             !/^\d+$/.test(data.expiry.slice(0, 2)) ||
             !/^\d+$/.test(data.expiry.slice(-2))) {
@@ -110,9 +113,6 @@ class Validation {
         }
         if (data.cvc?.length !== 3 || !/^\d+$/.test(data.cvc)) {
             return 'CVC код содержит 3 цифры';
-        }
-        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
-            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
         }
         return '';
     }
@@ -234,9 +234,18 @@ class Validation {
                         errorID: context.fields.password.errorID,
                     }, 'userpage__popUp__error');
                 break;
+            case context.fields.password.popUpNameNew:
+                isValid = isValid && errorMessage.validateField(this.validatePassword(value),
+                    {
+                        name: context.fields.password.popUpNameNew,
+                        errorID: context.fields.password.errorID,
+                    }, 'userpage__popUp__error');
+                break;
             case context.fields.repeatPassword.popUpName:
                 isValid = isValid && errorMessage.validateField(
-                    this.validateRepeatPassword(data.password === data.repeatPassword),
+                    this.validateRepeatPassword(
+                        data[context.fields.password.popUpNameNew] ===
+                        data[context.fields.repeatPassword.popUpName]),
                     {
                         name: context.fields.repeatPassword.popUpName,
                         errorID: context.fields.repeatPassword.errorID,

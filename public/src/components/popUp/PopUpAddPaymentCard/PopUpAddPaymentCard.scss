@@ -1,7 +1,7 @@
 .popup-form__add-card {
     display: grid;
     grid-template-rows: 32px 3fr 1fr;
-    grid-gap: 6px;
+    grid-gap: 12px;
 }
 
 .popup-form__add-card__header {
@@ -12,6 +12,7 @@
 .popup-form__add-card__fields {
     display: grid;
     grid-template-rows: 1fr 1fr;
+    gap: 4px;
 }
 
 .popup-form__add-card__date-and-code {
@@ -60,6 +61,10 @@
 .popup-form__add-card__button {
     height: 40px;
     width: 100px;
+}
+
+.popup-form__add-card__cancel {
+    margin-right: 8px;
 }
 
 .popup-form__add-card__apply {

@@ -39,8 +39,8 @@ export const config = {
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
         setPromo: `${basePathApi}/cart/setpromocode`,
-        password: `${basePathApi}passwordChange`,
         recommendations: `${basePathApi}recommendations`,
+        password: `${basePathApi}user/password`,
     },
     states: {
         endOf: -1,

@@ -34,7 +34,7 @@ export const profileAction = {
      * Действие: редактировать данные.
      * @param data - отредактированное поле
      */
-    saveEditData(data: object) {
+    saveEditData(data: userInfoPopUp) {
         Dispatcher.dispatch({
             actionName: ProfileActionTypes.SAVE_EDIT_DATA,
             data: data,

@@ -4,17 +4,24 @@
     </div>
     <div class="popup-form__user-info__fields">
         {{#each fields}}
+{{!--            <div class="popup-form__field" id="{{this.id}}__div">--}}
             <div class="popup-form__field" id="{{this.id}}__div">
                 <div class="field-name__user-info text-normal-default">
                     {{this.name}}
                 </div>
-                <input maxlength="41" class="popup-form__user-info__input text-normal-default" name="{{this.name}}" id="{{this.id}}"
-                        type="{{this.type}}">
+                <input maxlength="41" class="popup-form__user-info__input text-normal-default" name="{{this.name}}"
+{{!--                       id="{{this.id}}"--}}
+                       id="{{this.id}}"
+                       type="{{this.type}}">
             </div>
         {{/each}}
     </div>
     <div class="popup-form__user-info__buttons">
-        <button class="button-default popup-form__user-info__button popup-form__user-info__cancel" id="popup-form_user-info__cancel">Отменить</button>
-        <button class="button-default popup-form__user-info__button popup-form__user-info__apply" id="popup-form_user-info__apply">Применить</button>
+        <button class="button-default popup-form__user-info__button popup-form__user-info__cancel"
+                id="popup-form_user-info__cancel">Отменить
+        </button>
+        <button class="button-default popup-form__user-info__button popup-form__user-info__apply"
+                id="popup-form_user-info__apply">Применить
+        </button>
     </div>
 </form>

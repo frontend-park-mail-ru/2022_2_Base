@@ -21,6 +21,8 @@ export default class Header extends BaseComponent {
     headerProfile: HTMLElement | null;
     searchButton: HTMLElement | null;
     searchInput: HTMLInputElement | null;
+    catalogButton: HTMLElement | null;
+    dropdownContent: HTMLElement | null;
     suggestionsBlock: SearchSuggestion | undefined;
     /**
      * Конструктор, создающий класс компонента Header
@@ -38,6 +40,8 @@ export default class Header extends BaseComponent {
         this.headerProfile = null;
         this.searchButton = null;
         this.searchInput = null;
+        this.catalogButton = null;
+        this.dropdownContent = null;
 
         itemsStore.addListener(this.listenSearchSuggestion.bind(this),
             ItemCardsActionTypes.GET_SUGGESTION_SEARCH);
@@ -162,6 +166,26 @@ export default class Header extends BaseComponent {
     }
 
     /**
+     * Функция, обрабатывающая нажатие на всей странице и на кнопке Каталог в частности.
+     * @param event - событие, вызвавшее функцию
+     */
+    listenClickForDropdown(event: Event) {
+        this.catalogButton = document.getElementById('header__button-catalog');
+        this.dropdownContent = document.getElementById('header__dropdown__content');
+
+        if (this.catalogButton && this.dropdownContent) {
+            if (event.target instanceof HTMLElement &&
+                (event.target.id === this.catalogButton.id ||
+                    event.target.parentElement?.id === this.catalogButton.id)) {
+                this.dropdownContent.classList.add('header__dropdown__content-visible');
+            } else {
+                this.dropdownContent.classList.remove('header__dropdown__content-visible');
+            }
+        }
+    }
+
+
+    /**
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
@@ -189,6 +213,10 @@ export default class Header extends BaseComponent {
             this.bindListenSuggestSearch = this.listenSuggestSearch.bind(this);
             this.elementSuggestions.addEventListener('click', this.bindListenSuggestSearch);
         }
+
+        if (config.HTMLskeleton.root) {
+            config.HTMLskeleton.root.addEventListener('click', this.listenClickForDropdown);
+        }
     }
 
     /**
@@ -211,6 +239,10 @@ export default class Header extends BaseComponent {
         if (this.elementSuggestions) {
             this.elementSuggestions.removeEventListener('click', this.bindListenSuggestSearch);
             this.searchInput?.removeEventListener('keypress', this.bindListenEnterPressSearch);
+        }
+
+        if (config.HTMLskeleton.root) {
+            config.HTMLskeleton.root.removeEventListener('click', this.listenClickForDropdown);
         }
     }
 

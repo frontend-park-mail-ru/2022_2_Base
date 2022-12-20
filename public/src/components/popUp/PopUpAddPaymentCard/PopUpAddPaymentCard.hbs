@@ -3,6 +3,13 @@
         Добавить банковскую карту
     </div>
     <div class="popup-form__add-card__fields">
+        <div class="popup-form__field">
+            <div class="field-name_add-card text-normal-default">
+                Номер карты
+            </div>
+            <input type="text" inputmode="numeric" pattern="\d*" maxlength="16" class="popup-form__add-card__input text-normal-default" id="cardNumber"
+                   placeholder="0000 0000 0000 0000">
+        </div>
         <div class="popup-form__add-card__date-and-code">
             <div class="popup-form__field">
                 <div class="field-name_add-card text-normal-default">
@@ -20,13 +27,6 @@
                 </div>
                 <input type="text" inputmode="numeric" pattern="\d*" maxlength="3" class="popup-form__add-card__input text-normal-default" id="cvc" placeholder="CVC">
             </div>
-        </div>
-        <div class="popup-form__field">
-            <div class="field-name_add-card text-normal-default">
-                Номер карты
-            </div>
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="16" class="popup-form__add-card__input text-normal-default" id="cardNumber"
-                                                   placeholder="0000 0000 0000 0000">
         </div>
     </div>
     <div class="popup-form__add-card__buttons">

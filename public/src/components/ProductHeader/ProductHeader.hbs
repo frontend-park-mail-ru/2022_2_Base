@@ -12,9 +12,9 @@
     </a>
     <div class="product-page-header__data">
         <a href="{{this.commentPath}}" class="product-page-header__rating link__no-color">
-            <img src="/img/Star.svg" alt="product rating" class="product-page-header__rating-img">
+            <img src="/img/Star{{#unless this.rating}}_dark{{/unless}}.svg" class="product-page-header__rating-img">
             <span class="text-normal-large-normal">
-                        {{#if this.rating}}{{this.rating}}{{else}}&minus;{{/if}}
+                        {{#if this.rating}}{{this.rating}}{{else}}0.0{{/if}}
             </span>
 <!--            <div class="product-page-header__comment">-->
                 <img src="/img/Comment.svg" alt="product comments counter" class="product-page-header__comment-img">
