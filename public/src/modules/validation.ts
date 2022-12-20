@@ -3,6 +3,7 @@ import userStore from '../stores/UserStore';
 import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;
+const stringRegex = /^[a-z0-9 а-яА-ЯёЁ!?()_-]+$/i;
 
 /**
  * Класс, реализующий валидацию форм.
@@ -147,8 +148,32 @@ class Validation {
         if (searchString.length < 3 && !isSuggest) {
             return 'Введите не меньше 3 символов';
         }
-        if (!/^[a-z0-9 а-яА-ЯёЁ!?()_-]+$/i
-            .test(searchString)) {
+        if (this.validateString(searchString)) {
+            return 'Введены недопустимые символы';
+        }
+        return '';
+    }
+
+    /**
+     * Функция, реализующая валидацию входной строки.
+     * @param inputString - входная строка
+     * @returns validateRes - результат валидации, true, то найдены недопустимые символы
+     */
+    validateString(inputString: string) {
+        return (!stringRegex.test(inputString));
+    }
+
+    /**
+     * Функция, реализующая валидацию поля для ввода промокода.
+     * @param promocodeString - данные для обработки
+     * @returns errorMessage - сообщение об ошибке
+     */
+    validatePromocodeField(promocodeString: string) {
+        if (!promocodeString) {
+            return 'Введите промокод';
+        }
+
+        if (this.validateString(promocodeString)) {
             return 'Введены недопустимые символы';
         }
         return '';

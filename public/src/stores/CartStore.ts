@@ -17,6 +17,7 @@ class CartStore extends BaseStore {
         cartID: 'cartID',
         userID: 'userID',
         currID: 'currID',
+        promocode: 'promocode',
     };
 
     /**
@@ -30,6 +31,7 @@ class CartStore extends BaseStore {
         this._storage.set(this._storeNames.cartID, null);
         this._storage.set(this._storeNames.userID, null);
         this._storage.set(this._storeNames.currID, null);
+        this._storage.set(this._storeNames.promocode, null);
     }
 
     /**
@@ -78,6 +80,16 @@ class CartStore extends BaseStore {
         case CartActionTypes.MERGE_CART:
             await this._mergeCart();
             this._emitChange([CartActionTypes.MERGE_CART]);
+            break;
+
+        case CartActionTypes.APPLY_PROMOCODE:
+            await this._applyPromo(payload.data);
+            this._emitChange([CartActionTypes.APPLY_PROMOCODE]);
+            break;
+
+        case CartActionTypes.CANCEL_PROMOCODE:
+            await this._applyPromo();
+            this._emitChange([CartActionTypes.CANCEL_PROMOCODE]);
             break;
         }
     }
@@ -139,6 +151,7 @@ class CartStore extends BaseStore {
                 this._storage.set(this._storeNames.itemsCart, response.items ?? []);
                 this._storage.set(this._storeNames.cartID, response.id);
                 this._storage.set(this._storeNames.userID, response.userid);
+                this._storage.set(this._storeNames.promocode, response.promocode);
             }
         } else {
             this._storage.set(this._storeNames.responseCode, config.responseCodes.code401);
@@ -251,6 +264,21 @@ class CartStore extends BaseStore {
                 (newItemsCart: any, id: number) =>
                     newItemsCart.filter((item: {id: number}) => item.id !== id),
                 this._storage.get(this._storeNames.itemsCart)));
+        }
+    }
+
+    /**
+     * Действие: применить промокод.
+     * @param data - строка с промокодом
+     */
+    async _applyPromo(data = '') {
+        const [status] = await request
+            .makePostRequest(config.api.setPromo, {promocode: data})
+            .catch((err) => console.log(err)) ?? [];
+
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this._storage.set(this._storeNames.promocode, data);
         }
     }
 }
