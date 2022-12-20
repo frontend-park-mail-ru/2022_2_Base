@@ -94,6 +94,9 @@ class Validation {
      * @returns errorMessage - сообщение об ошибке
      */
     validateCard(data: PaymentCardObj) {
+        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
+            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
+        }
         if (data.expiry.length !== 5 ||
             !/^\d+$/.test(data.expiry.slice(0, 2)) ||
             !/^\d+$/.test(data.expiry.slice(-2))) {
@@ -109,9 +112,6 @@ class Validation {
         }
         if (data.cvc?.length !== 3 || !/^\d+$/.test(data.cvc)) {
             return 'CVC код содержит 3 цифры';
-        }
-        if (data.number.length !== 16 || !/^\d+$/.test(data.number)) {
-            return 'Номер карты состоит из 16 цифр. ' + data.number.length + '/16';
         }
         return '';
     }
