@@ -196,8 +196,6 @@ class UserStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);
             this._storage.set(this._storeNames.csrf, headers.get('csrf'));
-            console.log('store', this._storage.get(this._storeNames.csrf));
-            console.log('csrf', headers.get('csrf'));
         }
     }
 
@@ -231,8 +229,6 @@ class UserStore extends BaseStore {
         if (status === config.responseCodes.code201) {
             this._storage.set(this._storeNames.isAuth, true);
             this._storage.set(this._storeNames.csrf, headers.get('csrf'));
-            console.log('store', this._storage.get(this._storeNames.csrf));
-            console.log('csrf', headers.get('csrf'));
         }
     }
 

@@ -1,6 +1,7 @@
 import CartPageTemplate from './CartPage.hbs';
 import BasePage from '../BasePage';
 import CartItem from '../../components/CartItem/CartItem';
+import ApplyPromocodeBlock from '../../components/ApplyPromocodeBlock/ApplyPromocodeBlock';
 import './CartPage.scss';
 import PopUpChooseAddressAndPaymentCard
     from '../../components/PopUpChooseAddressAndPaymentCard/PopUpChooseAddressAndPaymentCard';
@@ -33,6 +34,7 @@ export default class CartOrderPage extends BasePage {
     cartContent: HTMLElement | null;
     createOrder: HTMLElement | null;
     productsContent: HTMLElement | null;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
@@ -91,6 +93,7 @@ export default class CartOrderPage extends BasePage {
      */
     getCart() {
         this.renderCart(cartStore.getContext(cartStore._storeNames.itemsCart));
+        this.renderApplyPromocodeBlock();
     }
 
     /**
@@ -155,6 +158,7 @@ export default class CartOrderPage extends BasePage {
 
             this.#calcSummaryPrice(data, context);
             super.render(context);
+
             const checkBoxes = document.getElementById('checkboxes_cart');
             if (checkBoxes) {
                 const cartItem = new CartItem(checkBoxes);
@@ -168,6 +172,17 @@ export default class CartOrderPage extends BasePage {
                 linkText: 'телефон',
                 textAfterLink: '?',
             });
+        }
+    }
+
+    /**
+     * Функция, отрисовывающая блок для ввода промокода
+     */
+    renderApplyPromocodeBlock() {
+        const promocodeBlock = document.getElementById('cart__apply-promocode-block');
+        if (promocodeBlock) {
+            const applyPromocodeBlock = new ApplyPromocodeBlock(promocodeBlock);
+            applyPromocodeBlock.render();
         }
     }
 

@@ -38,7 +38,8 @@ export const config = {
         suggestionSearch: `${basePathApi}suggestions`,
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
-        password: `${basePathApi}user/password`,
+        setPromo: `${basePathApi}/cart/setpromocode`,
+        password: `${basePathApi}passwordChange`,
     },
     states: {
         endOf: -1,
@@ -65,6 +66,8 @@ export const config = {
         code201: 201,
         code400: 400,
         code401: 401,
+        code403: 403,
+        code409: 409,
     },
     noop: () => {},
     empyNode: document.createElement('div'),
