@@ -84,7 +84,7 @@ export default class UserPage extends BasePage {
             }
             break;
         default:
-            errorMessage.getAbsoluteMessage();
+            errorMessage.getAbsoluteErrorMessage();
             this.removePopUp();
         }
     }

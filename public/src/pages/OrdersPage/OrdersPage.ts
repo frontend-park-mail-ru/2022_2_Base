@@ -59,7 +59,7 @@ export default class OrdersPage extends BasePage {
             });
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при загрузке заказов');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке заказов');
             break;
         }
     }

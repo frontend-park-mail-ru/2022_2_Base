@@ -58,7 +58,7 @@ export default class BaseItemPage extends BasePage {
             this.getItemAction();
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при получении товаров из корзины');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
             break;
         }
     }

@@ -63,7 +63,7 @@ export default class Header extends BaseComponent {
                 itemsStore.getContext(itemsStore._storeNames.suggestionsSearch));
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при поиске. Попробуйте позже');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
         }
     }
 
@@ -128,7 +128,7 @@ export default class Header extends BaseComponent {
                     itemCardsAction.getSuggestionSearch(this.searchInput.value);
                 }
             } else {
-                errorMessage.getAbsoluteMessage(errorMessageSearch);
+                errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
             }
         } else {
             if (this.elementSuggestions) {

@@ -189,7 +189,7 @@ export default class MainPage extends BasePage {
             itemCardsAction.getHomeItemCards(config.api.products, false);
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при загрузке данных корзины');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке данных корзины');
             break;
         }
     }
@@ -220,7 +220,7 @@ export default class MainPage extends BasePage {
             };
             tick();
         } else {
-            errorMessage.getAbsoluteMessage('Ошибка таймера скидки');
+            errorMessage.getAbsoluteErrorMessage('Ошибка таймера скидки');
         }
     }
 
@@ -259,7 +259,7 @@ export default class MainPage extends BasePage {
             this.startEventListener();
             this.startTimer();
         } else {
-            errorMessage.getAbsoluteMessage();
+            errorMessage.getAbsoluteErrorMessage();
         }
     }
 }

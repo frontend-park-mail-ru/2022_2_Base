@@ -67,7 +67,7 @@ export default class LoginPage extends BasePage {
             'emailError', config.errorMessages.error401auth);
             break;
         default:
-            errorMessage.getAbsoluteMessage();
+            errorMessage.getAbsoluteErrorMessage();
             break;
         }
     }
@@ -155,10 +155,10 @@ export default class LoginPage extends BasePage {
                 this.onSubmitHandlerRemove = this.onSubmitHandler.bind(this, config, this.form);
                 this.form.addEventListener('submit', this.onSubmitHandlerRemove);
             } else {
-                errorMessage.getAbsoluteMessage();
+                errorMessage.getAbsoluteErrorMessage();
             }
         } else {
-            errorMessage.getAbsoluteMessage();
+            errorMessage.getAbsoluteErrorMessage();
         }
     }
 }

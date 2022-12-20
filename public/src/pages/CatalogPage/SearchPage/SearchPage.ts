@@ -50,7 +50,7 @@ export default class SearchPage extends CatalogPage {
             super.render();
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при поиске. Попробуйте позже');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при поиске. Попробуйте позже');
         }
     }
 
@@ -95,7 +95,7 @@ export default class SearchPage extends CatalogPage {
             this.addListener();
             itemCardsAction.getSearchResults(searchString);
         } else if (errorMessageSearch) {
-            errorMessage.getAbsoluteMessage(errorMessageSearch);
+            errorMessage.getAbsoluteErrorMessage(errorMessageSearch);
         } else {
             super.render();
         }

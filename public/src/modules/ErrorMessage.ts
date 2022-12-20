@@ -69,16 +69,28 @@ class ErrorMessage {
     }
 
     /**
+     * Метод, показывающий уведомляющее сообщение
+     * @param errorText - текст ошибки
+     */
+    getAbsoluteNotificationMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
+        this.getAbsoluteMessage(errorText);
+    }
+
+    /**
      * Метод, показывающий ошибку
      * @param errorText - текст ошибки
-     * @param isError - является ли данное сообщение ошибкой
      */
-    getAbsoluteMessage(errorText= 'Возникла ошибка. Попробуйте позже', isError = true) {
+    getAbsoluteErrorMessage(errorText= 'Возникла ошибка. Попробуйте позже') {
+        this.getAbsoluteMessage(errorText, 'server-message');
+    }
+
+    /**
+     * Метод, показывающий сообщение
+     * @param errorText - текст ошибки
+     * @param serverMessageClass - класс для покраски сообщения
+     */
+    getAbsoluteMessage(errorText= 'Возникла ошибка. Попробуйте позже', serverMessageClass = '') {
         this.errorElement = document.getElementById('header_error-message');
-        let serverMessageClass = '';
-        if (!isError) {
-            serverMessageClass = 'server-message';
-        }
         if (!this.errorElement) {
             config.HTMLskeleton.main.insertAdjacentHTML(
                 'afterbegin',

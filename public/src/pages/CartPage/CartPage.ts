@@ -82,7 +82,8 @@ export default class CartOrderPage extends BasePage {
      */
     onMakeOrder() {
         this.getCart();
-        router.refresh();
+        router.openPage(config.href.orders);
+        errorMessage.getAbsoluteNotificationMessage('Заказ успешно оформлен');
     }
 
     /**
@@ -180,7 +181,7 @@ export default class CartOrderPage extends BasePage {
         case config.responseCodes.code401:
             break;
         default:
-            errorMessage.getAbsoluteMessage('Ошибка при получении данных пользователя');
+            errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
             break;
         }
     }
@@ -539,10 +540,10 @@ export default class CartOrderPage extends BasePage {
                     }
                 }
             } else {
-                errorMessage.getAbsoluteMessage('Выберите адрес');
+                errorMessage.getAbsoluteErrorMessage('Выберите адрес');
             }
         } else {
-            errorMessage.getAbsoluteMessage('Корзина пуста');
+            errorMessage.getAbsoluteErrorMessage('Корзина пуста');
         }
     }
 
