@@ -39,4 +39,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: npm ci && npm run start
+          script: cd front-next && npm ci && npm run start
