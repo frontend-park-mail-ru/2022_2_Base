@@ -69,7 +69,6 @@ export default class OrdersPage extends BasePage {
      * @param config - контекст отрисовки страницы
      */
     override render(config: object) {
-        console.log(config)
         super.render(config);
         const ordersHeader = document.getElementById('orders-page__header');
         if (ordersHeader) {
