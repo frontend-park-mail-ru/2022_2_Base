@@ -63,6 +63,8 @@ const webPackConfig = {
                 developerURL: null,
                 background: '#f8f8f8',
                 theme_color: '#6369d1',
+                start_url: '/',
+                lang: 'ru-RU',
             }
             }),
         new MiniCssExtractPlugin({
