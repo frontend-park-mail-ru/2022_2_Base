@@ -109,6 +109,14 @@
   font-size: 20px;
 }
 
+.empty-page-img {
+  display: block;
+  margin-bottom: 32px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .link {
   text-decoration: none;
   color: var(--default-purple);
@@ -299,6 +307,10 @@ main {
   main {
     grid-template-columns: 0px auto 0px;
   }
+
+  .empty-page-img {
+    height: 400px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -321,5 +333,10 @@ main {
     padding: 0 16px;
     left: 50%;
     transform: translate(-50%, 0);
+  }
+
+  .empty-page-img {
+    height: 300px;
+    margin-bottom: 16px;
   }
 }
