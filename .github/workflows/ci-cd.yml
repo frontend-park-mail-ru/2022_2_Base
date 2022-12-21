@@ -22,24 +22,26 @@ jobs:
         run: npm run css
       - name: Build
         run: npm run build
+      - name: Display structure of files
+        run: ls -R && ls
       - name: Upload build result
         uses: actions/upload-artifact@v3
         with:
-          name: build
-          path: ./build
+          name: dist
+          path: ./dist
   deploy:
     needs: [ linters ]
     runs-on: ubuntu-latest
     steps:
       - name: Display structure of files
-        run: ls -R
+        run: ls -R && ls
 
       - uses: actions/download-artifact@v3
         with:
-          name: build
+          name: dist
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: ls -R && ls
 
       - name: download artifact
         uses: appleboy/scp-action@master
