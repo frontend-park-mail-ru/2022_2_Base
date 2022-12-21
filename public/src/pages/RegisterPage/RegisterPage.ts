@@ -125,6 +125,7 @@ export default class RegisterPage extends BasePage {
         const tempPhone = this.context.fields.phone;
         delete this.context.fields.phone;
         super.render(this.context);
+        this.context.fields.phone = tempPhone;
 
         const form = document.getElementById('signup__form');
         if (form) {
