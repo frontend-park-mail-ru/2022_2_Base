@@ -87,7 +87,7 @@ export default class RegisterPage extends BasePage {
      */
     async onFocusinHandler(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            errorMessage.deleteErrorMessage(event.target.name);
+            errorMessage.deleteErrorMessage(event.target.name + 'Error');
         }
     }
 
@@ -111,11 +111,6 @@ export default class RegisterPage extends BasePage {
         });
         data.email = data.email.trim();
 
-        // Удаление отрисованных ошибок
-        Object.keys(data).forEach((key) => {
-            errorMessage.deleteErrorMessage(key);
-        });
-
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (validation.validate(data)) {
             userActions.signup(data);
@@ -127,8 +122,10 @@ export default class RegisterPage extends BasePage {
      */
     override render() {
         this.context = userStore.getContext(userStore._storeNames.context);
+        const tempPhone = this.context.fields.phone;
         delete this.context.fields.phone;
         super.render(this.context);
+        this.context.fields.phone = tempPhone;
 
         const form = document.getElementById('signup__form');
         if (form) {

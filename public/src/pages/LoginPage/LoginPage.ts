@@ -88,7 +88,7 @@ export default class LoginPage extends BasePage {
      */
     async onFocusinHandler(event: Event) {
         if (event.target instanceof HTMLInputElement) {
-            errorMessage.deleteErrorMessage(event.target.name);
+            errorMessage.deleteErrorMessage(event.target.name + 'Error');
         }
     }
 
@@ -111,11 +111,6 @@ export default class LoginPage extends BasePage {
             }
         });
         data.email = data.email.trim();
-
-        /* Удаление отрисованных ошибок */
-        Object.keys(data).forEach((key) => {
-            errorMessage.deleteErrorMessage(key);
-        });
 
         /* Проверка почты и пароля и отрисовка ошибок на странице */
         if (validation.validate(data)) {

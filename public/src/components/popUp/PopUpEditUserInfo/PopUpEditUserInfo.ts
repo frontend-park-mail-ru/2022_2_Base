@@ -27,17 +27,23 @@ export default class PopUpEditUserInfo extends BasePopUp {
     override async listenClickApply(event: Event) {
         event.preventDefault();
         const data = {
-            value: (getInputValueById(this.context.id + '__popUp')).value,
+            value: getInputValueById(this.context.id + '__popUp').value,
             id: this.context.id,
+            newValue: getInputValueById(this.context.id + '__2__popUp').value,
         };
-        const storeData = userStore.getContext(userStore._storeNames.context)
-            .fields[data.id].popUpName;
-        if (typeof storeData === 'string') {
-            const dataForVal: RecordString = {};
-            dataForVal[storeData] = data.value;
-            if (validation.validate(dataForVal)) {
-                profileAction.saveEditData(data);
-            }
+        const dataForVal: RecordString = {};
+        if (data.id === 'password') {
+            dataForVal[userStore.getContext(userStore._storeNames.context)
+                .fields[data.id].popUpNameNew] =
+                getInputValueById(this.context.id + '__2__popUp').value;
+            dataForVal[userStore.getContext(userStore._storeNames.context)
+                .fields.repeatPassword.popUpName] =
+                getInputValueById(this.context.id + '__3__popUp').value;
+        }
+        dataForVal[userStore.getContext(userStore._storeNames.context)
+            .fields[data.id].popUpName] = data.value;
+        if (validation.validate(dataForVal)) {
+            profileAction.saveEditData(data);
         }
     }
 
@@ -71,11 +77,17 @@ export default class PopUpEditUserInfo extends BasePopUp {
             data.title = 'телефон';
             break;
         case 'password':
-            field1.name = 'Новый пароль';
+            field1.name = 'Старый пароль';
             field1.value = context.value;
             data.fields.push({
-                name: 'Повторить пароль',
+                name: 'Новый пароль',
                 id: context.id + '__2__popUp',
+                type: context.id,
+                value: '',
+            });
+            data.fields.push({
+                name: 'Повторить пароль',
+                id: context.id + '__3__popUp',
                 type: context.id,
                 value: '',
             });

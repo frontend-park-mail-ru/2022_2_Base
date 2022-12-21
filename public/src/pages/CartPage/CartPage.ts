@@ -84,7 +84,8 @@ export default class CartOrderPage extends BasePage {
      */
     onMakeOrder() {
         this.getCart();
-        router.refresh();
+        router.openPage(config.href.orders);
+        errorMessage.getAbsoluteNotificationMessage('Заказ успешно оформлен');
     }
 
     /**

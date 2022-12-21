@@ -50,7 +50,10 @@ class UserStore extends BaseStore {
                 title: 'Пароль',
                 type: 'password',
                 name: 'password',
-                popUpName: 'password__popUp__div',
+                popUpName: 'password__popUp',
+                fieldName: 'password__popUp',
+                popUpNameNew: 'password__2__popUp',
+                fieldNameNew: 'password__2__popUp',
                 placeholder: 'Введите пароль',
                 maxLength: '16',
                 errorID: 'passwordError',
@@ -59,8 +62,8 @@ class UserStore extends BaseStore {
                 title: 'Повторить пароль',
                 type: 'password',
                 name: 'repeatPassword',
-                popUpName: 'password__2__popUp__div',
-                fieldName: 'password__2__popUp',
+                popUpName: 'password__3__popUp',
+                fieldName: 'password__3__popUp',
                 placeholder: 'Повторите пароль',
                 maxLength: '16',
                 errorID: 'repeatPasswordError',
@@ -77,6 +80,7 @@ class UserStore extends BaseStore {
         name: 'name',
         email: 'email',
         phone: 'phone',
+        password: 'password',
         context: 'context',
         avatar: 'avatar',
         paymentMethods: 'paymentMethods',
@@ -293,7 +297,7 @@ class UserStore extends BaseStore {
      * Метод, реализующий сохранение данных профиля.
      * @param data - данные для изменения
      */
-    async _saveEditData(data: HTMLInputElement) {
+    async _saveEditData(data: userInfoPopUp) {
         const userData = this.#collectUserData();
         switch (data.id) {
         case 'name':
@@ -309,9 +313,10 @@ class UserStore extends BaseStore {
             this._storage.set(this._storeNames.phone, data.value);
             break;
         case 'password': {
-            userData.password = data.value;
-            const [status] = await request.makePostRequest(config.api.password, userData)
-                .catch((err) => console.log(err)) ?? [];
+            const [status] = await request.makePostRequest(config.api.password, {
+                oldpassword: data.value,
+                newpassword: data.newValue,
+            }).catch((err) => console.log(err)) ?? [];
             this._storage.set(this._storeNames.responseCode, status);
             return;
         }

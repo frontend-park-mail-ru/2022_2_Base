@@ -69,11 +69,11 @@ class Router {
      */
     #changePage = async (event: Event) => {
         const {target} = event;
-        if (target) {
-            let href = (target as HTMLElement).getAttribute('href');
+        if (target instanceof HTMLElement) {
+            let href = target.getAttribute('href');
 
             if (!href) {
-                href = (target as HTMLElement).parentElement?.getAttribute('href') ?? null;
+                href = target.parentElement?.getAttribute('href') ?? null;
             }
 
             if (!!href && !href.includes('#')) {
