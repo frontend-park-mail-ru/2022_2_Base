@@ -147,3 +147,42 @@ export function objectKeysToLowerCase(obj: object) {
         Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v]),
     );
 }
+
+/**
+ * Функция, для получения информации
+ * на что действует промокод и размер скидки.
+ * @param promo - прмокод
+ * @returns текст для отображения
+ */
+export function parsePromo(promo: string) {
+    return (promo ? `${parseCategoryPromo(promo)} ` +
+        `${Number(promo.substring(1, 3)).toString()}` : null);
+}
+
+/**
+ * Функция, для получения категории промокода
+ * @param promo - прмокод
+ * @returns категория
+ */
+export function parseCategoryPromo(promo: string) {
+    switch (promo.substring(0, 1)) {
+    case 'A':
+        return 'все товары';
+    case 'C':
+        return 'компьютеры';
+    case 'M':
+        return 'мониторы';
+    case 'P':
+        return 'телефоны';
+    case 'V':
+        return 'телевизоры';
+    case 'W':
+        return 'часы';
+    case 'T':
+        return 'планшеты';
+    case 'X':
+        return 'аксессуары';
+    default:
+        return 'некоторые товары';
+    }
+}
