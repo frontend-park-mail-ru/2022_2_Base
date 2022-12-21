@@ -5,6 +5,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 const webPackConfig = {
     entry: {
@@ -36,56 +37,6 @@ const webPackConfig = {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         clean: true,
-    },
-    optimization: {
-        moduleIds: 'deterministic',
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
-            },
-        },
-        minimizer: [
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.sharpMinify,
-                    options: {
-                        encodeOptions: {
-                            jpeg: {
-                                quality: 100,
-                            },
-                            webp: {
-                                lossless: true,
-                            },
-                            avif: {
-                                lossless: true,
-                            },
-                            png: {
-                                lossless: true,
-                            },
-                            gif: {},
-                        },
-                    },
-                },
-            }),
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.svgoMinify,
-                    options: {
-                        encodeOptions: {
-                            multipass: true,
-                            plugins: [
-                                'preset-default',
-                            ],
-                        },
-                    },
-                },
-            }),
-        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -127,6 +78,67 @@ module.exports = (env, argv) => {
         });
         webPackConfig.mode = 'production';
     } else {
+        webPackConfig.optimization = {
+            moduleIds: 'deterministic',
+                runtimeChunk: 'single',
+                splitChunks: {
+                cacheGroups: {
+                    vendor: {
+                        test: /[\\/]node_modules[\\/]/,
+                            name: 'vendors',
+                            chunks: 'all',
+                    },
+                },
+            },
+            minimizer: [
+                new ImageMinimizerPlugin({
+                    minimizer: {
+                        implementation: ImageMinimizerPlugin.sharpMinify,
+                        options: {
+                            encodeOptions: {
+                                jpeg: {
+                                    quality: 100,
+                                },
+                                webp: {
+                                    lossless: true,
+                                },
+                                avif: {
+                                    lossless: true,
+                                },
+                                png: {
+                                    lossless: true,
+                                },
+                                gif: {},
+                            },
+                        },
+                    },
+                }),
+                new ImageMinimizerPlugin({
+                    minimizer: {
+                        implementation: ImageMinimizerPlugin.svgoMinify,
+                        options: {
+                            encodeOptions: {
+                                multipass: true,
+                                plugins: [
+                                    'preset-default',
+                                ],
+                            },
+                        },
+                    },
+                }),
+                new TerserPlugin({
+                    test: /\.(js|jsx|tsx|ts)$/,
+                    exclude: ['node_modules', 'dist'],
+                    minimize: true,
+                    minify: TerserPlugin.esbuildMinify,
+                    terserOptions: {
+                        compress: true,
+                        mangle: true,
+                    },
+                    sourceMap: false
+                })
+            ],
+        }
         webPackConfig.module.rules.push({
             test: /\.s[ac]ss$/i,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
