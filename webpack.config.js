@@ -129,13 +129,11 @@ module.exports = (env, argv) => {
                 new TerserPlugin({
                     test: /\.(js|jsx|tsx|ts)$/,
                     exclude: ['node_modules', 'dist'],
-                    minimize: true,
                     minify: TerserPlugin.esbuildMinify,
                     terserOptions: {
                         compress: true,
                         mangle: true,
                     },
-                    sourceMap: false
                 })
             ],
         }
