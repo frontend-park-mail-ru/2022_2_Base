@@ -4,7 +4,7 @@
   "description": "Проект Reazon команды Base",
   "main": "index.ts",
   "scripts": {
-    "start": "npm run build:webpack",
+    "build": "npm run build:webpack",
     "start:webpack": "webpack serve",
     "build:webpack": "webpack --mode=production",
     "build:dev": "webpack",
