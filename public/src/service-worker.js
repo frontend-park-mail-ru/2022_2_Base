@@ -13,29 +13,9 @@ self.addEventListener('install', (event) => {
 });
 
 /**
- * Удаляет старый кеш по ключу
- * @param key - ключ для удаления
- */
-const deleteCache = async (key) => {
-    await caches.delete(key);
-};
-
-/**
- * Удаляет старый кеш
- */
-const deleteOldCaches = async () => {
-    const cacheKeepList = [CACHE_NAME];
-    const keyList = await caches.keys();
-    const cachesToDelete = keyList.filter((key) => !cacheKeepList.includes(key));
-    await Promise.all(cachesToDelete.map(deleteCache));
-};
-
-/**
  * Подписываемся на событие активации сервис воркера
  */
 self.addEventListener('activate', (event) => {
-    event.waitUntil(deleteOldCaches());
-    event.waitUntil(enableNavigationPreload());
     event.waitUntil(self.clients.claim());
 });
 
