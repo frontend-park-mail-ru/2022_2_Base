@@ -57,10 +57,10 @@ const webPackConfig = {
         new FaviconsWebpackPlugin({
             logo: path.resolve(__dirname, 'public/img/favicon.webp'),
             favicons: {
+                developerURL: null,
                 appName: 'Reazon',
                 appDescription: 'Marketplace for tech goods',
                 developerName: 'Base',
-                developerURL: null,
                 background: '#f8f8f8',
                 theme_color: '#6369d1',
                 start_url: '/',
