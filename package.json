@@ -1,7 +1,7 @@
 {
   "name": "reazon",
   "version": "1.0.0",
-  "description": "Проект Ozon команды \"Base\"",
+  "description": "Проект Reazon команды Base",
   "main": "index.ts",
   "scripts": {
     "start": "npm run build:webpack",

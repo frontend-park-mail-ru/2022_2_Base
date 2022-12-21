@@ -56,10 +56,14 @@ const webPackConfig = {
         }),
         new FaviconsWebpackPlugin({
             logo: path.resolve(__dirname, 'public/img/favicon.webp'),
-            appName: 'Reazon',
-            appDescription: 'Marketplace for tech goods',
-            developerName: 'Base',
-            background: '#f8f8f8',
+            favicons: {
+                appName: 'Reazon',
+                appDescription: 'Marketplace for tech goods',
+                developerName: 'Base',
+                developerURL: null,
+                background: '#f8f8f8',
+                theme_color: '#6369d1',
+            }
             }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
