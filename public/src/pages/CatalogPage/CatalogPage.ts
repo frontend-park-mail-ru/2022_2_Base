@@ -54,6 +54,7 @@ export default class CatalogPage extends BasePage {
         this.#category.set(config.href.category + '/watches', 'Часы');
         this.#category.set(config.href.category + '/tablets', 'Планшеты');
         this.#category.set(config.href.category + '/accessories', 'Аксессуары');
+        this.#category.set(config.href.category + '/favourite', 'Избранное');
         this.#category.set(config.href.search, 'Поиск');
     }
 

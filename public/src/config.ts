@@ -43,6 +43,7 @@ export const config = {
         recommendations: `${basePathApi}recommendations`,
         addLike: `${basePathApi}user/insertintofav`,
         removeLike: `${basePathApi}user/deletefromfav`,
+        getFavorites: `${basePathApi}user/favorites`,
     },
     states: {
         endOf: -1,

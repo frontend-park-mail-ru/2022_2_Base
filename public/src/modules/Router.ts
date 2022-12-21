@@ -153,6 +153,7 @@ class Router {
         this.register(config.href.login, LoginPage);
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CategoryPage);
+        this.register(config.href.favourite, CategoryPage);
         this.register(config.href.search, SearchPage);
         this.register(config.href.cart, CartPage);
         this.register(config.href.product, ProductPage);
