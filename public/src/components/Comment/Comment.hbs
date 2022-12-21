@@ -1,63 +1,57 @@
-{{#if item}}
-    {{#each item}}
-        <div class="comment">
-            <div class="comment__header">
-                <img src="{{#if this.imgsrc}}{{this.imgsrc}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
-                    class="comment__userPhoto">
-                <span class="comment__color-pure-black text-normal-large-normal">
-                    {{#if this.username}}{{this.username}}{{else}}Анонимный пользователь{{/if}}</span>
-                <div class="comment__date-range">
-                    <span class="comment_date text-normal-default">{{this.date}}</span>
-                    <div class="rating-stars_disabled">
-                        <input class="rating-star_disabled" type="radio" id="star5/{{this.id}}" name="rating/{{@ index}}"
-                            value="5" {{#if this.rating5}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star5/{{@ index}}"></label>
-                        <input class="rating-star_disabled" type="radio" id="star4/{{this.id}}" name="rating/{{@ index}}"
-                            value="4" {{#if this.rating4}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star4/{{@ index}}"></label>
-                        <input class="rating-star_disabled" type="radio" id="star3/{{this.id}}" name="rating/{{@ index}}"
-                            value="3" {{#if this.rating3}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star3/{{@ index}}"></label>
-                        <input class="rating-star_disabled" type="radio" id="star2/{{this.id}}" name="rating/{{@ index}}"
-                            value="2" {{#if this.rating2}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star2/{{@ index}}"> </label>
-                        <input class="rating-star_disabled" type="radio" id="star1/{{this.id}}" name="rating/{{@ index}}"
-                            value="1" {{#if this.rating1}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star1/{{@ index}}"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="comment__content">
-                <div class="comment__content-sections">
-                    <span class="text-normal-large-normal comment__color-pure-black">Достоинства</span>
-                    <span class="text-normal-default comment__color-jet-black">
-                        {{#if this.pros}}
-                            {{this.pros}}
-                        {{else}}
-                            нет
-                        {{/if}}
-                    </span>
-                </div>
-                <div class="comment__content-sections">
-                    <span class="text-normal-large-normal comment__color-pure-black">Недостатки</span>
-                    <span class="text-normal-default comment__color-jet-black">
-                        {{#if this.cons}}
-                            {{this.cons}}
-                        {{else}}
-                            нет
-                        {{/if}}
-                    </span>
-                </div>
-                <div class="comment__content-sections">
-                    <span class="text-normal-large-normal comment__color-pure-black">Комментарий</span>
-                    <span class="text-normal-default comment__color-jet-black">
-                        {{#if this.comment}}
-                            {{this.comment}}
-                        {{else}}
-                            нет
-                        {{/if}}
-                    </span>
+{{#each item}}
+    <div class="comment">
+        <div class="comment__header">
+            <img src="{{#if this.imgsrc}}{{this.imgsrc}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
+                 class="comment__userPhoto">
+            <span class="comment__color-pure-black text-normal-large-normal">
+                {{#if this.username}}{{this.username}}{{else}}Анонимный пользователь{{/if}}</span>
+            <div class="comment__date-range">
+                <span class="comment_date text-normal-default">{{this.date}}</span>
+                <div class="rating-stars_disabled">
+                    <input class="rating-star_disabled" type="radio" id="star5/{{this.id}}" name="rating/{{@ index}}"
+                           value="5" {{#if this.rating5}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star5/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star4/{{this.id}}" name="rating/{{@ index}}"
+                           value="4" {{#if this.rating4}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star4/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star3/{{this.id}}" name="rating/{{@ index}}"
+                           value="3" {{#if this.rating3}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star3/{{@ index}}"></label>
+                    <input class="rating-star_disabled" type="radio" id="star2/{{this.id}}" name="rating/{{@ index}}"
+                           value="2" {{#if this.rating2}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star2/{{@ index}}"> </label>
+                    <input class="rating-star_disabled" type="radio" id="star1/{{this.id}}" name="rating/{{@ index}}"
+                           value="1" {{#if this.rating1}}checked{{else}}disabled{{/if}}/> <label class="rating-star__label_disabled" for="star1/{{@ index}}"></label>
                 </div>
             </div>
         </div>
-    {{/each}}
-{{else}}
-    <div>
-        <img class="empty-page-img" src="/img/Empty_page.svg" alt="Image with a blank sheet">
+        <div class="comment__content">
+            <div class="comment__content-sections">
+                <span class="text-normal-large-normal comment__color-pure-black">Достоинства</span>
+                <span class="text-normal-default comment__color-jet-black">
+                    {{#if this.pros}}
+                        {{this.pros}}
+                    {{else}}
+                        нет
+                    {{/if}}
+                </span>
+            </div>
+            <div class="comment__content-sections">
+                <span class="text-normal-large-normal comment__color-pure-black">Недостатки</span>
+                <span class="text-normal-default comment__color-jet-black">
+                    {{#if this.cons}}
+                        {{this.cons}}
+                    {{else}}
+                        нет
+                    {{/if}}
+                </span>
+            </div>
+            <div class="comment__content-sections">
+                <span class="text-normal-large-normal comment__color-pure-black">Комментарий</span>
+                <span class="text-normal-default comment__color-jet-black">
+                    {{#if this.comment}}
+                        {{this.comment}}
+                    {{else}}
+                        нет
+                    {{/if}}
+                </span>
+            </div>
+        </div>
     </div>
-{{/if}}
+{{/each}}
