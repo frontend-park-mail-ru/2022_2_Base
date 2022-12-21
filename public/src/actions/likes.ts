@@ -8,7 +8,6 @@ import Dispatcher from '../modules/dispatcher';
 export const LikesActionTypes = {
     LIKE: 'LIKE',
     DISLIKE: 'DISLIKE',
-    GET_NUMBER_OF_LIKES: 'GET_NUMBER_OF_LIKES',
 };
 
 /**
@@ -33,17 +32,6 @@ export const likesAction = {
     dislike(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.DISLIKE,
-            data: {id},
-        });
-    },
-
-    /**
-     * Действие: запрос количества лайков карточки товара.
-     * @param id - идентификатор
-     */
-    get_number_of_likes(id: number) {
-        Dispatcher.dispatch({
-            actionName: LikesActionTypes.GET_NUMBER_OF_LIKES,
             data: {id},
         });
     },

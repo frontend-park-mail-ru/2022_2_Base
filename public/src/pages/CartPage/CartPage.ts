@@ -21,6 +21,7 @@ import {
     truncatePrice,
 } from '../../modules/sharedFunctions';
 import refreshElements from '../../modules/refreshElements';
+import {likesAction, LikesActionTypes} from '../../actions/likes';
 
 /**
  * Класс, реализующий страницу с регистрации.
@@ -64,6 +65,8 @@ export default class CartOrderPage extends BasePage {
         cartStore.addListener(this.renderTotalCost.bind(this), CartActionTypes.DELETE_BY_ID);
         cartStore.addListener(this.onMakeOrder.bind(this), CartActionTypes.MAKE_ORDER);
         userStore.addListener(this.getUserData, ProfileActionTypes.GET_DATA);
+        itemsStore.addListener(this.listenLike, LikesActionTypes.LIKE);
+        itemsStore.addListener(this.listenLike, LikesActionTypes.DISLIKE);
     }
 
     /**
@@ -198,6 +201,18 @@ export default class CartOrderPage extends BasePage {
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
             break;
+        }
+    }
+
+    /**
+     * Функция, реагирует на ответ сервера при лайке
+     */
+    listenLike() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при изменении избранного');
         }
     }
 
@@ -346,10 +361,9 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая выбор даты и времени доставки
-     * @param event - контекст события для обработки
+     * @param target - элемент, на который нажали
      */
-    async listenChangeDateAndTime(event: Event) {
-        const target = event.target;
+    async listenChangeDateAndTime({target}: Event) {
         if (target instanceof HTMLInputElement) {
             let elementId = target.id;
             let itemId;
@@ -373,49 +387,55 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики в блоке товаров
-     * @param event - контекст события для обработки
+     * @param target - элемент, на который нажали
      */
-    async listenClickProductsBlock(event: Event) {
-        const target = event.target;
+    async listenClickProductsBlock({target}: Event) {
         if (target instanceof HTMLElement) {
             let elementId = target.id;
             let itemId;
-            if (elementId) {
-                if (elementId.includes('/')) {
-                    [elementId, itemId] = elementId.split('/');
-                }
-                switch (elementId) {
-                case 'empty-cart':
-                    cartAction.deleteAll();
-                    break;
-                case 'delete-cart-item':
-                    this.deleteItem(parseInt(itemId ?? ''));
-                    break;
-                case 'button-minus_cart': {
-                    const amountItem = document.getElementById(`count-product/${itemId}`);
-                    if (amountItem) {
-                        const count = parseInt(amountItem.textContent ?? '');
-                        if (count === 1) {
-                            this.deleteItem(parseInt(itemId ?? '')); // удаление элемента из корзины
-                        } else {
-                            cartAction.decreaseNumber(parseInt(itemId ?? ''));
-                            amountItem.textContent = (count - 1).toString();
-                            this.renderTotalCost();
-                        }
-                    }
-                    break;
-                }
-                case 'button-plus_cart': {
-                    const itemAmount = document.getElementById(`count-product/${itemId}`);
-                    if (itemAmount) {
-                        cartAction.increaseNumber(parseInt(itemId ?? ''));
-                        const count = parseInt(itemAmount.textContent ?? '');
-                        itemAmount.textContent = (count + 1).toString();
+            if (target.id.includes('/')) {
+                [elementId, itemId] = target.id.split('/');
+            }
+            switch (elementId) {
+            case 'empty-cart':
+                cartAction.deleteAll();
+                break;
+            case 'delete-cart-item':
+                this.deleteItem(parseInt(itemId ?? ''));
+                break;
+            case 'button-minus_cart': {
+                const amountItem = document.getElementById(`count-product/${itemId}`);
+                if (amountItem) {
+                    const count = parseInt(amountItem.textContent ?? '');
+                    if (count === 1) {
+                        this.deleteItem(parseInt(itemId ?? '')); // удаление элемента из корзины
+                    } else {
+                        cartAction.decreaseNumber(parseInt(itemId ?? ''));
+                        amountItem.textContent = (count - 1).toString();
                         this.renderTotalCost();
                     }
-                    break;
                 }
+                break;
+            }
+            case 'button-plus_cart': {
+                const itemAmount = document.getElementById(`count-product/${itemId}`);
+                if (itemAmount) {
+                    cartAction.increaseNumber(parseInt(itemId ?? ''));
+                    const count = parseInt(itemAmount.textContent ?? '');
+                    itemAmount.textContent = (count + 1).toString();
+                    this.renderTotalCost();
                 }
+                break;
+            }
+            case 'favourite-opt_cart':
+                if (target instanceof HTMLInputElement) {
+                    target.checked ?
+                        likesAction.like(
+                            Number(itemsStore.getContext(itemsStore._storeNames.itemData))) :
+                        likesAction.dislike(
+                            Number(itemsStore.getContext(itemsStore._storeNames.itemData)));
+                }
+                break;
             }
         }
     }

@@ -4,6 +4,7 @@ import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
 import {addSpacesToPrice} from '../modules/sharedFunctions';
+import {LikesActionTypes} from '../actions/likes';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -152,6 +153,16 @@ class ItemsStore extends BaseStore {
         case ItemCardsActionTypes.LOCAL_SORT_PRICE:
             await this._localSortPrice(payload.data);
             this._emitChange([ItemCardsActionTypes.LOCAL_SORT_PRICE]);
+            break;
+
+        case LikesActionTypes.LIKE:
+            await this._changeLikeState(payload.data, true);
+            this._emitChange([LikesActionTypes.LIKE]);
+            break;
+
+        case LikesActionTypes.DISLIKE:
+            await this._changeLikeState(payload.data, false);
+            this._emitChange([LikesActionTypes.DISLIKE]);
             break;
         }
     }
@@ -410,6 +421,19 @@ class ItemsStore extends BaseStore {
         comment.userid = cartStore.getContext(cartStore._storeNames.userID);
         const [status] = await request
             .makePostRequest(config.api.makeComment, comment);
+        this._storage.set(this._storeNames.responseCode, status);
+    }
+
+    /**
+     * Действие: изменение состояния лайка.
+     * @param id - идентификатор товара
+     * @param isLike - лайк или дизлайк
+     */
+    async _changeLikeState(id: number, isLike: boolean) {
+        const [status] = await request
+            .makePostRequest((isLike ? config.api.addLike : config.api.removeLike), {itemid: id})
+            .catch((err) => console.log(err)) ?? [];
+
         this._storage.set(this._storeNames.responseCode, status);
     }
 }

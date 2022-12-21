@@ -41,6 +41,8 @@ export const config = {
         setPromo: `${basePathApi}/cart/setpromocode`,
         password: `${basePathApi}passwordChange`,
         recommendations: `${basePathApi}recommendations`,
+        addLike: `${basePathApi}user/insertintofav`,
+        removeLike: `${basePathApi}user/deletefromfav`,
     },
     states: {
         endOf: -1,

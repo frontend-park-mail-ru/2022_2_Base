@@ -8,6 +8,7 @@ import errorMessage from '../../modules/ErrorMessage';
 import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
 import {getQueryParams} from '../../modules/sharedFunctions';
+import {likesAction, LikesActionTypes} from '../../actions/likes';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -69,6 +70,14 @@ export default class CatalogPage extends BasePage {
 
         cartStore.addListener(this.buttonMinus,
             CartActionTypes.DECREASE_NUMBER,
+        );
+
+        itemsStore.addListener(this.listenLike,
+            LikesActionTypes.LIKE,
+        );
+
+        itemsStore.addListener(this.listenLike,
+            LikesActionTypes.DISLIKE,
         );
 
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
@@ -151,43 +160,41 @@ export default class CatalogPage extends BasePage {
     }
 
     /**
-     * Функция, обрабатывающая клики на данной странице
-     * @param event - контекст события для обработки
+     * Функция, реагирует на ответ сервера при лайке
      */
-    localEventListenersHandler(event: Event) {
-        event.preventDefault();
-        const target = event.target;
-        if (target instanceof HTMLElement) {
-            let elementId = target.id;
-            let itemId;
-            if (elementId) {
-                if (elementId.includes('/')) {
-                    [elementId, itemId] = elementId.split('/');
-                    switch (elementId) {
-                    case 'catalog_button-add-to-cart':
-                        cartAction.addToCart(Number(itemId));
-                        break;
-                    case 'catalog_button-minus_cart':
-                        cartAction.decreaseNumber(Number(itemId));
-                        break;
-                    case 'catalog_button-plus_cart':
-                        cartAction.increaseNumber(Number(itemId));
-                        break;
-                    case 'catalog_like-button':
-                    /* Запрос на добавление товара в избраннное */
-                        break;
-                    }
-                } else {
-                    switch (elementId) {
-                    case 'catalog-item-pic':
-                    /* Переход на страницу товара по ссылке в комменте выше */
+    listenLike() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при изменении избранного');
+        }
+    }
 
-                        break;
-                    case 'catalog_item-title':
-                    /* Переход на страницу товара по ссылке в комменте выше */
-                        break;
-                    }
+    /**
+     * Функция, обрабатывающая клики на данной странице
+     * @param target - элемент, на который нажали
+     */
+    localEventListenersHandler({target}: Event) {
+        if (target instanceof HTMLElement && target.id.includes('/')) {
+            const [elementId, itemId] = target.id.split('/');
+            switch (elementId) {
+            case 'catalog_button-add-to-cart':
+                cartAction.addToCart(Number(itemId));
+                break;
+            case 'catalog_button-minus_cart':
+                cartAction.decreaseNumber(Number(itemId));
+                break;
+            case 'catalog_button-plus_cart':
+                cartAction.increaseNumber(Number(itemId));
+                break;
+            case 'catalog_like-button':
+                if (target instanceof HTMLInputElement) {
+                    target.checked ?
+                        likesAction.like(Number(itemId)) :
+                        likesAction.dislike(Number(itemId));
                 }
+                break;
             }
         }
     }
