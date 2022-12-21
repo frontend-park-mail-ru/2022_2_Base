@@ -5,6 +5,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 const webPackConfig = {
     entry: {
@@ -37,56 +38,6 @@ const webPackConfig = {
         publicPath: '/',
         clean: true,
     },
-    optimization: {
-        moduleIds: 'deterministic',
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
-            },
-        },
-        minimizer: [
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.sharpMinify,
-                    options: {
-                        encodeOptions: {
-                            jpeg: {
-                                quality: 100,
-                            },
-                            webp: {
-                                lossless: true,
-                            },
-                            avif: {
-                                lossless: true,
-                            },
-                            png: {
-                                lossless: true,
-                            },
-                            gif: {},
-                        },
-                    },
-                },
-            }),
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.svgoMinify,
-                    options: {
-                        encodeOptions: {
-                            multipass: true,
-                            plugins: [
-                                'preset-default',
-                            ],
-                        },
-                    },
-                },
-            }),
-        ],
-    },
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.hbs',
@@ -103,7 +54,19 @@ const webPackConfig = {
                 },
             ],
         }),
-        new FaviconsWebpackPlugin(path.resolve(__dirname, 'public/img/favicon.webp')),
+        new FaviconsWebpackPlugin({
+            logo: path.resolve(__dirname, 'public/img/favicon.webp'),
+            favicons: {
+                developerURL: null,
+                appName: 'Reazon',
+                appDescription: 'Marketplace for tech goods',
+                developerName: 'Base',
+                background: '#f8f8f8',
+                theme_color: '#6369d1',
+                start_url: '/',
+                lang: 'ru-RU',
+            }
+            }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',
@@ -127,6 +90,65 @@ module.exports = (env, argv) => {
         });
         webPackConfig.mode = 'production';
     } else {
+        webPackConfig.optimization = {
+            moduleIds: 'deterministic',
+                runtimeChunk: 'single',
+                splitChunks: {
+                cacheGroups: {
+                    vendor: {
+                        test: /[\\/]node_modules[\\/]/,
+                            name: 'vendors',
+                            chunks: 'all',
+                    },
+                },
+            },
+            minimizer: [
+                new ImageMinimizerPlugin({
+                    minimizer: {
+                        implementation: ImageMinimizerPlugin.sharpMinify,
+                        options: {
+                            encodeOptions: {
+                                jpeg: {
+                                    quality: 100,
+                                },
+                                webp: {
+                                    lossless: true,
+                                },
+                                avif: {
+                                    lossless: true,
+                                },
+                                png: {
+                                    lossless: true,
+                                },
+                                gif: {},
+                            },
+                        },
+                    },
+                }),
+                new ImageMinimizerPlugin({
+                    minimizer: {
+                        implementation: ImageMinimizerPlugin.svgoMinify,
+                        options: {
+                            encodeOptions: {
+                                multipass: true,
+                                plugins: [
+                                    'preset-default',
+                                ],
+                            },
+                        },
+                    },
+                }),
+                new TerserPlugin({
+                    test: /\.(js|jsx|tsx|ts)$/,
+                    exclude: ['node_modules', 'dist'],
+                    minify: TerserPlugin.esbuildMinify,
+                    terserOptions: {
+                        compress: true,
+                        mangle: true,
+                    },
+                })
+            ],
+        }
         webPackConfig.module.rules.push({
             test: /\.s[ac]ss$/i,
             use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],

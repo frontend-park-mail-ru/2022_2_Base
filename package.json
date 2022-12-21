@@ -1,10 +1,10 @@
 {
   "name": "reazon",
   "version": "1.0.0",
-  "description": "Проект Ozon команды \"Base\"",
+  "description": "Проект Reazon команды Base",
   "main": "index.ts",
   "scripts": {
-    "start": "npm run build:webpack",
+    "build": "npm run build:webpack",
     "start:webpack": "webpack serve",
     "build:webpack": "webpack --mode=production",
     "build:dev": "webpack",
@@ -72,6 +72,7 @@
     "stylelint-scss": "^4.3.0",
     "stylelint-webpack-plugin": "^3.3.0",
     "svgo": "^3.0.0",
+    "terser-webpack-plugin": "^5.3.6",
     "typescript": "^4.9.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",

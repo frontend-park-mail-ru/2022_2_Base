@@ -16,7 +16,6 @@ self.addEventListener('install', (event) => {
  * Подписываемся на событие активации сервис воркера
  */
 self.addEventListener('activate', (event) => {
-    event.waitUntil(enableNavigationPreload());
     event.waitUntil(self.clients.claim());
 });
 

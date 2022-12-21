@@ -142,5 +142,6 @@ export default class RegisterPage extends BasePage {
         } else {
             errorMessage.getAbsoluteErrorMessage();
         }
+        this.context.fields.phone = tempPhone;
     }
 }
