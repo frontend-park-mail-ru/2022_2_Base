@@ -61,7 +61,7 @@ class OrdersStore extends BaseStore {
             item.totalPrice = truncatePrice(item.items.reduce(
                 (price: number, itemCard: priceData) => {
                     _addSpacesToItemPrice(itemCard);
-                    return (price + (itemCard.lowprice ?? 0));
+                    return (price + (itemCard.lowprice ?? 0) * itemCard.count);
                 }, 0));
 
             item.deliveryDateString = getLocalDate(new Date(item.deliveryDate));
