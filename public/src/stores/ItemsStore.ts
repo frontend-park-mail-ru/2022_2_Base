@@ -218,10 +218,10 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighPrice ?
                 (item1st: productObj, item2nd: productObj) => {
-                    return item1st.lowprice - item2nd.lowprice;
+                    return item2nd.lowprice - item1st.lowprice;
                 } :
                 (item1st: productObj, item2nd: productObj) => {
-                    return item2nd.lowprice - item1st.lowprice;
+                    return item1st.lowprice - item2nd.lowprice;
                 })));
         this._getByPriceItemCard(isLowToHighPrice);
     }
@@ -235,10 +235,10 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.cardsCategory,
             this._storage.get(this._storeNames.cardsCategory).sort((isLowToHighRating ?
                 (item1st: productObj, item2nd: productObj) => {
-                    return item1st.rating - item2nd.rating;
+                    return item2nd.rating - item1st.rating;
                 } :
                 (item1st: productObj, item2nd: productObj) => {
-                    return item2nd.rating - item1st.rating;
+                    return item1st.rating - item2nd.rating;
                 })));
         this._getByRatingItemCard(isLowToHighRating);
     }
