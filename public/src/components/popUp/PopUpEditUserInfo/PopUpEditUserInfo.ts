@@ -75,6 +75,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
             break;
         case 'phone':
             data.title = 'телефон';
+            data.fields[0].value = '+7';
             break;
         case 'password':
             field1.name = 'Старый пароль';

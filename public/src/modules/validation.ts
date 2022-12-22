@@ -4,7 +4,7 @@ import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;
 const stringRegex = /^[a-z0-9 а-яА-ЯёЁ!?()_/-]+$/i;
-const phoneRegex = /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
+const phoneRegex = /^(\+7)?[\s-]?\(?[0-9]{3}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
 
 /**
  * Класс, реализующий валидацию форм.
@@ -39,7 +39,13 @@ class Validation {
         if (!checkEmpty.status) {
             return checkEmpty;
         }
-        if (phone.length !== 11) {
+        if (phone.substring(0, 1) !== '+') {
+            return {
+                status: false,
+                message: `Телефон должен начинаться с +. Введено ${phone.length}/11`,
+            };
+        }
+        if (phone.length !== 12) {
             return {
                 status: false,
                 message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`,
@@ -48,7 +54,7 @@ class Validation {
         if (!phoneRegex.test(phone)) {
             return {
                 status: false,
-                message: 'Телефон должен начинаться с +7 или 8',
+                message: 'Телефон должен начинаться с +7',
             };
         }
         return {status: true, message: ''};
