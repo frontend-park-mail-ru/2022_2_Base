@@ -50,7 +50,7 @@
 }
 
 .button-order-block {
-  width: 152px;
+  //width: 152px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -70,7 +70,6 @@
 .button-cancel-order {
   background: var(--dark-grey);
   color: var(--jet-black);
-  justify-self: end;
 }
 
 .order-block__info-block__line-left {
