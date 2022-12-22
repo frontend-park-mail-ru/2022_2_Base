@@ -7,25 +7,23 @@
     <div class="product-page-main">
         <div class="product-page-main__information content-product-page-block-background product-page-header-main_padding">
             <img src="{{imgsrc}}" alt="product photo" class="product-page-main__photo">
-            <div class="product-page-main__information-text product-page-main__information-text_margin">
-                <div class="product-page-main__characteristics">
-                    <span class="product-page-information__header text-normal-default__bold">Коротко о товаре</span>
-                    {{#if properties}}
-                        {{#each properties}}
-                            <div class="product-page-characteristics__field">
-                                {{!--                                <div class="product-page-characteristics__name-dotted">--}}
-                                <span class="product-page-characteristics__name text-normal-default">{{this.name}}</span>
-                                <span class="product-page-characteristics__dots text-normal-default">
-                                  ................................................................................
-                                </span>
-                                {{!--                                </div>:--}}
-                                <span class="product-page-characteristics__description text-normal-default">{{this.description}}</span>
-                            </div>
-                        {{/each}}
-                    {{else}}
-                        <span class="text-normal-default">Нет информации о товаре</span>
-                    {{/if}}
-                </div>
+            <div class="product-page-main__characteristics">
+                <span class="product-page-information__header text-normal-default__bold">Коротко о товаре</span>
+                {{#if properties}}
+                    {{#each properties}}
+
+                        <div class="product-page-characteristics__name">
+                            <span class="text-normal-default">{{this.name}}</span>
+                            <span class="product-page-characteristics__dots text-normal-default">
+                                        ................................................................................................
+                                    </span>
+                        </div>
+
+                        <span class="product-page-characteristics__description text-normal-default">{{this.description}}</span>
+                    {{/each}}
+                {{else}}
+                    <span class="text-normal-default">Нет информации о товаре</span>
+                {{/if}}
             </div>
         </div>
         <div class="product-page-main__add-cart content-product-page-block-background">
