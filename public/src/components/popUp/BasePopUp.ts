@@ -62,7 +62,7 @@ export default class BasePopUp extends BaseComponent {
         const popUp = document.getElementById('popUp_user-page');
         if (popUpFade && popUp) {
             popUpFade.addEventListener('click', (event) => {
-                if (event.target !== popUpFade) {
+                if (event.target !== popUp) {
                     popUp.style.display = 'none';
                     popUp.replaceChildren();
                 }
