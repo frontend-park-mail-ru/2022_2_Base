@@ -36,8 +36,6 @@
 .cart-popup-form__button {
     height: 40px;
     width: 100px;
-
-    /* padding: 8px 24px 10px; */
 }
 
 .cart-popup-form__apply {
@@ -53,4 +51,8 @@
 .items-cart__upper-button {
     color: var(--default-purple);
     cursor: pointer;
+}
+
+.choice {
+    border: 2px solid #6369D1;
 }
