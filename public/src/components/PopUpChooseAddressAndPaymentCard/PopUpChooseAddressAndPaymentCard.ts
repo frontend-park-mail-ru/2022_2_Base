@@ -33,7 +33,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     removePopUpClickFromOutside(event: Event) {
         if (event.target !== this.popUp) {
-            this.listenClickCancel.bind(this);
+            this.listenClickCancel.bind(this, event);
         }
     }
 
