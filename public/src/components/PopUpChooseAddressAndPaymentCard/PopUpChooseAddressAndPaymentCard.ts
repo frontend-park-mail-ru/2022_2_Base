@@ -81,8 +81,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             });
         }
 
-        const popUpFade = document.getElementById('popUp-fade_user-page');
-        const popUp = document.getElementById('popUp_user-page');
+        const popUpFade = document.getElementById('popUp-fade');
+        const popUp = document.getElementById('popUp');
         if (popUpFade && popUp) {
             popUpFade.addEventListener('click', (event) => {
                 if (event.target !== popUp) {
