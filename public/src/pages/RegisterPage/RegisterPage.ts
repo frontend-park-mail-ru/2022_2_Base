@@ -87,6 +87,7 @@ export default class RegisterPage extends BasePage {
      */
     async onFocusinHandler(event: Event) {
         if (event.target instanceof HTMLInputElement) {
+            console.log(event.target.name + 'Error');
             errorMessage.deleteErrorMessage(event.target.name + 'Error');
         }
     }

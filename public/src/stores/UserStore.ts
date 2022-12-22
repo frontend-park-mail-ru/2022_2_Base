@@ -16,7 +16,7 @@ class UserStore extends BaseStore {
             name: {
                 title: 'Имя',
                 type: 'text',
-                name: 'username',
+                name: 'name',
                 popUpName: 'name__popUp__div',
                 /**
                  * поле popUpName было добавлено для корректной работы с поп-апами уже реализованного
