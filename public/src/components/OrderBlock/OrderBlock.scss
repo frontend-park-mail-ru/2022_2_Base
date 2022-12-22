@@ -50,7 +50,6 @@
 }
 
 .button-order-block {
-  //width: 152px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -79,12 +78,6 @@
 
 .order-block__info-block__line-right{
   grid-column: 2;
-}
-
-.order-block__info-block__buttons-line {
-  height: min-content;
-  display: flex;
-  gap: 16px;
 }
 
 .order-block__itemcard {
@@ -171,10 +164,6 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
-  }
-
-  .order-block__info-block__buttons-line {
-    justify-content: center;
   }
 }
 
