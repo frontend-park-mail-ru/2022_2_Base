@@ -246,8 +246,8 @@ export default class CatalogPage extends BasePage {
                 const isLowToHighPrice =
                     window.location.search.includes(config.queryParams.sort.priceDown);
                 isLowToHighPrice ?
-                    this.sortOrder.classList.add('rotate-img-180') :
-                    this.sortOrder.classList.remove('rotate-img-180');
+                    this.sortOrder.classList.remove('rotate-img-180') :
+                    this.sortOrder.classList.add('rotate-img-180');
                 this.getSortByPrice(isLowToHighPrice);
                 break;
             }
