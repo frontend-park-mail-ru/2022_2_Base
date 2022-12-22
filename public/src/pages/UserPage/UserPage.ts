@@ -96,7 +96,7 @@ export default class UserPage extends BasePage {
      * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
-        this.removePopUp;
+        this.removePopUp();
         const data = userStore.getContext(userStore._storeNames.temp);
         const userInfoText = document.getElementById(
             `${data.id}-text`);
@@ -109,7 +109,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные о способах оплаты
      */
     renderPaymentCards() {
-        this.removePopUp;
+        this.removePopUp();
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         if (bankCard) {
@@ -124,7 +124,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
-        this.removePopUp;
+        this.removePopUp();
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         if (addressCard) {
