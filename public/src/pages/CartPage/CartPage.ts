@@ -305,9 +305,9 @@ export default class CartOrderPage extends BasePage {
                 }
                 switch (elementId) {
                 case 'edit-address': {
-                    const addressCard = document.querySelector('.address-cart__main');
-                    if (addressCard) {
-                        this.#handleEditPopup(addressCard.id,
+                    // const addressCard = document.querySelector('.address-cart__main'); address-cart;
+                    if (this.addressCart) {
+                        this.#handleEditPopup(this.addressCart.id,
                             {
                                 address: userStore.getContext(userStore._storeNames.address),
                                 isAddress: true,
