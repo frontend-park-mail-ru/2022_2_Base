@@ -4,6 +4,7 @@ import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;
 const stringRegex = /^[a-z0-9 а-яА-ЯёЁ!?()_/-]+$/i;
+const phoneRegex = /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
 
 /**
  * Класс, реализующий валидацию форм.
@@ -38,9 +39,17 @@ class Validation {
         if (!checkEmpty.status) {
             return checkEmpty;
         }
-        if (phone.length !== 11 || !/^\d+$/.test(phone)) {
-            return {status: false,
-                message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`};
+        if (phone.length !== 11) {
+            return {
+                status: false,
+                message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`,
+            };
+        }
+        if (!phoneRegex.test(phone)) {
+            return {
+                status: false,
+                message: 'Телефон должен начинаться с +7 или 8',
+            };
         }
         return {status: true, message: ''};
     }
@@ -186,7 +195,7 @@ class Validation {
      */
     validate(data: RecordString) {
         const context = userStore.getContext(userStore._storeNames.context);
-        let isValid= true;
+        let isValid = true;
         Object.entries(data).forEach(([key, value]) => {
             switch (key) {
             case context.fields.name.name:

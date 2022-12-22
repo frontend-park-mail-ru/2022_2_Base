@@ -41,7 +41,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
                 getInputValueById(this.context.id + '__3__popUp').value;
         }
         dataForVal[userStore.getContext(userStore._storeNames.context)
-            .fields[data.id].popUpName] = data.value;
+            .fields[data.id].popUpName] = data.value.trim();
         if (validation.validate(dataForVal)) {
             profileAction.saveEditData(data);
         }

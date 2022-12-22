@@ -155,10 +155,20 @@ export default class UserPage extends BasePage {
      * Функция, делающая запрос за картами пользователя и загружающая их
      */
     onUploadAvatar() {
-        const userAvatar = document.getElementById('user-photo_user-page');
-        if (userAvatar instanceof HTMLImageElement) {
-            userAvatar.src =
-                userStore.getContext(userStore._storeNames.avatar);
+        switch (userStore.getContext(userStore._storeNames.responseCode)) {
+        case config.responseCodes.code200: {
+            const userAvatar = document.getElementById('user-photo_user-page');
+            if (userAvatar instanceof HTMLImageElement) {
+                userAvatar.src =
+                    userStore.getContext(userStore._storeNames.avatar);
+            }
+            break;
+        }
+        case config.responseCodes.code413:
+            errorMessage.getAbsoluteErrorMessage('Ошибка, слишком большой размер фото');
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при загрузке аватара');
         }
     }
 
