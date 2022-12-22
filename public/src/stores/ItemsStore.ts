@@ -196,7 +196,7 @@ class ItemsStore extends BaseStore {
             (isLowToHighPrice ?
                 config.queryParams.sort.priceUp :
                 config.queryParams.sort.priceDown) +
-            `q=${(getQueryParams() as any).q ?? ''}`);
+            `&q=${(getQueryParams() as any).q ?? ''}`);
     }
 
     /**
@@ -210,7 +210,7 @@ class ItemsStore extends BaseStore {
             (isLowToHighRating ?
                 config.queryParams.sort.ratingUp :
                 config.queryParams.sort.ratingDown) +
-        `q=${(getQueryParams() as any).q ?? ''}`);
+        `&q=${(getQueryParams() as any).q ?? ''}`);
     }
 
     /**
