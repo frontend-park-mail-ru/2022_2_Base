@@ -59,9 +59,9 @@ export default class ProductHeader extends BaseComponent {
             userStore.getContext(userStore._storeNames.isAuth)) {
             event.target.checked ?
                 likesAction.like(
-                    Number(itemsStore.getContext(itemsStore._storeNames.itemData))) :
+                    Number(itemsStore.getContext(itemsStore._storeNames.itemData).id)) :
                 likesAction.dislike(
-                    Number(itemsStore.getContext(itemsStore._storeNames.itemData)));
+                    Number(itemsStore.getContext(itemsStore._storeNames.itemData).id));
         } else {
             event.preventDefault();
             errorMessage.
@@ -76,7 +76,7 @@ export default class ProductHeader extends BaseComponent {
     startEventListener() {
         this.likeButton = document.getElementById('favourite-opt_cart');
         if (this.likeButton) {
-            this.likeButton.addEventListener('change', this.listenClickFavourite);
+            this.likeButton.addEventListener('click', this.listenClickFavourite);
         }
     }
 
@@ -85,7 +85,7 @@ export default class ProductHeader extends BaseComponent {
      */
     override removeEventListener() {
         if (this.likeButton) {
-            this.likeButton.removeEventListener('change', this.listenClickFavourite);
+            this.likeButton.removeEventListener('click', this.listenClickFavourite);
         }
     }
 

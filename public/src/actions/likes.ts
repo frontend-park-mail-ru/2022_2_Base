@@ -21,7 +21,7 @@ export const likesAction = {
     like(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.LIKE,
-            data: {id},
+            data: id,
         });
     },
 
@@ -32,7 +32,7 @@ export const likesAction = {
     dislike(id: number) {
         Dispatcher.dispatch({
             actionName: LikesActionTypes.DISLIKE,
-            data: {id},
+            data: id,
         });
     },
 };

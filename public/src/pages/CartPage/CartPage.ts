@@ -433,9 +433,9 @@ export default class CartOrderPage extends BasePage {
                     userStore.getContext(userStore._storeNames.isAuth)) {
                     target.checked ?
                         likesAction.like(
-                            Number(itemsStore.getContext(itemsStore._storeNames.itemData))) :
+                            Number(itemId)) :
                         likesAction.dislike(
-                            Number(itemsStore.getContext(itemsStore._storeNames.itemData)));
+                            Number(itemId));
                 } else {
                     event.preventDefault();
                     errorMessage.
