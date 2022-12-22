@@ -9,12 +9,13 @@
     border-radius: 10px;
     display: grid;
     grid-template-columns: min-content 1fr 180px min-content;
+    gap: 8px;
 }
 
 .catalog-item-card__pic-block {
     justify-self: center;
     align-self: center;
-}
+    }
 
 .catalog-item-card__pic-block__pic {
     height: 192px;
@@ -46,6 +47,7 @@
 .catalog-item-card__properties-block__property-line {
     align-self: center;
     height: 20px;
+    overflow: hidden;
 }
 
 .catalog-item-card__sale-block {

@@ -15,5 +15,7 @@ export default class ErrorPage extends BasePage {
             parent,
             errorPageTemplate,
         );
+
+        document.title = 'Страница не найдена';
     }
 }

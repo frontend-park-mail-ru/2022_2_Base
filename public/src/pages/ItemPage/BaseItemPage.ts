@@ -72,6 +72,7 @@ export default class BaseItemPage extends BasePage {
             if (data) {
                 document.title = data.name + ' ' + document.title;
                 data.delveryDate = getDate(1)[0];
+                console.log(data);
                 super.render(data);
                 this.loadMoreData(data);
                 const headerProduct = document.getElementById(
