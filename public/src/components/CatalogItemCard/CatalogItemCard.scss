@@ -3,6 +3,10 @@
     gap: 32px;
 }
 
+.catalog_items-block:last-child {
+    margin-bottom: 32px;
+}
+
 .catalog-item-card {
     padding: 8px 16px 8px 16px;
     background-color: var(--pure-white);
