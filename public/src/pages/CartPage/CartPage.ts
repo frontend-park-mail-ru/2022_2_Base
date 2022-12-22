@@ -197,6 +197,7 @@ export default class CartOrderPage extends BasePage {
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
+            cartAction.getCart();
             break;
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении данных пользователя');
@@ -650,6 +651,5 @@ export default class CartOrderPage extends BasePage {
     override render() {
         this.addListener();
         profileAction.getData();
-        cartAction.getCart();
     }
 }
