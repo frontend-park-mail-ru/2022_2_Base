@@ -58,16 +58,6 @@ export default class BasePopUp extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        const popUpFade = document.getElementById('popUp-fade_user-page');
-        const popUp = document.getElementById('popUp_user-page');
-        if (popUpFade && popUp) {
-            popUpFade.addEventListener('click', (event) => {
-                if (event.target !== popUp) {
-                    popUp.style.display = 'none';
-                    popUp.replaceChildren();
-                }
-            })
-        }
         this.cancel = document.getElementById(`popup-form_${this.pageName}__cancel`);
         if (this.cancel) {
             this.cancel.addEventListener('click', this.listenClickCancel);
