@@ -52,17 +52,13 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             const fields = document.querySelectorAll('.cart-popup-form__input');
             if (fields) {
                 fields.forEach((key) => {
-                    if (key.classList.contains('choice__border')) {
-                        key.classList.remove('choice__border');
-                    }
-                    // (key as HTMLElement).style.border = '2px solid #d5d5d5';
+                    (key as HTMLElement).style.border = '2px solid #d5d5d5';
                     if (key.classList.contains('choice')) {
                         key.classList.remove('choice');
                     }
                 });
             }
-            chooseAddress.classList.add('choice__border');
-            // chooseAddress.style.border = '2px solid #6369D1';
+            chooseAddress.style.border = '2px solid #6369D1';
             chooseAddress.classList.add('choice');
         }
     }
