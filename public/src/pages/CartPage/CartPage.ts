@@ -569,7 +569,7 @@ export default class CartOrderPage extends BasePage {
                     const time = timeElement.textContent?.trim().split(' - ');
                     if (date && time) {
                         orderData.deliveryDate =
-                            new Date(Date.UTC(Number(date[2]), Number(date[1]), Number(date[0]),
+                            new Date(Date.UTC(Number(date[2]), Number(date[1]) - 1, Number(date[0]),
                                 (Number(time[1].split(':')[0]) +
                                     Number(time[0].split(':')[0])) / 2 % 24, 0)).toJSON();
                         const paymentMethodsCard = document.querySelector('.payment-method__cart');
