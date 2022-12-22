@@ -459,6 +459,16 @@ export default class UserPage extends BasePage {
             });
         }
 
+        const popUpFade = document.getElementById('popUp-fade_user-page');
+        const popUp = document.getElementById('popUp_user-page');
+        if (popUpFade && popUp) {
+            popUpFade.removeEventListener('click', (event) => {
+                if (event.target !== popUp) {
+                    this.removePopUp();
+                }
+            })
+        }
+
         this.removeListenerPaymentCard();
         this.removeListenerAddressCard();
     }
