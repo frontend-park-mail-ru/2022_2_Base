@@ -24,6 +24,9 @@ export default class UserPage extends BasePage {
     profile: HTMLElement | null;
     userInfo: NodeListOf<Element> | undefined;
     userInfoArr: Array<any>;
+    popUpFade: HTMLElement | null;
+    popUp: HTMLElement | null;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
@@ -42,6 +45,8 @@ export default class UserPage extends BasePage {
         this.profile = null;
         this.userInfo = undefined;
         this.userInfoArr = [];
+        this.popUpFade = document.getElementById('popUp-fade_user-page');
+        this.popUp = document.getElementById('popUp_user-page');
     }
 
     /**
@@ -95,7 +100,7 @@ export default class UserPage extends BasePage {
      * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
-        this.removePopUp();
+        this.removePopUp.bind(this);
         const data = userStore.getContext(userStore._storeNames.temp);
         const userInfoText = document.getElementById(
             `${data.id}-text`);
@@ -108,7 +113,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные о способах оплаты
      */
     renderPaymentCards() {
-        this.removePopUp();
+        this.removePopUp.bind(this);
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         if (bankCard) {
@@ -123,7 +128,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
-        this.removePopUp();
+        this.removePopUp.bind(this);
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         if (addressCard) {
@@ -203,17 +208,25 @@ export default class UserPage extends BasePage {
     }
 
     /**
+     * Метод, убирающий поп-ап при клике мимо него.
+     * @param event - событие, вызвавшее обработчик
+     */
+    removePopUpClickFromOutside(event: Event) {
+        if (event.target !== this.popUp) {
+            this.removePopUp.bind(this);
+        }
+    }
+
+    /**
      * Метод, убирающий поп-ап.
      */
     removePopUp() {
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
+        if (this.popUp) {
+            this.popUp.style.display = 'none';
+            this.popUp.replaceChildren();
         }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
+        if (this.popUpFade) {
+            this.popUpFade.style.display = 'none';
             config.HTMLskeleton.body.style.overflow = 'visible';
         }
     }
@@ -306,14 +319,12 @@ export default class UserPage extends BasePage {
      */
     async listenClickUserInfo(element: HTMLElement, event: Event) {
         event.preventDefault();
-        const PopUp = document.getElementById('popUp_user-page');
-        const PopUpFade = document.getElementById('popUp-fade_user-page');
-        if (PopUp instanceof HTMLElement) {
-            PopUp.style.display = 'block';
-            this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
+        if (this.popUp instanceof HTMLElement) {
+            this.popUp.style.display = 'block';
+            this.PopUpEditUserInfo = new PopUpEditUserInfo(this.popUp);
         }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'block';
+        if (this.popUpFade) {
+            this.popUpFade.style.display = 'block';
             config.HTMLskeleton.body.style.overflow = 'hidden';
         }
         this.PopUpEditUserInfo?.render(element);
@@ -425,14 +436,8 @@ export default class UserPage extends BasePage {
             });
         }
 
-        const popUpFade = document.getElementById('popUp-fade_user-page');
-        const popUp = document.getElementById('popUp_user-page');
-        if (popUpFade && popUp) {
-            popUpFade.addEventListener('click', (event) => {
-                if (event.target !== popUp) {
-                    this.removePopUp();
-                }
-            });
+        if (this.popUpFade && this.popUp) {
+            this.popUpFade.addEventListener('click', this.removePopUpClickFromOutside.bind(this));
         }
     }
 
@@ -459,14 +464,8 @@ export default class UserPage extends BasePage {
             });
         }
 
-        const popUpFade = document.getElementById('popUp-fade_user-page');
-        const popUp = document.getElementById('popUp_user-page');
-        if (popUpFade && popUp) {
-            popUpFade.removeEventListener('click', (event) => {
-                if (event.target !== popUp) {
-                    this.removePopUp();
-                }
-            });
+        if (this.popUpFade && this.popUp) {
+            this.popUpFade.removeEventListener('click', this.removePopUpClickFromOutside.bind(this));
         }
 
         this.removeListenerPaymentCard();

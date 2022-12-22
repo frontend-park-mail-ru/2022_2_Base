@@ -10,6 +10,9 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     bindListenClickAddressAndPaymentCard: Array<addListenerFunction>;
     cancelElement: HTMLElement | null;
     popUpFields: NodeListOf<Element> | undefined;
+    popUp: HTMLElement | null;
+    popUpFade: HTMLElement | null;
+
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
      * @param parent - HTML-элемент, в который будет
@@ -20,6 +23,18 @@ export default class PopUpAddPaymentCard extends BaseComponent {
 
         this.bindListenClickAddressAndPaymentCard = [config.noop];
         this.cancelElement = null;
+        this.popUp = document.getElementById('popUp');
+        this.popUpFade = document.getElementById('popUp-fade');
+    }
+
+    /**
+     * Метод, убирающий поп-ап при клике мимо него.
+     * @param event - событие, вызвавшее обработчик
+     */
+    removePopUpClickFromOutside(event: Event) {
+        if (event.target !== this.popUp) {
+            this.listenClickCancel.bind(this);
+        }
     }
 
     /**
@@ -29,14 +44,12 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     async listenClickCancel(event: Event) {
         event.preventDefault();
 
-        const PopUp = document.getElementById('popUp');
-        const PopUpFade = document.getElementById('popUp-fade');
-        if (PopUp) {
-            PopUp.style.display = 'none';
-            PopUp.replaceChildren();
+        if (this.popUp) {
+            this.popUp.style.display = 'none';
+            this.popUp.replaceChildren();
         }
-        if (PopUpFade) {
-            PopUpFade.style.display = 'none';
+        if (this.popUpFade) {
+            this.popUpFade.style.display = 'none';
             config.HTMLskeleton.body.style.overflow = 'visible';
         }
     }
@@ -68,7 +81,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     startEventListener() {
         this.cancelElement = document.getElementById('cart-popup-form__cancel');
         if (this.cancelElement) {
-            this.cancelElement.addEventListener('click', this.listenClickCancel);
+            this.cancelElement.addEventListener('click', this.listenClickCancel.bind(this));
         }
 
         this.popUpFields = document.querySelectorAll('.cart-popup-form__input');
@@ -81,14 +94,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             });
         }
 
-        const popUpFade = document.getElementById('popUp-fade');
-        const popUp = document.getElementById('popUp');
-        if (popUpFade && popUp) {
-            popUpFade.addEventListener('click', (event) => {
-                if (event.target !== popUp) {
-                    this.listenClickCancel(event);
-                }
-            });
+        if (this.popUpFade && this.popUp) {
+            this.popUpFade.addEventListener('click', this.removePopUpClickFromOutside.bind(this));
         }
     }
 
@@ -107,14 +114,8 @@ export default class PopUpAddPaymentCard extends BaseComponent {
             });
         }
 
-        const popUpFade = document.getElementById('popUp-fade');
-        const popUp = document.getElementById('popUp');
-        if (popUpFade && popUp) {
-            popUpFade.removeEventListener('click', (event) => {
-                if (event.target !== popUp) {
-                    this.listenClickCancel(event);
-                }
-            });
+        if (this.popUpFade && this.popUp) {
+            this.popUpFade.removeEventListener('click', this.removePopUpClickFromOutside.bind(this));
         }
     }
 
