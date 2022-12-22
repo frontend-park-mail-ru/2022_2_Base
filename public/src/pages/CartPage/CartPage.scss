@@ -403,6 +403,10 @@
   height: 60vh;
 }
 
+.choice {
+  border: 2px solid #6369D1;
+}
+
 @media (max-width: 991px) {
   .content__cart {
     grid-template-columns: none;
