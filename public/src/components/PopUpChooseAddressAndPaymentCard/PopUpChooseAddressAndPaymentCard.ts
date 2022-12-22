@@ -106,6 +106,16 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                     this.bindListenClickAddressAndPaymentCard[i]);
             });
         }
+
+        const popUpFade = document.getElementById('popUp-fade');
+        const popUp = document.getElementById('popUp');
+        if (popUpFade && popUp) {
+            popUpFade.removeEventListener('click', (event) => {
+                if (event.target !== popUp) {
+                    this.listenClickCancel(event);
+                }
+            })
+        }
     }
 
     /**
