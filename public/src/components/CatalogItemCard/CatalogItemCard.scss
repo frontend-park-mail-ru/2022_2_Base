@@ -15,7 +15,8 @@
 .catalog-item-card__pic-block {
     justify-self: center;
     align-self: center;
-    }
+    padding: 0 8px 0 8px;
+}
 
 .catalog-item-card__pic-block__pic {
     height: 192px;
@@ -37,6 +38,7 @@
     cursor: pointer;
     color: var(--jet-black);
     text-decoration: none;
+    overflow: hidden;
 }
 
 .catalog-item-card__description-block__description-title:hover {
