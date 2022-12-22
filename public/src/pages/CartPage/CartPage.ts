@@ -219,10 +219,10 @@ export default class CartOrderPage extends BasePage {
         this.PopUpChooseAddressAndPaymentCard =
             new PopUpChooseAddressAndPaymentCard(PopUp ?? config.empyNode);
         this.PopUpChooseAddressAndPaymentCard.render(context);
-        // const choose = document.getElementById(elementToEditID);
-        // if (choose) {
-        //     choose.classList.add('choice');
-        // }
+        const choose = document.getElementById(elementToEditID);
+        if (choose) {
+            choose.classList.add('choice');
+        }
     }
 
     /**
