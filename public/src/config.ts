@@ -4,6 +4,7 @@ const basePathApi = 'api/v1/';
 
 export const config = {
     basePath: 'https://www.reazon.ru',
+    basePathApi: basePathApi,
     href: {
         main: '/',
         login: '/login',
@@ -18,6 +19,7 @@ export const config = {
         comment: '/comment',
         addComment: '/addcomment',
         search: '/search',
+        favourites: '/user/favorites',
     },
     api: {
         login: `${basePathApi}login`,

@@ -6,6 +6,7 @@ import {_declension} from '../../modules/sharedFunctions';
 import {likesAction, LikesActionTypes} from '../../actions/likes';
 import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс для реализации компонента ProductHeader
@@ -51,15 +52,21 @@ export default class ProductHeader extends BaseComponent {
 
     /**
      * Функция, реагирующая на нажатие кнопки лайка.
-     * @param target - элемент, на который нажали
+     * @param event - событие, вызвавшее обработчик
      */
-    listenClickFavourite({target}: Event) {
-        if (target instanceof HTMLInputElement) {
-            target.checked ?
+    listenClickFavourite(event: Event) {
+        if (event.target instanceof HTMLInputElement &&
+            userStore.getContext(userStore._storeNames.isAuth)) {
+            event.target.checked ?
                 likesAction.like(
                     Number(itemsStore.getContext(itemsStore._storeNames.itemData))) :
                 likesAction.dislike(
                     Number(itemsStore.getContext(itemsStore._storeNames.itemData)));
+        } else {
+            event.preventDefault();
+            errorMessage.
+                getAbsoluteNotificationMessage(
+                    'Чтобы добавить в избранное войдите');
         }
     }
 

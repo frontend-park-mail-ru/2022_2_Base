@@ -275,11 +275,7 @@ class ItemsStore extends BaseStore {
      * @returns путь запроса к серверу
      */
     #getRequestPathWithQueryParams() {
-        return config.api.category +
-            document.location.pathname.slice(
-                document.location.pathname.lastIndexOf('/'),
-                document.location.pathname.length,
-            ) +
+        return config.basePathApi + document.location.pathname.substring(1) +
             `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}` +
             `&count=${5}&${window.location.search.substring(1)}`;
     }

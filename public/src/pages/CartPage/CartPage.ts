@@ -387,9 +387,10 @@ export default class CartOrderPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики в блоке товаров
-     * @param target - элемент, на который нажали
+     * @param event - событие, вызвавшее обработчик
      */
-    async listenClickProductsBlock({target}: Event) {
+    async listenClickProductsBlock(event: Event) {
+        const target = event.target;
         if (target instanceof HTMLElement) {
             let elementId = target.id;
             let itemId;
@@ -428,12 +429,18 @@ export default class CartOrderPage extends BasePage {
                 break;
             }
             case 'favourite-opt_cart':
-                if (target instanceof HTMLInputElement) {
+                if (target instanceof HTMLInputElement &&
+                    userStore.getContext(userStore._storeNames.isAuth)) {
                     target.checked ?
                         likesAction.like(
                             Number(itemsStore.getContext(itemsStore._storeNames.itemData))) :
                         likesAction.dislike(
                             Number(itemsStore.getContext(itemsStore._storeNames.itemData)));
+                } else {
+                    event.preventDefault();
+                    errorMessage.
+                        getAbsoluteNotificationMessage(
+                            'Чтобы добавить в избранное войдите');
                 }
                 break;
             }

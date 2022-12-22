@@ -153,7 +153,7 @@ class Router {
         this.register(config.href.login, LoginPage);
         this.register(config.href.signup, RegisterPage);
         this.register(config.href.category, CategoryPage);
-        this.register(config.href.favourite, CategoryPage);
+        // this.register(config.href.favourites, CategoryPage);
         this.register(config.href.search, SearchPage);
         this.register(config.href.cart, CartPage);
         this.register(config.href.product, ProductPage);
@@ -195,12 +195,15 @@ class Router {
      */
     openPage(path: string, addToHistory = this.addToHistory) {
         document.documentElement.scrollTop = 0;
-        const goToPath = (path?.slice(0, path.lastIndexOf('/')) ?
-            path?.slice(0, path.lastIndexOf('/')) : path);
+        console.log(config.href.favourites, path);
+        const goToPath = this.#pathToPage.has(path) ? path :
+            (path?.slice(0, path.lastIndexOf('/')) ?
+                path?.slice(0, path.lastIndexOf('/')) : path);
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath) ?? 'Reazon';
             addToHistory(path);
+            console.log(goToPath);
             this.#currentPage = this.#pathToPage.get(goToPath)(config);
             return true;
         }

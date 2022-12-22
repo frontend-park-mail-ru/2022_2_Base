@@ -9,6 +9,7 @@ import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
 import {getQueryParams} from '../../modules/sharedFunctions';
 import {likesAction, LikesActionTypes} from '../../actions/likes';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -54,7 +55,7 @@ export default class CatalogPage extends BasePage {
         this.#category.set(config.href.category + '/watches', 'Часы');
         this.#category.set(config.href.category + '/tablets', 'Планшеты');
         this.#category.set(config.href.category + '/accessories', 'Аксессуары');
-        this.#category.set(config.href.category + '/favourite', 'Избранное');
+        this.#category.set(config.href.favourites, 'Избранное');
         this.#category.set(config.href.search, 'Поиск');
     }
 
@@ -174,9 +175,10 @@ export default class CatalogPage extends BasePage {
 
     /**
      * Функция, обрабатывающая клики на данной странице
-     * @param target - элемент, на который нажали
+     * @param event - событие, вызвавшее обработчик
      */
-    localEventListenersHandler({target}: Event) {
+    localEventListenersHandler(event: Event) {
+        const target = event.target;
         if (target instanceof HTMLElement && target.id.includes('/')) {
             const [elementId, itemId] = target.id.split('/');
             switch (elementId) {
@@ -190,10 +192,16 @@ export default class CatalogPage extends BasePage {
                 cartAction.increaseNumber(Number(itemId));
                 break;
             case 'catalog_like-button':
-                if (target instanceof HTMLInputElement) {
+                if (target instanceof HTMLInputElement &&
+                userStore.getContext(userStore._storeNames.isAuth)) {
                     target.checked ?
                         likesAction.like(Number(itemId)) :
                         likesAction.dislike(Number(itemId));
+                } else {
+                    event.preventDefault();
+                    errorMessage.
+                        getAbsoluteNotificationMessage(
+                            'Чтобы добавить в избранное войдите');
                 }
                 break;
             }
