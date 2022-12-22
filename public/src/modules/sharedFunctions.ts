@@ -84,12 +84,24 @@ export function _declension(number: number, declensionVariants: Array<string>) {
 
 /**
  * Функция, возвращает объект query параметров вида q: 'param'.
- * @returns query params
+ * @returns query параметры
  */
 export function getQueryParams() {
     return new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(<string>prop),
     });
+}
+
+/**
+ * Функция, возвращает измененные query параметры.
+ * @param key - названия query параметра
+ * @param value - значение query параметра
+ * @returns query параметры
+ */
+export function changeQueryParam(key: string, value: string) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set(key, value);
+    return '?' + queryParams.toString();
 }
 
 /**

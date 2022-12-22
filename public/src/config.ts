@@ -58,7 +58,7 @@ export const config = {
     },
     queryParams: {
         sort: {
-            base: '?sort=',
+            base: 'sort',
             priceUp: 'priceup',
             priceDown: 'pricedown',
             ratingUp: 'ratingup',

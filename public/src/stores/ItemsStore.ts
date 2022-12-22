@@ -3,7 +3,7 @@ import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
-import {addSpacesToPrice, getQueryParams} from '../modules/sharedFunctions';
+import {addSpacesToPrice, changeQueryParam, getQueryParams} from '../modules/sharedFunctions';
 import {LikesActionTypes} from '../actions/likes';
 
 /**
@@ -190,13 +190,16 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _getByPriceItemCard(isLowToHighPrice: boolean) {
-        this._storage.set(this._storeNames.isFirstRequest, true);
-        this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base +
+        console.log(changeQueryParam(config.queryParams.sort.base,
             (isLowToHighPrice ?
                 config.queryParams.sort.priceUp :
-                config.queryParams.sort.priceDown) +
-            `&q=${(getQueryParams() as any).q ?? ''}`);
+                config.queryParams.sort.priceDown)), config.queryParams.sort.base);
+        this._storage.set(this._storeNames.isFirstRequest, true);
+        this._storage.set(this._storeNames.sortURL,
+            changeQueryParam(config.queryParams.sort.base,
+                (isLowToHighPrice ?
+                    config.queryParams.sort.priceUp :
+                    config.queryParams.sort.priceDown)));
     }
 
     /**
@@ -204,13 +207,16 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _getByRatingItemCard(isLowToHighRating: boolean) {
-        this._storage.set(this._storeNames.isFirstRequest, true);
-        this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base +
+        console.log(changeQueryParam(config.queryParams.sort.base,
             (isLowToHighRating ?
                 config.queryParams.sort.ratingUp :
-                config.queryParams.sort.ratingDown) +
-        `&q=${(getQueryParams() as any).q ?? ''}`);
+                config.queryParams.sort.ratingDown)), config.queryParams.sort.base);
+        this._storage.set(this._storeNames.isFirstRequest, true);
+        this._storage.set(this._storeNames.sortURL,
+            changeQueryParam(config.queryParams.sort.base,
+                (isLowToHighRating ?
+                    config.queryParams.sort.ratingUp :
+                    config.queryParams.sort.ratingDown)));
     }
 
     /**
