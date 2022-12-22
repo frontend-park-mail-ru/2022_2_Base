@@ -26,6 +26,7 @@ export default class UserPage extends BasePage {
     deletePhotoButton: HTMLElement | null;
     userInfo: NodeListOf<Element> | undefined;
     userInfoArr: Array<any>;
+
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
      * @param parent - HTML-элемент, в который будет осуществлена отрисовка
@@ -334,6 +335,7 @@ export default class UserPage extends BasePage {
      */
     async listenClickUserInfo(element: HTMLElement, event: Event) {
         event.preventDefault();
+
         const PopUp = document.getElementById('popUp_user-page');
         const PopUpFade = document.getElementById('popUp-fade_user-page');
         if (PopUp instanceof HTMLElement) {

@@ -10,21 +10,20 @@
         <div class="comment-page-header__right-block">
             <div class="comment-page-header__add-cart">
                 <div class="comment-page-header__price">
-                    {{#if strPrice}}
-                        <div class="comment-page-header__price-discount">
-
+                    <div class="comment-page-header__price-discount">
+                        {{#if strPrice}}
                             <span class="text-normal-default comment-page-header__price-strikethrough">{{strPrice}}
                                 ₽</span>
                             <div class="comment-page-header__sales-value text-normal-small">
                                 -{{discount}}%
                             </div>
-                        </div>
-                    {{/if}}
+                        {{/if}}
+                    </div>
                     <span class="text-normal-large-normal">{{#if
                             strLowprice}}{{strLowprice}} ₽</span>
-                {{else}}
-                <span class="text-normal-large-normal">
-                    {{strPrice}} ₽</span>{{/if}}
+                    {{else}}
+                        <span class="text-normal-large-normal">
+                        {{strPrice}} ₽</span>{{/if}}
                 </div>
                 <div id="comment-block-button-add-to-cart" data-id="{{this.id}}">
                 </div>
@@ -43,7 +42,6 @@
             <div class="horizontal-line"></div>
         </div>
         <div class="comment-page-main__comments" id="comments">
-
         </div>
     </div>
 </div>

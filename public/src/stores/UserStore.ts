@@ -16,8 +16,8 @@ class UserStore extends BaseStore {
             name: {
                 title: 'Имя',
                 type: 'text',
-                name: 'name',
-                popUpName: 'name__popUp__div',
+                name: 'username',
+                popUpName: 'name__popUp',
                 /**
                  * поле popUpName было добавлено для корректной работы с поп-апами уже реализованного
                  * класса валидации. По значению поля проводится getElementById поля в поп-апе,
@@ -32,7 +32,7 @@ class UserStore extends BaseStore {
                 title: 'Телефон',
                 type: 'number',
                 name: 'phone',
-                popUpName: 'phone__popUp__div',
+                popUpName: 'phone__popUp',
                 placeholder: 'Введите телефон',
                 maxLength: '11',
                 errorID: 'phoneError',
@@ -41,7 +41,7 @@ class UserStore extends BaseStore {
                 title: 'Почта',
                 type: 'email',
                 name: 'email',
-                popUpName: 'email__popUp__div',
+                popUpName: 'email__popUp',
                 placeholder: 'mail@website.com',
                 maxLength: '30',
                 errorID: 'emailError',

@@ -6,7 +6,8 @@
     margin-right: auto;
     background-color: var(--background-white);
     display: grid;
-    grid-template-rows: 160px 60px 1fr 60px 1fr;
+    grid-template-rows: auto 60px 1fr 60px 1fr;
+    grid-gap: 20px;
 }
 
 .content__catalog {
@@ -14,7 +15,6 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 16px;
-    height: 40px;
 }
 
 .content__sales-title {
@@ -86,7 +86,6 @@
     .content__catalog {
         grid-template-columns: repeat(7, auto);
         grid-gap: 8px;
-        height: 72px;
     }
 
     .left-arrow {
@@ -116,5 +115,6 @@
         font-weight: 500;
         font-size: 32px;
         line-height: 42px;
+        align-self: center;
     }
 }
