@@ -88,7 +88,8 @@ class OrdersStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             if (response.body.length) {
                 const orders = response.body.reverse();
-                this.#prepareOrdersData(orders ?? []);
+                orders.items = orders.items ?? [];
+                this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders ?? []);
             } else {
                 this._storage.set(this._storeNames.orders, []);
