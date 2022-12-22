@@ -57,7 +57,6 @@ class OrdersStore extends BaseStore {
      * @param orders - полезная нагрузка запроса
      */
     #prepareOrdersData(orders: Array<itemOrderData>) {
-        console.log(orders);
         orders.forEach((item: itemOrderData) => {
             item = item ?? [];
             item.totalPrice = truncatePrice(item.items.reduce(
