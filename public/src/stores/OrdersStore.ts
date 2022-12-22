@@ -58,7 +58,6 @@ class OrdersStore extends BaseStore {
      */
     #prepareOrdersData(orders: Array<itemOrderData>) {
         orders.forEach((item: itemOrderData) => {
-            item = item ?? [];
             item.totalPrice = truncatePrice(item.items.reduce(
                 (price: number, itemCard: priceData) => {
                     _addSpacesToItemPrice(itemCard);
@@ -89,7 +88,7 @@ class OrdersStore extends BaseStore {
             if (response.body.length) {
                 const orders = response.body.reverse() ?? [];
                 this.#prepareOrdersData(orders);
-                this._storage.set(this._storeNames.orders, orders ?? []);
+                this._storage.set(this._storeNames.orders, orders);
             } else {
                 this._storage.set(this._storeNames.orders, []);
             }
