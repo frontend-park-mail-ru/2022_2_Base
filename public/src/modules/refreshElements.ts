@@ -5,7 +5,7 @@ import {config} from '../config';
 import userStore from '../stores/UserStore';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import CatalogPage from '../pages/CatalogPage/CatalogPage';
+import CategoryPage from '../pages/CatalogPage/CategoryPage/CategoryPage';
 
 /**
  * Класс, реализующий перерендеринг элементов
@@ -91,7 +91,7 @@ class RefreshEl {
     onAuth() {
         router.remove(config.href.login);
         router.remove(config.href.signup);
-        router.register(config.href.favourites, CatalogPage);
+        router.register(config.href.favourites, CategoryPage);
         this.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
     }
 
