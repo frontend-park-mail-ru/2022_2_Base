@@ -432,7 +432,7 @@ export default class UserPage extends BasePage {
                 if (event.target !== popUp) {
                     this.removePopUp();
                 }
-            })
+            });
         }
     }
 
@@ -466,7 +466,7 @@ export default class UserPage extends BasePage {
                 if (event.target !== popUp) {
                     this.removePopUp();
                 }
-            })
+            });
         }
 
         this.removeListenerPaymentCard();
