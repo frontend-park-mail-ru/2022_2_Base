@@ -31,7 +31,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      * Метод, убирающий поп-ап при клике мимо него.
      * @param event - событие, вызвавшее обработчик
      */
-    removePopUpClickFromOutside(event: Event) {
+     async removePopUpClickFromOutside(event: Event) {
         if (event.target !== this.popUp) {
             this.listenClickCancel.bind(this, event);
         }
@@ -104,7 +104,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
      */
     override removeEventListener() {
         if (this.cancelElement) {
-            this.cancelElement.removeEventListener('click', this.listenClickCancel);
+            this.cancelElement.removeEventListener('click', this.listenClickCancel.bind(this));
         }
 
         if (this.popUpFields) {
