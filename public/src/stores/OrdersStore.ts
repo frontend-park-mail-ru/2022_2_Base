@@ -59,6 +59,7 @@ class OrdersStore extends BaseStore {
     #prepareOrdersData(orders: Array<itemOrderData>) {
         console.log(orders);
         orders.forEach((item: itemOrderData) => {
+            item = item ?? [];
             item.totalPrice = truncatePrice(item.items.reduce(
                 (price: number, itemCard: priceData) => {
                     _addSpacesToItemPrice(itemCard);
@@ -87,8 +88,7 @@ class OrdersStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             if (response.body.length) {
-                const orders = response.body.reverse();
-                orders.items = orders.items ?? [];
+                const orders = response.body.reverse() ?? [];
                 this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders ?? []);
             } else {
