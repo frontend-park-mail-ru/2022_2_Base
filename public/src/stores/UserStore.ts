@@ -260,9 +260,11 @@ class UserStore extends BaseStore {
      * Метод, реализующий получение данных пользователя.
      */
     async _getData() {
+        console.log('lol');
         if (this._storage.get(this._storeNames.isAuth)) {
             const [status, response] = await request.makeGetRequest(config.api.profile)
                 .catch((err) => console.log(err)) ?? [];
+            console.log('status', status);
             this._storage.set(this._storeNames.responseCode, status);
             if (status === config.responseCodes.code200) {
                 this._storage.set(this._storeNames.name, response.username);

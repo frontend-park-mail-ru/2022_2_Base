@@ -650,7 +650,7 @@ export default class CartOrderPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     override render() {
-        this.addListener();
         profileAction.getData();
+        this.addListener();
     }
 }
