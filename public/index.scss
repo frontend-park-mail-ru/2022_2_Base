@@ -326,7 +326,12 @@ main {
   .input-field-error {
     grid-row-start: 2;
     position: relative;
-    border-radius: 0;
+    display: flex;
+    width: auto;
+  }
+
+  .userpage__popUp__error {
+    margin-left: 12px
   }
 
   .server-error {
