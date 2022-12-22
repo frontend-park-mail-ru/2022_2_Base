@@ -3,7 +3,7 @@ import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
-import {addSpacesToPrice} from '../modules/sharedFunctions';
+import {addSpacesToPrice, getQueryParams} from '../modules/sharedFunctions';
 import {LikesActionTypes} from '../actions/likes';
 
 /**
@@ -194,7 +194,9 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighPrice ?
-                config.queryParams.sort.priceUp : config.queryParams.sort.priceDown));
+                config.queryParams.sort.priceUp :
+                config.queryParams.sort.priceDown) +
+            `q=${(getQueryParams() as any).q ?? ''}`);
     }
 
     /**
@@ -206,7 +208,9 @@ class ItemsStore extends BaseStore {
         this._storage.set(this._storeNames.sortURL,
             config.queryParams.sort.base +
             (isLowToHighRating ?
-                config.queryParams.sort.ratingUp : config.queryParams.sort.ratingDown));
+                config.queryParams.sort.ratingUp :
+                config.queryParams.sort.ratingDown) +
+        `q=${(getQueryParams() as any).q ?? ''}`);
     }
 
     /**
