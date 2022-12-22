@@ -8,9 +8,9 @@
             {{#each items}}
                 <div class="order-block__itemcard">
                     <img src="{{this.imgsrc}}" class="order-block__itemcard__photo"
-                         alt="{{this.name}} photo">
+                        alt="{{this.name}} photo">
                     <a href="/product/{{this.id}}"
-                       class="text-normal-large-normal order-block__itemcard__title link__no-color"> {{this.name}}
+                    class="text-normal-large-normal order-block__itemcard__title link__no-color"> {{this.name}}
                     </a>
                     <span class="text-normal-large-normal order-block__itemcard__counter"> {{this.count}} шт.</span>
                     <span class="text-normal-very-big order-block__itemcard__counter">
@@ -70,10 +70,10 @@
 
             <div class="order-block__info-block__buttons-line">
                 <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
-                     data-id="{{this.id}}"> Отменить заказ
+                    data-id="{{this.id}}"> Отменить заказ
                 </div>
                 <div class="button-default button-order-block button-repeat-order disabled" id="button-repeat-order"
-                     data-id="{{this.id}}"> Повторить заказ
+                    data-id="{{this.id}}"> Повторить заказ
                 </div>
             </div>
 

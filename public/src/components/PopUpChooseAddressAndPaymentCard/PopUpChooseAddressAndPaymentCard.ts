@@ -10,6 +10,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
     bindListenClickAddressAndPaymentCard: Array<addListenerFunction>;
     cancelElement: HTMLElement | null;
     popUpFields: NodeListOf<Element> | undefined;
+
     /**
      * Конструктор, создающий класс компонента PopUpAddPaymentCard
      * @param parent - HTML-элемент, в который будет
