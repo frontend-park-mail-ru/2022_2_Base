@@ -424,14 +424,13 @@ export default class UserPage extends BasePage {
                 key.addEventListener('click', this.userInfoArr[index]);
             });
         }
-        
+
         const popUpFade = document.getElementById('popUp-fade_user-page');
         const popUp = document.getElementById('popUp_user-page');
         if (popUpFade && popUp) {
             popUpFade.addEventListener('click', (event) => {
                 if (event.target !== popUp) {
-                    popUp.style.display = 'none';
-                    popUp.replaceChildren();
+                    this.removePopUp();
                 }
             })
         }
