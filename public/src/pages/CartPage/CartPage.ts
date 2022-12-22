@@ -194,6 +194,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, загружающая данные пользователя
      */
     getUserData() {
+        console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
         switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
