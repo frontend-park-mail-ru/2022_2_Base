@@ -63,7 +63,7 @@ export default class BasePopUp extends BaseComponent {
         if (popUpFadeUserPage && popUpUserPage) {
             popUpFadeUserPage.addEventListener('click', (event) => {
                 if (event.target !== popUpFadeUserPage) {
-                    this.listenClickCancel(event);
+                    console.log('hi');
                 }
             })
         }
