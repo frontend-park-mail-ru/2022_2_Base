@@ -3,7 +3,7 @@ import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
-import {addSpacesToPrice, changeQueryParam, getQueryParams} from '../modules/sharedFunctions';
+import {addSpacesToPrice, changeQueryParam} from '../modules/sharedFunctions';
 import {LikesActionTypes} from '../actions/likes';
 
 /**
