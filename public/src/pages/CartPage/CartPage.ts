@@ -194,8 +194,7 @@ export default class CartOrderPage extends BasePage {
      * Функция, загружающая данные пользователя
      */
     getUserData() {
-        console.log(itemsStore.getContext(itemsStore._storeNames.responseCode));
-        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
             cartAction.getCart();
@@ -650,7 +649,7 @@ export default class CartOrderPage extends BasePage {
      * Метод, отрисовывающий страницу.
      */
     override render() {
-        profileAction.getData();
         this.addListener();
+        profileAction.getData();
     }
 }
