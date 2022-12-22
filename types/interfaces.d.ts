@@ -57,7 +57,7 @@ interface CardObj {
     name: string,
     email: string,
     phone: string,
-    avatar: string,
+    avatar: string | null,
     id: string,
     addCard?: boolean,
 }

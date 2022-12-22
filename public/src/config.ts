@@ -78,6 +78,7 @@ export const config = {
     },
     noop: () => {},
     empyNode: document.createElement('div'),
+    defaultAvatar: 'img/UserPhoto.webp',
     HTMLskeleton: {
         body: document.createElement('div') as HTMLElement,
         root: document.createElement('div') as HTMLElement,

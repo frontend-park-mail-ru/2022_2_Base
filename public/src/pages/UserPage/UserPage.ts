@@ -22,6 +22,8 @@ export default class UserPage extends BasePage {
     fileSelector: HTMLElement | null;
     paymentCard: NodeListOf<Element> | undefined;
     profile: HTMLElement | null;
+    splitterChangePhoto: HTMLElement | null;
+    deletePhotoButton: HTMLElement | null;
     userInfo: NodeListOf<Element> | undefined;
     userInfoArr: Array<any>;
     /**
@@ -40,6 +42,8 @@ export default class UserPage extends BasePage {
         this.fileSelector = null;
         this.paymentCard = undefined;
         this.profile = null;
+        this.splitterChangePhoto = null;
+        this.deletePhotoButton = null;
         this.userInfo = undefined;
         this.userInfoArr = [];
     }
@@ -48,9 +52,13 @@ export default class UserPage extends BasePage {
      * Функция, регистрирующая листенеры сторов
      */
     override addListener() {
-        userStore.addListener(this.getCards.bind(this), ProfileActionTypes.GET_DATA);
-        userStore.addListener(this.onUploadAvatar, ProfileActionTypes.UPLOAD_AVATAR);
-        userStore.addListener(this.onUploadAvatar,
+        userStore.addListener(this.getCards.bind(this),
+            ProfileActionTypes.GET_DATA);
+
+        userStore.addListener(this.onUploadAvatar.bind(this),
+            ProfileActionTypes.UPLOAD_AVATAR);
+
+        userStore.addListener(this.onUploadAvatar.bind(this),
             ProfileActionTypes.DELETE_AVATAR);
 
         userStore.addListener(this.templateFunction.bind(this, this.editUserInfo.bind(this)),
@@ -161,6 +169,13 @@ export default class UserPage extends BasePage {
             if (userAvatar instanceof HTMLImageElement) {
                 userAvatar.src =
                     userStore.getContext(userStore._storeNames.avatar);
+                if (this.splitterChangePhoto instanceof HTMLElement &&
+                    this.deletePhotoButton instanceof HTMLElement) {
+                    this.splitterChangePhoto.classList.toggle('user-photo-hidden');
+                    this.deletePhotoButton.classList.toggle('user-photo-hidden');
+                    this.splitterChangePhoto.classList.toggle('user-page__separation-line');
+                    this.deletePhotoButton.classList.toggle('user-page__pop-up-button');
+                }
             }
             break;
         }
@@ -181,6 +196,9 @@ export default class UserPage extends BasePage {
     loadCards(componentEntity: UserPageLoadCardsPages, nameOfCard: string, data: Array<CardObj>) {
         switch (nameOfCard) {
         case 'userDataCard':
+            data[0].avatar =
+                (data[0].avatar === config.defaultAvatar ?
+                    null : data[0].avatar);
             super.render(data[0]);
             return;
         case 'paymentCard':
@@ -434,6 +452,9 @@ export default class UserPage extends BasePage {
                 key.addEventListener('click', this.userInfoArr[index]);
             });
         }
+
+        this.splitterChangePhoto = document.getElementById('user-page__splitter-photo-buttons');
+        this.deletePhotoButton = document.getElementById('user-page__btn-delete-photo');
     }
 
     /**

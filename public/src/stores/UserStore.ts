@@ -271,7 +271,7 @@ class UserStore extends BaseStore {
                 if (!!response.avatar && response.avatar !== config.states.noAvatar) {
                     this._storage.set(this._storeNames.avatar, response.avatar);
                 } else {
-                    this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
+                    this._storage.set(this._storeNames.avatar, config.defaultAvatar);
                 }
 
                 if (response.paymentmethods) {
@@ -347,7 +347,7 @@ class UserStore extends BaseStore {
                     URL.createObjectURL(avatar));
             } else {
                 this._storage.set(this._storeNames.avatar,
-                    'img/UserPhoto.webp');
+                    config.defaultAvatar);
             }
         }
     }
