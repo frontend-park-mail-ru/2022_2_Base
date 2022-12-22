@@ -548,6 +548,7 @@ export default class CartOrderPage extends BasePage {
         const checkedItems = document.getElementsByName('itemCart');
         if (checkedItems) {
             checkedItems.forEach((key) => {
+                console.log('key.id', key.id);
                 const itemId = key.id.split('/')[1];
                 if (key instanceof HTMLInputElement && key.checked) {
                     orderData.items.push(parseInt(itemId));
@@ -559,21 +560,26 @@ export default class CartOrderPage extends BasePage {
         if (orderData.items.length) {
             const address = document.querySelector('.addressID');
             if (address) {
+                console.log('address.id', address.id);
                 orderData.address = parseInt(address.id.split('/', 2)[1]);
             }
             if (orderData.address !== -1) {
                 const dateElement = document.getElementById('date-delivery');
                 const timeElement = document.getElementById('time-delivery');
                 if (dateElement && timeElement) {
+                    console.log('dateElement.textContent', dateElement.textContent);
+                    console.log('timeElement.textContent', timeElement.textContent);
                     const date = dateElement.textContent?.trim().split(' / ');
                     const time = timeElement.textContent?.trim().split(' - ');
                     if (date && time) {
+                        console.log('time', time);
                         orderData.deliveryDate =
                             new Date(Date.UTC(Number(date[2]), Number(date[1]), Number(date[0]),
                                 (Number(time[1].split(':')[0]) +
                                     Number(time[0].split(':')[0])) / 2 % 24, 0)).toJSON();
                         const paymentMethodsCard = document.querySelector('.payment-method__cart');
                         if (paymentMethodsCard) {
+                            console.log('paymentMethodsCard.id', paymentMethodsCard.id);
                             orderData.card =
                                 parseInt(paymentMethodsCard.id.split('/')[1]);
                             orderData.card =
