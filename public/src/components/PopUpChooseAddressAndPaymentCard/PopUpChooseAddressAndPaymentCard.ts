@@ -88,7 +88,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 if (event.target !== popUp) {
                     this.listenClickCancel(event);
                 }
-            })
+            });
         }
     }
 
@@ -114,7 +114,7 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 if (event.target !== popUp) {
                     this.listenClickCancel(event);
                 }
-            })
+            });
         }
     }
 
