@@ -24,8 +24,6 @@ export default class UserPage extends BasePage {
     profile: HTMLElement | null;
     userInfo: NodeListOf<Element> | undefined;
     userInfoArr: Array<any>;
-    popUpFade: HTMLElement | null;
-    popUp: HTMLElement | null;
 
     /**
      * Конструктор, создающий конструктор базовой страницы с нужными параметрами
@@ -45,8 +43,6 @@ export default class UserPage extends BasePage {
         this.profile = null;
         this.userInfo = undefined;
         this.userInfoArr = [];
-        this.popUpFade = document.getElementById('popUp-fade_user-page');
-        this.popUp = document.getElementById('popUp_user-page');
     }
 
     /**
@@ -100,7 +96,7 @@ export default class UserPage extends BasePage {
      * Функция, изменяющая данные пользователя
      */
     editUserInfo() {
-        this.removePopUp.bind(this);
+        this.removePopUp;
         const data = userStore.getContext(userStore._storeNames.temp);
         const userInfoText = document.getElementById(
             `${data.id}-text`);
@@ -113,7 +109,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные о способах оплаты
      */
     renderPaymentCards() {
-        this.removePopUp.bind(this);
+        this.removePopUp;
         this.removeListenerPaymentCard();
         const bankCard = document.getElementById('payment-cards-items_user-page');
         if (bankCard) {
@@ -128,7 +124,7 @@ export default class UserPage extends BasePage {
      * Функция, делающая изменяющая данные об адресах доставки
      */
     renderAddresses() {
-        this.removePopUp.bind(this);
+        this.removePopUp;
         this.removeListenerAddressCard();
         const addressCard = document.getElementById('address-cards_user-page-items');
         if (addressCard) {
@@ -208,25 +204,17 @@ export default class UserPage extends BasePage {
     }
 
     /**
-     * Метод, убирающий поп-ап при клике мимо него.
-     * @param event - событие, вызвавшее обработчик
-     */
-    removePopUpClickFromOutside(event: Event) {
-        if (event.target !== this.popUp) {
-            this.removePopUp.bind(this);
-        }
-    }
-
-    /**
      * Метод, убирающий поп-ап.
      */
     removePopUp() {
-        if (this.popUp) {
-            this.popUp.style.display = 'none';
-            this.popUp.replaceChildren();
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
+        if (PopUp) {
+            PopUp.style.display = 'none';
+            PopUp.replaceChildren();
         }
-        if (this.popUpFade) {
-            this.popUpFade.style.display = 'none';
+        if (PopUpFade) {
+            PopUpFade.style.display = 'none';
             config.HTMLskeleton.body.style.overflow = 'visible';
         }
     }
@@ -319,12 +307,15 @@ export default class UserPage extends BasePage {
      */
     async listenClickUserInfo(element: HTMLElement, event: Event) {
         event.preventDefault();
-        if (this.popUp instanceof HTMLElement) {
-            this.popUp.style.display = 'block';
-            this.PopUpEditUserInfo = new PopUpEditUserInfo(this.popUp);
+
+        const PopUp = document.getElementById('popUp_user-page');
+        const PopUpFade = document.getElementById('popUp-fade_user-page');
+        if (PopUp instanceof HTMLElement) {
+            PopUp.style.display = 'block';
+            this.PopUpEditUserInfo = new PopUpEditUserInfo(PopUp);
         }
-        if (this.popUpFade) {
-            this.popUpFade.style.display = 'block';
+        if (PopUpFade) {
+            PopUpFade.style.display = 'block';
             config.HTMLskeleton.body.style.overflow = 'hidden';
         }
         this.PopUpEditUserInfo?.render(element);
@@ -435,10 +426,6 @@ export default class UserPage extends BasePage {
                 key.addEventListener('click', this.userInfoArr[index]);
             });
         }
-
-        if (this.popUpFade && this.popUp) {
-            this.popUpFade.addEventListener('click', this.removePopUpClickFromOutside.bind(this));
-        }
     }
 
     /**
@@ -462,10 +449,6 @@ export default class UserPage extends BasePage {
             this.userInfo.forEach((key: any, index: number) => {
                 key.removeEventListener('click', this.userInfoArr[index]);
             });
-        }
-
-        if (this.popUpFade && this.popUp) {
-            this.popUpFade.removeEventListener('click', this.removePopUpClickFromOutside.bind(this));
         }
 
         this.removeListenerPaymentCard();
