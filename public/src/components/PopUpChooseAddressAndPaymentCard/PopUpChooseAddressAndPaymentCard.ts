@@ -80,6 +80,16 @@ export default class PopUpAddPaymentCard extends BaseComponent {
                 key.addEventListener('click', this.bindListenClickAddressAndPaymentCard[i]);
             });
         }
+
+        const popUpFade = document.getElementById('popUp-fade_user-page');
+        const popUp = document.getElementById('popUp_user-page');
+        if (popUpFade && popUp) {
+            popUpFade.addEventListener('click', (event) => {
+                if (event.target !== popUp) {
+                    this.listenClickCancel(event);
+                }
+            })
+        }
     }
 
     /**
