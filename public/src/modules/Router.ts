@@ -43,8 +43,7 @@ class Router {
             () => errorMessage.getAbsoluteErrorMessage('Отсутствует подключение к интернету'));
 
         userStore.addListener(() => {
-            if (userStore.getContext(userStore._storeNames.responseCode) ===
-                    config.responseCodes.code200) {
+            if (userStore.getContext(userStore._storeNames.isAuth)) {
                 refresh.onAuth();
             } else {
                 refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));

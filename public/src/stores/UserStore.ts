@@ -191,7 +191,6 @@ class UserStore extends BaseStore {
         const [status, response, headers] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.csrf, response);
-        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);

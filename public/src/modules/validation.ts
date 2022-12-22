@@ -47,7 +47,7 @@ class Validation {
         if (phone.substring(1).length !== 11) {
             return {
                 status: false,
-                message: `Телефон должен содержать 11 цифр. Введено ${phone.length}/11`,
+                message: `Телефон должен содержать 11 цифр. Введено ${phone.length - 1}/11`,
             };
         }
         return {status: true, message: ''};
