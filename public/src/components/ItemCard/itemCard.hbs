@@ -1,6 +1,6 @@
 {{#if this.catalog}}
-    <span class="text-normal-large">Лучшее предложение</span>
-    {{else}}
+    <span class="text-normal-large best-offer-item__title">Лучшее предложение</span>
+{{else}}
 {{/if}}
 <div class="item-card__top">
     <a href="/product/{{this.id}}" class="text-normal-small content__sales-image link__no-color">
@@ -30,8 +30,7 @@
         {{this.name}}
     </a>
 </div>
-{{#if this.catalog}}
-    {{else}}
+
 <div class="item-card__bottom">
     <div class="item-card__block__button-add-to-cart">
         <div class="item-card__button-add-to-card button-default button__add-to-card paint-purple"
@@ -70,4 +69,3 @@
         </span>
     </a>
 </div>
-{{/if}}

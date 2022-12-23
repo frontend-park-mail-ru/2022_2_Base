@@ -10,6 +10,10 @@
     width: 160px;
 }
 
+.best-offer-item__title {
+    margin-bottom: 16px;
+}
+
 .a-inherit {
     all: inherit;
     text-decoration: none;
@@ -38,9 +42,10 @@
 }
 
 .item-card__bottom {
-    display: flex;
+    display: grid;
     justify-content: space-between;
-
+    gap: 8px;
+    grid-template-columns: 1fr 42px;
     align-items: center;
 }
 
@@ -98,7 +103,7 @@
 
 .item-card {
     display: grid;
-    grid-gap: 4px;
+    grid-gap: 8px;
     padding: 16px 20px;
     background: var(--90-white);
     color: var(--jet-black);
@@ -114,10 +119,8 @@
 }
 
 .item-card__button-add-to-card {
-    //width: 100px;
     height: 40px;
     justify-self: left;
-    margin-right: 10px;
 }
 
 .item-card__block__button-add-to-cart {

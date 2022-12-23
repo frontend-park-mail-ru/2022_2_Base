@@ -10,7 +10,7 @@ import './CatalogPage.scss';
 import {getQueryParams} from '../../modules/sharedFunctions';
 import {likesAction, LikesActionTypes} from '../../actions/likes';
 import userStore from '../../stores/UserStore';
-import ItemCard from "../../components/ItemCard/ItemCard";
+import ItemCard from '../../components/ItemCard/ItemCard';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -216,7 +216,7 @@ export default class CatalogPage extends BasePage {
     renderBestOffer() {
         const bestOfferElement = document.getElementById('best-offer-item');
         if (bestOfferElement) {
-            console.log(itemsStore.getContext(itemsStore._storeNames.itemData));
+            // console.log(itemsStore.getContext(itemsStore._storeNames.itemData));
             const bestOfferItem = new ItemCard(bestOfferElement);
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             data.catalog = true;

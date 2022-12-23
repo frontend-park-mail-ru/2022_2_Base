@@ -37,6 +37,7 @@ class OrdersStore extends BaseStore {
         this.ordersStates.set('delivered', 'доставлен');
         this.ordersStates.set('received', 'получен');
         this.ordersStates.set('returned', 'возвращен');
+        this.ordersStates.set('canceled', 'отменен');
     }
 
     /**

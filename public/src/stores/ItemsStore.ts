@@ -366,16 +366,20 @@ class ItemsStore extends BaseStore {
     /**
      * Действие: запрос наболее выгодной карточки.
      */
-    async _getBestCard(){
+    async _getBestCard() {
         const [status, response] = await request
-            .makeGetRequest(config.api.products +
-                `?sort=ratingdown&lastitemid=${0}&count=${1}`)
+            .makeGetRequest(config.api.getBestOffer +
+                (document.location.pathname.includes(config.api.category) ?
+                    document.location.pathname.
+                        replace(
+                            `${config.api.category}/`, '') :
+                    'phones'))
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             this.#syncItemWithCart(response.body);
             addSpacesToPrice(response.body);
-            this._storage.set(this._storeNames.itemData, response.body.at(0) ?? {});
+            this._storage.set(this._storeNames.itemData, response.body ?? {});
             this.#syncCardsInCategory(response.body);
         }
     }

@@ -27,7 +27,7 @@
     margin-bottom: 32px;
     position: sticky;
     top: 68px;
-    gap: 32px;
+    //gap: 32px;
 }
 
 %catalog_sort-img{
@@ -101,6 +101,7 @@
     }
 
     .catalog__filter-block {
+        position: relative;
         top: 136px;
         gap: 16px;
         grid-row-start: 1;
