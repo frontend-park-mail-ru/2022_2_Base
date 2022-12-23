@@ -1,7 +1,7 @@
 {{#each item}}
     <div class="order-block">
         <span class="text-normal-large-normal paint-jet-black"> Заказ №{{this.id}} </span>
-        <span class="text-normal-large-normal"> Статус: {{this.orderstatus}} </span>
+        <span class="text-normal-large-normal" id="order-status/{{this.id}}"> Статус: {{this.orderstatus}} </span>
 
         <div class="order-block__item-cards-block" id="order-block__itemcards-block">
 
@@ -69,8 +69,8 @@
                 <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
             </div>
 
-            <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
-                 data-id="{{this.id}}"> Отменить заказ
+            <div class="button-default button-order-block button-cancel-order"
+                 data-id="button-cancel-order" id="{{this.id}}"> Отменить заказ
             </div>
         </div>
     </div>

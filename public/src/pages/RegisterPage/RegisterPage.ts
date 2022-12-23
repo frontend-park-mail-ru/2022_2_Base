@@ -55,7 +55,7 @@ export default class RegisterPage extends BasePage {
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(
-                    document.getElementById('inForm') ?? config.empyNode,
+                    document.getElementById('inForm') ?? config.emptyNode,
                     'Error400Message', config.errorMessages.error400auth) :
                 console.log('bad request: ', status);
             break;

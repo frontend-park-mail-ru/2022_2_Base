@@ -7,6 +7,7 @@ import Dispatcher from '../modules/dispatcher';
  */
 export const OrderActionTypes = {
     GET_ORDERS: 'GET_ORDERS',
+    CANCEL_ORDER: 'CANCEL_ORDER',
 };
 
 /**
@@ -19,6 +20,17 @@ export const orderAction = {
     getOrders() {
         Dispatcher.dispatch({
             actionName: OrderActionTypes.GET_ORDERS,
+        });
+    },
+
+    /**
+     * Действие: отменяет заказ.
+     * @param id - идентификатор заказа для удаления
+     */
+    cancelOrder(id: number) {
+        Dispatcher.dispatch({
+            actionName: OrderActionTypes.GET_ORDERS,
+            data: id,
         });
     },
 };

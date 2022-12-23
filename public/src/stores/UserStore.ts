@@ -102,7 +102,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.name, null);
         this._storage.set(this._storeNames.email, null);
         this._storage.set(this._storeNames.phone, null);
-        this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
+        this._storage.set(this._storeNames.avatar, config.defaultAvatar);
         this._storage.set(this._storeNames.paymentMethods, []);
         this._storage.set(this._storeNames.address, []);
         this._storage.set(this._storeNames.context, this.#context);
@@ -269,7 +269,7 @@ class UserStore extends BaseStore {
                 this._storage.set(this._storeNames.email, response.email);
                 this._storage.set(this._storeNames.phone, response.phone);
                 if (!!response.avatar && response.avatar !== config.states.noAvatar) {
-                    this._storage.set(this._storeNames.avatar, response.avatar);
+                    this._storage.set(this._storeNames.avatar, config.avatarBasePath + response.avatar);
                 } else {
                     this._storage.set(this._storeNames.avatar, config.defaultAvatar);
                 }

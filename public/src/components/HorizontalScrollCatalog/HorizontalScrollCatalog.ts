@@ -45,7 +45,7 @@ export default class HorizontalScrollCatalog extends BaseComponent {
         this.bindListenRightScrollButtonClick = config.noop;
         this.leftScrollButton = null;
         this.rightScrollButton = null;
-        this.scrollItemsElement = config.empyNode;
+        this.scrollItemsElement = config.emptyNode;
     }
 
     /**
@@ -249,7 +249,7 @@ export default class HorizontalScrollCatalog extends BaseComponent {
 
         this.scrollItemsElement = document.
             getElementById(`content__horizontal-scroll_${this.parent.id}`) ??
-            config.empyNode;
+            config.emptyNode;
 
         this.addListener();
         this.startEventListener();
