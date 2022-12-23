@@ -129,6 +129,7 @@ interface itemOrderData {
     deliverydate: Date,
     orderstatus: string,
     paymentstatus:string;
+    cancelled: boolean;
 }
 
 interface userInfoPopUp {
