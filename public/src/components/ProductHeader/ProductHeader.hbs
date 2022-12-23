@@ -1,14 +1,14 @@
 <div class="product-page-header product-page-color-jet-black">
-    {{#if categoryPath}}
-        <a class="text-normal-default link__no-color" href="{{categoryPath}}">{{categoryName}}</a>
+    {{#if this.categoryPath}}
+        <a class="text-normal-default link__no-color" href="{{this.categoryPath}}">{{this.categoryName}}</a>
     {{else}}
         <a href="" class="comment-page-header__back link">
             <img src="img/ReturnArrow.png" alt="return-arrow">
             <span class="text-normal-default">К описанию товара</span>
         </a>
     {{/if}}
-    <a href="{{itemPath}}" class="text-normal-very-large link__no-color comment-page-header__title">
-        {{name}}
+    <a href="{{this.itemPath}}" class="text-normal-very-large link__no-color comment-page-header__title">
+        {{this.name}}
     </a>
     <div class="product-page-header__data">
         <a href="{{this.commentPath}}" class="product-page-header__rating link__no-color">
@@ -18,19 +18,19 @@
             </span>
                 <img src="/img/Comment.svg" alt="product comments counter" class="product-page-header__comment-img">
                 <span class="text-normal-large-normal link">
-                    {{#if commentsCount}}
-                        {{commentsCount}}
+                    {{#if this.commentsCount}}
+                        {{this.commentsCount}}
                     {{else}}
                         Нет
                     {{/if}}
-                    {{commentsCountText}}
+                    {{this.commentsCountText}}
                 </span>
         </a>
         <label class="product-page-header__selection">
             <input type="checkbox" class="favourite-opt"
                    id="favourite-opt_cart"
-                {{#if isfavorite}} checked {{/if}}>
-            <span class="product-page-header__selection-text text-normal-large-normal">{{#if isfavorite}}
+                {{#if this.isfavorite}} checked {{/if}}>
+            <span class="product-page-header__selection-text text-normal-large-normal">{{#if this.isfavorite}}
                 В избранном {{else}} В избранное {{/if}}</span>
         </label>
     </div>
