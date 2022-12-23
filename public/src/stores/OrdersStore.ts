@@ -81,7 +81,7 @@ class OrdersStore extends BaseStore {
 
             item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
-            item.cancelled = (item.orderstatus === 'cancelled');
+            item.cancelled = (item.orderstatus === 'canceled');
         });
     }
 
