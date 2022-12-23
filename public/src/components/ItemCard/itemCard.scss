@@ -16,13 +16,11 @@
 }
 
 .item-card__rating {
-
     display: flex;
     width: 44px;
     align-items: flex-start;
     justify-content: center;
     gap: 4px;
-
     background: transparent;
     border: none;
 }
@@ -116,12 +114,12 @@
 }
 
 .item-card__button-add-to-card {
-    width: 100px;
+    //width: 100px;
     height: 40px;
     justify-self: left;
     margin-right: 10px;
 }
 
 .item-card__block__button-add-to-cart {
-    width: 100px;
+    width: 100%;
 }

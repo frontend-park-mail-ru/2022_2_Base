@@ -2,7 +2,7 @@ import BasePage from '../BasePage';
 import cartStore from '../../stores/CartStore';
 import {cartAction, CartActionTypes} from '../../actions/cart';
 import {config} from '../../config';
-import {itemCardsAction} from '../../actions/itemCards';
+import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import itemsStore from '../../stores/ItemsStore';
 import errorMessage from '../../modules/ErrorMessage';
 import CatalogPageTemplate from './CatalogPage.hbs';
@@ -10,6 +10,7 @@ import './CatalogPage.scss';
 import {getQueryParams} from '../../modules/sharedFunctions';
 import {likesAction, LikesActionTypes} from '../../actions/likes';
 import userStore from '../../stores/UserStore';
+import ItemCard from "../../components/ItemCard/ItemCard";
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -67,22 +68,22 @@ export default class CatalogPage extends BasePage {
             CartActionTypes.ADD_TO_CART);
 
         cartStore.addListener(this.buttonAdd,
-            CartActionTypes.INCREASE_NUMBER,
-        );
+            CartActionTypes.INCREASE_NUMBER);
 
         cartStore.addListener(this.buttonMinus,
-            CartActionTypes.DECREASE_NUMBER,
-        );
+            CartActionTypes.DECREASE_NUMBER);
 
         itemsStore.addListener(this.listenLike,
-            LikesActionTypes.LIKE,
-        );
+            LikesActionTypes.LIKE);
 
         itemsStore.addListener(this.listenLike,
-            LikesActionTypes.DISLIKE,
-        );
+            LikesActionTypes.DISLIKE);
 
-        cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
+        cartStore.addListener(this.getCart.bind(this),
+            CartActionTypes.GET_CART);
+
+        itemsStore.addListener(this.renderBestOffer,
+            ItemCardsActionTypes.BEST_OFFER_ITEM_GET);
     }
 
     /**
@@ -93,6 +94,7 @@ export default class CatalogPage extends BasePage {
         case config.responseCodes.code200:
         case config.responseCodes.code401:
             this.actionToLoadCards(true);
+            itemCardsAction.getBestOfferCard();
             break;
         default:
             errorMessage.getAbsoluteErrorMessage('Ошибка при получении товаров из корзины');
@@ -205,6 +207,20 @@ export default class CatalogPage extends BasePage {
                 }
                 break;
             }
+        }
+    }
+
+    /**
+     * Функция, рендрит карточку с лучшим предложением
+     */
+    renderBestOffer() {
+        const bestOfferElement = document.getElementById('best-offer-item');
+        if (bestOfferElement) {
+            console.log(itemsStore.getContext(itemsStore._storeNames.itemData));
+            const bestOfferItem = new ItemCard(bestOfferElement);
+            const data = itemsStore.getContext(itemsStore._storeNames.itemData);
+            data.catalog = true;
+            bestOfferItem.render(data);
         }
     }
 

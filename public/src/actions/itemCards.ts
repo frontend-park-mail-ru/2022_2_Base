@@ -21,6 +21,7 @@ export const ItemCardsActionTypes = {
     LOCAL_SORT_RATING: 'LOCAL_SORT_RATING',
     LOCAL_SORT_PRICE: 'LOCAL_SORT_PRICE',
     GET_SUGGESTION_SEARCH: 'GET_SUGGESTION_SEARCH',
+    BEST_OFFER_ITEM_GET: 'BEST_OFFER_ITEM_GET',
 };
 
 /**
@@ -138,6 +139,15 @@ export const itemCardsAction = {
     getItemCard() {
         Dispatcher.dispatch({
             actionName: ItemCardsActionTypes.ITEM_CARD_GET,
+        });
+    },
+
+    /**
+     * Действие: запрос карточки с наиболее выгодным предложением.
+     */
+    getBestOfferCard() {
+        Dispatcher.dispatch({
+            actionName: ItemCardsActionTypes.BEST_OFFER_ITEM_GET,
         });
     },
 

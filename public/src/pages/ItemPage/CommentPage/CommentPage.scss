@@ -21,7 +21,7 @@
 
 .comment-page-header {
     display: grid;
-    grid-template-columns: 66px auto auto;
+    grid-template-columns: 66px 1fr min-content;
     grid-gap: 16px;
     align-items: center;
 }
@@ -136,6 +136,7 @@
 .comment-page-main__comments {
     display: grid;
     gap: 32px;
+    max-width: 1338px;
 }
 
 @media (max-width: 767px) {

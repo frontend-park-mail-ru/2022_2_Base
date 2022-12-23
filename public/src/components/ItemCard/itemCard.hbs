@@ -1,3 +1,7 @@
+{{#if this.catalog}}
+    <span class="text-normal-large">Лучшее предложение</span>
+    {{else}}
+{{/if}}
 <div class="item-card__top">
     <a href="/product/{{this.id}}" class="text-normal-small content__sales-image link__no-color">
         <img src={{imgsrc}} class="item-card__image" data-selection="itemcard_item-pic/{{this.id}}"
@@ -26,29 +30,35 @@
         {{this.name}}
     </a>
 </div>
-
+{{#if this.catalog}}
+    {{else}}
 <div class="item-card__bottom">
     <div class="item-card__block__button-add-to-cart">
         <div class="item-card__button-add-to-card button-default button__add-to-card paint-purple"
              data-selection="itemcard_button-add-to-cart/{{this.id}}"  {{#if this.count}}
-             style="display: none;" {{/if}}>
+             style="display: none;" {{/if}}
+            {{#if this.catalog}}id="catalog_button-add-to-cart/{{this.id}}"{{/if}}>
             В корзину
         </div>
         <div class="catalog__amount-selector" data-selection="itemcard_amount-selector/{{this.id}}"
              data-count="{{this.count}}"
-            {{#if this.count}} style="display: grid;" {{/if}}>
+            {{#if this.count}} style="display: grid;" {{/if}}
+            {{#if this.catalog}}id="catalog_amount-selector/{{this.id}}"{{/if}}>
             <button class="button-notext">
                 <span class="link__no-color text-normal-large"
-                      data-selection="itemcard_button-minus_cart/{{this.id}}">−</span>
+                      data-selection="itemcard_button-minus_cart/{{this.id}}"
+                      {{#if this.catalog}}id="catalog_button-minus_cart/{{this.id}}"{{/if}}>−</span>
             </button>
             <div class="catalog__amount-selector__amount">
-            <span class="text-normal-large" data-selection="itemcard_item-count/{{this.id}}">
+            <span class="text-normal-large" data-selection="itemcard_item-count/{{this.id}}"
+                  {{#if this.catalog}}id="catalog_item-count/{{this.id}}"{{/if}}>
                 {{this.count}}
             </span>
             </div>
             <button class="button-notext">
                 <span class="link__no-color text-normal-large"
-                      data-selection="itemcard_button-plus_cart/{{this.id}}">+</span>
+                      data-selection="itemcard_button-plus_cart/{{this.id}}"
+                      {{#if this.catalog}}id="catalog_button-plus_cart/{{this.id}}"{{/if}}>+</span>
             </button>
         </div>
     </div>
@@ -60,3 +70,4 @@
         </span>
     </a>
 </div>
+{{/if}}
