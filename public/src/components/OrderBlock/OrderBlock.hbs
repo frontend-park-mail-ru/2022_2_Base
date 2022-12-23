@@ -69,7 +69,7 @@
                 <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
             </div>
 
-            <div class="button-default button-order-block button-cancel-order {{#if this.cancelled}}disabled{{/if}}"
+            <div class="{{#if this.cancelled}}button-hidden-order-block{{else}}button-default button-order-block button-cancel-order{{/if}}"
                  data-id="button-cancel-order" id="{{this.id}}"> Отменить заказ
             </div>
         </div>
