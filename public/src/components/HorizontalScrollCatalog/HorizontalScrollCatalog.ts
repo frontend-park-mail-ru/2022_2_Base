@@ -25,7 +25,6 @@ export default class HorizontalScrollCatalog extends BaseComponent {
     bindListenRightScrollButtonClick: addEventListenerFunction;
     leftScrollButton: HTMLElement | null;
     rightScrollButton: HTMLElement | null;
-
     scrollItemsElement: HTMLElement;
 
     /**
