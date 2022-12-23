@@ -1,12 +1,12 @@
 .content-comment-page {
     max-width: 1400px;
-    min-width: min(1400px, 100vw);
-    margin-left: auto;
-    margin-right: auto;
+    //min-width: min(1400px, 100vw);
+    //margin-left: auto;
+    //margin-right: auto;
     background-color: var(--background-white);
-    display: grid;
-    grid-template-rows: auto 1fr;
-    grid-gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
 
 .content-comment-page_margin {
@@ -98,8 +98,9 @@
 }
 
 .comment-page-main {
-    display: grid;
-    grid-gap: 16px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
 }
 
 .comment-page-main__header {
@@ -134,8 +135,9 @@
 }
 
 .comment-page-main__comments {
-    display: grid;
+    display: flex;
     gap: 32px;
+    flex-direction: column;
 }
 
 @media (max-width: 767px) {
