@@ -83,7 +83,6 @@ class OrdersStore extends BaseStore {
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
             item.cancelled = (item.orderstatus === 'отменен');
         });
-        console.log(orders);
     }
 
     /**
@@ -97,7 +96,7 @@ class OrdersStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             if (response.body && response.body.length) {
                 const orders = response.body.
-                    sort((a:itemOrderData, b:itemOrderData)=> a.id - b.id);
+                    sort((a:itemOrderData, b:itemOrderData)=> b.id - a.id);
                 this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders);
             } else {
