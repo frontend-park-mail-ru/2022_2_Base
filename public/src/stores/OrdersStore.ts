@@ -67,7 +67,7 @@ class OrdersStore extends BaseStore {
             item.deliveryDateString = getLocalDate(new Date(item.deliverydate));
             const deliveryDigitTime = new Date(item.deliverydate).getUTCHours();
             item.deliveryTimeString =
-                `${deliveryDigitTime - 3}:00 — ${deliveryDigitTime + 1}:00`;
+                `${deliveryDigitTime - 2}:00 — ${deliveryDigitTime + 2}:00`;
 
             item.creationDateString = getLocalDate(new Date(item.creationdate));
 
