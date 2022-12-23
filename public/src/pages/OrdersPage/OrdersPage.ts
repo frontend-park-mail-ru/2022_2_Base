@@ -69,13 +69,11 @@ export default class OrdersPage extends BasePage {
      * @param config - контекст отрисовки страницы
      */
     override render(config: object) {
-        if (ordersStore.getContext(ordersStore._storeNames.orders)) {
-            super.render(config);
-            const ordersHeader = document.getElementById('orders-page__header');
-            if (ordersHeader) {
-                this.orderBlock = new OrderBlock(ordersHeader);
-                orderAction.getOrders();
-            }
+        super.render(config);
+        const ordersHeader = document.getElementById('orders-page__header');
+        if (ordersHeader) {
+            this.orderBlock = new OrderBlock(ordersHeader);
+            orderAction.getOrders();
         }
     }
 }
