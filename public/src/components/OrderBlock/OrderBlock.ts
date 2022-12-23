@@ -71,7 +71,7 @@ export default class OrderBlock extends BaseComponent {
      * Метод, добавляющий слушатели.
      */
     startEventListener() {
-        this.ordersBlock = document.getElementById('orders-page__header');
+        this.ordersBlock = document.getElementById('orders-page-body');
         if (this.ordersBlock) {
             this.ordersBlock.addEventListener('click', this.cancelOrderButtonClickHandler);
         }
