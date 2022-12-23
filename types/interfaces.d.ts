@@ -126,7 +126,7 @@ interface itemOrderData {
     deliveryTimeString: string,
     creationDateString: string,
     creationDate: Date,
-    deliveryDate: Date,
+    deliverydate: Date,
     orderstatus: string,
     paymentstatus:string;
 }

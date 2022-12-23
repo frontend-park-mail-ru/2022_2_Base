@@ -66,10 +66,10 @@ class OrdersStore extends BaseStore {
                 }, 0));
 
             console.log('item', item);
-            console.log('getLocalDate', getLocalDate(new Date(item.deliveryDate)));
-            console.log('getHours', new Date(item.deliveryDate).getHours());
-            item.deliveryDateString = getLocalDate(new Date(item.deliveryDate));
-            const deliveryDigitTime = new Date(item.deliveryDate).getHours();
+            console.log('getLocalDate', getLocalDate(new Date(item.deliverydate)));
+            console.log('getHours', new Date(item.deliverydate).getHours());
+            item.deliveryDateString = getLocalDate(new Date(item.deliverydate));
+            const deliveryDigitTime = new Date(item.deliverydate).getHours();
             item.deliveryTimeString =
                 `${deliveryDigitTime - 2}:00 — ${deliveryDigitTime + 2}:00`;
 
