@@ -1,7 +1,8 @@
 .comment {
-    display: grid;
-    grid-template-rows: 46px auto;
+    //grid-template-rows: 46px auto;
+    display: flex;
     gap: 8px;
+    flex-direction: column;
 }
 
 .comment__header {
@@ -19,8 +20,10 @@
     color: var(--pure-black);
 }
 
-.comment__color-jet-black {
-    color: var(--jet-black);
+.comment__textarea {
+  //max-width: 45%;
+  word-wrap: break-word;
+  color: var(--jet-black);
 }
 
 .comment__date-range {
@@ -35,15 +38,15 @@
 }
 
 .comment__content {
-    display: grid;
-    grid-template-rows: auto auto auto 38px;
+    display: flex;
     gap: 8px;
     margin-left: 78px;
+    flex-direction: column;
 }
 
 .comment__content-sections {
-    display: grid;
-    grid-template-rows: 26px auto;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
 }
 
@@ -102,5 +105,8 @@
         width: 100%;
         grid-template-columns: 46px auto auto;
         gap: 16px;
+    }
+    .comment__textarea{
+      //max-width: 28%;
     }
 }

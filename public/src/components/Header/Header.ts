@@ -8,6 +8,7 @@ import {itemCardsAction, ItemCardsActionTypes} from '../../actions/itemCards';
 import {config} from '../../config';
 import router from '../../modules/Router';
 import SearchSuggestion from '../SearchSuggestion/SearchSuggestion';
+import {getQueryParams} from '../../modules/sharedFunctions';
 
 /**
  * Класс для реализации компонента Header
@@ -269,6 +270,7 @@ export default class Header extends BaseComponent {
         return {
             session: context,
             categories: itemsStore.getContext(itemsStore._storeNames.topCategory),
+            searchValue: (getQueryParams() as any).q ?? '',
         };
     }
 }

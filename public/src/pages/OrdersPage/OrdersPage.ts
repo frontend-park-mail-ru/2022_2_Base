@@ -38,13 +38,13 @@ export default class OrdersPage extends BasePage {
     renderCards() {
         switch (ordersStore.getContext(ordersStore._storeNames.responseCode)) {
         case config.responseCodes.code200:
-            if (ordersStore.getContext(ordersStore._storeNames.orders).length >= 1) {
+            if (ordersStore.getContext(ordersStore._storeNames.orders).length) {
                 this.orderBlock?.render(ordersStore.getContext(ordersStore._storeNames.orders));
             } else {
                 refreshElements.showUnAuthPage({
                     text: 'Пока у вас нет заказов. Может купите',
                     linkToPage: itemsStore.
-                        getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
+                        getContext(itemsStore._storeNames.topCategory).Smartphone.href,
                     linkText: 'телефон',
                     textAfterLink: '.',
                 });

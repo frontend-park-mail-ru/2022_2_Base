@@ -43,8 +43,7 @@ class Router {
             () => errorMessage.getAbsoluteErrorMessage('Отсутствует подключение к интернету'));
 
         userStore.addListener(() => {
-            if (userStore.getContext(userStore._storeNames.responseCode) ===
-                    config.responseCodes.code200) {
+            if (userStore.getContext(userStore._storeNames.isAuth)) {
                 refresh.onAuth();
             } else {
                 refresh.refreshHeader(userStore.getContext(userStore._storeNames.isAuth));
@@ -194,8 +193,9 @@ class Router {
      */
     openPage(path: string, addToHistory = this.addToHistory) {
         document.documentElement.scrollTop = 0;
-        const goToPath = (path?.slice(0, path.lastIndexOf('/')) ?
-            path?.slice(0, path.lastIndexOf('/')) : path);
+        const goToPath = this.#pathToPage.has(path) ? path :
+            (path?.slice(0, path.lastIndexOf('/')) ?
+                path?.slice(0, path.lastIndexOf('/')) : path);
         this.#currentPage.removeEventListener();
         if (this.#pathToPage.has(goToPath)) {
             document.title = this.#titles.get(goToPath) ?? 'Reazon';

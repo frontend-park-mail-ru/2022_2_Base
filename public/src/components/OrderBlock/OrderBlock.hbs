@@ -23,7 +23,7 @@
                 </div>
                 {{#if @last}}
                 {{else}}
-                <div class="horizontal-line"></div>
+                    <div class="horizontal-line"></div>
                 {{/if}}
             {{/each}}
 
@@ -58,7 +58,8 @@
 
                 <span class="text-normal-default order-block__info-block__line-left"> Адрес </span>
                 <span class="text-normal-default order-block__info-block__line-right ">
-                    {{this.address.city}}, {{this.address.street}}, {{this.address.house}}{{#if this.address.flat}}, {{this.address.flat}}{{/if}}
+                    {{this.address.city}}, {{this.address.street}}, {{this.address.house}}{{#if this.address.flat}}
+                    , {{this.address.flat}}{{/if}}
                 </span>
 
                 <span class="text-normal-default order-block__info-block__line-left"> Дата доставки </span>
@@ -68,15 +69,9 @@
                 <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
             </div>
 
-            <div class="order-block__info-block__buttons-line">
-                <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
-                    data-id="{{this.id}}"> Отменить заказ
-                </div>
-                <div class="button-default button-order-block button-repeat-order disabled" id="button-repeat-order"
-                    data-id="{{this.id}}"> Повторить заказ
-                </div>
+            <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
+                 data-id="{{this.id}}"> Отменить заказ
             </div>
-
         </div>
     </div>
 {{/each}}

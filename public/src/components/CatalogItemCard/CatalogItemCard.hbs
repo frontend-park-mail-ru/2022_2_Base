@@ -29,8 +29,8 @@
                 </a>
                 {{#each properties}}
                     <div class="text-normal-default catalog-item-card__properties-block__property-line">
-                        {{#if this.properties.name}}
-                            {{this.properties.name}}: {{this.property}}
+                        {{#if this.name}}
+                            {{this.name}}: {{this.description}}
                         {{/if}}
                     </div>
                 {{/each}}
@@ -69,8 +69,13 @@
                     </button>
                 </div>
             </div>
-
         </div>
+        <label class="catalog_button-favourite">
+            <input type="checkbox" class="favourite-opt"
+                   id="catalog_like-button/{{this.id}}"
+                {{#if isfavorite}} checked {{/if}}>
+        </label>
+
 
     </div>
 {{/each}}

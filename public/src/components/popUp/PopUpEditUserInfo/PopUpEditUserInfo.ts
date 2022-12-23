@@ -41,7 +41,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
                 getInputValueById(this.context.id + '__3__popUp').value;
         }
         dataForVal[userStore.getContext(userStore._storeNames.context)
-            .fields[data.id].popUpName] = data.value;
+            .fields[data.id].popUpName] = data.value.trim();
         if (validation.validate(dataForVal)) {
             profileAction.saveEditData(data);
         }
@@ -75,6 +75,7 @@ export default class PopUpEditUserInfo extends BasePopUp {
             break;
         case 'phone':
             data.title = 'телефон';
+            data.fields[0].value = '+7';
             break;
         case 'password':
             field1.name = 'Старый пароль';

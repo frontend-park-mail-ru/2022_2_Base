@@ -8,6 +8,8 @@ import errorMessage from '../../modules/ErrorMessage';
 import CatalogPageTemplate from './CatalogPage.hbs';
 import './CatalogPage.scss';
 import {getQueryParams} from '../../modules/sharedFunctions';
+import {likesAction, LikesActionTypes} from '../../actions/likes';
+import userStore from '../../stores/UserStore';
 
 /**
  * Класс, реализующий страницу с каталога.
@@ -53,6 +55,7 @@ export default class CatalogPage extends BasePage {
         this.#category.set(config.href.category + '/watches', 'Часы');
         this.#category.set(config.href.category + '/tablets', 'Планшеты');
         this.#category.set(config.href.category + '/accessories', 'Аксессуары');
+        this.#category.set(config.href.favourites, 'Избранное');
         this.#category.set(config.href.search, 'Поиск');
     }
 
@@ -69,6 +72,14 @@ export default class CatalogPage extends BasePage {
 
         cartStore.addListener(this.buttonMinus,
             CartActionTypes.DECREASE_NUMBER,
+        );
+
+        itemsStore.addListener(this.listenLike,
+            LikesActionTypes.LIKE,
+        );
+
+        itemsStore.addListener(this.listenLike,
+            LikesActionTypes.DISLIKE,
         );
 
         cartStore.addListener(this.getCart.bind(this), CartActionTypes.GET_CART);
@@ -151,43 +162,48 @@ export default class CatalogPage extends BasePage {
     }
 
     /**
+     * Функция, реагирует на ответ сервера при лайке
+     */
+    listenLike() {
+        switch (itemsStore.getContext(itemsStore._storeNames.responseCode)) {
+        case config.responseCodes.code200:
+            break;
+        default:
+            errorMessage.getAbsoluteErrorMessage('Ошибка при изменении избранного');
+        }
+    }
+
+    /**
      * Функция, обрабатывающая клики на данной странице
-     * @param event - контекст события для обработки
+     * @param event - событие, вызвавшее обработчик
      */
     localEventListenersHandler(event: Event) {
-        event.preventDefault();
         const target = event.target;
-        if (target instanceof HTMLElement) {
-            let elementId = target.id;
-            let itemId;
-            if (elementId) {
-                if (elementId.includes('/')) {
-                    [elementId, itemId] = elementId.split('/');
-                    switch (elementId) {
-                    case 'catalog_button-add-to-cart':
-                        cartAction.addToCart(Number(itemId));
-                        break;
-                    case 'catalog_button-minus_cart':
-                        cartAction.decreaseNumber(Number(itemId));
-                        break;
-                    case 'catalog_button-plus_cart':
-                        cartAction.increaseNumber(Number(itemId));
-                        break;
-                    case 'catalog_like-button':
-                    /* Запрос на добавление товара в избраннное */
-                        break;
-                    }
+        if (target instanceof HTMLElement && target.id.includes('/')) {
+            const [elementId, itemId] = target.id.split('/');
+            switch (elementId) {
+            case 'catalog_button-add-to-cart':
+                cartAction.addToCart(Number(itemId));
+                break;
+            case 'catalog_button-minus_cart':
+                cartAction.decreaseNumber(Number(itemId));
+                break;
+            case 'catalog_button-plus_cart':
+                cartAction.increaseNumber(Number(itemId));
+                break;
+            case 'catalog_like-button':
+                if (target instanceof HTMLInputElement &&
+                userStore.getContext(userStore._storeNames.isAuth)) {
+                    target.checked ?
+                        likesAction.like(Number(itemId)) :
+                        likesAction.dislike(Number(itemId));
                 } else {
-                    switch (elementId) {
-                    case 'catalog-item-pic':
-                    /* Переход на страницу товара по ссылке в комменте выше */
-
-                        break;
-                    case 'catalog_item-title':
-                    /* Переход на страницу товара по ссылке в комменте выше */
-                        break;
-                    }
+                    event.preventDefault();
+                    errorMessage.
+                        getAbsoluteNotificationMessage(
+                            'Чтобы добавить в избранное войдите');
                 }
+                break;
             }
         }
     }
@@ -221,8 +237,8 @@ export default class CatalogPage extends BasePage {
                 const isLowToHighRating =
                     window.location.search.includes(config.queryParams.sort.ratingDown);
                 isLowToHighRating ?
-                    this.sortOrder.classList.remove('rotate-img-180') :
-                    this.sortOrder.classList.add('rotate-img-180');
+                    this.sortOrder.classList.add('rotate-img-180') :
+                    this.sortOrder.classList.remove('rotate-img-180');
                 this.getSortByRating(isLowToHighRating);
                 break;
             }

@@ -16,8 +16,10 @@
                     <img src="/img/editButton.svg" id="changeUserPhoto" class="user-page__pop-up-button-pic"
                          alt="edit user photo button">
                 </div>
-                <div class="user-page__separation-line"></div>
-                <div class="user-page__pop-up-button">
+                <div class="{{#if this.avatar}}user-page__separation-line{{else}}
+                    user-photo-hidden{{/if}}" id="user-page__splitter-photo-buttons"></div>
+                <div class="{{#if this.avatar}}user-page__pop-up-button{{else}}
+                    user-photo-hidden{{/if}}" id="user-page__btn-delete-photo">
                     <img src="/img/deleteButton.svg" id="deleteUserPhoto" class="user-page__pop-up-button-pic"
                          alt="delete user photo button">
                 </div>

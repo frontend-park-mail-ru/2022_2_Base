@@ -191,7 +191,6 @@ class UserStore extends BaseStore {
         const [status, response, headers] = await request.makeGetRequest(config.api.session)
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.csrf, response);
-        this._storage.set(this._storeNames.responseCode, status);
 
         if (status === config.responseCodes.code200) {
             this._storage.set(this._storeNames.isAuth, true);
@@ -272,7 +271,7 @@ class UserStore extends BaseStore {
                 if (!!response.avatar && response.avatar !== config.states.noAvatar) {
                     this._storage.set(this._storeNames.avatar, response.avatar);
                 } else {
-                    this._storage.set(this._storeNames.avatar, 'img/UserPhoto.webp');
+                    this._storage.set(this._storeNames.avatar, config.defaultAvatar);
                 }
 
                 if (response.paymentmethods) {
@@ -348,7 +347,7 @@ class UserStore extends BaseStore {
                     URL.createObjectURL(avatar));
             } else {
                 this._storage.set(this._storeNames.avatar,
-                    'img/UserPhoto.webp');
+                    config.defaultAvatar);
             }
         }
     }
@@ -372,7 +371,6 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name) as string,
             email: this._storage.get(this._storeNames.email) as string,
             phone: this._storage.get(this._storeNames.phone) as string,
-            avatar: this._storage.get(this._storeNames.avatar) as string | Blob,
             paymentMethods: paymentMethodsField as Array<PaymentCardObj>,
             address: addressField as Array<addressCardObj>,
         } as userStoreDataCollection;

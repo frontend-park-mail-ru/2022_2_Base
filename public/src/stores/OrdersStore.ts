@@ -30,13 +30,13 @@ class OrdersStore extends BaseStore {
         this.paymentStates.set('not started', 'Не оплачено');
 
         this.ordersStates = new Map();
-        this.ordersStates.set('cart', 'В корзине');
-        this.ordersStates.set('created', 'Создан');
-        this.ordersStates.set('processed', 'В обработке');
-        this.ordersStates.set('delivery', 'Доставляется');
-        this.ordersStates.set('delivered', 'Доставлен');
-        this.ordersStates.set('received', 'Получен');
-        this.ordersStates.set('returned', 'Возвращен');
+        this.ordersStates.set('cart', 'в корзине');
+        this.ordersStates.set('created', 'создан');
+        this.ordersStates.set('processed', 'в обработке');
+        this.ordersStates.set('delivery', 'доставляется');
+        this.ordersStates.set('delivered', 'доставлен');
+        this.ordersStates.set('received', 'получен');
+        this.ordersStates.set('returned', 'возвращен');
     }
 
     /**
@@ -61,15 +61,15 @@ class OrdersStore extends BaseStore {
             item.totalPrice = truncatePrice(item.items.reduce(
                 (price: number, itemCard: priceData) => {
                     _addSpacesToItemPrice(itemCard);
-                    return (price + (itemCard.lowprice ?? 0));
+                    return (price + (itemCard.lowprice ?? 0) * itemCard.count);
                 }, 0));
 
-            item.deliveryDateString = getLocalDate(new Date(item.deliveryDate));
-            const deliveryDigitTime = new Date(item.deliveryDate).getHours();
+            item.deliveryDateString = getLocalDate(new Date(item.deliverydate));
+            const deliveryDigitTime = new Date(item.deliverydate).getUTCHours();
             item.deliveryTimeString =
                 `${deliveryDigitTime - 2}:00 — ${deliveryDigitTime + 2}:00`;
 
-            item.creationDateString = getLocalDate(new Date(item.creationDate));
+            item.creationDateString = getLocalDate(new Date(item.creationdate));
 
             item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
@@ -85,9 +85,9 @@ class OrdersStore extends BaseStore {
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
-            if (response.body.length) {
+            if (response.body && response.body.length) {
                 const orders = response.body.reverse();
-                this.#prepareOrdersData(orders ?? []);
+                this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders);
             } else {
                 this._storage.set(this._storeNames.orders, []);

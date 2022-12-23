@@ -50,7 +50,6 @@
 }
 
 .button-order-block {
-  width: 152px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -70,7 +69,6 @@
 .button-cancel-order {
   background: var(--dark-grey);
   color: var(--jet-black);
-  justify-self: end;
 }
 
 .order-block__info-block__line-left {
@@ -82,12 +80,6 @@
   grid-column: 2;
 }
 
-.order-block__info-block__buttons-line {
-  height: min-content;
-  display: flex;
-  gap: 16px;
-}
-
 .order-block__itemcard {
   display: grid;
   height: 128px;
@@ -95,7 +87,7 @@
   min-width: 360px;
   gap: 32px;
   justify-content: space-between;
-  grid-template-columns: 128px 1fr min-content min-content;
+  grid-template-columns: 128px 1fr min-content 160px;
   white-space:nowrap
 }
 
@@ -172,10 +164,6 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
-  }
-
-  .order-block__info-block__buttons-line {
-    justify-content: center;
   }
 }
 

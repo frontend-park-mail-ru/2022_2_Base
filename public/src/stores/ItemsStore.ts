@@ -3,7 +3,8 @@ import {ItemCardsActionTypes} from '../actions/itemCards';
 import request from '../modules/ajax';
 import {config} from '../config';
 import cartStore from './CartStore';
-import {addSpacesToPrice} from '../modules/sharedFunctions';
+import {addSpacesToPrice, changeQueryParam} from '../modules/sharedFunctions';
+import {LikesActionTypes} from '../actions/likes';
 
 /**
  * Класс, реализующий базовое хранилище.
@@ -87,11 +88,13 @@ class ItemsStore extends BaseStore {
     override async _onDispatch(payload: dispatcherPayload) {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_SALES:
-            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
+            await this._getHorizontalItemCards(
+                config.api.salesProducts + `?lastitemid=${0}&count=${20}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_SALES]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
-            await this._getHorizontalItemCards(config.api.products + `?lastitemid=${0}&count=${20}`);
+            await this._getHorizontalItemCards(config.api.products +
+                `?sort=ratingdown&lastitemid=${0}&count=${20}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_RECOMMENDED:
@@ -153,6 +156,16 @@ class ItemsStore extends BaseStore {
             await this._localSortPrice(payload.data);
             this._emitChange([ItemCardsActionTypes.LOCAL_SORT_PRICE]);
             break;
+
+        case LikesActionTypes.LIKE:
+            await this._changeLikeState(payload.data, true);
+            this._emitChange([LikesActionTypes.LIKE]);
+            break;
+
+        case LikesActionTypes.DISLIKE:
+            await this._changeLikeState(payload.data, false);
+            this._emitChange([LikesActionTypes.DISLIKE]);
+            break;
         }
     }
 
@@ -179,11 +192,16 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _getByPriceItemCard(isLowToHighPrice: boolean) {
+        console.log(changeQueryParam(config.queryParams.sort.base,
+            (isLowToHighPrice ?
+                config.queryParams.sort.priceUp :
+                config.queryParams.sort.priceDown)), config.queryParams.sort.base);
         this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base +
-            (isLowToHighPrice ?
-                config.queryParams.sort.priceUp : config.queryParams.sort.priceDown));
+            changeQueryParam(config.queryParams.sort.base,
+                (isLowToHighPrice ?
+                    config.queryParams.sort.priceUp :
+                    config.queryParams.sort.priceDown)));
     }
 
     /**
@@ -191,11 +209,16 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _getByRatingItemCard(isLowToHighRating: boolean) {
+        console.log(changeQueryParam(config.queryParams.sort.base,
+            (isLowToHighRating ?
+                config.queryParams.sort.ratingUp :
+                config.queryParams.sort.ratingDown)), config.queryParams.sort.base);
         this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
-            config.queryParams.sort.base +
-            (isLowToHighRating ?
-                config.queryParams.sort.ratingUp : config.queryParams.sort.ratingDown));
+            changeQueryParam(config.queryParams.sort.base,
+                (isLowToHighRating ?
+                    config.queryParams.sort.ratingUp :
+                    config.queryParams.sort.ratingDown)));
     }
 
     /**
@@ -264,11 +287,7 @@ class ItemsStore extends BaseStore {
      * @returns путь запроса к серверу
      */
     #getRequestPathWithQueryParams() {
-        return config.api.category +
-            document.location.pathname.slice(
-                document.location.pathname.lastIndexOf('/'),
-                document.location.pathname.length,
-            ) +
+        return config.basePathApi + document.location.pathname.substring(1) +
             `?lastitemid=${this._storage.get(this._storeNames.cardLoadCount)}` +
             `&count=${5}&${window.location.search.substring(1)}`;
     }
@@ -410,6 +429,19 @@ class ItemsStore extends BaseStore {
         comment.userid = cartStore.getContext(cartStore._storeNames.userID);
         const [status] = await request
             .makePostRequest(config.api.makeComment, comment);
+        this._storage.set(this._storeNames.responseCode, status);
+    }
+
+    /**
+     * Действие: изменение состояния лайка.
+     * @param id - идентификатор товара
+     * @param isLike - лайк или дизлайк
+     */
+    async _changeLikeState(id: number, isLike: boolean) {
+        const [status] = await request
+            .makePostRequest((isLike ? config.api.addLike : config.api.removeLike), {itemid: id})
+            .catch((err) => console.log(err)) ?? [];
+
         this._storage.set(this._storeNames.responseCode, status);
     }
 }

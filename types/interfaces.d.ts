@@ -50,14 +50,14 @@ interface productObj {
     commentscount: number,
     lowprice: number,
     count?: number,
-    favourite: boolean,
+    isfavorite: boolean,
 }
 
 interface CardObj {
     name: string,
     email: string,
     phone: string,
-    avatar: string,
+    avatar: string | null,
     id: string,
     addCard?: boolean,
 }
@@ -125,8 +125,8 @@ interface itemOrderData {
     deliveryDateString: string,
     deliveryTimeString: string,
     creationDateString: string,
-    creationDate: Date,
-    deliveryDate: Date,
+    creationdate: Date,
+    deliverydate: Date,
     orderstatus: string,
     paymentstatus:string;
 }

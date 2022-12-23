@@ -4,6 +4,7 @@ const basePathApi = 'api/v1/';
 
 export const config = {
     basePath: 'https://www.reazon.ru',
+    basePathApi: basePathApi,
     href: {
         main: '/',
         login: '/login',
@@ -18,6 +19,7 @@ export const config = {
         comment: '/comment',
         addComment: '/addcomment',
         search: '/search',
+        favourites: '/user/favorites',
     },
     api: {
         login: `${basePathApi}login`,
@@ -25,6 +27,7 @@ export const config = {
         logout: `${basePathApi}logout`,
         session: `${basePathApi}session`,
         products: `${basePathApi}products`,
+        salesProducts: `${basePathApi}productswithdiscount`,
         category: `${basePathApi}category`,
         profile: `${basePathApi}user/profile`,
         uploadAvatar: `${basePathApi}user/avatar`,
@@ -38,9 +41,12 @@ export const config = {
         suggestionSearch: `${basePathApi}suggestions`,
         makeComment: `${basePathApi}user/makecomment`,
         getComments: `${basePathApi}products/comments`,
-        setPromo: `${basePathApi}/cart/setpromocode`,
-        password: `${basePathApi}passwordChange`,
+        setPromo: `${basePathApi}cart/setpromocode`,
+        password: `${basePathApi}user/password`,
         recommendations: `${basePathApi}recommendations`,
+        addLike: `${basePathApi}user/insertintofav`,
+        removeLike: `${basePathApi}user/deletefromfav`,
+        getFavorites: `${basePathApi}user/favorites`,
     },
     states: {
         endOf: -1,
@@ -53,7 +59,7 @@ export const config = {
     },
     queryParams: {
         sort: {
-            base: '?sort=',
+            base: 'sort',
             priceUp: 'priceup',
             priceDown: 'pricedown',
             ratingUp: 'ratingup',
@@ -69,9 +75,11 @@ export const config = {
         code401: 401,
         code403: 403,
         code409: 409,
+        code413: 413,
     },
     noop: () => {},
     empyNode: document.createElement('div'),
+    defaultAvatar: 'img/UserPhoto.webp',
     HTMLskeleton: {
         body: document.createElement('div') as HTMLElement,
         root: document.createElement('div') as HTMLElement,
