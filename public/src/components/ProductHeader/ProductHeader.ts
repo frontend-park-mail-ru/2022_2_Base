@@ -115,7 +115,7 @@ export default class ProductHeader extends BaseComponent {
             commentsCount: context.commentscount,
             commentsCountText:
                 _declension(context.commentscount, ['отзыв', 'отзыва', 'отзывов']),
-            favourite: context.favourite,
+            favourite: context.isfavorite,
         };
     }
 }

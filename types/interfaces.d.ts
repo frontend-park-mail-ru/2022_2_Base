@@ -50,7 +50,7 @@ interface productObj {
     commentscount: number,
     lowprice: number,
     count?: number,
-    favourite: boolean,
+    isfavorite: boolean,
 }
 
 interface CardObj {

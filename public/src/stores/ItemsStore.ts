@@ -89,7 +89,7 @@ class ItemsStore extends BaseStore {
         switch (payload.actionName) {
         case ItemCardsActionTypes.ITEM_CARDS_GET_SALES:
             await this._getHorizontalItemCards(
-                config.api.salesProducts + `?lastitemid=${0}&count=${20}`);
+                config.api.salesProducts + `?lastitemid=${1}&count=${21}`);
             this._emitChange([ItemCardsActionTypes.ITEM_CARDS_GET_SALES]);
             break;
         case ItemCardsActionTypes.ITEM_CARDS_GET_POPULAR:
