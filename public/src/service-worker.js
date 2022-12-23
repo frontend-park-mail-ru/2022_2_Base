@@ -1,4 +1,4 @@
-const CACHE_NAME = 'base-v1';
+const CACHE_NAME = `base-${new Date()}`;
 const urls = [];
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
@@ -23,7 +23,7 @@ const deleteCache = async (key) => {
  * Удаляет старый кеш
  */
 const deleteOldCaches = async () => {
-    const cacheKeepList = ['base-v2'];
+    const cacheKeepList = [CACHE_NAME];
     const keyList = await caches.keys();
     const cachesToDelete = keyList.filter((key) => !cacheKeepList.includes(key));
     await Promise.all(cachesToDelete.map(deleteCache));
