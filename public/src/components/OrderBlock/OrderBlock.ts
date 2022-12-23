@@ -39,9 +39,6 @@ export default class OrderBlock extends BaseComponent {
             const orderStatusElement = document.getElementById(
                 `order-status/${
                     ordersStore.getContext(ordersStore._storeNames.cancelElementID)}`);
-            console.log('id', `order-status/${
-                ordersStore.getContext(ordersStore._storeNames.cancelElementID)}`);
-            console.log(orderStatusElement);
             const buttonCancel = document.getElementById(
                 ordersStore.getContext(ordersStore._storeNames.cancelElementID));
             if (orderStatusElement && buttonCancel) {
@@ -61,11 +58,8 @@ export default class OrderBlock extends BaseComponent {
      * @param target - элемент, на который нажали
      */
     cancelOrderButtonClickHandler({target}: Event) {
-        console.log(target);
         if (target instanceof HTMLElement &&
             target.getAttribute('data-id')) {
-            console.log(target.getAttribute('data-id'));
-            console.log(target.id);
             orderAction.cancelOrder(Number(target.id));
         }
     }
