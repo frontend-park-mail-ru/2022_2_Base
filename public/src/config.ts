@@ -82,7 +82,7 @@ export const config = {
     noop: () => {},
     emptyNode: document.createElement('div'),
     defaultAvatar: 'img/UserPhoto.webp',
-    avatarBasePath: 'https://img.reazon.ru',
+    avatarBasePath: 'https://img.reazon.ru/',
     HTMLskeleton: {
         body: document.createElement('div') as HTMLElement,
         root: document.createElement('div') as HTMLElement,
