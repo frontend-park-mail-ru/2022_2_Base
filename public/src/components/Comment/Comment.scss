@@ -19,8 +19,10 @@
     color: var(--pure-black);
 }
 
-.comment__color-jet-black {
-    color: var(--jet-black);
+.comment__textarea {
+  max-width: 80vw;
+  word-wrap: break-word;
+  color: var(--jet-black);
 }
 
 .comment__date-range {
@@ -102,5 +104,8 @@
         width: 100%;
         grid-template-columns: 46px auto auto;
         gap: 16px;
+    }
+    .comment__textarea{
+      max-width: 70vw;
     }
 }
