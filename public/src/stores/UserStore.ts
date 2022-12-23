@@ -371,7 +371,6 @@ class UserStore extends BaseStore {
             username: this._storage.get(this._storeNames.name) as string,
             email: this._storage.get(this._storeNames.email) as string,
             phone: this._storage.get(this._storeNames.phone) as string,
-            // avatar: this._storage.get(this._storeNames.avatar) as string | Blob,
             paymentMethods: paymentMethodsField as Array<PaymentCardObj>,
             address: addressField as Array<addressCardObj>,
         } as userStoreDataCollection;
