@@ -172,10 +172,17 @@ export default class UserPage extends BasePage {
                     userStore.getContext(userStore._storeNames.avatar);
                 if (this.splitterChangePhoto instanceof HTMLElement &&
                     this.deletePhotoButton instanceof HTMLElement) {
-                    this.splitterChangePhoto.classList.toggle('user-photo-hidden');
-                    this.deletePhotoButton.classList.toggle('user-photo-hidden');
-                    this.splitterChangePhoto.classList.toggle('user-page__separation-line');
-                    this.deletePhotoButton.classList.toggle('user-page__pop-up-button');
+                    if (userStore.getContext(userStore._storeNames.avatar) === config.defaultAvatar) {
+                        this.splitterChangePhoto.classList.remove('user-photo-hidden');
+                        this.deletePhotoButton.classList.remove('user-photo-hidden');
+                        this.splitterChangePhoto.classList.add('user-page__separation-line');
+                        this.deletePhotoButton.classList.add('user-page__pop-up-button');
+                    } else {
+                        this.splitterChangePhoto.classList.remove('user-page__separation-line');
+                        this.deletePhotoButton.classList.remove('user-page__pop-up-button');
+                        this.splitterChangePhoto.classList.add('user-photo-hidden');
+                        this.deletePhotoButton.classList.add('user-photo-hidden');
+                    }
                 }
             }
             break;
