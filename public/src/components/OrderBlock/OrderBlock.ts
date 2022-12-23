@@ -42,8 +42,11 @@ export default class OrderBlock extends BaseComponent {
             console.log('id', `order-status/${
                 ordersStore.getContext(ordersStore._storeNames.cancelElementID)}`);
             console.log(orderStatusElement);
-            if (orderStatusElement) {
+            const buttonCancel = document.getElementById(
+                ordersStore.getContext(ordersStore._storeNames.cancelElementID));
+            if (orderStatusElement && buttonCancel) {
                 orderStatusElement.textContent = 'Статус: отменен';
+                buttonCancel.remove();
             }
             errorMessage.getAbsoluteNotificationMessage('Заказ успешно отменен');
         }
