@@ -44,7 +44,7 @@ export default class OrdersPage extends BasePage {
                 refreshElements.showUnAuthPage({
                     text: 'Пока у вас нет заказов. Может купите',
                     linkToPage: itemsStore.
-                        getContext((itemsStore._storeNames.topCategory as any).Smartphone.href),
+                        getContext(itemsStore._storeNames.topCategory).Smartphone.href,
                     linkText: 'телефон',
                     textAfterLink: '.',
                 });
