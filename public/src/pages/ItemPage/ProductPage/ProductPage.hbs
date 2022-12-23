@@ -19,7 +19,10 @@
                                     </span>
                         </div>
 
-                        <span class="product-page-characteristics__description text-normal-default">{{this.description}}</span>
+                        <span class="product-page-characteristics__description text-normal-default">
+                            {{#if this.description}}
+                            {{this.description}}{{else}}не указано{{/if}}
+                        </span>
                     {{/each}}
                 {{else}}
                     <span class="text-normal-default">Нет информации о товаре</span>

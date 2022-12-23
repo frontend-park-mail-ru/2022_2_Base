@@ -93,6 +93,7 @@
 
 .order-block__itemcard__title {
   align-self: center;
+  overflow: hidden;
 }
 
 .order-block__itemcard__photo {
@@ -159,7 +160,6 @@
   }
 
   .order-block__itemcard__title {
-    overflow: hidden;
     height: 20vw;
     width: 40vw;
   }
