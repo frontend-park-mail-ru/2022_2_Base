@@ -73,7 +73,7 @@ class OrdersStore extends BaseStore {
             item.deliveryTimeString =
                 `${deliveryDigitTime - 2}:00 — ${deliveryDigitTime + 2}:00`;
 
-            item.creationDateString = getLocalDate(new Date(item.creationDate));
+            item.creationDateString = getLocalDate(new Date(item.creationdate));
 
             item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
