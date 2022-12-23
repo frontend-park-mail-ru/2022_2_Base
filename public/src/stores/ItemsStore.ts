@@ -369,11 +369,14 @@ class ItemsStore extends BaseStore {
     async _getBestCard() {
         const [status, response] = await request
             .makeGetRequest(config.api.getBestOffer +
-                (document.location.pathname.includes(config.api.category) ?
+                (document.location.pathname.includes(config.href.category) ?
                     document.location.pathname.
                         replace(
-                            `${config.api.category}/`, '') :
-                    'phones'))
+                            `${config.href.category}/`, '') :
+                    [this.#topCategory.Smartphone.href,
+                        this.#topCategory.TV.href,
+                        this.#topCategory.Tablet.href][Math.floor(Math.random() * 3)].
+                        replace(`${config.href.category}/`, '')))
             .catch((err) => console.log(err)) ?? [];
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
