@@ -29,7 +29,7 @@ export const orderAction = {
      */
     cancelOrder(id: number) {
         Dispatcher.dispatch({
-            actionName: OrderActionTypes.GET_ORDERS,
+            actionName: OrderActionTypes.CANCEL_ORDER,
             data: id,
         });
     },
