@@ -59,7 +59,7 @@ export default class UserPage extends BasePage {
         userStore.addListener(this.onUploadAvatar.bind(this),
             ProfileActionTypes.UPLOAD_AVATAR);
 
-        userStore.addListener(this.onUploadAvatar.bind(this),
+        userStore.addListener(this.onUploadAvatar.bind(this, true),
             ProfileActionTypes.DELETE_AVATAR);
 
         userStore.addListener(this.templateFunction.bind(this, this.editUserInfo.bind(this)),
@@ -162,8 +162,9 @@ export default class UserPage extends BasePage {
 
     /**
      * Функция, делающая запрос за картами пользователя и загружающая их
+     * @param isDelete - идет ли запрос на удаление аватарки
      */
-    onUploadAvatar() {
+    onUploadAvatar(isDelete = false) {
         switch (userStore.getContext(userStore._storeNames.responseCode)) {
         case config.responseCodes.code200: {
             const userAvatar = document.getElementById('user-photo_user-page');
@@ -172,16 +173,16 @@ export default class UserPage extends BasePage {
                     userStore.getContext(userStore._storeNames.avatar);
                 if (this.splitterChangePhoto instanceof HTMLElement &&
                     this.deletePhotoButton instanceof HTMLElement) {
-                    if (userStore.getContext(userStore._storeNames.avatar) === config.defaultAvatar) {
-                        this.splitterChangePhoto.classList.remove('user-photo-hidden');
-                        this.deletePhotoButton.classList.remove('user-photo-hidden');
-                        this.splitterChangePhoto.classList.add('user-page__separation-line');
-                        this.deletePhotoButton.classList.add('user-page__pop-up-button');
-                    } else {
+                    if (isDelete) {
                         this.splitterChangePhoto.classList.remove('user-page__separation-line');
                         this.deletePhotoButton.classList.remove('user-page__pop-up-button');
                         this.splitterChangePhoto.classList.add('user-photo-hidden');
                         this.deletePhotoButton.classList.add('user-photo-hidden');
+                    } else {
+                        this.splitterChangePhoto.classList.remove('user-photo-hidden');
+                        this.deletePhotoButton.classList.remove('user-photo-hidden');
+                        this.splitterChangePhoto.classList.add('user-page__separation-line');
+                        this.deletePhotoButton.classList.add('user-page__pop-up-button');
                     }
                 }
             }
