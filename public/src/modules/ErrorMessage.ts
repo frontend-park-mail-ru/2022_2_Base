@@ -113,7 +113,9 @@ class ErrorMessage {
                 errorElementText.textContent = errorText;
             }
             this.errorElement.style.display = 'flex';
-            this.timeoutFunc = () => this.errorElement!.style.display = 'none';
+            this.timeoutFunc = () => (this.errorElement ?
+                this.errorElement.style.display = 'none' :
+                console.log('element errorElement not found'));
         }
         setTimeout(this.timeoutFunc, 5000);
     }
