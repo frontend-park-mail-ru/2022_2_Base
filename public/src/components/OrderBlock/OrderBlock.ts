@@ -67,7 +67,7 @@ export default class OrderBlock extends BaseComponent {
     startEventListener() {
         this.ordersBlock = document.getElementById('orders-page__header');
         if (this.ordersBlock) {
-            this.ordersBlock.removeEventListener('click', this.cancelOrderButtonClickHandler);
+            this.ordersBlock.addEventListener('click', this.cancelOrderButtonClickHandler);
         }
     }
 
