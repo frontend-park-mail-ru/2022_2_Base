@@ -60,10 +60,14 @@ class OrdersStore extends BaseStore {
         orders.forEach((item: itemOrderData) => {
             item.totalPrice = truncatePrice(item.items.reduce(
                 (price: number, itemCard: priceData) => {
+                    console.log('itemCard', itemCard);
                     _addSpacesToItemPrice(itemCard);
                     return (price + (itemCard.lowprice ?? 0) * itemCard.count);
                 }, 0));
 
+            console.log('item', item);
+            console.log('getLocalDate', getLocalDate(new Date(item.deliveryDate)));
+            console.log('getHours', new Date(item.deliveryDate).getHours());
             item.deliveryDateString = getLocalDate(new Date(item.deliveryDate));
             const deliveryDigitTime = new Date(item.deliveryDate).getHours();
             item.deliveryTimeString =
@@ -73,6 +77,7 @@ class OrdersStore extends BaseStore {
 
             item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
+            console.log(item);
         });
     }
 
@@ -87,6 +92,7 @@ class OrdersStore extends BaseStore {
         if (status === config.responseCodes.code200) {
             if (response.body && response.body.length) {
                 const orders = response.body.reverse();
+                console.log('orders', orders);
                 this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders);
             } else {
