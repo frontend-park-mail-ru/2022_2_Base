@@ -54,7 +54,6 @@
 .product-page-main__characteristics {
     display: grid;
     grid-row-gap: 24px;
-    grid-column-gap: 4px;
     margin-top: 16px;
     margin-bottom: 16px;
     height: max-content;
@@ -68,18 +67,27 @@
 .product-page-characteristics__name {
     display: inline-flex;
     white-space: nowrap;
-    gap: 4px;
     color: var(--secondary-purple);
     overflow: hidden;
 }
 
+.product-page-characteristics__name:after {
+    float: left;
+    width: 0;
+    white-space: nowrap;
+    margin-left: 4px;
+    content: "............................................................................";
+}
+
 .product-page-characteristics__dots{
     overflow: hidden;
+    color: var(--secondary-purple);
 }
 
 .product-page-characteristics__description{
     max-width: 400px;
     display: flex;
+    margin-left: 4px;
 }
 
 .product-page-main__add-cart {
