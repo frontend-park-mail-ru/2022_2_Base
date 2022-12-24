@@ -1,7 +1,8 @@
 .comment {
-    display: grid;
-    grid-template-rows: 46px auto;
+    //grid-template-rows: 46px auto;
+    display: flex;
     gap: 8px;
+    flex-direction: column;
 }
 
 .comment__header {
@@ -40,15 +41,15 @@
 }
 
 .comment__content {
-    display: grid;
-    grid-template-rows: auto auto auto 38px;
+    display: flex;
     gap: 8px;
     margin-left: 78px;
+    flex-direction: column;
 }
 
 .comment__content-sections {
-    display: grid;
-    grid-template-rows: 26px auto;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
 }
 

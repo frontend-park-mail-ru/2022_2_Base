@@ -217,6 +217,10 @@
   cursor: pointer;
 }
 
+.select:last-child {
+  border-radius: 0 0 10px 10px
+}
+
 %option__select {
   padding: 0 8px;
   min-height: 40px;
