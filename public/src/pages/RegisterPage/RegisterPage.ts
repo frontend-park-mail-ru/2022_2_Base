@@ -51,6 +51,7 @@ export default class RegisterPage extends BasePage {
         case 201:
             refresh.onAuth();
             cartAction.mergeCart();
+            errorMessage.getAbsoluteNotificationMessage('Промокод на 10% был выслан на почту');
             break;
         case 400:
             !document.getElementById('Error400Message') ?
