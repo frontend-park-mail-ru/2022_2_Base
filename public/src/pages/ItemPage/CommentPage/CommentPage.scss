@@ -138,6 +138,7 @@
     display: flex;
     gap: 32px;
     max-width: 1338px;
+    flex-direction: column;
 }
 
 @media (max-width: 767px) {
@@ -177,6 +178,6 @@
     }
 
     .comment-page-header__button{
-        height: 26px;
+        height: 36px;
     }
 }
