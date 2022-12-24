@@ -62,7 +62,7 @@ export default class CategoryPage extends CatalogPage {
                         linkToPage: config.href.category +
                             itemsStore.getContext(itemsStore._storeNames.topCategory).Computer.href,
                         linkText: 'компьютер',
-                        textAfterLink: '.',
+                        textAfterLink: '?',
                     });
                 }
             }

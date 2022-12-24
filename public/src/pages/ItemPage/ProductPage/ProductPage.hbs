@@ -14,14 +14,15 @@
 
                         <div class="product-page-characteristics__name">
                             <span class="text-normal-default">{{this.name}}</span>
-                            <span class="product-page-characteristics__dots text-normal-default">
-                                        ................................................................................................
-                                    </span>
                         </div>
+
+                        <span class="product-page-characteristics__dots text-normal-default">
+                            ................................................................................................
+                        </span>
 
                         <span class="product-page-characteristics__description text-normal-default">
                             {{#if this.description}}
-                            {{this.description}}{{else}}не указано{{/if}}
+                                {{this.description}}{{else}}не указано{{/if}}
                         </span>
                     {{/each}}
                 {{else}}
