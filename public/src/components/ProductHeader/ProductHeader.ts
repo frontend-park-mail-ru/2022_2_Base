@@ -105,11 +105,15 @@ export default class ProductHeader extends BaseComponent {
      * @returns наполнение для формы
      */
     prepareRenderData(context: productObj) {
+        const category = (Object.values(itemsStore.getContext(itemsStore._storeNames.topCategory))
+            .find((item: any) => item.href.
+                replace(`${config.href.category}/`, '') ===
+                context.category) as {nameCategory: string}).nameCategory;
         return {
             itemPath: config.href.product + '/' + context.id,
             commentPath: config.href.comment + '/' + context.id,
             categoryPath: config.href.category + '/' + context.category,
-            categoryName: 'Категория',
+            categoryName: category.replace(`${config.href.category}/`, ''),
             name: context.name,
             rating: context.rating,
             commentsCount: context.commentscount,
