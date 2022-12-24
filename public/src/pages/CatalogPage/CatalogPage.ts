@@ -216,7 +216,6 @@ export default class CatalogPage extends BasePage {
     renderBestOffer() {
         const bestOfferElement = document.getElementById('best-offer-item');
         if (bestOfferElement) {
-            // console.log(itemsStore.getContext(itemsStore._storeNames.itemData));
             const bestOfferItem = new ItemCard(bestOfferElement);
             const data = itemsStore.getContext(itemsStore._storeNames.itemData);
             data.catalog = true;

@@ -54,7 +54,8 @@
                 </div>
                 <div class="catalog__amount-selector" id="catalog_amount-selector/{{this.id}}"
                      data-count="{{this.count}}" {{#if this.count}} style="display: grid;" {{/if}}>
-                    <button class="button-notext">
+                    <button class="button-notext"
+                            id="catalog_button-minus_cart/{{this.id}}">
                         <span class="link__no-color text-normal-large"
                               id="catalog_button-minus_cart/{{this.id}}">−</span>
                     </button>
@@ -63,7 +64,7 @@
                 {{this.count}}
             </span>
                     </div>
-                    <button class="button-notext">
+                    <button class="button-notext" id="catalog_button-plus_cart/{{this.id}}">
                         <span class="link__no-color text-normal-large"
                               id="catalog_button-plus_cart/{{this.id}}">+</span>
                     </button>

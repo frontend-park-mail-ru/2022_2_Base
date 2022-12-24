@@ -424,7 +424,9 @@ class ItemsStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            this.#syncItemWithCart(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
+            this.#syncCardsInCategory(response.body);
         }
     }
 
