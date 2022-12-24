@@ -51,11 +51,12 @@ export default class RegisterPage extends BasePage {
         case 201:
             refresh.onAuth();
             cartAction.mergeCart();
+            errorMessage.getAbsoluteNotificationMessage('Промокод на 10% был выслан на почту');
             break;
         case 400:
             !document.getElementById('Error400Message') ?
                 errorMessage.getServerMessage(
-                    document.getElementById('inForm') ?? config.empyNode,
+                    document.getElementById('inForm') ?? config.emptyNode,
                     'Error400Message', config.errorMessages.error400auth) :
                 console.log('bad request: ', status);
             break;

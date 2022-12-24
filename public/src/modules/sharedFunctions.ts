@@ -113,7 +113,7 @@ export function getInputValueById(elementID: string) {
     if (inputElement instanceof HTMLInputElement) {
         return inputElement;
     }
-    return (config.empyNode as HTMLInputElement);
+    return (config.emptyNode as HTMLInputElement);
 }
 
 /**

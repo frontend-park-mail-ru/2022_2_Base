@@ -29,6 +29,7 @@
 
 .catalog-item-card__description-block {
     margin-top: 24px;
+    overflow: hidden;
 }
 
 .catalog-item-card__properties-block {
@@ -39,10 +40,12 @@
 }
 
 .catalog-item-card__description-block__description-title {
+    display: flex;
     cursor: pointer;
     color: var(--jet-black);
     text-decoration: none;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .catalog-item-card__description-block__description-title:hover {
@@ -68,7 +71,6 @@
 }
 
 .catalog-item-card__button-add-to-cart {
-    width: 104px;
     height: 40px;
 }
 
@@ -127,7 +129,7 @@
     border: 1px solid var(--jet-black);
     border-radius: 10px;
     height: 38px;
-    width: 104px;
+    width: 100%;
 }
 
 .catalog__amount-selector__amount {

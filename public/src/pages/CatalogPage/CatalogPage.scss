@@ -9,7 +9,7 @@
 .catalog__filters-items-block {
     display: grid;
     margin-top: 16px;
-    grid-template-columns: 368px 1000px;
+    grid-template-columns: 288px 1fr;
     column-gap: 32px;
     min-height: 348px;
 }
@@ -27,7 +27,7 @@
     margin-bottom: 32px;
     position: sticky;
     top: 68px;
-    gap: 32px;
+    gap: 16px;
 }
 
 %catalog_sort-img{
@@ -101,8 +101,9 @@
     }
 
     .catalog__filter-block {
-        top: 136px;
-        gap: 16px;
+        position: relative;
+        top: 0;
+        gap: 8px;
         grid-row-start: 1;
     }
 

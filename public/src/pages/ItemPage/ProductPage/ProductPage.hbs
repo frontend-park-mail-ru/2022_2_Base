@@ -14,12 +14,16 @@
 
                         <div class="product-page-characteristics__name">
                             <span class="text-normal-default">{{this.name}}</span>
-                            <span class="product-page-characteristics__dots text-normal-default">
-                                        ................................................................................................
-                                    </span>
                         </div>
 
-                        <span class="product-page-characteristics__description text-normal-default">{{this.description}}</span>
+                        <span class="product-page-characteristics__dots text-normal-default">
+                            ................................................................................................
+                        </span>
+
+                        <span class="product-page-characteristics__description text-normal-default">
+                            {{#if this.description}}
+                                {{this.description}}{{else}}не указано{{/if}}
+                        </span>
                     {{/each}}
                 {{else}}
                     <span class="text-normal-default">Нет информации о товаре</span>
@@ -42,7 +46,7 @@
             </div>
         </div>
     </div>
-    <span class="text-normal-huge">
+    <span class="text-normal-huge item-page__also-buys-header">
         С этим товаром покупают
     </span>
     <div class="content__main-horizontal-scroll" id="item-card__recommendation">

@@ -3,7 +3,7 @@ import userStore from '../stores/UserStore';
 import {RecordString} from '../../../types/tuples';
 
 const emailRegex = /@/;
-const stringRegex = /^[a-z0-9 а-яА-ЯёЁ!?()_/-]+$/i;
+const stringRegex = /^[a-z0-9 а-яА-ЯёЁ!?()_./-]+$/i;
 
 /**
  * Класс, реализующий валидацию форм.

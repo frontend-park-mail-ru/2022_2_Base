@@ -113,6 +113,10 @@ class ItemsStore extends BaseStore {
             await this._getItemCard();
             this._emitChange([ItemCardsActionTypes.ITEM_CARD_GET]);
             break;
+        case ItemCardsActionTypes.BEST_OFFER_ITEM_GET:
+            await this._getBestCard();
+            this._emitChange([ItemCardsActionTypes.BEST_OFFER_ITEM_GET]);
+            break;
         case ItemCardsActionTypes.CHEAP_ITEM_CARDS_GET_BY_CATEGORY:
             await this._getByPriceItemCard(payload.data);
             this._emitChange([
@@ -360,6 +364,30 @@ class ItemsStore extends BaseStore {
     }
 
     /**
+     * Действие: запрос наболее выгодной карточки.
+     */
+    async _getBestCard() {
+        const [status, response] = await request
+            .makeGetRequest(config.api.getBestOffer +
+                (document.location.pathname.includes(config.href.category) ?
+                    document.location.pathname.
+                        replace(
+                            `${config.href.category}/`, '') :
+                    [this.#topCategory.Smartphone.href,
+                        this.#topCategory.TV.href,
+                        this.#topCategory.Tablet.href][Math.floor(Math.random() * 3)].
+                        replace(`${config.href.category}/`, '')))
+            .catch((err) => console.log(err)) ?? [];
+        this._storage.set(this._storeNames.responseCode, status);
+        if (status === config.responseCodes.code200) {
+            this.#syncItemWithCart(response.body);
+            addSpacesToPrice(response.body);
+            this._storage.set(this._storeNames.itemData, response.body ?? {});
+            this.#syncCardsInCategory(response.body);
+        }
+    }
+
+    /**
      * Действие: получение отзывов отзыва.
      */
     async _getComments() {
@@ -396,7 +424,9 @@ class ItemsStore extends BaseStore {
 
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
+            this.#syncItemWithCart(response.body);
             this._storage.set(this._storeNames.cardsCategory, response.body);
+            this.#syncCardsInCategory(response.body);
         }
     }
 

@@ -31,11 +31,11 @@ export default class AddressCard extends BaseInfoCard {
                     'address',
                 ]);
         } else {
-            const popupClass = new PopUpAddAddress(config.empyNode);
+            const popupClass = new PopUpAddAddress(config.emptyNode);
             super(parent,
                 [
-                    config.empyNode,
-                    config.empyNode,
+                    config.emptyNode,
+                    config.emptyNode,
                     userStore._storeNames.address,
                     popupClass,
                     AddressCardTemplate,

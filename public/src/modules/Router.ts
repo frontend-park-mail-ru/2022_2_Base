@@ -146,7 +146,7 @@ class Router {
      * Запускает роутер.
      */
     start() {
-        this.#mainElement = document.getElementById('main') ?? config.empyNode;
+        this.#mainElement = document.getElementById('main') ?? config.emptyNode;
 
         this.register(config.href.main, MainPage);
         this.register(config.href.login, LoginPage);

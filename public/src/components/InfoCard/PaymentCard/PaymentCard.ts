@@ -30,11 +30,11 @@ export default class PaymentCard extends BaseInfoCard {
                     'payment-card',
                 ]);
         } else {
-            const popupClass = new PopUpAddPaymentCard(config.empyNode);
+            const popupClass = new PopUpAddPaymentCard(config.emptyNode);
             super(parent,
                 [
-                    config.empyNode,
-                    config.empyNode,
+                    config.emptyNode,
+                    config.emptyNode,
                     userStore._storeNames.address,
                     popupClass,
                     PaymentCardTemplate,

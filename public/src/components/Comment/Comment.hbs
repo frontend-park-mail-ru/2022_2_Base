@@ -1,8 +1,8 @@
 {{#each item}}
     <div class="comment">
         <div class="comment__header">
-            <img src="{{#if this.imgsrc}}{{this.imgsrc}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
-                 class="comment__userPhoto">
+            <img src="{{#if this.avatar}}https://img.reazon.ru/{{this.avatar}}{{else}}/img/UserPhoto.webp{{/if}}" alt="user photo"
+                 class="comment__user-photo">
             <span class="comment__color-pure-black text-normal-large-normal">
                 {{#if this.username}}{{this.username}}{{else}}Анонимный пользователь{{/if}}</span>
             <div class="comment__date-range">

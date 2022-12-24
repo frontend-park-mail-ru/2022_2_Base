@@ -13,6 +13,7 @@ class OrdersStore extends BaseStore {
     _storeNames = {
         orders: 'orders',
         responseCode: 'responseCode',
+        cancelElementID: 'cancelElementID',
     };
 
     /**
@@ -23,6 +24,7 @@ class OrdersStore extends BaseStore {
         this._storage = new Map();
         this._storage.set(this._storeNames.orders, []);
         this._storage.set(this._storeNames.responseCode, null);
+        this._storage.set(this._storeNames.cancelElementID, 0);
 
         this.paymentStates = new Map();
         this.paymentStates.set('paid', 'Оплачен');
@@ -37,6 +39,7 @@ class OrdersStore extends BaseStore {
         this.ordersStates.set('delivered', 'доставлен');
         this.ordersStates.set('received', 'получен');
         this.ordersStates.set('returned', 'возвращен');
+        this.ordersStates.set('canceled', 'отменен');
     }
 
     /**
@@ -48,6 +51,11 @@ class OrdersStore extends BaseStore {
         case OrderActionTypes.GET_ORDERS:
             await this._getOrders();
             this._emitChange([OrderActionTypes.GET_ORDERS]);
+            break;
+
+        case OrderActionTypes.CANCEL_ORDER:
+            await this._cancelOrder(payload.data);
+            this._emitChange([OrderActionTypes.CANCEL_ORDER]);
             break;
         }
     }
@@ -73,6 +81,7 @@ class OrdersStore extends BaseStore {
 
             item.orderstatus = this.ordersStates.get(item.orderstatus) ?? 'Нет';
             item.paymentstatus = this.paymentStates.get(item.paymentstatus) ?? 'Нет';
+            item.cancelled = (item.orderstatus === 'отменен');
         });
     }
 
@@ -86,7 +95,8 @@ class OrdersStore extends BaseStore {
         this._storage.set(this._storeNames.responseCode, status);
         if (status === config.responseCodes.code200) {
             if (response.body && response.body.length) {
-                const orders = response.body.reverse();
+                const orders = response.body.
+                    sort((a:itemOrderData, b:itemOrderData)=> b.id - a.id);
                 this.#prepareOrdersData(orders);
                 this._storage.set(this._storeNames.orders, orders);
             } else {
@@ -95,6 +105,21 @@ class OrdersStore extends BaseStore {
         } else {
             this._storage.set(this._storeNames.orders, []);
         }
+    }
+
+    /**
+     * Действие: отменяет заказ.
+     * @param id - идентификатор заказа для удаления
+     */
+    async _cancelOrder(id: number) {
+        const [status] = await request
+            .makePostRequest(config.api.changeOrderStatus, {
+                orderid: id,
+                orderstatus: 'canceled',
+            })
+            .catch((err) => console.log(err)) ?? [];
+        this._storage.set(this._storeNames.responseCode, status);
+        this._storage.set(this._storeNames.cancelElementID, id);
     }
 }
 

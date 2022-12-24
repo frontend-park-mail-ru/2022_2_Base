@@ -4,6 +4,7 @@ import itemsStore from '../../../stores/ItemsStore';
 import {itemCardsAction, ItemCardsActionTypes} from '../../../actions/itemCards';
 import {config} from '../../../config';
 import CatalogItemCard from '../../../components/CatalogItemCard/CatalogItemCard';
+import refreshElements from '../../../modules/refreshElements';
 
 /**
  * Класс для реализации компонента PaymentCard
@@ -53,8 +54,16 @@ export default class CategoryPage extends CatalogPage {
                     itemsStore.getContext(
                         itemsStore._storeNames.cardLoadCount) === config.states.endOf) {
                     this.removeScrollListener();
-                } else {
+                } else if (document.location.pathname !== config.href.favourites) {
                     router.openNotFoundPage();
+                } else {
+                    refreshElements.showUnAuthPage({
+                        text: 'Пока в избранном ничего нет. Может нужен',
+                        linkToPage: config.href.category +
+                            itemsStore.getContext(itemsStore._storeNames.topCategory).Computer.href,
+                        linkText: 'компьютер',
+                        textAfterLink: '?',
+                    });
                 }
             }
             break;

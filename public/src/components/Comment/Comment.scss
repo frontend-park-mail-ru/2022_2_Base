@@ -12,8 +12,11 @@
     align-items: center;
 }
 
-.comment__userPhoto {
-    width: 46px;
+.comment__user-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    object-fit: cover;
 }
 
 .comment__color-pure-black {
@@ -21,8 +24,8 @@
 }
 
 .comment__textarea {
-  //max-width: 45%;
   word-wrap: break-word;
+  max-width: 1268px;
   color: var(--jet-black);
 }
 
@@ -107,6 +110,6 @@
         gap: 16px;
     }
     .comment__textarea{
-      //max-width: 28%;
+      max-width: 70vw;
     }
 }

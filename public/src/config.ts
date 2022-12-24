@@ -47,6 +47,8 @@ export const config = {
         addLike: `${basePathApi}user/insertintofav`,
         removeLike: `${basePathApi}user/deletefromfav`,
         getFavorites: `${basePathApi}user/favorites`,
+        getBestOffer: `${basePathApi}bestproduct/`,
+        changeOrderStatus: `${basePathApi}cart/changeorderstatus`,
     },
     states: {
         endOf: -1,
@@ -78,8 +80,9 @@ export const config = {
         code413: 413,
     },
     noop: () => {},
-    empyNode: document.createElement('div'),
+    emptyNode: document.createElement('div'),
     defaultAvatar: 'img/UserPhoto.webp',
+    avatarBasePath: 'https://img.reazon.ru/',
     HTMLskeleton: {
         body: document.createElement('div') as HTMLElement,
         root: document.createElement('div') as HTMLElement,

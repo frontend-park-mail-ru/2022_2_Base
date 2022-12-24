@@ -233,7 +233,7 @@ export default class CartOrderPage extends BasePage {
             config.HTMLskeleton.body.style.overflow = 'hidden';
         }
         this.PopUpChooseAddressAndPaymentCard =
-            new PopUpChooseAddressAndPaymentCard(PopUp ?? config.empyNode);
+            new PopUpChooseAddressAndPaymentCard(PopUp ?? config.emptyNode);
         this.PopUpChooseAddressAndPaymentCard.render(context);
         const choose = document.getElementById(elementToEditID);
         if (choose) {

@@ -1,16 +1,16 @@
 {{#each item}}
     <div class="order-block">
         <span class="text-normal-large-normal paint-jet-black"> Заказ №{{this.id}} </span>
-        <span class="text-normal-large-normal"> Статус: {{this.orderstatus}} </span>
+        <span class="text-normal-large-normal" id="order-status/{{this.id}}"> Статус: {{this.orderstatus}} </span>
 
         <div class="order-block__item-cards-block" id="order-block__itemcards-block">
 
             {{#each items}}
                 <div class="order-block__itemcard">
                     <img src="{{this.imgsrc}}" class="order-block__itemcard__photo"
-                        alt="{{this.name}} photo">
+                         alt="{{this.name}} photo">
                     <a href="/product/{{this.id}}"
-                    class="text-normal-large-normal order-block__itemcard__title link__no-color"> {{this.name}}
+                       class="text-normal-large-normal order-block__itemcard__title link__no-color"> {{this.name}}
                     </a>
                     <span class="text-normal-large-normal order-block__itemcard__counter"> {{this.count}} шт.</span>
                     <span class="text-normal-very-big order-block__itemcard__counter">
@@ -69,9 +69,12 @@
                 <span class="text-normal-default order-block__info-block__line-right"> {{this.deliveryTimeString}} </span>
             </div>
 
-            <div class="button-default button-order-block button-cancel-order disabled" id="button-cancel-order"
-                 data-id="{{this.id}}"> Отменить заказ
-            </div>
+            {{#if this.cancelled}}
+            {{else}}
+                <div class="button-default button-order-block button-cancel-order"
+                     data-id="button-cancel-order" id="{{this.id}}"> Отменить заказ
+                </div>
+            {{/if}}
         </div>
     </div>
 {{/each}}
