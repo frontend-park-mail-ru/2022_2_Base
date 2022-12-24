@@ -19,7 +19,7 @@ export default class Comment extends BaseComponent {
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
      * @param context - контекст отрисовки шаблона
      */
-    override render(context: object) {
+    override render(context: {avatar: string}) {
         super.render(super.prepareCategory(context), CommentTemplate);
     }
 }

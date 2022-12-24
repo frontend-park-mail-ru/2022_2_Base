@@ -11,8 +11,11 @@
     align-items: center;
 }
 
-.comment__userPhoto {
-    width: 46px;
+.comment__user-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50px;
+    object-fit: cover;
 }
 
 .comment__color-pure-black {
