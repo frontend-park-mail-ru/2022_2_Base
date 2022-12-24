@@ -196,10 +196,6 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighPrice - получали ли мы до этого карточки
      */
     _getByPriceItemCard(isLowToHighPrice: boolean) {
-        console.log(changeQueryParam(config.queryParams.sort.base,
-            (isLowToHighPrice ?
-                config.queryParams.sort.priceUp :
-                config.queryParams.sort.priceDown)), config.queryParams.sort.base);
         this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             changeQueryParam(config.queryParams.sort.base,
@@ -213,10 +209,6 @@ class ItemsStore extends BaseStore {
      * @param isLowToHighRating - получали ли мы до этого карточки
      */
     _getByRatingItemCard(isLowToHighRating: boolean) {
-        console.log(changeQueryParam(config.queryParams.sort.base,
-            (isLowToHighRating ?
-                config.queryParams.sort.ratingUp :
-                config.queryParams.sort.ratingDown)), config.queryParams.sort.base);
         this._storage.set(this._storeNames.isFirstRequest, true);
         this._storage.set(this._storeNames.sortURL,
             changeQueryParam(config.queryParams.sort.base,
