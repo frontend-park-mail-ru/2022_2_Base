@@ -66,7 +66,7 @@ export default class ProductHeader extends BaseComponent {
             event.preventDefault();
             errorMessage.
                 getAbsoluteNotificationMessage(
-                    'Чтобы добавить в избранное войдите');
+                    'Войдите, чтобы добавить в избранное');
         }
     }
 

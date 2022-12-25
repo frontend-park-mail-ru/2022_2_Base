@@ -203,7 +203,7 @@ export default class CatalogPage extends BasePage {
                     event.preventDefault();
                     errorMessage.
                         getAbsoluteNotificationMessage(
-                            'Чтобы добавить в избранное войдите');
+                            'Войдите, чтобы добавить в избранное');
                 }
                 break;
             }
