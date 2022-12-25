@@ -503,10 +503,10 @@ export default class UserPage extends BasePage {
             profileAction.getData();
         } else {
             refreshElements.showUnAuthPage({
-                text: 'Чтобы посмотреть ваш профиль, надо',
+                text: '',
                 linkToPage: config.href.login,
-                linkText: 'войти',
-                textAfterLink: '.',
+                linkText: 'Войдите',
+                textAfterLink: ', чтобы посмотреть ваш профиль',
             });
         }
     }

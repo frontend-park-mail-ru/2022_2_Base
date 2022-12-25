@@ -119,10 +119,10 @@ export default class AddCommentPage extends BaseItemPage {
             super.render();
         } else {
             refreshElements.showUnAuthPage({
-                text: 'Чтобы написать отзыв',
+                text: '',
                 linkToPage: config.href.login,
-                linkText: 'войдите',
-                textAfterLink: '&nbspв аккаунт',
+                linkText: 'Войдите',
+                textAfterLink: ', чтобы оставить отзыв',
             });
         }
     }

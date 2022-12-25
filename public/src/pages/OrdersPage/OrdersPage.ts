@@ -52,10 +52,10 @@ export default class OrdersPage extends BasePage {
             break;
         case config.responseCodes.code401:
             refreshElements.showUnAuthPage({
-                text: 'Чтобы посмотреть заказы, ',
+                text: '',
                 linkToPage: config.href.login,
-                linkText: 'авторизуйтесь',
-                textAfterLink: '.',
+                linkText: 'Войдите',
+                textAfterLink: ', чтобы посмотреть ваши заказы',
             });
             break;
         default:
