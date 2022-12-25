@@ -440,7 +440,7 @@ export default class CartOrderPage extends BasePage {
                 } else {
                     event.preventDefault();
                     errorMessage.getAbsoluteNotificationMessage(
-                        'Чтобы добавить в избранное войдите');
+                        'Войдите, чтобы добавить в избранное');
                 }
                 break;
             }
