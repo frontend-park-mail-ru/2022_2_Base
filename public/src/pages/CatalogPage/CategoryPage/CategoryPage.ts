@@ -59,8 +59,8 @@ export default class CategoryPage extends CatalogPage {
                 } else {
                     refreshElements.showUnAuthPage({
                         text: 'Пока в избранном ничего нет. Может нужен',
-                        linkToPage: config.href.category +
-                            itemsStore.getContext(itemsStore._storeNames.topCategory).Computer.href,
+                        linkToPage: itemsStore.getContext(
+                            itemsStore._storeNames.topCategory).Computer.href,
                         linkText: 'компьютер',
                         textAfterLink: '?',
                     });

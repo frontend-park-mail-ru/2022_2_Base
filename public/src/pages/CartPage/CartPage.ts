@@ -171,8 +171,8 @@ export default class CartOrderPage extends BasePage {
         } else {
             refreshElements.showUnAuthPage({
                 text: 'Корзина пуста. Случайно не нужен',
-                linkToPage: config.href.category +
-                    itemsStore.getContext(itemsStore._storeNames.topCategory).Smartphone.href,
+                linkToPage: itemsStore.getContext(
+                    itemsStore._storeNames.topCategory).Smartphone.href,
                 linkText: 'телефон',
                 textAfterLink: '?',
             });
