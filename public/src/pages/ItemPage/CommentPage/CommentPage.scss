@@ -1,8 +1,5 @@
 .content-comment-page {
     max-width: 1400px;
-    //min-width: min(1400px, 100vw);
-    //margin-left: auto;
-    //margin-right: auto;
     background-color: var(--background-white);
     display: flex;
     flex-direction: column;
@@ -147,6 +144,7 @@
     }
 
     .comment-page-header__title.text-normal-very-large {
+        max-height: 3rem;
         font-weight: 500;
         font-size: 20px;
         line-height: 26px;
