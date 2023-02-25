@@ -1,9 +1,11 @@
 'use strict';
 
 const basePathApi = 'api/v1/';
+const hostname = 'www.reazon.ru';
 
 export const config = {
-    basePath: 'https://www.reazon.ru',
+    basePath: `https://${hostname}`,
+    hostname: hostname,
     basePathApi: basePathApi,
     href: {
         main: '/',

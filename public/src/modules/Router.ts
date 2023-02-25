@@ -68,7 +68,7 @@ class Router {
      */
     #changePage = async (event: Event) => {
         const {target} = event;
-        if (target instanceof HTMLElement) {
+        if (target instanceof HTMLElement && location.hostname === config.hostname) {
             let href = target.getAttribute('href');
 
             if (!href) {
