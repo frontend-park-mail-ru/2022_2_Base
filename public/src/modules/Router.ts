@@ -69,15 +69,15 @@ class Router {
     #changePage = async (event: Event) => {
         const {target} = event;
         if (target instanceof HTMLElement) {
-            let href = target.getAttribute('href');
+            const href = (target instanceof HTMLAnchorElement ? target.href :
+                (target.parentElement instanceof HTMLAnchorElement ?
+                    target.parentElement.href : ''));
 
-            if (!href) {
-                href = target.parentElement?.getAttribute('href') ?? null;
-            }
+            const pathname = href.replace(config.domainRegRegex, '');
 
-            if (!!href && !href.includes('#') && href.search(config.hostname) !== -1) {
+            if (!href.includes('#') && pathname.length !== href.length) {
                 event.preventDefault();
-                this.openPage(href);
+                this.openPage(pathname);
             }
 
             if (href === config.href.logout) {
