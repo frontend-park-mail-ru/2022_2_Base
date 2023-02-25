@@ -68,14 +68,14 @@ class Router {
      */
     #changePage = async (event: Event) => {
         const {target} = event;
-        if (target instanceof HTMLElement && location.hostname === config.hostname) {
+        if (target instanceof HTMLElement) {
             let href = target.getAttribute('href');
 
             if (!href) {
                 href = target.parentElement?.getAttribute('href') ?? null;
             }
 
-            if (!!href && !href.includes('#')) {
+            if (!!href && !href.includes('#') && href.search(config.hostname) !== -1) {
                 event.preventDefault();
                 this.openPage(href);
             }
