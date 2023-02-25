@@ -60,8 +60,9 @@ const webPackConfig = {
         }),
         new FaviconsWebpackPlugin({
             logo: path.resolve(__dirname, 'public/img/favicon.webp'),
+            logoMaskable: path.resolve(__dirname, 'public/img/maskableFavicon.webp'),
             favicons: {
-                developerURL: null,
+                developerURL: 'https://github.com/frontend-park-mail-ru/2022_2_Base',
                 appName: 'Reazon',
                 appDescription: 'Marketplace for tech goods',
                 developerName: 'Base',
