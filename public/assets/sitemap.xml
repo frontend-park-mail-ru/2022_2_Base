@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.reazon.ru/</loc>
+        <lastmod>2023-25-02</lastmod>
+    </url>
+    <url>
+        <loc>https://www.reazon.ru/login</loc>
+        <lastmod>2023-25-02</lastmod>
+    </url>
+    <url>
+        <loc>https://www.reazon.ru/signup</loc>
+        <lastmod>2023-25-02</lastmod>
+    </url>
+    <url>
+        <loc>https://www.reazon.ru/category/phones</loc>
+        <lastmod>2023-25-02</lastmod>
+    </url>
+    <url>
+        <loc>https://www.reazon.ru/category/computers</loc>
+        <lastmod>2023-25-02</lastmod>
+    </url>
+</urlset>

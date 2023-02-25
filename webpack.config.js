@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
+const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 
 const webPackConfig = {
     entry: {
@@ -52,6 +53,10 @@ const webPackConfig = {
                     from: path.resolve(__dirname, 'public/src/service-worker.js'),
                     to: path.resolve(__dirname, 'dist'),
                 },
+                {
+                    from: path.resolve(__dirname, 'public/assets'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
             ],
         }),
         new FaviconsWebpackPlugin({
@@ -79,6 +84,7 @@ const webPackConfig = {
             fix: true,
             failOnWarning: true,
         }),
+        new RobotstxtPlugin(options)
     ],
 };
 

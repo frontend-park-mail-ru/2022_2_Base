@@ -63,6 +63,7 @@
     "postcss": "^8.4.18",
     "postcss-loader": "^7.0.1",
     "postcss-preset-env": "^7.8.2",
+    "robotstxt-webpack-plugin": "^8.0.0",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",
     "sharp": "^0.31.1",
