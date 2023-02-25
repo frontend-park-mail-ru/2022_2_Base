@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
-const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 
 const webPackConfig = {
     entry: {
@@ -83,8 +82,7 @@ const webPackConfig = {
             exclude: ['node_modules', 'dist'],
             fix: true,
             failOnWarning: true,
-        }),
-        new RobotstxtPlugin(options)
+        })
     ],
 };
 
