@@ -81,7 +81,7 @@
     width: 128px;
     filter: none;
     cursor: pointer;
-    border-radius: 50px;
+    clip-path: circle();
     object-fit: cover;
 }
 

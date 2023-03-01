@@ -15,7 +15,7 @@
 .comment__user-photo {
     width: 48px;
     height: 48px;
-    border-radius: 50px;
+    clip-path: circle();
     object-fit: cover;
 }
 
