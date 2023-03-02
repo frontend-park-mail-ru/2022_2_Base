@@ -75,14 +75,15 @@ class Router {
 
             const pathname = href.replace(config.domainRegRegex, '');
 
-            if (!href.includes('#') && pathname.length !== href.length) {
-                event.preventDefault();
-                this.openPage(pathname);
-            }
-
             if (href === config.href.logout) {
                 event.preventDefault();
                 userActions.logout();
+                return;
+            }
+
+            if (!href.includes('#') && pathname.length !== href.length) {
+                event.preventDefault();
+                this.openPage(pathname);
             }
         }
     };

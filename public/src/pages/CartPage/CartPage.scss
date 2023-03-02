@@ -321,7 +321,7 @@
 
 .user-data-cart__avatar {
   object-fit: cover;
-  border-radius: 50%;
+  clip-path: circle();
   height: 46px;
   width: 46px;
 }
