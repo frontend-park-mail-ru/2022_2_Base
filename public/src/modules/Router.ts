@@ -75,7 +75,7 @@ class Router {
 
             const pathname = href.replace(config.domainRegRegex, '');
 
-            if (href === config.href.logout) {
+            if (pathname === config.href.logout) {
                 event.preventDefault();
                 userActions.logout();
                 return;
